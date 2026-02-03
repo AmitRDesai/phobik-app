@@ -1,14 +1,23 @@
 {
   "name": "phobik",
   "main": "expo-router/entry",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "format": "prettier --write src"
+    "format": "prettier --write src",
+    "prebuild": "dotenv -e .env.${env} -- expo prebuild --clean",
+    "build": "eas build -p ${platform} --local -e ${env} --non-interactive",
+    "build:android": "platform=android npm run build",
+    "build:ios": "platform=ios npm run build",
+    "submit": "eas submit -p ${platform} -e ${env}",
+    "submit:android": "platform=android yarn submit --path=$(find . -name '*.aab')",
+    "submit:ios": "platform=ios yarn submit --path=$(find . -name '*.ipa')",
+    "update": "eas update --channel ${env} --environment ${env} --clear-cache --auto",
+    "update:preview": "env=preview yarn update"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -37,6 +46,7 @@
     "expo-status-bar": "~3.0.9",
     "expo-symbols": "~1.0.8",
     "expo-system-ui": "~6.0.9",
+    "expo-updates": "~29.0.16",
     "expo-web-browser": "~15.0.10",
     "jotai": "^2.17.0",
     "nativewind": "^4.2.1",
