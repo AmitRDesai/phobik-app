@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PHOBIK - Celebrate Victories</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-pink": "#FF2D85",
+                        "accent-yellow": "#FFD700",
+                        "background-charcoal": "#0F0F0F",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .nebula-gradient {
+                background: radial-gradient(circle at 50% 50%, rgba(255, 45, 133, 0.12) 0%, rgba(255, 215, 0, 0.05) 50%, rgba(15, 15, 15, 1) 100%);
+            }
+            .cta-gradient {
+                background: linear-gradient(135deg, #FF2D85 0%, #FFD700 100%);
+            }
+            .trophy-glow {
+                background: radial-gradient(circle at center, rgba(255, 45, 133, 0.35) 0%, transparent 70%);
+            }
+            .beam {
+                background: linear-gradient(to top, transparent, rgba(255, 215, 0, 0.3), transparent);
+            }
+        }
+        body {
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-charcoal font-display text-white overflow-hidden selection:bg-primary-pink/30">
+<nav class="w-full px-8 pt-12 pb-6 flex justify-between items-center z-50">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-primary-pink rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[14px]">psychology</span>
+</div>
+<span class="font-extrabold text-lg tracking-tighter">PHOBIK</span>
+</div>
+<button class="text-white/50 text-sm font-medium hover:text-white transition-colors">
+            Skip
+        </button>
+</nav>
+<main class="flex-1 flex flex-col items-center justify-center px-8 relative nebula-gradient">
+<div class="relative w-full aspect-square max-w-[300px] flex items-center justify-center mb-12">
+<div class="absolute inset-0 trophy-glow scale-150"></div>
+<div class="absolute w-1 h-64 beam rotate-[45deg]"></div>
+<div class="absolute w-1 h-64 beam rotate-[-45deg]"></div>
+<div class="absolute w-1 h-64 beam rotate-[90deg]"></div>
+<div class="relative z-10 w-48 h-48 rounded-full bg-gradient-to-tr from-primary-pink/20 to-accent-yellow/20 backdrop-blur-3xl border border-white/10 flex items-center justify-center shadow-[0_0_60px_rgba(255,45,133,0.3)]">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-7xl text-white fill-1 drop-shadow-[0_0_20px_rgba(255,215,0,0.6)]">trophy</span>
+<div class="mt-4 flex gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-pink shadow-[0_0_8px_rgba(255,45,133,0.8)]"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-accent-yellow shadow-[0_0_8px_rgba(255,215,0,0.8)]"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary-pink shadow-[0_0_8px_rgba(255,45,133,0.8)]"></span>
+</div>
+</div>
+</div>
+<div class="absolute top-0 right-4 w-6 h-6 rounded-full bg-gradient-to-br from-primary-pink to-accent-yellow blur-[2px] opacity-80"></div>
+<div class="absolute bottom-8 left-4 w-4 h-4 rounded-full bg-gradient-to-tr from-accent-yellow to-primary-pink blur-[1px] opacity-80"></div>
+<div class="absolute top-1/4 left-0 w-2 h-2 rounded-full bg-accent-yellow opacity-60"></div>
+</div>
+<div class="text-center space-y-4 max-w-sm mx-auto z-10">
+<h1 class="text-4xl font-black tracking-tight text-white">
+                Celebrate Victories
+            </h1>
+<p class="text-white/70 text-lg leading-relaxed font-medium">
+                Every step forward matters. Unlock achievements as you build your fearless mindset.
+            </p>
+</div>
+</main>
+<footer class="w-full px-8 pb-12 pt-6 space-y-8 z-50">
+<div class="flex justify-center items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-white/10"></div>
+<div class="w-2 h-2 rounded-full bg-white/10"></div>
+<div class="w-2 h-2 rounded-full bg-white/10"></div>
+<div class="w-8 h-2 rounded-full bg-primary-pink"></div>
+</div>
+<button class="cta-gradient w-full py-5 rounded-full text-white text-lg font-extrabold shadow-[0_10px_30px_rgba(255,45,133,0.4)] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
+            Get Started
+            <span class="material-symbols-outlined font-bold">arrow_forward</span>
+</button>
+</footer>
+
+</body></html>
