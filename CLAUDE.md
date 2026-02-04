@@ -69,22 +69,57 @@ The app uses a **dual-state approach**:
 
 ```
 src/
-├── app/              # Expo Router routes (file-based routing)
-├── components/       # Reusable UI components
-│   ├── ui/          # Base UI components (Button, Container)
+├── app/              # Expo Router routes (thin re-exports + layouts ONLY)
+├── components/       # SHARED: ui/, icons/, ErrorBoundary
+│   ├── ui/          # Base UI components (Button, Container, etc.)
+│   ├── icons/       # Shared icon components
 │   └── ErrorBoundary.tsx
-├── constants/        # Static values (colors, query keys)
-├── models/          # TypeScript types/interfaces
-├── store/           # Jotai atoms
-└── utils/           # Shared utilities (query-client, jotai, env, session)
+├── constants/        # SHARED: Static values (colors, query keys)
+├── hooks/            # SHARED: Custom hooks
+├── models/           # SHARED: TypeScript types/interfaces
+├── store/            # SHARED: Jotai atoms (user.ts for auth state)
+├── utils/            # SHARED: Utilities (query-client, jotai, env, session)
+└── modules/          # Feature modules with colocated code
+    ├── auth/
+    │   ├── screens/      # SignIn.tsx, CreateAccount.tsx
+    │   ├── components/   # Auth-specific components
+    │   ├── hooks/        # Auth-specific hooks
+    │   └── store/        # Auth-specific state
+    ├── home/
+    │   ├── screens/      # Home.tsx
+    │   ├── components/
+    │   ├── hooks/
+    │   └── store/
+    └── onboarding/
+        ├── screens/      # Index.tsx, Second.tsx, etc.
+        ├── components/   # ChakraFigure, NebulaBg, ProgressBar, etc.
+        ├── hooks/
+        └── store/        # onboarding.ts
+```
+
+### Modules Architecture
+
+The app uses a **modules-based architecture** where feature-specific code is colocated:
+
+- **`src/app/`** contains only thin re-export files and layouts for Expo Router
+- **`src/modules/<feature>/`** contains all feature-specific code (screens, components, hooks, store)
+- **`src/components/`, `src/store/`, etc.** contain only SHARED code used across multiple modules
+
+**Re-export Pattern**: Route files in `src/app/` are one-liners that re-export from modules:
+```typescript
+// src/app/onboarding/index.tsx
+export { default } from '@/modules/onboarding/screens/Index';
 ```
 
 ### Important Patterns
 
-1. **Never co-locate non-route files in `src/app/`** - Components, types, and utilities belong in their respective directories
-2. **Always use path aliases** - Import with `@/` instead of relative paths
+1. **Never co-locate non-route files in `src/app/`** - Only layouts and re-exports belong there
+2. **Import conventions**:
+   - Use `@/` path aliases for shared code (`@/components/ui/Button`, `@/constants/colors`)
+   - Use relative imports within modules (`../components/NebulaBg`, `../store/onboarding`)
 3. **SVG imports** - Custom type declarations in `custom.d.ts` allow importing SVGs as React components
 4. **Environment access** - Use `env.get('API_ENDPOINT')` instead of direct `process.env` access
+5. **New features** - Create a new module under `src/modules/<feature>/` with screens, components, hooks, and store subdirectories as needed
 
 ## Platform Support
 

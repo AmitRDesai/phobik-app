@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import { onboardingCompletedAtom } from '@/store/onboarding';
+import { onboardingCompletedAtom } from '@/modules/onboarding/store/onboarding';
 import { asyncStoragePersister, queryClient } from '@/utils/query-client';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { Stack } from 'expo-router';
