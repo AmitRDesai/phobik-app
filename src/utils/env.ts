@@ -1,6 +1,7 @@
 const variables = {
   ENV: process.env.EXPO_PUBLIC_ENV,
   API_ENDPOINT: process.env.EXPO_PUBLIC_API_ENDPOINT,
+  API_URL: process.env.EXPO_PUBLIC_API_URL,
 };
 
 type VariableKey = keyof typeof variables;

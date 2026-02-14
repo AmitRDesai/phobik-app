@@ -1,11 +1,13 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { ProgressDots } from '@/components/ui/ProgressDots';
+import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ProgressBar } from '../components/ProgressBar';
+import { GlowBg } from '../components/GlowBg';
 import { SelectionCard } from '../components/SelectionCard';
 import { type Goal, selectedGoalsAtom } from '../store/onboarding';
 
@@ -65,71 +67,70 @@ export default function GoalSelectionScreen() {
   };
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1">
+      <GlowBg
+        centerY={0.0}
+        intensity={1.5}
+        radius={0.5}
+        startColor={colors.primary.pink}
+        endColor={colors.chakra.orange}
+      />
       <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
         <View className="flex-1">
           {/* Header */}
-          <View className="px-8 pb-2 pt-6">
-            <View className="mb-4 flex-row items-center justify-between">
-              <Pressable
-                onPress={() => router.back()}
-                className="h-10 w-10 items-start justify-center"
-              >
-                <Ionicons
-                  name="chevron-back"
-                  size={24}
-                  color="rgba(255,255,255,0.5)"
-                />
-              </Pressable>
-              <View className="flex-row items-center gap-2">
-                <View
-                  className="h-6 w-6 items-center justify-center rounded-full"
-                  style={{ backgroundColor: colors.primary.pink }}
-                >
-                  <Ionicons name="bulb" size={14} color="white" />
-                </View>
-                <Text className="text-lg font-extrabold tracking-tighter text-white">
-                  PHOBIK
-                </Text>
-              </View>
-              <View className="w-10" />
-            </View>
-            <ProgressBar current={3} total={6} label="Goal Selection" />
+          <View className="z-20 flex-row items-center justify-between px-6 pb-4 pt-8">
+            <Pressable
+              onPress={() => router.back()}
+              className="h-10 w-10 items-start justify-center"
+            >
+              <Ionicons
+                name="chevron-back"
+                size={24}
+                color="rgba(255,255,255,0.5)"
+              />
+            </Pressable>
+
+            <ProgressDots total={7} current={5} />
+
+            <View className="w-10" />
+          </View>
+
+          {/* Title + Subtitle */}
+          <View className="px-8">
+            <Text className="text-center text-3xl font-extrabold tracking-tight text-white">
+              What brings you here?
+            </Text>
+            <Text className="mt-3 text-center text-sm text-white/60">
+              Select the goals that matter most to you. We&apos;ll tailor your
+              path accordingly.
+            </Text>
           </View>
 
           {/* Content */}
-          <ScrollView
-            className="flex-1 px-8"
-            contentContainerStyle={{ paddingBottom: 24 }}
-            showsVerticalScrollIndicator={false}
-          >
-            <View className="mb-6 mt-6">
-              <Text className="text-3xl font-black tracking-tight text-white">
-                What brings you here?
-              </Text>
-              <Text className="mt-3 text-base leading-relaxed text-white/60">
-                Select the goals that matter most to you. We&apos;ll tailor your
-                path accordingly.
-              </Text>
-            </View>
-
-            <View className="gap-3">
-              {GOAL_OPTIONS.map((option) => (
-                <SelectionCard
-                  key={option.value}
-                  label={option.label}
-                  description={option.description}
-                  icon={option.icon}
-                  selected={selectedGoals.includes(option.value)}
-                  onPress={() => toggleGoal(option.value)}
-                  variant="checkbox"
-                />
-              ))}
-            </View>
-          </ScrollView>
+          <ScrollFade>
+            <ScrollView
+              className="flex-1 px-8"
+              contentContainerStyle={{ paddingBottom: FADE_HEIGHT }}
+              showsVerticalScrollIndicator={false}
+            >
+              <View className="mt-8 gap-4">
+                {GOAL_OPTIONS.map((option) => (
+                  <SelectionCard
+                    key={option.value}
+                    label={option.label}
+                    description={option.description}
+                    icon={option.icon}
+                    selected={selectedGoals.includes(option.value)}
+                    onPress={() => toggleGoal(option.value)}
+                    variant="checkbox"
+                  />
+                ))}
+              </View>
+            </ScrollView>
+          </ScrollFade>
 
           {/* Footer */}
-          <View className="px-8 pb-10 pt-4">
+          <View className="z-10 px-8 pb-8">
             <GradientButton
               onPress={() => router.push('/onboarding/data-security-promise')}
               disabled={selectedGoals.length === 0}
@@ -137,6 +138,12 @@ export default function GoalSelectionScreen() {
             >
               Continue
             </GradientButton>
+
+            <View className="mt-3 items-center">
+              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
+                Step 5 of 7
+              </Text>
+            </View>
           </View>
         </View>
       </SafeAreaView>

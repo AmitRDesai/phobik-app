@@ -1,31 +1,71 @@
+import { colors } from '@/constants/colors';
 import { BlurView } from 'expo-blur';
 import { View, Text } from 'react-native';
+import Svg, {
+  Defs,
+  RadialGradient,
+  LinearGradient as SvgLinearGradient,
+  Stop,
+  Circle,
+  Mask,
+  Rect,
+} from 'react-native-svg';
 import { Ionicons } from '@expo/vector-icons';
 
 export function ChakraFigure() {
   const chakraColors = [
-    '#FFD700', // Crown - yellow
-    '#FFE66D', // Third eye
-    '#FFDB99', // Throat
-    '#FF9BB4', // Heart
-    '#FF79B0', // Solar plexus
-    '#FF2D85', // Sacral - pink
-    '#D11A66', // Root - deep pink
+    colors.chakra.violet, // Crown
+    colors.chakra.indigo, // Third eye
+    colors.chakra.blue, // Throat
+    colors.chakra.green, // Heart
+    colors.chakra.yellow, // Solar plexus
+    colors.chakra.orange, // Sacral
+    colors.chakra.red, // Root
   ];
 
   return (
-    <View className="relative w-full max-w-[320px] items-center">
+    <View
+      className="relative w-full max-w-[320px] items-center"
+      style={{ overflow: 'visible' }}
+    >
       {/* Meditation glow background */}
-      <View
-        className="absolute h-80 w-80 rounded-full"
-        style={{
-          backgroundColor: 'rgba(255, 45, 133, 0.1)',
-          shadowColor: '#FF2D85',
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.4,
-          shadowRadius: 80,
-        }}
-      />
+      <Svg
+        width={560}
+        height={560}
+        style={{ position: 'absolute', top: -140, left: -120 }}
+      >
+        <Defs>
+          <RadialGradient id="radialMask" cx="50%" cy="50%" r="50%">
+            <Stop offset="0%" stopColor="white" stopOpacity={1} />
+            <Stop offset="40%" stopColor="white" stopOpacity={0.6} />
+            <Stop offset="70%" stopColor="white" stopOpacity={0.2} />
+            <Stop offset="100%" stopColor="white" stopOpacity={0} />
+          </RadialGradient>
+          <SvgLinearGradient id="angularColor" x1="0" y1="0" x2="1" y2="1">
+            <Stop
+              offset="0%"
+              stopColor={colors.chakra.orange}
+              stopOpacity={0.45}
+            />
+            <Stop
+              offset="100%"
+              stopColor={colors.primary.pink}
+              stopOpacity={0.25}
+            />
+          </SvgLinearGradient>
+          <Mask id="fadeMask">
+            <Rect width={560} height={560} fill="black" />
+            <Circle cx={280} cy={280} r={280} fill="url(#radialMask)" />
+          </Mask>
+        </Defs>
+        <Circle
+          cx={280}
+          cy={280}
+          r={280}
+          fill="url(#angularColor)"
+          mask="url(#fadeMask)"
+        />
+      </Svg>
 
       {/* Human figure */}
       <View className="relative items-center opacity-90">

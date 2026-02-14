@@ -5,12 +5,31 @@ import { router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChakraFigure } from '../components/ChakraFigure';
-import { NebulaBg } from '../components/NebulaBg';
+import { GlowBg } from '../components/GlowBg';
+
+const principles = [
+  {
+    number: '1)',
+    title: 'Regulation before exposure',
+    description: 'Calm the body then face your challenges.',
+  },
+  {
+    number: '2)',
+    title: 'Progress over perfection',
+    description: 'Small wins rewire the brain.',
+  },
+  {
+    number: '3)',
+    title: 'Fear is energy that can be trained',
+    description:
+      "Fear isn't removed - it is redirected into courage and confidence.",
+  },
+];
 
 export default function OnboardingScreen2() {
   return (
     <View className="flex-1">
-      <NebulaBg intensity={0.6} centerY={0.5} />
+      <GlowBg intensity={0} />
       <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
         <View className="flex-1">
           {/* Header */}
@@ -26,42 +45,55 @@ export default function OnboardingScreen2() {
               />
             </Pressable>
 
-            <ProgressDots total={4} current={2} />
+            <ProgressDots total={7} current={2} />
 
             {/* Empty view for spacing */}
             <View className="w-10" />
           </View>
 
-          {/* Main Content */}
-          <View className="relative flex-1 items-center justify-center overflow-hidden px-8">
+          {/* Title + Subtitle */}
+          <View className="px-8">
+            <Text className="text-center text-4xl font-extrabold tracking-tight text-white">
+              Phobik Philosophy
+            </Text>
+            <Text className="mt-3 text-center text-lg font-medium text-white/70">
+              Phobik blends three major principles
+            </Text>
+          </View>
+
+          {/* Chakra Figure */}
+          <View className="flex-1 items-center justify-center px-8">
             <ChakraFigure />
           </View>
 
-          {/* Bottom Content */}
-          <View className="z-10 px-8 pb-12 pt-4">
-            <View className="mb-10 text-center">
-              <Text className="mb-4 text-center text-4xl font-extrabold tracking-tight text-white">
-                Ground Yourself
-              </Text>
-              <Text className="mx-auto max-w-xs text-center text-lg font-medium leading-relaxed text-white/60">
-                Break the cycle of anxious thoughts. Use the{' '}
-                <Text className="font-semibold text-primary-pink">
-                  5-4-3-2-1 technique
-                </Text>{' '}
-                to anchor yourself in the present moment.
-              </Text>
-            </View>
+          {/* Principles */}
+          <View className="px-8 pb-4">
+            {principles.map((p) => (
+              <View key={p.number} className="mb-3 flex-row">
+                <Text className="mr-3 text-lg font-bold text-primary-pink">
+                  {p.number}
+                </Text>
+                <Text className="flex-1 text-[15px] text-white/90">
+                  <Text className="font-bold text-white">{p.title}</Text>
+                  {' – '}
+                  {p.description}
+                </Text>
+              </View>
+            ))}
+          </View>
 
+          {/* Footer */}
+          <View className="z-10 px-8 pb-8">
             <GradientButton
-              onPress={() => router.push('/onboarding/third')}
+              onPress={() => router.push('/onboarding/age-selection')}
               icon={<Ionicons name="arrow-forward" size={24} color="white" />}
             >
               Next
             </GradientButton>
 
-            <View className="mt-6 items-center">
+            <View className="mt-3 items-center">
               <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
-                Step 2 of 4
+                Step 2 of 7
               </Text>
             </View>
           </View>

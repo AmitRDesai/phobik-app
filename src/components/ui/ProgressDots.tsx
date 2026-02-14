@@ -15,8 +15,8 @@ export function ProgressDots({ total, current }: ProgressDotsProps) {
             key={index}
             className={
               isActive
-                ? 'h-2 w-8 rounded-full bg-primary-pink'
-                : 'h-2 w-2 rounded-full bg-white/20'
+                ? 'h-1.5 w-6 rounded-full bg-primary-pink'
+                : 'h-1.5 w-2 rounded-full bg-white/20'
             }
           />
         );

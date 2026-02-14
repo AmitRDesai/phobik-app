@@ -13,6 +13,7 @@ type CustomColors = {
   accent: {
     yellow: string;
     'yellow-light': string;
+    purple: string;
   };
   background: {
     dark: string;
@@ -22,6 +23,12 @@ type CustomColors = {
     'pink-light': string;
     'pink-deep': string;
     yellow: string;
+    violet: string;
+    indigo: string;
+    blue: string;
+    green: string;
+    orange: string;
+    red: string;
   };
 };
 

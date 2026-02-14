@@ -13,6 +13,7 @@ module.exports = {
         accent: {
           yellow: '#FFD700',
           'yellow-light': '#FFFD8C',
+          purple: '#c3b5fd',
         },
         background: {
           dark: '#050505',
@@ -22,21 +23,13 @@ module.exports = {
           'pink-light': '#FFB8D9',
           'pink-deep': '#FF2D85',
           yellow: '#FFE66D',
+          violet: '#9D00FF',
+          indigo: '#4B0082',
+          blue: '#0099FF',
+          green: '#00FF88',
+          orange: '#FF8A00',
+          red: '#FF3131',
         },
-      },
-      keyframes: {
-        'pulse-glow': {
-          '0%, 100%': { opacity: '0.6' },
-          '50%': { opacity: '1' },
-        },
-        'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-      },
-      animation: {
-        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'fade-in': 'fade-in 0.5s ease-out',
       },
     },
   },

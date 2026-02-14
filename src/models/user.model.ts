@@ -1,3 +1,1 @@
-export interface User {
-  // Define user properties here
-}
+export type { User, Session } from 'better-auth';

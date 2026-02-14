@@ -1,194 +1,200 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { ProgressDots } from '@/components/ui/ProgressDots';
+import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
+import MaskedView from '@react-native-masked-view/masked-view';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { GlowBg } from '../components/GlowBg';
 
 const SECURITY_POINTS = [
   {
     title: 'Biometric data never leaves your device',
-    description: 'Stored securely in your hardware enclave.',
+    description:
+      "Your facial data and fingerprints are processed locally using Apple's Secure Enclave.",
   },
   {
     title: 'End-to-end encrypted journaling',
-    description: 'Only you can read what you write. Not even us.',
+    description:
+      'Only you hold the keys to your thoughts. Even we cannot access your journal entries.',
   },
   {
     title: 'Absolute anonymity in our community',
-    description: 'Interact freely without ever sharing your identity.',
+    description:
+      'Interact without fear. Your identity is fully protected through randomized aliases.',
   },
 ];
 
 export default function DataSecurityPromiseScreen() {
+  const { modal } = useLocalSearchParams<{ modal?: string }>();
+  const isModal = modal === 'true';
+
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1">
+      <GlowBg intensity={0} />
       <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
         <View className="flex-1">
           {/* Header */}
-          <View className="flex-row items-center justify-between px-4">
+          <View className="z-20 flex-row items-center justify-between px-6 pb-4 pt-8">
             <Pressable
               onPress={() => router.back()}
-              className="h-12 w-12 items-start justify-center"
+              className="h-10 w-10 items-start justify-center"
             >
               <Ionicons
-                name="chevron-back"
+                name={isModal ? 'close' : 'chevron-back'}
                 size={24}
                 color="rgba(255,255,255,0.5)"
               />
             </Pressable>
-            <Text className="flex-1 pr-12 text-center text-sm font-medium uppercase tracking-widest text-white/60">
-              Security
-            </Text>
+
+            {!isModal && <ProgressDots total={7} current={6} />}
+
+            {/* Empty view for spacing */}
+            <View className="w-10" />
           </View>
 
-          {/* Content */}
-          <ScrollView
-            className="flex-1 px-8"
-            contentContainerStyle={{ paddingTop: 16, paddingBottom: 32 }}
-            showsVerticalScrollIndicator={false}
-          >
-            {/* Title */}
-            <View className="mb-10">
-              <Text className="text-center text-[32px] font-bold leading-tight tracking-tight text-white">
-                Your Privacy is{'\n'}
-                <Text
-                  style={{
-                    color: colors.primary.pink,
-                    textShadowColor: 'rgba(244, 37, 140, 0.3)',
-                    textShadowOffset: { width: 0, height: 0 },
-                    textShadowRadius: 10,
-                  }}
-                >
-                  Our Priority
+          {/* Security label */}
+          <Text className="text-center text-xs font-black uppercase tracking-[0.3em] text-white/40">
+            Security
+          </Text>
+
+          {/* Scrollable Content */}
+          <ScrollFade>
+            <ScrollView
+              className="flex-1"
+              contentContainerStyle={{
+                paddingHorizontal: 32,
+                paddingBottom: FADE_HEIGHT,
+              }}
+              showsVerticalScrollIndicator={false}
+            >
+              {/* Title */}
+              <View className="mb-8 mt-4 items-center">
+                <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight text-white">
+                  Your Privacy is
                 </Text>
-              </Text>
-            </View>
-
-            {/* Mandala Padlock Illustration */}
-            <View className="items-center justify-center py-6">
-              <View className="relative h-64 w-64 items-center justify-center">
-                {/* Background glow */}
-                <View
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    backgroundColor: colors.primary.pink,
-                    opacity: 0.1,
-                  }}
-                />
-
-                {/* Outer decorative ring */}
-                <View
-                  className="absolute items-center justify-center"
-                  style={{
-                    width: 220,
-                    height: 220,
-                    borderRadius: 110,
-                    borderWidth: 1,
-                    borderColor: `${colors.primary.pink}66`,
-                    transform: [{ rotate: '-12deg' }],
-                  }}
-                />
-
-                {/* Middle ring */}
-                <View
-                  className="items-center justify-center rounded-full border-2 p-8"
-                  style={{
-                    borderColor: `${colors.primary.pink}33`,
-                    width: 180,
-                    height: 180,
-                    borderRadius: 90,
-                  }}
+                <MaskedView
+                  maskElement={
+                    <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight">
+                      Our Priority
+                    </Text>
+                  }
                 >
-                  {/* Inner decorative ring */}
-                  <View
-                    className="absolute"
+                  <LinearGradient
+                    colors={[colors.primary.pink, colors.accent.yellow]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                  >
+                    <Text
+                      className="text-center text-3xl font-extrabold leading-tight tracking-tight"
+                      style={{ opacity: 0 }}
+                    >
+                      Our Priority
+                    </Text>
+                  </LinearGradient>
+                </MaskedView>
+              </View>
+
+              {/* Lock Illustration */}
+              <View className="mb-10 items-center justify-center py-4">
+                {/* Outer circle */}
+                <View className="absolute h-48 w-48 rounded-full border border-white/5" />
+                {/* Middle circle */}
+                <View className="absolute h-36 w-36 rounded-full border border-white/10" />
+                {/* Inner circle with glow */}
+                <View
+                  className="absolute h-24 w-24 rounded-full border border-white/20"
+                  style={{
+                    shadowColor: colors.primary.pink,
+                    shadowOffset: { width: 0, height: 0 },
+                    shadowOpacity: 0.2,
+                    shadowRadius: 40,
+                    elevation: 10,
+                  }}
+                />
+                {/* Lock container */}
+                <View className="h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-white/20 shadow-2xl">
+                  <LinearGradient
+                    colors={[
+                      `${colors.primary.pink}33`,
+                      `${colors.accent.yellow}33`,
+                    ]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
                     style={{
-                      width: 160,
-                      height: 160,
-                      borderRadius: 80,
-                      borderWidth: 1,
-                      borderColor: `${colors.accent.yellow}4D`,
-                      transform: [{ rotate: '45deg' }],
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
                     }}
                   />
-
-                  {/* Lock icon container */}
-                  <View
-                    className="items-center justify-center rounded-full p-6"
-                    style={{
-                      backgroundColor: colors.background.dark,
-                      borderWidth: 1,
-                      borderColor: `${colors.primary.pink}80`,
-                    }}
-                  >
-                    <MaterialCommunityIcons
-                      name="lock"
-                      size={60}
-                      color={colors.primary.pink}
-                    />
-                  </View>
+                  <MaterialCommunityIcons
+                    name="lock"
+                    size={48}
+                    color={colors.primary.pink}
+                  />
                 </View>
-
-                {/* Dashed outer ring */}
-                <View
-                  className="absolute"
-                  style={{
-                    width: 240,
-                    height: 240,
-                    borderRadius: 120,
-                    borderWidth: 2,
-                    borderColor: colors.primary.pink,
-                    borderStyle: 'dashed',
-                    opacity: 0.3,
-                  }}
-                />
               </View>
-            </View>
 
-            {/* Security Points */}
-            <View className="mb-12 mt-8 gap-6">
-              {SECURITY_POINTS.map((point) => (
-                <View key={point.title} className="flex-row items-start gap-4">
-                  <View className="mt-1">
-                    <View
-                      className="items-center justify-center rounded-full p-1"
-                      style={{
-                        backgroundColor: `${colors.primary.pink}33`,
-                        borderWidth: 1,
-                        borderColor: `${colors.primary.pink}66`,
-                      }}
-                    >
-                      <Ionicons
-                        name="checkmark"
-                        size={16}
-                        color={colors.primary.pink}
-                      />
+              {/* Security Points */}
+              <View className="mb-8 gap-8">
+                {SECURITY_POINTS.map((point) => (
+                  <View key={point.title} className="flex-row gap-4">
+                    <View className="mt-1">
+                      <View className="h-6 w-6 items-center justify-center rounded-full bg-green-500/10">
+                        <Ionicons
+                          name="checkmark"
+                          size={18}
+                          color="#22c55e"
+                          style={{ fontWeight: 'bold' }}
+                        />
+                      </View>
+                    </View>
+                    <View className="flex-1">
+                      <Text className="text-base font-bold leading-tight text-white">
+                        {point.title}
+                      </Text>
+                      <Text className="mt-1 text-sm leading-relaxed text-white/50">
+                        {point.description}
+                      </Text>
                     </View>
                   </View>
-                  <View className="flex-1">
-                    <Text className="text-base font-semibold leading-tight text-white">
-                      {point.title}
-                    </Text>
-                    <Text className="mt-1 text-xs text-white/50">
-                      {point.description}
-                    </Text>
-                  </View>
-                </View>
-              ))}
-            </View>
-          </ScrollView>
+                ))}
+              </View>
+            </ScrollView>
+          </ScrollFade>
 
           {/* Footer */}
-          <View className="px-8 pb-10 pt-4">
-            <GradientButton
-              onPress={() => router.push('/onboarding/terms-of-service')}
-            >
-              I Feel Secure
-            </GradientButton>
-            <Text className="mt-4 text-center text-[10px] uppercase tracking-[0.2em] text-white/30">
-              Verified by PHOBIK Security Lab
-            </Text>
+          <View className="z-10 items-center px-8 pb-8">
+            {!isModal && (
+              <GradientButton
+                onPress={() => router.push('/onboarding/terms-of-service')}
+              >
+                Agree and Continue
+              </GradientButton>
+            )}
+
+            <Pressable className="mb-1 mt-6">
+              <Text className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white/60 underline underline-offset-4">
+                Download full privacy policy
+              </Text>
+            </Pressable>
+
+            {!isModal && (
+              <>
+                <Text className="mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/30">
+                  Step 6 of 7
+                </Text>
+
+                <Pressable className="w-full py-4">
+                  <Text className="text-center text-xs font-bold uppercase tracking-widest text-white/30">
+                    Review Settings
+                  </Text>
+                </Pressable>
+              </>
+            )}
           </View>
         </View>
       </SafeAreaView>

@@ -1,11 +1,13 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { ProgressDots } from '@/components/ui/ProgressDots';
+import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ProgressBar } from '../components/ProgressBar';
+import { GlowBg } from '../components/GlowBg';
 import { SelectionCard } from '../components/SelectionCard';
 import { type GenderIdentity, selectedGenderAtom } from '../store/onboarding';
 
@@ -28,97 +30,67 @@ export default function GenderIdentityScreen() {
   const [selectedGender, setSelectedGender] = useAtom(selectedGenderAtom);
 
   return (
-    <View className="flex-1 bg-background-charcoal">
-      {/* Decorative blur circles */}
-      <View
-        style={[
-          StyleSheet.absoluteFill,
-          { backgroundColor: colors.background.dark },
-        ]}
-      >
-        <View
-          style={{
-            position: 'absolute',
-            width: 250,
-            height: 250,
-            borderRadius: 125,
-            backgroundColor: colors.primary.pink,
-            opacity: 0.08,
-            top: -60,
-            right: -60,
-          }}
-        />
-        <View
-          style={{
-            position: 'absolute',
-            width: 200,
-            height: 200,
-            borderRadius: 100,
-            backgroundColor: colors.accent.yellow,
-            opacity: 0.05,
-            bottom: 100,
-            left: -60,
-          }}
-        />
-      </View>
-
+    <View className="flex-1">
+      <GlowBg centerX={0.85} centerY={0.0} intensity={0.75} radius={0.35} />
       <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
         <View className="flex-1">
           {/* Header */}
-          <View className="px-8 pb-2 pt-6">
-            <View className="mb-4 flex-row items-center">
-              <Pressable
-                onPress={() => router.back()}
-                className="mr-4 h-10 w-10 items-start justify-center"
-              >
-                <Ionicons
-                  name="chevron-back"
-                  size={24}
-                  color="rgba(255,255,255,0.5)"
-                />
-              </Pressable>
-            </View>
-            <ProgressBar current={2} total={6} label="Onboarding Step" />
+          <View className="z-20 flex-row items-center justify-between px-6 pb-4 pt-8">
+            <Pressable
+              onPress={() => router.back()}
+              className="h-10 w-10 items-start justify-center"
+            >
+              <Ionicons
+                name="chevron-back"
+                size={24}
+                color="rgba(255,255,255,0.5)"
+              />
+            </Pressable>
+            <ProgressDots total={7} current={4} />
+            <View className="w-10" />
+          </View>
+
+          {/* Title + Subtitle */}
+          <View className="px-8">
+            <Text className="text-center text-3xl font-extrabold tracking-tight text-white">
+              How do you identify?
+            </Text>
+            <Text className="mt-3 text-center text-sm text-white/60">
+              This data helps us personalize your mental health journey with
+              supportive, tailored care.
+            </Text>
           </View>
 
           {/* Content */}
-          <ScrollView
-            className="flex-1 px-8"
-            contentContainerStyle={{ paddingBottom: 24 }}
-            showsVerticalScrollIndicator={false}
-          >
-            <View className="mb-8 mt-6">
-              <Text className="text-3xl font-black tracking-tight text-white">
-                How do you identify?
-              </Text>
-              <Text className="mt-3 text-base leading-relaxed text-white/60">
-                This data helps us personalize your mental health journey with
-                supportive, tailored care.
-              </Text>
-            </View>
-
-            <View className="gap-3">
-              {GENDER_OPTIONS.map((option) => (
-                <SelectionCard
-                  key={option.value}
-                  label={option.label}
-                  selected={selectedGender === option.value}
-                  onPress={() => setSelectedGender(option.value)}
-                  variant="radio"
-                  icon={
-                    <Ionicons
-                      name={option.icon}
-                      size={20}
-                      color={colors.primary.pink}
-                    />
-                  }
-                />
-              ))}
-            </View>
-          </ScrollView>
+          <ScrollFade>
+            <ScrollView
+              className="flex-1 px-8"
+              contentContainerStyle={{ paddingBottom: FADE_HEIGHT }}
+              showsVerticalScrollIndicator={false}
+            >
+              <View className="mt-8 gap-4">
+                {GENDER_OPTIONS.map((option) => (
+                  <SelectionCard
+                    key={option.value}
+                    label={option.label}
+                    selected={selectedGender === option.value}
+                    onPress={() => setSelectedGender(option.value)}
+                    variant="radio"
+                    icon={
+                      <Ionicons
+                        name={option.icon}
+                        size={20}
+                        color={colors.primary.pink}
+                      />
+                    }
+                  />
+                ))}
+              </View>
+            </ScrollView>
+          </ScrollFade>
 
           {/* Footer */}
-          <View className="px-8 pb-10 pt-4">
+          <View className="z-10 px-8 pb-8">
             <GradientButton
               onPress={() => router.push('/onboarding/goal-selection')}
               disabled={selectedGender === null}
@@ -126,8 +98,14 @@ export default function GenderIdentityScreen() {
             >
               Continue
             </GradientButton>
-            <Text className="mt-4 text-center text-xs leading-relaxed text-white/30">
-              Your data is encrypted and never shared with third parties.
+            <View className="mt-3 items-center">
+              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
+                Step 4 of 7
+              </Text>
+            </View>
+            <Text className="mt-3 text-center text-xs text-white/30">
+              PHOBIK values your privacy. Your data is encrypted and used only
+              to enhance your experience.
             </Text>
           </View>
         </View>

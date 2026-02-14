@@ -5,15 +5,15 @@ import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { NebulaBg } from '../components/NebulaBg';
+import { GlowBg } from '../components/GlowBg';
 
 export default function OnboardingScreen1() {
   return (
     <View className="flex-1">
-      <NebulaBg intensity={0.5} centerY={0.4} />
+      <GlowBg centerY={0.38} />
       <SafeAreaView className="flex-1 px-8" edges={['top', 'bottom']}>
         <View className="flex-1 items-center justify-between py-6">
           {/* Content */}
@@ -46,20 +46,20 @@ export default function OnboardingScreen1() {
                 </MaskedView>
               </View>
 
-              <Text className="text-center text-lg font-medium leading-relaxed text-white/70">
-                Overcome fears through mindfulness.
+              <Text className="text-center text-lg font-semibold text-white">
+                Train your mind. Strengthen your nervous system.
               </Text>
 
-              <Text className="mx-auto max-w-[280px] text-center text-sm leading-relaxed text-white/40">
-                Transform anxiety and fear into calm confidence.
+              <Text className="text-center text-lg font-semibold text-white">
+                Build the courage to live bigger than your fears.
               </Text>
             </View>
           </View>
 
           {/* Footer */}
-          <View className="w-full max-w-sm gap-10">
+          <View className="w-full max-w-sm gap-6">
             <View className="items-center">
-              <ProgressDots total={4} current={1} />
+              <ProgressDots total={7} current={1} />
             </View>
             <GradientButton
               onPress={() => router.push('/onboarding/second')}
@@ -68,11 +68,12 @@ export default function OnboardingScreen1() {
               Next
             </GradientButton>
 
-            <View className="items-center">
-              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
-                Step 1 of 4
+            <Link href="/auth/sign-in" replace className="mt-6 py-2">
+              <Text className="text-center text-sm text-white/50">
+                Already have an account?{' '}
+                <Text className="font-bold text-accent-purple">Sign In</Text>
               </Text>
-            </View>
+            </Link>
           </View>
         </View>
       </SafeAreaView>

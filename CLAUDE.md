@@ -126,6 +126,19 @@ export { default } from '@/modules/onboarding/screens/Index';
 - **iOS**: Supports tablets, bundle ID `com.phobik.app`
 - **Android**: Edge-to-edge enabled, predictive back gesture disabled
 
+## Visual Verification
+
+After making any visual/UI changes, **always take a simulator screenshot and compare** against the design reference before considering the task done.
+
+```bash
+# Take screenshot from running iOS simulator
+xcrun simctl io booted screenshot /tmp/claude/screenshot.png
+```
+
+- Design references live in `../design/` (e.g., `../design/phobik_landing_page_1/screen.png`)
+- Read the screenshot with the Read tool to view it, then compare side-by-side with the design reference
+- If the simulator is running but the screen needs navigating, inform the user
+
 ## Development Notes
 
 - Start with **Expo Go** for testing - custom builds only needed for native modules or Apple targets
