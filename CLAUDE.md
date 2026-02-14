@@ -52,8 +52,20 @@ The app uses a **dual-state approach**:
 - **NativeWind v4** (Tailwind CSS for React Native)
 - Global CSS: `global.css` imported in `_layout.tsx`
 - Metro configured with NativeWind transformer
-- Use `className` prop instead of inline styles where possible
-- **⚠️ Do not hardcode colors** - Always use `tailwind.config.js` for Tailwind classes and `src/constants/colors.ts` for programmatic color access
+- **⚠️ Do not hardcode colors** — Always use `tailwind.config.js` for Tailwind classes and `src/constants/colors.ts` for programmatic color access
+- **Prefer `className` over inline `style`** — convert static styles to NativeWind classes:
+  - Layout/spacing/sizing: `flex-1`, `items-center`, `px-8`, `h-14 w-14`, etc.
+  - Colors/backgrounds: `bg-primary-pink`, `text-white/50`, `border-white/10`
+  - Opacity with color: `bg-primary-pink/[0.15]`, `text-primary-muted/80`
+  - Arbitrary values: `rounded-[140px]`, `top-[30px]`, `h-[280px]`
+  - Platform modifiers: `android:p-0`, `ios:pt-16`
+  - ScrollView layout: use `contentContainerClassName` for static layout classes, keep `contentContainerStyle` only for dynamic values (e.g., `paddingBottom: FADE_HEIGHT`)
+- **Keep inline `style` only when required:**
+  - `LinearGradient` styles (NativeWind doesn't apply to gradient containers)
+  - Shadow props (`shadowColor`, `shadowOffset`, `shadowOpacity`, `shadowRadius`) — limited NativeWind support on native
+  - Animated/Reanimated styles (must be style objects for animation drivers)
+  - Dynamic computed values (e.g., `width: \`${percent}%\``)
+  - SVG component props (no className support)
 
 ### Key Configuration
 

@@ -39,12 +39,7 @@ export function GlowBg({
   const cy = height * centerYFraction;
 
   return (
-    <View
-      style={[
-        StyleSheet.absoluteFill,
-        { backgroundColor: colors.background.dark },
-      ]}
-    >
+    <View className="absolute inset-0 bg-background-dark">
       {intensity > 0 && (
         <Svg width={width} height={height} style={StyleSheet.absoluteFill}>
           <Defs>

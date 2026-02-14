@@ -24,10 +24,7 @@ export function ChakraFigure() {
   ];
 
   return (
-    <View
-      className="relative w-full max-w-[320px] items-center"
-      style={{ overflow: 'visible' }}
-    >
+    <View className="relative w-full max-w-[320px] items-center overflow-visible">
       {/* Meditation glow background */}
       <Svg
         width={560}
@@ -78,16 +75,10 @@ export function ChakraFigure() {
           <View className="absolute left-1/2 top-0 h-32 w-20 -translate-x-1/2 rounded-t-[40px] border-x border-t border-white/10 bg-white/5" />
 
           {/* Left leg */}
-          <View
-            className="absolute bottom-0 left-0 h-16 w-28 rotate-[-15deg] rounded-full border border-white/5 bg-white/5"
-            style={{ transform: [{ rotate: '-15deg' }] }}
-          />
+          <View className="absolute bottom-0 left-0 h-16 w-28 rotate-[-15deg] rounded-full border border-white/5 bg-white/5" />
 
           {/* Right leg */}
-          <View
-            className="absolute bottom-0 right-0 h-16 w-28 rotate-[15deg] rounded-full border border-white/5 bg-white/5"
-            style={{ transform: [{ rotate: '15deg' }] }}
-          />
+          <View className="absolute bottom-0 right-0 h-16 w-28 rotate-[15deg] rounded-full border border-white/5 bg-white/5" />
 
           {/* Chakra orbs */}
           <View className="absolute inset-0 z-10 items-center justify-between py-2">
@@ -115,12 +106,9 @@ export function ChakraFigure() {
       <BlurView
         intensity={40}
         tint="dark"
-        className="absolute -left-6 top-4 flex-row items-center gap-2 rounded-2xl border border-white/10 px-3.5 py-2 shadow-lg"
-        style={{
-          backgroundColor: 'rgba(255, 45, 133, 0.15)',
-        }}
+        className="absolute -left-6 top-4 flex-row items-center gap-2 rounded-2xl border border-white/10 bg-primary-pink/[0.15] px-3.5 py-2 shadow-lg"
       >
-        <Ionicons name="eye" size={14} color="#FFD700" />
+        <Ionicons name="eye" size={14} color={colors.accent.yellow} />
         <Text className="text-[10px] font-bold uppercase tracking-wider text-white">
           Sight
         </Text>
@@ -130,12 +118,9 @@ export function ChakraFigure() {
       <BlurView
         intensity={40}
         tint="dark"
-        className="absolute -right-6 bottom-12 flex-row items-center gap-2 rounded-2xl border border-white/10 px-3.5 py-2 shadow-lg"
-        style={{
-          backgroundColor: 'rgba(255, 215, 0, 0.1)',
-        }}
+        className="absolute -right-6 bottom-12 flex-row items-center gap-2 rounded-2xl border border-white/10 bg-accent-yellow/10 px-3.5 py-2 shadow-lg"
       >
-        <Ionicons name="volume-medium" size={14} color="#FF2D85" />
+        <Ionicons name="volume-medium" size={14} color={colors.primary.pink} />
         <Text className="text-[10px] font-bold uppercase tracking-wider text-white">
           Sound
         </Text>

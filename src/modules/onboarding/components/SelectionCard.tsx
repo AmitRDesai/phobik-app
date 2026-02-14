@@ -51,10 +51,7 @@ export function SelectionCard({
           style={{ borderRadius: 16, padding: 2 }}
         >
           <Pressable onPress={onPress}>
-            <View
-              className="flex-row items-center gap-4 rounded-2xl px-4 py-4"
-              style={{ backgroundColor: colors.background.charcoal }}
-            >
+            <View className="flex-row items-center gap-4 rounded-2xl bg-background-charcoal px-4 py-4">
               {cardContent}
             </View>
           </Pressable>
@@ -64,14 +61,7 @@ export function SelectionCard({
 
     return (
       <Pressable onPress={onPress}>
-        <View
-          className="flex-row items-center gap-4 rounded-2xl border px-4 py-4"
-          style={{
-            borderColor: 'rgba(255,255,255,0.1)',
-            borderWidth: 1,
-            backgroundColor: 'rgba(255,255,255,0.05)',
-          }}
-        >
+        <View className="flex-row items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-4">
           {cardContent}
         </View>
       </Pressable>
@@ -81,22 +71,18 @@ export function SelectionCard({
   return (
     <Pressable onPress={onPress}>
       <View
-        className="flex-row items-center gap-4 rounded-2xl border px-4 py-4"
+        className={`flex-row items-center gap-4 rounded-2xl border px-4 py-4 ${
+          selected ? 'border-primary-pink' : 'border-white/10 bg-white/5'
+        }`}
         style={
           selected
             ? {
-                borderColor: colors.primary.pink,
-                borderWidth: 1,
                 shadowColor: colors.primary.pink,
                 shadowOffset: { width: 0, height: 0 },
                 shadowOpacity: 0.3,
                 shadowRadius: 12,
               }
-            : {
-                borderColor: 'rgba(255,255,255,0.1)',
-                borderWidth: 1,
-                backgroundColor: 'rgba(255,255,255,0.05)',
-              }
+            : undefined
         }
       >
         {cardContent}
@@ -108,17 +94,11 @@ export function SelectionCard({
 function RadioIndicator({ selected }: { selected: boolean }) {
   return (
     <View
-      className="h-6 w-6 items-center justify-center rounded-full border-2"
-      style={{
-        borderColor: selected ? colors.primary.pink : 'rgba(255,255,255,0.2)',
-      }}
+      className={`h-6 w-6 items-center justify-center rounded-full border-2 ${
+        selected ? 'border-primary-pink' : 'border-white/20'
+      }`}
     >
-      {selected && (
-        <View
-          className="h-3 w-3 rounded-full"
-          style={{ backgroundColor: colors.primary.pink }}
-        />
-      )}
+      {selected && <View className="h-3 w-3 rounded-full bg-primary-pink" />}
     </View>
   );
 }
@@ -126,12 +106,9 @@ function RadioIndicator({ selected }: { selected: boolean }) {
 function CheckboxIndicator({ selected }: { selected: boolean }) {
   return (
     <View
-      className="h-6 w-6 items-center justify-center rounded-full"
-      style={{
-        backgroundColor: selected
-          ? colors.accent.yellow
-          : 'rgba(255,255,255,0.1)',
-      }}
+      className={`h-6 w-6 items-center justify-center rounded-full ${
+        selected ? 'bg-accent-yellow' : 'bg-white/10'
+      }`}
     >
       {selected && <Ionicons name="checkmark-sharp" size={14} color="black" />}
     </View>

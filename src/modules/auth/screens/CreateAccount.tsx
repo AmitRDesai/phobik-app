@@ -57,7 +57,7 @@ export default function CreateAccountScreen() {
       >
         <ScrollView
           className="flex-1"
-          contentContainerStyle={{ flexGrow: 1 }}
+          contentContainerClassName="grow"
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="interactive"
         >
@@ -75,40 +75,11 @@ export default function CreateAccountScreen() {
             }}
           >
             {/* Decorative blur circles */}
-            <View
-              style={{
-                position: 'absolute',
-                top: -40,
-                right: -40,
-                width: 160,
-                height: 160,
-                borderRadius: 80,
-                backgroundColor: 'rgba(255,255,255,0.1)',
-              }}
-            />
-            <View
-              style={{
-                position: 'absolute',
-                bottom: -30,
-                left: -30,
-                width: 120,
-                height: 120,
-                borderRadius: 60,
-                backgroundColor: 'rgba(0,0,0,0.1)',
-              }}
-            />
+            <View className="absolute -right-10 -top-10 h-40 w-40 rounded-[80px] bg-white/10" />
+            <View className="absolute -bottom-[30px] -left-[30px] h-[120px] w-[120px] rounded-[60px] bg-black/10" />
 
             {/* Fingerprint icon in frosted glass */}
-            <View
-              className="mb-4 items-center justify-center rounded-3xl"
-              style={{
-                width: 80,
-                height: 80,
-                backgroundColor: 'rgba(255,255,255,0.2)',
-                borderWidth: 1,
-                borderColor: 'rgba(255,255,255,0.3)',
-              }}
-            >
+            <View className="mb-4 h-20 w-20 items-center justify-center rounded-3xl border border-white/30 bg-white/20">
               <Ionicons name="finger-print" size={40} color="white" />
             </View>
 
@@ -138,7 +109,7 @@ export default function CreateAccountScreen() {
                 icon="person"
                 autoCapitalize="words"
                 labelUppercase={false}
-                labelColor="#d1d5db"
+                labelColor={colors.gray[300]}
                 editable={!isLoading}
                 returnKeyType="next"
                 onSubmitEditing={() => emailRef.current?.focus()}
@@ -153,7 +124,7 @@ export default function CreateAccountScreen() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 labelUppercase={false}
-                labelColor="#d1d5db"
+                labelColor={colors.gray[300]}
                 editable={!isLoading}
                 returnKeyType="next"
                 onSubmitEditing={() => passwordRef.current?.focus()}
@@ -167,7 +138,7 @@ export default function CreateAccountScreen() {
                 icon="lock-closed"
                 secureTextEntry
                 labelUppercase={false}
-                labelColor="#d1d5db"
+                labelColor={colors.gray[300]}
                 editable={!isLoading}
                 returnKeyType="done"
                 onSubmitEditing={() => {
@@ -192,14 +163,14 @@ export default function CreateAccountScreen() {
             <Text className="mt-4 text-center text-xs leading-5 text-white/40">
               By signing up, you agree to our{'\n'}
               <Text
-                style={{ color: colors.primary.pink }}
+                className="text-primary-pink"
                 onPress={() => router.push('/auth/terms-of-service?modal=true')}
               >
                 Terms of Service
               </Text>{' '}
               and{' '}
               <Text
-                style={{ color: colors.primary.pink }}
+                className="text-primary-pink"
                 onPress={() => router.push('/auth/privacy-policy?modal=true')}
               >
                 Privacy Policy
@@ -214,9 +185,7 @@ export default function CreateAccountScreen() {
             >
               <Text className="text-center text-sm text-white/50">
                 Already have an account?{' '}
-                <Text className="font-bold" style={{ color: '#c3b5fd' }}>
-                  Sign In
-                </Text>
+                <Text className="font-bold text-accent-purple">Sign In</Text>
               </Text>
             </Pressable>
           </View>

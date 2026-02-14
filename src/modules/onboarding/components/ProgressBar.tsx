@@ -22,21 +22,15 @@ export function ProgressBar({ current, total, label }: ProgressBarProps) {
           className="rounded-full px-3 py-1"
           style={{ backgroundColor: `${colors.primary.pink}20` }}
         >
-          <Text
-            className="text-xs font-bold"
-            style={{ color: colors.primary.pink }}
-          >
+          <Text className="text-xs font-bold text-primary-pink">
             {current} of {total}
           </Text>
         </View>
       </View>
       <View className="h-1.5 overflow-hidden rounded-full bg-white/10">
         <View
-          className="h-full rounded-full"
-          style={{
-            backgroundColor: colors.primary.pink,
-            width: `${progress * 100}%`,
-          }}
+          className="h-full rounded-full bg-primary-pink"
+          style={{ width: `${progress * 100}%` }}
         />
       </View>
     </View>

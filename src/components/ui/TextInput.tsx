@@ -2,7 +2,6 @@ import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
-  Platform,
   Pressable,
   Text,
   TextInput as RNTextInput,
@@ -62,10 +61,8 @@ export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
           {label}
         </Text>
         <View
-          className="flex-row items-center rounded-full px-6 py-4"
+          className="flex-row items-center rounded-full border bg-background-input px-6 py-4"
           style={{
-            backgroundColor: '#1a1a1a',
-            borderWidth: 1,
             borderColor: focused
               ? colors.primary.pink
               : 'rgba(255,255,255,0.1)',
@@ -83,7 +80,7 @@ export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
           />
           <RNTextInput
             ref={ref}
-            className="flex-1 text-base text-white"
+            className="flex-1 text-base text-white android:p-0"
             placeholder={placeholder}
             placeholderTextColor="rgba(255,255,255,0.3)"
             value={value}
@@ -96,7 +93,6 @@ export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
             editable={editable}
             returnKeyType={returnKeyType}
             onSubmitEditing={onSubmitEditing}
-            style={Platform.OS === 'android' ? { padding: 0 } : undefined}
           />
           {secureTextEntry && (
             <Pressable onPress={() => setHidden((h) => !h)} hitSlop={8}>

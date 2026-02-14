@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
@@ -60,10 +61,10 @@ export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
             position: 'absolute',
             width: size * 0.5,
             height: size * 0.5,
-            backgroundColor: '#FF2D85',
+            backgroundColor: colors.primary.pink,
             borderRadius: size * 0.25,
             opacity: 0.15,
-            shadowColor: '#FF2D85',
+            shadowColor: colors.primary.pink,
             shadowOffset: { width: 0, height: 0 },
             shadowOpacity: 0.6,
             shadowRadius: 30,
@@ -77,8 +78,16 @@ export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
         <Defs>
           <RadialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
             <Stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
-            <Stop offset="40%" stopColor="#FF2D85" stopOpacity="0.6" />
-            <Stop offset="100%" stopColor="#FFD700" stopOpacity="0" />
+            <Stop
+              offset="40%"
+              stopColor={colors.primary.pink}
+              stopOpacity="0.6"
+            />
+            <Stop
+              offset="100%"
+              stopColor={colors.accent.yellow}
+              stopOpacity="0"
+            />
           </RadialGradient>
         </Defs>
 

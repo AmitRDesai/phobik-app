@@ -65,25 +65,18 @@ export default function SignInScreen() {
       >
         <ScrollView
           className="flex-1"
-          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+          contentContainerClassName="grow justify-center"
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="interactive"
         >
           {/* Avatar / Aura Section */}
           <View
-            className={`items-center pb-8 ${Platform.OS === 'android' ? 'pt-10' : 'pt-16'}`}
-            style={{ position: 'relative' }}
+            className={`relative items-center pb-8 ${Platform.OS === 'android' ? 'pt-10' : 'pt-16'}`}
           >
             {/* Pink glow behind avatar */}
             <View
+              className="absolute top-[30px] h-[280px] w-[280px] rounded-[140px] bg-primary-pink opacity-[0.08]"
               style={{
-                position: 'absolute',
-                width: 280,
-                height: 280,
-                borderRadius: 140,
-                backgroundColor: colors.primary.pink,
-                opacity: 0.08,
-                top: 30,
                 shadowColor: colors.primary.pink,
                 shadowOffset: { width: 0, height: 0 },
                 shadowOpacity: 0.15,
@@ -92,14 +85,8 @@ export default function SignInScreen() {
             />
             {/* Yellow inner glow */}
             <View
+              className="absolute top-[70px] h-[200px] w-[200px] rounded-full bg-accent-yellow opacity-[0.04]"
               style={{
-                position: 'absolute',
-                width: 200,
-                height: 200,
-                borderRadius: 100,
-                backgroundColor: colors.accent.yellow,
-                opacity: 0.04,
-                top: 70,
                 shadowColor: colors.accent.yellow,
                 shadowOffset: { width: 0, height: 0 },
                 shadowOpacity: 0.08,
@@ -108,41 +95,11 @@ export default function SignInScreen() {
             />
 
             {/* Decorative dots */}
-            <View
-              style={{
-                position: 'absolute',
-                top: 60,
-                right: 60,
-                width: 8,
-                height: 8,
-                borderRadius: 4,
-                backgroundColor: colors.accent.yellow,
-              }}
-            />
-            <View
-              style={{
-                position: 'absolute',
-                bottom: 40,
-                left: 60,
-                width: 6,
-                height: 6,
-                borderRadius: 3,
-                backgroundColor: colors.primary.pink,
-              }}
-            />
+            <View className="absolute right-[60px] top-[60px] h-2 w-2 rounded-full bg-accent-yellow" />
+            <View className="absolute bottom-[40px] left-[60px] h-1.5 w-1.5 rounded-[3px] bg-primary-pink" />
 
             {/* Avatar circle */}
-            <View
-              className="items-center justify-center"
-              style={{
-                width: 180,
-                height: 180,
-                borderRadius: 90,
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                borderWidth: 2,
-                borderColor: 'rgba(255,255,255,0.1)',
-              }}
-            >
+            <View className="h-[180px] w-[180px] items-center justify-center rounded-[90px] border-2 border-white/10 bg-white/10">
               <Ionicons name="person" size={72} color="rgba(255,255,255,0.3)" />
             </View>
           </View>
@@ -150,10 +107,7 @@ export default function SignInScreen() {
           {/* Welcome Text */}
           <View className="items-center px-4">
             <Text className="text-3xl font-bold text-white">Welcome Back</Text>
-            <Text
-              className="mt-2 text-lg"
-              style={{ color: 'rgba(203,144,173,0.8)' }}
-            >
+            <Text className="mt-2 text-lg text-primary-muted/80">
               We missed your energy today.
             </Text>
           </View>
@@ -170,8 +124,8 @@ export default function SignInScreen() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 labelUppercase={false}
-                labelColor="rgba(203,144,173,0.7)"
-                iconColor="rgba(203,144,173,0.5)"
+                labelColor={`${colors.primary.muted}B3`}
+                iconColor={`${colors.primary.muted}80`}
                 editable={!isLoading}
                 returnKeyType="next"
                 onSubmitEditing={() => passwordRef.current?.focus()}
@@ -185,8 +139,8 @@ export default function SignInScreen() {
                 icon="lock-closed"
                 secureTextEntry
                 labelUppercase={false}
-                labelColor="rgba(203,144,173,0.7)"
-                iconColor="rgba(203,144,173,0.5)"
+                labelColor={`${colors.primary.muted}B3`}
+                iconColor={`${colors.primary.muted}80`}
                 editable={!isLoading}
                 returnKeyType="done"
                 onSubmitEditing={() => {
@@ -196,10 +150,7 @@ export default function SignInScreen() {
             </View>
 
             <Pressable className="mt-3 self-end" disabled={isLoading}>
-              <Text
-                className="text-sm"
-                style={{ color: 'rgba(203,144,173,0.8)' }}
-              >
+              <Text className="text-sm text-primary-muted/80">
                 Forgot Password?
               </Text>
             </Pressable>
@@ -220,40 +171,18 @@ export default function SignInScreen() {
             {/* Social Sign In */}
             <View className="mt-6">
               <View className="mb-4 flex-row items-center">
-                <View
-                  className="flex-1"
-                  style={{
-                    height: 1,
-                    backgroundColor: 'rgba(203,144,173,0.2)',
-                  }}
-                />
-                <Text
-                  className="mx-4 text-sm"
-                  style={{ color: 'rgba(203,144,173,0.5)' }}
-                >
+                <View className="h-px flex-1 bg-primary-muted/20" />
+                <Text className="mx-4 text-sm text-primary-muted/50">
                   or continue with
                 </Text>
-                <View
-                  className="flex-1"
-                  style={{
-                    height: 1,
-                    backgroundColor: 'rgba(203,144,173,0.2)',
-                  }}
-                />
+                <View className="h-px flex-1 bg-primary-muted/20" />
               </View>
 
               <View className="flex-row justify-center gap-4">
                 <Pressable
                   onPress={() => handleSocialSignIn('google')}
                   disabled={isLoading}
-                  className="items-center justify-center rounded-full"
-                  style={{
-                    width: 56,
-                    height: 56,
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                    borderWidth: 1,
-                    borderColor: 'rgba(255,255,255,0.1)',
-                  }}
+                  className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
                 >
                   <Ionicons
                     name="logo-google"
@@ -266,14 +195,7 @@ export default function SignInScreen() {
                   <Pressable
                     onPress={() => handleSocialSignIn('apple')}
                     disabled={isLoading}
-                    className="items-center justify-center rounded-full"
-                    style={{
-                      width: 56,
-                      height: 56,
-                      backgroundColor: 'rgba(255,255,255,0.1)',
-                      borderWidth: 1,
-                      borderColor: 'rgba(255,255,255,0.1)',
-                    }}
+                    className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
                   >
                     <Ionicons
                       name="logo-apple"
@@ -294,17 +216,9 @@ export default function SignInScreen() {
               className="mb-8 mt-6 py-2"
               disabled={isLoading}
             >
-              <Text
-                className="text-center text-sm"
-                style={{ color: 'rgba(203,144,173,0.6)' }}
-              >
+              <Text className="text-center text-sm text-primary-muted/60">
                 Don&apos;t have an account?{' '}
-                <Text
-                  className="font-bold"
-                  style={{ color: colors.primary.pink }}
-                >
-                  Sign Up
-                </Text>
+                <Text className="font-bold text-primary-pink">Sign Up</Text>
               </Text>
             </Pressable>
           </View>

@@ -65,10 +65,8 @@ export default function DataSecurityPromiseScreen() {
           <ScrollFade>
             <ScrollView
               className="flex-1"
-              contentContainerStyle={{
-                paddingHorizontal: 32,
-                paddingBottom: FADE_HEIGHT,
-              }}
+              contentContainerClassName="px-8"
+              contentContainerStyle={{ paddingBottom: FADE_HEIGHT }}
               showsVerticalScrollIndicator={false}
             >
               {/* Title */}
@@ -88,10 +86,7 @@ export default function DataSecurityPromiseScreen() {
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 0 }}
                   >
-                    <Text
-                      className="text-center text-3xl font-extrabold leading-tight tracking-tight"
-                      style={{ opacity: 0 }}
-                    >
+                    <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight opacity-0">
                       Our Priority
                     </Text>
                   </LinearGradient>
@@ -147,8 +142,7 @@ export default function DataSecurityPromiseScreen() {
                         <Ionicons
                           name="checkmark"
                           size={18}
-                          color="#22c55e"
-                          style={{ fontWeight: 'bold' }}
+                          color={colors.green[500]}
                         />
                       </View>
                     </View>

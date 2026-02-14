@@ -9,6 +9,7 @@ module.exports = {
           pink: '#FF2D85',
           'pink-light': '#FF71CD',
           'pink-dark': '#D11A66',
+          muted: '#CB90AD',
         },
         accent: {
           yellow: '#FFD700',
@@ -18,6 +19,7 @@ module.exports = {
         background: {
           dark: '#050505',
           charcoal: '#121212',
+          input: '#1a1a1a',
         },
         chakra: {
           'pink-light': '#FFB8D9',

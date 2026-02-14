@@ -9,6 +9,7 @@ type CustomColors = {
     pink: string;
     'pink-light': string;
     'pink-dark': string;
+    muted: string;
   };
   accent: {
     yellow: string;
@@ -18,6 +19,7 @@ type CustomColors = {
   background: {
     dark: string;
     charcoal: string;
+    input: string;
   };
   chakra: {
     'pink-light': string;

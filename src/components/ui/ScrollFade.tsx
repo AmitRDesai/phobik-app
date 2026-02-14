@@ -10,7 +10,7 @@ interface ScrollFadeProps {
 
 export function ScrollFade({ children }: ScrollFadeProps) {
   return (
-    <View style={styles.container}>
+    <View className="relative flex-1">
       {children}
       <LinearGradient
         colors={['transparent', colors.background.dark]}
@@ -24,10 +24,6 @@ export function ScrollFade({ children }: ScrollFadeProps) {
 export { FADE_HEIGHT };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: 'relative',
-  },
   fade: {
     position: 'absolute',
     bottom: 0,

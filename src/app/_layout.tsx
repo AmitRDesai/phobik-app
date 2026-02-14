@@ -28,14 +28,7 @@ function RootNavigator() {
   // Show loading state while checking session
   if (isSessionLoading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: colors.background.dark,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <View className="flex-1 items-center justify-center bg-background-dark">
         <ActivityIndicator size="large" color={colors.primary.pink} />
       </View>
     );

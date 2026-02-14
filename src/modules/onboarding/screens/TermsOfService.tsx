@@ -58,12 +58,8 @@ export default function TermsOfServiceScreen() {
           <ScrollFade>
             <ScrollView
               className="flex-1"
-              contentContainerStyle={{
-                flexGrow: 1,
-                justifyContent: 'center',
-                paddingHorizontal: 32,
-                paddingBottom: FADE_HEIGHT,
-              }}
+              contentContainerClassName="grow justify-center px-8"
+              contentContainerStyle={{ paddingBottom: FADE_HEIGHT }}
               showsVerticalScrollIndicator={false}
             >
               {/* Shield Icon + Title */}
@@ -128,10 +124,7 @@ export default function TermsOfServiceScreen() {
                 size={18}
                 color={colors.primary.pink}
               />
-              <Text
-                className="text-sm font-semibold"
-                style={{ color: colors.primary.pink }}
-              >
+              <Text className="text-sm font-semibold text-primary-pink">
                 Download full Terms of Service (PDF)
               </Text>
             </Pressable>
