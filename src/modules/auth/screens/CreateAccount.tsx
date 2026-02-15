@@ -1,9 +1,19 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { TextInput } from '@/components/ui/TextInput';
 import { colors } from '@/constants/colors';
+import { rpcClient } from '@/lib/rpc';
+import {
+  selectedAgeAtom,
+  selectedGenderAtom,
+  selectedGoalsAtom,
+  termsAcceptedAtom,
+  privacyAcceptedAtom,
+} from '@/modules/onboarding/store/onboarding';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { RESET } from 'jotai/utils';
 import { useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -29,12 +39,46 @@ export default function CreateAccountScreen() {
 
   const signUpMutation = useSignUp();
 
+  const ageRange = useAtomValue(selectedAgeAtom);
+  const genderIdentity = useAtomValue(selectedGenderAtom);
+  const goals = useAtomValue(selectedGoalsAtom);
+  const termsAccepted = useAtomValue(termsAcceptedAtom);
+  const privacyAccepted = useAtomValue(privacyAcceptedAtom);
+
+  const setAge = useSetAtom(selectedAgeAtom);
+  const setGender = useSetAtom(selectedGenderAtom);
+  const setGoals = useSetAtom(selectedGoalsAtom);
+  const setTerms = useSetAtom(termsAcceptedAtom);
+  const setPrivacy = useSetAtom(privacyAcceptedAtom);
+
   const isValid = name.trim() && email.trim() && password.trim();
   const isLoading = signUpMutation.isPending;
 
   const handleCreateAccount = async () => {
     try {
       await signUpMutation.mutateAsync({ name, email, password });
+
+      // Save onboarding data to backend
+      try {
+        await rpcClient.onboarding.saveProfile({
+          ageRange,
+          genderIdentity,
+          goals,
+          termsAccepted,
+          privacyAccepted,
+        });
+      } catch {
+        // Non-critical: profile save failed, continue with account creation
+        console.warn('Failed to save onboarding profile to backend');
+      }
+
+      // Clear local onboarding answer atoms (keep onboardingCompleted for routing)
+      setAge(RESET);
+      setGender(RESET);
+      setGoals(RESET);
+      setTerms(RESET);
+      setPrivacy(RESET);
+
       Alert.alert(
         'Account Created',
         'Please check your email to verify your account.',

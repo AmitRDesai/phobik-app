@@ -1,9 +1,10 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { TextInput } from '@/components/ui/TextInput';
 import { colors } from '@/constants/colors';
+import { useSession as useBetterAuthSession } from '@/lib/auth';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -11,14 +12,19 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
+  TextInput as RNTextInput,
   ScrollView,
   Text,
-  TextInput as RNTextInput,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSignIn, useSocialSignIn } from '../hooks/useAuth';
 import { onboardingCompletedAtom } from '../../onboarding/store/onboarding';
+import { useSignIn, useSocialSignIn } from '../hooks/useAuth';
+import {
+  useBiometricAuth,
+  useBiometricAvailability,
+} from '../hooks/useBiometric';
+import { biometricEnabledAtom, isSignedOutAtom } from '../store/biometric';
 
 export default function SignInScreen() {
   const [email, setEmail] = useState('');
@@ -27,11 +33,32 @@ export default function SignInScreen() {
   const passwordRef = useRef<RNTextInput>(null);
 
   const onboardingCompleted = useAtomValue(onboardingCompletedAtom);
+  const biometricEnabled = useAtomValue(biometricEnabledAtom);
+  const setIsSignedOut = useSetAtom(isSignedOutAtom);
   const signInMutation = useSignIn();
   const socialSignInMutation = useSocialSignIn();
+  const { data: sessionData } = useBetterAuthSession();
+  const { biometricType } = useBiometricAvailability();
+  const { authenticate } = useBiometricAuth();
+
+  const hasSession = !!sessionData?.session;
+  const showBiometric = biometricEnabled && hasSession;
 
   const isValid = email.trim() && password.trim();
   const isLoading = signInMutation.isPending || socialSignInMutation.isPending;
+
+  const handleBiometricSignIn = async () => {
+    const result = await authenticate(`Use ${biometricType} to sign in`);
+    if (result.success) {
+      setIsSignedOut(false);
+      router.replace('/');
+    } else if (result.error !== 'user_cancel') {
+      Alert.alert(
+        `${biometricType} Failed`,
+        'Please sign in with your credentials.',
+      );
+    }
+  };
 
   const handleSignIn = async () => {
     try {
@@ -111,6 +138,33 @@ export default function SignInScreen() {
               We missed your energy today.
             </Text>
           </View>
+
+          {/* Biometric Quick Sign-In */}
+          {showBiometric && (
+            <View className="items-center px-8 pt-6">
+              <Pressable
+                onPress={handleBiometricSignIn}
+                className="h-16 w-16 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
+              >
+                <Ionicons
+                  name={biometricType === 'Face ID' ? 'scan' : 'finger-print'}
+                  size={32}
+                  color={colors.primary.pink}
+                />
+              </Pressable>
+              <Text className="mt-3 text-sm text-white/50">
+                Tap to sign in with {biometricType}
+              </Text>
+
+              <View className="mt-4 flex-row items-center">
+                <View className="h-px flex-1 bg-primary-muted/20" />
+                <Text className="mx-4 text-sm text-primary-muted/50">
+                  or use credentials
+                </Text>
+                <View className="h-px flex-1 bg-primary-muted/20" />
+              </View>
+            </View>
+          )}
 
           {/* Form Section */}
           <View className="px-8 pt-8">

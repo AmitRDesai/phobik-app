@@ -46,7 +46,13 @@
           }
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow Phobik to use Face ID for quick sign-in."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

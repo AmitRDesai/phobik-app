@@ -1,6 +1,12 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { authClient, useSession as useBetterAuthSession } from '@/lib/auth';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
+import { useAtomValue, useSetAtom } from 'jotai';
+import {
+  biometricEnabledAtom,
+  biometricPromptShownAtom,
+  isSignedOutAtom,
+} from '../store/biometric';
 
 /**
  * Hook to get the current session
@@ -15,6 +21,7 @@ export function useSession() {
  */
 export function useSignIn() {
   const queryClient = useQueryClient();
+  const setIsSignedOut = useSetAtom(isSignedOutAtom);
 
   return useMutation({
     mutationFn: async ({
@@ -36,6 +43,7 @@ export function useSignIn() {
       return result.data;
     },
     onSuccess: () => {
+      setIsSignedOut(false);
       // Invalidate session queries to refresh auth state
       queryClient.invalidateQueries({ queryKey: ['session'] });
     },
@@ -79,17 +87,30 @@ export function useSignUp() {
 
 /**
  * Hook for sign out
+ * Supports soft sign-out (keeps session) when biometric is enabled
  */
 export function useSignOut() {
   const queryClient = useQueryClient();
+  const biometricEnabled = useAtomValue(biometricEnabledAtom);
+  const setIsSignedOut = useSetAtom(isSignedOutAtom);
+  const setBiometricEnabled = useSetAtom(biometricEnabledAtom);
+  const setBiometricPromptShown = useSetAtom(biometricPromptShownAtom);
 
   return useMutation({
-    mutationFn: async () => {
-      await authClient.signOut();
+    mutationFn: async ({ force = false }: { force?: boolean } = {}) => {
+      if (biometricEnabled && !force) {
+        // Soft sign-out: keep session, just set flag
+        setIsSignedOut(true);
+      } else {
+        // Full sign-out: destroy session, reset biometric so it's offered again
+        await authClient.signOut();
+        setIsSignedOut(false);
+        setBiometricEnabled(false);
+        setBiometricPromptShown(false);
+        queryClient.clear();
+      }
     },
     onSuccess: () => {
-      // Clear all queries and reset auth state
-      queryClient.clear();
       router.replace('/auth/sign-in');
     },
   });
@@ -100,6 +121,7 @@ export function useSignOut() {
  */
 export function useSocialSignIn() {
   const queryClient = useQueryClient();
+  const setIsSignedOut = useSetAtom(isSignedOutAtom);
 
   return useMutation({
     mutationFn: async ({ provider }: { provider: 'google' | 'apple' }) => {
@@ -115,6 +137,7 @@ export function useSocialSignIn() {
       return result.data;
     },
     onSuccess: () => {
+      setIsSignedOut(false);
       queryClient.invalidateQueries({ queryKey: ['session'] });
     },
   });

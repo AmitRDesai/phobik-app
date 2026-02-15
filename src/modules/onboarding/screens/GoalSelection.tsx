@@ -61,9 +61,12 @@ export default function GoalSelectionScreen() {
   const [selectedGoals, setSelectedGoals] = useAtom(selectedGoalsAtom);
 
   const toggleGoal = (goal: Goal) => {
-    setSelectedGoals((prev) =>
-      prev.includes(goal) ? prev.filter((g) => g !== goal) : [...prev, goal],
-    );
+    setSelectedGoals(async (prev) => {
+      const current = await prev;
+      return current.includes(goal)
+        ? current.filter((g) => g !== goal)
+        : [...current, goal];
+    });
   };
 
   return (

@@ -1,4 +1,10 @@
 import { authClient, getSession } from '@/lib/auth';
+import { store } from '@/utils/jotai';
+import {
+  biometricEnabledAtom,
+  biometricPromptShownAtom,
+  isSignedOutAtom,
+} from '@/modules/auth/store/biometric';
 import { queryClient } from './query-client';
 
 class Session {
@@ -21,10 +27,19 @@ class Session {
 
   /**
    * Clear the session (sign out)
+   * If soft = true (biometric enabled), only set isSignedOut flag
+   * If soft = false (default), destroy the session entirely
    */
-  clear = async () => {
-    await authClient.signOut();
-    queryClient.clear();
+  clear = async (soft = false) => {
+    if (soft) {
+      store.set(isSignedOutAtom, true);
+    } else {
+      await authClient.signOut();
+      store.set(isSignedOutAtom, false);
+      store.set(biometricEnabledAtom, false);
+      store.set(biometricPromptShownAtom, false);
+      queryClient.clear();
+    }
   };
 }
 

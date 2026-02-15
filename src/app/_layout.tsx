@@ -1,5 +1,10 @@
 import { colors } from '@/constants/colors';
 import { useSession } from '@/lib/auth';
+import {
+  biometricPromptShownAtom,
+  isSignedOutAtom,
+} from '@/modules/auth/store/biometric';
+import { useBiometricAvailability } from '@/modules/auth/hooks/useBiometric';
 import { onboardingCompletedAtom } from '@/modules/onboarding/store/onboarding';
 import { asyncStoragePersister, queryClient } from '@/utils/query-client';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
@@ -22,8 +27,14 @@ export default function RootLayout() {
 function RootNavigator() {
   const onboardingCompleted = useAtomValue(onboardingCompletedAtom);
   const { data: session, isPending: isSessionLoading } = useSession();
+  const biometricPromptShown = useAtomValue(biometricPromptShownAtom);
+  const isSignedOut = useAtomValue(isSignedOutAtom);
+  const { isAvailable: biometricAvailable } = useBiometricAvailability();
 
-  const isAuthenticated = !!session?.session;
+  const hasSession = !!session?.session;
+  const isAuthenticated = hasSession && !isSignedOut;
+  const needsBiometricSetup =
+    isAuthenticated && !biometricPromptShown && biometricAvailable;
 
   // Show loading state while checking session
   if (isSessionLoading) {
@@ -41,18 +52,23 @@ function RootNavigator() {
         contentStyle: { backgroundColor: colors.background.dark },
       }}
     >
-      {/* Onboarding flow - shown first if not completed */}
-      <Stack.Protected guard={!onboardingCompleted}>
+      {/* Onboarding flow - new unauthenticated users only */}
+      <Stack.Protected guard={!hasSession && !onboardingCompleted}>
         <Stack.Screen name="onboarding" />
       </Stack.Protected>
 
-      {/* Auth screens - shown if not authenticated */}
+      {/* Auth screens - unauthenticated or soft-signed-out */}
       <Stack.Protected guard={!isAuthenticated}>
         <Stack.Screen name="auth" />
       </Stack.Protected>
 
-      {/* Main app - shown only when onboarding completed AND authenticated */}
-      <Stack.Protected guard={onboardingCompleted && isAuthenticated}>
+      {/* Biometric setup - one-time after first auth */}
+      <Stack.Protected guard={needsBiometricSetup}>
+        <Stack.Screen name="biometric-setup" />
+      </Stack.Protected>
+
+      {/* Main app */}
+      <Stack.Protected guard={isAuthenticated && !needsBiometricSetup}>
         <Stack.Screen name="index" />
       </Stack.Protected>
     </Stack>
