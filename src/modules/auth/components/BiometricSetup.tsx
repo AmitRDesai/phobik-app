@@ -4,7 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useSetAtom } from 'jotai';
-import { Alert, Pressable, Text, View } from 'react-native';
+import { dialog } from '@/utils/dialog';
+import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   useBiometricAuth,
@@ -39,10 +40,10 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
         router.replace('/');
       }
     } else if (result.error !== 'user_cancel') {
-      Alert.alert(
-        `${biometricType} Failed`,
-        'Please try again or skip for now.',
-      );
+      dialog.error({
+        title: `${biometricType} Failed`,
+        message: 'Please try again or skip for now.',
+      });
     }
   };
 

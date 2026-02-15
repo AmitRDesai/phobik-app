@@ -6,9 +6,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useRef, useState } from 'react';
+import { dialog } from '@/utils/dialog';
 import {
   ActivityIndicator,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -57,10 +57,10 @@ export default function SignInScreen() {
       setIsSignedOut(false);
       router.replace('/');
     } else if (result.error !== 'user_cancel') {
-      Alert.alert(
-        `${biometricType} Failed`,
-        'Please sign in with your credentials.',
-      );
+      dialog.error({
+        title: `${biometricType} Failed`,
+        message: 'Please sign in with your credentials.',
+      });
     }
   };
 
@@ -69,10 +69,10 @@ export default function SignInScreen() {
       await signInMutation.mutateAsync({ email, password });
       router.replace('/');
     } catch (error) {
-      Alert.alert(
-        'Sign In Failed',
-        error instanceof Error ? error.message : 'An error occurred',
-      );
+      dialog.error({
+        title: 'Sign In Failed',
+        message: error instanceof Error ? error.message : 'An error occurred',
+      });
     }
   };
 
@@ -81,10 +81,10 @@ export default function SignInScreen() {
       await googleSignInMutation.mutateAsync();
       router.replace('/');
     } catch (error) {
-      Alert.alert(
-        'Sign In Failed',
-        error instanceof Error ? error.message : 'An error occurred',
-      );
+      dialog.error({
+        title: 'Sign In Failed',
+        message: error instanceof Error ? error.message : 'An error occurred',
+      });
     }
   };
 
@@ -94,10 +94,10 @@ export default function SignInScreen() {
       router.replace('/');
     } catch (error: any) {
       if (error.code === 'ERR_REQUEST_CANCELED') return;
-      Alert.alert(
-        'Sign In Failed',
-        error instanceof Error ? error.message : 'An error occurred',
-      );
+      dialog.error({
+        title: 'Sign In Failed',
+        message: error instanceof Error ? error.message : 'An error occurred',
+      });
     }
   };
 

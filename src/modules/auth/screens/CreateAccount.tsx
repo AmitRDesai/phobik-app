@@ -15,9 +15,9 @@ import { router } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useRef, useState } from 'react';
+import { dialog } from '@/utils/dialog';
 import {
   ActivityIndicator,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -79,17 +79,19 @@ export default function CreateAccountScreen() {
       setTerms(RESET);
       setPrivacy(RESET);
 
-      Alert.alert(
-        'Account Created',
-        'Please check your email to verify your account.',
-        [{ text: 'OK', onPress: () => router.replace('/auth/sign-in') }],
-      );
+      const result = await dialog.info({
+        title: 'Account Created',
+        message: 'Please check your email to verify your account.',
+      });
+      if (result !== undefined) {
+        router.replace('/auth/sign-in');
+      }
     } catch (error) {
       console.log(error);
-      Alert.alert(
-        'Sign Up Failed',
-        error instanceof Error ? error.message : 'An error occurred',
-      );
+      dialog.error({
+        title: 'Sign Up Failed',
+        message: error instanceof Error ? error.message : 'An error occurred',
+      });
     }
   };
 

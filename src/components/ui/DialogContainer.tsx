@@ -113,7 +113,7 @@ export function DialogContainer() {
       {/* Overlay */}
       <Animated.View
         className="absolute bottom-0 left-0 right-0 top-0"
-        style={[{ backgroundColor: 'rgba(10, 4, 8, 0.9)' }, overlayStyle]}
+        style={[{ backgroundColor: 'rgba(10, 4, 8, 0.4)' }, overlayStyle]}
       >
         <Pressable
           className="flex-1"
