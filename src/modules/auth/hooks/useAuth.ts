@@ -1,5 +1,6 @@
 import { authClient, useSession as useBetterAuthSession } from '@/lib/auth';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import { router } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
@@ -117,21 +118,62 @@ export function useSignOut() {
 }
 
 /**
- * Hook for social sign in (Google, Apple)
+ * Hook for native Apple Sign-In using expo-apple-authentication.
+ * Uses the native iOS sheet and sends the idToken to Better Auth.
  */
-export function useSocialSignIn() {
+export function useAppleSignIn() {
   const queryClient = useQueryClient();
   const setIsSignedOut = useSetAtom(isSignedOutAtom);
 
   return useMutation({
-    mutationFn: async ({ provider }: { provider: 'google' | 'apple' }) => {
+    mutationFn: async () => {
+      const credential = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+      });
+
+      if (!credential.identityToken) {
+        throw new Error('No identity token received from Apple');
+      }
+
       const result = await authClient.signIn.social({
-        provider,
+        provider: 'apple',
+        idToken: {
+          token: credential.identityToken,
+        },
+      });
+
+      if (result.error) {
+        throw new Error(result.error.message || 'Apple sign in failed');
+      }
+
+      return result.data;
+    },
+    onSuccess: () => {
+      setIsSignedOut(false);
+      queryClient.invalidateQueries({ queryKey: ['session'] });
+    },
+  });
+}
+
+/**
+ * Hook for web-based social sign in (Google)
+ */
+export function useGoogleSignIn() {
+  const queryClient = useQueryClient();
+  const setIsSignedOut = useSetAtom(isSignedOutAtom);
+
+  return useMutation({
+    mutationFn: async () => {
+      const result = await authClient.signIn.social({
+        provider: 'google',
         callbackURL: '/',
       });
 
       if (result.error) {
-        throw new Error(result.error.message || 'Social sign in failed');
+        throw new Error(result.error.message || 'Google sign in failed');
       }
 
       return result.data;

@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { onboardingCompletedAtom } from '../../onboarding/store/onboarding';
-import { useSignIn, useSocialSignIn } from '../hooks/useAuth';
+import { useAppleSignIn, useGoogleSignIn, useSignIn } from '../hooks/useAuth';
 import {
   useBiometricAuth,
   useBiometricAvailability,
@@ -36,7 +36,8 @@ export default function SignInScreen() {
   const biometricEnabled = useAtomValue(biometricEnabledAtom);
   const setIsSignedOut = useSetAtom(isSignedOutAtom);
   const signInMutation = useSignIn();
-  const socialSignInMutation = useSocialSignIn();
+  const googleSignInMutation = useGoogleSignIn();
+  const appleSignInMutation = useAppleSignIn();
   const { data: sessionData } = useBetterAuthSession();
   const { biometricType } = useBiometricAvailability();
   const { authenticate } = useBiometricAuth();
@@ -45,7 +46,10 @@ export default function SignInScreen() {
   const showBiometric = biometricEnabled && hasSession;
 
   const isValid = email.trim() && password.trim();
-  const isLoading = signInMutation.isPending || socialSignInMutation.isPending;
+  const isLoading =
+    signInMutation.isPending ||
+    googleSignInMutation.isPending ||
+    appleSignInMutation.isPending;
 
   const handleBiometricSignIn = async () => {
     const result = await authenticate(`Use ${biometricType} to sign in`);
@@ -72,11 +76,24 @@ export default function SignInScreen() {
     }
   };
 
-  const handleSocialSignIn = async (provider: 'google' | 'apple') => {
+  const handleGoogleSignIn = async () => {
     try {
-      await socialSignInMutation.mutateAsync({ provider });
+      await googleSignInMutation.mutateAsync();
       router.replace('/');
     } catch (error) {
+      Alert.alert(
+        'Sign In Failed',
+        error instanceof Error ? error.message : 'An error occurred',
+      );
+    }
+  };
+
+  const handleAppleSignIn = async () => {
+    try {
+      await appleSignInMutation.mutateAsync();
+      router.replace('/');
+    } catch (error: any) {
+      if (error.code === 'ERR_REQUEST_CANCELED') return;
       Alert.alert(
         'Sign In Failed',
         error instanceof Error ? error.message : 'An error occurred',
@@ -234,7 +251,7 @@ export default function SignInScreen() {
 
               <View className="flex-row justify-center gap-4">
                 <Pressable
-                  onPress={() => handleSocialSignIn('google')}
+                  onPress={handleGoogleSignIn}
                   disabled={isLoading}
                   className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
                 >
@@ -247,7 +264,7 @@ export default function SignInScreen() {
 
                 {Platform.OS === 'ios' && (
                   <Pressable
-                    onPress={() => handleSocialSignIn('apple')}
+                    onPress={handleAppleSignIn}
                     disabled={isLoading}
                     className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
                   >
