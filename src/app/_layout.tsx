@@ -1,3 +1,4 @@
+import { DialogContainer } from '@/components/ui/DialogContainer';
 import { colors } from '@/constants/colors';
 import { useSession } from '@/lib/auth';
 import {
@@ -20,6 +21,7 @@ export default function RootLayout() {
       persistOptions={{ persister: asyncStoragePersister }}
     >
       <RootNavigator />
+      <DialogContainer />
     </PersistQueryClientProvider>
   );
 }

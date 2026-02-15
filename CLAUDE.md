@@ -132,6 +132,17 @@ export { default } from '@/modules/onboarding/screens/Index';
 3. **SVG imports** - Custom type declarations in `custom.d.ts` allow importing SVGs as React components
 4. **Environment access** - Use `env.get('API_ENDPOINT')` instead of direct `process.env` access
 5. **New features** - Create a new module under `src/modules/<feature>/` with screens, components, hooks, and store subdirectories as needed
+6. **Dialogs** - Use `dialog` from `@/utils/dialog` instead of `Alert.alert()`. Provides a themed bottom-sheet modal with async/await support:
+   ```typescript
+   import { dialog } from '@/utils/dialog';
+   // Error/info — returns a promise with the button value
+   const result = await dialog.error({ title: 'Oops', message: 'Something failed.' });
+   const result = await dialog.info({ title: 'Tip', message: 'Swipe to dismiss.' });
+   // Loading — returns a close function
+   const close = dialog.loading({ message: 'Saving...' });
+   // Custom component inside the sheet
+   await dialog.open({ component: MyForm, props: { userId } });
+   ```
 
 ## Platform Support
 
