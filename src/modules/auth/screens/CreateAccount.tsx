@@ -1,21 +1,13 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { TextInput } from '@/components/ui/TextInput';
 import { colors } from '@/constants/colors';
-import { rpcClient } from '@/lib/rpc';
-import {
-  selectedAgeAtom,
-  selectedGenderAtom,
-  selectedGoalsAtom,
-  termsAcceptedAtom,
-  privacyAcceptedAtom,
-} from '@/modules/onboarding/store/onboarding';
+import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useRef, useState } from 'react';
-import { dialog } from '@/utils/dialog';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -27,67 +19,114 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSignUp } from '../hooks/useAuth';
+import { questionnaireAtom } from '../../account-creation/store/account-creation';
+import { useAppleSignIn, useGoogleSignIn, useSignUp } from '../hooks/useAuth';
+import { useSaveProfile } from '../hooks/useProfile';
 
 export default function CreateAccountScreen() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<{
+    name?: string;
+    email?: string;
+    password?: string;
+  }>({});
 
   const emailRef = useRef<RNTextInput>(null);
   const passwordRef = useRef<RNTextInput>(null);
 
   const signUpMutation = useSignUp();
-
-  const ageRange = useAtomValue(selectedAgeAtom);
-  const genderIdentity = useAtomValue(selectedGenderAtom);
-  const goals = useAtomValue(selectedGoalsAtom);
-  const termsAccepted = useAtomValue(termsAcceptedAtom);
-  const privacyAccepted = useAtomValue(privacyAcceptedAtom);
-
-  const setAge = useSetAtom(selectedAgeAtom);
-  const setGender = useSetAtom(selectedGenderAtom);
-  const setGoals = useSetAtom(selectedGoalsAtom);
-  const setTerms = useSetAtom(termsAcceptedAtom);
-  const setPrivacy = useSetAtom(privacyAcceptedAtom);
+  const googleSignInMutation = useGoogleSignIn();
+  const appleSignInMutation = useAppleSignIn();
+  const saveProfile = useSaveProfile();
+  const store = useStore();
 
   const isValid = name.trim() && email.trim() && password.trim();
-  const isLoading = signUpMutation.isPending;
+  const isLoading =
+    signUpMutation.isPending ||
+    googleSignInMutation.isPending ||
+    appleSignInMutation.isPending;
+
+  const clearFieldErrors = () => setFieldErrors({});
+
+  const parseSignUpError = (error: unknown): string => {
+    const message =
+      error instanceof Error ? error.message : 'An error occurred';
+    const msg = message.toLowerCase();
+
+    if (msg.includes('already') || msg.includes('exists')) {
+      setFieldErrors({ email: 'An account with this email already exists' });
+      return 'An account with this email already exists';
+    }
+    if (msg.includes('password') || msg.includes('too short')) {
+      setFieldErrors({
+        password: 'Password must be at least 8 characters',
+      });
+      return 'Password must be at least 8 characters';
+    }
+    if (msg.includes('email') || msg.includes('invalid')) {
+      setFieldErrors({ email: 'Please enter a valid email address' });
+      return 'Please enter a valid email address';
+    }
+
+    return message;
+  };
+
+  const saveProfileFromLocal = async () => {
+    const questionnaire = await store.get(questionnaireAtom);
+    try {
+      await saveProfile.mutateAsync({
+        ageRange: questionnaire.age,
+        genderIdentity: questionnaire.gender,
+        goals: questionnaire.goals,
+        termsAcceptedAt: questionnaire.termsAcceptedAt,
+        privacyAcceptedAt: questionnaire.privacyAcceptedAt,
+      });
+      // Clear local questionnaire data on success
+      store.set(questionnaireAtom, RESET);
+    } catch (error) {
+      // Profile save failed — recovery effect in _layout.tsx will retry
+      // Do NOT clear questionnaireAtom on failure
+      console.warn('Profile save failed after signup:', error);
+    }
+  };
 
   const handleCreateAccount = async () => {
+    clearFieldErrors();
+
+    // Step 1: Create account
     try {
       await signUpMutation.mutateAsync({ name, email, password });
-
-      // Save onboarding data to backend
-      try {
-        await rpcClient.onboarding.saveProfile({
-          ageRange,
-          genderIdentity,
-          goals,
-          termsAccepted,
-          privacyAccepted,
-        });
-      } catch {
-        // Non-critical: profile save failed, continue with account creation
-        console.warn('Failed to save onboarding profile to backend');
-      }
-
-      // Clear local onboarding answer atoms (keep onboardingCompleted for routing)
-      setAge(RESET);
-      setGender(RESET);
-      setGoals(RESET);
-      setTerms(RESET);
-      setPrivacy(RESET);
-
-      const result = await dialog.info({
-        title: 'Account Created',
-        message: 'Please check your email to verify your account.',
-      });
-      if (result !== undefined) {
-        router.replace('/auth/sign-in');
-      }
     } catch (error) {
-      console.log(error);
+      const message = parseSignUpError(error);
+      dialog.error({ title: 'Sign Up Failed', message });
+      return;
+    }
+
+    // Step 2: Save profile (non-blocking — root layout retries if this fails)
+    await saveProfileFromLocal();
+    // Guards handle navigation (email verification, etc.)
+  };
+
+  const handleGoogleSignUp = async () => {
+    try {
+      await googleSignInMutation.mutateAsync();
+      await saveProfileFromLocal();
+    } catch (error) {
+      dialog.error({
+        title: 'Sign Up Failed',
+        message: error instanceof Error ? error.message : 'An error occurred',
+      });
+    }
+  };
+
+  const handleAppleSignUp = async () => {
+    try {
+      await appleSignInMutation.mutateAsync();
+      await saveProfileFromLocal();
+    } catch (error: any) {
+      if (error.code === 'ERR_REQUEST_CANCELED') return;
       dialog.error({
         title: 'Sign Up Failed',
         message: error instanceof Error ? error.message : 'An error occurred',
@@ -151,7 +190,10 @@ export default function CreateAccountScreen() {
                 label="Full Name"
                 placeholder="Enter your name"
                 value={name}
-                onChangeText={setName}
+                onChangeText={(t) => {
+                  setName(t);
+                  if (fieldErrors.name) clearFieldErrors();
+                }}
                 icon="person"
                 autoCapitalize="words"
                 labelUppercase={false}
@@ -159,13 +201,17 @@ export default function CreateAccountScreen() {
                 editable={!isLoading}
                 returnKeyType="next"
                 onSubmitEditing={() => emailRef.current?.focus()}
+                error={fieldErrors.name}
               />
               <TextInput
                 ref={emailRef}
                 label="Email Address"
                 placeholder="your@email.com"
                 value={email}
-                onChangeText={setEmail}
+                onChangeText={(t) => {
+                  setEmail(t);
+                  if (fieldErrors.email) clearFieldErrors();
+                }}
                 icon="at"
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -174,13 +220,17 @@ export default function CreateAccountScreen() {
                 editable={!isLoading}
                 returnKeyType="next"
                 onSubmitEditing={() => passwordRef.current?.focus()}
+                error={fieldErrors.email}
               />
               <TextInput
                 ref={passwordRef}
                 label="Password"
                 placeholder="••••••••"
                 value={password}
-                onChangeText={setPassword}
+                onChangeText={(t) => {
+                  setPassword(t);
+                  if (fieldErrors.password) clearFieldErrors();
+                }}
                 icon="lock-closed"
                 secureTextEntry
                 labelUppercase={false}
@@ -190,6 +240,7 @@ export default function CreateAccountScreen() {
                 onSubmitEditing={() => {
                   if (isValid) handleCreateAccount();
                 }}
+                error={fieldErrors.password}
               />
             </View>
 
@@ -204,6 +255,45 @@ export default function CreateAccountScreen() {
                   'Create Account'
                 )}
               </GradientButton>
+            </View>
+
+            {/* Social Sign Up */}
+            <View className="mt-6">
+              <View className="mb-4 flex-row items-center">
+                <View className="h-px flex-1 bg-white/10" />
+                <Text className="mx-4 text-sm text-white/40">
+                  or continue with
+                </Text>
+                <View className="h-px flex-1 bg-white/10" />
+              </View>
+
+              <View className="flex-row justify-center gap-4">
+                <Pressable
+                  onPress={handleGoogleSignUp}
+                  disabled={isLoading}
+                  className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
+                >
+                  <Ionicons
+                    name="logo-google"
+                    size={24}
+                    color="rgba(255,255,255,0.8)"
+                  />
+                </Pressable>
+
+                {Platform.OS === 'ios' && (
+                  <Pressable
+                    onPress={handleAppleSignUp}
+                    disabled={isLoading}
+                    className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
+                  >
+                    <Ionicons
+                      name="logo-apple"
+                      size={24}
+                      color="rgba(255,255,255,0.8)"
+                    />
+                  </Pressable>
+                )}
+              </View>
             </View>
 
             <Text className="mt-4 text-center text-xs leading-5 text-white/40">

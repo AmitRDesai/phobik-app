@@ -1,29 +1,48 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
+import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlowBg } from '../components/GlowBg';
 import { SelectionCard } from '../components/SelectionCard';
-import { type AgeRange, selectedAgeAtom } from '../store/onboarding';
+import {
+  type GenderIdentity,
+  questionnaireGenderAtom,
+} from '../store/account-creation';
 
-const AGE_OPTIONS: { value: AgeRange; label: string }[] = [
-  { value: '18-24', label: '18–24' },
-  { value: '25-34', label: '25–34' },
-  { value: '35-44', label: '35–44' },
-  { value: '45-54', label: '45–54' },
-  { value: '55+', label: '55+' },
+const GENDER_OPTIONS: {
+  value: GenderIdentity;
+  label: string;
+  icon: keyof typeof Ionicons.glyphMap;
+}[] = [
+  { value: 'female', label: 'Female', icon: 'female' },
+  { value: 'male', label: 'Male', icon: 'male' },
+  { value: 'non-binary', label: 'Non-binary', icon: 'transgender' },
+  {
+    value: 'prefer-not-to-say',
+    label: 'Prefer not to say',
+    icon: 'eye-off-outline',
+  },
 ];
 
-export default function AgeSelectionScreen() {
-  const [selectedAge, setSelectedAge] = useAtom(selectedAgeAtom);
+export default function GenderIdentityScreen() {
+  const [selectedGender, setSelectedGender] = useAtom(questionnaireGenderAtom);
+  const pathname = usePathname();
+  const isProfileSetup = pathname.startsWith('/profile-setup');
+
+  const totalSteps = isProfileSetup ? 5 : 7;
+  const currentStep = isProfileSetup ? 2 : 4;
+  const nextRoute = isProfileSetup
+    ? '/profile-setup/goal-selection'
+    : '/account-creation/goal-selection';
 
   return (
     <View className="flex-1">
-      <GlowBg centerY={0.05} intensity={0.75} radius={0.35} />
+      <GlowBg centerX={0.85} centerY={0.0} intensity={0.75} radius={0.35} />
       <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
         <View className="flex-1">
           {/* Header */}
@@ -38,17 +57,18 @@ export default function AgeSelectionScreen() {
                 color="rgba(255,255,255,0.5)"
               />
             </Pressable>
-            <ProgressDots total={7} current={3} />
+            <ProgressDots total={totalSteps} current={currentStep} />
             <View className="w-10" />
           </View>
 
           {/* Title + Subtitle */}
           <View className="px-8">
             <Text className="text-center text-3xl font-extrabold tracking-tight text-white">
-              What age range do you fall into?
+              How do you identify?
             </Text>
             <Text className="mt-3 text-center text-sm text-white/60">
-              Select your age range to personalize your journey.
+              This data helps us personalize your mental health journey with
+              supportive, tailored care.
             </Text>
           </View>
 
@@ -60,13 +80,20 @@ export default function AgeSelectionScreen() {
               showsVerticalScrollIndicator={false}
             >
               <View className="mt-8 gap-4">
-                {AGE_OPTIONS.map((option) => (
+                {GENDER_OPTIONS.map((option) => (
                   <SelectionCard
                     key={option.value}
                     label={option.label}
-                    selected={selectedAge === option.value}
-                    onPress={() => setSelectedAge(option.value)}
+                    selected={selectedGender === option.value}
+                    onPress={() => setSelectedGender(option.value)}
                     variant="radio"
+                    icon={
+                      <Ionicons
+                        name={option.icon}
+                        size={20}
+                        color={colors.primary.pink}
+                      />
+                    }
                   />
                 ))}
               </View>
@@ -76,17 +103,21 @@ export default function AgeSelectionScreen() {
           {/* Footer */}
           <View className="z-10 px-8 pb-8">
             <GradientButton
-              onPress={() => router.push('/onboarding/gender-identity')}
-              disabled={selectedAge === null}
+              onPress={() => router.push(nextRoute)}
+              disabled={selectedGender === null}
               icon={<Ionicons name="arrow-forward" size={24} color="white" />}
             >
-              Next
+              Continue
             </GradientButton>
             <View className="mt-3 items-center">
               <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
-                Step 3 of 7
+                Step {currentStep} of {totalSteps}
               </Text>
             </View>
+            <Text className="mt-3 text-center text-xs text-white/30">
+              PHOBIK values your privacy. Your data is encrypted and used only
+              to enhance your experience.
+            </Text>
           </View>
         </View>
       </SafeAreaView>

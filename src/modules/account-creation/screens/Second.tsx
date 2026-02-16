@@ -26,7 +26,7 @@ const principles = [
   },
 ];
 
-export default function OnboardingScreen2() {
+export default function PhilosophyScreen() {
   return (
     <View className="flex-1">
       <GlowBg intensity={0} />
@@ -85,7 +85,7 @@ export default function OnboardingScreen2() {
           {/* Footer */}
           <View className="z-10 px-8 pb-8">
             <GradientButton
-              onPress={() => router.push('/onboarding/age-selection')}
+              onPress={() => router.push('/account-creation/age-selection')}
               icon={<Ionicons name="arrow-forward" size={24} color="white" />}
             >
               Next

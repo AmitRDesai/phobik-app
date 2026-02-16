@@ -3,13 +3,13 @@ import { ProgressDots } from '@/components/ui/ProgressDots';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlowBg } from '../components/GlowBg';
 import { SelectionCard } from '../components/SelectionCard';
-import { type Goal, selectedGoalsAtom } from '../store/onboarding';
+import { type Goal, questionnaireGoalsAtom } from '../store/account-creation';
 
 const GOAL_OPTIONS: {
   value: Goal;
@@ -58,15 +58,22 @@ const GOAL_OPTIONS: {
 ];
 
 export default function GoalSelectionScreen() {
-  const [selectedGoals, setSelectedGoals] = useAtom(selectedGoalsAtom);
+  const [selectedGoals, setSelectedGoals] = useAtom(questionnaireGoalsAtom);
+  const pathname = usePathname();
+  const isProfileSetup = pathname.startsWith('/profile-setup');
+
+  const totalSteps = isProfileSetup ? 5 : 7;
+  const currentStep = isProfileSetup ? 3 : 5;
+  const nextRoute = isProfileSetup
+    ? '/profile-setup/data-security-promise'
+    : '/account-creation/data-security-promise';
 
   const toggleGoal = (goal: Goal) => {
-    setSelectedGoals(async (prev) => {
-      const current = await prev;
-      return current.includes(goal)
-        ? current.filter((g) => g !== goal)
-        : [...current, goal];
-    });
+    setSelectedGoals(
+      selectedGoals.includes(goal)
+        ? selectedGoals.filter((g) => g !== goal)
+        : [...selectedGoals, goal],
+    );
   };
 
   return (
@@ -93,7 +100,7 @@ export default function GoalSelectionScreen() {
               />
             </Pressable>
 
-            <ProgressDots total={7} current={5} />
+            <ProgressDots total={totalSteps} current={currentStep} />
 
             <View className="w-10" />
           </View>
@@ -135,7 +142,7 @@ export default function GoalSelectionScreen() {
           {/* Footer */}
           <View className="z-10 px-8 pb-8">
             <GradientButton
-              onPress={() => router.push('/onboarding/data-security-promise')}
+              onPress={() => router.push(nextRoute)}
               disabled={selectedGoals.length === 0}
               icon={<Ionicons name="arrow-forward" size={24} color="white" />}
             >
@@ -144,7 +151,7 @@ export default function GoalSelectionScreen() {
 
             <View className="mt-3 items-center">
               <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
-                Step 5 of 7
+                Step {currentStep} of {totalSteps}
               </Text>
             </View>
           </View>

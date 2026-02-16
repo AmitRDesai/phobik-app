@@ -1,4 +1,5 @@
 import { authClient, useSession as useBetterAuthSession } from '@/lib/auth';
+import { env } from '@/utils/env';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { router } from 'expo-router';
@@ -45,7 +46,6 @@ export function useSignIn() {
     },
     onSuccess: () => {
       setIsSignedOut(false);
-      // Invalidate session queries to refresh auth state
       queryClient.invalidateQueries({ queryKey: ['session'] });
     },
   });
@@ -71,6 +71,7 @@ export function useSignUp() {
         email,
         password,
         name,
+        callbackURL: `${env.get('APP_SCHEME')}://email-verification`,
       });
 
       if (result.error) {
@@ -80,7 +81,6 @@ export function useSignUp() {
       return result.data;
     },
     onSuccess: () => {
-      // Invalidate session queries to refresh auth state
       queryClient.invalidateQueries({ queryKey: ['session'] });
     },
   });

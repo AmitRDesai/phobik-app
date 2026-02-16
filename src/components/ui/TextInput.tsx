@@ -3,8 +3,8 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
   Pressable,
-  Text,
   TextInput as RNTextInput,
+  Text,
   View,
   type KeyboardTypeOptions,
   type ReturnKeyTypeOptions,
@@ -25,6 +25,7 @@ interface TextInputProps {
   editable?: boolean;
   returnKeyType?: ReturnKeyTypeOptions;
   onSubmitEditing?: () => void;
+  error?: string;
 }
 
 export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
@@ -44,6 +45,7 @@ export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
       editable = true,
       returnKeyType,
       onSubmitEditing,
+      error,
     },
     ref,
   ) {
@@ -51,6 +53,7 @@ export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
     const [hidden, setHidden] = useState(true);
 
     const resolvedIconColor = iconColor ?? 'rgba(255,255,255,0.4)';
+    const hasError = !!error;
 
     return (
       <View className="gap-2">
@@ -63,13 +66,15 @@ export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
         <View
           className="flex-row items-center rounded-full border bg-background-input px-6 py-4"
           style={{
-            borderColor: focused
-              ? colors.primary.pink
-              : 'rgba(255,255,255,0.1)',
-            shadowColor: colors.primary.pink,
+            borderColor: hasError
+              ? colors.red[500]
+              : focused
+                ? colors.primary.pink
+                : 'rgba(255,255,255,0.1)',
+            shadowColor: hasError ? colors.red[500] : colors.primary.pink,
             shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: focused ? 0.3 : 0,
-            shadowRadius: focused ? 8 : 0,
+            shadowOpacity: focused || hasError ? 0.3 : 0,
+            shadowRadius: focused || hasError ? 8 : 0,
           }}
         >
           <Ionicons
@@ -104,6 +109,7 @@ export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
             </Pressable>
           )}
         </View>
+        {hasError && <Text className="px-2 text-xs text-red-400">{error}</Text>}
       </View>
     );
   },

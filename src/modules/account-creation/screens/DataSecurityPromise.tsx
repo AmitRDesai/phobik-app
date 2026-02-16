@@ -5,7 +5,7 @@ import { colors } from '@/constants/colors';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlowBg } from '../components/GlowBg';
@@ -31,6 +31,14 @@ const SECURITY_POINTS = [
 export default function DataSecurityPromiseScreen() {
   const { modal } = useLocalSearchParams<{ modal?: string }>();
   const isModal = modal === 'true';
+  const pathname = usePathname();
+  const isProfileSetup = pathname.startsWith('/profile-setup');
+
+  const totalSteps = isProfileSetup ? 5 : 7;
+  const currentStep = isProfileSetup ? 4 : 6;
+  const nextRoute = isProfileSetup
+    ? '/profile-setup/terms-of-service'
+    : '/account-creation/terms-of-service';
 
   return (
     <View className="flex-1">
@@ -50,7 +58,7 @@ export default function DataSecurityPromiseScreen() {
               />
             </Pressable>
 
-            {!isModal && <ProgressDots total={7} current={6} />}
+            {!isModal && <ProgressDots total={totalSteps} current={currentStep} />}
 
             {/* Empty view for spacing */}
             <View className="w-10" />
@@ -164,7 +172,7 @@ export default function DataSecurityPromiseScreen() {
           <View className="z-10 items-center px-8 pb-8">
             {!isModal && (
               <GradientButton
-                onPress={() => router.push('/onboarding/terms-of-service')}
+                onPress={() => router.push(nextRoute)}
               >
                 Agree and Continue
               </GradientButton>
@@ -179,7 +187,7 @@ export default function DataSecurityPromiseScreen() {
             {!isModal && (
               <>
                 <Text className="mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/30">
-                  Step 6 of 7
+                  Step {currentStep} of {totalSteps}
                 </Text>
 
                 <Pressable className="w-full py-4">

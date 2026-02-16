@@ -1,10 +1,10 @@
 import { authClient, getSession } from '@/lib/auth';
-import { store } from '@/utils/jotai';
 import {
   biometricEnabledAtom,
   biometricPromptShownAtom,
   isSignedOutAtom,
 } from '@/modules/auth/store/biometric';
+import { store } from '@/utils/jotai';
 import { queryClient } from './query-client';
 
 class Session {

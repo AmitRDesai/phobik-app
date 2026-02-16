@@ -10,7 +10,7 @@ import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlowBg } from '../components/GlowBg';
 
-export default function OnboardingScreen1() {
+export default function WelcomeScreen() {
   return (
     <View className="flex-1">
       <GlowBg centerY={0.38} />
@@ -62,7 +62,7 @@ export default function OnboardingScreen1() {
               <ProgressDots total={7} current={1} />
             </View>
             <GradientButton
-              onPress={() => router.push('/onboarding/second')}
+              onPress={() => router.push('/account-creation/second')}
               icon={<Ionicons name="chevron-forward" size={24} color="white" />}
             >
               Next

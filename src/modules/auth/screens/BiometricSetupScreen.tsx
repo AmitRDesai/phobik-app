@@ -1,5 +1,5 @@
 import { BiometricSetup } from '../components/BiometricSetup';
 
 export default function BiometricSetupScreen() {
-  return <BiometricSetup mode="onboarding" />;
+  return <BiometricSetup mode="initial-setup" />;
 }

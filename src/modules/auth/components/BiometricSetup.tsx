@@ -17,7 +17,7 @@ import {
 } from '../store/biometric';
 
 interface BiometricSetupProps {
-  mode: 'onboarding' | 'settings';
+  mode: 'initial-setup' | 'settings';
 }
 
 export function BiometricSetup({ mode }: BiometricSetupProps) {
@@ -36,7 +36,7 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
     if (result.success) {
       setBiometricEnabled(true);
       setBiometricPromptShown(true);
-      if (mode === 'onboarding') {
+      if (mode === 'initial-setup') {
         router.replace('/');
       }
     } else if (result.error !== 'user_cancel') {

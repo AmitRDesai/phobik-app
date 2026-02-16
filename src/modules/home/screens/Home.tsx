@@ -42,7 +42,7 @@ export default function Index() {
       <Text className="text-xl font-bold text-blue-500">
         Welcome to Phobik!
       </Text>
-      <Text className="mt-4 text-gray-600">Onboarding completed</Text>
+      <Text className="mt-4 text-gray-600">You're all set</Text>
       <Pressable onPress={handleSignOut} className="mt-4">
         <Text className="text-blue-500">Sign Out</Text>
       </Pressable>

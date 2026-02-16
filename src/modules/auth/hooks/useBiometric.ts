@@ -1,7 +1,8 @@
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useCallback, useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 
-type BiometricType = 'Face ID' | 'Touch ID' | 'Biometric';
+type BiometricType = 'Face ID' | 'Touch ID' | 'Fingerprint' | 'Biometric';
 
 export function useBiometricAvailability() {
   const [isAvailable, setIsAvailable] = useState(false);
@@ -17,16 +18,17 @@ export function useBiometricAvailability() {
         setIsAvailable(true);
         const types =
           await LocalAuthentication.supportedAuthenticationTypesAsync();
-        if (
-          types.includes(
-            LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
-          )
-        ) {
-          setBiometricType('Face ID');
-        } else if (
-          types.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)
-        ) {
-          setBiometricType('Touch ID');
+        const hasFace = types.includes(
+          LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
+        );
+        const hasFingerprint = types.includes(
+          LocalAuthentication.AuthenticationType.FINGERPRINT,
+        );
+
+        if (Platform.OS === 'ios') {
+          setBiometricType(hasFace ? 'Face ID' : 'Touch ID');
+        } else {
+          setBiometricType(hasFingerprint ? 'Fingerprint' : 'Biometric');
         }
       }
     }

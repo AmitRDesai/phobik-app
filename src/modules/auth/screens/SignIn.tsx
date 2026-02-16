@@ -2,11 +2,12 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { TextInput } from '@/components/ui/TextInput';
 import { colors } from '@/constants/colors';
 import { useSession as useBetterAuthSession } from '@/lib/auth';
+import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom, useStore } from 'jotai';
+import { RESET } from 'jotai/utils';
 import { useRef, useState } from 'react';
-import { dialog } from '@/utils/dialog';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -18,7 +19,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { onboardingCompletedAtom } from '../../onboarding/store/onboarding';
+import { questionnaireAtom } from '../../account-creation/store/account-creation';
 import { useAppleSignIn, useGoogleSignIn, useSignIn } from '../hooks/useAuth';
 import {
   useBiometricAuth,
@@ -32,7 +33,7 @@ export default function SignInScreen() {
 
   const passwordRef = useRef<RNTextInput>(null);
 
-  const onboardingCompleted = useAtomValue(onboardingCompletedAtom);
+  const store = useStore();
   const biometricEnabled = useAtomValue(biometricEnabledAtom);
   const setIsSignedOut = useSetAtom(isSignedOutAtom);
   const signInMutation = useSignIn();
@@ -61,6 +62,18 @@ export default function SignInScreen() {
         title: `${biometricType} Failed`,
         message: 'Please sign in with your credentials.',
       });
+    }
+  };
+
+  const handleSignUp = async () => {
+    const questionnaire = await store.get(questionnaireAtom);
+    if (questionnaire.termsAcceptedAt !== null) {
+      // User completed ALL questions (terms is set in step 7/7), go to create-account
+      router.replace('/auth/create-account');
+    } else {
+      // Hasn't completed flow (or atoms were cleared after account creation) → start fresh
+      store.set(questionnaireAtom, RESET);
+      router.replace('/account-creation');
     }
   };
 
@@ -279,11 +292,7 @@ export default function SignInScreen() {
             </View>
 
             <Pressable
-              onPress={() =>
-                router.replace(
-                  onboardingCompleted ? '/auth/create-account' : '/onboarding',
-                )
-              }
+              onPress={handleSignUp}
               className="mb-8 mt-6 py-2"
               disabled={isLoading}
             >

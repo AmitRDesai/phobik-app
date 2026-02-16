@@ -2,32 +2,77 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
+import { useSaveProfile } from '@/modules/auth/hooks/useProfile';
+import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useSetAtom } from 'jotai';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { router, useLocalSearchParams, usePathname } from 'expo-router';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { RESET } from 'jotai/utils';
+import { useState } from 'react';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlowBg } from '../components/GlowBg';
-import {
-  onboardingCompletedAtom,
-  privacyAcceptedAtom,
-  termsAcceptedAtom,
-} from '../store/onboarding';
+import { questionnaireAtom } from '../store/account-creation';
 
 export default function TermsOfServiceScreen() {
   const { modal } = useLocalSearchParams<{ modal?: string }>();
   const isModal = modal === 'true';
+  const pathname = usePathname();
+  const isProfileSetup = pathname.startsWith('/profile-setup');
 
-  const setTermsAccepted = useSetAtom(termsAcceptedAtom);
-  const setPrivacyAccepted = useSetAtom(privacyAcceptedAtom);
-  const setOnboardingCompleted = useSetAtom(onboardingCompletedAtom);
+  const totalSteps = isProfileSetup ? 5 : 7;
+  const currentStep = isProfileSetup ? 5 : 7;
 
-  const handleAccept = () => {
-    setTermsAccepted(true);
-    setPrivacyAccepted(true);
-    setOnboardingCompleted(true);
-    router.replace('/auth/create-account');
+  const setQuestionnaire = useSetAtom(questionnaireAtom);
+
+  // For profile-setup: read questionnaire values to send to backend
+  const questionnaire = useAtomValue(questionnaireAtom);
+
+  const saveProfile = useSaveProfile();
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleAccept = async () => {
+    const now = new Date().toISOString();
+
+    if (isProfileSetup) {
+      // Profile setup flow: save to backend, navigate home on success
+      setIsSaving(true);
+      try {
+        await saveProfile.mutateAsync({
+          ageRange: questionnaire.age,
+          genderIdentity: questionnaire.gender,
+          goals: questionnaire.goals,
+          termsAcceptedAt: now,
+          privacyAcceptedAt: now,
+        });
+        // Clear local questionnaire data on success only
+        setQuestionnaire(RESET);
+        // Navigation is handled declaratively by Stack.Protected guards in _layout.tsx.
+        // The mutation's onSuccess sets hasProfile: true, which flips the guards automatically.
+      } catch (error) {
+        dialog.error({
+          title: 'Save Failed',
+          message: error instanceof Error ? error.message : 'An error occurred',
+        });
+      } finally {
+        setIsSaving(false);
+      }
+    } else {
+      // Account creation flow: set ISO dates and go to create-account
+      setQuestionnaire((prev) => ({
+        ...prev,
+        termsAcceptedAt: now,
+        privacyAcceptedAt: now,
+      }));
+      router.replace('/auth/create-account');
+    }
   };
 
   return (
@@ -48,7 +93,9 @@ export default function TermsOfServiceScreen() {
               />
             </Pressable>
 
-            {!isModal && <ProgressDots total={7} current={7} />}
+            {!isModal && (
+              <ProgressDots total={totalSteps} current={currentStep} />
+            )}
 
             {/* Empty view for spacing */}
             <View className="w-10" />
@@ -131,17 +178,22 @@ export default function TermsOfServiceScreen() {
 
             {!isModal && (
               <>
-                <GradientButton onPress={handleAccept}>
-                  I Accept the Terms
+                <GradientButton onPress={handleAccept} disabled={isSaving}>
+                  {isSaving ? (
+                    <ActivityIndicator color="white" size="small" />
+                  ) : (
+                    'I Accept the Terms'
+                  )}
                 </GradientButton>
 
                 <Text className="mb-2 mt-6 text-[11px] font-bold tracking-[0.2em] text-white/30">
-                  STEP 7 OF 7
+                  STEP {currentStep} OF {totalSteps}
                 </Text>
 
                 <Pressable
                   onPress={() => router.back()}
                   className="w-full py-4"
+                  disabled={isSaving}
                 >
                   <Text className="text-center text-sm font-semibold text-gray-500">
                     Decline

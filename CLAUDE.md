@@ -102,11 +102,11 @@ src/
     │   ├── components/
     │   ├── hooks/
     │   └── store/
-    └── onboarding/
-        ├── screens/      # Index.tsx, Second.tsx, etc.
-        ├── components/   # ChakraFigure, NebulaBg, ProgressBar, etc.
+    └── account-creation/
+        ├── screens/      # Index.tsx, Second.tsx, AgeSelection.tsx, etc.
+        ├── components/   # ChakraFigure, GlowBg, ProgressBar, etc.
         ├── hooks/
-        └── store/        # onboarding.ts
+        └── store/        # account-creation.ts
 ```
 
 ### Modules Architecture
@@ -119,8 +119,8 @@ The app uses a **modules-based architecture** where feature-specific code is col
 
 **Re-export Pattern**: Route files in `src/app/` are one-liners that re-export from modules:
 ```typescript
-// src/app/onboarding/index.tsx
-export { default } from '@/modules/onboarding/screens/Index';
+// src/app/account-creation/index.tsx
+export { default } from '@/modules/account-creation/screens/Index';
 ```
 
 ### Important Patterns
@@ -128,7 +128,7 @@ export { default } from '@/modules/onboarding/screens/Index';
 1. **Never co-locate non-route files in `src/app/`** - Only layouts and re-exports belong there
 2. **Import conventions**:
    - Use `@/` path aliases for shared code (`@/components/ui/Button`, `@/constants/colors`)
-   - Use relative imports within modules (`../components/NebulaBg`, `../store/onboarding`)
+   - Use relative imports within modules (`../components/GlowBg`, `../store/account-creation`)
 3. **SVG imports** - Custom type declarations in `custom.d.ts` allow importing SVGs as React components
 4. **Environment access** - Use `env.get('API_ENDPOINT')` instead of direct `process.env` access
 5. **New features** - Create a new module under `src/modules/<feature>/` with screens, components, hooks, and store subdirectories as needed
