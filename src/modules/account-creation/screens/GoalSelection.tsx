@@ -7,7 +7,7 @@ import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { GlowBg } from '../components/GlowBg';
+import { GlowBg } from '@/components/ui/GlowBg';
 import { SelectionCard } from '../components/SelectionCard';
 import { type Goal, questionnaireGoalsAtom } from '../store/account-creation';
 

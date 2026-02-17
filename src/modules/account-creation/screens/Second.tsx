@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChakraFigure } from '../components/ChakraFigure';
-import { GlowBg } from '../components/GlowBg';
+import { GlowBg } from '@/components/ui/GlowBg';
 
 const principles = [
   {

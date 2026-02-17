@@ -18,7 +18,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { GlowBg } from '../components/GlowBg';
+import { GlowBg } from '@/components/ui/GlowBg';
 import { questionnaireAtom } from '../store/account-creation';
 
 export default function TermsOfServiceScreen() {

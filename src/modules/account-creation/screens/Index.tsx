@@ -8,7 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Link, router } from 'expo-router';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { GlowBg } from '../components/GlowBg';
+import { GlowBg } from '@/components/ui/GlowBg';
 
 export default function WelcomeScreen() {
   return (

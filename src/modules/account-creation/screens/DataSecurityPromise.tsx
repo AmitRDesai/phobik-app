@@ -8,7 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { GlowBg } from '../components/GlowBg';
+import { GlowBg } from '@/components/ui/GlowBg';
 
 const SECURITY_POINTS = [
   {
