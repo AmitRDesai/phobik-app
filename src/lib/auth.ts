@@ -7,7 +7,7 @@ export const authClient = createAuthClient({
   baseURL: env.get('API_URL'),
   plugins: [
     expoClient({
-      scheme: 'phobik',
+      scheme: env.get('APP_SCHEME'),
       storagePrefix: 'phobik_auth',
       storage: SecureStore,
     }),

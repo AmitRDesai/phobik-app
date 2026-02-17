@@ -35,6 +35,7 @@ export default function SignInScreen() {
 
   const store = useStore();
   const biometricEnabled = useAtomValue(biometricEnabledAtom);
+  const isSignedOut = useAtomValue(isSignedOutAtom);
   const setIsSignedOut = useSetAtom(isSignedOutAtom);
   const signInMutation = useSignIn();
   const googleSignInMutation = useGoogleSignIn();
@@ -56,7 +57,6 @@ export default function SignInScreen() {
     const result = await authenticate(`Use ${biometricType} to sign in`);
     if (result.success) {
       setIsSignedOut(false);
-      router.replace('/');
     } else if (result.error !== 'user_cancel') {
       dialog.error({
         title: `${biometricType} Failed`,
@@ -80,7 +80,6 @@ export default function SignInScreen() {
   const handleSignIn = async () => {
     try {
       await signInMutation.mutateAsync({ email, password });
-      router.replace('/');
     } catch (error) {
       dialog.error({
         title: 'Sign In Failed',
@@ -92,7 +91,6 @@ export default function SignInScreen() {
   const handleGoogleSignIn = async () => {
     try {
       await googleSignInMutation.mutateAsync();
-      router.replace('/');
     } catch (error) {
       dialog.error({
         title: 'Sign In Failed',
@@ -104,7 +102,6 @@ export default function SignInScreen() {
   const handleAppleSignIn = async () => {
     try {
       await appleSignInMutation.mutateAsync();
-      router.replace('/');
     } catch (error: any) {
       if (error.code === 'ERR_REQUEST_CANCELED') return;
       dialog.error({
@@ -186,122 +183,126 @@ export default function SignInScreen() {
                 Tap to sign in with {biometricType}
               </Text>
 
-              <View className="mt-4 flex-row items-center">
-                <View className="h-px flex-1 bg-primary-muted/20" />
-                <Text className="mx-4 text-sm text-primary-muted/50">
-                  or use credentials
-                </Text>
-                <View className="h-px flex-1 bg-primary-muted/20" />
-              </View>
+              {!isSignedOut && (
+                <View className="mt-4 flex-row items-center">
+                  <View className="h-px flex-1 bg-primary-muted/20" />
+                  <Text className="mx-4 text-sm text-primary-muted/50">
+                    or use credentials
+                  </Text>
+                  <View className="h-px flex-1 bg-primary-muted/20" />
+                </View>
+              )}
             </View>
           )}
 
           {/* Form Section */}
-          <View className="px-8 pt-8">
-            <View className="gap-5">
-              <TextInput
-                label="Email Address"
-                placeholder="your@email.com"
-                value={email}
-                onChangeText={setEmail}
-                icon="mail"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                labelUppercase={false}
-                labelColor={`${colors.primary.muted}B3`}
-                iconColor={`${colors.primary.muted}80`}
-                editable={!isLoading}
-                returnKeyType="next"
-                onSubmitEditing={() => passwordRef.current?.focus()}
-              />
-              <TextInput
-                ref={passwordRef}
-                label="Password"
-                placeholder="••••••••"
-                value={password}
-                onChangeText={setPassword}
-                icon="lock-closed"
-                secureTextEntry
-                labelUppercase={false}
-                labelColor={`${colors.primary.muted}B3`}
-                iconColor={`${colors.primary.muted}80`}
-                editable={!isLoading}
-                returnKeyType="done"
-                onSubmitEditing={() => {
-                  if (isValid) handleSignIn();
-                }}
-              />
-            </View>
-
-            <Pressable className="mt-3 self-end" disabled={isLoading}>
-              <Text className="text-sm text-primary-muted/80">
-                Forgot Password?
-              </Text>
-            </Pressable>
-
-            <View className="mt-6">
-              <GradientButton
-                onPress={handleSignIn}
-                disabled={!isValid || isLoading}
-              >
-                {isLoading ? (
-                  <ActivityIndicator color="white" size="small" />
-                ) : (
-                  'Sign In'
-                )}
-              </GradientButton>
-            </View>
-
-            {/* Social Sign In */}
-            <View className="mt-6">
-              <View className="mb-4 flex-row items-center">
-                <View className="h-px flex-1 bg-primary-muted/20" />
-                <Text className="mx-4 text-sm text-primary-muted/50">
-                  or continue with
-                </Text>
-                <View className="h-px flex-1 bg-primary-muted/20" />
+          {!isSignedOut && (
+            <View className="px-8 pt-8">
+              <View className="gap-5">
+                <TextInput
+                  label="Email Address"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChangeText={setEmail}
+                  icon="mail"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  labelUppercase={false}
+                  labelColor={`${colors.primary.muted}B3`}
+                  iconColor={`${colors.primary.muted}80`}
+                  editable={!isLoading}
+                  returnKeyType="next"
+                  onSubmitEditing={() => passwordRef.current?.focus()}
+                />
+                <TextInput
+                  ref={passwordRef}
+                  label="Password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChangeText={setPassword}
+                  icon="lock-closed"
+                  secureTextEntry
+                  labelUppercase={false}
+                  labelColor={`${colors.primary.muted}B3`}
+                  iconColor={`${colors.primary.muted}80`}
+                  editable={!isLoading}
+                  returnKeyType="done"
+                  onSubmitEditing={() => {
+                    if (isValid) handleSignIn();
+                  }}
+                />
               </View>
 
-              <View className="flex-row justify-center gap-4">
-                <Pressable
-                  onPress={handleGoogleSignIn}
-                  disabled={isLoading}
-                  className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
-                >
-                  <Ionicons
-                    name="logo-google"
-                    size={24}
-                    color="rgba(255,255,255,0.8)"
-                  />
-                </Pressable>
+              <Pressable className="mt-3 self-end" disabled={isLoading}>
+                <Text className="text-sm text-primary-muted/80">
+                  Forgot Password?
+                </Text>
+              </Pressable>
 
-                {Platform.OS === 'ios' && (
+              <View className="mt-6">
+                <GradientButton
+                  onPress={handleSignIn}
+                  disabled={!isValid || isLoading}
+                >
+                  {isLoading ? (
+                    <ActivityIndicator color="white" size="small" />
+                  ) : (
+                    'Sign In'
+                  )}
+                </GradientButton>
+              </View>
+
+              {/* Social Sign In */}
+              <View className="mt-6">
+                <View className="mb-4 flex-row items-center">
+                  <View className="h-px flex-1 bg-primary-muted/20" />
+                  <Text className="mx-4 text-sm text-primary-muted/50">
+                    or continue with
+                  </Text>
+                  <View className="h-px flex-1 bg-primary-muted/20" />
+                </View>
+
+                <View className="flex-row justify-center gap-4">
                   <Pressable
-                    onPress={handleAppleSignIn}
+                    onPress={handleGoogleSignIn}
                     disabled={isLoading}
                     className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
                   >
                     <Ionicons
-                      name="logo-apple"
+                      name="logo-google"
                       size={24}
                       color="rgba(255,255,255,0.8)"
                     />
                   </Pressable>
-                )}
-              </View>
-            </View>
 
-            <Pressable
-              onPress={handleSignUp}
-              className="mb-8 mt-6 py-2"
-              disabled={isLoading}
-            >
-              <Text className="text-center text-sm text-primary-muted/60">
-                Don&apos;t have an account?{' '}
-                <Text className="font-bold text-primary-pink">Sign Up</Text>
-              </Text>
-            </Pressable>
-          </View>
+                  {Platform.OS === 'ios' && (
+                    <Pressable
+                      onPress={handleAppleSignIn}
+                      disabled={isLoading}
+                      className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
+                    >
+                      <Ionicons
+                        name="logo-apple"
+                        size={24}
+                        color="rgba(255,255,255,0.8)"
+                      />
+                    </Pressable>
+                  )}
+                </View>
+              </View>
+
+              <Pressable
+                onPress={handleSignUp}
+                className="mb-8 mt-6 py-2"
+                disabled={isLoading}
+              >
+                <Text className="text-center text-sm text-primary-muted/60">
+                  Don&apos;t have an account?{' '}
+                  <Text className="font-bold text-primary-pink">Sign Up</Text>
+                </Text>
+              </Pressable>
+            </View>
+          )}
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

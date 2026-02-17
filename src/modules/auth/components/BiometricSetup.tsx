@@ -1,10 +1,9 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
+import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
 import { useSetAtom } from 'jotai';
-import { dialog } from '@/utils/dialog';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -36,9 +35,6 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
     if (result.success) {
       setBiometricEnabled(true);
       setBiometricPromptShown(true);
-      if (mode === 'initial-setup') {
-        router.replace('/');
-      }
     } else if (result.error !== 'user_cancel') {
       dialog.error({
         title: `${biometricType} Failed`,
@@ -49,7 +45,6 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
 
   const handleSkip = () => {
     setBiometricPromptShown(true);
-    router.replace('/');
   };
 
   if (mode === 'settings') {

@@ -2,7 +2,6 @@ import { authClient, useSession as useBetterAuthSession } from '@/lib/auth';
 import { env } from '@/utils/env';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { router } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
   biometricEnabledAtom,
@@ -110,9 +109,6 @@ export function useSignOut() {
         setBiometricPromptShown(false);
         queryClient.clear();
       }
-    },
-    onSuccess: () => {
-      router.replace('/auth/sign-in');
     },
   });
 }

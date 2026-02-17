@@ -5,10 +5,10 @@ import { dialog } from '@/utils/dialog';
 import { env } from '@/utils/env';
 import { Ionicons } from '@expo/vector-icons';
 import * as IntentLauncher from 'expo-intent-launcher';
-import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  AppState,
   Linking,
   Platform,
   Pressable,
@@ -22,7 +22,6 @@ const RESEND_COOLDOWN_SECONDS = 60;
 export default function EmailVerificationScreen() {
   const { data: session } = useSession();
   const email = session?.user?.email ?? '';
-
   const [resendCooldown, setResendCooldown] = useState(0);
   const [isSending, setIsSending] = useState(false);
   const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -47,21 +46,27 @@ export default function EmailVerificationScreen() {
     };
   }, [resendCooldown]);
 
-  // When app returns to foreground, refetch session to check if email was verified
-  useFocusEffect(
-    useCallback(() => {
-      getSession({ query: { disableCookieCache: true } })
-        .then((result) => {
-          if (result.data?.user?.emailVerified) {
-            dialog.info({
-              title: 'Email Verified',
-              message: 'Your email has been verified successfully.',
-            });
-          }
-        })
-        .catch(console.error);
-    }, []),
-  );
+  const checkVerification = useCallback(async () => {
+    try {
+      const result = await getSession({ query: { disableCookieCache: true } });
+      if (result.data?.user?.emailVerified) {
+        dialog.info({
+          title: 'Email Verified',
+          message: 'Your email has been verified successfully.',
+        });
+      }
+    } catch {
+      // Ignore — guard will re-evaluate on next session refresh
+    }
+  }, []);
+
+  // Foreground return — detect when user switches back to app
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') checkVerification();
+    });
+    return () => sub.remove();
+  }, [checkVerification]);
 
   const handleOpenEmail = useCallback(() => {
     if (Platform.OS === 'ios') {
