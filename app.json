@@ -12,7 +12,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.phobik.app",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "LSApplicationQueriesSchemes": ["message", "mailto"]
       }
     },
     "android": {

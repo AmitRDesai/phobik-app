@@ -68,12 +68,31 @@ export default function EmailVerificationScreen() {
     return () => sub.remove();
   }, [checkVerification]);
 
-  const handleOpenEmail = useCallback(() => {
+  const handleOpenEmail = useCallback(async () => {
     if (Platform.OS === 'ios') {
-      Linking.openURL('message://');
+      try {
+        const canOpen = await Linking.canOpenURL('message://');
+        if (canOpen) {
+          await Linking.openURL('message://');
+          return;
+        }
+        const canOpenMailto = await Linking.canOpenURL('mailto:');
+        if (canOpenMailto) {
+          await Linking.openURL('mailto:');
+          return;
+        }
+      } catch {
+        // Scheme query failed — fall through to dialog
+      }
+      dialog.info({
+        title: 'No Email App',
+        message:
+          'No email app is available on this device. Please open your email manually.',
+      });
     } else {
       IntentLauncher.startActivityAsync('android.intent.action.MAIN', {
         category: 'android.intent.category.APP_EMAIL',
+        flags: 268435456, // FLAG_ACTIVITY_NEW_TASK
       });
     }
   }, []);
