@@ -20,6 +20,7 @@ module.exports = {
           dark: '#050505',
           charcoal: '#121212',
           input: '#1a1a1a',
+          onboarding: '#1a0b12',
         },
         aura: {
           toggle: '#492236',

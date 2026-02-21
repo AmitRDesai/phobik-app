@@ -58,7 +58,9 @@ export default function DataSecurityPromiseScreen() {
               />
             </Pressable>
 
-            {!isModal && <ProgressDots total={totalSteps} current={currentStep} />}
+            {!isModal && (
+              <ProgressDots total={totalSteps} current={currentStep} />
+            )}
 
             {/* Empty view for spacing */}
             <View className="w-10" />
@@ -171,9 +173,7 @@ export default function DataSecurityPromiseScreen() {
           {/* Footer */}
           <View className="z-10 items-center px-8 pb-8">
             {!isModal && (
-              <GradientButton
-                onPress={() => router.push(nextRoute)}
-              >
+              <GradientButton onPress={() => router.push(nextRoute)}>
                 Agree and Continue
               </GradientButton>
             )}

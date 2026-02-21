@@ -6,14 +6,15 @@ const FADE_HEIGHT = 64;
 
 interface ScrollFadeProps {
   children: React.ReactNode;
+  fadeColor?: string;
 }
 
-export function ScrollFade({ children }: ScrollFadeProps) {
+export function ScrollFade({ children, fadeColor }: ScrollFadeProps) {
   return (
     <View className="relative flex-1">
       {children}
       <LinearGradient
-        colors={['transparent', colors.background.dark]}
+        colors={['transparent', fadeColor ?? colors.background.dark]}
         style={styles.fade}
         pointerEvents="none"
       />

@@ -2,6 +2,7 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { dialog } from '@/utils/dialog';
 import { File as ExpoFile } from 'expo-file-system';
+import { router } from 'expo-router';
 import { useAtom } from 'jotai';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -53,7 +54,7 @@ export default function AuraPictureSetup() {
       const file = new ExpoFile(imageUri);
       const base64 = await file.base64();
       await uploadMutation.mutateAsync({ base64, mimeType: file.type });
-      // TODO: navigate to next onboarding screen
+      router.push('/onboarding/welcome');
     } catch (error) {
       console.error(error);
       await dialog.error({
@@ -64,7 +65,7 @@ export default function AuraPictureSetup() {
   };
 
   const handleSkip = () => {
-    // TODO: navigate to next onboarding screen
+    router.push('/onboarding/welcome');
   };
 
   return (

@@ -23,6 +23,8 @@ interface GlowBgProps {
   startColor?: string;
   /** Gradient end color. Default: colors.primary.pink */
   endColor?: string;
+  /** Background className override. Default: "bg-background-dark" */
+  bgClassName?: string;
 }
 
 export function GlowBg({
@@ -32,6 +34,7 @@ export function GlowBg({
   radius = 0.4,
   startColor = colors.chakra.orange,
   endColor = colors.primary.pink,
+  bgClassName = 'bg-background-dark',
 }: GlowBgProps) {
   const { width, height } = useWindowDimensions();
   const glowSize = Math.max(width, height);
@@ -39,7 +42,7 @@ export function GlowBg({
   const cy = height * centerYFraction;
 
   return (
-    <View className="absolute inset-0 bg-background-dark">
+    <View className={`absolute inset-0 ${bgClassName}`}>
       {intensity > 0 && (
         <Svg width={width} height={height} style={StyleSheet.absoluteFill}>
           <Defs>

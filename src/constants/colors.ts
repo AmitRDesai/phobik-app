@@ -20,6 +20,7 @@ type CustomColors = {
     dark: string;
     charcoal: string;
     input: string;
+    onboarding: string;
   };
   aura: {
     toggle: string;
