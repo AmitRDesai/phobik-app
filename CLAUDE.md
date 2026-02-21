@@ -118,6 +118,7 @@ The app uses a **modules-based architecture** where feature-specific code is col
 - **`src/components/`, `src/store/`, etc.** contain only SHARED code used across multiple modules
 
 **Re-export Pattern**: Route files in `src/app/` are one-liners that re-export from modules:
+
 ```typescript
 // src/app/account-creation/index.tsx
 export { default } from '@/modules/account-creation/screens/Index';
@@ -136,13 +137,21 @@ export { default } from '@/modules/account-creation/screens/Index';
    ```typescript
    import { dialog } from '@/utils/dialog';
    // Error/info — returns a promise with the button value
-   const result = await dialog.error({ title: 'Oops', message: 'Something failed.' });
-   const result = await dialog.info({ title: 'Tip', message: 'Swipe to dismiss.' });
+   const result = await dialog.error({
+     title: 'Oops',
+     message: 'Something failed.',
+   });
+   const result = await dialog.info({
+     title: 'Tip',
+     message: 'Swipe to dismiss.',
+   });
    // Loading — returns a close function
    const close = dialog.loading({ message: 'Saving...' });
    // Custom component inside the sheet
    await dialog.open({ component: MyForm, props: { userId } });
    ```
+
+7. **Design HTML references** - When design references include HTML code (`code.html`), extract exact colors, spacing, border-radius, and font sizes from the HTML/CSS rather than guessing. Map HTML colors to existing Tailwind/colors.ts values where possible; add new color tokens when no match exists.
 
 ## Platform Support
 

@@ -21,6 +21,10 @@ module.exports = {
           charcoal: '#121212',
           input: '#1a1a1a',
         },
+        aura: {
+          toggle: '#492236',
+          border: '#68314d',
+        },
         chakra: {
           'pink-light': '#FFB8D9',
           'pink-deep': '#FF2D85',

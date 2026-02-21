@@ -10,8 +10,13 @@ const link = new RPCLink({
     const cookies = authClient.getCookie();
     return cookies ? { Cookie: cookies } : {};
   },
-  fetch: (request, init) => {
-    return globalThis.fetch(request, {
+  async fetch(request, init) {
+    const { fetch } = await import('expo/fetch');
+    return fetch(request.url, {
+      body: await request.blob(),
+      headers: request.headers,
+      method: request.method,
+      signal: request.signal,
       ...init,
       credentials: 'omit',
     });

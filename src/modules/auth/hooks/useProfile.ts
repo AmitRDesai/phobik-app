@@ -20,6 +20,7 @@ export function useSaveProfile() {
         orpc.profile.getProfileStatus.key({ type: 'query' }),
         {
           hasProfile: true,
+          onboardingCompleted: false,
         },
       );
     },

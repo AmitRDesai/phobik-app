@@ -21,6 +21,10 @@ type CustomColors = {
     charcoal: string;
     input: string;
   };
+  aura: {
+    toggle: string;
+    border: string;
+  };
   chakra: {
     'pink-light': string;
     'pink-deep': string;

@@ -38,6 +38,7 @@ const useAppInitializer = () => {
   const { data: profileStatus, isPending: isProfileChecking } =
     useProfileStatus(isAuthenticated);
   const hasProfile = profileStatus?.hasProfile ?? false;
+  const onboardingCompleted = profileStatus?.onboardingCompleted ?? false;
   const saveProfile = useSaveProfile();
   const store = useStore();
 
@@ -76,6 +77,7 @@ const useAppInitializer = () => {
 
   const needsEmailVerification = isAuthenticated && !emailVerified;
   const needsProfileSetup = isAuthenticated && !hasProfile;
+  const needsOnboarding = isAuthenticated && hasProfile && !onboardingCompleted;
   const needsBiometricSetup =
     isAuthenticated && !biometricPromptShown && biometricAvailable;
 
@@ -83,6 +85,7 @@ const useAppInitializer = () => {
     isAuthenticated,
     needsBiometricSetup,
     needsProfileSetup,
+    needsOnboarding,
     needsEmailVerification,
     isReady,
     isLoading,

@@ -27,6 +27,7 @@ function RootNavigator() {
     isAuthenticated,
     needsBiometricSetup,
     needsProfileSetup,
+    needsOnboarding,
     needsEmailVerification,
     isLoading,
     isReady,
@@ -58,10 +59,20 @@ function RootNavigator() {
         <Stack.Screen name="profile-setup" />
       </Stack.Protected>
 
+      {/* Onboarding - after profile setup, before biometric */}
+      <Stack.Protected
+        guard={needsOnboarding && !needsProfileSetup && !needsEmailVerification}
+      >
+        <Stack.Screen name="onboarding" />
+      </Stack.Protected>
+
       {/* Biometric setup - one-time after first auth */}
       <Stack.Protected
         guard={
-          needsBiometricSetup && !needsProfileSetup && !needsEmailVerification
+          needsBiometricSetup &&
+          !needsOnboarding &&
+          !needsProfileSetup &&
+          !needsEmailVerification
         }
       >
         <Stack.Screen name="biometric-setup" />
@@ -72,6 +83,7 @@ function RootNavigator() {
         guard={
           isAuthenticated &&
           !needsBiometricSetup &&
+          !needsOnboarding &&
           !needsProfileSetup &&
           !needsEmailVerification
         }
