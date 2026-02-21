@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
-import { Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -15,6 +15,7 @@ interface GradientButtonProps {
   children: React.ReactNode;
   icon?: React.ReactNode;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 export function GradientButton({
@@ -22,8 +23,10 @@ export function GradientButton({
   children,
   icon,
   disabled,
+  loading,
 }: GradientButtonProps) {
   const scale = useSharedValue(1);
+  const isInteractionDisabled = disabled || loading;
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -31,6 +34,7 @@ export function GradientButton({
   }));
 
   const handlePressIn = () => {
+    if (loading) return;
     scale.value = withSpring(0.95, {
       damping: 15,
       stiffness: 300,
@@ -39,6 +43,7 @@ export function GradientButton({
   };
 
   const handlePressOut = () => {
+    if (loading) return;
     scale.value = withSpring(1, {
       damping: 15,
       stiffness: 300,
@@ -50,7 +55,7 @@ export function GradientButton({
       onPress={onPress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
-      disabled={disabled}
+      disabled={isInteractionDisabled}
       style={animatedStyle}
       className="w-full"
     >
@@ -62,6 +67,8 @@ export function GradientButton({
           borderRadius: 9999,
           paddingHorizontal: 32,
           paddingVertical: 16,
+          minHeight: 56,
+          justifyContent: 'center',
           shadowColor: colors.primary.pink,
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.5,
@@ -69,12 +76,16 @@ export function GradientButton({
           elevation: 8,
         }}
       >
-        <View className="flex-row items-center justify-center gap-2">
-          <Text className="text-center text-lg font-bold text-white">
-            {children}
-          </Text>
-          {icon}
-        </View>
+        {loading ? (
+          <ActivityIndicator color="white" size="small" />
+        ) : (
+          <View className="flex-row items-center justify-center gap-2">
+            <Text className="text-center text-lg font-bold text-white">
+              {children}
+            </Text>
+            {icon}
+          </View>
+        )}
       </LinearGradient>
     </AnimatedPressable>
   );

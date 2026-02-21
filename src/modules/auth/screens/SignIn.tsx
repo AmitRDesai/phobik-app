@@ -9,7 +9,6 @@ import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useRef, useState } from 'react';
 import {
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -242,13 +241,10 @@ export default function SignInScreen() {
               <View className="mt-6">
                 <GradientButton
                   onPress={handleSignIn}
-                  disabled={!isValid || isLoading}
+                  disabled={!isValid}
+                  loading={isLoading}
                 >
-                  {isLoading ? (
-                    <ActivityIndicator color="white" size="small" />
-                  ) : (
-                    'Sign In'
-                  )}
+                  Sign In
                 </GradientButton>
               </View>
 

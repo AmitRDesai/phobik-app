@@ -13,8 +13,32 @@ import { isReturningUserAtom } from '@/store/user';
 import * as SplashScreen from 'expo-splash-screen';
 import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../../global.css';
+
+type ActiveStack =
+  | 'auth'
+  | 'email-verification'
+  | 'profile-setup'
+  | 'onboarding'
+  | 'biometric-setup'
+  | 'home';
+
+function computeActiveStack(
+  isAuthenticated: boolean,
+  hasProfile: boolean,
+  emailVerified: boolean,
+  onboardingCompleted: boolean,
+  biometricPromptShown: boolean,
+  biometricAvailable: boolean,
+): ActiveStack {
+  if (!isAuthenticated) return 'auth';
+  if (!hasProfile) return 'profile-setup';
+  if (!emailVerified) return 'email-verification';
+  if (!onboardingCompleted) return 'onboarding';
+  if (!biometricPromptShown && biometricAvailable) return 'biometric-setup';
+  return 'home';
+}
 
 const useAppInitializer = () => {
   const { data: session, isPending: isSessionLoading } = useSession();
@@ -23,7 +47,7 @@ const useAppInitializer = () => {
   const setIsReturningUser = useSetAtom(isReturningUserAtom);
   const biometricPromptShown = useAtomValue(biometricPromptShownAtom);
   const { isAvailable: biometricAvailable } = useBiometricAvailability();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isReady, setIsReady] = useState(false);
 
   const hasSession = !!session?.session;
   const isAuthenticated = hasSession && !isSignedOut;
@@ -66,30 +90,37 @@ const useAppInitializer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, isProfileChecking, hasProfile]);
 
-  const isReady = !isSessionLoading && (!isAuthenticated || !isProfileChecking);
+  const dataResolved =
+    !isSessionLoading && (!isAuthenticated || !isProfileChecking);
 
   useEffect(() => {
-    if (isReady) {
+    if (dataResolved) {
       SplashScreen.hideAsync();
-      setIsLoading(false);
+      setIsReady(true);
     }
-  }, [isReady]);
+  }, [dataResolved]);
 
-  const needsEmailVerification = isAuthenticated && !emailVerified;
-  const needsProfileSetup = isAuthenticated && !hasProfile;
-  const needsOnboarding = isAuthenticated && hasProfile && !onboardingCompleted;
-  const needsBiometricSetup =
-    isAuthenticated && !biometricPromptShown && biometricAvailable;
+  const rawActiveStack = computeActiveStack(
+    isAuthenticated,
+    hasProfile,
+    emailVerified,
+    onboardingCompleted,
+    biometricPromptShown,
+    biometricAvailable,
+  );
+
+  // Only emit activeStack once data resolves — holds the initial value until ready
+  const activeStackRef = useRef(rawActiveStack);
+  if (dataResolved) {
+    activeStackRef.current = rawActiveStack;
+  }
+  const activeStack = activeStackRef.current;
 
   return {
-    isAuthenticated,
-    needsBiometricSetup,
-    needsProfileSetup,
-    needsOnboarding,
-    needsEmailVerification,
+    activeStack,
     isReady,
-    isLoading,
   };
 };
 
+export type { ActiveStack };
 export default useAppInitializer;

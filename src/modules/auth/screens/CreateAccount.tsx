@@ -9,7 +9,6 @@ import { useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useRef, useState } from 'react';
 import {
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -247,13 +246,10 @@ export default function CreateAccountScreen() {
             <View className="mt-8">
               <GradientButton
                 onPress={handleCreateAccount}
-                disabled={!isValid || isLoading}
+                disabled={!isValid}
+                loading={isLoading}
               >
-                {isLoading ? (
-                  <ActivityIndicator color="white" size="small" />
-                ) : (
-                  'Create Account'
-                )}
+                Create Account
               </GradientButton>
             </View>
 

@@ -1,5 +1,4 @@
 import { DialogContainer } from '@/components/ui/DialogContainer';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { colors } from '@/constants/colors';
 import useAppInitializer from '@/hooks/useAppInitializer';
 import { asyncStoragePersister, queryClient } from '@/utils/query-client';
@@ -23,18 +22,9 @@ export default function RootLayout() {
 }
 
 function RootNavigator() {
-  const {
-    isAuthenticated,
-    needsBiometricSetup,
-    needsProfileSetup,
-    needsOnboarding,
-    needsEmailVerification,
-    isLoading,
-    isReady,
-  } = useAppInitializer();
+  const { activeStack, isReady } = useAppInitializer();
 
-  if (isLoading) return null;
-  if (!isReady) return <LoadingScreen />;
+  if (!isReady) return null;
 
   return (
     <Stack
@@ -44,50 +34,33 @@ function RootNavigator() {
       }}
     >
       {/* Auth screens - unauthenticated or soft-signed-out */}
-      <Stack.Protected guard={!isAuthenticated}>
+      <Stack.Protected guard={activeStack === 'auth'}>
         <Stack.Screen name="auth" />
         <Stack.Screen name="account-creation" />
       </Stack.Protected>
 
       {/* Email verification - after signup, before profile/biometric/home */}
-      <Stack.Protected guard={needsEmailVerification && !needsProfileSetup}>
+      <Stack.Protected guard={activeStack === 'email-verification'}>
         <Stack.Screen name="email-verification" />
       </Stack.Protected>
 
       {/* Profile setup - social auth users without profile */}
-      <Stack.Protected guard={needsProfileSetup}>
+      <Stack.Protected guard={activeStack === 'profile-setup'}>
         <Stack.Screen name="profile-setup" />
       </Stack.Protected>
 
       {/* Onboarding - after profile setup, before biometric */}
-      <Stack.Protected
-        guard={needsOnboarding && !needsProfileSetup && !needsEmailVerification}
-      >
+      <Stack.Protected guard={activeStack === 'onboarding'}>
         <Stack.Screen name="onboarding" />
       </Stack.Protected>
 
       {/* Biometric setup - one-time after first auth */}
-      <Stack.Protected
-        guard={
-          needsBiometricSetup &&
-          !needsOnboarding &&
-          !needsProfileSetup &&
-          !needsEmailVerification
-        }
-      >
+      <Stack.Protected guard={activeStack === 'biometric-setup'}>
         <Stack.Screen name="biometric-setup" />
       </Stack.Protected>
 
       {/* Main app */}
-      <Stack.Protected
-        guard={
-          isAuthenticated &&
-          !needsBiometricSetup &&
-          !needsOnboarding &&
-          !needsProfileSetup &&
-          !needsEmailVerification
-        }
-      >
+      <Stack.Protected guard={activeStack === 'home'}>
         <Stack.Screen name="index" />
       </Stack.Protected>
     </Stack>

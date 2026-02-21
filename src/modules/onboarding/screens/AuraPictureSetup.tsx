@@ -49,16 +49,13 @@ export default function AuraPictureSetup() {
       return;
     }
 
-    const dismiss = dialog.loading({ message: 'Uploading your photo...' });
     try {
       const file = new ExpoFile(imageUri);
       const base64 = await file.base64();
       await uploadMutation.mutateAsync({ base64, mimeType: file.type });
-      dismiss();
       // TODO: navigate to next onboarding screen
     } catch (error) {
       console.error(error);
-      dismiss();
       await dialog.error({
         title: 'Upload Failed',
         message: 'Something went wrong uploading your photo. Please try again.',
@@ -111,7 +108,12 @@ export default function AuraPictureSetup() {
 
           {/* Footer */}
           <View className="mt-auto px-8 pb-10">
-            <GradientButton onPress={handleConfirm}>Looks Great</GradientButton>
+            <GradientButton
+              onPress={handleConfirm}
+              loading={uploadMutation.isPending}
+            >
+              Looks Great
+            </GradientButton>
             <Pressable onPress={handleSkip} className="mt-4 py-3">
               <Text className="text-center text-base font-medium text-primary-muted">
                 Maybe Later

@@ -10,13 +10,7 @@ import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useState } from 'react';
-import {
-  ActivityIndicator,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { questionnaireAtom } from '../store/account-creation';
@@ -178,12 +172,8 @@ export default function TermsOfServiceScreen() {
 
             {!isModal && (
               <>
-                <GradientButton onPress={handleAccept} disabled={isSaving}>
-                  {isSaving ? (
-                    <ActivityIndicator color="white" size="small" />
-                  ) : (
-                    'I Accept the Terms'
-                  )}
+                <GradientButton onPress={handleAccept} loading={isSaving}>
+                  I Accept the Terms
                 </GradientButton>
 
                 <Text className="mb-2 mt-6 text-[11px] font-bold tracking-[0.2em] text-white/30">
