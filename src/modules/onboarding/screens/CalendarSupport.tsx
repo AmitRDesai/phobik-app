@@ -1,24 +1,30 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { SelectionCard } from '@/modules/account-creation/components/SelectionCard';
+import { useCalendarPermission } from '@/modules/calendar/hooks/useCalendarPermission';
+import {
+  calendarConnectedAtom,
+  checkInTimingAtom,
+  selectedCalendarIdsAtom,
+  supportToneAtom,
+} from '@/modules/calendar/store/calendar';
+import type { CheckInTiming, SupportTone } from '@/modules/calendar/types';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { BlurView } from 'expo-blur';
+import { PermissionStatus } from 'expo-calendar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
-import { Pressable, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Linking,
+  Pressable,
+  Text,
+  View,
+} from 'react-native';
 import { OnboardingLayout } from '../components/OnboardingLayout';
 import { SegmentedControl } from '../components/SegmentedControl';
-import {
-  onboardingCalendarConnectedAtom,
-  onboardingCalendarTypesAtom,
-  onboardingCheckInTimingAtom,
-  onboardingSupportToneAtom,
-  type CalendarType,
-  type CheckInTiming,
-  type SupportTone,
-} from '../store/onboarding';
 
 const TIMING_OPTIONS: { label: string; value: CheckInTiming }[] = [
   { label: '2 Days', value: '2-days' },
@@ -49,21 +55,29 @@ const TONE_OPTIONS: {
 ];
 
 export default function CalendarSupport() {
-  const [connected, setConnected] = useAtom(onboardingCalendarConnectedAtom);
-  const [calendarTypes, setCalendarTypes] = useAtom(
-    onboardingCalendarTypesAtom,
-  );
-  const [checkInTiming, setCheckInTiming] = useAtom(
-    onboardingCheckInTimingAtom,
-  );
-  const [supportTone, setSupportTone] = useAtom(onboardingSupportToneAtom);
+  const [connected, setConnected] = useAtom(calendarConnectedAtom);
+  const [selectedIds, setSelectedIds] = useAtom(selectedCalendarIdsAtom);
+  const [checkInTiming, setCheckInTiming] = useAtom(checkInTimingAtom);
+  const [supportTone, setSupportTone] = useAtom(supportToneAtom);
 
-  const toggleCalendarType = (type: CalendarType) => {
-    setCalendarTypes(
-      calendarTypes.includes(type)
-        ? calendarTypes.filter((t) => t !== type)
-        : [...calendarTypes, type],
+  const { calendars, status, requestPermission, loading } =
+    useCalendarPermission();
+
+  const denied = status === PermissionStatus.DENIED;
+
+  const toggleCalendar = (stableId: string) => {
+    setSelectedIds(
+      selectedIds.includes(stableId)
+        ? selectedIds.filter((i) => i !== stableId)
+        : [...selectedIds, stableId],
     );
+  };
+
+  const handleConnect = async () => {
+    const permStatus = await requestPermission();
+    if (permStatus === PermissionStatus.GRANTED) {
+      setConnected(true);
+    }
   };
 
   return (
@@ -123,10 +137,11 @@ export default function CalendarSupport() {
             </Text>
           </View>
 
-          {!connected && (
+          {!connected && !denied && (
             <>
               <GradientButton
-                onPress={() => setConnected(true)}
+                onPress={handleConnect}
+                loading={loading}
                 icon={
                   <MaterialIcons
                     name="calendar-today"
@@ -146,13 +161,35 @@ export default function CalendarSupport() {
               </Pressable>
             </>
           )}
+
+          {!connected && denied && (
+            <View className="gap-3">
+              <Text className="text-sm leading-relaxed text-white/60">
+                Calendar access was denied. You can enable it in your device
+                settings to let Phobik prepare you for stressful events.
+              </Text>
+              <GradientButton
+                onPress={() => Linking.openSettings()}
+                icon={<MaterialIcons name="settings" size={18} color="white" />}
+              >
+                Open Settings
+              </GradientButton>
+              <Pressable
+                onPress={() => router.push('/onboarding/privacy-trust')}
+              >
+                <Text className="text-center text-sm font-medium text-white/40">
+                  Skip for now
+                </Text>
+              </Pressable>
+            </View>
+          )}
         </View>
       </View>
 
       {/* Post-connect sections */}
       {connected && (
         <View className="gap-6">
-          {/* Calendar types */}
+          {/* Calendar list from device */}
           <View>
             <View className="mb-3 flex-row items-center gap-2">
               <MaterialIcons
@@ -164,51 +201,64 @@ export default function CalendarSupport() {
                 Which calendars to watch?
               </Text>
             </View>
-            <View className="gap-2">
-              {[
-                {
-                  type: 'work' as CalendarType,
-                  label: 'Work',
-                  color: '#3b82f6',
-                },
-                {
-                  type: 'personal' as CalendarType,
-                  label: 'Personal',
-                  color: '#22c55e',
-                },
-              ].map((cal) => {
-                const isSelected = calendarTypes.includes(cal.type);
-                return (
-                  <Pressable
-                    key={cal.type}
-                    onPress={() => toggleCalendarType(cal.type)}
-                  >
-                    <View className="flex-row items-center justify-between rounded-xl border border-white/5 bg-white/5 p-4">
-                      <View className="flex-row items-center gap-3">
+            {calendars.length === 0 ? (
+              <View className="items-center rounded-xl border border-white/5 bg-white/5 p-6">
+                <ActivityIndicator color={colors.primary.pink} />
+                <Text className="mt-2 text-sm text-white/40">
+                  Loading calendars...
+                </Text>
+              </View>
+            ) : (
+              <View className="gap-2">
+                {calendars.map((cal) => {
+                  const isSelected = selectedIds.includes(cal.stableId);
+                  return (
+                    <Pressable
+                      key={cal.stableId}
+                      onPress={() => toggleCalendar(cal.stableId)}
+                    >
+                      <View className="flex-row items-center justify-between rounded-xl border border-white/5 bg-white/5 p-4">
+                        <View className="flex-1 flex-row items-center gap-3">
+                          <View
+                            className="h-3 w-3 rounded-full"
+                            style={{ backgroundColor: cal.color }}
+                          />
+                          <View className="flex-1">
+                            <Text
+                              className="font-medium text-white"
+                              numberOfLines={1}
+                            >
+                              {cal.title}
+                            </Text>
+                            <Text
+                              className="text-xs text-white/40"
+                              numberOfLines={1}
+                            >
+                              {cal.sourceName}
+                            </Text>
+                          </View>
+                        </View>
                         <View
-                          className="h-3 w-3 rounded-full"
-                          style={{ backgroundColor: cal.color }}
-                        />
-                        <Text className="font-medium text-white">
-                          {cal.label}
-                        </Text>
+                          className={`h-6 w-6 items-center justify-center rounded-full ${
+                            isSelected
+                              ? 'bg-primary-pink'
+                              : 'border-2 border-white/20'
+                          }`}
+                        >
+                          {isSelected && (
+                            <MaterialIcons
+                              name="check"
+                              size={16}
+                              color="white"
+                            />
+                          )}
+                        </View>
                       </View>
-                      <View
-                        className={`h-6 w-6 items-center justify-center rounded-full ${
-                          isSelected
-                            ? 'bg-primary-pink'
-                            : 'border-2 border-white/20'
-                        }`}
-                      >
-                        {isSelected && (
-                          <MaterialIcons name="check" size={16} color="white" />
-                        )}
-                      </View>
-                    </View>
-                  </Pressable>
-                );
-              })}
-            </View>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            )}
           </View>
 
           {/* Check-in timing */}

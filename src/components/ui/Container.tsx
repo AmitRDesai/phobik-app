@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { PropsWithChildren } from 'react';
-import { KeyboardAvoidingView, View } from 'react-native';
+import { View } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type ContainerProps = PropsWithChildren<{

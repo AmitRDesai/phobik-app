@@ -1,5 +1,13 @@
+import { useSaveCalendarPrefs } from '@/modules/calendar/hooks/useSaveCalendarPrefs';
+import {
+  calendarConnectedAtom,
+  checkInTimingAtom,
+  selectedCalendarIdsAtom,
+  supportToneAtom,
+} from '@/modules/calendar/store/calendar';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useAtomValue } from 'jotai';
 import { Pressable, Text, View } from 'react-native';
 import { OnboardingLayout } from '../components/OnboardingLayout';
 
@@ -30,6 +38,25 @@ const PRIVACY_FEATURES: {
 ];
 
 export default function PrivacyTrust() {
+  const calendarConnected = useAtomValue(calendarConnectedAtom);
+  const selectedCalendarIds = useAtomValue(selectedCalendarIdsAtom);
+  const checkInTiming = useAtomValue(checkInTimingAtom);
+  const supportTone = useAtomValue(supportToneAtom);
+
+  const saveCalendarPrefs = useSaveCalendarPrefs();
+
+  const handleContinue = () => {
+    if (calendarConnected) {
+      saveCalendarPrefs.mutate({
+        calendarConnected,
+        selectedCalendarIds,
+        checkInTiming,
+        supportTone,
+      });
+    }
+    router.push('/onboarding/completion');
+  };
+
   return (
     <OnboardingLayout
       step={7}
@@ -39,7 +66,7 @@ export default function PrivacyTrust() {
       subtitleClassName="mt-3 text-base font-normal leading-relaxed text-white/60 text-center"
       onBack={() => router.back()}
       buttonLabel="Continue"
-      onButtonPress={() => router.push('/onboarding/completion')}
+      onButtonPress={handleContinue}
       scrollable={true}
       headerContent={
         <View className="items-center pb-2">

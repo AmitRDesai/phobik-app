@@ -5,19 +5,24 @@ import { asyncStoragePersister, queryClient } from '@/utils/query-client';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { SystemBars } from 'react-native-edge-to-edge';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 import '../../global.css';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{ persister: asyncStoragePersister }}
-    >
-      <RootNavigator />
-      <DialogContainer />
-    </PersistQueryClientProvider>
+    <KeyboardProvider>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister: asyncStoragePersister }}
+      >
+        <RootNavigator />
+        <DialogContainer />
+        <SystemBars style="light" />
+      </PersistQueryClientProvider>
+    </KeyboardProvider>
   );
 }
 

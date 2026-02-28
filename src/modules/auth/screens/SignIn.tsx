@@ -9,7 +9,6 @@ import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useRef, useState } from 'react';
 import {
-  KeyboardAvoidingView,
   Platform,
   Pressable,
   TextInput as RNTextInput,
@@ -17,6 +16,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { questionnaireAtom } from '../../account-creation/store/account-creation';
 import { useAppleSignIn, useGoogleSignIn, useSignIn } from '../hooks/useAuth';
@@ -112,10 +112,7 @@ export default function SignInScreen() {
 
   return (
     <SafeAreaView edges={['bottom']} className="flex-1 bg-background-dark">
-      <KeyboardAvoidingView
-        className="flex-1"
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
+      <KeyboardAvoidingView className="flex-1" behavior="padding">
         <ScrollView
           className="flex-1"
           contentContainerClassName="grow justify-center"

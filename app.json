@@ -23,7 +23,6 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "softwareKeyboardLayoutMode": "pan",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.phobik.app"
@@ -53,6 +52,12 @@
         "expo-local-authentication",
         {
           "faceIDPermission": "Allow Phobik to use Face ID for quick sign-in."
+        }
+      ],
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "Allow Phobik to read your calendar so we can help you prepare for stressful events."
         }
       ]
     ],

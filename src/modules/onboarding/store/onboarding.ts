@@ -50,12 +50,6 @@ export type RegulationTool =
 
 export type TimeOfDay = 'morning' | 'midday' | 'evening';
 
-export type CalendarType = 'work' | 'personal';
-
-export type CheckInTiming = '2-days' | 'day-of' | '1-hour';
-
-export type SupportTone = 'gentle' | 'subtle' | 'direct';
-
 export interface OnboardingData {
   stressors: LifeStressor[];
   triggers: FearTrigger[];
@@ -66,10 +60,6 @@ export interface OnboardingData {
   energyFocus: TimeOfDay | null;
   energyCreativity: TimeOfDay | null;
   energyDip: TimeOfDay | null;
-  calendarConnected: boolean;
-  calendarTypes: CalendarType[];
-  checkInTiming: CheckInTiming | null;
-  supportTone: SupportTone | null;
 }
 
 const defaultOnboardingData: OnboardingData = {
@@ -82,10 +72,6 @@ const defaultOnboardingData: OnboardingData = {
   energyFocus: null,
   energyCreativity: null,
   energyDip: null,
-  calendarConnected: false,
-  calendarTypes: [],
-  checkInTiming: null,
-  supportTone: null,
 };
 
 // --- In-memory atom (onboarding is a one-time flow, no persistence needed) ---
@@ -152,33 +138,5 @@ export const onboardingEnergyDipAtom = atom(
   (get) => get(onboardingDataAtom).energyDip,
   (get, set, energyDip: TimeOfDay | null) => {
     set(onboardingDataAtom, { ...get(onboardingDataAtom), energyDip });
-  },
-);
-
-export const onboardingCalendarConnectedAtom = atom(
-  (get) => get(onboardingDataAtom).calendarConnected,
-  (get, set, calendarConnected: boolean) => {
-    set(onboardingDataAtom, { ...get(onboardingDataAtom), calendarConnected });
-  },
-);
-
-export const onboardingCalendarTypesAtom = atom(
-  (get) => get(onboardingDataAtom).calendarTypes,
-  (get, set, calendarTypes: CalendarType[]) => {
-    set(onboardingDataAtom, { ...get(onboardingDataAtom), calendarTypes });
-  },
-);
-
-export const onboardingCheckInTimingAtom = atom(
-  (get) => get(onboardingDataAtom).checkInTiming,
-  (get, set, checkInTiming: CheckInTiming | null) => {
-    set(onboardingDataAtom, { ...get(onboardingDataAtom), checkInTiming });
-  },
-);
-
-export const onboardingSupportToneAtom = atom(
-  (get) => get(onboardingDataAtom).supportTone,
-  (get, set, supportTone: SupportTone | null) => {
-    set(onboardingDataAtom, { ...get(onboardingDataAtom), supportTone });
   },
 );
