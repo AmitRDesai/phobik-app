@@ -1,7 +1,6 @@
 import { atom } from 'jotai';
 
 // --- Existing atoms ---
-export const selectedImageUriAtom = atom<string | null>(null);
 export const auraFilterEnabledAtom = atom<boolean>(false);
 
 // --- Types ---
@@ -75,7 +74,12 @@ const defaultOnboardingData: OnboardingData = {
 };
 
 // --- In-memory atom (onboarding is a one-time flow, no persistence needed) ---
-const onboardingDataAtom = atom<OnboardingData>(defaultOnboardingData);
+export const onboardingDataAtom = atom<OnboardingData>(defaultOnboardingData);
+
+// --- Write-only atom to reset all onboarding data to defaults ---
+export const resetOnboardingAtom = atom(null, (_get, set) => {
+  set(onboardingDataAtom, defaultOnboardingData);
+});
 
 // --- Derived read/write atoms for each screen slice ---
 export const onboardingStressorsAtom = atom(

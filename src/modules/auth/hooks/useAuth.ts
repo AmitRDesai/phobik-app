@@ -21,7 +21,6 @@ export function useSession() {
  * Hook for email/password sign in
  */
 export function useSignIn() {
-  const queryClient = useQueryClient();
   const setIsSignedOut = useSetAtom(isSignedOutAtom);
 
   return useMutation({
@@ -45,7 +44,6 @@ export function useSignIn() {
     },
     onSuccess: () => {
       setIsSignedOut(false);
-      queryClient.invalidateQueries({ queryKey: ['session'] });
     },
   });
 }
@@ -54,8 +52,6 @@ export function useSignIn() {
  * Hook for email/password sign up
  */
 export function useSignUp() {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: async ({
       email,
@@ -78,9 +74,6 @@ export function useSignUp() {
       }
 
       return result.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['session'] });
     },
   });
 }
@@ -118,7 +111,6 @@ export function useSignOut() {
  * Uses the native iOS sheet and sends the idToken to Better Auth.
  */
 export function useAppleSignIn() {
-  const queryClient = useQueryClient();
   const setIsSignedOut = useSetAtom(isSignedOutAtom);
 
   return useMutation({
@@ -149,7 +141,6 @@ export function useAppleSignIn() {
     },
     onSuccess: () => {
       setIsSignedOut(false);
-      queryClient.invalidateQueries({ queryKey: ['session'] });
     },
   });
 }
@@ -158,7 +149,6 @@ export function useAppleSignIn() {
  * Hook for web-based social sign in (Google)
  */
 export function useGoogleSignIn() {
-  const queryClient = useQueryClient();
   const setIsSignedOut = useSetAtom(isSignedOutAtom);
 
   return useMutation({
@@ -176,7 +166,6 @@ export function useGoogleSignIn() {
     },
     onSuccess: () => {
       setIsSignedOut(false);
-      queryClient.invalidateQueries({ queryKey: ['session'] });
     },
   });
 }

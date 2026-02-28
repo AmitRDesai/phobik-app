@@ -1,25 +1,27 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { useSession } from '@/lib/auth';
 import { dialog } from '@/utils/dialog';
 import { File as ExpoFile } from 'expo-file-system';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
+import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuraFilterToggle } from '../components/AuraFilterToggle';
 import { ProfilePictureCircle } from '../components/ProfilePictureCircle';
 import { useImagePicker } from '../hooks/useImagePicker';
 import { useUploadProfilePicture } from '../hooks/useUploadProfilePicture';
-import {
-  auraFilterEnabledAtom,
-  selectedImageUriAtom,
-} from '../store/onboarding';
+import { auraFilterEnabledAtom } from '../store/onboarding';
 
 export default function AuraPictureSetup() {
-  const [imageUri, setImageUri] = useAtom(selectedImageUriAtom);
+  const [imageUri, setImageUri] = useState<string | null>(null);
   const [auraEnabled, setAuraEnabled] = useAtom(auraFilterEnabledAtom);
   const { pickFromLibrary, takePhoto } = useImagePicker();
   const uploadMutation = useUploadProfilePicture();
+  const { data: session } = useSession();
+
+  const hasUploadedImage = !!session?.user?.image;
 
   const handleCameraPress = async () => {
     const result = await dialog.info({
@@ -43,6 +45,11 @@ export default function AuraPictureSetup() {
 
   const handleConfirm = async () => {
     if (!imageUri) {
+      // No new image picked — if one was already uploaded, just navigate
+      if (hasUploadedImage) {
+        router.push('/onboarding/welcome');
+        return;
+      }
       await dialog.error({
         title: 'No Photo Selected',
         message: 'Please select or take a profile picture before continuing.',
@@ -93,7 +100,7 @@ export default function AuraPictureSetup() {
           {/* Profile Picture */}
           <View className="mt-8 items-center">
             <ProfilePictureCircle
-              imageUri={imageUri}
+              imageUri={imageUri ?? session?.user?.image ?? null}
               auraEnabled={auraEnabled}
               onCameraPress={handleCameraPress}
             />

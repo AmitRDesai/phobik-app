@@ -1,15 +1,38 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
+import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { OnboardingProgressBar } from '../components/OnboardingProgressBar';
 import { useCompleteOnboarding } from '../hooks/useCompleteOnboarding';
+import { useSaveOnboardingAnswers } from '../hooks/useSaveOnboardingAnswers';
+import { onboardingDataAtom, resetOnboardingAtom } from '../store/onboarding';
 
 export default function Completion() {
   const completeOnboarding = useCompleteOnboarding();
+  const saveOnboardingAnswers = useSaveOnboardingAnswers();
+  const onboardingData = useAtomValue(onboardingDataAtom);
+  const resetOnboarding = useSetAtom(resetOnboardingAtom);
+
+  const isPending =
+    saveOnboardingAnswers.isPending || completeOnboarding.isPending;
+
+  const handleGoToToday = async () => {
+    try {
+      await saveOnboardingAnswers.mutateAsync(onboardingData);
+      await completeOnboarding.mutateAsync({});
+      resetOnboarding();
+    } catch {
+      dialog.error({
+        title: 'Something went wrong',
+        message: 'We couldn\u2019t save your answers. Please try again.',
+      });
+    }
+  };
 
   return (
     <View className="flex-1">
@@ -102,8 +125,8 @@ export default function Completion() {
           {/* Footer */}
           <View className="items-center px-8 pb-8">
             <GradientButton
-              onPress={() => completeOnboarding.mutate({})}
-              loading={completeOnboarding.isPending}
+              onPress={handleGoToToday}
+              loading={isPending}
               icon={
                 <MaterialIcons name="arrow-forward" size={20} color="white" />
               }

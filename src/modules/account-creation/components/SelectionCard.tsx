@@ -42,28 +42,30 @@ export function SelectionCard({
   );
 
   if (variant === 'checkbox') {
-    if (selected) {
-      return (
-        <LinearGradient
-          colors={[colors.primary.pink, colors.accent.yellow]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{ borderRadius: 16, padding: 2 }}
-        >
-          <Pressable onPress={onPress}>
-            <View className="flex-row items-center gap-4 rounded-2xl bg-background-charcoal px-4 py-4">
-              {cardContent}
-            </View>
-          </Pressable>
-        </LinearGradient>
-      );
-    }
+    const cardInner = (
+      <View
+        className={`flex-row items-center gap-4 rounded-2xl px-4 py-4 ${
+          selected ? 'bg-background-charcoal' : 'bg-white/5'
+        }`}
+      >
+        {cardContent}
+      </View>
+    );
 
     return (
       <Pressable onPress={onPress}>
-        <View className="flex-row items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-4">
-          {cardContent}
-        </View>
+        {selected ? (
+          <LinearGradient
+            colors={[colors.primary.pink, colors.accent.yellow]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{ borderRadius: 16, padding: 2 }}
+          >
+            {cardInner}
+          </LinearGradient>
+        ) : (
+          <View style={{ borderRadius: 16, padding: 2 }}>{cardInner}</View>
+        )}
       </Pressable>
     );
   }

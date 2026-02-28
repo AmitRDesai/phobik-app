@@ -1,4 +1,5 @@
 import { MandalaIcon } from '@/components/icons/MandalaIcon';
+import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { colors } from '@/constants/colors';
@@ -8,7 +9,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Link, router } from 'expo-router';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { GlowBg } from '@/components/ui/GlowBg';
 
 export default function WelcomeScreen() {
   return (
@@ -47,11 +47,11 @@ export default function WelcomeScreen() {
               </View>
 
               <Text className="text-center text-lg font-semibold text-white">
-                Train your mind. Strengthen your nervous system.
+                Create the life you want.
               </Text>
 
               <Text className="text-center text-lg font-semibold text-white">
-                Build the courage to live bigger than your fears.
+                Overcome your challenges and face your fears.
               </Text>
             </View>
           </View>
