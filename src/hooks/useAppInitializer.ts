@@ -24,22 +24,6 @@ type ActiveStack =
   | 'biometric-setup'
   | 'home';
 
-function computeActiveStack(
-  isAuthenticated: boolean,
-  hasProfile: boolean,
-  emailVerified: boolean,
-  onboardingCompleted: boolean,
-  biometricPromptShown: boolean,
-  biometricAvailable: boolean,
-): ActiveStack {
-  if (!isAuthenticated) return 'auth';
-  if (!hasProfile) return 'profile-setup';
-  if (!emailVerified) return 'email-verification';
-  if (!onboardingCompleted) return 'onboarding';
-  if (!biometricPromptShown && biometricAvailable) return 'biometric-setup';
-  return 'home';
-}
-
 const useAppInitializer = () => {
   const { data: session, isPending: isSessionLoading } = useSession();
   const isSignedOut = useAtomValue(isSignedOutAtom);
@@ -100,14 +84,14 @@ const useAppInitializer = () => {
     }
   }, [dataResolved]);
 
-  const rawActiveStack = computeActiveStack(
-    isAuthenticated,
-    hasProfile,
-    emailVerified,
-    onboardingCompleted,
-    biometricPromptShown,
-    biometricAvailable,
-  );
+  const rawActiveStack = ((): ActiveStack => {
+    if (!isAuthenticated) return 'auth';
+    if (!hasProfile) return 'profile-setup';
+    if (!emailVerified) return 'email-verification';
+    if (!onboardingCompleted) return 'onboarding';
+    if (!biometricPromptShown && biometricAvailable) return 'biometric-setup';
+    return 'home';
+  })();
 
   // Only emit activeStack once data resolves — holds the initial value until ready
   const activeStackRef = useRef(rawActiveStack);
@@ -119,6 +103,7 @@ const useAppInitializer = () => {
   return {
     activeStack,
     isReady,
+    isReturningUser,
   };
 };
 

@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { isReturningUserAtom } from '@/store/user';
 import { questionnaireAtom } from '../../account-creation/store/account-creation';
 import { useAppleSignIn, useGoogleSignIn, useSignIn } from '../hooks/useAuth';
 import {
@@ -70,7 +71,9 @@ export default function SignInScreen() {
       // User completed ALL questions (terms is set in step 7/7), go to create-account
       router.replace('/auth/create-account');
     } else {
-      // Hasn't completed flow (or atoms were cleared after account creation) → start fresh
+      // Hasn't completed flow (or atoms were cleared after account creation) → start fresh.
+      // Set isReturningUser=false so the nested guard makes account-creation accessible.
+      store.set(isReturningUserAtom, false);
       store.set(questionnaireAtom, RESET);
       router.replace('/account-creation');
     }

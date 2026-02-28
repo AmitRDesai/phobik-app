@@ -27,7 +27,7 @@ export default function RootLayout() {
 }
 
 function RootNavigator() {
-  const { activeStack, isReady } = useAppInitializer();
+  const { activeStack, isReady, isReturningUser } = useAppInitializer();
 
   if (!isReady) return null;
 
@@ -38,10 +38,16 @@ function RootNavigator() {
         contentStyle: { backgroundColor: colors.background.dark },
       }}
     >
-      {/* Auth screens - unauthenticated or soft-signed-out */}
+      {/* Auth screens — outer guard covers all unauthenticated states.
+          Inner nested guard (!isReturningUser) makes account-creation the
+          initial screen for new users. When returning, account-creation is
+          removed and auth (Sign In) becomes the fallback. "Sign Up" on
+          Sign In sets isReturningUserAtom=false to re-enable account-creation. */}
       <Stack.Protected guard={activeStack === 'auth'}>
+        <Stack.Protected guard={!isReturningUser}>
+          <Stack.Screen name="account-creation" />
+        </Stack.Protected>
         <Stack.Screen name="auth" />
-        <Stack.Screen name="account-creation" />
       </Stack.Protected>
 
       {/* Email verification - after signup, before profile/biometric/home */}
