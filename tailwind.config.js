@@ -25,6 +25,7 @@ module.exports = {
         },
         card: {
           plum: '#2D152D',
+          dark: '#1a1318',
         },
         aura: {
           toggle: '#492236',

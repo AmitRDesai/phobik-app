@@ -25,6 +25,7 @@ type CustomColors = {
   };
   card: {
     plum: string;
+    dark: string;
   };
   aura: {
     toggle: string;

@@ -1,26 +1,35 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+
+import { PracticeCard } from '../components/PracticeCard';
+import { PracticesHeader } from '../components/PracticesHeader';
+import { PRACTICE_CATEGORIES } from '../data/practices';
 
 export default function Practices() {
   return (
     <View className="flex-1">
       <GlowBg
         bgClassName="bg-background-dashboard"
-        intensity={0.3}
+        centerY={0.25}
+        intensity={0.5}
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
       />
-      <View className="flex-1 items-center justify-center gap-4">
-        <MaterialIcons
-          name="self-improvement"
-          size={48}
-          color={colors.accent.yellow}
-        />
-        <Text className="text-lg font-bold text-white">Practices</Text>
-        <Text className="text-sm text-white/50">Coming soon</Text>
-      </View>
+      <PracticesHeader />
+      <ScrollView
+        contentContainerClassName="gap-6 px-6 py-4 pb-8"
+        showsVerticalScrollIndicator={false}
+      >
+        <Text className="text-xl font-bold text-white/90">
+          I want to feel...
+        </Text>
+        {PRACTICE_CATEGORIES.map((practice) => (
+          <PracticeCard key={practice.id} practice={practice} />
+        ))}
+        {/* Bottom spacer for tab bar clearance */}
+        <View className="h-4" />
+      </ScrollView>
     </View>
   );
 }

@@ -1,0 +1,68 @@
+import { Exercise } from '../types';
+
+export const EXERCISES: Exercise[] = [
+  {
+    id: 'grounding-54321',
+    name: '5-4-3-2-1 Grounding',
+    duration: '3 MIN',
+    icon: 'grid-view',
+    iconColor: 'pink',
+    anxietyLevels: ['severe', 'moderate', 'mild', 'calm'],
+  },
+  {
+    id: 'box-breathing',
+    name: 'Box Breathing',
+    duration: '4 MIN',
+    icon: 'crop-square',
+    iconColor: 'accent',
+    anxietyLevels: ['moderate', 'mild', 'calm'],
+  },
+  {
+    id: 'star-breathing',
+    name: 'Star Breathing',
+    duration: '5 MIN',
+    icon: 'star',
+    iconColor: 'pink',
+    anxietyLevels: ['mild', 'calm'],
+  },
+  {
+    id: '478-breathing',
+    name: '4-7-8 Breathing',
+    duration: '8 MIN',
+    icon: 'air',
+    iconColor: 'accent',
+    anxietyLevels: ['severe', 'moderate'],
+  },
+  {
+    id: 'double-inhale',
+    name: 'Double Inhale',
+    duration: '2 MIN',
+    icon: 'open-in-new',
+    iconColor: 'pink',
+    anxietyLevels: ['severe', 'moderate', 'mild'],
+  },
+  {
+    id: 'lazy-8-breathing',
+    name: 'Lazy 8 Breathing',
+    duration: '6 MIN',
+    icon: 'all-inclusive',
+    iconColor: 'accent',
+    anxietyLevels: ['mild', 'calm'],
+  },
+  {
+    id: 'muscle-relaxation',
+    name: 'Muscle Relaxation',
+    duration: '15 MIN',
+    icon: 'accessibility-new',
+    iconColor: 'pink',
+    anxietyLevels: ['severe', 'moderate'],
+  },
+  {
+    id: 'sleep-meditation',
+    name: 'Sleep Meditation',
+    duration: '20 MIN',
+    icon: 'bedtime',
+    iconColor: 'accent',
+    anxietyLevels: ['moderate', 'calm'],
+  },
+];
