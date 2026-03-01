@@ -13,6 +13,7 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 interface GradientButtonProps {
   onPress: () => void;
   children: React.ReactNode;
+  prefixIcon?: React.ReactNode;
   icon?: React.ReactNode;
   disabled?: boolean;
   loading?: boolean;
@@ -21,6 +22,7 @@ interface GradientButtonProps {
 export function GradientButton({
   onPress,
   children,
+  prefixIcon,
   icon,
   disabled,
   loading,
@@ -80,6 +82,7 @@ export function GradientButton({
           <ActivityIndicator color="white" size="small" />
         ) : (
           <View className="flex-row items-center justify-center gap-2">
+            {prefixIcon}
             <Text className="text-center text-lg font-bold text-white">
               {children}
             </Text>

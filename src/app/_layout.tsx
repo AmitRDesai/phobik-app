@@ -72,7 +72,7 @@ function RootNavigator() {
 
       {/* Main app */}
       <Stack.Protected guard={activeStack === 'home'}>
-        <Stack.Screen name="index" />
+        <Stack.Screen name="(tabs)" />
       </Stack.Protected>
     </Stack>
   );

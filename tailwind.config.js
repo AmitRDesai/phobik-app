@@ -21,6 +21,10 @@ module.exports = {
           charcoal: '#121212',
           input: '#1a1a1a',
           onboarding: '#1a0b12',
+          dashboard: '#120812',
+        },
+        card: {
+          plum: '#2D152D',
         },
         aura: {
           toggle: '#492236',

@@ -1,0 +1,98 @@
+import { colors } from '@/constants/colors';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useMemo } from 'react';
+import { ScrollView, Text, View } from 'react-native';
+
+const DAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+export interface StreakDay {
+  label: string;
+  dateNum: number;
+  completed: boolean;
+  isToday: boolean;
+}
+
+interface StreakGridProps {
+  days?: StreakDay[];
+}
+
+function getCurrentWeekDays(): StreakDay[] {
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0 = Sunday
+  const sunday = new Date(today);
+  sunday.setDate(today.getDate() - dayOfWeek);
+
+  return DAY_LABELS.map((label, i) => {
+    const date = new Date(sunday);
+    date.setDate(sunday.getDate() + i);
+    const dateNum = date.getDate();
+    const isToday =
+      date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate();
+    const isPast = date < today && !isToday;
+
+    return {
+      label,
+      dateNum,
+      completed: isPast, // past days default to completed
+      isToday,
+    };
+  });
+}
+
+export function StreakGrid({ days }: StreakGridProps) {
+  const weekDays = useMemo(() => days ?? getCurrentWeekDays(), [days]);
+
+  return (
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerClassName="gap-2"
+    >
+      {weekDays.map((day, index) => (
+        <View key={index} className="items-center gap-1.5">
+          <Text className="text-[9px] font-bold text-white/40">
+            {day.label}
+          </Text>
+          <View
+            className="aspect-square w-10 items-center justify-center rounded-full"
+            style={
+              day.completed
+                ? {
+                    backgroundColor: `${colors.primary.pink}33`,
+                    borderWidth: 1,
+                    borderColor: `${colors.primary.pink}80`,
+                  }
+                : day.isToday
+                  ? {
+                      backgroundColor: `${colors.accent.yellow}1A`,
+                      borderWidth: 1.5,
+                      borderColor: `${colors.accent.yellow}80`,
+                    }
+                  : {
+                      backgroundColor: 'rgba(255,255,255,0.05)',
+                      borderWidth: 1,
+                      borderColor: 'rgba(255,255,255,0.1)',
+                    }
+            }
+          >
+            {day.completed ? (
+              <MaterialIcons
+                name="check"
+                size={24}
+                color={colors.primary.pink}
+              />
+            ) : (
+              <Text
+                className={`font-semibold ${day.isToday ? 'text-accent-yellow' : 'text-white/30'}`}
+              >
+                {day.dateNum}
+              </Text>
+            )}
+          </View>
+        </View>
+      ))}
+    </ScrollView>
+  );
+}
