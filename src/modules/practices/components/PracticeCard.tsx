@@ -1,4 +1,4 @@
-import { GlowBg } from '@/components/ui/GlowBg';
+import { CardAura } from '@/components/ui/CardAura';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -17,22 +17,13 @@ export function PracticeCard({ practice }: PracticeCardProps) {
       className="relative overflow-hidden rounded-3xl border border-white/5 bg-card-dark"
       style={{
         shadowColor: colors.primary.pink,
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.15,
-        shadowRadius: 20,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.18,
+        shadowRadius: 10,
         elevation: 4,
       }}
     >
-      {/* Corner glow */}
-      <GlowBg
-        bgClassName=""
-        centerX={0.9}
-        centerY={0.05}
-        radius={1}
-        intensity={0.9}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-      />
+      <CardAura color={colors.primary.pink} />
 
       {/* Top row: thumbnail + text */}
       <View className="flex-row gap-4 p-5">

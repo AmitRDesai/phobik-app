@@ -15,6 +15,7 @@ type CustomColors = {
     yellow: string;
     'yellow-light': string;
     purple: string;
+    cyan: string;
   };
   background: {
     dark: string;

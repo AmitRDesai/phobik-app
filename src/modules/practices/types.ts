@@ -11,6 +11,12 @@ export interface PracticeCategory {
 
 export type AnxietyLevel = 'severe' | 'moderate' | 'mild' | 'calm';
 
+export interface ExerciseStep {
+  count: number;
+  title: string;
+  subtitle: string;
+}
+
 export interface Exercise {
   id: string;
   name: string;
@@ -18,4 +24,6 @@ export interface Exercise {
   icon: string;
   iconColor: 'pink' | 'accent';
   anxietyLevels: AnxietyLevel[];
+  description?: string;
+  steps?: ExerciseStep[];
 }

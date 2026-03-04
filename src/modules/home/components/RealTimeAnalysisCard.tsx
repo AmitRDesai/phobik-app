@@ -1,6 +1,7 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
@@ -79,7 +80,10 @@ export function RealTimeAnalysisCard() {
             Peaceful
           </Text>
         </View>
-        <Pressable className="flex-row items-center gap-1.5 rounded-full border border-primary-pink/30 bg-primary-pink/20 px-4 py-1.5">
+        <Pressable
+          onPress={() => router.push('/connect-wearable')}
+          className="flex-row items-center gap-1.5 rounded-full border border-primary-pink/30 bg-primary-pink/20 px-4 py-1.5"
+        >
           <MaterialIcons name="watch" size={14} color={colors.primary.pink} />
           <Text className="text-[10px] font-bold uppercase tracking-wider text-primary-pink">
             Connect

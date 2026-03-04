@@ -17,6 +17,7 @@ interface GradientButtonProps {
   icon?: React.ReactNode;
   disabled?: boolean;
   loading?: boolean;
+  compact?: boolean;
 }
 
 export function GradientButton({
@@ -26,6 +27,7 @@ export function GradientButton({
   icon,
   disabled,
   loading,
+  compact,
 }: GradientButtonProps) {
   const scale = useSharedValue(1);
   const isInteractionDisabled = disabled || loading;
@@ -59,7 +61,7 @@ export function GradientButton({
       onPressOut={handlePressOut}
       disabled={isInteractionDisabled}
       style={animatedStyle}
-      className="w-full"
+      className={compact ? '' : 'w-full'}
     >
       <LinearGradient
         colors={[colors.primary.pink, colors.accent.yellow]}
@@ -67,15 +69,15 @@ export function GradientButton({
         end={{ x: 1, y: 1 }}
         style={{
           borderRadius: 9999,
-          paddingHorizontal: 32,
-          paddingVertical: 16,
-          minHeight: 56,
+          paddingHorizontal: compact ? 20 : 32,
+          paddingVertical: compact ? 8 : 16,
+          minHeight: compact ? undefined : 56,
           justifyContent: 'center',
           shadowColor: colors.primary.pink,
           shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.5,
-          shadowRadius: 12,
-          elevation: 8,
+          shadowOpacity: compact ? 0.4 : 0.5,
+          shadowRadius: compact ? 15 : 12,
+          elevation: compact ? 4 : 8,
         }}
       >
         {loading ? (
@@ -83,7 +85,9 @@ export function GradientButton({
         ) : (
           <View className="flex-row items-center justify-center gap-2">
             {prefixIcon}
-            <Text className="text-center text-lg font-bold text-white">
+            <Text
+              className={`text-center font-bold text-white ${compact ? 'text-[10px] uppercase tracking-wider' : 'text-lg'}`}
+            >
               {children}
             </Text>
             {icon}

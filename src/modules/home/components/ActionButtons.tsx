@@ -1,5 +1,6 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { View } from 'react-native';
 
 export function ActionButtons() {
@@ -7,7 +8,7 @@ export function ActionButtons() {
     <View className="flex-row gap-3">
       <View className="flex-1">
         <GradientButton
-          onPress={() => {}}
+          onPress={() => router.push('/daily-check-in')}
           prefixIcon={
             <MaterialIcons name="auto-awesome" size={20} color="white" />
           }
@@ -17,7 +18,7 @@ export function ActionButtons() {
       </View>
       <View className="flex-1">
         <GradientButton
-          onPress={() => {}}
+          onPress={() => router.push('/quick-reset/name-your-feeling')}
           prefixIcon={<MaterialIcons name="refresh" size={20} color="white" />}
         >
           Quick Reset

@@ -6,6 +6,7 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { SystemBars } from 'react-native-edge-to-edge';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import '../../global.css';
 
@@ -13,16 +14,18 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   return (
-    <KeyboardProvider>
-      <PersistQueryClientProvider
-        client={queryClient}
-        persistOptions={{ persister: asyncStoragePersister }}
-      >
-        <RootNavigator />
-        <DialogContainer />
-        <SystemBars style="light" />
-      </PersistQueryClientProvider>
-    </KeyboardProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <KeyboardProvider>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{ persister: asyncStoragePersister }}
+        >
+          <RootNavigator />
+          <DialogContainer />
+          <SystemBars style="light" />
+        </PersistQueryClientProvider>
+      </KeyboardProvider>
+    </GestureHandlerRootView>
   );
 }
 
@@ -73,6 +76,7 @@ function RootNavigator() {
       {/* Main app */}
       <Stack.Protected guard={activeStack === 'home'}>
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="settings" />
       </Stack.Protected>
     </Stack>
   );

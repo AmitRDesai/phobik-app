@@ -1,1 +1,1 @@
-export { default } from '@/modules/insights/screens/Insights';
+export { default } from '@/modules/insights/screens/InsightsDashboard';

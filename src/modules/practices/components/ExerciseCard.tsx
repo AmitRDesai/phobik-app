@@ -9,9 +9,10 @@ const GRID_GAP = 16; // gap-4 = 16px
 
 interface ExerciseCardProps {
   exercise: Exercise;
+  onPress?: () => void;
 }
 
-export function ExerciseCard({ exercise }: ExerciseCardProps) {
+export function ExerciseCard({ exercise, onPress }: ExerciseCardProps) {
   const { width: screenWidth } = useWindowDimensions();
   const cardWidth = (screenWidth - GRID_PADDING * 2 - GRID_GAP / 2) / 2;
   const isPink = exercise.iconColor === 'pink';
@@ -19,6 +20,7 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
 
   return (
     <Pressable
+      onPress={onPress}
       className="rounded-2xl border border-white/10 bg-white/5 p-4 active:opacity-80"
       style={{ width: cardWidth }}
     >
