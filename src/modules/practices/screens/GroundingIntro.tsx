@@ -64,8 +64,10 @@ export default function GroundingIntro() {
               </Text>
             </View>
 
-            <Text className="mb-4 text-center text-4xl font-extrabold leading-tight text-white">
-              {'The '}
+            <View className="mb-4 flex-row flex-wrap items-center justify-center">
+              <Text className="text-4xl font-extrabold leading-tight text-white">
+                {'The '}
+              </Text>
               <MaskedView
                 maskElement={
                   <Text className="text-4xl font-extrabold">5-4-3-2-1</Text>
@@ -81,8 +83,10 @@ export default function GroundingIntro() {
                   </Text>
                 </LinearGradient>
               </MaskedView>
-              {' technique'}
-            </Text>
+              <Text className="text-4xl font-extrabold leading-tight text-white">
+                {' technique'}
+              </Text>
+            </View>
 
             <Text className="max-w-[90%] text-center text-sm leading-relaxed text-white/70">
               {exercise.description}

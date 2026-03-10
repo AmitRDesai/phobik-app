@@ -192,13 +192,13 @@ export default function GroundingSession() {
             className="max-w-[280px] items-center gap-4"
             style={{ minHeight: 120 }}
           >
-            <Text className="text-center text-2xl font-bold text-white">
+            <View className="flex-row flex-wrap items-center justify-center">
               {instructionParts.map((part, i) =>
                 part.gradient ? (
                   <MaskedView
                     key={i}
                     maskElement={
-                      <Text className="text-2xl leading-loose font-bold">
+                      <Text className="text-2xl font-bold leading-loose">
                         {part.text}
                       </Text>
                     }
@@ -214,10 +214,15 @@ export default function GroundingSession() {
                     </LinearGradient>
                   </MaskedView>
                 ) : (
-                  <Text key={i}>{part.text}</Text>
+                  <Text
+                    key={i}
+                    className="text-center text-2xl font-bold text-white"
+                  >
+                    {part.text}
+                  </Text>
                 ),
               )}
-            </Text>
+            </View>
             <Text className="text-center text-base leading-relaxed text-white/60">
               {currentStep.subInstruction}
             </Text>
