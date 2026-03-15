@@ -1,13 +1,14 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
+import { alpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { SelectionCard } from '../components/SelectionCard';
+import { SelectionCard } from '@/components/ui/SelectionCard';
 import { type AgeRange, questionnaireAgeAtom } from '../store/account-creation';
 
 const AGE_OPTIONS: { value: AgeRange; label: string }[] = [
@@ -43,11 +44,7 @@ export default function AgeSelectionScreen() {
                 onPress={() => router.back()}
                 className="h-10 w-10 items-start justify-center"
               >
-                <Ionicons
-                  name="chevron-back"
-                  size={24}
-                  color="rgba(255,255,255,0.5)"
-                />
+                <Ionicons name="chevron-back" size={24} color={alpha.white50} />
               </Pressable>
             )}
             <ProgressDots total={totalSteps} current={currentStep} />

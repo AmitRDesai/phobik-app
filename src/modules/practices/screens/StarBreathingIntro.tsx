@@ -1,7 +1,7 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -40,11 +40,7 @@ export default function StarBreathingIntro() {
             onPress={() => router.back()}
             className="h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 active:scale-95"
           >
-            <MaterialIcons
-              name="close"
-              size={24}
-              color="rgba(255,255,255,0.7)"
-            />
+            <MaterialIcons name="close" size={24} color={alpha.white70} />
           </Pressable>
         </View>
 
@@ -65,7 +61,11 @@ export default function StarBreathingIntro() {
                   shadowRadius: 24,
                 }}
               />
-              <MaterialIcons name="auto-awesome" size={36} color="#f472b6" />
+              <MaterialIcons
+                name="auto-awesome"
+                size={36}
+                color={colors.pink[400]}
+              />
             </View>
 
             {/* Title */}

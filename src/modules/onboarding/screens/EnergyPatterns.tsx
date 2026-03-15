@@ -1,9 +1,10 @@
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
 import { Text, View } from 'react-native';
 import { OnboardingLayout } from '../components/OnboardingLayout';
-import { SegmentedControl } from '../components/SegmentedControl';
+import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import {
   onboardingEnergyCreativityAtom,
   onboardingEnergyDipAtom,
@@ -50,7 +51,11 @@ export default function EnergyPatterns() {
         {SECTIONS.map((section, index) => (
           <View key={section.label}>
             <View className="mb-3 flex-row items-center gap-2">
-              <MaterialIcons name={section.icon} size={20} color="#f4258c" />
+              <MaterialIcons
+                name={section.icon}
+                size={20}
+                color={colors.primary.pink}
+              />
               <Text className="text-lg font-bold text-white">
                 {section.label}
               </Text>

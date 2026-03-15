@@ -1,7 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -54,7 +54,7 @@ export default function DataSecurityPromiseScreen() {
               <Ionicons
                 name={isModal ? 'close' : 'chevron-back'}
                 size={24}
-                color="rgba(255,255,255,0.5)"
+                color={alpha.white50}
               />
             </Pressable>
 

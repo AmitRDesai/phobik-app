@@ -77,7 +77,7 @@ export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
       <Svg width={size} height={size} viewBox="0 0 200 200">
         <Defs>
           <RadialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
-            <Stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+            <Stop offset="0%" stopColor="white" stopOpacity="0.9" />
             <Stop
               offset="40%"
               stopColor={colors.primary.pink}

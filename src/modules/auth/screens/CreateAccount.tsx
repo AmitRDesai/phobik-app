@@ -1,6 +1,6 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { TextInput } from '@/components/ui/TextInput';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -269,7 +269,7 @@ export default function CreateAccountScreen() {
                   <Ionicons
                     name="logo-google"
                     size={24}
-                    color="rgba(255,255,255,0.8)"
+                    color={alpha.white80}
                   />
                 </Pressable>
 
@@ -282,7 +282,7 @@ export default function CreateAccountScreen() {
                     <Ionicons
                       name="logo-apple"
                       size={24}
-                      color="rgba(255,255,255,0.8)"
+                      color={alpha.white80}
                     />
                   </Pressable>
                 )}

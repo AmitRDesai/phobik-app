@@ -3,8 +3,8 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { SelectionCard } from '@/modules/account-creation/components/SelectionCard';
-import { colors } from '@/constants/colors';
+import { SelectionCard } from '@/components/ui/SelectionCard';
+import { colors, alpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -187,7 +187,7 @@ function FeelingIcon({ name, selected }: { name: string; selected: boolean }) {
           <MaterialIcons
             name={name as keyof typeof MaterialIcons.glyphMap}
             size={24}
-            color="rgba(255,255,255,0.6)"
+            color={alpha.white60}
           />
         </View>
       )}

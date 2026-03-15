@@ -1,7 +1,7 @@
 import { colors } from '@/constants/colors';
 import { Pressable, Text, View } from 'react-native';
 
-import { DashboardCard } from './DashboardCard';
+import { DashboardCard } from '@/components/ui/DashboardCard';
 import { StreakGrid } from './StreakGrid';
 
 export function ChallengesCard() {

@@ -1,5 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
-import { SelectionCard } from '@/modules/account-creation/components/SelectionCard';
+import { SelectionCard } from '@/components/ui/SelectionCard';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtom } from 'jotai';
 import { Text, View } from 'react-native';

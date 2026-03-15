@@ -58,7 +58,7 @@ export default function StressSignatureMap() {
             <MaterialIcons
               name="chevron-left"
               size={28}
-              color="rgba(148,163,184,1)"
+              color={colors.slate[400]}
               onPress={() => router.back()}
             />
           </View>

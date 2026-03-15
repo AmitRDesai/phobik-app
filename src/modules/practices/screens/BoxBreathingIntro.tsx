@@ -1,7 +1,7 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -43,7 +43,7 @@ export default function BoxBreathingIntro() {
             <MaterialIcons
               name="chevron-left"
               size={24}
-              color="rgba(255,255,255,0.8)"
+              color={alpha.white80}
             />
           </Pressable>
           <Text className="text-xl font-bold tracking-tight text-white">
@@ -53,7 +53,7 @@ export default function BoxBreathingIntro() {
             <MaterialIcons
               name="info-outline"
               size={24}
-              color="rgba(255,255,255,0.8)"
+              color={alpha.white80}
             />
           </Pressable>
         </View>

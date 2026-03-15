@@ -1,7 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { useSaveProfile } from '@/modules/auth/hooks/useProfile';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
@@ -83,7 +83,7 @@ export default function TermsOfServiceScreen() {
               <Ionicons
                 name={isModal ? 'close' : 'chevron-back'}
                 size={24}
-                color="rgba(255,255,255,0.5)"
+                color={alpha.white50}
               />
             </Pressable>
 

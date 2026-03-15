@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { Text, View } from 'react-native';
 import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg';
 
@@ -17,8 +18,8 @@ export function HrvRecoveryChart() {
           <Text
             className="text-2xl font-bold tracking-tight"
             style={{
-              color: '#fbbf24',
-              shadowColor: '#fbbf24',
+              color: colors.amber[400],
+              shadowColor: colors.amber[400],
               shadowOffset: { width: 0, height: 0 },
               shadowOpacity: 0.4,
               shadowRadius: 4,
@@ -26,7 +27,10 @@ export function HrvRecoveryChart() {
           >
             62 <Text className="text-xs font-normal">ms</Text>
           </Text>
-          <Text className="text-xs font-bold" style={{ color: '#0bda8e' }}>
+          <Text
+            className="text-xs font-bold"
+            style={{ color: colors.status.success }}
+          >
             +5% from avg
           </Text>
         </View>
@@ -41,8 +45,16 @@ export function HrvRecoveryChart() {
           >
             <Defs>
               <LinearGradient id="hrvGrad" x1="0" y1="0" x2="0" y2="1">
-                <Stop offset="0%" stopColor="#fbbf24" stopOpacity={0.3} />
-                <Stop offset="100%" stopColor="#fbbf24" stopOpacity={0} />
+                <Stop
+                  offset="0%"
+                  stopColor={colors.amber[400]}
+                  stopOpacity={0.3}
+                />
+                <Stop
+                  offset="100%"
+                  stopColor={colors.amber[400]}
+                  stopOpacity={0}
+                />
               </LinearGradient>
             </Defs>
             <Path
@@ -52,7 +64,7 @@ export function HrvRecoveryChart() {
             <Path
               d="M0,120 Q50,110 100,60 T200,80 T300,30 T400,100"
               fill="none"
-              stroke="#fbbf24"
+              stroke={colors.amber[400]}
               strokeWidth="3"
               strokeLinecap="round"
             />

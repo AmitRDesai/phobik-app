@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, alpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
@@ -217,7 +217,7 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
                   <MaterialIcons
                     name={feeling.icon}
                     size={22}
-                    color="rgba(255, 255, 255, 0.4)"
+                    color={alpha.white40}
                   />
                 </View>
               )}

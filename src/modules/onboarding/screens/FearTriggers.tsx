@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, alpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -77,7 +77,7 @@ export default function FearTriggers() {
     >
       {/* Search Input */}
       <View className="mb-4 flex-row items-center gap-2 rounded-xl border border-white/5 bg-white/5 px-3.5 py-3">
-        <MaterialIcons name="search" size={20} color="rgba(255,255,255,0.3)" />
+        <MaterialIcons name="search" size={20} color={alpha.white30} />
         <TextInput
           value={search}
           onChangeText={setSearch}
@@ -104,11 +104,7 @@ export default function FearTriggers() {
         {/* Other input */}
         <View className="w-full">
           <View className="flex-row items-center gap-2 rounded-xl border border-white/5 bg-white/5 px-3.5 py-3">
-            <MaterialIcons
-              name="edit-note"
-              size={20}
-              color="rgba(255,255,255,0.2)"
-            />
+            <MaterialIcons name="edit-note" size={20} color={alpha.white20} />
             <TextInput
               value={customTrigger}
               onChangeText={setCustomTrigger}

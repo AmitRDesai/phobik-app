@@ -1,5 +1,6 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
+import { alpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
@@ -38,11 +39,7 @@ export default function PhilosophyScreen() {
               onPress={() => router.back()}
               className="h-10 w-10 items-start justify-center"
             >
-              <Ionicons
-                name="chevron-back"
-                size={24}
-                color="rgba(255,255,255,0.5)"
-              />
+              <Ionicons name="chevron-back" size={24} color={alpha.white50} />
             </Pressable>
 
             <ProgressDots total={7} current={2} />

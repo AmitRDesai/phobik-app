@@ -6,7 +6,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { Pressable, Text, View } from 'react-native';
 
 import { AFFIRMATIONS, affirmationAtom } from '../store/affirmation';
-import { DashboardCard } from './DashboardCard';
+import { DashboardCard } from '@/components/ui/DashboardCard';
 
 export function AffirmationCard() {
   const affirmation = useAtomValue(affirmationAtom);

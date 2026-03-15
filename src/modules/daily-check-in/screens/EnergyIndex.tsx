@@ -1,7 +1,7 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -44,7 +44,7 @@ export default function EnergyIndex() {
           <MaterialIcons
             name="chevron-left"
             size={28}
-            color="rgba(255,255,255,0.6)"
+            color={alpha.white60}
             onPress={() => router.back()}
           />
         </View>

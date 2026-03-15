@@ -5,6 +5,7 @@ import {
   selectedCalendarIdsAtom,
   supportToneAtom,
 } from '@/modules/calendar/store/calendar';
+import { colors, alpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtomValue } from 'jotai';
@@ -82,7 +83,11 @@ export default function PrivacyTrust() {
               shadowRadius: 20,
             }}
           >
-            <MaterialIcons name="verified-user" size={36} color="#ff5d5d" />
+            <MaterialIcons
+              name="verified-user"
+              size={36}
+              color={colors.status.danger}
+            />
           </View>
         </View>
       }
@@ -126,7 +131,7 @@ export default function PrivacyTrust() {
           </Text>
         </Pressable>
         <View className="flex-row items-center gap-1.5">
-          <MaterialIcons name="lock" size={12} color="rgba(255,255,255,0.3)" />
+          <MaterialIcons name="lock" size={12} color={alpha.white30} />
           <Text className="text-[11px] font-bold uppercase tracking-widest text-white/30">
             End-to-End Encrypted
           </Text>

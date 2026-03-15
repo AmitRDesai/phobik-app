@@ -1,7 +1,7 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -56,7 +56,7 @@ export default function MuscleRelaxationIntro() {
             <MaterialIcons
               name="arrow-back-ios"
               size={20}
-              color="rgba(255,255,255,0.7)"
+              color={alpha.white70}
               style={{ marginLeft: 4 }}
             />
           </Pressable>

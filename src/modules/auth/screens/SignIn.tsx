@@ -1,6 +1,6 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { TextInput } from '@/components/ui/TextInput';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { useSession as useBetterAuthSession } from '@/lib/auth';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
@@ -153,7 +153,7 @@ export default function SignInScreen() {
 
             {/* Avatar circle */}
             <View className="h-[180px] w-[180px] items-center justify-center rounded-[90px] border-2 border-white/10 bg-white/10">
-              <Ionicons name="person" size={72} color="rgba(255,255,255,0.3)" />
+              <Ionicons name="person" size={72} color={alpha.white30} />
             </View>
           </View>
 
@@ -267,7 +267,7 @@ export default function SignInScreen() {
                     <Ionicons
                       name="logo-google"
                       size={24}
-                      color="rgba(255,255,255,0.8)"
+                      color={alpha.white80}
                     />
                   </Pressable>
 
@@ -280,7 +280,7 @@ export default function SignInScreen() {
                       <Ionicons
                         name="logo-apple"
                         size={24}
-                        color="rgba(255,255,255,0.8)"
+                        color={alpha.white80}
                       />
                     </Pressable>
                   )}

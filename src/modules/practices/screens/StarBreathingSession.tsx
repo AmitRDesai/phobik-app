@@ -1,6 +1,6 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -86,11 +86,7 @@ export default function StarBreathingSession() {
               onPress={() => router.back()}
               className="h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 active:scale-95"
             >
-              <MaterialIcons
-                name="close"
-                size={24}
-                color="rgba(255,255,255,0.7)"
-              />
+              <MaterialIcons name="close" size={24} color={alpha.white70} />
             </Pressable>
             <View className="items-center">
               <Text className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
@@ -107,11 +103,7 @@ export default function StarBreathingSession() {
               onPress={() => setIsPaused((p) => !p)}
               className="h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 active:scale-95"
             >
-              <MaterialIcons
-                name="settings"
-                size={22}
-                color="rgba(255,255,255,0.7)"
-              />
+              <MaterialIcons name="settings" size={22} color={alpha.white70} />
             </Pressable>
           </View>
           {/* Progress bar */}
@@ -196,7 +188,7 @@ export default function StarBreathingSession() {
                       <MaterialIcons
                         name="arrow-upward"
                         size={14}
-                        color="#34d399"
+                        color={colors.emerald[400]}
                       />
                       <Text className="text-xs font-bold text-emerald-400">
                         12%
@@ -242,7 +234,7 @@ export default function StarBreathingSession() {
                   <View
                     className="h-2 w-2 rounded-full bg-emerald-400"
                     style={{
-                      shadowColor: '#34d399',
+                      shadowColor: colors.emerald[400],
                       shadowOffset: { width: 0, height: 0 },
                       shadowOpacity: 1,
                       shadowRadius: 8,

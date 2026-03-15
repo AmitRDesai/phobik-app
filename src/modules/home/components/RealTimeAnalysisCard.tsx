@@ -13,7 +13,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { DashboardCard } from './DashboardCard';
+import { DashboardCard } from '@/components/ui/DashboardCard';
 import { EnergyRing } from './EnergyRing';
 
 function PingDot() {

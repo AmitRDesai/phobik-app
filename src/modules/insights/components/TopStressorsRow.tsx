@@ -1,4 +1,5 @@
-import { DashboardCard } from '@/modules/home/components/DashboardCard';
+import { DashboardCard } from '@/components/ui/DashboardCard';
+import { colors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import type { StressorKey } from '@/modules/daily-check-in/data/stressors';
@@ -17,21 +18,21 @@ const SAMPLE_STRESSORS: StressorCardData[] = [
     emoji: '💼',
     label: 'Workload',
     count: '12x',
-    color: '#FF4D97',
+    color: colors.primary['pink-soft'],
   },
   {
     key: 'financial',
     emoji: '💰',
     label: 'Finances',
     count: '8x',
-    color: '#FFD640',
+    color: colors.accent.gold,
   },
   {
     key: 'relationships',
     emoji: '💔',
     label: 'Conflict',
     count: '5x',
-    color: '#FFFFFF',
+    color: colors.white,
   },
 ];
 

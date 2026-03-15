@@ -1,6 +1,6 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -91,11 +91,7 @@ export default function Breathing478Session() {
             onPress={() => router.back()}
             className="h-11 w-11 items-center justify-center rounded-full bg-white/5 active:bg-white/10"
           >
-            <MaterialIcons
-              name="close"
-              size={24}
-              color="rgba(255,255,255,0.8)"
-            />
+            <MaterialIcons name="close" size={24} color={alpha.white80} />
           </Pressable>
           <View className="items-center">
             <Text className="text-[11px] font-black uppercase tracking-[0.25em] text-primary-pink">
@@ -117,11 +113,7 @@ export default function Breathing478Session() {
             </View>
           </View>
           <Pressable className="h-11 w-11 items-center justify-center rounded-full bg-white/5 active:bg-white/10">
-            <MaterialIcons
-              name="settings"
-              size={24}
-              color="rgba(255,255,255,0.8)"
-            />
+            <MaterialIcons name="settings" size={24} color={alpha.white80} />
           </Pressable>
         </View>
 
@@ -154,11 +146,7 @@ export default function Breathing478Session() {
           <View className="mb-8 flex-row items-center justify-between px-6">
             {/* Volume button */}
             <Pressable className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90">
-              <MaterialIcons
-                name="volume-up"
-                size={24}
-                color="rgba(255,255,255,0.6)"
-              />
+              <MaterialIcons name="volume-up" size={24} color={alpha.white60} />
             </Pressable>
 
             {/* Pause / Play button */}
@@ -196,11 +184,7 @@ export default function Breathing478Session() {
               onPress={handleReset}
               className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
             >
-              <MaterialIcons
-                name="replay"
-                size={24}
-                color="rgba(255,255,255,0.6)"
-              />
+              <MaterialIcons name="replay" size={24} color={alpha.white60} />
             </Pressable>
           </View>
 

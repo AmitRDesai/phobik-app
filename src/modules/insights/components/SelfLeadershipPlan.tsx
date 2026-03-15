@@ -1,5 +1,6 @@
 import { GradientButton } from '@/components/ui/GradientButton';
-import { DashboardCard } from '@/modules/home/components/DashboardCard';
+import { DashboardCard } from '@/components/ui/DashboardCard';
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import type { StressorExercise } from '../data/stressor-details';
@@ -19,7 +20,11 @@ export function SelfLeadershipPlan({
       {/* Self-Leadership Check */}
       <DashboardCard className="border border-white/10 p-5">
         <View className="mb-3 flex-row items-center gap-2">
-          <MaterialIcons name="verified-user" size={14} color="#FFD640" />
+          <MaterialIcons
+            name="verified-user"
+            size={14}
+            color={colors.accent.gold}
+          />
           <Text className="text-[10px] font-black uppercase tracking-[3px] text-accent-yellow">
             Self-Leadership Check
           </Text>
@@ -41,7 +46,7 @@ export function SelfLeadershipPlan({
                 style={
                   isSelected
                     ? {
-                        shadowColor: '#FF4D97',
+                        shadowColor: colors.primary['pink-soft'],
                         shadowOffset: { width: 0, height: 4 },
                         shadowOpacity: 0.3,
                         shadowRadius: 12,
@@ -69,7 +74,11 @@ export function SelfLeadershipPlan({
           Self-Leadership Plan
         </Text>
         <View className="flex-row items-center gap-2 rounded-lg border border-primary-pink/10 bg-primary-pink/5 p-2">
-          <MaterialIcons name="rocket-launch" size={12} color="#FF4D97" />
+          <MaterialIcons
+            name="rocket-launch"
+            size={12}
+            color={colors.primary['pink-soft']}
+          />
           <Text className="flex-1 text-[10px] font-bold text-primary-pink/80">
             Inner CEO: Choose your strength above to activate these tools.
           </Text>
@@ -90,7 +99,7 @@ export function SelfLeadershipPlan({
               style={
                 ex.highlighted
                   ? {
-                      shadowColor: '#FF4D97',
+                      shadowColor: colors.primary['pink-soft'],
                       shadowOffset: { width: 0, height: 0 },
                       shadowOpacity: 0.3,
                       shadowRadius: 15,
@@ -104,7 +113,7 @@ export function SelfLeadershipPlan({
               <MaterialIcons
                 name={ex.icon as any}
                 size={ex.highlighted ? 30 : 24}
-                color={ex.iconColor ?? '#FF4D97'}
+                color={ex.iconColor ?? colors.primary['pink-soft']}
               />
             </View>
             <View className="flex-1">
@@ -122,7 +131,7 @@ export function SelfLeadershipPlan({
               className="h-1 w-1 rounded-full"
               style={{
                 backgroundColor: ex.highlighted
-                  ? '#FF4D97'
+                  ? colors.primary['pink-soft']
                   : (ex.iconColor ?? 'rgba(255,255,255,0.4)'),
               }}
             />
@@ -144,7 +153,11 @@ export function SelfLeadershipPlan({
             placeholder="One small action I will take now..."
             placeholderTextColor="rgba(255,255,255,0.2)"
           />
-          <MaterialIcons name="send" size={20} color="#FF4D97" />
+          <MaterialIcons
+            name="send"
+            size={20}
+            color={colors.primary['pink-soft']}
+          />
         </View>
       </DashboardCard>
     </View>

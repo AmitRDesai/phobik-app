@@ -1,6 +1,6 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -177,7 +177,7 @@ export default function Lazy8BreathingSession() {
               <MaterialIcons
                 name="fast-rewind"
                 size={24}
-                color="rgba(255,255,255,0.7)"
+                color={alpha.white70}
               />
             </Pressable>
             <Pressable
@@ -203,7 +203,7 @@ export default function Lazy8BreathingSession() {
               <MaterialIcons
                 name="fast-forward"
                 size={24}
-                color="rgba(255,255,255,0.7)"
+                color={alpha.white70}
               />
             </Pressable>
           </View>
@@ -221,7 +221,11 @@ export default function Lazy8BreathingSession() {
                     borderColor: 'rgba(244,63,94,0.3)',
                   }}
                 >
-                  <MaterialIcons name="favorite" size={20} color="#fb7185" />
+                  <MaterialIcons
+                    name="favorite"
+                    size={20}
+                    color={colors.rose[400]}
+                  />
                 </View>
                 <View>
                   <Text className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
@@ -251,7 +255,11 @@ export default function Lazy8BreathingSession() {
                     borderColor: 'rgba(234,179,8,0.3)',
                   }}
                 >
-                  <MaterialIcons name="waves" size={20} color="#facc15" />
+                  <MaterialIcons
+                    name="waves"
+                    size={20}
+                    color={colors.yellow[400]}
+                  />
                 </View>
                 <View>
                   <Text className="text-[9px] font-bold uppercase tracking-wider text-slate-400">

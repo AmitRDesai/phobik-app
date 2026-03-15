@@ -1,6 +1,6 @@
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -46,7 +46,7 @@ export default function GroundingIntro() {
             <MaterialIcons
               name="info-outline"
               size={24}
-              color="rgba(255,255,255,0.6)"
+              color={alpha.white60}
               style={{ marginTop: 8 }}
             />
           </View>

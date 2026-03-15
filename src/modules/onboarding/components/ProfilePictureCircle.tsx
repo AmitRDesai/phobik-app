@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, alpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { Pressable, View } from 'react-native';
@@ -39,7 +39,7 @@ export function ProfilePictureCircle({
           />
         ) : (
           <View className="flex-1 items-center justify-center bg-background-charcoal">
-            <Ionicons name="person" size={80} color="rgba(255,255,255,0.15)" />
+            <Ionicons name="person" size={80} color={alpha.white15} />
           </View>
         )}
         {auraEnabled && imageUri && <AuraFilterOverlay />}

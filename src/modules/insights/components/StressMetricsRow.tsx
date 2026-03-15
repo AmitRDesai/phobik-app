@@ -1,4 +1,4 @@
-import { DashboardCard } from '@/modules/home/components/DashboardCard';
+import { DashboardCard } from '@/components/ui/DashboardCard';
 import { Text, View } from 'react-native';
 
 interface StressMetricsRowProps {

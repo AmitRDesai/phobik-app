@@ -1,4 +1,5 @@
-import { DashboardCard } from '@/modules/home/components/DashboardCard';
+import { DashboardCard } from '@/components/ui/DashboardCard';
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -32,9 +33,9 @@ export function SleepIntelligenceCard() {
             <MaterialIcons
               name="dark-mode"
               size={36}
-              color="#FFD700"
+              color={colors.accent.yellow}
               style={{
-                shadowColor: '#FFD700',
+                shadowColor: colors.accent.yellow,
                 shadowOffset: { width: 0, height: 0 },
                 shadowOpacity: 0.4,
                 shadowRadius: 8,
@@ -52,14 +53,14 @@ export function SleepIntelligenceCard() {
             {/* Progress bar */}
             <View className="h-1.5 overflow-hidden rounded-full bg-white/5">
               <LinearGradient
-                colors={['#FF2D85', '#FFD700']}
+                colors={[colors.primary.pink, colors.accent.yellow]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={{
                   width: '84%',
                   height: '100%',
                   borderRadius: 9999,
-                  shadowColor: '#FF4D97',
+                  shadowColor: colors.primary['pink-soft'],
                   shadowOffset: { width: 0, height: 0 },
                   shadowOpacity: 0.5,
                   shadowRadius: 10,

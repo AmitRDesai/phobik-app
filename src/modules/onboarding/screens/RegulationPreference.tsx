@@ -87,7 +87,7 @@ export default function RegulationPreference() {
       <View
         className="mt-4 rounded-xl border border-accent-yellow/20 bg-white/5 p-5"
         style={{
-          shadowColor: '#ff8e53',
+          shadowColor: colors.accent.orange,
           shadowOffset: { width: 0, height: 0 },
           shadowOpacity: 0.15,
           shadowRadius: 25,
@@ -108,7 +108,10 @@ export default function RegulationPreference() {
             <MaterialIcons name="info" size={22} color="white" />
           </View>
           <View className="flex-1">
-            <Text style={{ color: '#ff8e53' }} className="text-sm font-bold">
+            <Text
+              style={{ color: colors.accent.orange }}
+              className="text-sm font-bold"
+            >
               Why this matters
             </Text>
             <Text className="mt-1 text-xs leading-relaxed text-white/40">

@@ -64,7 +64,7 @@ export default function Biometric() {
                     <MaterialIcons
                       name="check-circle"
                       size={22}
-                      color="#22c55e"
+                      color={colors.green[500]}
                     />
                   </View>
                   <View className="flex-1">

@@ -77,7 +77,7 @@ export function PracticeCard({ practice }: PracticeCardProps) {
           <MaterialIcons
             name={practice.benefitIcon as keyof typeof MaterialIcons.glyphMap}
             size={14}
-            color="#6b7280"
+            color={colors.gray[500]}
           />
           <Text className="text-xs font-medium text-gray-400">
             {practice.benefit}

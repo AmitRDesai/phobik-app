@@ -1,4 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { alpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { View, Text } from 'react-native';
 
@@ -15,11 +16,7 @@ export function DeviceCard({ device, onConnect }: DeviceCardProps) {
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center gap-4">
           <View className="h-12 w-12 items-center justify-center rounded-xl bg-white/5">
-            <MaterialIcons
-              name={device.icon}
-              size={24}
-              color="rgba(255,255,255,0.8)"
-            />
+            <MaterialIcons name={device.icon} size={24} color={alpha.white80} />
           </View>
           <View>
             <Text className="font-bold tracking-tight text-white">

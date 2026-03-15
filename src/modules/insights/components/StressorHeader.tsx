@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
@@ -25,7 +26,7 @@ export function StressorHeader({ title, subtitle }: StressorHeaderProps) {
           <MaterialIcons
             name="chevron-left"
             size={28}
-            color="rgba(148,163,184,1)"
+            color={colors.slate[400]}
           />
         </Pressable>
         <View>

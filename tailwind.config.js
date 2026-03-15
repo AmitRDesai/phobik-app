@@ -9,6 +9,7 @@ module.exports = {
           pink: '#FF2D85',
           'pink-light': '#FF71CD',
           'pink-dark': '#D11A66',
+          'pink-soft': '#FF4D97',
           muted: '#CB90AD',
         },
         accent: {
@@ -16,6 +17,10 @@ module.exports = {
           'yellow-light': '#FFFD8C',
           purple: '#c3b5fd',
           cyan: '#4DFFEB',
+          gold: '#FFD640',
+          info: '#00D4FF',
+          mint: '#00FF94',
+          orange: '#ff8e53',
         },
         background: {
           dark: '#050505',
@@ -31,6 +36,10 @@ module.exports = {
         aura: {
           toggle: '#492236',
           border: '#68314d',
+        },
+        status: {
+          success: '#0bda8e',
+          danger: '#ff5d5d',
         },
         chakra: {
           'pink-light': '#FFB8D9',

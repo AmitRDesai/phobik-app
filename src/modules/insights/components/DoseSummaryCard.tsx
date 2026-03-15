@@ -1,4 +1,5 @@
-import { DashboardCard } from '@/modules/home/components/DashboardCard';
+import { DashboardCard } from '@/components/ui/DashboardCard';
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
@@ -20,7 +21,11 @@ export function DoseSummaryCard() {
           <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
             View Full Report
           </Text>
-          <MaterialIcons name="arrow-forward" size={12} color="#FF4D97" />
+          <MaterialIcons
+            name="arrow-forward"
+            size={12}
+            color={colors.primary['pink-soft']}
+          />
         </Pressable>
       </View>
       <Pressable onPress={() => router.push('/insights/dose-tracking')}>

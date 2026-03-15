@@ -1,6 +1,6 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -367,11 +367,7 @@ export default function MuscleRelaxationSession() {
             onPress={() => router.back()}
             className="h-10 w-10 items-center justify-center rounded-full bg-white/5 active:bg-white/10"
           >
-            <MaterialIcons
-              name="close"
-              size={22}
-              color="rgba(255,255,255,0.7)"
-            />
+            <MaterialIcons name="close" size={22} color={alpha.white70} />
           </Pressable>
 
           {/* Center title + HRV badge */}
@@ -396,11 +392,7 @@ export default function MuscleRelaxationSession() {
           </View>
 
           <Pressable className="h-10 w-10 items-center justify-center rounded-full bg-white/5 active:bg-white/10">
-            <MaterialIcons
-              name="graphic-eq"
-              size={22}
-              color="rgba(255,255,255,0.7)"
-            />
+            <MaterialIcons name="graphic-eq" size={22} color={alpha.white70} />
           </Pressable>
         </View>
 

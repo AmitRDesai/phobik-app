@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import type { MaterialIcons } from '@expo/vector-icons';
 import type { ComponentProps } from 'react';
 
@@ -19,7 +20,7 @@ export const DOSE_CHEMICALS: DoseChemical[] = [
     label: 'Dopamine',
     subtitle: 'Progress & Momentum',
     icon: 'bolt',
-    color: '#FFD700',
+    color: colors.accent.yellow,
     coins: 18,
     maxCoins: 25,
   },
@@ -28,7 +29,7 @@ export const DOSE_CHEMICALS: DoseChemical[] = [
     label: 'Oxytocin',
     subtitle: 'Connection & Safety',
     icon: 'favorite',
-    color: '#00D4FF',
+    color: colors.accent.info,
     coins: 9,
     maxCoins: 25,
   },
@@ -37,7 +38,7 @@ export const DOSE_CHEMICALS: DoseChemical[] = [
     label: 'Serotonin',
     subtitle: 'Confidence & Stability',
     icon: 'eco',
-    color: '#00FF94',
+    color: colors.accent.mint,
     coins: 22,
     maxCoins: 25,
   },
@@ -46,7 +47,7 @@ export const DOSE_CHEMICALS: DoseChemical[] = [
     label: 'Endorphins',
     subtitle: 'Stress Relief & Resilience',
     icon: 'fitness-center',
-    color: '#FF2D85',
+    color: colors.primary.pink,
     coins: 14,
     maxCoins: 25,
   },

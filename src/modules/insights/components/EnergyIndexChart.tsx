@@ -1,4 +1,5 @@
-import { DashboardCard } from '@/modules/home/components/DashboardCard';
+import { DashboardCard } from '@/components/ui/DashboardCard';
+import { colors } from '@/constants/colors';
 import { Text, View } from 'react-native';
 import Svg, { Defs, Line, LinearGradient, Path, Stop } from 'react-native-svg';
 
@@ -26,12 +27,20 @@ export function EnergyIndexChart() {
           >
             <Defs>
               <LinearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <Stop offset="0%" stopColor="#FF4D97" />
-                <Stop offset="100%" stopColor="#FFD640" />
+                <Stop offset="0%" stopColor={colors.primary['pink-soft']} />
+                <Stop offset="100%" stopColor={colors.accent.gold} />
               </LinearGradient>
               <LinearGradient id="areaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <Stop offset="0%" stopColor="#FF4D97" stopOpacity={0.25} />
-                <Stop offset="100%" stopColor="#FF4D97" stopOpacity={0} />
+                <Stop
+                  offset="0%"
+                  stopColor={colors.primary['pink-soft']}
+                  stopOpacity={0.25}
+                />
+                <Stop
+                  offset="100%"
+                  stopColor={colors.primary['pink-soft']}
+                  stopOpacity={0}
+                />
               </LinearGradient>
             </Defs>
             <Line

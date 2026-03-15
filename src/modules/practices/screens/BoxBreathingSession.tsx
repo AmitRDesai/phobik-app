@@ -1,6 +1,6 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -72,7 +72,7 @@ export default function BoxBreathingSession() {
             <MaterialIcons
               name="chevron-left"
               size={24}
-              color="rgba(255,255,255,0.8)"
+              color={alpha.white80}
             />
           </Pressable>
           <View className="items-center">
@@ -84,11 +84,7 @@ export default function BoxBreathingSession() {
             </Text>
           </View>
           <Pressable className="h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 active:scale-95">
-            <MaterialIcons
-              name="more-horiz"
-              size={24}
-              color="rgba(255,255,255,0.8)"
-            />
+            <MaterialIcons name="more-horiz" size={24} color={alpha.white80} />
           </Pressable>
         </View>
 
@@ -236,7 +232,7 @@ export default function BoxBreathingSession() {
                   <MaterialIcons
                     name="replay-5"
                     size={24}
-                    color="rgba(255,255,255,0.4)"
+                    color={alpha.white40}
                   />
                 </Pressable>
 
@@ -263,7 +259,7 @@ export default function BoxBreathingSession() {
                     <MaterialIcons
                       name={isPaused ? 'play-arrow' : 'pause'}
                       size={30}
-                      color="#121214"
+                      color={colors.background.charcoal}
                     />
                   </LinearGradient>
                 </Pressable>
@@ -272,7 +268,7 @@ export default function BoxBreathingSession() {
                   <MaterialIcons
                     name="forward-5"
                     size={24}
-                    color="rgba(255,255,255,0.4)"
+                    color={alpha.white40}
                   />
                 </Pressable>
               </View>

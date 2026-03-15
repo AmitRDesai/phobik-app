@@ -1,7 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
-import { SelectionCard } from '@/modules/account-creation/components/SelectionCard';
-import { SegmentedControl } from '@/modules/onboarding/components/SegmentedControl';
+import { SegmentedControl } from '@/components/ui/SegmentedControl';
+import { SelectionCard } from '@/components/ui/SelectionCard';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { BlurView } from 'expo-blur';

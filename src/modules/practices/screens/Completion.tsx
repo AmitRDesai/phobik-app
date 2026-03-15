@@ -1,7 +1,7 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
@@ -142,11 +142,7 @@ export default function Completion() {
             onPress={() => router.dismissAll()}
             className="h-10 w-10 items-center justify-center rounded-full bg-white/5 active:opacity-70"
           >
-            <MaterialIcons
-              name="close"
-              size={24}
-              color="rgba(255,255,255,0.4)"
-            />
+            <MaterialIcons name="close" size={24} color={alpha.white40} />
           </Pressable>
         </View>
 
@@ -188,11 +184,7 @@ export default function Completion() {
             onPress={() => {}}
             className="w-full flex-row items-center justify-center gap-2 py-4 active:opacity-70"
           >
-            <MaterialIcons
-              name="ios-share"
-              size={20}
-              color="rgba(255,255,255,0.7)"
-            />
+            <MaterialIcons name="ios-share" size={20} color={alpha.white70} />
             <Text className="text-sm font-semibold text-white/70">
               Share Victory
             </Text>

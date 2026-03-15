@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, alpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -60,11 +60,7 @@ export function AffirmationReadyCard({
               onPress={onSync}
               className="absolute right-4 top-4 active:opacity-70"
             >
-              <MaterialIcons
-                name="sync"
-                size={20}
-                color="rgba(255, 255, 255, 0.4)"
-              />
+              <MaterialIcons name="sync" size={20} color={alpha.white40} />
             </Pressable>
           )}
 

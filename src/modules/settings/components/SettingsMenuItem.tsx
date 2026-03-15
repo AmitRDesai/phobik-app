@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
 
@@ -34,11 +34,7 @@ export function SettingsMenuItem({
         <Text className="text-base font-semibold text-white">{label}</Text>
         {subtitle && <Text className="text-sm text-white/50">{subtitle}</Text>}
       </View>
-      <MaterialIcons
-        name="chevron-right"
-        size={22}
-        color="rgba(255,255,255,0.3)"
-      />
+      <MaterialIcons name="chevron-right" size={22} color={alpha.white30} />
     </Pressable>
   );
 }

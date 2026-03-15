@@ -1,6 +1,6 @@
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, alpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -16,11 +16,7 @@ export default function ReflectionInput() {
       {/* Header */}
       <View className="flex-row items-center justify-between px-6 pb-6 pt-2">
         <Pressable onPress={() => router.back()} className="p-1">
-          <MaterialIcons
-            name="chevron-left"
-            size={28}
-            color="rgba(255,255,255,0.7)"
-          />
+          <MaterialIcons name="chevron-left" size={28} color={alpha.white70} />
         </Pressable>
 
         <Text className="text-xl font-bold uppercase tracking-tight text-white">

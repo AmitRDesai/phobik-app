@@ -1,6 +1,6 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -402,11 +402,7 @@ export default function DoubleInhaleSession() {
             onPress={handleSkipBack}
             className="h-12 w-12 items-center justify-center rounded-full border border-white/5 bg-white/5 active:opacity-70"
           >
-            <MaterialIcons
-              name="replay-10"
-              size={24}
-              color="rgba(255,255,255,0.5)"
-            />
+            <MaterialIcons name="replay-10" size={24} color={alpha.white50} />
           </Pressable>
 
           <Pressable
@@ -430,11 +426,7 @@ export default function DoubleInhaleSession() {
             onPress={handleSkipForward}
             className="h-12 w-12 items-center justify-center rounded-full border border-white/5 bg-white/5 active:opacity-70"
           >
-            <MaterialIcons
-              name="forward-10"
-              size={24}
-              color="rgba(255,255,255,0.5)"
-            />
+            <MaterialIcons name="forward-10" size={24} color={alpha.white50} />
           </Pressable>
         </View>
       </View>
