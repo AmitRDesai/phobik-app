@@ -1,6 +1,5 @@
-import { MaterialIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { BackButton } from '@/components/ui/BackButton';
+import { View } from 'react-native';
 
 interface AffirmationHeaderProps {
   currentStep: number;
@@ -9,9 +8,7 @@ interface AffirmationHeaderProps {
 export function AffirmationHeader({ currentStep }: AffirmationHeaderProps) {
   return (
     <View className="flex-row items-center justify-between px-6 pb-2 pt-2">
-      <Pressable onPress={() => router.back()} className="active:opacity-70">
-        <MaterialIcons name="chevron-left" size={28} color="white" />
-      </Pressable>
+      <BackButton />
 
       <View className="flex-row gap-1.5">
         {[1, 2].map((step) => (

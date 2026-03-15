@@ -1,9 +1,8 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { BackButton } from '@/components/ui/BackButton';
 import { useAtom } from 'jotai';
-import { Pressable, ScrollView, Switch, Text, View } from 'react-native';
+import { ScrollView, Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   challengeNotificationsAtom,
@@ -44,7 +43,6 @@ function ToggleRow({
 }
 
 export default function Notifications() {
-  const router = useRouter();
   const insets = useSafeAreaInsets();
   const [dailyReminders, setDailyReminders] = useAtom(dailyRemindersAtom);
   const [checkInReminders, setCheckInReminders] = useAtom(checkInRemindersAtom);
@@ -65,12 +63,7 @@ export default function Notifications() {
         className="flex-row items-center gap-3 px-4 pb-4"
         style={{ paddingTop: insets.top + 8 }}
       >
-        <Pressable
-          onPress={() => router.back()}
-          className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
-        >
-          <MaterialIcons name="arrow-back" size={22} color="white" />
-        </Pressable>
+        <BackButton />
         <Text className="text-lg font-bold text-white">Notifications</Text>
       </View>
 

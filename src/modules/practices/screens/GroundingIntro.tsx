@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { alpha, colors } from '@/constants/colors';
@@ -28,17 +29,7 @@ export default function GroundingIntro() {
       <View className="flex-1 bg-background-dashboard">
         {/* Header */}
         <View className="flex-row items-center justify-between p-4">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-10 w-10 items-center justify-start active:opacity-70"
-          >
-            <MaterialIcons
-              name="arrow-back-ios"
-              size={24}
-              color="white"
-              style={{ marginTop: 8 }}
-            />
-          </Pressable>
+          <BackButton />
           <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-white">
             Technique Intro
           </Text>

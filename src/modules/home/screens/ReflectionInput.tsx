@@ -1,9 +1,10 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, alpha } from '@/constants/colors';
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 
@@ -15,9 +16,7 @@ export default function ReflectionInput() {
     <Container keyboardAvoiding>
       {/* Header */}
       <View className="flex-row items-center justify-between px-6 pb-6 pt-2">
-        <Pressable onPress={() => router.back()} className="p-1">
-          <MaterialIcons name="chevron-left" size={28} color={alpha.white70} />
-        </Pressable>
+        <BackButton />
 
         <Text className="text-xl font-bold uppercase tracking-tight text-white">
           Quick Reset

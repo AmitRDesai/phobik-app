@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/BackButton';
 import { CardAura } from '@/components/ui/CardAura';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
@@ -54,14 +55,7 @@ export default function StressSignatureMap() {
       {/* Header */}
       <View className="border-b border-white/5 bg-black/80">
         <View className="flex-row items-center justify-between p-4">
-          <View className="size-10 items-center justify-center">
-            <MaterialIcons
-              name="chevron-left"
-              size={28}
-              color={colors.slate[400]}
-              onPress={() => router.back()}
-            />
-          </View>
+          <BackButton />
           <View className="items-center">
             <Text className="text-[13px] font-bold uppercase tracking-[2px] text-white">
               Stress Signature

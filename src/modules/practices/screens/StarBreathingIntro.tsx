@@ -1,7 +1,8 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors } from '@/constants/colors';
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -36,12 +37,7 @@ export default function StarBreathingIntro() {
 
         {/* Close button — top-left, glass pill style */}
         <View className="absolute left-6 top-3 z-40">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 active:scale-95"
-          >
-            <MaterialIcons name="close" size={24} color={alpha.white70} />
-          </Pressable>
+          <BackButton icon="close" />
         </View>
 
         {/* Main content — centered */}

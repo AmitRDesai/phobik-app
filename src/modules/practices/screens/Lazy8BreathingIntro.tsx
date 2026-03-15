@@ -1,8 +1,8 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
@@ -103,17 +103,7 @@ export default function Lazy8BreathingIntro() {
 
         {/* Header */}
         <View className="z-10 flex-row items-center justify-between px-6 pt-6">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-10 w-10 items-center justify-start active:opacity-70"
-          >
-            <MaterialIcons
-              name="arrow-back-ios"
-              size={24}
-              color="white"
-              style={{ marginTop: 8 }}
-            />
-          </Pressable>
+          <BackButton />
           <Text className="text-xl font-bold tracking-tight text-white">
             Lazy 8 Breathing
           </Text>

@@ -1,8 +1,6 @@
-import { colors } from '@/constants/colors';
-import { MaterialIcons } from '@expo/vector-icons';
+import { BackButton } from '@/components/ui/BackButton';
 import { BlurView } from 'expo-blur';
-import { router } from 'expo-router';
-import { Platform, Pressable, Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface StressorHeaderProps {
@@ -19,16 +17,7 @@ export function StressorHeader({ title, subtitle }: StressorHeaderProps) {
       style={{ paddingTop: insets.top + 8 }}
     >
       <View className="flex-row items-center">
-        <Pressable
-          onPress={() => router.back()}
-          className="mr-4 active:opacity-70"
-        >
-          <MaterialIcons
-            name="chevron-left"
-            size={28}
-            color={colors.slate[400]}
-          />
-        </Pressable>
+        <BackButton className="mr-4" />
         <View>
           <Text className="text-xl font-black uppercase leading-none tracking-tight text-white">
             {title}

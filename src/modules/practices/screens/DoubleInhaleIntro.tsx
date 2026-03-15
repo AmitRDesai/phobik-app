@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
@@ -37,12 +38,7 @@ export default function DoubleInhaleIntro() {
 
         {/* Header */}
         <View className="z-10 flex-row items-center justify-between px-6 pb-6 pt-3.5">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 active:opacity-70"
-          >
-            <MaterialIcons name="chevron-left" size={24} color="white" />
-          </Pressable>
+          <BackButton />
           <Text className="text-xs font-semibold uppercase tracking-widest text-primary-pink">
             PHOBIK Practice
           </Text>

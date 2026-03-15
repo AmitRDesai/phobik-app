@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
@@ -87,12 +88,7 @@ export default function Breathing478Session() {
 
         {/* Header */}
         <View className="z-20 flex-row items-center justify-between px-6 pt-2 pb-2">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-11 w-11 items-center justify-center rounded-full bg-white/5 active:bg-white/10"
-          >
-            <MaterialIcons name="close" size={24} color={alpha.white80} />
-          </Pressable>
+          <BackButton icon="close" />
           <View className="items-center">
             <Text className="text-[11px] font-black uppercase tracking-[0.25em] text-primary-pink">
               4-7-8 Breathing

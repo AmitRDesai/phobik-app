@@ -1,8 +1,8 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
@@ -36,12 +36,7 @@ export default function Breathing478Intro() {
 
         {/* Header */}
         <View className="z-10 flex-row items-center justify-between px-6 py-4">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-11 w-11 items-center justify-center rounded-full bg-white/5 active:bg-white/10"
-          >
-            <MaterialIcons name="close" size={24} color="white" />
-          </Pressable>
+          <BackButton icon="close" />
           <Text className="text-lg font-extrabold uppercase tracking-tight text-white">
             4-7-8 Breathing
           </Text>

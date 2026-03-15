@@ -1,7 +1,7 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
-import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -139,17 +139,7 @@ export default function GroundingSession() {
 
         {/* Header */}
         <View className="z-10 flex-row items-center justify-between p-4 pb-2">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-12 w-12 items-center justify-start active:opacity-70"
-          >
-            <MaterialIcons
-              name="close"
-              size={24}
-              color="white"
-              style={{ marginTop: 10 }}
-            />
-          </Pressable>
+          <BackButton icon="close" />
           <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-white">
             5-4-3-2-1 Session
           </Text>

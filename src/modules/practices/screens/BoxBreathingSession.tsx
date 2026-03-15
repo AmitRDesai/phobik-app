@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
@@ -65,16 +66,7 @@ export default function BoxBreathingSession() {
 
         {/* Header */}
         <View className="z-10 flex-row items-center justify-between px-6 py-4">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 active:scale-95"
-          >
-            <MaterialIcons
-              name="chevron-left"
-              size={24}
-              color={alpha.white80}
-            />
-          </Pressable>
+          <BackButton />
           <View className="items-center">
             <Text className="text-lg font-bold tracking-tight text-white">
               Box Breathing

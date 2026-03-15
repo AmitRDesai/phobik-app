@@ -1,7 +1,6 @@
-import { MaterialIcons } from '@expo/vector-icons';
+import { BackButton } from '@/components/ui/BackButton';
 import { BlurView } from 'expo-blur';
-import { router } from 'expo-router';
-import { Platform, Pressable, Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface DetailHeaderProps {
@@ -18,9 +17,7 @@ export function DetailHeader({ title, rightAction }: DetailHeaderProps) {
       style={{ paddingTop: insets.top + 8 }}
     >
       <View className="flex-row items-center gap-2">
-        <Pressable onPress={() => router.back()} className="active:opacity-70">
-          <MaterialIcons name="chevron-left" size={28} color="white" />
-        </Pressable>
+        <BackButton />
         <Text className="text-lg font-bold tracking-tight text-white">
           {title}
         </Text>

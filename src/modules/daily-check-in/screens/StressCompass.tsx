@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ScrollFade } from '@/components/ui/ScrollFade';
@@ -29,14 +30,7 @@ export default function StressCompass() {
       {/* Header */}
       <View className="border-b border-white/5 bg-black/60">
         <View className="flex-row items-center justify-between p-4">
-          <View className="size-10 items-center justify-center">
-            <MaterialIcons
-              name="chevron-left"
-              size={28}
-              color={colors.slate[400]}
-              onPress={() => router.back()}
-            />
-          </View>
+          <BackButton />
           <View className="items-center">
             <Text
               className="text-[13px] font-bold uppercase tracking-[3px]"

@@ -1,8 +1,8 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors } from '@/constants/colors';
-import { MaterialIcons } from '@expo/vector-icons';
+import { colors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
@@ -49,17 +49,7 @@ export default function MuscleRelaxationIntro() {
 
         {/* Header */}
         <View className="z-10 flex-row items-center justify-between px-6 pb-4 pt-3">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-10 w-10 items-center justify-center rounded-full bg-white/5 active:bg-white/10"
-          >
-            <MaterialIcons
-              name="arrow-back-ios"
-              size={20}
-              color={alpha.white70}
-              style={{ marginLeft: 4 }}
-            />
-          </Pressable>
+          <BackButton />
           <View className="flex-1 px-4">
             <Text className="text-center text-lg font-bold leading-tight tracking-tight text-white">
               Progressive Muscle Relaxation

@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
@@ -188,12 +189,7 @@ export default function DoubleInhaleSession() {
 
         {/* Header: Close / Timer Pill / Settings */}
         <View className="z-20 flex-row items-center justify-between px-6 pb-4 pt-3.5">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
-          >
-            <MaterialIcons name="close" size={20} color="white" />
-          </Pressable>
+          <BackButton icon="close" />
 
           {/* Timer pill */}
           <View className="rounded-full border border-white/10 bg-white/5 px-4 py-1">

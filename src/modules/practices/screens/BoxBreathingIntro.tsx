@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
@@ -36,16 +37,7 @@ export default function BoxBreathingIntro() {
 
         {/* Header */}
         <View className="z-10 flex-row items-center justify-between px-6 py-4">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 active:scale-95"
-          >
-            <MaterialIcons
-              name="chevron-left"
-              size={24}
-              color={alpha.white80}
-            />
-          </Pressable>
+          <BackButton />
           <Text className="text-xl font-bold tracking-tight text-white">
             Box Breathing
           </Text>

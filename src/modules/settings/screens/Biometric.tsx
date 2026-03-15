@@ -4,14 +4,13 @@ import { BiometricSetup } from '@/modules/auth/components/BiometricSetup';
 import { useSignOut } from '@/modules/auth/hooks/useAuth';
 import { useBiometricAvailability } from '@/modules/auth/hooks/useBiometric';
 import { biometricEnabledAtom } from '@/modules/auth/store/biometric';
+import { BackButton } from '@/components/ui/BackButton';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { Pressable, ScrollView, Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Biometric() {
-  const router = useRouter();
   const insets = useSafeAreaInsets();
   const { biometricType, isAvailable } = useBiometricAvailability();
   const [biometricEnabled, setBiometricEnabled] = useAtom(biometricEnabledAtom);
@@ -38,12 +37,7 @@ export default function Biometric() {
         className="flex-row items-center gap-3 px-4 pb-4"
         style={{ paddingTop: insets.top + 8 }}
       >
-        <Pressable
-          onPress={() => router.back()}
-          className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
-        >
-          <MaterialIcons name="arrow-back" size={22} color="white" />
-        </Pressable>
+        <BackButton />
         <Text className="text-lg font-bold text-white">Biometric Login</Text>
       </View>
 

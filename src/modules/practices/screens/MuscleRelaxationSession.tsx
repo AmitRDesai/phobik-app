@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
@@ -363,12 +364,7 @@ export default function MuscleRelaxationSession() {
 
         {/* Header */}
         <View className="z-20 flex-row items-center justify-between px-4 py-3">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-10 w-10 items-center justify-center rounded-full bg-white/5 active:bg-white/10"
-          >
-            <MaterialIcons name="close" size={22} color={alpha.white70} />
-          </Pressable>
+          <BackButton icon="close" />
 
           {/* Center title + HRV badge */}
           <View className="items-center">

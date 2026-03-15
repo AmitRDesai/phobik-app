@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
@@ -82,12 +83,7 @@ export default function StarBreathingSession() {
         {/* Header */}
         <View className="z-20 px-6 pb-4 pt-2">
           <View className="mb-4 flex-row items-center justify-between">
-            <Pressable
-              onPress={() => router.back()}
-              className="h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 active:scale-95"
-            >
-              <MaterialIcons name="close" size={24} color={alpha.white70} />
-            </Pressable>
+            <BackButton icon="close" />
             <View className="items-center">
               <Text className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
                 Star Breathing

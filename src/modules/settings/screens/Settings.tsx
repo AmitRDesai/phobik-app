@@ -9,6 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
 import { Pressable, ScrollView, Text, View } from 'react-native';
+import { BackButton } from '@/components/ui/BackButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SettingsMenuItem } from '../components/SettingsMenuItem';
 
@@ -50,12 +51,7 @@ export default function Settings() {
         className="flex-row items-center gap-3 px-4 pb-4"
         style={{ paddingTop: insets.top + 8 }}
       >
-        <Pressable
-          onPress={() => router.back()}
-          className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
-        >
-          <MaterialIcons name="arrow-back" size={22} color="white" />
-        </Pressable>
+        <BackButton />
         <Text className="text-lg font-bold text-white">Settings</Text>
       </View>
 

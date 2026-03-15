@@ -1,7 +1,7 @@
+import { BackButton } from '@/components/ui/BackButton';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
-import { router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -20,12 +20,7 @@ export function ExerciseLibraryHeader() {
       >
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center gap-3">
-            <Pressable
-              onPress={() => router.back()}
-              className="active:opacity-70"
-            >
-              <MaterialIcons name="chevron-left" size={28} color="white" />
-            </Pressable>
+            <BackButton />
             <Text className="text-2xl font-bold tracking-tight text-white">
               Exercise Library
             </Text>

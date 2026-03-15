@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
@@ -96,12 +97,7 @@ export default function Lazy8BreathingSession() {
 
         {/* Header */}
         <View className="z-50 flex-row items-center justify-between px-4 pb-2 pt-4">
-          <Pressable
-            onPress={() => router.back()}
-            className="h-12 w-12 items-center justify-center active:opacity-70"
-          >
-            <MaterialIcons name="close" size={24} color="white" />
-          </Pressable>
+          <BackButton icon="close" />
           <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-white">
             Lazy 8 Breathing
           </Text>
