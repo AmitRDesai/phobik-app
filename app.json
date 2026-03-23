@@ -17,18 +17,26 @@
           "message",
           "mailto"
         ]
-      }
+      },
+      "appleTeamId": "TF2K337A64"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#FF2D85",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.phobik.app"
+      "package": "com.phobik.app",
+      "permissions": [
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT",
+        "android.permission.READ_CALENDAR",
+        "android.permission.WRITE_CALENDAR",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "output": "static",
@@ -63,7 +71,12 @@
           "calendarPermission": "Allow Phobik to read your calendar so we can help you prepare for stressful events."
         }
       ],
-      ["expo-audio", { "recordAudioAndroid": false }]
+      [
+        "expo-audio",
+        {
+          "recordAudioAndroid": false
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
