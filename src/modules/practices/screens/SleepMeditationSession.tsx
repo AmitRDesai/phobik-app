@@ -4,7 +4,6 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
-import { useNavigation } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
@@ -18,10 +17,12 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Defs, RadialGradient, Rect, Stop } from 'react-native-svg';
 
+import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import {
   SleepMeditationDuration,
   sleepMeditationSessionAtom,
 } from '../store/sleep-meditation';
+import { formatTime } from '../utils/format';
 
 // ── Audio files ──────────────────────────────────────────────────────────────
 
@@ -38,12 +39,6 @@ const DURATION_LABELS: { key: SleepMeditationDuration; label: string }[] = [
   { key: '30min', label: '30 Min' },
   { key: '45min', label: '45 Min' },
 ];
-
-function formatTime(seconds: number) {
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-}
 
 // ── Pulsing Aura Circle ─────────────────────────────────────────────────────
 
@@ -147,7 +142,6 @@ function PulsingAura({ isPlaying }: { isPlaying: boolean }) {
 // ── Main Session Screen ──────────────────────────────────────────────────────
 
 export default function SleepMeditationSession() {
-  const navigation = useNavigation();
   const savedState = useAtomValue(sleepMeditationSessionAtom);
   const setSession = useSetAtom(sleepMeditationSessionAtom);
 
@@ -209,27 +203,12 @@ export default function SleepMeditationSession() {
   };
 
   // Save state on back navigation
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', () => {
-      if (
-        hasStartedRef.current &&
-        status.currentTime > 0 &&
-        status.duration > 0
-      ) {
-        setSession({
-          selectedDuration,
-          currentTime: status.currentTime,
-        });
-      }
-    });
-    return unsubscribe;
-  }, [
-    selectedDuration,
-    status.currentTime,
-    status.duration,
-    navigation,
-    setSession,
-  ]);
+  useSaveOnLeave({
+    save: () =>
+      setSession({ selectedDuration, currentTime: status.currentTime }),
+    canSave:
+      hasStartedRef.current && status.currentTime > 0 && status.duration > 0,
+  });
 
   // Clear saved state when audio finishes
   useEffect(() => {

@@ -3,9 +3,8 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation, useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
@@ -17,38 +16,52 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { BreathingInfinity } from '../components/BreathingInfinity';
-import { lazy8BreathingSessionAtom } from '../store/lazy-8-breathing';
+import { useInstructionAudio } from '../hooks/useInstructionAudio';
+import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
+import { useSessionTimer } from '../hooks/useSessionTimer';
+import { lazy8BreathingSessionAtom } from '../store/session-atoms';
+import { formatTime } from '../utils/format';
 
 const CYCLE_DURATION = 8; // 4s inhale + 4s exhale
 const TOTAL_DURATION = CYCLE_DURATION * 5; // 5 cycles = 40s
 const INHALE_END = 4;
 
-function formatTime(seconds: number) {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-}
-
 export default function Lazy8BreathingSession() {
-  const router = useRouter();
-  const navigation = useNavigation();
   const savedState = useAtomValue(lazy8BreathingSessionAtom);
   const setSession = useSetAtom(lazy8BreathingSessionAtom);
 
   const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
 
-  const [timeRemaining, setTimeRemaining] = useState(initialTimeRef.current);
   const [isPaused, setIsPaused] = useState(false);
-  const [instructionDone, setInstructionDone] = useState(
-    savedState !== null, // skip instruction if resuming
-  );
-  const [sessionReady, setSessionReady] = useState(savedState !== null);
-  const [countdown, setCountdown] = useState<number | undefined>(undefined);
   const [breathPhase, setBreathPhase] = useState('Inhale');
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const elapsed = TOTAL_DURATION - timeRemaining;
-  const overallProgress = elapsed / TOTAL_DURATION;
+  const [isMuted, setIsMuted] = useState(false);
+
+  const {
+    sessionReady,
+    countdown,
+    instructionDone,
+    instructionPlayer,
+    skipToReady,
+    skipToCountdown,
+  } = useInstructionAudio({
+    audioSource: require('@/assets/audio/practices/lazy-8-breathing-session/instructions.mp3'),
+    skipInstruction: savedState !== null,
+    isPaused,
+  });
+
+  const {
+    timeRemaining,
+    setTimeRemaining,
+    elapsed,
+    progress: overallProgress,
+  } = useSessionTimer({
+    totalDuration: TOTAL_DURATION,
+    initialTimeRemaining: initialTimeRef.current,
+    isPaused,
+    sessionReady,
+    onComplete: () => setSession(null),
+  });
 
   // Animated progress bar
   const animatedProgress = useSharedValue(overallProgress);
@@ -73,12 +86,6 @@ export default function Lazy8BreathingSession() {
       ? `Starting in ${countdown}s`
       : breathPhase;
 
-  // Audio player for instructions
-  const player = useAudioPlayer(
-    require('@/assets/audio/practices/lazy-8-breathing-session/instructions.mp3'),
-  );
-  const status = useAudioPlayerStatus(player);
-
   // Phase audio players
   const inhalePlayer = useAudioPlayer(
     require('@/assets/audio/practices/common/inhale.mp3'),
@@ -95,52 +102,15 @@ export default function Lazy8BreathingSession() {
     bowlPlayer.volume = 0.8;
   }, [bowlPlayer]);
 
-  // Start instruction audio on mount (skip if resuming)
+  // Mute/unmute all audio
   useEffect(() => {
-    if (!instructionDone) {
-      player.play();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player]);
-
-  // Detect when instruction audio finishes naturally
-  useEffect(() => {
-    if (
-      !instructionDone &&
-      status.duration > 0 &&
-      status.currentTime >= status.duration &&
-      !status.playing
-    ) {
-      setInstructionDone(true);
-    }
-  }, [instructionDone, status.playing, status.currentTime, status.duration]);
-
-  // 3-second countdown after instruction before starting the exercise
-  useEffect(() => {
-    if (!instructionDone || sessionReady) return;
-
-    setCountdown(3);
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev === undefined || prev <= 1) {
-          clearInterval(interval);
-          setSessionReady(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [instructionDone, sessionReady]);
-
-  // Sync instruction audio with pause state
-  useEffect(() => {
-    if (isPaused) {
-      player.pause();
-    } else if (!instructionDone) {
-      player.play();
-    }
-  }, [isPaused, player, instructionDone]);
+    const vol = isMuted ? 0 : 1;
+    const bowlVol = isMuted ? 0 : 0.8;
+    instructionPlayer.volume = vol;
+    inhalePlayer.volume = vol;
+    exhalePlayer.volume = vol;
+    bowlPlayer.volume = bowlVol;
+  }, [isMuted, instructionPlayer, inhalePlayer, exhalePlayer, bowlPlayer]);
 
   // Play phase audio on phase changes + tibetan bowl at cycle start
   useEffect(() => {
@@ -169,45 +139,25 @@ export default function Lazy8BreathingSession() {
   }, [isPaused, inhalePlayer, exhalePlayer, bowlPlayer]);
 
   // Save state on back navigation (only if session has started)
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', () => {
-      if (sessionReady && timeRemaining > 0) {
-        setSession({ timeRemaining });
-      }
-    });
-    return unsubscribe;
-  }, [sessionReady, timeRemaining, navigation, setSession]);
+  useSaveOnLeave({
+    save: () => setSession({ timeRemaining }),
+    canSave: sessionReady && timeRemaining > 0,
+  });
 
-  // Complete session when timer reaches zero
-  useEffect(() => {
-    if (timeRemaining === 0) {
+  const [restartKey, setRestartKey] = useState(0);
+
+  // Skip instruction or restart the session
+  const handleRestart = () => {
+    if (sessionReady) {
+      setRestartKey((k) => k + 1);
+      setTimeRemaining(TOTAL_DURATION);
+      setIsPaused(false);
+      skipToReady();
       setSession(null);
-      router.replace('/practices/completion');
+    } else {
+      skipToCountdown();
     }
-  }, [timeRemaining, setSession, router]);
-
-  // Timer only runs after session is ready
-  useEffect(() => {
-    if (isPaused || !sessionReady) return;
-
-    intervalRef.current = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          clearInterval(intervalRef.current!);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [isPaused, sessionReady]);
-
-  const handleRewind = () => {};
-
-  const handleForward = () => {};
+  };
 
   return (
     <Container safeAreaClass="bg-background-dark">
@@ -250,6 +200,7 @@ export default function Lazy8BreathingSession() {
           {/* Infinity visualization */}
           <View className="mb-8 w-full items-center">
             <BreathingInfinity
+              key={restartKey}
               isActive={sessionReady}
               isPaused={isPaused}
               onPhaseChange={setBreathPhase}
@@ -297,11 +248,11 @@ export default function Lazy8BreathingSession() {
           {/* Playback controls */}
           <View className="mb-8 flex-row items-center justify-center gap-8">
             <Pressable
-              onPress={handleRewind}
+              onPress={() => setIsMuted((m) => !m)}
               className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
             >
               <MaterialIcons
-                name="fast-rewind"
+                name={isMuted ? 'volume-off' : 'volume-up'}
                 size={24}
                 color={alpha.white70}
               />
@@ -323,11 +274,11 @@ export default function Lazy8BreathingSession() {
               />
             </Pressable>
             <Pressable
-              onPress={handleForward}
+              onPress={handleRestart}
               className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
             >
               <MaterialIcons
-                name="fast-forward"
+                name={sessionReady ? 'replay' : 'skip-next'}
                 size={24}
                 color={alpha.white70}
               />

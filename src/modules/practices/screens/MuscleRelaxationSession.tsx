@@ -3,9 +3,9 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAudioPlayer } from 'expo-audio';
+import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
@@ -19,7 +19,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Circle, Path } from 'react-native-svg';
 
+import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { muscleRelaxationSessionAtom } from '../store/muscle-relaxation';
+import { formatTime } from '../utils/format';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -137,12 +139,6 @@ const TOTAL_DURATION = MUSCLE_GROUPS.reduce(
 );
 
 type StepPhase = 'audio' | 'wait';
-
-function formatTime(seconds: number) {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-}
 
 // ── Body Silhouette Component ────────────────────────────────────────────────
 
@@ -330,7 +326,6 @@ function MuscleGroupStep({
 
 export default function MuscleRelaxationSession() {
   const router = useRouter();
-  const navigation = useNavigation();
   const savedState = useAtomValue(muscleRelaxationSessionAtom);
   const setSession = useSetAtom(muscleRelaxationSessionAtom);
 
@@ -372,19 +367,26 @@ export default function MuscleRelaxationSession() {
 
   // Audio player — start with the correct step's audio
   const player = useAudioPlayer(MUSCLE_GROUPS[initialStepRef.current].audio);
+  const audioStatus = useAudioPlayerStatus(player);
 
-  // Start audio on mount
+  // Play audio once the source finishes loading (handles both initial mount and step changes)
   useEffect(() => {
-    player.play();
-  }, [player]);
+    if (
+      audioStatus.isLoaded &&
+      stepPhase === 'audio' &&
+      !isPaused &&
+      !audioStatus.playing
+    ) {
+      player.play();
+    }
+  }, [audioStatus.isLoaded, audioStatus.playing, stepPhase, isPaused, player]);
 
-  // Switch audio when step changes
+  // Switch audio when step changes — only replace, don't play (wait for isLoaded)
   const prevStepRef = useRef(initialStepRef.current);
   useEffect(() => {
     if (prevStepRef.current !== currentStepIndex) {
       prevStepRef.current = currentStepIndex;
       player.replace(MUSCLE_GROUPS[currentStepIndex].audio);
-      player.play();
     }
   }, [currentStepIndex, player]);
 
@@ -438,14 +440,10 @@ export default function MuscleRelaxationSession() {
   }, [stepPhase, waitTimeRemaining, currentStepIndex]);
 
   // Save state on back navigation
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', () => {
-      if (timeRemaining > 0) {
-        setSession({ currentStepIndex });
-      }
-    });
-    return unsubscribe;
-  }, [currentStepIndex, timeRemaining, navigation, setSession]);
+  useSaveOnLeave({
+    save: () => setSession({ currentStepIndex }),
+    canSave: timeRemaining > 0,
+  });
 
   // Completion — last step wait finishes
   useEffect(() => {
@@ -477,10 +475,10 @@ export default function MuscleRelaxationSession() {
     if (stepPhase !== 'audio') return;
     if (isPaused) {
       player.pause();
-    } else {
+    } else if (audioStatus.isLoaded) {
       player.play();
     }
-  }, [isPaused, player, stepPhase]);
+  }, [isPaused, player, stepPhase, audioStatus.isLoaded]);
 
   // Auto-scroll to active muscle group
   useEffect(() => {

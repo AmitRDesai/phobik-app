@@ -1,19 +1,22 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
+import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { AudioVisualizer } from '../components/AudioVisualizer';
 import { HeartRateBadge } from '../components/HeartRateBadge';
 import { ProgressRing } from '../components/ProgressRing';
+import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { groundingSessionAtom } from '../store/grounding';
+import { formatTime } from '../utils/format';
 
 interface SessionStep {
   count: number;
@@ -71,12 +74,6 @@ const AUDIO_FILES: Record<number, number> = {
   1: require('@/assets/audio/practices/grounding-session/1.mp3'),
 };
 
-function formatTime(seconds: number) {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-}
-
 function parseInstruction(text: string) {
   const parts = text.split(/\*\*(.*?)\*\*/);
   return parts.map((part, i) =>
@@ -88,15 +85,14 @@ function parseInstruction(text: string) {
 
 export default function GroundingSession() {
   const router = useRouter();
-  const navigation = useNavigation();
   const savedState = useAtomValue(groundingSessionAtom);
-  const setGroundingSession = useSetAtom(groundingSessionAtom);
 
   const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
 
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(initialTimeRef.current);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const currentStep = STEPS[currentStepIndex];
@@ -109,13 +105,13 @@ export default function GroundingSession() {
 
   // Generate visualizer levels from audio playback position
   const audioLevels = useMemo(() => {
-    if (!status.playing) return null;
+    if (!status.playing || isMuted) return null;
     const t = status.currentTime;
     return Array.from({ length: 6 }, (_, i) => {
       const v = Math.abs(Math.sin(t * (3 + i * 1.7) + i * 2.1));
       return v * 0.6 + 0.15;
     });
-  }, [status.playing, status.currentTime]);
+  }, [status.playing, status.currentTime, isMuted]);
 
   // Start audio on mount
   useEffect(() => {
@@ -143,19 +139,33 @@ export default function GroundingSession() {
     }
   }, [isPaused, player]);
 
-  // Save state on back navigation
+  // Mute/unmute audio
   useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', () => {
-      if (timeRemaining > 0) {
-        setGroundingSession({ currentStepIndex, timeRemaining });
-      }
-    });
-    return unsubscribe;
-  }, [currentStepIndex, timeRemaining, navigation, setGroundingSession]);
+    player.volume = isMuted ? 0 : 1;
+  }, [isMuted, player]);
 
-  const handleComplete = useCallback(() => {
-    router.replace('/practices/completion');
-  }, [router]);
+  const handleRestart = () => {
+    setTimeRemaining(TOTAL_DURATION);
+    setCurrentStepIndex(0);
+    setIsPaused(false);
+    player.replace(AUDIO_FILES[5]);
+    player.play();
+  };
+
+  // Save state on back navigation
+  const setGroundingSession = useSetAtom(groundingSessionAtom);
+  useSaveOnLeave({
+    save: () => setGroundingSession({ currentStepIndex, timeRemaining }),
+    canSave: timeRemaining > 0,
+  });
+
+  // Navigate to completion when timer reaches zero
+  useEffect(() => {
+    if (timeRemaining === 0) {
+      setGroundingSession(null);
+      router.replace('/practices/completion');
+    }
+  }, [timeRemaining, setGroundingSession, router]);
 
   useEffect(() => {
     if (isPaused) return;
@@ -164,7 +174,6 @@ export default function GroundingSession() {
       setTimeRemaining((prev) => {
         if (prev <= 1) {
           clearInterval(intervalRef.current!);
-          handleComplete();
           return 0;
         }
         return prev - 1;
@@ -174,7 +183,7 @@ export default function GroundingSession() {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPaused, handleComplete]);
+  }, [isPaused]);
 
   // Advance step based on elapsed time
   useEffect(() => {
@@ -241,7 +250,7 @@ export default function GroundingSession() {
               <View className="mt-4">
                 <AudioVisualizer
                   levels={audioLevels}
-                  isPlaying={status.playing}
+                  isPlaying={status.playing && !isMuted}
                 />
               </View>
             </View>
@@ -302,15 +311,39 @@ export default function GroundingSession() {
           </Text>
         </View>
 
-        {/* Pause button */}
-        <View className="z-10 px-6 pb-6">
+        {/* Controls */}
+        <View className="z-10 mb-8 flex-row items-center justify-center gap-8">
+          <Pressable
+            onPress={() => setIsMuted((m) => !m)}
+            className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+          >
+            <MaterialIcons
+              name={isMuted ? 'volume-off' : 'volume-up'}
+              size={24}
+              color={alpha.white70}
+            />
+          </Pressable>
           <Pressable
             onPress={() => setIsPaused((p) => !p)}
-            className="w-full items-center rounded-full border border-white/[0.08] bg-white/[0.03] py-4 active:opacity-70"
+            className="h-14 w-14 items-center justify-center rounded-full bg-white active:scale-95"
+            style={{
+              shadowColor: '#fff',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.3,
+              shadowRadius: 8,
+            }}
           >
-            <Text className="text-sm font-medium text-white/70">
-              {isPaused ? 'Resume Session' : 'Pause Session'}
-            </Text>
+            <MaterialIcons
+              name={isPaused ? 'play-arrow' : 'pause'}
+              size={28}
+              color={colors.background.dark}
+            />
+          </Pressable>
+          <Pressable
+            onPress={handleRestart}
+            className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+          >
+            <MaterialIcons name="replay" size={24} color={alpha.white70} />
           </Pressable>
         </View>
       </View>

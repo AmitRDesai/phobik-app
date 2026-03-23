@@ -3,68 +3,68 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation, useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { BreathingBox } from '../components/BreathingBox';
-import { boxBreathingSessionAtom } from '../store/box-breathing';
+import { useInstructionAudio } from '../hooks/useInstructionAudio';
+import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
+import { useSessionTimer } from '../hooks/useSessionTimer';
+import { boxBreathingSessionAtom } from '../store/session-atoms';
+import { formatTime } from '../utils/format';
 
 const PHASE_DURATION = 4;
 const CYCLE_DURATION = PHASE_DURATION * 4; // 16s
 const TOTAL_DURATION = CYCLE_DURATION * 5; // 5 cycles = 80 seconds
 
-function formatTime(seconds: number) {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-}
-
 export default function BoxBreathingSession() {
-  const router = useRouter();
-  const navigation = useNavigation();
   const savedState = useAtomValue(boxBreathingSessionAtom);
   const setSession = useSetAtom(boxBreathingSessionAtom);
 
   const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
 
-  const [timeRemaining, setTimeRemaining] = useState(initialTimeRef.current);
   const [isPaused, setIsPaused] = useState(false);
-  const [instructionDone, setInstructionDone] = useState(
-    savedState !== null, // skip instruction if resuming
-  );
-  const [sessionReady, setSessionReady] = useState(savedState !== null);
-  const [countdown, setCountdown] = useState<number | undefined>(undefined);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const elapsed = TOTAL_DURATION - timeRemaining;
+  const [isMuted, setIsMuted] = useState(false);
+
+  const {
+    sessionReady,
+    countdown,
+    instructionPlayer,
+    skipToReady,
+    skipToCountdown,
+  } = useInstructionAudio({
+    audioSource: require('@/assets/audio/practices/box-breathing-session/instructions.mp3'),
+    skipInstruction: savedState !== null,
+    isPaused,
+  });
+
+  const { timeRemaining, setTimeRemaining, elapsed } = useSessionTimer({
+    totalDuration: TOTAL_DURATION,
+    initialTimeRemaining: initialTimeRef.current,
+    isPaused,
+    sessionReady,
+    onComplete: () => setSession(null),
+  });
 
   // Breathing phase (derived from elapsed)
   const cyclePosition = elapsed % CYCLE_DURATION;
   const phaseIndex = Math.floor(cyclePosition / PHASE_DURATION);
 
-  // Go to previous phase start (backward)
-  const handleBackward = () => {
-    const timeIntoPhase = cyclePosition - phaseIndex * PHASE_DURATION;
-    const jumpBack = timeIntoPhase + PHASE_DURATION;
-    setTimeRemaining((prev) => Math.min(prev + jumpBack, TOTAL_DURATION));
+  // Skip instruction or restart the session
+  const handleRestart = () => {
+    if (sessionReady) {
+      setTimeRemaining(TOTAL_DURATION);
+      setIsPaused(false);
+      skipToReady();
+      setSession(null);
+    } else {
+      skipToCountdown();
+    }
   };
-
-  // Go to next phase start (forward)
-  const handleForward = () => {
-    const timeLeftInPhase =
-      PHASE_DURATION - (cyclePosition - phaseIndex * PHASE_DURATION);
-    setTimeRemaining((prev) => Math.max(prev - timeLeftInPhase, 0));
-  };
-
-  // Instruction audio
-  const instructionPlayer = useAudioPlayer(
-    require('@/assets/audio/practices/box-breathing-session/instructions.mp3'),
-  );
-  const instructionStatus = useAudioPlayerStatus(instructionPlayer);
 
   // Phase audio players
   const inhalePlayer = useAudioPlayer(
@@ -88,57 +88,25 @@ export default function BoxBreathingSession() {
     bowlPlayer.volume = 0.8;
   }, [bowlPlayer]);
 
-  // Start instruction audio on mount (skip if resuming)
+  // Mute/unmute all audio
   useEffect(() => {
-    if (!instructionDone) {
-      instructionPlayer.play();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [instructionPlayer]);
-
-  // Detect when instruction audio finishes naturally
-  useEffect(() => {
-    if (
-      !instructionDone &&
-      instructionStatus.duration > 0 &&
-      instructionStatus.currentTime >= instructionStatus.duration &&
-      !instructionStatus.playing
-    ) {
-      setInstructionDone(true);
-    }
+    const vol = isMuted ? 0 : 1;
+    const bowlVol = isMuted ? 0 : 0.8;
+    instructionPlayer.volume = vol;
+    inhalePlayer.volume = vol;
+    holdPlayer.volume = vol;
+    exhalePlayer.volume = vol;
+    restPlayer.volume = vol;
+    bowlPlayer.volume = bowlVol;
   }, [
-    instructionDone,
-    instructionStatus.playing,
-    instructionStatus.currentTime,
-    instructionStatus.duration,
+    isMuted,
+    instructionPlayer,
+    inhalePlayer,
+    holdPlayer,
+    exhalePlayer,
+    restPlayer,
+    bowlPlayer,
   ]);
-
-  // 3-second countdown after instruction before starting the exercise
-  useEffect(() => {
-    if (!instructionDone || sessionReady) return;
-
-    setCountdown(3);
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev === undefined || prev <= 1) {
-          clearInterval(interval);
-          setSessionReady(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [instructionDone, sessionReady]);
-
-  // Sync instruction audio with pause state
-  useEffect(() => {
-    if (isPaused) {
-      instructionPlayer.pause();
-    } else if (!instructionDone) {
-      instructionPlayer.play();
-    }
-  }, [isPaused, instructionPlayer, instructionDone]);
 
   // Play phase audio on phase changes + tibetan bowl at cycle start
   useEffect(() => {
@@ -176,41 +144,10 @@ export default function BoxBreathingSession() {
   ]);
 
   // Save state on back navigation (only if session has started)
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', () => {
-      if (sessionReady && timeRemaining > 0) {
-        setSession({ timeRemaining });
-      }
-    });
-    return unsubscribe;
-  }, [sessionReady, timeRemaining, navigation, setSession]);
-
-  // Complete session when timer reaches zero
-  useEffect(() => {
-    if (timeRemaining === 0) {
-      setSession(null);
-      router.replace('/practices/completion');
-    }
-  }, [timeRemaining, setSession, router]);
-
-  // Timer only runs after session is ready
-  useEffect(() => {
-    if (isPaused || !sessionReady) return;
-
-    intervalRef.current = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          clearInterval(intervalRef.current!);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [isPaused, sessionReady]);
+  useSaveOnLeave({
+    save: () => setSession({ timeRemaining }),
+    canSave: sessionReady && timeRemaining > 0,
+  });
 
   // Mock HRV data (would come from biometric sensor in production)
   const hrvMs = 72;
@@ -381,58 +318,59 @@ export default function BoxBreathingSession() {
             </View>
 
             {/* Playback Controls */}
-            <View className="mt-8 items-center border-t border-white/5 pt-6">
-              <View className="flex-row items-center gap-8">
-                <Pressable
-                  onPress={handleBackward}
-                  className="h-10 w-10 items-center justify-center rounded-full active:opacity-70"
+            <View className="mt-8 flex-row items-center justify-between border-t border-white/5 px-6 pt-6">
+              {/* Mute button */}
+              <Pressable
+                onPress={() => setIsMuted((m) => !m)}
+                className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
+              >
+                <MaterialIcons
+                  name={isMuted ? 'volume-off' : 'volume-up'}
+                  size={24}
+                  color={alpha.white60}
+                />
+              </Pressable>
+
+              {/* Pause / Play button */}
+              <Pressable
+                onPress={() => setIsPaused((p) => !p)}
+                className="active:scale-95"
+              >
+                <LinearGradient
+                  colors={[colors.primary.pink, colors.accent.yellow]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: 32,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    shadowColor: colors.primary.pink,
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 12,
+                  }}
                 >
                   <MaterialIcons
-                    name="replay-5"
-                    size={24}
-                    color={alpha.white40}
+                    name={isPaused ? 'play-arrow' : 'pause'}
+                    size={30}
+                    color="white"
                   />
-                </Pressable>
+                </LinearGradient>
+              </Pressable>
 
-                <Pressable
-                  onPress={() => setIsPaused((p) => !p)}
-                  className="active:scale-95"
-                >
-                  <LinearGradient
-                    colors={[colors.primary.pink, colors.accent.yellow]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
-                    style={{
-                      width: 64,
-                      height: 64,
-                      borderRadius: 32,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      shadowColor: colors.primary.pink,
-                      shadowOffset: { width: 0, height: 4 },
-                      shadowOpacity: 0.3,
-                      shadowRadius: 12,
-                    }}
-                  >
-                    <MaterialIcons
-                      name={isPaused ? 'play-arrow' : 'pause'}
-                      size={30}
-                      color={colors.background.charcoal}
-                    />
-                  </LinearGradient>
-                </Pressable>
-
-                <Pressable
-                  onPress={handleForward}
-                  className="h-10 w-10 items-center justify-center rounded-full active:opacity-70"
-                >
-                  <MaterialIcons
-                    name="forward-5"
-                    size={24}
-                    color={alpha.white40}
-                  />
-                </Pressable>
-              </View>
+              {/* Restart button */}
+              <Pressable
+                onPress={handleRestart}
+                className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
+              >
+                <MaterialIcons
+                  name={sessionReady ? 'replay' : 'skip-next'}
+                  size={24}
+                  color={alpha.white60}
+                />
+              </Pressable>
             </View>
           </View>
         </View>

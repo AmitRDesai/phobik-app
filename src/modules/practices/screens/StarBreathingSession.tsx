@@ -1,11 +1,10 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation, useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
@@ -17,7 +16,11 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { BreathingStar } from '../components/BreathingStar';
-import { starBreathingSessionAtom } from '../store/star-breathing';
+import { useInstructionAudio } from '../hooks/useInstructionAudio';
+import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
+import { useSessionTimer } from '../hooks/useSessionTimer';
+import { starBreathingSessionAtom } from '../store/session-atoms';
+import { formatTime } from '../utils/format';
 
 const TOTAL_DURATION = 50; // one full star orbit (5 breathing cycles)
 
@@ -26,32 +29,41 @@ const INHALE_END = 4;
 const HOLD_END = 6;
 const CYCLE_DURATION = 10;
 
-function formatTime(seconds: number) {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-}
-
 export default function StarBreathingSession() {
-  const router = useRouter();
-  const navigation = useNavigation();
   const savedState = useAtomValue(starBreathingSessionAtom);
   const setSession = useSetAtom(starBreathingSessionAtom);
 
   const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
 
-  const [timeRemaining, setTimeRemaining] = useState(initialTimeRef.current);
   const [isPaused, setIsPaused] = useState(false);
-  const [instructionDone, setInstructionDone] = useState(
-    savedState !== null, // skip instruction if resuming
-  );
-  const [sessionReady, setSessionReady] = useState(savedState !== null);
-  const [countdown, setCountdown] = useState<number | undefined>(undefined);
   const [breathPhase, setBreathPhase] = useState('Inhale');
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [isMuted, setIsMuted] = useState(false);
 
-  const elapsed = TOTAL_DURATION - timeRemaining;
-  const overallProgress = elapsed / TOTAL_DURATION;
+  const {
+    sessionReady,
+    countdown,
+    instructionDone,
+    instructionPlayer,
+    skipToReady,
+    skipToCountdown,
+  } = useInstructionAudio({
+    audioSource: require('@/assets/audio/practices/star-breathing-session/instructions.mp3'),
+    skipInstruction: savedState !== null,
+    isPaused,
+  });
+
+  const {
+    timeRemaining,
+    setTimeRemaining,
+    elapsed,
+    progress: overallProgress,
+  } = useSessionTimer({
+    totalDuration: TOTAL_DURATION,
+    initialTimeRemaining: initialTimeRef.current,
+    isPaused,
+    sessionReady,
+    onComplete: () => setSession(null),
+  });
 
   // Animated progress bar
   const animatedProgress = useSharedValue(overallProgress);
@@ -83,12 +95,6 @@ export default function StarBreathingSession() {
       ? 'Get ready...'
       : 'Follow the light around the star';
 
-  // Audio player for instructions
-  const player = useAudioPlayer(
-    require('@/assets/audio/practices/star-breathing-session/instructions.mp3'),
-  );
-  const status = useAudioPlayerStatus(player);
-
   // Phase audio players
   const inhalePlayer = useAudioPlayer(
     require('@/assets/audio/practices/common/inhale.mp3'),
@@ -99,53 +105,6 @@ export default function StarBreathingSession() {
   const exhalePlayer = useAudioPlayer(
     require('@/assets/audio/practices/common/exhale.mp3'),
   );
-
-  // Start instruction audio on mount (skip if resuming)
-  useEffect(() => {
-    if (!instructionDone) {
-      player.play();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player]);
-
-  // Detect when instruction audio finishes naturally (reached the end)
-  useEffect(() => {
-    if (
-      !instructionDone &&
-      status.duration > 0 &&
-      status.currentTime >= status.duration &&
-      !status.playing
-    ) {
-      setInstructionDone(true);
-    }
-  }, [instructionDone, status.playing, status.currentTime, status.duration]);
-
-  // 3-second countdown after instruction before starting the exercise
-  useEffect(() => {
-    if (!instructionDone || sessionReady) return;
-
-    setCountdown(3);
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev === undefined || prev <= 1) {
-          clearInterval(interval);
-          setSessionReady(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [instructionDone, sessionReady]);
-
-  // Sync instruction audio with pause state
-  useEffect(() => {
-    if (isPaused) {
-      player.pause();
-    } else if (!instructionDone) {
-      player.play();
-    }
-  }, [isPaused, player, instructionDone]);
 
   // Play phase audio on phase changes
   useEffect(() => {
@@ -167,42 +126,35 @@ export default function StarBreathingSession() {
     }
   }, [isPaused, inhalePlayer, holdPlayer, exhalePlayer]);
 
+  // Mute/unmute all audio
+  useEffect(() => {
+    const vol = isMuted ? 0 : 1;
+    instructionPlayer.volume = vol;
+    inhalePlayer.volume = vol;
+    holdPlayer.volume = vol;
+    exhalePlayer.volume = vol;
+  }, [isMuted, instructionPlayer, inhalePlayer, holdPlayer, exhalePlayer]);
+
   // Save state on back navigation (only if session has started)
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', () => {
-      if (sessionReady && timeRemaining > 0) {
-        setSession({ timeRemaining });
-      }
-    });
-    return unsubscribe;
-  }, [sessionReady, timeRemaining, navigation, setSession]);
+  useSaveOnLeave({
+    save: () => setSession({ timeRemaining }),
+    canSave: sessionReady && timeRemaining > 0,
+  });
 
-  // Complete session when timer reaches zero
-  useEffect(() => {
-    if (timeRemaining === 0) {
+  const [restartKey, setRestartKey] = useState(0);
+
+  // Skip instruction or restart the session
+  const handleRestart = () => {
+    if (sessionReady) {
+      setRestartKey((k) => k + 1);
+      setTimeRemaining(TOTAL_DURATION);
+      setIsPaused(false);
+      skipToReady();
       setSession(null);
-      router.replace('/practices/completion');
+    } else {
+      skipToCountdown();
     }
-  }, [timeRemaining, setSession, router]);
-
-  // Timer only runs after session is ready
-  useEffect(() => {
-    if (isPaused || !sessionReady) return;
-
-    intervalRef.current = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          clearInterval(intervalRef.current!);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [isPaused, sessionReady]);
+  };
 
   return (
     <Container safeAreaClass="bg-black">
@@ -218,7 +170,7 @@ export default function StarBreathingSession() {
         />
 
         {/* Header */}
-        <View className="z-20 px-6 pb-4 pt-2">
+        <View className="z-50 px-6 pb-4 pt-2">
           <View className="mb-4 flex-row items-center justify-between">
             <BackButton icon="close" />
             <View className="items-center">
@@ -234,8 +186,42 @@ export default function StarBreathingSession() {
             </View>
             <View className="h-11 w-11" />
           </View>
+        </View>
+
+        {/* Scrollable content */}
+        <ScrollView
+          className="z-10 flex-1"
+          contentContainerClassName="items-center px-6 pb-6"
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Breathing instruction — fixed height to prevent layout shifts */}
+          <View className="items-center px-2 pt-4" style={{ height: 100 }}>
+            <Text className="mb-3 text-center text-5xl font-semibold tracking-tight text-white">
+              {currentPhase}
+            </Text>
+            <Text className="text-center text-sm font-medium text-white/40">
+              {subText}
+            </Text>
+          </View>
+
+          {/* Star visualization */}
+          <View className="mb-4 items-center justify-center">
+            <BreathingStar
+              key={restartKey}
+              isActive={sessionReady}
+              isPaused={isPaused}
+              onPhaseChange={setBreathPhase}
+              initialElapsed={
+                savedState ? TOTAL_DURATION - initialTimeRef.current : 0
+              }
+            />
+          </View>
+
           {/* Progress bar */}
-          <View className="h-1 overflow-hidden rounded-full bg-white/[0.08]">
+          <View
+            className="mb-0 w-full max-w-xs overflow-hidden rounded-full bg-white/[0.08]"
+            style={{ height: 4 }}
+          >
             <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
               <LinearGradient
                 colors={[colors.primary.pink, colors.accent.yellow]}
@@ -249,47 +235,65 @@ export default function StarBreathingSession() {
               />
             </Animated.View>
           </View>
-        </View>
 
-        {/* Breathing instruction — fixed height to prevent layout shifts */}
-        <View className="z-10 items-center px-8 pt-4" style={{ height: 100 }}>
-          <Text className="mb-3 text-center text-5xl font-semibold tracking-tight text-white">
-            {currentPhase}
+          {/* Timer */}
+          <Text
+            className="mb-6 mt-3 text-[10px] font-bold uppercase tracking-widest text-slate-500"
+            style={{ fontVariant: ['tabular-nums'] }}
+          >
+            {formatTime(elapsed)} / {formatTime(TOTAL_DURATION)}
           </Text>
-          <Text className="text-center text-sm font-medium text-white/40">
-            {subText}
-          </Text>
-        </View>
 
-        {/* Star visualization */}
-        <View className="z-10 flex-1 items-center justify-center">
-          <BreathingStar
-            isActive={sessionReady}
-            isPaused={isPaused}
-            onPhaseChange={setBreathPhase}
-            initialElapsed={
-              savedState ? TOTAL_DURATION - initialTimeRef.current : 0
-            }
-          />
-        </View>
-
-        {/* Bottom info cards */}
-        <ScrollView
-          horizontal={false}
-          contentContainerClassName="px-6 gap-4 pb-6"
-          showsVerticalScrollIndicator={false}
-          className="z-20 max-h-[220px]"
-        >
           {/* Instruction card */}
-          <View className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+          <View className="mb-6 w-full max-w-sm rounded-2xl border border-white/10 bg-white/[0.03] p-4">
             <Text className="text-center text-[15px] font-medium leading-relaxed text-white/90">
               Trace the star&#39;s edges with your breath. Inhale and exhale
               along the lines, hold at each point.
             </Text>
           </View>
 
+          {/* Playback controls */}
+          <View className="mb-8 flex-row items-center justify-center gap-8">
+            <Pressable
+              onPress={() => setIsMuted((m) => !m)}
+              className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+            >
+              <MaterialIcons
+                name={isMuted ? 'volume-off' : 'volume-up'}
+                size={24}
+                color={alpha.white70}
+              />
+            </Pressable>
+            <Pressable
+              onPress={() => setIsPaused((p) => !p)}
+              className="h-14 w-14 items-center justify-center rounded-full bg-white active:scale-95"
+              style={{
+                shadowColor: '#fff',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+              }}
+            >
+              <MaterialIcons
+                name={isPaused ? 'play-arrow' : 'pause'}
+                size={28}
+                color={colors.background.dark}
+              />
+            </Pressable>
+            <Pressable
+              onPress={handleRestart}
+              className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+            >
+              <MaterialIcons
+                name={sessionReady ? 'replay' : 'skip-next'}
+                size={24}
+                color={alpha.white70}
+              />
+            </Pressable>
+          </View>
+
           {/* HRV + Stats card */}
-          <View className="rounded-[32px] border border-white/[0.08] bg-white/[0.03] p-6">
+          <View className="mb-6 w-full rounded-[32px] border border-white/[0.08] bg-white/[0.03] p-6">
             {/* HRV header */}
             <View className="mb-6 flex-row items-center justify-between">
               <View className="flex-row items-center gap-4">
@@ -385,18 +389,6 @@ export default function StarBreathingSession() {
             </View>
           </View>
         </ScrollView>
-
-        {/* Pause button */}
-        <View className="z-20 px-6 pb-6">
-          <Pressable
-            onPress={() => setIsPaused((p) => !p)}
-            className="w-full items-center rounded-full border border-white/[0.08] bg-white/[0.03] py-4 active:opacity-70"
-          >
-            <Text className="text-sm font-medium text-white/70">
-              {isPaused ? 'Resume Session' : 'Pause Session'}
-            </Text>
-          </Pressable>
-        </View>
       </View>
     </Container>
   );
