@@ -6,29 +6,25 @@ import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { useAtom } from 'jotai';
+import { Pressable, Text, View } from 'react-native';
 
-import {
-  EnergyLevel,
-  EnergyLevelPicker,
-} from '../components/EnergyLevelPicker';
 import { EXERCISES } from '../data/exercises';
+import { doubleInhaleSessionAtom } from '../store/double-inhale';
 
 const exercise = EXERCISES.find((e) => e.id === 'double-inhale')!;
 
 export default function DoubleInhaleIntro() {
   const router = useRouter();
-  const [selectedEnergy, setSelectedEnergy] = useState<EnergyLevel | null>(
-    null,
-  );
+  const [savedSession, setSavedSession] = useAtom(doubleInhaleSessionAtom);
+  const hasSavedSession = savedSession !== null;
 
   return (
-    <Container safeAreaClass="bg-background-dark">
-      <View className="flex-1 bg-background-dark">
+    <Container safeAreaClass="bg-background-charcoal">
+      <View className="flex-1 bg-background-charcoal">
         <GlowBg
-          bgClassName="bg-background-dark"
-          centerX={0.5}
+          bgClassName="bg-background-charcoal"
+          centerX={0.8}
           centerY={0.2}
           intensity={0.4}
           radius={0.4}
@@ -36,82 +32,66 @@ export default function DoubleInhaleIntro() {
           endColor={colors.accent.yellow}
         />
 
-        {/* Header */}
-        <View className="z-10 flex-row items-center justify-between px-6 pb-6 pt-3.5">
+        {/* Close button — top-left */}
+        <View className="absolute left-6 top-3 z-40">
           <BackButton />
-          <Text className="text-xs font-semibold uppercase tracking-widest text-primary-pink">
-            PHOBIK Practice
-          </Text>
-          <Pressable className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 active:opacity-70">
-            <MaterialIcons name="more-horiz" size={20} color="white" />
-          </Pressable>
         </View>
 
-        {/* Scrollable content */}
-        <ScrollView
-          className="z-10 flex-1"
-          contentContainerClassName="px-6 pb-8"
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Gradient icon */}
-          <View className="mb-6 items-center">
-            <LinearGradient
-              colors={[colors.primary.pink, colors.accent.yellow]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: 24,
-                alignItems: 'center',
-                justifyContent: 'center',
-                shadowColor: colors.primary.pink,
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.2,
-                shadowRadius: 12,
-              }}
-            >
-              <MaterialIcons name="air" size={30} color="white" />
-            </LinearGradient>
-          </View>
+        {/* Main content — centered */}
+        <View className="z-10 flex-1 items-center justify-center px-6 pb-32 pt-24">
+          <View className="w-full max-w-md items-center">
+            {/* Icon — rounded square with gradient */}
+            <View className="relative mb-6">
+              <LinearGradient
+                colors={[colors.primary.pink, colors.accent.yellow]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={{
+                  width: 72,
+                  height: 72,
+                  borderRadius: 20,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  shadowColor: colors.primary.pink,
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.4,
+                  shadowRadius: 20,
+                }}
+              >
+                <MaterialIcons name="air" size={36} color="white" />
+              </LinearGradient>
+            </View>
 
-          {/* Title */}
-          <Text className="mb-4 text-center text-3xl font-bold tracking-tight text-white">
-            Double Inhale Breathing
-          </Text>
-
-          {/* Description */}
-          <Text className="mb-10 px-2 text-center text-sm leading-relaxed text-white/40">
-            {exercise.description}
-          </Text>
-
-          {/* Energy level question */}
-          <View className="mb-8">
-            <Text className="mb-6 text-center text-lg font-medium text-white">
-              What is your energy level before your session?
+            {/* Title */}
+            <Text className="mb-4 text-center text-3xl font-bold tracking-tight text-white">
+              Double Inhale Breathing
             </Text>
-            <EnergyLevelPicker
-              selected={selectedEnergy}
-              onSelect={setSelectedEnergy}
-              variant="icon"
-            />
-          </View>
 
-          {/* Buttons */}
-          <View className="gap-4">
-            <GradientButton
-              onPress={() => router.push('/practices/double-inhale-session')}
-            >
-              Start
-            </GradientButton>
-            <Pressable
-              onPress={() => router.back()}
-              className="w-full items-center py-2 active:opacity-70"
-            >
-              <Text className="font-medium text-white/40">Skip</Text>
-            </Pressable>
+            {/* Description */}
+            <Text className="mx-auto mb-10 max-w-sm text-center text-[13px] leading-relaxed text-white/60">
+              {exercise.description}
+            </Text>
+
+            {/* Buttons */}
+            <View className="w-full gap-3">
+              <GradientButton
+                onPress={() => router.push('/practices/double-inhale-session')}
+              >
+                {hasSavedSession ? 'Resume Session' : 'Start'}
+              </GradientButton>
+              {hasSavedSession && (
+                <Pressable
+                  onPress={() => setSavedSession(null)}
+                  className="w-full items-center rounded-full border border-white/5 bg-white/5 py-4 active:opacity-70"
+                >
+                  <Text className="text-sm font-medium text-white/60">
+                    Restart Progress
+                  </Text>
+                </Pressable>
+              )}
+            </View>
           </View>
-        </ScrollView>
+        </View>
       </View>
     </Container>
   );

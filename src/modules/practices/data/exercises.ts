@@ -4,7 +4,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'grounding-54321',
     name: '5-4-3-2-1 Grounding',
-    duration: '3 MIN',
+    duration: '2 MIN',
     icon: 'grid-view',
     iconColor: 'pink',
     anxietyLevels: ['severe', 'moderate', 'mild', 'calm'],
@@ -41,7 +41,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'box-breathing',
     name: 'Box Breathing',
-    duration: '4 MIN',
+    duration: '2 MIN',
     icon: 'crop-square',
     iconColor: 'accent',
     anxietyLevels: ['moderate', 'mild', 'calm'],
@@ -51,7 +51,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'star-breathing',
     name: 'Star Breathing',
-    duration: '5 MIN',
+    duration: '2 MIN',
     icon: 'star',
     iconColor: 'pink',
     anxietyLevels: ['mild', 'calm'],
@@ -61,7 +61,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: '478-breathing',
     name: '4-7-8 Breathing',
-    duration: '8 MIN',
+    duration: '2 MIN',
     icon: 'air',
     iconColor: 'accent',
     anxietyLevels: ['severe', 'moderate'],
@@ -71,7 +71,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'double-inhale',
     name: 'Double Inhale',
-    duration: '2 MIN',
+    duration: '1 MIN',
     icon: 'air',
     iconColor: 'pink',
     anxietyLevels: ['severe', 'moderate', 'mild'],
@@ -81,7 +81,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'lazy-8-breathing',
     name: 'Lazy 8 Breathing',
-    duration: '6 MIN',
+    duration: '2 MIN',
     icon: 'all-inclusive',
     iconColor: 'accent',
     anxietyLevels: ['mild', 'calm'],
@@ -91,7 +91,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'muscle-relaxation',
     name: 'Muscle Relaxation',
-    duration: '15 MIN',
+    duration: '4 MIN',
     icon: 'accessibility-new',
     iconColor: 'pink',
     anxietyLevels: ['severe', 'moderate'],
@@ -101,9 +101,11 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'sleep-meditation',
     name: 'Sleep Meditation',
-    duration: '20 MIN',
+    duration: '15 MIN',
     icon: 'bedtime',
     iconColor: 'accent',
     anxietyLevels: ['moderate', 'calm'],
+    description:
+      "A guided meditation designed to help you drift into deep, restful sleep. Follow the soothing narration as it guides you through relaxation techniques, releasing tension and calming your mind for a peaceful night's rest.",
   },
 ];

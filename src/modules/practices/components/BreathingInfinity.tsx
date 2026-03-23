@@ -2,19 +2,21 @@ import { colors } from '@/constants/colors';
 import { useEffect } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedProps,
+  useAnimatedReaction,
   useDerivedValue,
   useSharedValue,
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import Svg, {
   Circle,
   Defs,
   LinearGradient,
   Path,
-  RadialGradient,
   Stop,
 } from 'react-native-svg';
 
@@ -26,10 +28,6 @@ const INFINITY_PATH =
   'M32 40 C32 10, 80 10, 80 40 C80 70, 32 70, 32 40 C32 10, -16 10, -16 40 C-16 70, 32 70, 32 40';
 
 // Bezier segment control points: [startX, startY, cp1X, cp1Y, cp2X, cp2Y, endX, endY]
-// Segment 1 (right-top):    M32,40 -> C32,10 80,10 80,40   (inhale half 1)
-// Segment 2 (right-bottom): 80,40  -> C80,70 32,70 32,40   (inhale half 2)
-// Segment 3 (left-top):     32,40  -> C32,10 -16,10 -16,40 (exhale half 1)
-// Segment 4 (left-bottom):  -16,40 -> C-16,70 32,70 32,40  (exhale half 2)
 type BezierSegment = [
   number,
   number,
@@ -79,39 +77,76 @@ for (let s = 0; s < NUM_SEGMENTS; s++) {
   }
 }
 
-// Duration for one full orbit: 8 seconds (4s inhale right loop + 4s exhale left loop)
-const ORBIT_DURATION = 8000;
-const TOTAL_ORBITS = 100;
+// Lazy 8 timing: 4s inhale (right loop) + 4s exhale (left loop) = 8s cycle
+const CYCLE_DURATION = 8;
+const INHALE_DURATION = 4;
 
 interface BreathingInfinityProps {
+  /** Whether the breathing animation should run */
+  isActive?: boolean;
+  /** Whether the animation is paused */
   isPaused?: boolean;
+  /** Called on the JS thread when the breathing phase changes */
+  onPhaseChange?: (phase: string) => void;
+  /** Starting elapsed time in seconds (for resuming sessions) */
+  initialElapsed?: number;
 }
 
-export function BreathingInfinity({ isPaused }: BreathingInfinityProps) {
+export function BreathingInfinity({
+  isActive = true,
+  isPaused = false,
+  onPhaseChange,
+  initialElapsed = 0,
+}: BreathingInfinityProps) {
   const { width: screenWidth } = useWindowDimensions();
   const svgWidth = Math.min(screenWidth - 48, 400);
-  const svgHeight = svgWidth * 0.5; // 2:1 aspect ratio per design
+  // Match viewBox aspect ratio (124:88) so the path is perfectly centered
+  const svgHeight = svgWidth * (88 / 124);
 
-  const orbitProgress = useSharedValue(0);
+  const elapsed = useSharedValue(initialElapsed);
   const orbPulse = useSharedValue(1);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (!isActive || isPaused) {
+      cancelAnimation(elapsed);
+      cancelAnimation(orbPulse);
+      return;
+    }
 
-    orbitProgress.value = withTiming(TOTAL_ORBITS, {
-      duration: ORBIT_DURATION * TOTAL_ORBITS,
+    const remaining = CYCLE_DURATION * 100 - elapsed.value;
+    elapsed.value = withTiming(CYCLE_DURATION * 100, {
+      duration: remaining * 1000,
       easing: Easing.linear,
     });
+
     orbPulse.value = withRepeat(
-      withTiming(1.3, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
+      withTiming(1.5, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
       -1,
       true,
     );
-  }, [isPaused, orbitProgress, orbPulse]);
+  }, [isActive, isPaused, elapsed, orbPulse]);
+
+  // Derive breathing phase from elapsed time
+  const phase = useDerivedValue(() => {
+    'worklet';
+    const cycleTime = elapsed.value % CYCLE_DURATION;
+    return cycleTime < INHALE_DURATION ? 'Inhale' : 'Exhale';
+  });
+
+  useAnimatedReaction(
+    () => phase.value,
+    (current, previous) => {
+      if (current !== previous && onPhaseChange) {
+        scheduleOnRN(onPhaseChange, current);
+      }
+    },
+  );
 
   const orbX = useDerivedValue(() => {
     'worklet';
-    const progress = (orbitProgress.value % 1) * TOTAL_SAMPLES;
+    // Convert elapsed seconds to progress along the path (0..1 per cycle)
+    const cycleProgress = (elapsed.value % CYCLE_DURATION) / CYCLE_DURATION;
+    const progress = cycleProgress * TOTAL_SAMPLES;
     const i = Math.floor(progress) % TOTAL_SAMPLES;
     const next = (i + 1) % TOTAL_SAMPLES;
     const t = progress - Math.floor(progress);
@@ -120,7 +155,8 @@ export function BreathingInfinity({ isPaused }: BreathingInfinityProps) {
 
   const orbY = useDerivedValue(() => {
     'worklet';
-    const progress = (orbitProgress.value % 1) * TOTAL_SAMPLES;
+    const cycleProgress = (elapsed.value % CYCLE_DURATION) / CYCLE_DURATION;
+    const progress = cycleProgress * TOTAL_SAMPLES;
     const i = Math.floor(progress) % TOTAL_SAMPLES;
     const next = (i + 1) % TOTAL_SAMPLES;
     const t = progress - Math.floor(progress);
@@ -134,14 +170,8 @@ export function BreathingInfinity({ isPaused }: BreathingInfinityProps) {
     r: 5 * orbPulse.value,
   }));
 
-  // Outer glow ring
-  const glowOuterProps = useAnimatedProps(() => ({
-    cx: orbX.value,
-    cy: orbY.value,
-  }));
-
-  // Inner glow ring
-  const glowMidProps = useAnimatedProps(() => ({
+  // Glow ring positions
+  const glowProps = useAnimatedProps(() => ({
     cx: orbX.value,
     cy: orbY.value,
   }));
@@ -151,7 +181,7 @@ export function BreathingInfinity({ isPaused }: BreathingInfinityProps) {
       className="items-center justify-center"
       style={{ width: svgWidth, height: svgHeight }}
     >
-      <Svg width={svgWidth} height={svgHeight} viewBox="-25 0 115 80">
+      <Svg width={svgWidth} height={svgHeight} viewBox="-30 -4 124 88">
         <Defs>
           {/* Path gradient — subtle, semi-transparent */}
           <LinearGradient id="pathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -171,20 +201,6 @@ export function BreathingInfinity({ isPaused }: BreathingInfinityProps) {
               stopOpacity={0.2}
             />
           </LinearGradient>
-
-          {/* Orb fill gradient — yellow center to pink edge */}
-          <RadialGradient id="orbFill" cx="50%" cy="50%" r="50%">
-            <Stop
-              offset="0%"
-              stopColor={colors.accent['yellow-light']}
-              stopOpacity={1}
-            />
-            <Stop
-              offset="100%"
-              stopColor={colors.primary.pink}
-              stopOpacity={1}
-            />
-          </RadialGradient>
         </Defs>
 
         {/* Infinity path stroke */}
@@ -196,22 +212,22 @@ export function BreathingInfinity({ isPaused }: BreathingInfinityProps) {
           strokeLinecap="round"
         />
 
-        {/* Outermost orb glow */}
+        {/* Orb outer glow */}
         <AnimatedCircle
-          r={16}
-          fill="rgba(244,63,94,0.12)"
-          animatedProps={glowOuterProps}
+          r={14}
+          fill="rgba(255,255,255,0.08)"
+          animatedProps={glowProps}
         />
 
-        {/* Mid orb glow */}
+        {/* Orb inner glow */}
         <AnimatedCircle
-          r={10}
-          fill="rgba(250,204,21,0.18)"
-          animatedProps={glowMidProps}
+          r={9}
+          fill="rgba(236,72,153,0.25)"
+          animatedProps={glowProps}
         />
 
-        {/* Breathing orb — bright gradient center */}
-        <AnimatedCircle fill="url(#orbFill)" animatedProps={orbProps} />
+        {/* Breathing orb — solid white */}
+        <AnimatedCircle fill="white" animatedProps={orbProps} />
       </Svg>
     </View>
   );

@@ -3,103 +3,101 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
+import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { useAtom } from 'jotai';
+import { Pressable, Text, View } from 'react-native';
 
-import {
-  EnergyLevel,
-  EnergyLevelPicker,
-} from '../components/EnergyLevelPicker';
 import { EXERCISES } from '../data/exercises';
+import { muscleRelaxationSessionAtom } from '../store/muscle-relaxation';
 
 const exercise = EXERCISES.find((e) => e.id === 'muscle-relaxation')!;
 
 export default function MuscleRelaxationIntro() {
   const router = useRouter();
-  const [selectedEnergy, setSelectedEnergy] = useState<EnergyLevel | null>(
-    null,
-  );
+  const [session, setSession] = useAtom(muscleRelaxationSessionAtom);
+  const hasSavedSession = session !== null;
 
   return (
     <Container safeAreaClass="bg-background-charcoal">
       <View className="flex-1 bg-background-charcoal">
-        {/* Top-right pink glow */}
         <GlowBg
           bgClassName="bg-background-charcoal"
-          centerX={0.9}
-          centerY={0.0}
-          intensity={0.35}
-          radius={0.35}
+          centerX={0.8}
+          centerY={0.2}
+          intensity={0.4}
+          radius={0.4}
           startColor={colors.primary.pink}
-          endColor={colors.primary.pink}
+          endColor={colors.accent.yellow}
         />
 
-        {/* Bottom-left warm yellow glow */}
-        <View
-          className="absolute -bottom-[5%] -left-[5%] h-[350px] w-[350px]"
-          style={{
-            backgroundColor: 'transparent',
-            shadowColor: colors.accent.yellow,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.15,
-            shadowRadius: 120,
-          }}
-        />
-
-        {/* Header */}
-        <View className="z-10 flex-row items-center justify-between px-6 pb-4 pt-3">
+        {/* Close button — top-left */}
+        <View className="absolute left-6 top-3 z-40">
           <BackButton />
-          <View className="flex-1 px-4">
-            <Text className="text-center text-lg font-bold leading-tight tracking-tight text-white">
-              Progressive Muscle Relaxation
-            </Text>
-          </View>
-          <View className="h-10 w-10" />
         </View>
 
-        {/* Main scrollable content */}
-        <ScrollView
-          className="z-10 flex-1"
-          contentContainerClassName="px-6 pt-4 pb-32"
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Description */}
-          <View className="mb-10">
-            <Text className="mx-auto max-w-sm text-center text-sm leading-relaxed text-white/70">
+        {/* Main content — centered */}
+        <View className="z-10 flex-1 items-center justify-center px-6 pb-32 pt-24">
+          <View className="w-full max-w-md items-center">
+            {/* Icon — rounded square with gradient */}
+            <View className="relative mb-6">
+              <LinearGradient
+                colors={[colors.primary.pink, colors.accent.yellow]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={{
+                  width: 72,
+                  height: 72,
+                  borderRadius: 20,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  shadowColor: colors.primary.pink,
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.4,
+                  shadowRadius: 20,
+                }}
+              >
+                <MaterialIcons
+                  name="accessibility-new"
+                  size={36}
+                  color="white"
+                />
+              </LinearGradient>
+            </View>
+
+            {/* Title */}
+            <Text className="mb-4 text-center text-3xl font-bold tracking-tight text-white">
+              Progressive Muscle Relaxation
+            </Text>
+
+            {/* Description */}
+            <Text className="mx-auto mb-10 max-w-sm text-center text-[13px] leading-relaxed text-white/60">
               {exercise.description}
             </Text>
-          </View>
 
-          {/* Energy level question */}
-          <View className="mb-6">
-            <Text className="mb-6 text-center text-lg font-semibold text-white/90">
-              What is your energy level before your session?
-            </Text>
-            <EnergyLevelPicker
-              selected={selectedEnergy}
-              onSelect={setSelectedEnergy}
-              variant="emoji"
-            />
+            {/* Button */}
+            <View className="w-full gap-3">
+              <GradientButton
+                onPress={() =>
+                  router.push('/practices/muscle-relaxation-session')
+                }
+              >
+                {hasSavedSession ? 'Resume Session' : 'Start Session'}
+              </GradientButton>
+              {hasSavedSession && (
+                <Pressable
+                  onPress={() => setSession(null)}
+                  className="w-full items-center rounded-full border border-white/5 bg-white/5 py-4 active:opacity-70"
+                >
+                  <Text className="text-sm font-medium text-white/60">
+                    Restart Progress
+                  </Text>
+                </Pressable>
+              )}
+            </View>
           </View>
-
-          {/* Buttons */}
-          <View className="mt-12 gap-4">
-            <GradientButton
-              onPress={() =>
-                router.push('/practices/muscle-relaxation-session')
-              }
-            >
-              Start
-            </GradientButton>
-            <Pressable
-              onPress={() => router.back()}
-              className="w-full items-center py-2 active:opacity-70"
-            >
-              <Text className="text-sm font-medium text-white/40">Skip</Text>
-            </Pressable>
-          </View>
-        </ScrollView>
+        </View>
       </View>
     </Container>
   );

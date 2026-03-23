@@ -3,13 +3,16 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
-  useDerivedValue,
   useAnimatedProps,
+  useAnimatedReaction,
+  useDerivedValue,
   useSharedValue,
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import Svg, {
   Circle,
   Defs,
@@ -23,50 +26,112 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const STAR_PATH =
   'M100,20 L126,80 L190,80 L138,118 L158,180 L100,142 L42,180 L62,118 L10,80 L74,80 Z';
 
-// All 10 vertices of the star path (5 outer tips + 5 inner points)
+// All 10 vertices: 5 outer tips (even indices) + 5 inner points (odd indices)
 const VX = [100, 126, 190, 138, 158, 100, 42, 62, 10, 74];
 const VY = [20, 80, 80, 118, 180, 142, 180, 118, 80, 80];
-const NUM_VERTICES = VX.length;
 
-// Duration for one full orbit around the star (ms)
-const ORBIT_DURATION = 10000;
+// Star breathing timing (seconds)
+const INHALE_DURATION = 4;
+const HOLD_DURATION = 2;
+const EXHALE_DURATION = 4;
+const CYCLE_DURATION = INHALE_DURATION + HOLD_DURATION + EXHALE_DURATION; // 10s
+const ORBIT_DURATION = CYCLE_DURATION * 5; // 50s per full star trace
 
-// Number of full orbits before the animation value needs to restart (~17 min at 10s/orbit)
-const TOTAL_ORBITS = 100;
+interface BreathingStarProps {
+  /** Whether the breathing animation should run */
+  isActive?: boolean;
+  /** Whether the animation is paused */
+  isPaused?: boolean;
+  /** Called on the JS thread when the breathing phase changes */
+  onPhaseChange?: (phase: string) => void;
+  /** Starting elapsed time in seconds (for resuming sessions) */
+  initialElapsed?: number;
+}
 
-export function BreathingStar() {
-  // Continuously increasing value (0→100) — no resets, no jumps
-  const orbitProgress = useSharedValue(0);
+function easeInOutQuad(t: number): number {
+  'worklet';
+  return t < 0.5 ? 2 * t * t : 1 - ((-2 * t + 2) * (-2 * t + 2)) / 2;
+}
+
+/** Compute orb position along the star for a given elapsed time */
+function getOrbCoord(elapsedTime: number, axis: readonly number[]): number {
+  'worklet';
+  const orbitTime = elapsedTime % ORBIT_DURATION;
+  const breathCycle = Math.floor(orbitTime / CYCLE_DURATION);
+  const cycleTime = orbitTime % CYCLE_DURATION;
+
+  const inhaleFrom = (breathCycle * 2 + 9) % 10;
+  const inhaleTo = (breathCycle * 2) % 10;
+  const exhaleTo = (breathCycle * 2 + 1) % 10;
+
+  if (cycleTime < INHALE_DURATION) {
+    const t = easeInOutQuad(cycleTime / INHALE_DURATION);
+    return axis[inhaleFrom] + (axis[inhaleTo] - axis[inhaleFrom]) * t;
+  } else if (cycleTime < INHALE_DURATION + HOLD_DURATION) {
+    return axis[inhaleTo];
+  } else {
+    const t = easeInOutQuad(
+      (cycleTime - INHALE_DURATION - HOLD_DURATION) / EXHALE_DURATION,
+    );
+    return axis[inhaleTo] + (axis[exhaleTo] - axis[inhaleTo]) * t;
+  }
+}
+
+export function BreathingStar({
+  isActive = true,
+  isPaused = false,
+  onPhaseChange,
+  initialElapsed = 0,
+}: BreathingStarProps) {
+  const elapsed = useSharedValue(initialElapsed);
   const orbPulse = useSharedValue(1);
 
   useEffect(() => {
-    orbitProgress.value = withTiming(TOTAL_ORBITS, {
-      duration: ORBIT_DURATION * TOTAL_ORBITS,
+    if (!isActive || isPaused) {
+      cancelAnimation(elapsed);
+      cancelAnimation(orbPulse);
+      return;
+    }
+
+    const remaining = ORBIT_DURATION * 100 - elapsed.value;
+    elapsed.value = withTiming(ORBIT_DURATION * 100, {
+      duration: remaining * 1000,
       easing: Easing.linear,
     });
+
     orbPulse.value = withRepeat(
       withTiming(1.5, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
       -1,
       true,
     );
-  }, [orbitProgress, orbPulse]);
+  }, [isActive, isPaused, elapsed, orbPulse]);
+
+  // Derive breathing phase from the animation elapsed time
+  const phase = useDerivedValue(() => {
+    'worklet';
+    const cycleTime = elapsed.value % CYCLE_DURATION;
+    if (cycleTime < INHALE_DURATION) return 'Inhale';
+    if (cycleTime < INHALE_DURATION + HOLD_DURATION) return 'Hold';
+    return 'Exhale';
+  });
+
+  useAnimatedReaction(
+    () => phase.value,
+    (current, previous) => {
+      if (current !== previous && onPhaseChange) {
+        scheduleOnRN(onPhaseChange, current);
+      }
+    },
+  );
 
   const orbX = useDerivedValue(() => {
     'worklet';
-    const seg = (orbitProgress.value % 1) * NUM_VERTICES;
-    const i = Math.floor(seg) % NUM_VERTICES;
-    const next = (i + 1) % NUM_VERTICES;
-    const t = seg - Math.floor(seg);
-    return VX[i] + (VX[next] - VX[i]) * t;
+    return getOrbCoord(elapsed.value, VX);
   });
 
   const orbY = useDerivedValue(() => {
     'worklet';
-    const seg = (orbitProgress.value % 1) * NUM_VERTICES;
-    const i = Math.floor(seg) % NUM_VERTICES;
-    const next = (i + 1) % NUM_VERTICES;
-    const t = seg - Math.floor(seg);
-    return VY[i] + (VY[next] - VY[i]) * t;
+    return getOrbCoord(elapsed.value, VY);
   });
 
   const orbProps = useAnimatedProps(() => ({
@@ -75,12 +140,7 @@ export function BreathingStar() {
     r: 5 * orbPulse.value,
   }));
 
-  const glowOuterProps = useAnimatedProps(() => ({
-    cx: orbX.value,
-    cy: orbY.value,
-  }));
-
-  const glowInnerProps = useAnimatedProps(() => ({
+  const glowProps = useAnimatedProps(() => ({
     cx: orbX.value,
     cy: orbY.value,
   }));
@@ -136,13 +196,13 @@ export function BreathingStar() {
         <AnimatedCircle
           r={14}
           fill="rgba(255,255,255,0.08)"
-          animatedProps={glowOuterProps}
+          animatedProps={glowProps}
         />
         {/* Orb inner glow */}
         <AnimatedCircle
           r={9}
           fill="rgba(236,72,153,0.25)"
-          animatedProps={glowInnerProps}
+          animatedProps={glowProps}
         />
         {/* Breathing orb */}
         <AnimatedCircle fill="white" animatedProps={orbProps} />

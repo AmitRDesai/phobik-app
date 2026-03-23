@@ -17,6 +17,7 @@ const EXERCISE_ROUTES: Record<string, string> = {
   'double-inhale': '/practices/double-inhale-intro',
   'lazy-8-breathing': '/practices/lazy-8-breathing-intro',
   'muscle-relaxation': '/practices/muscle-relaxation-intro',
+  'sleep-meditation': '/practices/sleep-meditation-session',
 };
 
 export default function ExerciseLibrary() {

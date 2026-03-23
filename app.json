@@ -13,7 +13,10 @@
       "bundleIdentifier": "com.phobik.app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "LSApplicationQueriesSchemes": ["message", "mailto"]
+        "LSApplicationQueriesSchemes": [
+          "message",
+          "mailto"
+        ]
       }
     },
     "android": {
@@ -59,7 +62,8 @@
         {
           "calendarPermission": "Allow Phobik to read your calendar so we can help you prepare for stressful events."
         }
-      ]
+      ],
+      ["expo-audio", { "recordAudioAndroid": false }]
     ],
     "experiments": {
       "typedRoutes": true,

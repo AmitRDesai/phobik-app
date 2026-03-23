@@ -3,14 +3,19 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigation, useRouter } from 'expo-router';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { BreathingBox } from '../components/BreathingBox';
+import { boxBreathingSessionAtom } from '../store/box-breathing';
 
-const GOAL_DURATION = 10 * 60; // 10 minutes in seconds
+const PHASE_DURATION = 4;
+const CYCLE_DURATION = PHASE_DURATION * 4; // 16s
+const TOTAL_DURATION = CYCLE_DURATION * 5; // 5 cycles = 80 seconds
 
 function formatTime(seconds: number) {
   const m = Math.floor(seconds / 60);
@@ -20,32 +25,192 @@ function formatTime(seconds: number) {
 
 export default function BoxBreathingSession() {
   const router = useRouter();
-  const [elapsed, setElapsed] = useState(0);
+  const navigation = useNavigation();
+  const savedState = useAtomValue(boxBreathingSessionAtom);
+  const setSession = useSetAtom(boxBreathingSessionAtom);
+
+  const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
+
+  const [timeRemaining, setTimeRemaining] = useState(initialTimeRef.current);
   const [isPaused, setIsPaused] = useState(false);
+  const [instructionDone, setInstructionDone] = useState(
+    savedState !== null, // skip instruction if resuming
+  );
+  const [sessionReady, setSessionReady] = useState(savedState !== null);
+  const [countdown, setCountdown] = useState<number | undefined>(undefined);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const handleComplete = useCallback(() => {
-    router.replace('/practices/completion' as never);
-  }, [router]);
+  const elapsed = TOTAL_DURATION - timeRemaining;
 
+  // Breathing phase (derived from elapsed)
+  const cyclePosition = elapsed % CYCLE_DURATION;
+  const phaseIndex = Math.floor(cyclePosition / PHASE_DURATION);
+
+  // Go to previous phase start (backward)
+  const handleBackward = () => {
+    const timeIntoPhase = cyclePosition - phaseIndex * PHASE_DURATION;
+    const jumpBack = timeIntoPhase + PHASE_DURATION;
+    setTimeRemaining((prev) => Math.min(prev + jumpBack, TOTAL_DURATION));
+  };
+
+  // Go to next phase start (forward)
+  const handleForward = () => {
+    const timeLeftInPhase =
+      PHASE_DURATION - (cyclePosition - phaseIndex * PHASE_DURATION);
+    setTimeRemaining((prev) => Math.max(prev - timeLeftInPhase, 0));
+  };
+
+  // Instruction audio
+  const instructionPlayer = useAudioPlayer(
+    require('@/assets/audio/practices/box-breathing-session/instructions.mp3'),
+  );
+  const instructionStatus = useAudioPlayerStatus(instructionPlayer);
+
+  // Phase audio players
+  const inhalePlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/inhale.mp3'),
+  );
+  const holdPlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/hold.mp3'),
+  );
+  const exhalePlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/exhale.mp3'),
+  );
+  const restPlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/rest.mp3'),
+  );
+  const bowlPlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/tibetan-bowl.mp3'),
+  );
+
+  // Set bowl volume
   useEffect(() => {
-    if (isPaused) return;
+    bowlPlayer.volume = 0.8;
+  }, [bowlPlayer]);
+
+  // Start instruction audio on mount (skip if resuming)
+  useEffect(() => {
+    if (!instructionDone) {
+      instructionPlayer.play();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [instructionPlayer]);
+
+  // Detect when instruction audio finishes naturally
+  useEffect(() => {
+    if (
+      !instructionDone &&
+      instructionStatus.duration > 0 &&
+      instructionStatus.currentTime >= instructionStatus.duration &&
+      !instructionStatus.playing
+    ) {
+      setInstructionDone(true);
+    }
+  }, [
+    instructionDone,
+    instructionStatus.playing,
+    instructionStatus.currentTime,
+    instructionStatus.duration,
+  ]);
+
+  // 3-second countdown after instruction before starting the exercise
+  useEffect(() => {
+    if (!instructionDone || sessionReady) return;
+
+    setCountdown(3);
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev === undefined || prev <= 1) {
+          clearInterval(interval);
+          setSessionReady(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [instructionDone, sessionReady]);
+
+  // Sync instruction audio with pause state
+  useEffect(() => {
+    if (isPaused) {
+      instructionPlayer.pause();
+    } else if (!instructionDone) {
+      instructionPlayer.play();
+    }
+  }, [isPaused, instructionPlayer, instructionDone]);
+
+  // Play phase audio on phase changes + tibetan bowl at cycle start
+  useEffect(() => {
+    if (!sessionReady || isPaused) return;
+
+    const players = [inhalePlayer, holdPlayer, exhalePlayer, restPlayer];
+    const player = players[phaseIndex];
+    player.seekTo(0);
+    player.play();
+
+    // Play tibetan bowl at the start of each cycle
+    if (phaseIndex === 0) {
+      bowlPlayer.seekTo(0);
+      bowlPlayer.play();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phaseIndex, sessionReady, isPaused]);
+
+  // Pause phase audio when session is paused
+  useEffect(() => {
+    if (isPaused) {
+      inhalePlayer.pause();
+      holdPlayer.pause();
+      exhalePlayer.pause();
+      restPlayer.pause();
+      bowlPlayer.pause();
+    }
+  }, [
+    isPaused,
+    inhalePlayer,
+    holdPlayer,
+    exhalePlayer,
+    restPlayer,
+    bowlPlayer,
+  ]);
+
+  // Save state on back navigation (only if session has started)
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+      if (sessionReady && timeRemaining > 0) {
+        setSession({ timeRemaining });
+      }
+    });
+    return unsubscribe;
+  }, [sessionReady, timeRemaining, navigation, setSession]);
+
+  // Complete session when timer reaches zero
+  useEffect(() => {
+    if (timeRemaining === 0) {
+      setSession(null);
+      router.replace('/practices/completion');
+    }
+  }, [timeRemaining, setSession, router]);
+
+  // Timer only runs after session is ready
+  useEffect(() => {
+    if (isPaused || !sessionReady) return;
 
     intervalRef.current = setInterval(() => {
-      setElapsed((prev) => {
-        if (prev >= GOAL_DURATION - 1) {
+      setTimeRemaining((prev) => {
+        if (prev <= 1) {
           clearInterval(intervalRef.current!);
-          handleComplete();
-          return GOAL_DURATION;
+          return 0;
         }
-        return prev + 1;
+        return prev - 1;
       });
     }, 1000);
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPaused, handleComplete]);
+  }, [isPaused, sessionReady]);
 
   // Mock HRV data (would come from biometric sensor in production)
   const hrvMs = 72;
@@ -67,25 +232,23 @@ export default function BoxBreathingSession() {
         {/* Header */}
         <View className="z-10 flex-row items-center justify-between px-6 py-4">
           <BackButton />
-          <View className="items-center">
-            <Text className="text-lg font-bold tracking-tight text-white">
-              Box Breathing
-            </Text>
-            <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-pink">
-              Biometric Sync
-            </Text>
-          </View>
-          <Pressable className="h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 active:scale-95">
-            <MaterialIcons name="more-horiz" size={24} color={alpha.white80} />
-          </Pressable>
+          <Text className="text-lg font-bold tracking-tight text-white">
+            Box Breathing
+          </Text>
+          <View className="h-11 w-11" />
         </View>
 
         {/* Breathing Visualization - centered */}
         <View className="z-10 flex-1 items-center justify-center">
-          <BreathingBox elapsed={elapsed} isPaused={isPaused} />
+          <BreathingBox
+            elapsed={elapsed}
+            isPaused={isPaused}
+            isActive={sessionReady}
+            countdown={countdown}
+          />
 
           {/* Instruction text */}
-          <View className="mt-20 items-center">
+          <View className="mt-8 items-center">
             <Text className="mb-4 text-xs font-medium tracking-wide text-white/40">
               MATCH YOUR BREATH TO THE SQUARE
             </Text>
@@ -111,7 +274,7 @@ export default function BoxBreathingSession() {
                   className="text-xl font-bold text-white/90"
                   style={{ fontVariant: ['tabular-nums'] }}
                 >
-                  {formatTime(GOAL_DURATION)}
+                  {formatTime(TOTAL_DURATION)}
                 </Text>
               </View>
             </View>
@@ -220,7 +383,10 @@ export default function BoxBreathingSession() {
             {/* Playback Controls */}
             <View className="mt-8 items-center border-t border-white/5 pt-6">
               <View className="flex-row items-center gap-8">
-                <Pressable className="h-10 w-10 items-center justify-center rounded-full active:opacity-70">
+                <Pressable
+                  onPress={handleBackward}
+                  className="h-10 w-10 items-center justify-center rounded-full active:opacity-70"
+                >
                   <MaterialIcons
                     name="replay-5"
                     size={24}
@@ -256,7 +422,10 @@ export default function BoxBreathingSession() {
                   </LinearGradient>
                 </Pressable>
 
-                <Pressable className="h-10 w-10 items-center justify-center rounded-full active:opacity-70">
+                <Pressable
+                  onPress={handleForward}
+                  className="h-10 w-10 items-center justify-center rounded-full active:opacity-70"
+                >
                   <MaterialIcons
                     name="forward-5"
                     size={24}

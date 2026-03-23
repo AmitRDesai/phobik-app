@@ -3,23 +3,21 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
+import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { useAtom } from 'jotai';
+import { Pressable, Text, View } from 'react-native';
 
-import {
-  EnergyLevel,
-  EnergyLevelPicker,
-} from '../components/EnergyLevelPicker';
 import { EXERCISES } from '../data/exercises';
+import { breathing478SessionAtom } from '../store/478-breathing';
 
 const exercise = EXERCISES.find((e) => e.id === '478-breathing')!;
 
 export default function Breathing478Intro() {
   const router = useRouter();
-  const [selectedEnergy, setSelectedEnergy] = useState<EnergyLevel | null>(
-    null,
-  );
+  const [savedSession, setSavedSession] = useAtom(breathing478SessionAtom);
+  const hasSavedSession = savedSession !== null;
 
   return (
     <Container safeAreaClass="bg-background-charcoal">
@@ -27,65 +25,73 @@ export default function Breathing478Intro() {
         <GlowBg
           bgClassName="bg-background-charcoal"
           centerX={0.8}
-          centerY={0}
+          centerY={0.2}
           intensity={0.4}
           radius={0.4}
           startColor={colors.primary.pink}
           endColor={colors.accent.yellow}
         />
 
-        {/* Header */}
-        <View className="z-10 flex-row items-center justify-between px-6 py-4">
-          <BackButton icon="close" />
-          <Text className="text-lg font-extrabold uppercase tracking-tight text-white">
-            4-7-8 Breathing
-          </Text>
-          {/* Spacer to balance the close button */}
-          <View className="h-11 w-11" />
+        {/* Close button — top-left */}
+        <View className="absolute left-6 top-3 z-40">
+          <BackButton />
         </View>
 
-        {/* Main content */}
-        <ScrollView
-          className="z-10 flex-1"
-          contentContainerClassName="px-6 pb-12"
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Description */}
-          <View className="mt-4">
-            <Text className="text-sm leading-relaxed text-slate-400">
+        {/* Main content — centered */}
+        <View className="z-10 flex-1 items-center justify-center px-6 pb-32 pt-24">
+          <View className="w-full max-w-md items-center">
+            {/* Icon — rounded square with gradient */}
+            <View className="relative mb-6">
+              <LinearGradient
+                colors={[colors.primary.pink, colors.accent.yellow]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={{
+                  width: 72,
+                  height: 72,
+                  borderRadius: 20,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  shadowColor: colors.primary.pink,
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.4,
+                  shadowRadius: 20,
+                }}
+              >
+                <MaterialIcons name="air" size={36} color="white" />
+              </LinearGradient>
+            </View>
+
+            {/* Title */}
+            <Text className="mb-4 text-center text-3xl font-bold tracking-tight text-white">
+              4-7-8 Breathing
+            </Text>
+
+            {/* Description */}
+            <Text className="mx-auto mb-10 max-w-sm text-center text-[13px] leading-relaxed text-white/60">
               {exercise.description}
             </Text>
-          </View>
 
-          {/* Energy level section */}
-          <View className="mt-10">
-            <Text className="mb-6 text-xl font-semibold text-white">
-              What is your energy level before your session?
-            </Text>
-            <EnergyLevelPicker
-              selected={selectedEnergy}
-              onSelect={setSelectedEnergy}
-              variant="icon"
-            />
+            {/* Buttons */}
+            <View className="w-full gap-3">
+              <GradientButton
+                onPress={() => router.push('/practices/478-breathing-session')}
+              >
+                {hasSavedSession ? 'Resume Session' : 'Start'}
+              </GradientButton>
+              {hasSavedSession && (
+                <Pressable
+                  onPress={() => setSavedSession(null)}
+                  className="w-full items-center rounded-full border border-white/5 bg-white/5 py-4 active:opacity-70"
+                >
+                  <Text className="text-sm font-medium text-white/60">
+                    Restart Progress
+                  </Text>
+                </Pressable>
+              )}
+            </View>
           </View>
-
-          {/* Buttons */}
-          <View className="mt-12 gap-4">
-            <GradientButton
-              onPress={() => router.push('/practices/478-breathing-session')}
-            >
-              Start Session
-            </GradientButton>
-            <Pressable
-              onPress={() => router.back()}
-              className="h-14 w-full items-center justify-center rounded-2xl bg-white/5 active:bg-white/10"
-            >
-              <Text className="text-xs font-bold uppercase tracking-widest text-white/60">
-                Skip
-              </Text>
-            </Pressable>
-          </View>
-        </ScrollView>
+        </View>
       </View>
     </Container>
   );

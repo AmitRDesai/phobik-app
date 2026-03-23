@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Text, useWindowDimensions, View } from 'react-native';
 import Animated, {
   Easing,
@@ -7,11 +7,20 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
+import Svg, {
+  Circle,
+  Defs,
+  LinearGradient,
+  Mask,
+  RadialGradient,
+  Rect,
+  Stop,
+} from 'react-native-svg';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const VIEWBOX = 100;
+const CENTER = VIEWBOX / 2;
 const RADIUS = 44;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const STROKE_WIDTH = 6;
@@ -23,92 +32,104 @@ const HOLD = 7;
 const EXHALE = 8;
 const CYCLE_DURATION = INHALE + HOLD + EXHALE; // 19 seconds
 
+// Inner glow circle radius range (in viewBox units)
+// Progress ring inner edge is at ~41 (RADIUS - STROKE_WIDTH/2)
+const GLOW_R_MIN = 24;
+const GLOW_R_MAX = 36; // leaves 5px gap from ring
+
 interface BreathingCircle478Props {
   /** Current elapsed seconds in the session */
   elapsed: number;
   /** Whether the session is paused */
   isPaused: boolean;
+  /** Whether the breathing session is active (after instruction + countdown) */
+  isActive?: boolean;
+  /** Current phase index: 0=inhale, 1=hold, 2=exhale */
+  phaseIndex?: number;
 }
 
 export function BreathingCircle478({
   elapsed,
   isPaused,
+  isActive = true,
+  phaseIndex = 0,
 }: BreathingCircle478Props) {
   const { height: screenHeight } = useWindowDimensions();
-  // Responsive sizing: larger on taller screens
   const SIZE = screenHeight >= 800 ? 300 : 260;
 
-  // Breathing scale animation: expands on inhale, holds, contracts on exhale
-  const breathScale = useSharedValue(1);
+  // Animated radius for the inner glow
+  const glowR = useSharedValue(GLOW_R_MIN);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || !isActive) return;
 
-    const cyclePosition = elapsed % CYCLE_DURATION;
-
-    if (cyclePosition < INHALE) {
-      // Inhale phase: scale up
-      const remaining = INHALE - cyclePosition;
-      breathScale.value = withTiming(1.15, {
-        duration: remaining * 1000,
+    if (phaseIndex === 0) {
+      glowR.value = withTiming(GLOW_R_MAX, {
+        duration: INHALE * 1000,
         easing: Easing.inOut(Easing.ease),
       });
-    } else if (cyclePosition < INHALE + HOLD) {
-      // Hold phase: stay expanded
-      breathScale.value = 1.15;
+    } else if (phaseIndex === 1) {
+      glowR.value = GLOW_R_MAX;
     } else {
-      // Exhale phase: scale down
-      const remaining = CYCLE_DURATION - cyclePosition;
-      breathScale.value = withTiming(1, {
-        duration: remaining * 1000,
+      glowR.value = withTiming(GLOW_R_MIN, {
+        duration: EXHALE * 1000,
         easing: Easing.inOut(Easing.ease),
       });
     }
-  }, [elapsed, isPaused, breathScale]);
+  }, [phaseIndex, isPaused, isActive, glowR]);
 
-  // Overall cycle progress (0 to 1 within one 19s cycle)
-  const cyclePosition = elapsed % CYCLE_DURATION;
-  const cycleProgress = cyclePosition / CYCLE_DURATION;
-  const dashOffset = CIRCUMFERENCE * (1 - cycleProgress);
+  const glowProps = useAnimatedProps(() => ({
+    r: glowR.value,
+  }));
+
+  // Animate progress ring smoothly — reverse animate on cycle change
+  const animatedOffset = useSharedValue(CIRCUMFERENCE);
+  const prevCycleRef = useRef(Math.floor(elapsed / CYCLE_DURATION));
+
+  useEffect(() => {
+    const currentCycle = Math.floor(elapsed / CYCLE_DURATION);
+    const cyclePosition = elapsed % CYCLE_DURATION;
+    const cycleProgress = cyclePosition / CYCLE_DURATION;
+    const targetOffset = CIRCUMFERENCE * (1 - cycleProgress);
+
+    if (currentCycle !== prevCycleRef.current) {
+      // Cycle changed — animate ring to full first, then reset to empty
+      prevCycleRef.current = currentCycle;
+      animatedOffset.value = withTiming(0, {
+        duration: 500,
+        easing: Easing.inOut(Easing.ease),
+      });
+    } else {
+      animatedOffset.value = withTiming(targetOffset, {
+        duration: 1000,
+        easing: Easing.linear,
+      });
+    }
+  }, [elapsed, animatedOffset]);
+
+  const progressProps = useAnimatedProps(() => ({
+    strokeDashoffset: animatedOffset.value,
+  }));
 
   // Calculate current phase countdown
+  const cyclePos = elapsed % CYCLE_DURATION;
   let phaseCountdown: number;
-  if (cyclePosition < INHALE) {
-    phaseCountdown = Math.ceil(INHALE - cyclePosition);
-  } else if (cyclePosition < INHALE + HOLD) {
-    phaseCountdown = Math.ceil(INHALE + HOLD - cyclePosition);
+  if (cyclePos < INHALE) {
+    phaseCountdown = Math.ceil(INHALE - cyclePos);
+  } else if (cyclePos < INHALE + HOLD) {
+    phaseCountdown = Math.ceil(INHALE + HOLD - cyclePos);
   } else {
-    phaseCountdown = Math.ceil(CYCLE_DURATION - cyclePosition);
+    phaseCountdown = Math.ceil(CYCLE_DURATION - cyclePos);
   }
-
-  const innerGlowProps = useAnimatedProps(() => ({
-    r: 30 * breathScale.value,
-    opacity: 0.15 * breathScale.value,
-  }));
 
   return (
     <View
       className="relative items-center justify-center"
       style={{ width: SIZE, height: SIZE }}
     >
-      {/* Background glow behind the ring */}
-      <View
-        className="absolute rounded-full"
-        style={{
-          top: SIZE * 0.1,
-          left: SIZE * 0.1,
-          right: SIZE * 0.1,
-          bottom: SIZE * 0.1,
-          backgroundColor: 'transparent',
-          shadowColor: colors.primary.pink,
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.15,
-          shadowRadius: 60,
-        }}
-      />
-
       <Svg width={SIZE} height={SIZE} viewBox={`0 0 ${VIEWBOX} ${VIEWBOX}`}>
         <Defs>
+          {/* Progress ring gradient */}
           <LinearGradient
             id="circleGrad478"
             x1="0%"
@@ -119,39 +140,72 @@ export function BreathingCircle478({
             <Stop offset="0%" stopColor={colors.primary.pink} />
             <Stop offset="100%" stopColor={colors.accent.yellow} />
           </LinearGradient>
+
+          {/* Glow color — diagonal linear gradient matching GlowBg */}
+          <LinearGradient id="breathGlowColor" x1="0" y1="0" x2="1" y2="1">
+            <Stop
+              offset="0%"
+              stopColor={colors.primary.pink}
+              stopOpacity={0.2}
+            />
+            <Stop
+              offset="100%"
+              stopColor={colors.accent.yellow}
+              stopOpacity={0.12}
+            />
+          </LinearGradient>
+
+          {/* Radial fade mask — solid center, fades to transparent */}
+          <RadialGradient id="breathGlowMask" cx="50%" cy="50%" r="50%">
+            <Stop offset="0%" stopColor="white" stopOpacity={1} />
+            <Stop offset="35%" stopColor="white" stopOpacity={0.5} />
+            <Stop offset="65%" stopColor="white" stopOpacity={0.15} />
+            <Stop offset="100%" stopColor="white" stopOpacity={0} />
+          </RadialGradient>
+
+          <Mask id="breathFadeMask">
+            <Rect x="0" y="0" width={VIEWBOX} height={VIEWBOX} fill="black" />
+            <Circle
+              cx={CENTER}
+              cy={CENTER}
+              r={CENTER}
+              fill="url(#breathGlowMask)"
+            />
+          </Mask>
         </Defs>
+
+        {/* Breathing glow — circular, fades at edges */}
+        <AnimatedCircle
+          cx={CENTER}
+          cy={CENTER}
+          fill="url(#breathGlowColor)"
+          mask="url(#breathFadeMask)"
+          animatedProps={glowProps}
+        />
 
         {/* Track circle */}
         <Circle
-          cx={VIEWBOX / 2}
-          cy={VIEWBOX / 2}
+          cx={CENTER}
+          cy={CENTER}
           r={RADIUS}
           fill="transparent"
           stroke="rgba(255,255,255,0.1)"
           strokeWidth={TRACK_STROKE_WIDTH}
         />
 
-        {/* Progress circle */}
-        <Circle
-          cx={VIEWBOX / 2}
-          cy={VIEWBOX / 2}
+        {/* Progress circle — animated */}
+        <AnimatedCircle
+          cx={CENTER}
+          cy={CENTER}
           r={RADIUS}
           fill="transparent"
           stroke="url(#circleGrad478)"
           strokeWidth={STROKE_WIDTH}
           strokeLinecap="round"
           strokeDasharray={CIRCUMFERENCE}
-          strokeDashoffset={dashOffset}
           rotation={-90}
-          origin={`${VIEWBOX / 2}, ${VIEWBOX / 2}`}
-        />
-
-        {/* Inner breathing glow */}
-        <AnimatedCircle
-          cx={VIEWBOX / 2}
-          cy={VIEWBOX / 2}
-          fill={colors.primary.pink}
-          animatedProps={innerGlowProps}
+          origin={`${CENTER}, ${CENTER}`}
+          animatedProps={progressProps}
         />
       </Svg>
 

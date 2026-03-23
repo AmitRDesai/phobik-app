@@ -3,6 +3,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
+  Easing,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -10,31 +12,58 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-const BAR_HEIGHTS = [16, 32, 48, 24, 40, 16];
 const BAR_WIDTH = 4;
+const MIN_HEIGHT = 8;
 const MAX_HEIGHT = 48;
+const BASE_HEIGHTS = [16, 32, 48, 24, 40, 16];
+
+interface AudioVisualizerProps {
+  levels?: number[] | null;
+  isPlaying?: boolean;
+}
 
 function VisualizerBar({
+  level,
+  isPlaying,
   baseHeight,
   delay,
 }: {
+  level?: number;
+  isPlaying: boolean;
   baseHeight: number;
   delay: number;
 }) {
-  const height = useSharedValue(baseHeight);
+  const height = useSharedValue(MIN_HEIGHT);
 
   useEffect(() => {
-    height.value = withRepeat(
-      withSequence(
-        withTiming(Math.min(baseHeight + 16, MAX_HEIGHT), {
-          duration: 400 + delay,
-        }),
-        withTiming(Math.max(baseHeight - 8, 8), { duration: 300 + delay }),
-      ),
-      -1,
-      true,
-    );
-  }, [baseHeight, delay, height]);
+    if (!isPlaying) {
+      cancelAnimation(height);
+      height.value = withTiming(MIN_HEIGHT, { duration: 300 });
+      return;
+    }
+    if (level !== undefined) {
+      // Driven by real PCM sample data
+      const target = MIN_HEIGHT + level * (MAX_HEIGHT - MIN_HEIGHT);
+      height.value = withTiming(target, {
+        duration: 100,
+        easing: Easing.out(Easing.quad),
+      });
+    } else {
+      // Simulated animation fallback
+      height.value = withRepeat(
+        withSequence(
+          withTiming(Math.min(baseHeight + 16, MAX_HEIGHT), {
+            duration: 400 + delay,
+          }),
+          withTiming(Math.max(baseHeight - 8, MIN_HEIGHT), {
+            duration: 300 + delay,
+          }),
+        ),
+        -1,
+        true,
+      );
+    }
+  }, [level, isPlaying, baseHeight, delay, height]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     height: height.value,
@@ -57,11 +86,20 @@ function VisualizerBar({
   );
 }
 
-export function AudioVisualizer() {
+export function AudioVisualizer({
+  levels,
+  isPlaying = false,
+}: AudioVisualizerProps) {
   return (
     <View className="h-12 flex-row items-end gap-1.5">
-      {BAR_HEIGHTS.map((h, i) => (
-        <VisualizerBar key={i} baseHeight={h} delay={i * 80} />
+      {BASE_HEIGHTS.map((h, i) => (
+        <VisualizerBar
+          key={i}
+          level={levels?.[i]}
+          isPlaying={isPlaying}
+          baseHeight={h}
+          delay={i * 80}
+        />
       ))}
     </View>
   );

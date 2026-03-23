@@ -3,19 +3,22 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation, useRouter } from 'expo-router';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { useEffect, useRef, useState } from 'react';
+import { Pressable, Text, View } from 'react-native';
 
 import { BreathingCircle478 } from '../components/BreathingCircle478';
+import { breathing478SessionAtom } from '../store/478-breathing';
 
-const TOTAL_CYCLES = 4;
 const INHALE = 4;
 const HOLD = 7;
 const EXHALE = 8;
 const CYCLE_DURATION = INHALE + HOLD + EXHALE; // 19 seconds
-const TOTAL_DURATION = TOTAL_CYCLES * CYCLE_DURATION; // 76 seconds for 4 cycles
+const TOTAL_CYCLES = 4;
+const TOTAL_DURATION = TOTAL_CYCLES * CYCLE_DURATION; // 76 seconds
 
 const BREATHING_PHASES = [
   'Inhale Deeply',
@@ -28,50 +31,212 @@ const PHASE_SUBTEXTS = [
   'Release the air slowly and steadily through your mouth.',
 ] as const;
 
-function getCurrentPhaseIndex(elapsed: number): number {
-  const cyclePosition = elapsed % CYCLE_DURATION;
-  if (cyclePosition < INHALE) return 0;
-  if (cyclePosition < INHALE + HOLD) return 1;
-  return 2;
-}
-
 export default function Breathing478Session() {
   const router = useRouter();
-  const [elapsed, setElapsed] = useState(0);
+  const navigation = useNavigation();
+  const savedState = useAtomValue(breathing478SessionAtom);
+  const setSession = useSetAtom(breathing478SessionAtom);
+
+  const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
+
+  const [timeRemaining, setTimeRemaining] = useState(initialTimeRef.current);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [instructionDone, setInstructionDone] = useState(
+    savedState !== null, // skip instruction if resuming
+  );
+  const [sessionReady, setSessionReady] = useState(savedState !== null);
+  const [countdown, setCountdown] = useState<number | undefined>(undefined);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const currentPhaseIndex = getCurrentPhaseIndex(elapsed);
-  const currentPhase = BREATHING_PHASES[currentPhaseIndex];
-  const currentSubtext = PHASE_SUBTEXTS[currentPhaseIndex];
+  const elapsed = TOTAL_DURATION - timeRemaining;
 
-  const handleComplete = useCallback(() => {
-    router.replace('/practices/completion');
-  }, [router]);
+  // Derive phase index from elapsed time
+  const cyclePosition = elapsed % CYCLE_DURATION;
+  const phaseIndex =
+    cyclePosition < INHALE ? 0 : cyclePosition < INHALE + HOLD ? 1 : 2;
 
-  const handleReset = useCallback(() => {
-    setElapsed(0);
-    setIsPaused(false);
-  }, []);
+  // Phase text (instruction → countdown → breathing phase)
+  const currentPhase = !instructionDone
+    ? 'Listen'
+    : countdown !== undefined && countdown > 0
+      ? `Starting in ${countdown}s`
+      : BREATHING_PHASES[phaseIndex];
 
+  const currentSubtext = !instructionDone
+    ? 'Follow the guided instructions'
+    : countdown !== undefined && countdown > 0
+      ? 'Get ready...'
+      : PHASE_SUBTEXTS[phaseIndex];
+
+  // Instruction audio
+  const instructionPlayer = useAudioPlayer(
+    require('@/assets/audio/practices/478-breathing-session/instructions.mp3'),
+  );
+  const instructionStatus = useAudioPlayerStatus(instructionPlayer);
+
+  // Phase audio players
+  const inhalePlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/inhale.mp3'),
+  );
+  const holdPlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/hold.mp3'),
+  );
+  const exhalePlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/exhale.mp3'),
+  );
+  const bowlPlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/tibetan-bowl.mp3'),
+  );
+
+  // Set bowl volume
   useEffect(() => {
-    if (isPaused) return;
+    bowlPlayer.volume = 0.8;
+  }, [bowlPlayer]);
+
+  // Mute/unmute all audio
+  useEffect(() => {
+    const vol = isMuted ? 0 : 1;
+    const bowlVol = isMuted ? 0 : 0.8;
+    instructionPlayer.volume = vol;
+    inhalePlayer.volume = vol;
+    holdPlayer.volume = vol;
+    exhalePlayer.volume = vol;
+    bowlPlayer.volume = bowlVol;
+  }, [
+    isMuted,
+    instructionPlayer,
+    inhalePlayer,
+    holdPlayer,
+    exhalePlayer,
+    bowlPlayer,
+  ]);
+
+  // Start instruction audio on mount (skip if resuming)
+  useEffect(() => {
+    if (!instructionDone) {
+      instructionPlayer.play();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [instructionPlayer]);
+
+  // Detect when instruction audio finishes naturally
+  useEffect(() => {
+    if (
+      !instructionDone &&
+      instructionStatus.duration > 0 &&
+      instructionStatus.currentTime >= instructionStatus.duration &&
+      !instructionStatus.playing
+    ) {
+      setInstructionDone(true);
+    }
+  }, [
+    instructionDone,
+    instructionStatus.playing,
+    instructionStatus.currentTime,
+    instructionStatus.duration,
+  ]);
+
+  // 3-second countdown after instruction before starting the exercise
+  useEffect(() => {
+    if (!instructionDone || sessionReady) return;
+
+    setCountdown(3);
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev === undefined || prev <= 1) {
+          clearInterval(interval);
+          setSessionReady(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [instructionDone, sessionReady]);
+
+  // Sync instruction audio with pause state
+  useEffect(() => {
+    if (isPaused) {
+      instructionPlayer.pause();
+    } else if (!instructionDone) {
+      instructionPlayer.play();
+    }
+  }, [isPaused, instructionPlayer, instructionDone]);
+
+  // Play phase audio on phase changes + tibetan bowl at cycle start
+  useEffect(() => {
+    if (!sessionReady || isPaused) return;
+
+    const players = [inhalePlayer, holdPlayer, exhalePlayer];
+    const player = players[phaseIndex];
+    player.seekTo(0);
+    player.play();
+
+    // Play tibetan bowl at the start of each cycle
+    if (phaseIndex === 0) {
+      bowlPlayer.seekTo(0);
+      bowlPlayer.play();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phaseIndex, sessionReady, isPaused]);
+
+  // Pause phase audio when session is paused
+  useEffect(() => {
+    if (isPaused) {
+      inhalePlayer.pause();
+      holdPlayer.pause();
+      exhalePlayer.pause();
+      bowlPlayer.pause();
+    }
+  }, [isPaused, inhalePlayer, holdPlayer, exhalePlayer, bowlPlayer]);
+
+  // Save state on back navigation (only if session has started)
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+      if (sessionReady && timeRemaining > 0) {
+        setSession({ timeRemaining });
+      }
+    });
+    return unsubscribe;
+  }, [sessionReady, timeRemaining, navigation, setSession]);
+
+  // Complete session when timer reaches zero
+  useEffect(() => {
+    if (timeRemaining === 0) {
+      setSession(null);
+      router.replace('/practices/completion');
+    }
+  }, [timeRemaining, setSession, router]);
+
+  // Timer only runs after session is ready
+  useEffect(() => {
+    if (isPaused || !sessionReady) return;
 
     intervalRef.current = setInterval(() => {
-      setElapsed((prev) => {
-        if (prev >= TOTAL_DURATION - 1) {
+      setTimeRemaining((prev) => {
+        if (prev <= 1) {
           clearInterval(intervalRef.current!);
-          handleComplete();
-          return TOTAL_DURATION;
+          return 0;
         }
-        return prev + 1;
+        return prev - 1;
       });
     }, 1000);
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPaused, handleComplete]);
+  }, [isPaused, sessionReady]);
+
+  // Restart the session (skip instruction, start breathing immediately)
+  const handleRestart = () => {
+    setTimeRemaining(TOTAL_DURATION);
+    setIsPaused(false);
+    setInstructionDone(true);
+    setSessionReady(true);
+    setCountdown(undefined);
+    setSession(null);
+  };
 
   return (
     <Container safeAreaClass="bg-background-dark">
@@ -87,30 +252,12 @@ export default function Breathing478Session() {
         />
 
         {/* Header */}
-        <View className="z-20 flex-row items-center justify-between px-6 pt-2 pb-2">
-          <BackButton icon="close" />
-          <View className="items-center">
-            <Text className="text-[11px] font-black uppercase tracking-[0.25em] text-primary-pink">
-              4-7-8 Breathing
-            </Text>
-            <View className="mt-1 flex-row items-center gap-1.5">
-              <View
-                className="h-1.5 w-1.5 rounded-full bg-accent-yellow"
-                style={{
-                  shadowColor: colors.accent.yellow,
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 1,
-                  shadowRadius: 10,
-                }}
-              />
-              <Text className="text-[9px] font-bold uppercase tracking-widest text-accent-yellow/90">
-                Biometric Syncing
-              </Text>
-            </View>
-          </View>
-          <Pressable className="h-11 w-11 items-center justify-center rounded-full bg-white/5 active:bg-white/10">
-            <MaterialIcons name="settings" size={24} color={alpha.white80} />
-          </Pressable>
+        <View className="z-10 flex-row items-center justify-between px-6 py-4">
+          <BackButton />
+          <Text className="text-lg font-bold tracking-tight text-white">
+            4-7-8 Breathing
+          </Text>
+          <View className="h-11 w-11" />
         </View>
 
         {/* Breathing instruction text — fixed height to prevent layout shifts */}
@@ -125,7 +272,12 @@ export default function Breathing478Session() {
 
         {/* Circular visualization - flex to fill available space */}
         <View className="z-10 flex-1 items-center justify-center">
-          <BreathingCircle478 elapsed={elapsed} isPaused={isPaused} />
+          <BreathingCircle478
+            elapsed={elapsed}
+            isPaused={isPaused}
+            isActive={sessionReady}
+            phaseIndex={phaseIndex}
+          />
         </View>
 
         {/* Bottom section */}
@@ -138,11 +290,18 @@ export default function Breathing478Session() {
             </Text>
           </View>
 
-          {/* Controls row: volume, pause, replay */}
+          {/* Controls row: mute, pause, restart */}
           <View className="mb-8 flex-row items-center justify-between px-6">
-            {/* Volume button */}
-            <Pressable className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90">
-              <MaterialIcons name="volume-up" size={24} color={alpha.white60} />
+            {/* Mute button */}
+            <Pressable
+              onPress={() => setIsMuted((m) => !m)}
+              className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
+            >
+              <MaterialIcons
+                name={isMuted ? 'volume-off' : 'volume-up'}
+                size={24}
+                color={alpha.white60}
+              />
             </Pressable>
 
             {/* Pause / Play button */}
@@ -175,9 +334,9 @@ export default function Breathing478Session() {
               </LinearGradient>
             </Pressable>
 
-            {/* Replay button */}
+            {/* Restart button */}
             <Pressable
-              onPress={handleReset}
+              onPress={handleRestart}
               className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
             >
               <MaterialIcons name="replay" size={24} color={alpha.white60} />

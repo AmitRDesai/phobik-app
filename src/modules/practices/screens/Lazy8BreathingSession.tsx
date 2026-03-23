@@ -3,18 +3,25 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigation, useRouter } from 'expo-router';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { BreathingInfinity } from '../components/BreathingInfinity';
+import { lazy8BreathingSessionAtom } from '../store/lazy-8-breathing';
 
-const TOTAL_DURATION = 5 * 60; // 5 minutes per design
-
-const BREATHING_PHASES = ['Inhale', 'Exhale'] as const;
-const PHASE_DURATIONS = [4, 4]; // 4s inhale (right loop), 4s exhale (left loop)
-const PHASE_TOTAL = PHASE_DURATIONS.reduce((a, b) => a + b, 0);
+const CYCLE_DURATION = 8; // 4s inhale + 4s exhale
+const TOTAL_DURATION = CYCLE_DURATION * 5; // 5 cycles = 40s
+const INHALE_END = 4;
 
 function formatTime(seconds: number) {
   const m = Math.floor(seconds / 60);
@@ -24,38 +31,169 @@ function formatTime(seconds: number) {
 
 export default function Lazy8BreathingSession() {
   const router = useRouter();
-  const [timeRemaining, setTimeRemaining] = useState(TOTAL_DURATION);
+  const navigation = useNavigation();
+  const savedState = useAtomValue(lazy8BreathingSessionAtom);
+  const setSession = useSetAtom(lazy8BreathingSessionAtom);
+
+  const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
+
+  const [timeRemaining, setTimeRemaining] = useState(initialTimeRef.current);
   const [isPaused, setIsPaused] = useState(false);
+  const [instructionDone, setInstructionDone] = useState(
+    savedState !== null, // skip instruction if resuming
+  );
+  const [sessionReady, setSessionReady] = useState(savedState !== null);
+  const [countdown, setCountdown] = useState<number | undefined>(undefined);
+  const [breathPhase, setBreathPhase] = useState('Inhale');
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const elapsed = TOTAL_DURATION - timeRemaining;
   const overallProgress = elapsed / TOTAL_DURATION;
 
-  // Breathing phase calculation
-  const cyclePosition = elapsed % PHASE_TOTAL;
-  let accumulated = 0;
-  let currentPhaseIndex = 0;
-  for (let i = 0; i < PHASE_DURATIONS.length; i++) {
-    accumulated += PHASE_DURATIONS[i];
-    if (cyclePosition < accumulated) {
-      currentPhaseIndex = i;
-      break;
-    }
-  }
-  const currentPhase = BREATHING_PHASES[currentPhaseIndex];
-
-  const handleComplete = useCallback(() => {
-    router.replace('/practices/completion');
-  }, [router]);
-
+  // Animated progress bar
+  const animatedProgress = useSharedValue(overallProgress);
   useEffect(() => {
-    if (isPaused) return;
+    animatedProgress.value = withTiming(overallProgress, {
+      duration: 1000,
+      easing: Easing.linear,
+    });
+  }, [overallProgress, animatedProgress]);
+  const progressBarStyle = useAnimatedStyle(() => ({
+    width: `${animatedProgress.value * 100}%`,
+  }));
+
+  // Derive phase index from elapsed time for phase audio
+  const cyclePosition = elapsed % CYCLE_DURATION;
+  const phaseIndex = cyclePosition < INHALE_END ? 0 : 1;
+
+  // Phase text driven by BreathingInfinity animation callback
+  const currentPhase = !instructionDone
+    ? 'Listen'
+    : countdown !== undefined && countdown > 0
+      ? `Starting in ${countdown}s`
+      : breathPhase;
+
+  // Audio player for instructions
+  const player = useAudioPlayer(
+    require('@/assets/audio/practices/lazy-8-breathing-session/instructions.mp3'),
+  );
+  const status = useAudioPlayerStatus(player);
+
+  // Phase audio players
+  const inhalePlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/inhale.mp3'),
+  );
+  const exhalePlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/exhale.mp3'),
+  );
+  const bowlPlayer = useAudioPlayer(
+    require('@/assets/audio/practices/common/tibetan-bowl.mp3'),
+  );
+
+  // Set bowl volume
+  useEffect(() => {
+    bowlPlayer.volume = 0.8;
+  }, [bowlPlayer]);
+
+  // Start instruction audio on mount (skip if resuming)
+  useEffect(() => {
+    if (!instructionDone) {
+      player.play();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [player]);
+
+  // Detect when instruction audio finishes naturally
+  useEffect(() => {
+    if (
+      !instructionDone &&
+      status.duration > 0 &&
+      status.currentTime >= status.duration &&
+      !status.playing
+    ) {
+      setInstructionDone(true);
+    }
+  }, [instructionDone, status.playing, status.currentTime, status.duration]);
+
+  // 3-second countdown after instruction before starting the exercise
+  useEffect(() => {
+    if (!instructionDone || sessionReady) return;
+
+    setCountdown(3);
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev === undefined || prev <= 1) {
+          clearInterval(interval);
+          setSessionReady(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [instructionDone, sessionReady]);
+
+  // Sync instruction audio with pause state
+  useEffect(() => {
+    if (isPaused) {
+      player.pause();
+    } else if (!instructionDone) {
+      player.play();
+    }
+  }, [isPaused, player, instructionDone]);
+
+  // Play phase audio on phase changes + tibetan bowl at cycle start
+  useEffect(() => {
+    if (!sessionReady || isPaused) return;
+
+    const players = [inhalePlayer, exhalePlayer];
+    const currentPlayer = players[phaseIndex];
+    currentPlayer.seekTo(0);
+    currentPlayer.play();
+
+    // Play tibetan bowl at the start of each cycle
+    if (phaseIndex === 0) {
+      bowlPlayer.seekTo(0);
+      bowlPlayer.play();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phaseIndex, sessionReady, isPaused]);
+
+  // Pause phase audio when session is paused
+  useEffect(() => {
+    if (isPaused) {
+      inhalePlayer.pause();
+      exhalePlayer.pause();
+      bowlPlayer.pause();
+    }
+  }, [isPaused, inhalePlayer, exhalePlayer, bowlPlayer]);
+
+  // Save state on back navigation (only if session has started)
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+      if (sessionReady && timeRemaining > 0) {
+        setSession({ timeRemaining });
+      }
+    });
+    return unsubscribe;
+  }, [sessionReady, timeRemaining, navigation, setSession]);
+
+  // Complete session when timer reaches zero
+  useEffect(() => {
+    if (timeRemaining === 0) {
+      setSession(null);
+      router.replace('/practices/completion');
+    }
+  }, [timeRemaining, setSession, router]);
+
+  // Timer only runs after session is ready
+  useEffect(() => {
+    if (isPaused || !sessionReady) return;
 
     intervalRef.current = setInterval(() => {
       setTimeRemaining((prev) => {
         if (prev <= 1) {
           clearInterval(intervalRef.current!);
-          handleComplete();
           return 0;
         }
         return prev - 1;
@@ -65,22 +203,11 @@ export default function Lazy8BreathingSession() {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPaused, handleComplete]);
+  }, [isPaused, sessionReady]);
 
-  const handleRewind = () => {
-    setTimeRemaining((prev) => Math.min(prev + 15, TOTAL_DURATION));
-  };
+  const handleRewind = () => {};
 
-  const handleForward = () => {
-    setTimeRemaining((prev) => {
-      const next = prev - 15;
-      if (next <= 0) {
-        handleComplete();
-        return 0;
-      }
-      return next;
-    });
-  };
+  const handleForward = () => {};
 
   return (
     <Container safeAreaClass="bg-background-dark">
@@ -101,9 +228,7 @@ export default function Lazy8BreathingSession() {
           <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-white">
             Lazy 8 Breathing
           </Text>
-          <Pressable className="h-12 w-12 items-center justify-center active:opacity-70">
-            <MaterialIcons name="settings" size={24} color="white" />
-          </Pressable>
+          <View className="h-12 w-12" />
         </View>
 
         {/* Scrollable content */}
@@ -124,28 +249,33 @@ export default function Lazy8BreathingSession() {
 
           {/* Infinity visualization */}
           <View className="mb-8 w-full items-center">
-            <BreathingInfinity isPaused={isPaused} />
+            <BreathingInfinity
+              isActive={sessionReady}
+              isPaused={isPaused}
+              onPhaseChange={setBreathPhase}
+              initialElapsed={
+                savedState ? TOTAL_DURATION - initialTimeRef.current : 0
+              }
+            />
           </View>
 
-          {/* Progress bar */}
+          {/* Progress bar — star breathing gradient style */}
           <View
-            className="mb-0 w-full max-w-xs overflow-hidden rounded-full border border-white/5"
-            style={{ height: 6 }}
+            className="mb-0 w-full max-w-xs overflow-hidden rounded-full bg-white/[0.08]"
+            style={{ height: 4 }}
           >
-            <LinearGradient
-              colors={[
-                colors.primary.pink,
-                colors.accent.yellow,
-                colors.primary.pink,
-              ]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={{
-                height: '100%',
-                width: `${overallProgress * 100}%`,
-                borderRadius: 99,
-              }}
-            />
+            <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
+              <LinearGradient
+                colors={[colors.primary.pink, colors.accent.yellow]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  borderRadius: 99,
+                }}
+              />
+            </Animated.View>
           </View>
 
           {/* Timer */}

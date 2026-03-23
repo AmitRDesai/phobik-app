@@ -1,28 +1,23 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors } from '@/constants/colors';
-import { MaterialIcons } from '@expo/vector-icons';
+import { colors } from '@/constants/colors';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useAtom } from 'jotai';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
-import {
-  EnergyLevel,
-  EnergyLevelPicker,
-} from '../components/EnergyLevelPicker';
 import { SenseCard } from '../components/SenseCard';
 import { EXERCISES } from '../data/exercises';
+import { groundingSessionAtom } from '../store/grounding';
 
 const exercise = EXERCISES.find((e) => e.id === 'grounding-54321')!;
 
 export default function GroundingIntro() {
   const router = useRouter();
-  const [selectedEnergy, setSelectedEnergy] = useState<EnergyLevel | null>(
-    null,
-  );
+  const [groundingSession, setGroundingSession] = useAtom(groundingSessionAtom);
+  const hasSavedSession = groundingSession !== null;
 
   return (
     <Container safeAreaClass="bg-background-dashboard">
@@ -33,14 +28,7 @@ export default function GroundingIntro() {
           <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-white">
             Technique Intro
           </Text>
-          <View className="h-10 w-10 items-center justify-end">
-            <MaterialIcons
-              name="info-outline"
-              size={24}
-              color={alpha.white60}
-              style={{ marginTop: 8 }}
-            />
-          </View>
+          <View className="h-10 w-10" />
         </View>
 
         <ScrollView
@@ -96,25 +84,8 @@ export default function GroundingIntro() {
             ))}
           </View>
 
-          {/* Energy Level */}
-          <View className="mb-12 mt-10 px-6">
-            <View className="mb-6 flex-row items-end justify-between">
-              <Text className="flex-1 text-lg font-bold text-white">
-                What is your energy level before your session?
-              </Text>
-              <Pressable className="pb-1 active:opacity-70">
-                <Text className="text-xs font-medium text-white/40">Skip</Text>
-              </Pressable>
-            </View>
-            <EnergyLevelPicker
-              selected={selectedEnergy}
-              onSelect={setSelectedEnergy}
-              variant="centered-icon"
-            />
-          </View>
-
           {/* Ready to begin */}
-          <View className="mb-8 px-6">
+          <View className="mb-8 mt-10 px-6">
             <View className="mb-6 items-center">
               <Text className="text-xl font-bold text-white">
                 Ready to begin?
@@ -127,13 +98,18 @@ export default function GroundingIntro() {
               <GradientButton
                 onPress={() => router.push('/practices/grounding-session')}
               >
-                Start Session
+                {hasSavedSession ? 'Resume Session' : 'Start Session'}
               </GradientButton>
-              <Pressable className="w-full items-center rounded-2xl border border-white/5 bg-white/5 py-4 active:opacity-70">
-                <Text className="text-sm font-medium text-white/60">
-                  Restart Progress
-                </Text>
-              </Pressable>
+              {hasSavedSession && (
+                <Pressable
+                  onPress={() => setGroundingSession(null)}
+                  className="w-full items-center rounded-full border border-white/5 bg-white/5 py-4 active:opacity-70"
+                >
+                  <Text className="text-sm font-medium text-white/60">
+                    Restart Progress
+                  </Text>
+                </Pressable>
+              )}
             </View>
           </View>
         </ScrollView>

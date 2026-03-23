@@ -3,8 +3,11 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useAudioPlayer } from 'expo-audio';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useSetAtom } from 'jotai';
+import { useEffect, useMemo } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -16,14 +19,14 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
+  withRepeat,
+  withSequence,
   withTiming,
 } from 'react-native-reanimated';
 
+import { BackButton } from '@/components/ui/BackButton';
 import { CompletionBadge } from '../components/CompletionBadge';
-import {
-  EnergyLevel,
-  EnergyLevelPicker,
-} from '../components/EnergyLevelPicker';
+import { groundingSessionAtom } from '../store/grounding';
 
 const CONFETTI_COLORS = [colors.primary.pink, colors.accent.yellow, 'white'];
 const CONFETTI_COUNT = 24;
@@ -113,13 +116,100 @@ function Confetti() {
   );
 }
 
+function PulsingGlow({ color }: { color: string }) {
+  const opacity = useSharedValue(0);
+
+  useEffect(() => {
+    opacity.value = withRepeat(
+      withSequence(
+        withTiming(0.6, { duration: 1000 }),
+        withTiming(0, { duration: 1000 }),
+      ),
+      -1,
+      false,
+    );
+  }, [opacity]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
+  return (
+    <Animated.View
+      className="absolute inset-0 scale-125 rounded-full"
+      style={[{ backgroundColor: color }, animatedStyle]}
+    />
+  );
+}
+
+function RewardCircle({
+  gradientColors,
+  glowColor,
+  shadowColor,
+  amount,
+  label,
+  labelColor,
+}: {
+  gradientColors: [string, string];
+  glowColor: string;
+  shadowColor: string;
+  amount: string;
+  label: string;
+  labelColor: string;
+}) {
+  return (
+    <View className="items-center gap-3">
+      <View className="relative h-16 w-16 items-center justify-center">
+        <PulsingGlow color={glowColor} />
+        <LinearGradient
+          colors={gradientColors}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{
+            width: 64,
+            height: 64,
+            borderRadius: 32,
+            alignItems: 'center',
+            justifyContent: 'center',
+            shadowColor,
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.5,
+            shadowRadius: 20,
+            elevation: 10,
+          }}
+        >
+          <MaterialIcons name="toll" size={30} color="white" />
+        </LinearGradient>
+      </View>
+      <View className="items-center">
+        <Text className="text-xl font-black text-white">{amount}</Text>
+        <Text
+          className="text-[10px] font-bold uppercase tracking-widest"
+          style={{ color: labelColor }}
+        >
+          {label}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
 export default function Completion() {
   const router = useRouter();
-  const [selectedEnergy, setSelectedEnergy] = useState<EnergyLevel | null>(
-    null,
+  const setGroundingSession = useSetAtom(groundingSessionAtom);
+
+  // Play success trumpets on mount
+  const trumpetPlayer = useAudioPlayer(
+    require('@/assets/audio/success-trumpets.mp3'),
   );
 
-  const handleSave = () => {
+  useEffect(() => {
+    trumpetPlayer.play();
+    // Clear saved session state on completion
+    setGroundingSession(null);
+  }, [trumpetPlayer, setGroundingSession]);
+
+  const handleFinish = () => {
     router.dismissAll();
   };
 
@@ -136,18 +226,15 @@ export default function Completion() {
 
         <Confetti />
 
-        {/* Close button */}
-        <View className="flex-row items-center justify-end p-6">
-          <Pressable
-            onPress={() => router.dismissAll()}
-            className="h-10 w-10 items-center justify-center rounded-full bg-white/5 active:opacity-70"
-          >
-            <MaterialIcons name="close" size={24} color={alpha.white40} />
-          </Pressable>
-        </View>
+        {/* Close button — absolute positioned */}
+        <BackButton
+          className="absolute right-6 top-6 z-20"
+          onPress={() => router.dismissAll()}
+          icon="close"
+        />
 
         <ScrollView
-          contentContainerClassName="flex-grow items-center px-6 pt-4"
+          contentContainerClassName="flex-grow items-center px-6 pt-6"
           showsVerticalScrollIndicator={false}
         >
           {/* Mandala badge */}
@@ -161,25 +248,41 @@ export default function Completion() {
               {'PRACTICE\nCOMPLETED!'}
             </Text>
             <Text className="max-w-[280px] text-center text-sm font-medium text-white/60">
-              You've successfully completed a mindfulness session.
+              You&apos;ve successfully completed a mindfulness session.
             </Text>
           </View>
 
-          {/* Energy Level Picker */}
-          <View className="mb-12 w-full gap-6">
-            <Text className="text-center text-lg font-bold tracking-tight text-white">
-              What is your energy level after your session?
+          {/* Daily D.O.S.E. Rewards */}
+          <View className="mb-12 w-full items-center gap-6">
+            <Text className="text-xs font-bold uppercase tracking-[0.2em] text-white/60">
+              Daily D.O.S.E. Rewards
             </Text>
-            <EnergyLevelPicker
-              selected={selectedEnergy}
-              onSelect={setSelectedEnergy}
-            />
+            <View className="flex-row justify-center gap-6">
+              <RewardCircle
+                gradientColors={[colors.primary.pink, '#ff4b8b']}
+                glowColor="rgba(244,37,106,0.2)"
+                shadowColor={colors.primary.pink}
+                amount="+10"
+                label="Endorphins"
+                labelColor={colors.primary.pink}
+              />
+              <RewardCircle
+                gradientColors={[colors.blue[500], colors.cyan[400]]}
+                glowColor="rgba(59,130,246,0.2)"
+                shadowColor={colors.blue[500]}
+                amount="+5"
+                label="Serotonin"
+                labelColor={colors.blue[400]}
+              />
+            </View>
           </View>
         </ScrollView>
 
         {/* Bottom buttons */}
         <View className="gap-4 px-8 pb-8">
-          <GradientButton onPress={handleSave}>Save to Insights</GradientButton>
+          <GradientButton onPress={handleFinish}>
+            Collect Rewards & Finish
+          </GradientButton>
           <Pressable
             onPress={() => {}}
             className="w-full flex-row items-center justify-center gap-2 py-4 active:opacity-70"

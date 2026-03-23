@@ -3,14 +3,17 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
 import MaskedView from '@react-native-masked-view/masked-view';
+import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigation, useRouter } from 'expo-router';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { AudioVisualizer } from '../components/AudioVisualizer';
 import { HeartRateBadge } from '../components/HeartRateBadge';
 import { ProgressRing } from '../components/ProgressRing';
+import { groundingSessionAtom } from '../store/grounding';
 
 interface SessionStep {
   count: number;
@@ -26,39 +29,47 @@ const STEPS: SessionStep[] = [
     sense: 'see',
     instruction: 'Now identify **5 things** you can see.',
     subInstruction: 'Look around and notice the details in your environment.',
-    durationSec: 30,
+    durationSec: 24,
   },
   {
     count: 4,
     sense: 'feel',
     instruction: 'Now identify **4 things** you can feel.',
     subInstruction: 'Notice textures and temperatures around you.',
-    durationSec: 30,
+    durationSec: 24,
   },
   {
     count: 3,
     sense: 'hear',
     instruction: 'Now identify **3 things** you can hear.',
     subInstruction: 'Listen closely to the sounds in your environment.',
-    durationSec: 25,
+    durationSec: 24,
   },
   {
     count: 2,
     sense: 'smell',
     instruction: 'Now identify **2 things** you can smell.',
     subInstruction: 'Breathe deeply and notice scents around you.',
-    durationSec: 20,
+    durationSec: 24,
   },
   {
     count: 1,
     sense: 'taste',
     instruction: 'Now identify **1 thing** you can taste.',
     subInstruction: 'Focus on any taste in your mouth right now.',
-    durationSec: 15,
+    durationSec: 24,
   },
 ];
 
 const TOTAL_DURATION = STEPS.reduce((sum, s) => sum + s.durationSec, 0);
+
+const AUDIO_FILES: Record<number, number> = {
+  5: require('@/assets/audio/practices/grounding-session/5.mp3'),
+  4: require('@/assets/audio/practices/grounding-session/4.mp3'),
+  3: require('@/assets/audio/practices/grounding-session/3.mp3'),
+  2: require('@/assets/audio/practices/grounding-session/2.mp3'),
+  1: require('@/assets/audio/practices/grounding-session/1.mp3'),
+};
 
 function formatTime(seconds: number) {
   const m = Math.floor(seconds / 60);
@@ -77,14 +88,70 @@ function parseInstruction(text: string) {
 
 export default function GroundingSession() {
   const router = useRouter();
+  const navigation = useNavigation();
+  const savedState = useAtomValue(groundingSessionAtom);
+  const setGroundingSession = useSetAtom(groundingSessionAtom);
+
+  const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
+
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(TOTAL_DURATION);
+  const [timeRemaining, setTimeRemaining] = useState(initialTimeRef.current);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const currentStep = STEPS[currentStepIndex];
   const elapsedInTotal = TOTAL_DURATION - timeRemaining;
   const progress = elapsedInTotal / TOTAL_DURATION;
+
+  // Audio player — 100ms status updates for smooth visualizer
+  const player = useAudioPlayer(AUDIO_FILES[5], { updateInterval: 100 });
+  const status = useAudioPlayerStatus(player);
+
+  // Generate visualizer levels from audio playback position
+  const audioLevels = useMemo(() => {
+    if (!status.playing) return null;
+    const t = status.currentTime;
+    return Array.from({ length: 6 }, (_, i) => {
+      const v = Math.abs(Math.sin(t * (3 + i * 1.7) + i * 2.1));
+      return v * 0.6 + 0.15;
+    });
+  }, [status.playing, status.currentTime]);
+
+  // Start audio on mount
+  useEffect(() => {
+    player.play();
+  }, [player]);
+
+  // Switch audio when step changes
+  const prevStepRef = useRef(currentStep.count);
+  useEffect(() => {
+    if (prevStepRef.current !== currentStep.count) {
+      prevStepRef.current = currentStep.count;
+      player.replace(AUDIO_FILES[currentStep.count]);
+      if (!isPaused) {
+        player.play();
+      }
+    }
+  }, [currentStep.count, isPaused, player]);
+
+  // Sync audio with pause state
+  useEffect(() => {
+    if (isPaused) {
+      player.pause();
+    } else {
+      player.play();
+    }
+  }, [isPaused, player]);
+
+  // Save state on back navigation
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+      if (timeRemaining > 0) {
+        setGroundingSession({ currentStepIndex, timeRemaining });
+      }
+    });
+    return unsubscribe;
+  }, [currentStepIndex, timeRemaining, navigation, setGroundingSession]);
 
   const handleComplete = useCallback(() => {
     router.replace('/practices/completion');
@@ -172,7 +239,10 @@ export default function GroundingSession() {
                 </LinearGradient>
               </MaskedView>
               <View className="mt-4">
-                <AudioVisualizer />
+                <AudioVisualizer
+                  levels={audioLevels}
+                  isPlaying={status.playing}
+                />
               </View>
             </View>
           </View>
@@ -188,7 +258,7 @@ export default function GroundingSession() {
                   <MaskedView
                     key={i}
                     maskElement={
-                      <Text className="text-2xl font-bold leading-loose">
+                      <Text className="text-2xl font-bold leading-tight">
                         {part.text}
                       </Text>
                     }
@@ -198,7 +268,7 @@ export default function GroundingSession() {
                       start={{ x: 0, y: 0 }}
                       end={{ x: 1, y: 0 }}
                     >
-                      <Text className="text-2xl font-bold opacity-0">
+                      <Text className="text-2xl font-bold leading-tight opacity-0">
                         {part.text}
                       </Text>
                     </LinearGradient>
@@ -206,7 +276,7 @@ export default function GroundingSession() {
                 ) : (
                   <Text
                     key={i}
-                    className="text-center text-2xl font-bold text-white"
+                    className="text-center text-2xl font-bold leading-tight text-white"
                   >
                     {part.text}
                   </Text>
@@ -236,7 +306,7 @@ export default function GroundingSession() {
         <View className="z-10 px-6 pb-6">
           <Pressable
             onPress={() => setIsPaused((p) => !p)}
-            className="w-full items-center rounded-xl border border-white/[0.08] bg-white/[0.03] py-4 active:opacity-70"
+            className="w-full items-center rounded-full border border-white/[0.08] bg-white/[0.03] py-4 active:opacity-70"
           >
             <Text className="text-sm font-medium text-white/70">
               {isPaused ? 'Resume Session' : 'Pause Session'}

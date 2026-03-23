@@ -5,22 +5,18 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useAtom } from 'jotai';
 import { Pressable, Text, View } from 'react-native';
 
-import {
-  EnergyLevel,
-  EnergyLevelPicker,
-} from '../components/EnergyLevelPicker';
 import { EXERCISES } from '../data/exercises';
+import { starBreathingSessionAtom } from '../store/star-breathing';
 
 const exercise = EXERCISES.find((e) => e.id === 'star-breathing')!;
 
 export default function StarBreathingIntro() {
   const router = useRouter();
-  const [selectedEnergy, setSelectedEnergy] = useState<EnergyLevel | null>(
-    null,
-  );
+  const [savedSession, setSavedSession] = useAtom(starBreathingSessionAtom);
+  const hasSavedSession = savedSession !== null;
 
   return (
     <Container safeAreaClass="bg-background-charcoal">
@@ -37,7 +33,7 @@ export default function StarBreathingIntro() {
 
         {/* Close button — top-left, glass pill style */}
         <View className="absolute left-6 top-3 z-40">
-          <BackButton icon="close" />
+          <BackButton />
         </View>
 
         {/* Main content — centered */}
@@ -46,15 +42,13 @@ export default function StarBreathingIntro() {
             {/* Star icon with glow */}
             <View className="relative mb-4 h-16 w-16 items-center justify-center">
               <View
-                className="absolute inset-0"
+                className="absolute h-16 w-16 rounded-full"
                 style={{
-                  backgroundColor: 'rgba(236,72,153,0.2)',
-                  borderRadius: 999,
-                  // Blur approximation — use shadow
+                  backgroundColor: 'rgba(236,72,153,0.15)',
                   shadowColor: colors.primary.pink,
                   shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.4,
-                  shadowRadius: 24,
+                  shadowOpacity: 0.5,
+                  shadowRadius: 30,
                 }}
               />
               <MaterialIcons
@@ -74,31 +68,23 @@ export default function StarBreathingIntro() {
               {exercise.description}
             </Text>
 
-            {/* Energy level picker */}
-            <View className="mb-6 w-full">
-              <Text className="mb-4 text-center text-base font-semibold text-white">
-                What is your energy level now?
-              </Text>
-              <EnergyLevelPicker
-                selected={selectedEnergy}
-                onSelect={setSelectedEnergy}
-                variant="icon"
-              />
-            </View>
-
             {/* Buttons */}
             <View className="w-full gap-3">
               <GradientButton
                 onPress={() => router.push('/practices/star-breathing-session')}
               >
-                Start
+                {hasSavedSession ? 'Resume Session' : 'Start'}
               </GradientButton>
-              <Pressable
-                onPress={() => router.back()}
-                className="w-full items-center py-1 active:opacity-70"
-              >
-                <Text className="text-sm font-medium text-white/40">Skip</Text>
-              </Pressable>
+              {hasSavedSession && (
+                <Pressable
+                  onPress={() => setSavedSession(null)}
+                  className="w-full items-center rounded-full border border-white/5 bg-white/5 py-4 active:opacity-70"
+                >
+                  <Text className="text-sm font-medium text-white/60">
+                    Restart Progress
+                  </Text>
+                </Pressable>
+              )}
             </View>
           </View>
         </View>

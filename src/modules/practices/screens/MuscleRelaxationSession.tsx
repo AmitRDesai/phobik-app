@@ -1,11 +1,13 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors } from '@/constants/colors';
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigation, useRouter } from 'expo-router';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import Animated, {
   Easing,
@@ -17,72 +19,124 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Circle, Path } from 'react-native-svg';
 
+import { muscleRelaxationSessionAtom } from '../store/muscle-relaxation';
+
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const TOTAL_DURATION = 15 * 60; // 15 minutes = 900 seconds
-
-const TENSE_DURATION = 5; // seconds
-const RELEASE_DURATION = 10; // seconds
-const PHASE_CYCLE = TENSE_DURATION + RELEASE_DURATION; // 15 seconds per muscle group cycle
-
-type MusclePhase = 'tense' | 'release';
+const WAIT_DURATION = 10; // seconds of hold after each audio
 
 interface MuscleGroup {
   id: string;
   label: string;
   icon: keyof typeof MaterialIcons.glyphMap;
-  tenseInstruction: string;
-  releaseInstruction: string;
+  instruction: string;
+  audio: number;
+  audioDuration: number;
   /** SVG glow position: [cx, cy] in the 200x400 viewBox */
   glowPosition: [number, number];
 }
 
 const MUSCLE_GROUPS: MuscleGroup[] = [
   {
-    id: 'feet',
-    label: 'Feet',
-    icon: 'do-not-step',
-    tenseInstruction: 'Curl your toes tightly and tense your feet.',
-    releaseInstruction: 'Release and let your feet go completely limp.',
-    glowPosition: [100, 370],
+    id: 'face',
+    label: 'Face',
+    icon: 'face',
+    instruction: 'Squeeze your eyes shut and scrunch your face tightly.',
+    audio: require('@/assets/audio/practices/muscle-relaxation-session/face.mp3'),
+    audioDuration: 15,
+    glowPosition: [100, 40],
   },
   {
-    id: 'calves',
-    label: 'Calves',
-    icon: 'directions-walk',
-    tenseInstruction: 'Tighten your calf muscles as hard as you can.',
-    releaseInstruction: 'Release and feel the tension melt from your calves.',
-    glowPosition: [100, 300],
+    id: 'neck',
+    label: 'Neck',
+    icon: 'accessibility-new',
+    instruction: 'Tilt your head back and tense your neck muscles.',
+    audio: require('@/assets/audio/practices/muscle-relaxation-session/neck.mp3'),
+    audioDuration: 9,
+    glowPosition: [100, 55],
+  },
+  {
+    id: 'chest',
+    label: 'Chest',
+    icon: 'favorite',
+    instruction: 'Take a deep breath and tighten your chest muscles.',
+    audio: require('@/assets/audio/practices/muscle-relaxation-session/chest.mp3'),
+    audioDuration: 9,
+    glowPosition: [100, 100],
   },
   {
     id: 'shoulders',
     label: 'Shoulders',
     icon: 'accessibility-new',
-    tenseInstruction:
+    instruction:
       'Pull your shoulders up toward your ears as tightly as you can.',
-    releaseInstruction: 'Drop your shoulders down and let them relax.',
+    audio: require('@/assets/audio/practices/muscle-relaxation-session/shoulders.mp3'),
+    audioDuration: 12,
     glowPosition: [100, 75],
   },
   {
-    id: 'hands',
-    label: 'Hands',
+    id: 'upper-back',
+    label: 'Upper Back',
+    icon: 'airline-seat-flat',
+    instruction:
+      'Push your shoulder blades together and tense your upper back.',
+    audio: require('@/assets/audio/practices/muscle-relaxation-session/upper-back.mp3'),
+    audioDuration: 3,
+    glowPosition: [100, 110],
+  },
+  {
+    id: 'abdomen',
+    label: 'Abdomen',
+    icon: 'self-improvement',
+    instruction: 'Tighten your abdominal muscles as hard as you can.',
+    audio: require('@/assets/audio/practices/muscle-relaxation-session/abdomen.mp3'),
+    audioDuration: 3,
+    glowPosition: [100, 145],
+  },
+  {
+    id: 'hands-and-arms',
+    label: 'Hands & Arms',
     icon: 'back-hand',
-    tenseInstruction: 'Make tight fists with both hands.',
-    releaseInstruction: 'Open your hands and let them relax completely.',
+    instruction: 'Make tight fists and tense your arms.',
+    audio: require('@/assets/audio/practices/muscle-relaxation-session/hands-and-arms.mp3'),
+    audioDuration: 18,
     glowPosition: [50, 165],
   },
   {
-    id: 'face',
-    label: 'Face',
-    icon: 'face',
-    tenseInstruction: 'Squeeze your eyes shut and scrunch your face tightly.',
-    releaseInstruction: 'Relax all your facial muscles and let your jaw drop.',
-    glowPosition: [100, 40],
+    id: 'right-leg',
+    label: 'Right Leg',
+    icon: 'directions-walk',
+    instruction: 'Tense your right thigh, calf, and foot.',
+    audio: require('@/assets/audio/practices/muscle-relaxation-session/right-leg.mp3'),
+    audioDuration: 14,
+    glowPosition: [120, 280],
+  },
+  {
+    id: 'left-leg',
+    label: 'Left Leg',
+    icon: 'directions-walk',
+    instruction: 'Tense your left thigh, calf, and foot.',
+    audio: require('@/assets/audio/practices/muscle-relaxation-session/left-leg.mp3'),
+    audioDuration: 18,
+    glowPosition: [80, 280],
+  },
+  {
+    id: 'feet',
+    label: 'Feet',
+    icon: 'do-not-step',
+    instruction: 'Curl your toes tightly and tense your feet.',
+    audio: require('@/assets/audio/practices/muscle-relaxation-session/feet.mp3'),
+    audioDuration: 7,
+    glowPosition: [100, 370],
   },
 ];
 
-// Each muscle group gets one full tense+release cycle (15s).
-const TOTAL_CYCLES = Math.ceil(TOTAL_DURATION / PHASE_CYCLE);
+const TOTAL_DURATION = MUSCLE_GROUPS.reduce(
+  (sum, g) => sum + g.audioDuration + WAIT_DURATION,
+  0,
+);
+
+type StepPhase = 'audio' | 'wait';
 
 function formatTime(seconds: number) {
   const m = Math.floor(seconds / 60);
@@ -93,13 +147,13 @@ function formatTime(seconds: number) {
 // ── Body Silhouette Component ────────────────────────────────────────────────
 
 function BodySilhouette({ activeGlow }: { activeGlow: [number, number] }) {
-  const glowOpacity = useSharedValue(0.4);
+  const glowOpacity = useSharedValue(0.08);
 
   useEffect(() => {
     glowOpacity.value = withRepeat(
       withSequence(
-        withTiming(0.8, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
-        withTiming(0.4, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
+        withTiming(0.15, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
+        withTiming(0.08, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
       ),
       -1,
       false,
@@ -133,20 +187,13 @@ function BodySilhouette({ activeGlow }: { activeGlow: [number, number] }) {
         {/* Right leg */}
         <Path d="M120,185 L130,360 Q130,375 110,375" />
 
-        {/* Active muscle group glow layers */}
-        <Circle
-          cx={activeGlow[0]}
-          cy={activeGlow[1]}
-          r={45}
-          fill={colors.accent.yellow}
-          fillOpacity={0.15}
-        />
+        {/* Active muscle group glow */}
         <Circle
           cx={activeGlow[0]}
           cy={activeGlow[1]}
           r={25}
           fill={colors.primary.pink}
-          fillOpacity={0.3}
+          fillOpacity={0.15}
         />
         {/* Side glow circles for shoulder-like areas */}
         {activeGlow[1] < 100 && activeGlow[1] > 60 && (
@@ -156,14 +203,14 @@ function BodySilhouette({ activeGlow }: { activeGlow: [number, number] }) {
               cy={activeGlow[1] + 10}
               r={12}
               fill={colors.primary.pink}
-              fillOpacity={0.2}
+              fillOpacity={0.1}
             />
             <Circle
               cx={activeGlow[0] + 25}
               cy={activeGlow[1] + 10}
               r={12}
               fill={colors.primary.pink}
-              fillOpacity={0.2}
+              fillOpacity={0.1}
             />
           </>
         )}
@@ -283,43 +330,90 @@ function MuscleGroupStep({
 
 export default function MuscleRelaxationSession() {
   const router = useRouter();
-  const [timeRemaining, setTimeRemaining] = useState(TOTAL_DURATION);
+  const navigation = useNavigation();
+  const savedState = useAtomValue(muscleRelaxationSessionAtom);
+  const setSession = useSetAtom(muscleRelaxationSessionAtom);
+
+  const initialStepRef = useRef(savedState?.currentStepIndex ?? 0);
+
+  // Compute elapsed time for all completed steps (audio + wait for each)
+  const initialElapsed = MUSCLE_GROUPS.slice(0, initialStepRef.current).reduce(
+    (sum, g) => sum + g.audioDuration + WAIT_DURATION,
+    0,
+  );
+
+  const [currentStepIndex, setCurrentStepIndex] = useState(
+    initialStepRef.current,
+  );
+  const [stepPhase, setStepPhase] = useState<StepPhase>('audio');
+  const [waitTimeRemaining, setWaitTimeRemaining] = useState(WAIT_DURATION);
   const [isPaused, setIsPaused] = useState(false);
+  const [elapsedTotal, setElapsedTotal] = useState(initialElapsed);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const phaseIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const audioElapsedRef = useRef(0);
   const scrollRef = useRef<ScrollView>(null);
 
-  const elapsed = TOTAL_DURATION - timeRemaining;
-  const overallProgress = elapsed / TOTAL_DURATION;
+  const currentGroup = MUSCLE_GROUPS[currentStepIndex];
+  const overallProgress = Math.min(elapsedTotal / TOTAL_DURATION, 1);
 
-  // Determine current muscle group and phase
-  const currentCycleIndex = Math.min(
-    Math.floor(elapsed / PHASE_CYCLE),
-    TOTAL_CYCLES - 1,
-  );
-  const currentGroupIndex = currentCycleIndex % MUSCLE_GROUPS.length;
-  const cycleElapsed = elapsed % PHASE_CYCLE;
-  const currentPhase: MusclePhase =
-    cycleElapsed < TENSE_DURATION ? 'tense' : 'release';
-  const currentGroup = MUSCLE_GROUPS[currentGroupIndex];
-
-  // Phase countdown within the current tense or release phase
-  const phaseTimeRemaining =
-    currentPhase === 'tense'
-      ? TENSE_DURATION - cycleElapsed
-      : RELEASE_DURATION - (cycleElapsed - TENSE_DURATION);
-
-  const handleComplete = useCallback(() => {
-    router.replace('/practices/completion');
-  }, [router]);
-
+  // Animated progress bar
+  const animatedProgress = useSharedValue(overallProgress);
   useEffect(() => {
-    if (isPaused) return;
+    animatedProgress.value = withTiming(overallProgress, {
+      duration: 1000,
+      easing: Easing.linear,
+    });
+  }, [overallProgress, animatedProgress]);
+  const progressBarStyle = useAnimatedStyle(() => ({
+    width: `${animatedProgress.value * 100}%`,
+  }));
+  const timeRemaining = Math.max(TOTAL_DURATION - elapsedTotal, 0);
 
-    intervalRef.current = setInterval(() => {
-      setTimeRemaining((prev) => {
+  // Audio player — start with the correct step's audio
+  const player = useAudioPlayer(MUSCLE_GROUPS[initialStepRef.current].audio);
+
+  // Start audio on mount
+  useEffect(() => {
+    player.play();
+  }, [player]);
+
+  // Switch audio when step changes
+  const prevStepRef = useRef(initialStepRef.current);
+  useEffect(() => {
+    if (prevStepRef.current !== currentStepIndex) {
+      prevStepRef.current = currentStepIndex;
+      player.replace(MUSCLE_GROUPS[currentStepIndex].audio);
+      player.play();
+    }
+  }, [currentStepIndex, player]);
+
+  // Audio phase countdown — ticks each second, transitions to wait when audio duration elapsed
+  useEffect(() => {
+    if (stepPhase !== 'audio' || isPaused) return;
+
+    phaseIntervalRef.current = setInterval(() => {
+      audioElapsedRef.current += 1;
+      if (audioElapsedRef.current >= currentGroup.audioDuration) {
+        clearInterval(phaseIntervalRef.current!);
+        setStepPhase('wait');
+        setWaitTimeRemaining(WAIT_DURATION);
+      }
+    }, 1000);
+
+    return () => {
+      if (phaseIntervalRef.current) clearInterval(phaseIntervalRef.current);
+    };
+  }, [stepPhase, isPaused, currentGroup.audioDuration]);
+
+  // Wait countdown
+  useEffect(() => {
+    if (stepPhase !== 'wait' || isPaused) return;
+
+    phaseIntervalRef.current = setInterval(() => {
+      setWaitTimeRemaining((prev) => {
         if (prev <= 1) {
-          clearInterval(intervalRef.current!);
-          handleComplete();
+          clearInterval(phaseIntervalRef.current!);
           return 0;
         }
         return prev - 1;
@@ -327,27 +421,82 @@ export default function MuscleRelaxationSession() {
     }, 1000);
 
     return () => {
+      if (phaseIntervalRef.current) clearInterval(phaseIntervalRef.current);
+    };
+  }, [stepPhase, isPaused]);
+
+  // Advance step when wait finishes
+  useEffect(() => {
+    if (stepPhase === 'wait' && waitTimeRemaining === 0) {
+      if (currentStepIndex < MUSCLE_GROUPS.length - 1) {
+        audioElapsedRef.current = 0;
+        setCurrentStepIndex((prev) => prev + 1);
+        setStepPhase('audio');
+        setWaitTimeRemaining(WAIT_DURATION);
+      }
+    }
+  }, [stepPhase, waitTimeRemaining, currentStepIndex]);
+
+  // Save state on back navigation
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+      if (timeRemaining > 0) {
+        setSession({ currentStepIndex });
+      }
+    });
+    return unsubscribe;
+  }, [currentStepIndex, timeRemaining, navigation, setSession]);
+
+  // Completion — last step wait finishes
+  useEffect(() => {
+    if (
+      stepPhase === 'wait' &&
+      waitTimeRemaining === 0 &&
+      currentStepIndex === MUSCLE_GROUPS.length - 1
+    ) {
+      setSession(null);
+      router.replace('/practices/completion');
+    }
+  }, [stepPhase, waitTimeRemaining, currentStepIndex, router, setSession]);
+
+  // Elapsed counter
+  useEffect(() => {
+    if (isPaused) return;
+
+    intervalRef.current = setInterval(() => {
+      setElapsedTotal((prev) => prev + 1);
+    }, 1000);
+
+    return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPaused, handleComplete]);
+  }, [isPaused]);
+
+  // Sync audio with pause state
+  useEffect(() => {
+    if (stepPhase !== 'audio') return;
+    if (isPaused) {
+      player.pause();
+    } else {
+      player.play();
+    }
+  }, [isPaused, player, stepPhase]);
 
   // Auto-scroll to active muscle group
   useEffect(() => {
     scrollRef.current?.scrollTo({
-      x: currentGroupIndex * 86 - 120,
+      x: currentStepIndex * 86 - 120,
       animated: true,
     });
-  }, [currentGroupIndex]);
+  }, [currentStepIndex]);
 
-  const phaseInstruction =
-    currentPhase === 'tense'
-      ? currentGroup.tenseInstruction
-      : currentGroup.releaseInstruction;
+  const instructionText =
+    stepPhase === 'audio'
+      ? currentGroup.instruction
+      : `Hold and relax for ${waitTimeRemaining}s`;
 
   const phaseLabel =
-    currentPhase === 'tense'
-      ? `Tense your ${currentGroup.label.toLowerCase()}...`
-      : 'Release and relax';
+    stepPhase === 'audio' ? 'Listen to the instructions...' : 'Hold and relax';
 
   return (
     <Container safeAreaClass="bg-background-dark">
@@ -356,7 +505,7 @@ export default function MuscleRelaxationSession() {
           bgClassName="bg-background-dark"
           centerX={0.5}
           centerY={0.35}
-          intensity={0.6}
+          intensity={stepPhase === 'audio' ? 0.15 : 0.25}
           radius={0.4}
           startColor={colors.primary.pink}
           endColor={colors.accent.yellow}
@@ -387,9 +536,7 @@ export default function MuscleRelaxationSession() {
             </View>
           </View>
 
-          <Pressable className="h-10 w-10 items-center justify-center rounded-full bg-white/5 active:bg-white/10">
-            <MaterialIcons name="graphic-eq" size={22} color={alpha.white70} />
-          </Pressable>
+          <View className="h-10 w-10" />
         </View>
 
         {/* Body visualization area */}
@@ -450,7 +597,7 @@ export default function MuscleRelaxationSession() {
             className="px-10 text-center text-sm leading-relaxed text-white/50"
             style={{ fontVariant: ['tabular-nums'] }}
           >
-            {phaseInstruction} Hold for {Math.ceil(phaseTimeRemaining)} seconds.
+            {instructionText}
           </Text>
         </View>
 
@@ -464,19 +611,12 @@ export default function MuscleRelaxationSession() {
           >
             {MUSCLE_GROUPS.map((group, index) => {
               let state: 'completed' | 'active' | 'upcoming';
-              if (index < currentGroupIndex) {
+              if (index < currentStepIndex) {
                 state = 'completed';
-              } else if (index === currentGroupIndex) {
+              } else if (index === currentStepIndex) {
                 state = 'active';
               } else {
                 state = 'upcoming';
-              }
-              // If we've cycled past all groups, earlier groups may also be completed
-              if (
-                currentCycleIndex >= MUSCLE_GROUPS.length &&
-                index <= currentGroupIndex
-              ) {
-                state = index === currentGroupIndex ? 'active' : 'completed';
               }
               return (
                 <MuscleGroupStep key={group.id} group={group} state={state} />
@@ -499,20 +639,22 @@ export default function MuscleRelaxationSession() {
               />
             </Pressable>
             <View className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
-              <LinearGradient
-                colors={[colors.primary.pink, colors.accent.yellow]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={{
-                  height: '100%',
-                  width: `${overallProgress * 100}%`,
-                  borderRadius: 99,
-                  shadowColor: colors.primary.pink,
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.4,
-                  shadowRadius: 10,
-                }}
-              />
+              <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
+                <LinearGradient
+                  colors={[colors.primary.pink, colors.accent.yellow]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    borderRadius: 99,
+                    shadowColor: colors.primary.pink,
+                    shadowOffset: { width: 0, height: 0 },
+                    shadowOpacity: 0.4,
+                    shadowRadius: 10,
+                  }}
+                />
+              </Animated.View>
             </View>
             <Text
               className="text-xs text-white/40"

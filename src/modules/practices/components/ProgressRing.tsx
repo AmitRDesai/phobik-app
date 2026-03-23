@@ -1,5 +1,14 @@
 import { colors } from '@/constants/colors';
+import { useEffect } from 'react';
+import Animated, {
+  Easing,
+  useAnimatedProps,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const SIZE = 256;
 const STROKE_WIDTH = 4;
@@ -12,7 +21,18 @@ interface ProgressRingProps {
 }
 
 export function ProgressRing({ progress }: ProgressRingProps) {
-  const strokeDashoffset = CIRCUMFERENCE * (1 - progress);
+  const animatedProgress = useSharedValue(progress);
+
+  useEffect(() => {
+    animatedProgress.value = withTiming(progress, {
+      duration: 1000,
+      easing: Easing.linear,
+    });
+  }, [progress, animatedProgress]);
+
+  const animatedProps = useAnimatedProps(() => ({
+    strokeDashoffset: CIRCUMFERENCE * (1 - animatedProgress.value),
+  }));
 
   return (
     <Svg
@@ -35,8 +55,8 @@ export function ProgressRing({ progress }: ProgressRingProps) {
         stroke="rgba(255,255,255,0.05)"
         strokeWidth={STROKE_WIDTH}
       />
-      {/* Progress arc */}
-      <Circle
+      {/* Animated progress arc */}
+      <AnimatedCircle
         cx={SIZE / 2}
         cy={SIZE / 2}
         r={RADIUS}
@@ -44,8 +64,8 @@ export function ProgressRing({ progress }: ProgressRingProps) {
         stroke="url(#progressGradient)"
         strokeWidth={STROKE_WIDTH}
         strokeDasharray={CIRCUMFERENCE}
-        strokeDashoffset={strokeDashoffset}
         strokeLinecap="round"
+        animatedProps={animatedProps}
       />
     </Svg>
   );
