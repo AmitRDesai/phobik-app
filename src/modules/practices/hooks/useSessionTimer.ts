@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useKeepAwake } from 'expo-keep-awake';
 import { useRouter } from 'expo-router';
 
 interface UseSessionTimerOptions {
@@ -16,6 +17,7 @@ export function useSessionTimer({
   sessionReady,
   onComplete,
 }: UseSessionTimerOptions) {
+  useKeepAwake();
   const router = useRouter();
   const [timeRemaining, setTimeRemaining] = useState(
     initialTimeRemaining ?? totalDuration,

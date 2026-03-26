@@ -5,6 +5,7 @@ import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -84,6 +85,7 @@ function parseInstruction(text: string) {
 }
 
 export default function GroundingSession() {
+  useKeepAwake();
   const router = useRouter();
   const savedState = useAtomValue(groundingSessionAtom);
 

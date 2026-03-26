@@ -4,6 +4,7 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { useKeepAwake } from 'expo-keep-awake';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
@@ -142,6 +143,7 @@ function PulsingAura({ isPlaying }: { isPlaying: boolean }) {
 // ── Main Session Screen ──────────────────────────────────────────────────────
 
 export default function SleepMeditationSession() {
+  useKeepAwake();
   const savedState = useAtomValue(sleepMeditationSessionAtom);
   const setSession = useSetAtom(sleepMeditationSessionAtom);
 

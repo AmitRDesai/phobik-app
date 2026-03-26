@@ -4,6 +4,7 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -325,6 +326,7 @@ function MuscleGroupStep({
 // ── Main Session Screen ──────────────────────────────────────────────────────
 
 export default function MuscleRelaxationSession() {
+  useKeepAwake();
   const router = useRouter();
   const savedState = useAtomValue(muscleRelaxationSessionAtom);
   const setSession = useSetAtom(muscleRelaxationSessionAtom);
