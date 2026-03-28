@@ -12,7 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { File as ExpoFile } from 'expo-file-system';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Image,
   KeyboardAvoidingView,
@@ -35,11 +35,15 @@ export default function Profile() {
   const { pickFromLibrary, takePhoto } = useImagePicker();
   const uploadMutation = useUploadProfilePicture();
 
-  useEffect(() => {
-    if (session?.user?.name) {
-      setName(session.user.name);
-    }
-  }, [session?.user?.name]);
+  // Sync name from session when it arrives (adjusting state during render)
+  const [prevSessionName, setPrevSessionName] = useState<string | undefined>(
+    undefined,
+  );
+  const sessionName = session?.user?.name;
+  if (sessionName && sessionName !== prevSessionName) {
+    setPrevSessionName(sessionName);
+    setName(sessionName);
+  }
 
   const handleChangePhoto = async () => {
     const result = await dialog.info({

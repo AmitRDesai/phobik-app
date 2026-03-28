@@ -31,36 +31,35 @@ export function DialogContainer() {
 
   // Keep last dialog state during exit animation
   const [renderState, setRenderState] = useState<DialogState | null>(null);
-  const [visible, setVisible] = useState(false);
-  const visibleRef = useRef(false);
+  const isShowingRef = useRef(false);
 
   const overlayOpacity = useSharedValue(0);
   const sheetTranslateY = useSharedValue(300);
 
   const resolveRef = useRef<((result: DialogResult) => void) | null>(null);
 
-  const onExitComplete = useCallback(() => {
-    setVisible(false);
-    setRenderState(null);
-  }, []);
-
-  // Animate in/out when dialog state changes
+  // Sync render state when dialog opens/closes
   useEffect(() => {
     if (dialogState) {
       setRenderState(dialogState);
       resolveRef.current = dialogState.resolve;
-      setVisible(true);
-      visibleRef.current = true;
+      isShowingRef.current = true;
+    } else if (isShowingRef.current) {
+      isShowingRef.current = false;
+      setTimeout(() => setRenderState(null), 220);
+    }
+  }, [dialogState]);
+
+  // Animate in/out when dialog state changes
+  useEffect(() => {
+    if (dialogState) {
       overlayOpacity.value = withTiming(1, { duration: 250 });
       sheetTranslateY.value = withTiming(0, { duration: 250 });
-    } else if (visibleRef.current) {
-      visibleRef.current = false;
+    } else if (renderState) {
       overlayOpacity.value = withTiming(0, { duration: 200 });
       sheetTranslateY.value = withTiming(300, { duration: 200 });
-      // Clean up after animation
-      setTimeout(onExitComplete, 220);
     }
-  }, [dialogState, overlayOpacity, sheetTranslateY, onExitComplete]);
+  }, [dialogState, renderState]);
 
   const dismiss = useCallback(() => {
     resolveRef.current?.(undefined);
@@ -70,14 +69,14 @@ export function DialogContainer() {
 
   // Android back button
   useEffect(() => {
-    if (!visible || renderState?.type === 'loading') return;
+    if (!renderState || renderState.type === 'loading') return;
 
     const handler = BackHandler.addEventListener('hardwareBackPress', () => {
       dismiss();
       return true;
     });
     return () => handler.remove();
-  }, [visible, renderState?.type, dismiss]);
+  }, [renderState, dismiss]);
 
   const handleButtonPress = useCallback((button: DialogButton) => {
     resolveRef.current?.(button.value);
@@ -99,7 +98,7 @@ export function DialogContainer() {
     transform: [{ translateY: sheetTranslateY.value }],
   }));
 
-  if (!visible || !renderState) return null;
+  if (!renderState) return null;
 
   const isLoading = renderState.type === 'loading';
   const isCustom = renderState.type === 'custom';
@@ -167,9 +166,9 @@ export function DialogContainer() {
               {/* Buttons */}
               {renderState.buttons.length > 0 && (
                 <View className="mt-6 gap-3">
-                  {renderState.buttons.map((button, index) => (
+                  {renderState.buttons.map((button) => (
                     <DialogButtonView
-                      key={index}
+                      key={button.label}
                       button={button}
                       onPress={() => handleButtonPress(button)}
                     />

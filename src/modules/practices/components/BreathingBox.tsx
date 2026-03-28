@@ -94,9 +94,20 @@ export function BreathingBox({
   }));
 
   // Animated shadow on the box — glows stronger as fill increases
+  // Precompute RGB for use inside worklet
+  const pinkHex = colors.primary.pink.replace('#', '');
+  const pinkR = parseInt(pinkHex.substring(0, 2), 16);
+  const pinkG = parseInt(pinkHex.substring(2, 4), 16);
+  const pinkB = parseInt(pinkHex.substring(4, 6), 16);
   const boxShadowStyle = useAnimatedStyle(() => ({
-    shadowOpacity: fillProgress.value * 0.5,
-    shadowRadius: 10 + fillProgress.value * 25,
+    boxShadow: [
+      {
+        offsetX: 0,
+        offsetY: 0,
+        blurRadius: 10 + fillProgress.value * 25,
+        color: `rgba(${pinkR},${pinkG},${pinkB},${fillProgress.value * 0.5})`,
+      },
+    ],
   }));
 
   // Glow pulse animation
@@ -121,7 +132,7 @@ export function BreathingBox({
     return () => {
       glowOpacity.value = 0.15;
     };
-  }, [isPaused, glowOpacity]);
+  }, [isPaused]);
 
   // Text pulse animation
   const textScale = useSharedValue(0.96);
@@ -145,7 +156,7 @@ export function BreathingBox({
     return () => {
       textScale.value = 0.96;
     };
-  }, [isPaused, textScale]);
+  }, [isPaused]);
 
   const glowStyle = useAnimatedStyle(() => ({
     opacity: glowOpacity.value,
@@ -205,8 +216,6 @@ export function BreathingBox({
               borderWidth: 4,
               borderColor: colors.primary.pink,
               backgroundColor: 'transparent',
-              shadowColor: colors.primary.pink,
-              shadowOffset: { width: 0, height: 0 },
             },
             boxShadowStyle,
           ]}
@@ -258,19 +267,23 @@ export function BreathingBox({
           {/* Phase dots */}
           {isActive && (
             <View className="flex-row gap-1.5">
-              {BREATHING_PHASES.map((_, i) => (
+              {BREATHING_PHASES.map((phase, i) => (
                 <View
-                  key={i}
+                  key={phase}
                   className={`h-2 w-2 rounded-full ${
                     i === phaseIndex ? 'bg-primary-pink' : 'bg-white/20'
                   }`}
                   style={
                     i === phaseIndex
                       ? {
-                          shadowColor: colors.primary.pink,
-                          shadowOffset: { width: 0, height: 0 },
-                          shadowOpacity: 1,
-                          shadowRadius: 4,
+                          boxShadow: [
+                            {
+                              offsetX: 0,
+                              offsetY: 0,
+                              blurRadius: 4,
+                              color: colors.primary.pink,
+                            },
+                          ],
                         }
                       : undefined
                   }

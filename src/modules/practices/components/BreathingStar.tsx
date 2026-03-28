@@ -104,7 +104,7 @@ export function BreathingStar({
       -1,
       true,
     );
-  }, [isActive, isPaused, elapsed, orbPulse]);
+  }, [isActive, isPaused]);
 
   // Derive breathing phase from the animation elapsed time
   const phase = useDerivedValue(() => {

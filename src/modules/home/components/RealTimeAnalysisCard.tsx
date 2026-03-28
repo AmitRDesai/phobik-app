@@ -35,7 +35,7 @@ function PingDot() {
       ),
       -1,
     );
-  }, [opacity, scale]);
+  }, []);
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,

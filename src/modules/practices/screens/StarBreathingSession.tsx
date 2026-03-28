@@ -29,6 +29,174 @@ const INHALE_END = 4;
 const HOLD_END = 6;
 const CYCLE_DURATION = 10;
 
+function StatsCard() {
+  return (
+    <View className="mb-6 w-full rounded-[32px] border border-white/[0.08] bg-white/[0.03] p-6">
+      {/* HRV header */}
+      <View className="mb-6 flex-row items-center justify-between">
+        <View className="flex-row items-center gap-4">
+          <LinearGradient
+            colors={[
+              withAlpha(colors.gradient['hot-pink'], 0.2),
+              withAlpha(colors.yellow[400], 0.2),
+            ]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: 16,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderColor: alpha.white05,
+            }}
+          >
+            <MaterialIcons
+              name="favorite"
+              size={24}
+              color={colors.primary.pink}
+            />
+          </LinearGradient>
+          <View>
+            <Text className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-white/30">
+              Heart Rate Variability
+            </Text>
+            <View className="flex-row items-baseline gap-2">
+              <Text className="text-lg font-semibold text-white">64ms</Text>
+              <View className="flex-row items-center">
+                <MaterialIcons
+                  name="arrow-upward"
+                  size={14}
+                  color={colors.emerald[400]}
+                />
+                <Text className="text-xs font-bold text-emerald-400">12%</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        {/* Mini chart bars */}
+        <View className="h-10 flex-row items-end gap-1.5 pr-2">
+          {[
+            { key: 'p1', h: 0.4, color: 'rgba(244,37,106,0.2)' },
+            { key: 'p2', h: 0.6, color: 'rgba(244,37,106,0.5)' },
+            { key: 'p3', h: 1, color: 'rgba(244,37,106,0.8)' },
+            { key: 'y1', h: 0.8, color: 'rgba(250,204,21,1)' },
+            { key: 'y2', h: 0.6, color: 'rgba(250,204,21,0.7)' },
+            { key: 'y3', h: 0.4, color: 'rgba(250,204,21,0.4)' },
+          ].map((bar) => (
+            <View
+              key={bar.key}
+              className="w-1.5 rounded-full"
+              style={{
+                height: `${bar.h * 100}%`,
+                backgroundColor: bar.color,
+              }}
+            />
+          ))}
+        </View>
+      </View>
+
+      {/* Stats grid */}
+      <View className="flex-row gap-4">
+        <View className="flex-1 rounded-2xl border border-white/5 bg-white/[0.04] p-4">
+          <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-accent-yellow/50">
+            Stress Level
+          </Text>
+          <View className="flex-row items-center gap-2">
+            <View className="h-2 w-2 rounded-full bg-emerald-400" />
+            <Text className="text-sm font-semibold text-white">Low</Text>
+          </View>
+        </View>
+        <View className="flex-1 rounded-2xl border border-white/5 bg-white/[0.04] p-4">
+          <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-primary-pink/50">
+            Sync Status
+          </Text>
+          <View className="flex-row items-center gap-2">
+            <View
+              className="h-2 w-2 rounded-full bg-emerald-400"
+              style={{
+                boxShadow: [
+                  {
+                    offsetX: 0,
+                    offsetY: 0,
+                    blurRadius: 8,
+                    color: colors.emerald[400],
+                  },
+                ],
+              }}
+            />
+            <Text className="text-sm font-semibold text-white">
+              Live Tracking
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+function PlaybackControls({
+  isPaused,
+  onPauseToggle,
+  isMuted,
+  onMuteToggle,
+  onRestart,
+  sessionReady,
+}: {
+  isPaused: boolean;
+  onPauseToggle: () => void;
+  isMuted: boolean;
+  onMuteToggle: () => void;
+  onRestart: () => void;
+  sessionReady: boolean;
+}) {
+  return (
+    <View className="mb-8 flex-row items-center justify-center gap-8">
+      <Pressable
+        onPress={onMuteToggle}
+        className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+      >
+        <MaterialIcons
+          name={isMuted ? 'volume-off' : 'volume-up'}
+          size={24}
+          color={alpha.white70}
+        />
+      </Pressable>
+      <Pressable
+        onPress={onPauseToggle}
+        className="h-14 w-14 items-center justify-center rounded-full bg-white active:scale-95"
+        style={{
+          boxShadow: [
+            {
+              offsetX: 0,
+              offsetY: 2,
+              blurRadius: 8,
+              color: 'rgba(255, 255, 255, 0.3)',
+            },
+          ],
+        }}
+      >
+        <MaterialIcons
+          name={isPaused ? 'play-arrow' : 'pause'}
+          size={28}
+          color={colors.background.dark}
+        />
+      </Pressable>
+      <Pressable
+        onPress={onRestart}
+        className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+      >
+        <MaterialIcons
+          name={sessionReady ? 'replay' : 'skip-next'}
+          size={24}
+          color={alpha.white70}
+        />
+      </Pressable>
+    </View>
+  );
+}
+
 export default function StarBreathingSession() {
   const savedState = useAtomValue(starBreathingSessionAtom);
   const setSession = useSetAtom(starBreathingSessionAtom);
@@ -72,7 +240,7 @@ export default function StarBreathingSession() {
       duration: 1000,
       easing: Easing.linear,
     });
-  }, [overallProgress, animatedProgress]);
+  }, [overallProgress]);
   const progressBarStyle = useAnimatedStyle(() => ({
     width: `${animatedProgress.value * 100}%`,
   }));
@@ -116,15 +284,6 @@ export default function StarBreathingSession() {
     currentPlayer.play();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phaseIndex, sessionReady, isPaused]);
-
-  // Pause phase audio when session is paused
-  useEffect(() => {
-    if (isPaused) {
-      inhalePlayer.pause();
-      holdPlayer.pause();
-      exhalePlayer.pause();
-    }
-  }, [isPaused, inhalePlayer, holdPlayer, exhalePlayer]);
 
   // Mute/unmute all audio
   useEffect(() => {
@@ -253,144 +412,26 @@ export default function StarBreathingSession() {
           </View>
 
           {/* Playback controls */}
-          <View className="mb-8 flex-row items-center justify-center gap-8">
-            <Pressable
-              onPress={() => setIsMuted((m) => !m)}
-              className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
-            >
-              <MaterialIcons
-                name={isMuted ? 'volume-off' : 'volume-up'}
-                size={24}
-                color={alpha.white70}
-              />
-            </Pressable>
-            <Pressable
-              onPress={() => setIsPaused((p) => !p)}
-              className="h-14 w-14 items-center justify-center rounded-full bg-white active:scale-95"
-              style={{
-                shadowColor: '#fff',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.3,
-                shadowRadius: 8,
-              }}
-            >
-              <MaterialIcons
-                name={isPaused ? 'play-arrow' : 'pause'}
-                size={28}
-                color={colors.background.dark}
-              />
-            </Pressable>
-            <Pressable
-              onPress={handleRestart}
-              className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
-            >
-              <MaterialIcons
-                name={sessionReady ? 'replay' : 'skip-next'}
-                size={24}
-                color={alpha.white70}
-              />
-            </Pressable>
-          </View>
+          <PlaybackControls
+            isPaused={isPaused}
+            onPauseToggle={() => {
+              setIsPaused((p) => {
+                if (!p) {
+                  inhalePlayer.pause();
+                  holdPlayer.pause();
+                  exhalePlayer.pause();
+                }
+                return !p;
+              });
+            }}
+            isMuted={isMuted}
+            onMuteToggle={() => setIsMuted((m) => !m)}
+            onRestart={handleRestart}
+            sessionReady={sessionReady}
+          />
 
           {/* HRV + Stats card */}
-          <View className="mb-6 w-full rounded-[32px] border border-white/[0.08] bg-white/[0.03] p-6">
-            {/* HRV header */}
-            <View className="mb-6 flex-row items-center justify-between">
-              <View className="flex-row items-center gap-4">
-                <LinearGradient
-                  colors={[
-                    withAlpha(colors.gradient['hot-pink'], 0.2),
-                    withAlpha(colors.yellow[400], 0.2),
-                  ]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 16,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderWidth: 1,
-                    borderColor: alpha.white05,
-                  }}
-                >
-                  <MaterialIcons
-                    name="favorite"
-                    size={24}
-                    color={colors.primary.pink}
-                  />
-                </LinearGradient>
-                <View>
-                  <Text className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-white/30">
-                    Heart Rate Variability
-                  </Text>
-                  <View className="flex-row items-baseline gap-2">
-                    <Text className="text-lg font-semibold text-white">
-                      64ms
-                    </Text>
-                    <View className="flex-row items-center">
-                      <MaterialIcons
-                        name="arrow-upward"
-                        size={14}
-                        color={colors.emerald[400]}
-                      />
-                      <Text className="text-xs font-bold text-emerald-400">
-                        12%
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-              {/* Mini chart bars */}
-              <View className="h-10 flex-row items-end gap-1.5 pr-2">
-                {[0.4, 0.6, 1, 0.8, 0.6, 0.4].map((h, i) => (
-                  <View
-                    key={i}
-                    className="w-1.5 rounded-full"
-                    style={{
-                      height: `${h * 100}%`,
-                      backgroundColor:
-                        i < 3
-                          ? `rgba(244,37,106,${0.2 + i * 0.3})`
-                          : `rgba(250,204,21,${1 - (i - 3) * 0.3})`,
-                    }}
-                  />
-                ))}
-              </View>
-            </View>
-
-            {/* Stats grid */}
-            <View className="flex-row gap-4">
-              <View className="flex-1 rounded-2xl border border-white/5 bg-white/[0.04] p-4">
-                <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-accent-yellow/50">
-                  Stress Level
-                </Text>
-                <View className="flex-row items-center gap-2">
-                  <View className="h-2 w-2 rounded-full bg-emerald-400" />
-                  <Text className="text-sm font-semibold text-white">Low</Text>
-                </View>
-              </View>
-              <View className="flex-1 rounded-2xl border border-white/5 bg-white/[0.04] p-4">
-                <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-primary-pink/50">
-                  Sync Status
-                </Text>
-                <View className="flex-row items-center gap-2">
-                  <View
-                    className="h-2 w-2 rounded-full bg-emerald-400"
-                    style={{
-                      shadowColor: colors.emerald[400],
-                      shadowOffset: { width: 0, height: 0 },
-                      shadowOpacity: 1,
-                      shadowRadius: 8,
-                    }}
-                  />
-                  <Text className="text-sm font-semibold text-white">
-                    Live Tracking
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
+          <StatsCard />
         </ScrollView>
       </View>
     </Container>

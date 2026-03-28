@@ -7,7 +7,7 @@ import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -93,18 +93,28 @@ function ConfettiPiece({
 function Confetti() {
   const { width, height } = useWindowDimensions();
 
+  const [randoms] = useState(() =>
+    Array.from({ length: CONFETTI_COUNT }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      delay: Math.random(),
+      rotation: Math.random(),
+      size: Math.random(),
+    })),
+  );
+
   const pieces = useMemo(
     () =>
-      Array.from({ length: CONFETTI_COUNT }, (_, i) => ({
+      randoms.map((r, i) => ({
         id: i,
         color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-        startX: Math.random() * width,
-        startY: Math.random() * height * 0.6,
-        delay: Math.random() * 600,
-        rotation: Math.random() * 360,
-        size: 6 + Math.random() * 6,
+        startX: r.x * width,
+        startY: r.y * height * 0.6,
+        delay: r.delay * 600,
+        rotation: r.rotation * 360,
+        size: 6 + r.size * 6,
       })),
-    [width, height],
+    [width, height, randoms],
   );
 
   return (
@@ -128,7 +138,7 @@ function PulsingGlow({ color }: { color: string }) {
       -1,
       false,
     );
-  }, [opacity]);
+  }, []);
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
@@ -171,11 +181,14 @@ function RewardCircle({
             borderRadius: 32,
             alignItems: 'center',
             justifyContent: 'center',
-            shadowColor,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.5,
-            shadowRadius: 20,
-            elevation: 10,
+            boxShadow: [
+              {
+                offsetX: 0,
+                offsetY: 0,
+                blurRadius: 20,
+                color: withAlpha(shadowColor, 0.5),
+              },
+            ],
           }}
         >
           <MaterialIcons name="toll" size={30} color="white" />

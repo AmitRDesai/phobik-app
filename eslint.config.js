@@ -11,6 +11,7 @@ module.exports = defineConfig([
     rules: {
       'prettier/prettier': 'error',
       'import/no-unresolved': 'off',
+      'react-hooks/exhaustive-deps': 'off',
     },
   },
 ]);

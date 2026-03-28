@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
@@ -38,7 +38,7 @@ export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
         true,
       );
     }
-  }, [animated, pulseOpacity, pulseScale]);
+  }, [animated]);
 
   const animatedGlowStyle = useAnimatedStyle(() => ({
     opacity: pulseOpacity.value,
@@ -64,10 +64,14 @@ export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
             backgroundColor: colors.primary.pink,
             borderRadius: size * 0.25,
             opacity: 0.15,
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.6,
-            shadowRadius: 30,
+            boxShadow: [
+              {
+                offsetX: 0,
+                offsetY: 0,
+                blurRadius: 30,
+                color: withAlpha(colors.primary.pink, 0.6),
+              },
+            ],
           },
           animatedGlowStyle,
         ]}

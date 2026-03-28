@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { useKeepAwake } from 'expo-keep-awake';
@@ -83,7 +83,7 @@ function PulsingAura({ isPlaying }: { isPlaying: boolean }) {
       scale.value = withTiming(1, { duration: 500 });
       opacity.value = withTiming(0.4, { duration: 500 });
     }
-  }, [isPlaying, scale, opacity]);
+  }, [isPlaying]);
 
   const auraStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -153,8 +153,6 @@ export default function SleepMeditationSession() {
   const [selectedDuration, setSelectedDuration] =
     useState<SleepMeditationDuration>(initialDuration);
   const [hasStarted, setHasStarted] = useState(savedState !== null);
-  const hasStartedRef = useRef(hasStarted);
-  hasStartedRef.current = hasStarted;
 
   // Audio player
   const player = useAudioPlayer(AUDIO_FILES[selectedDuration]);
@@ -208,8 +206,7 @@ export default function SleepMeditationSession() {
   useSaveOnLeave({
     save: () =>
       setSession({ selectedDuration, currentTime: status.currentTime }),
-    canSave:
-      hasStartedRef.current && status.currentTime > 0 && status.duration > 0,
+    canSave: hasStarted && status.currentTime > 0 && status.duration > 0,
   });
 
   // Clear saved state when audio finishes
@@ -346,10 +343,14 @@ export default function SleepMeditationSession() {
               style={{
                 width: `${progress * 100}%`,
                 backgroundColor: colors.accent.yellow,
-                shadowColor: colors.accent.yellow,
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.4,
-                shadowRadius: 15,
+                boxShadow: [
+                  {
+                    offsetX: 0,
+                    offsetY: 0,
+                    blurRadius: 15,
+                    color: withAlpha(colors.accent.yellow, 0.4),
+                  },
+                ],
               }}
             />
           </View>
@@ -381,10 +382,14 @@ export default function SleepMeditationSession() {
                 height: 80,
                 borderRadius: 40,
                 backgroundColor: colors.accent.yellow,
-                shadowColor: colors.accent.yellow,
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.25,
-                shadowRadius: 20,
+                boxShadow: [
+                  {
+                    offsetX: 0,
+                    offsetY: 4,
+                    blurRadius: 20,
+                    color: withAlpha(colors.accent.yellow, 0.25),
+                  },
+                ],
               }}
             >
               <MaterialIcons

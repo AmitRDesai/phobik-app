@@ -17,7 +17,7 @@ export function ScanningIndicator() {
   useEffect(() => {
     scale.value = withRepeat(withTiming(1.1, { duration: 1000 }), -1, true);
     opacity.value = withRepeat(withTiming(1, { duration: 1000 }), -1, true);
-  }, [scale, opacity]);
+  }, []);
 
   const pulseStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],

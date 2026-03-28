@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import {
   KeyboardAwareScrollView,
@@ -32,6 +32,35 @@ type Feeling =
   | 'angry';
 type Need = 'connection' | 'safety' | 'autonomy' | 'meaning';
 
+type FormState = {
+  feeling: Feeling | null;
+  need: Need | null;
+  content: string;
+  tags: string[];
+};
+
+type FormAction =
+  | { type: 'SET_FEELING'; feeling: Feeling | null }
+  | { type: 'SET_NEED'; need: Need | null }
+  | { type: 'SET_CONTENT'; content: string }
+  | { type: 'SET_TAGS'; tags: string[] }
+  | { type: 'HYDRATE'; state: FormState };
+
+function formReducer(state: FormState, action: FormAction): FormState {
+  switch (action.type) {
+    case 'SET_FEELING':
+      return { ...state, feeling: action.feeling };
+    case 'SET_NEED':
+      return { ...state, need: action.need };
+    case 'SET_CONTENT':
+      return { ...state, content: action.content };
+    case 'SET_TAGS':
+      return { ...state, tags: action.tags };
+    case 'HYDRATE':
+      return action.state;
+  }
+}
+
 export default function JournalEntry() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const insets = useSafeAreaInsets();
@@ -47,75 +76,74 @@ export default function JournalEntry() {
 
   const [draft, setDraft] = useAtom(journalDraftAtom);
 
-  const [feeling, setFeeling] = useState<Feeling | null>(null);
-  const [need, setNeed] = useState<Need | null>(null);
-  const [content, setContent] = useState('');
-  const [tags, setTags] = useState<string[]>([]);
-  const [isSavingDraft, setIsSavingDraft] = useState(false);
-  const initialized = useRef(false);
+  // Initialize from draft synchronously for new entries
+  const [form, dispatch] = useReducer(formReducer, draft, (d) => ({
+    feeling: !isViewMode && d ? ((d.feeling as Feeling) ?? null) : null,
+    need: !isViewMode && d ? ((d.need as Need) ?? null) : null,
+    content: !isViewMode && d ? d.content : '',
+    tags: !isViewMode && d ? d.tags : [],
+  }));
+  const { feeling, need, content, tags } = form;
 
-  // Initialize from existing entry or draft
-  useEffect(() => {
-    if (initialized.current) return;
+  // Hydrate from existing entry when viewing (arrives async from query)
+  const [prevEntryId, setPrevEntryId] = useState<string | undefined>(undefined);
+  if (isViewMode && existingEntry && existingEntry.id !== prevEntryId) {
+    setPrevEntryId(existingEntry.id);
+    dispatch({
+      type: 'HYDRATE',
+      state: {
+        feeling: (existingEntry.feeling as Feeling) ?? null,
+        need: (existingEntry.need as Need) ?? null,
+        content: existingEntry.content,
+        tags: existingEntry.tags ?? [],
+      },
+    });
+  }
 
-    if (isViewMode && existingEntry) {
-      setFeeling((existingEntry.feeling as Feeling) ?? null);
-      setNeed((existingEntry.need as Need) ?? null);
-      setContent(existingEntry.content);
-      setTags(existingEntry.tags ?? []);
-      initialized.current = true;
-    } else if (!isViewMode && draft) {
-      setFeeling((draft.feeling as Feeling) ?? null);
-      setNeed((draft.need as Need) ?? null);
-      setContent(draft.content);
-      setTags(draft.tags);
-      initialized.current = true;
-    } else if (!isViewMode) {
-      initialized.current = true;
-    }
-  }, [isViewMode, existingEntry, draft]);
+  // Track whether form has been initialized for draft auto-save
+  const isInitialized = !isViewMode || !!prevEntryId;
 
   // Auto-save draft (debounced) for new entries
   const draftTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
   useEffect(() => {
-    if (isViewMode) return;
-    if (!initialized.current) return;
+    if (isViewMode || !isInitialized) return;
 
     if (draftTimer.current) clearTimeout(draftTimer.current);
     setIsSavingDraft(true);
     draftTimer.current = setTimeout(() => {
-      setDraft({ feeling, need, content, tags });
+      setDraft(form);
       setIsSavingDraft(false);
     }, 1500);
 
     return () => {
       if (draftTimer.current) clearTimeout(draftTimer.current);
     };
-  }, [feeling, need, content, tags, isViewMode, setDraft]);
+  }, [form, isViewMode, isInitialized, setDraft]);
 
   const handleSave = useCallback(async () => {
-    if (!content.trim()) return;
+    if (!form.content.trim()) return;
+
+    const mutation =
+      isViewMode && id
+        ? updateEntry.mutateAsync({
+            id,
+            feeling: form.feeling,
+            need: form.need,
+            content: form.content,
+            tags: form.tags,
+          })
+        : createEntry.mutateAsync({
+            feeling: form.feeling,
+            need: form.need,
+            content: form.content,
+            tags: form.tags,
+            entryDate: new Date().toISOString().slice(0, 10),
+          });
 
     try {
-      if (isViewMode && id) {
-        await updateEntry.mutateAsync({
-          id,
-          feeling,
-          need,
-          content,
-          tags,
-        });
-      } else {
-        const today = new Date().toISOString().slice(0, 10);
-        await createEntry.mutateAsync({
-          feeling,
-          need,
-          content,
-          tags,
-          entryDate: today,
-        });
-        setDraft(null);
-      }
+      await mutation;
+      if (!isViewMode) setDraft(null);
       router.back();
     } catch {
       dialog.error({
@@ -123,18 +151,7 @@ export default function JournalEntry() {
         message: 'Could not save your entry. Please try again.',
       });
     }
-  }, [
-    content,
-    feeling,
-    need,
-    tags,
-    isViewMode,
-    id,
-    createEntry,
-    updateEntry,
-    setDraft,
-    router,
-  ]);
+  }, [form, isViewMode, id, createEntry, updateEntry, setDraft, router]);
 
   const isSaving = createEntry.isPending || updateEntry.isPending;
 
@@ -168,14 +185,16 @@ export default function JournalEntry() {
         {/* Feeling dropdown */}
         <FeelingDropdown
           value={feeling}
-          onSelect={(v) => setFeeling(v as Feeling)}
+          onSelect={(v) =>
+            dispatch({ type: 'SET_FEELING', feeling: v as Feeling })
+          }
           readOnly={readOnly}
         />
 
         {/* Need dropdown */}
         <NeedDropdown
           value={need}
-          onSelect={(v) => setNeed(v as Need)}
+          onSelect={(v) => dispatch({ type: 'SET_NEED', need: v as Need })}
           readOnly={readOnly}
         />
 
@@ -184,11 +203,18 @@ export default function JournalEntry() {
           feeling={feeling}
           need={need}
           tags={tags}
-          onRemoveFeeling={() => setFeeling(null)}
-          onRemoveNeed={() => setNeed(null)}
-          onAddTag={(tag) => setTags((prev) => [...prev, tag])}
+          onRemoveFeeling={() =>
+            dispatch({ type: 'SET_FEELING', feeling: null })
+          }
+          onRemoveNeed={() => dispatch({ type: 'SET_NEED', need: null })}
+          onAddTag={(tag) =>
+            dispatch({ type: 'SET_TAGS', tags: [...tags, tag] })
+          }
           onRemoveTag={(tag) =>
-            setTags((prev) => prev.filter((t) => t !== tag))
+            dispatch({
+              type: 'SET_TAGS',
+              tags: tags.filter((t) => t !== tag),
+            })
           }
           readOnly={readOnly}
         />
@@ -206,7 +232,11 @@ export default function JournalEntry() {
         {/* Text area */}
         <TextInput
           value={content}
-          onChangeText={readOnly ? undefined : setContent}
+          onChangeText={
+            readOnly
+              ? undefined
+              : (text) => dispatch({ type: 'SET_CONTENT', content: text })
+          }
           placeholder="How is your body feeling right now?"
           placeholderTextColor={alpha.white20}
           multiline

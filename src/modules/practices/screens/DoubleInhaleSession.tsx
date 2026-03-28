@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -29,6 +29,275 @@ import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
 import { doubleInhaleSessionAtom } from '../store/session-atoms';
 import { formatTime } from '../utils/format';
+
+// ── Extracted Presentational Components ─────────────────────────────────────
+
+function InstructionCard() {
+  return (
+    <View className="z-20 px-6 pb-6">
+      <View className="rounded-3xl border border-white/10 bg-[#0a0a0a]/80 p-5">
+        <View className="flex-row items-start gap-4">
+          <View className="h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-pink/10">
+            <MaterialIcons
+              name="record-voice-over"
+              size={18}
+              color={colors.primary.pink}
+            />
+          </View>
+          <Text className="flex-1 text-base font-medium leading-relaxed text-white/80">
+            Take two quick inhales through your nose, then one long exhale
+            through your mouth.
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+function PlaybackControls({
+  isPaused,
+  onPauseToggle,
+  isMuted,
+  onMuteToggle,
+  onRestart,
+  sessionReady,
+}: {
+  isPaused: boolean;
+  onPauseToggle: () => void;
+  isMuted: boolean;
+  onMuteToggle: () => void;
+  onRestart: () => void;
+  sessionReady: boolean;
+}) {
+  return (
+    <View className="z-20 flex-row items-center justify-between px-12 pb-10">
+      {/* Mute button */}
+      <Pressable
+        onPress={onMuteToggle}
+        className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
+      >
+        <MaterialIcons
+          name={isMuted ? 'volume-off' : 'volume-up'}
+          size={24}
+          color={alpha.white60}
+        />
+      </Pressable>
+
+      {/* Pause / Play button */}
+      <Pressable
+        onPress={onPauseToggle}
+        className="h-20 w-20 items-center justify-center rounded-full bg-white active:scale-95"
+        style={{
+          boxShadow: [
+            {
+              offsetX: 0,
+              offsetY: 0,
+              blurRadius: 15,
+              color: withAlpha(colors.primary.pink, 0.3),
+            },
+          ],
+        }}
+      >
+        <MaterialIcons
+          name={isPaused ? 'play-arrow' : 'pause'}
+          size={36}
+          color={colors.background.dark}
+        />
+      </Pressable>
+
+      {/* Restart button */}
+      <Pressable
+        onPress={onRestart}
+        className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
+      >
+        <MaterialIcons
+          name={sessionReady ? 'replay' : 'skip-next'}
+          size={24}
+          color={alpha.white60}
+        />
+      </Pressable>
+    </View>
+  );
+}
+
+function BreathingVisualization({
+  mainOrbStyle,
+  pulse1Style,
+  pulse2Style,
+}: {
+  mainOrbStyle: object;
+  pulse1Style: object;
+  pulse2Style: object;
+}) {
+  return (
+    <View
+      className="items-center justify-center"
+      style={{ width: 300, height: 320 }}
+    >
+      {/* Outer pulse ring */}
+      <Animated.View
+        className="absolute items-center justify-center"
+        style={[{ width: 280, height: 280, borderRadius: 140 }, pulse2Style]}
+      >
+        <Svg width={280} height={280}>
+          <Defs>
+            <SvgLinearGradient id="pulse2Grad" x1="0" y1="0" x2="1" y2="1">
+              <Stop offset="0%" stopColor={colors.primary.pink} />
+              <Stop offset="100%" stopColor={colors.accent.yellow} />
+            </SvgLinearGradient>
+          </Defs>
+          <Circle
+            cx={140}
+            cy={140}
+            r={139}
+            fill="none"
+            stroke="url(#pulse2Grad)"
+            strokeWidth={1}
+          />
+        </Svg>
+      </Animated.View>
+
+      {/* Inner pulse ring */}
+      <Animated.View
+        className="absolute items-center justify-center"
+        style={[{ width: 220, height: 220, borderRadius: 110 }, pulse1Style]}
+      >
+        <Svg width={220} height={220}>
+          <Defs>
+            <SvgLinearGradient id="pulse1Grad" x1="0" y1="0" x2="1" y2="1">
+              <Stop offset="0%" stopColor={colors.primary.pink} />
+              <Stop offset="100%" stopColor={colors.accent.yellow} />
+            </SvgLinearGradient>
+          </Defs>
+          <Circle
+            cx={110}
+            cy={110}
+            r={109}
+            fill="none"
+            stroke="url(#pulse1Grad)"
+            strokeWidth={1}
+          />
+        </Svg>
+      </Animated.View>
+
+      {/* Decorative wave SVG overlay */}
+      <View className="absolute inset-0 items-center justify-center opacity-30">
+        <Svg width={300} height={300} viewBox="0 0 400 300">
+          <Defs>
+            <SvgLinearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <Stop offset="0%" stopColor={colors.primary.pink} />
+              <Stop offset="100%" stopColor={colors.accent.yellow} />
+            </SvgLinearGradient>
+          </Defs>
+          <Path
+            d="M50,150 Q100,80 150,150 T250,150 T350,150"
+            fill="none"
+            stroke="url(#waveGrad)"
+            strokeWidth={2}
+            strokeLinecap="round"
+          />
+        </Svg>
+      </View>
+
+      {/* Main breathing orb */}
+      <Animated.View
+        className="items-center justify-center"
+        style={[
+          {
+            width: 150,
+            height: 150,
+            borderRadius: 75,
+            boxShadow: [
+              {
+                offsetX: 0,
+                offsetY: 0,
+                blurRadius: 30,
+                color: withAlpha(colors.primary.pink, 0.25),
+              },
+            ],
+          },
+          mainOrbStyle,
+        ]}
+      >
+        <LinearGradient
+          colors={[colors.primary.pink, colors.accent.yellow]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{
+            width: 112,
+            height: 112,
+            borderRadius: 56,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <MaterialIcons name="air" size={48} color="white" />
+        </LinearGradient>
+      </Animated.View>
+    </View>
+  );
+}
+
+function PhaseProgress({
+  currentPhase,
+  currentSubtext,
+  currentStep,
+  phaseIndex,
+  sessionReady,
+}: {
+  currentPhase: string;
+  currentSubtext: string;
+  currentStep: { label: string; step: number };
+  phaseIndex: number;
+  sessionReady: boolean;
+}) {
+  return (
+    <View className="mt-4 items-center gap-3 px-6" style={{ minHeight: 140 }}>
+      <Text className="text-center text-5xl font-bold tracking-tight text-white">
+        {currentPhase}
+      </Text>
+      <View style={{ height: 36 }} className="items-center justify-center">
+        <Text className="mx-auto max-w-[280px] text-center text-sm leading-relaxed text-slate-400">
+          {currentSubtext}
+        </Text>
+      </View>
+      <View className="items-center gap-4">
+        {/* Phase progress bars */}
+        <View className="flex-row items-center justify-center gap-1.5">
+          {PHASE_DURATIONS.map((duration, i) => (
+            <View
+              key={PHASE_STEPS[i].label}
+              className={`h-1.5 rounded-full ${
+                sessionReady && i === phaseIndex
+                  ? 'bg-primary-pink'
+                  : 'bg-white/10'
+              }`}
+              style={[
+                { width: duration === 6 ? 56 : duration === 2 ? 40 : 24 },
+                sessionReady &&
+                  i === phaseIndex && {
+                    boxShadow: [
+                      {
+                        offsetX: 0,
+                        offsetY: 0,
+                        blurRadius: 4,
+                        color: withAlpha(colors.primary.pink, 0.6),
+                      },
+                    ],
+                  },
+              ]}
+            />
+          ))}
+        </View>
+        {sessionReady && (
+          <Text className="text-sm font-bold uppercase tracking-widest text-primary-pink">
+            Step {currentStep.step} of 3: {currentStep.label}
+          </Text>
+        )}
+      </View>
+    </View>
+  );
+}
 
 // Double inhale pattern: short inhale 2s, second inhale 2s, long exhale 6s
 const BREATHING_PHASES = [
@@ -158,15 +427,6 @@ export default function DoubleInhaleSession() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phaseIndex, sessionReady, isPaused]);
 
-  // Pause phase audio when session is paused
-  useEffect(() => {
-    if (isPaused) {
-      inhalePlayer.pause();
-      exhalePlayer.pause();
-      bowlPlayer.pause();
-    }
-  }, [isPaused, inhalePlayer, exhalePlayer, bowlPlayer]);
-
   // Save state on back navigation (only if session has started)
   useSaveOnLeave({
     save: () => setSession({ timeRemaining }),
@@ -242,7 +502,7 @@ export default function DoubleInhaleSession() {
     return () => {
       breathScale.value = 1;
     };
-  }, [sessionReady, isPaused, breathScale, pulse1Opacity, pulse2Opacity]);
+  }, [sessionReady, isPaused]);
 
   const mainOrbStyle = useAnimatedStyle(() => ({
     transform: [{ scale: breathScale.value }],
@@ -290,245 +550,41 @@ export default function DoubleInhaleSession() {
 
         {/* Breathing visualization + phase text */}
         <View className="z-10 flex-1 items-center justify-center">
-          {/* Concentric rings container */}
-          <View
-            className="items-center justify-center"
-            style={{ width: 300, height: 320 }}
-          >
-            {/* Outer pulse ring */}
-            <Animated.View
-              className="absolute items-center justify-center"
-              style={[
-                { width: 280, height: 280, borderRadius: 140 },
-                pulse2Style,
-              ]}
-            >
-              <Svg width={280} height={280}>
-                <Defs>
-                  <SvgLinearGradient
-                    id="pulse2Grad"
-                    x1="0"
-                    y1="0"
-                    x2="1"
-                    y2="1"
-                  >
-                    <Stop offset="0%" stopColor={colors.primary.pink} />
-                    <Stop offset="100%" stopColor={colors.accent.yellow} />
-                  </SvgLinearGradient>
-                </Defs>
-                <Circle
-                  cx={140}
-                  cy={140}
-                  r={139}
-                  fill="none"
-                  stroke="url(#pulse2Grad)"
-                  strokeWidth={1}
-                />
-              </Svg>
-            </Animated.View>
-
-            {/* Inner pulse ring */}
-            <Animated.View
-              className="absolute items-center justify-center"
-              style={[
-                { width: 220, height: 220, borderRadius: 110 },
-                pulse1Style,
-              ]}
-            >
-              <Svg width={220} height={220}>
-                <Defs>
-                  <SvgLinearGradient
-                    id="pulse1Grad"
-                    x1="0"
-                    y1="0"
-                    x2="1"
-                    y2="1"
-                  >
-                    <Stop offset="0%" stopColor={colors.primary.pink} />
-                    <Stop offset="100%" stopColor={colors.accent.yellow} />
-                  </SvgLinearGradient>
-                </Defs>
-                <Circle
-                  cx={110}
-                  cy={110}
-                  r={109}
-                  fill="none"
-                  stroke="url(#pulse1Grad)"
-                  strokeWidth={1}
-                />
-              </Svg>
-            </Animated.View>
-
-            {/* Decorative wave SVG overlay */}
-            <View className="absolute inset-0 items-center justify-center opacity-30">
-              <Svg width={300} height={300} viewBox="0 0 400 300">
-                <Defs>
-                  <SvgLinearGradient
-                    id="waveGrad"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="0%"
-                  >
-                    <Stop offset="0%" stopColor={colors.primary.pink} />
-                    <Stop offset="100%" stopColor={colors.accent.yellow} />
-                  </SvgLinearGradient>
-                </Defs>
-                <Path
-                  d="M50,150 Q100,80 150,150 T250,150 T350,150"
-                  fill="none"
-                  stroke="url(#waveGrad)"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                />
-              </Svg>
-            </View>
-
-            {/* Main breathing orb */}
-            <Animated.View
-              className="items-center justify-center"
-              style={[
-                {
-                  width: 150,
-                  height: 150,
-                  borderRadius: 75,
-                  shadowColor: colors.primary.pink,
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.25,
-                  shadowRadius: 30,
-                },
-                mainOrbStyle,
-              ]}
-            >
-              <LinearGradient
-                colors={[colors.primary.pink, colors.accent.yellow]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={{
-                  width: 112,
-                  height: 112,
-                  borderRadius: 56,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <MaterialIcons name="air" size={48} color="white" />
-              </LinearGradient>
-            </Animated.View>
-          </View>
-
-          {/* Phase text + progress indicators — fixed height to prevent layout shifts */}
-          <View
-            className="mt-4 items-center gap-3 px-6"
-            style={{ minHeight: 140 }}
-          >
-            <Text className="text-center text-5xl font-bold tracking-tight text-white">
-              {currentPhase}
-            </Text>
-            <View
-              style={{ height: 36 }}
-              className="items-center justify-center"
-            >
-              <Text className="mx-auto max-w-[280px] text-center text-sm leading-relaxed text-slate-400">
-                {currentSubtext}
-              </Text>
-            </View>
-            <View className="items-center gap-4">
-              {/* Phase progress bars */}
-              <View className="flex-row items-center justify-center gap-1.5">
-                {PHASE_DURATIONS.map((duration, i) => (
-                  <View
-                    key={i}
-                    className={`h-1.5 rounded-full ${
-                      sessionReady && i === phaseIndex
-                        ? 'bg-primary-pink'
-                        : 'bg-white/10'
-                    }`}
-                    style={[
-                      { width: duration === 6 ? 56 : duration === 2 ? 40 : 24 },
-                      sessionReady &&
-                        i === phaseIndex && {
-                          shadowColor: colors.primary.pink,
-                          shadowOffset: { width: 0, height: 0 },
-                          shadowOpacity: 0.6,
-                          shadowRadius: 4,
-                        },
-                    ]}
-                  />
-                ))}
-              </View>
-              {sessionReady && (
-                <Text className="text-sm font-bold uppercase tracking-widest text-primary-pink">
-                  Step {currentStep.step} of 3: {currentStep.label}
-                </Text>
-              )}
-            </View>
-          </View>
+          <BreathingVisualization
+            mainOrbStyle={mainOrbStyle}
+            pulse1Style={pulse1Style}
+            pulse2Style={pulse2Style}
+          />
+          <PhaseProgress
+            currentPhase={currentPhase}
+            currentSubtext={currentSubtext}
+            currentStep={currentStep}
+            phaseIndex={phaseIndex}
+            sessionReady={sessionReady}
+          />
         </View>
 
         {/* Glass instruction card */}
-        <View className="z-20 px-6 pb-6">
-          <View className="rounded-3xl border border-white/10 bg-[#0a0a0a]/80 p-5">
-            <View className="flex-row items-start gap-4">
-              <View className="h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-pink/10">
-                <MaterialIcons
-                  name="record-voice-over"
-                  size={18}
-                  color={colors.primary.pink}
-                />
-              </View>
-              <Text className="flex-1 text-base font-medium leading-relaxed text-white/80">
-                Take two quick inhales through your nose, then one long exhale
-                through your mouth.
-              </Text>
-            </View>
-          </View>
-        </View>
+        <InstructionCard />
 
         {/* Controls: mute / pause / restart */}
-        <View className="z-20 flex-row items-center justify-between px-12 pb-10">
-          {/* Mute button */}
-          <Pressable
-            onPress={() => setIsMuted((m) => !m)}
-            className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
-          >
-            <MaterialIcons
-              name={isMuted ? 'volume-off' : 'volume-up'}
-              size={24}
-              color={alpha.white60}
-            />
-          </Pressable>
-
-          {/* Pause / Play button */}
-          <Pressable
-            onPress={() => setIsPaused((p) => !p)}
-            className="h-20 w-20 items-center justify-center rounded-full bg-white active:scale-95"
-            style={{
-              shadowColor: colors.primary.pink,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.3,
-              shadowRadius: 15,
-            }}
-          >
-            <MaterialIcons
-              name={isPaused ? 'play-arrow' : 'pause'}
-              size={36}
-              color={colors.background.dark}
-            />
-          </Pressable>
-
-          {/* Restart button */}
-          <Pressable
-            onPress={handleRestart}
-            className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
-          >
-            <MaterialIcons
-              name={sessionReady ? 'replay' : 'skip-next'}
-              size={24}
-              color={alpha.white60}
-            />
-          </Pressable>
-        </View>
+        <PlaybackControls
+          isPaused={isPaused}
+          onPauseToggle={() => {
+            setIsPaused((p) => {
+              if (!p) {
+                inhalePlayer.pause();
+                exhalePlayer.pause();
+                bowlPlayer.pause();
+              }
+              return !p;
+            });
+          }}
+          isMuted={isMuted}
+          onMuteToggle={() => setIsMuted((m) => !m)}
+          onRestart={handleRestart}
+          sessionReady={sessionReady}
+        />
       </View>
     </Container>
   );

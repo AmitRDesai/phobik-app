@@ -124,7 +124,7 @@ export function BreathingInfinity({
       -1,
       true,
     );
-  }, [isActive, isPaused, elapsed, orbPulse]);
+  }, [isActive, isPaused]);
 
   // Derive breathing phase from elapsed time
   const phase = useDerivedValue(() => {

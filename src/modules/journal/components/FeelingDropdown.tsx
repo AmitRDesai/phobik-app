@@ -30,7 +30,7 @@ export function FeelingDropdown({
     const next = !isOpen;
     setIsOpen(next);
     height.value = withTiming(next ? EXPANDED_HEIGHT : 0, { duration: 300 });
-  }, [isOpen, readOnly, height]);
+  }, [isOpen, readOnly]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     height: height.value,
@@ -50,10 +50,14 @@ export function FeelingDropdown({
           backgroundColor: withAlpha(colors.card.plum, 0.4),
           borderWidth: 1,
           borderColor: withAlpha(colors.primary['pink-soft'], 0.4),
-          shadowColor: withAlpha(colors.primary['pink-soft'], 0.2),
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 1,
-          shadowRadius: 8,
+          boxShadow: [
+            {
+              offsetX: 0,
+              offsetY: 0,
+              blurRadius: 8,
+              color: withAlpha(colors.primary['pink-soft'], 0.2),
+            },
+          ],
         }}
       >
         <View className="flex-row items-center gap-3">

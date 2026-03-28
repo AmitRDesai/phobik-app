@@ -1,9 +1,17 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { useMemo } from 'react';
 import { Text, View } from 'react-native';
 
-const DAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const DAY_LABELS = [
+  { key: 'mon', label: 'M' },
+  { key: 'tue', label: 'T' },
+  { key: 'wed', label: 'W' },
+  { key: 'thu', label: 'T' },
+  { key: 'fri', label: 'F' },
+  { key: 'sat', label: 'S' },
+  { key: 'sun', label: 'S' },
+];
 
 interface CalendarDay {
   day: number;
@@ -98,7 +106,7 @@ function buildTwoWeekGrid(): {
 
 export function QuickResetCalendar() {
   const { rows, monthLabel, completedCount, totalDays } = useMemo(
-    buildTwoWeekGrid,
+    () => buildTwoWeekGrid(),
     [],
   );
 
@@ -115,19 +123,22 @@ export function QuickResetCalendar() {
       <DashboardCard className="p-5">
         {/* Day headers — derived from first row's actual weekdays */}
         <View className="mb-2 flex-row">
-          {DAY_LABELS.map((d, i) => (
-            <View key={i} className="flex-1 items-center">
+          {DAY_LABELS.map((day) => (
+            <View key={day.key} className="flex-1 items-center">
               <Text className="text-[8px] font-black uppercase text-white/30">
-                {d}
+                {day.label}
               </Text>
             </View>
           ))}
         </View>
         {/* Calendar rows */}
         {rows.map((row, ri) => (
-          <View key={ri} className="mb-4 flex-row">
+          <View key={`row-${ri}`} className="mb-4 flex-row">
             {row.map((cell, ci) => (
-              <View key={ci} className="flex-1 items-center gap-1">
+              <View
+                key={cell ? `day-${cell.day}` : `empty-${ci}`}
+                className="flex-1 items-center gap-1"
+              >
                 {cell ? (
                   <>
                     <Text
@@ -145,11 +156,17 @@ export function QuickResetCalendar() {
                       <View
                         className="h-1.5 w-1.5 rounded-full bg-primary-pink"
                         style={{
-                          shadowColor: colors.primary['pink-soft'],
-                          shadowOffset: { width: 0, height: 0 },
-                          shadowOpacity: 0.4,
-                          shadowRadius: 8,
-                          elevation: 2,
+                          boxShadow: [
+                            {
+                              offsetX: 0,
+                              offsetY: 0,
+                              blurRadius: 8,
+                              color: withAlpha(
+                                colors.primary['pink-soft'],
+                                0.4,
+                              ),
+                            },
+                          ],
                         }}
                       />
                     )}

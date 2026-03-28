@@ -26,6 +26,132 @@ const CYCLE_DURATION = 8; // 4s inhale + 4s exhale
 const TOTAL_DURATION = CYCLE_DURATION * 5; // 5 cycles = 40s
 const INHALE_END = 4;
 
+function StatsCard() {
+  return (
+    <View className="w-full max-w-sm rounded-3xl border border-white/10 bg-white/5 p-4">
+      <View className="flex-row items-center justify-between px-1">
+        {/* Heart Rate */}
+        <View className="flex-row items-center gap-3">
+          <View
+            className="h-10 w-10 items-center justify-center rounded-2xl"
+            style={{
+              backgroundColor: withAlpha(colors.rose[500], 0.2),
+              borderWidth: 1,
+              borderColor: withAlpha(colors.rose[500], 0.3),
+            }}
+          >
+            <MaterialIcons name="favorite" size={20} color={colors.rose[400]} />
+          </View>
+          <View>
+            <Text className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+              Heart Rate
+            </Text>
+            <View className="flex-row items-baseline gap-1">
+              <Text className="text-xl font-bold tracking-tighter text-white">
+                72
+              </Text>
+              <Text className="text-[9px] font-bold uppercase text-pink-400">
+                BPM
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Divider */}
+        <View className="h-8 w-px bg-white/10" />
+
+        {/* HRV */}
+        <View className="flex-row items-center gap-3">
+          <View
+            className="h-10 w-10 items-center justify-center rounded-2xl"
+            style={{
+              backgroundColor: withAlpha(colors.yellow[500], 0.2),
+              borderWidth: 1,
+              borderColor: withAlpha(colors.yellow[500], 0.3),
+            }}
+          >
+            <MaterialIcons name="waves" size={20} color={colors.yellow[400]} />
+          </View>
+          <View>
+            <Text className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+              HRV
+            </Text>
+            <View className="flex-row items-baseline gap-1">
+              <Text className="text-xl font-bold tracking-tighter text-white">
+                74
+              </Text>
+              <Text className="text-[9px] font-bold uppercase text-yellow-400">
+                MS
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+function PlaybackControls({
+  isPaused,
+  onPauseToggle,
+  isMuted,
+  onMuteToggle,
+  onRestart,
+  sessionReady,
+}: {
+  isPaused: boolean;
+  onPauseToggle: () => void;
+  isMuted: boolean;
+  onMuteToggle: () => void;
+  onRestart: () => void;
+  sessionReady: boolean;
+}) {
+  return (
+    <View className="mb-8 flex-row items-center justify-center gap-8">
+      <Pressable
+        onPress={onMuteToggle}
+        className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+      >
+        <MaterialIcons
+          name={isMuted ? 'volume-off' : 'volume-up'}
+          size={24}
+          color={alpha.white70}
+        />
+      </Pressable>
+      <Pressable
+        onPress={onPauseToggle}
+        className="h-14 w-14 items-center justify-center rounded-full bg-white active:scale-95"
+        style={{
+          boxShadow: [
+            {
+              offsetX: 0,
+              offsetY: 2,
+              blurRadius: 8,
+              color: 'rgba(255, 255, 255, 0.3)',
+            },
+          ],
+        }}
+      >
+        <MaterialIcons
+          name={isPaused ? 'play-arrow' : 'pause'}
+          size={28}
+          color={colors.background.dark}
+        />
+      </Pressable>
+      <Pressable
+        onPress={onRestart}
+        className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+      >
+        <MaterialIcons
+          name={sessionReady ? 'replay' : 'skip-next'}
+          size={24}
+          color={alpha.white70}
+        />
+      </Pressable>
+    </View>
+  );
+}
+
 export default function Lazy8BreathingSession() {
   const savedState = useAtomValue(lazy8BreathingSessionAtom);
   const setSession = useSetAtom(lazy8BreathingSessionAtom);
@@ -70,7 +196,7 @@ export default function Lazy8BreathingSession() {
       duration: 1000,
       easing: Easing.linear,
     });
-  }, [overallProgress, animatedProgress]);
+  }, [overallProgress]);
   const progressBarStyle = useAnimatedStyle(() => ({
     width: `${animatedProgress.value * 100}%`,
   }));
@@ -128,15 +254,6 @@ export default function Lazy8BreathingSession() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phaseIndex, sessionReady, isPaused]);
-
-  // Pause phase audio when session is paused
-  useEffect(() => {
-    if (isPaused) {
-      inhalePlayer.pause();
-      exhalePlayer.pause();
-      bowlPlayer.pause();
-    }
-  }, [isPaused, inhalePlayer, exhalePlayer, bowlPlayer]);
 
   // Save state on back navigation (only if session has started)
   useSaveOnLeave({
@@ -246,114 +363,26 @@ export default function Lazy8BreathingSession() {
           </View>
 
           {/* Playback controls */}
-          <View className="mb-8 flex-row items-center justify-center gap-8">
-            <Pressable
-              onPress={() => setIsMuted((m) => !m)}
-              className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
-            >
-              <MaterialIcons
-                name={isMuted ? 'volume-off' : 'volume-up'}
-                size={24}
-                color={alpha.white70}
-              />
-            </Pressable>
-            <Pressable
-              onPress={() => setIsPaused((p) => !p)}
-              className="h-14 w-14 items-center justify-center rounded-full bg-white active:scale-95"
-              style={{
-                shadowColor: '#fff',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.3,
-                shadowRadius: 8,
-              }}
-            >
-              <MaterialIcons
-                name={isPaused ? 'play-arrow' : 'pause'}
-                size={28}
-                color={colors.background.dark}
-              />
-            </Pressable>
-            <Pressable
-              onPress={handleRestart}
-              className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
-            >
-              <MaterialIcons
-                name={sessionReady ? 'replay' : 'skip-next'}
-                size={24}
-                color={alpha.white70}
-              />
-            </Pressable>
-          </View>
+          <PlaybackControls
+            isPaused={isPaused}
+            onPauseToggle={() => {
+              setIsPaused((p) => {
+                if (!p) {
+                  inhalePlayer.pause();
+                  exhalePlayer.pause();
+                  bowlPlayer.pause();
+                }
+                return !p;
+              });
+            }}
+            isMuted={isMuted}
+            onMuteToggle={() => setIsMuted((m) => !m)}
+            onRestart={handleRestart}
+            sessionReady={sessionReady}
+          />
 
           {/* Bottom stats card */}
-          <View className="w-full max-w-sm rounded-3xl border border-white/10 bg-white/5 p-4">
-            <View className="flex-row items-center justify-between px-1">
-              {/* Heart Rate */}
-              <View className="flex-row items-center gap-3">
-                <View
-                  className="h-10 w-10 items-center justify-center rounded-2xl"
-                  style={{
-                    backgroundColor: withAlpha(colors.rose[500], 0.2),
-                    borderWidth: 1,
-                    borderColor: withAlpha(colors.rose[500], 0.3),
-                  }}
-                >
-                  <MaterialIcons
-                    name="favorite"
-                    size={20}
-                    color={colors.rose[400]}
-                  />
-                </View>
-                <View>
-                  <Text className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
-                    Heart Rate
-                  </Text>
-                  <View className="flex-row items-baseline gap-1">
-                    <Text className="text-xl font-bold tracking-tighter text-white">
-                      72
-                    </Text>
-                    <Text className="text-[9px] font-bold uppercase text-pink-400">
-                      BPM
-                    </Text>
-                  </View>
-                </View>
-              </View>
-
-              {/* Divider */}
-              <View className="h-8 w-px bg-white/10" />
-
-              {/* HRV */}
-              <View className="flex-row items-center gap-3">
-                <View
-                  className="h-10 w-10 items-center justify-center rounded-2xl"
-                  style={{
-                    backgroundColor: withAlpha(colors.yellow[500], 0.2),
-                    borderWidth: 1,
-                    borderColor: withAlpha(colors.yellow[500], 0.3),
-                  }}
-                >
-                  <MaterialIcons
-                    name="waves"
-                    size={20}
-                    color={colors.yellow[400]}
-                  />
-                </View>
-                <View>
-                  <Text className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
-                    HRV
-                  </Text>
-                  <View className="flex-row items-baseline gap-1">
-                    <Text className="text-xl font-bold tracking-tighter text-white">
-                      74
-                    </Text>
-                    <Text className="text-[9px] font-bold uppercase text-yellow-400">
-                      MS
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
+          <StatsCard />
         </ScrollView>
       </View>
     </Container>

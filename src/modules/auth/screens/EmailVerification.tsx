@@ -1,5 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { authClient, getSession, useSession } from '@/lib/auth';
 import { dialog } from '@/utils/dialog';
 import { env } from '@/utils/env';
@@ -47,16 +47,18 @@ export default function EmailVerificationScreen() {
   }, [resendCooldown]);
 
   const checkVerification = useCallback(async () => {
+    let result;
     try {
-      const result = await getSession({ query: { disableCookieCache: true } });
-      if (result.data?.user?.emailVerified) {
-        dialog.info({
-          title: 'Email Verified',
-          message: 'Your email has been verified successfully.',
-        });
-      }
+      result = await getSession({ query: { disableCookieCache: true } });
     } catch {
       // Ignore — guard will re-evaluate on next session refresh
+      return;
+    }
+    if (result.data?.user?.emailVerified) {
+      dialog.info({
+        title: 'Email Verified',
+        message: 'Your email has been verified successfully.',
+      });
     }
   }, []);
 
@@ -100,17 +102,14 @@ export default function EmailVerificationScreen() {
   const handleResend = useCallback(async () => {
     if (resendCooldown > 0 || isSending) return;
     setIsSending(true);
+    const callbackURL = `${env.get('APP_SCHEME')}://email-verification`;
     try {
-      await authClient.sendVerificationEmail({
-        email,
-        callbackURL: `${env.get('APP_SCHEME')}://email-verification`,
-      });
+      await authClient.sendVerificationEmail({ email, callbackURL });
       setResendCooldown(RESEND_COOLDOWN_SECONDS);
     } catch {
       // Silently fail — user can try again
-    } finally {
-      setIsSending(false);
     }
+    setIsSending(false);
   }, [email, resendCooldown, isSending]);
 
   return (
@@ -120,10 +119,14 @@ export default function EmailVerificationScreen() {
         <View
           className="mb-8 h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
           style={{
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.15,
-            shadowRadius: 30,
+            boxShadow: [
+              {
+                offsetX: 0,
+                offsetY: 0,
+                blurRadius: 30,
+                color: withAlpha(colors.primary.pink, 0.15),
+              },
+            ],
           }}
         >
           <Ionicons name="mail-open" size={48} color={colors.primary.pink} />

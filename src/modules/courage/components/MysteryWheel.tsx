@@ -1,4 +1,4 @@
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -80,7 +80,7 @@ export function MysteryWheel({ onLotusPress }: MysteryWheelProps) {
       -1,
       true,
     );
-  }, [glowOpacity, glowScale]);
+  }, []);
 
   const lotusAnimatedStyle = useAnimatedStyle(() => ({
     opacity: glowOpacity.value,
@@ -110,10 +110,14 @@ export function MysteryWheel({ onLotusPress }: MysteryWheelProps) {
         height={WHEEL_SIZE}
         viewBox="0 0 100 100"
         style={{
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 8 },
-          shadowOpacity: 0.4,
-          shadowRadius: 16,
+          boxShadow: [
+            {
+              offsetX: 0,
+              offsetY: 8,
+              blurRadius: 16,
+              color: 'rgba(0, 0, 0, 0.4)',
+            },
+          ],
         }}
       >
         <Defs>
@@ -197,10 +201,14 @@ export function MysteryWheel({ onLotusPress }: MysteryWheelProps) {
             backgroundColor: colors.background.dark,
             borderWidth: 4,
             borderColor: 'black',
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.4,
-            shadowRadius: 15,
+            boxShadow: [
+              {
+                offsetX: 0,
+                offsetY: 0,
+                blurRadius: 15,
+                color: withAlpha(colors.primary.pink, 0.4),
+              },
+            ],
           },
           lotusAnimatedStyle,
         ]}

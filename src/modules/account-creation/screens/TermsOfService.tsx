@@ -1,7 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { useSaveProfile } from '@/modules/auth/hooks/useProfile';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
@@ -38,26 +38,25 @@ export default function TermsOfServiceScreen() {
     if (isProfileSetup) {
       // Profile setup flow: save to backend, navigate home on success
       setIsSaving(true);
+      const profileData = {
+        ageRange: questionnaire.age,
+        genderIdentity: questionnaire.gender,
+        goals: questionnaire.goals,
+        termsAcceptedAt: now,
+        privacyAcceptedAt: now,
+      };
       try {
-        await saveProfile.mutateAsync({
-          ageRange: questionnaire.age,
-          genderIdentity: questionnaire.gender,
-          goals: questionnaire.goals,
-          termsAcceptedAt: now,
-          privacyAcceptedAt: now,
-        });
+        await saveProfile.mutateAsync(profileData);
         // Clear local questionnaire data on success only
         setQuestionnaire(RESET);
         // Navigation is handled declaratively by Stack.Protected guards in _layout.tsx.
         // The mutation's onSuccess sets hasProfile: true, which flips the guards automatically.
       } catch (error) {
-        dialog.error({
-          title: 'Save Failed',
-          message: error instanceof Error ? error.message : 'An error occurred',
-        });
-      } finally {
-        setIsSaving(false);
+        const message =
+          error instanceof Error ? error.message : 'An error occurred';
+        dialog.error({ title: 'Save Failed', message });
       }
+      setIsSaving(false);
     } else {
       // Account creation flow: set ISO dates and go to create-account
       setQuestionnaire((prev) => ({
@@ -116,10 +115,14 @@ export default function TermsOfServiceScreen() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginBottom: 20,
-                    shadowColor: colors.primary.pink,
-                    shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 12,
+                    boxShadow: [
+                      {
+                        offsetX: 0,
+                        offsetY: 4,
+                        blurRadius: 12,
+                        color: withAlpha(colors.primary.pink, 0.2),
+                      },
+                    ],
                   }}
                 >
                   <Ionicons name="shield-checkmark" size={36} color="white" />

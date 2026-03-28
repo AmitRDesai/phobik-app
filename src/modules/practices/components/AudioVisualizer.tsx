@@ -15,7 +15,14 @@ import Animated, {
 const BAR_WIDTH = 4;
 const MIN_HEIGHT = 8;
 const MAX_HEIGHT = 48;
-const BASE_HEIGHTS = [16, 32, 48, 24, 40, 16];
+const BASE_HEIGHTS = [
+  { key: 'a', height: 16 },
+  { key: 'b', height: 32 },
+  { key: 'c', height: 48 },
+  { key: 'd', height: 24 },
+  { key: 'e', height: 40 },
+  { key: 'f', height: 16 },
+];
 
 interface AudioVisualizerProps {
   levels?: number[] | null;
@@ -63,7 +70,7 @@ function VisualizerBar({
         true,
       );
     }
-  }, [level, isPlaying, baseHeight, delay, height]);
+  }, [level, isPlaying, baseHeight, delay]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     height: height.value,
@@ -92,12 +99,12 @@ export function AudioVisualizer({
 }: AudioVisualizerProps) {
   return (
     <View className="h-12 flex-row items-end gap-1.5">
-      {BASE_HEIGHTS.map((h, i) => (
+      {BASE_HEIGHTS.map((bar, i) => (
         <VisualizerBar
-          key={i}
+          key={bar.key}
           level={levels?.[i]}
           isPlaying={isPlaying}
-          baseHeight={h}
+          baseHeight={bar.height}
           delay={i * 80}
         />
       ))}

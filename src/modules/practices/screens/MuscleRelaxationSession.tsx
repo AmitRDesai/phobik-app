@@ -8,7 +8,7 @@ import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import Animated, {
   Easing,
@@ -141,6 +141,35 @@ const TOTAL_DURATION = MUSCLE_GROUPS.reduce(
 
 type StepPhase = 'audio' | 'wait';
 
+type SessionState = {
+  currentStepIndex: number;
+  stepPhase: StepPhase;
+  waitTimeRemaining: number;
+};
+
+type SessionAction =
+  | { type: 'START_WAIT' }
+  | { type: 'TICK_WAIT' }
+  | { type: 'ADVANCE_STEP' };
+
+function sessionReducer(
+  state: SessionState,
+  action: SessionAction,
+): SessionState {
+  switch (action.type) {
+    case 'START_WAIT':
+      return { ...state, stepPhase: 'wait', waitTimeRemaining: WAIT_DURATION };
+    case 'TICK_WAIT':
+      return { ...state, waitTimeRemaining: state.waitTimeRemaining - 1 };
+    case 'ADVANCE_STEP':
+      return {
+        currentStepIndex: state.currentStepIndex + 1,
+        stepPhase: 'audio',
+        waitTimeRemaining: WAIT_DURATION,
+      };
+  }
+}
+
 // ── Body Silhouette Component ────────────────────────────────────────────────
 
 function BodySilhouette({ activeGlow }: { activeGlow: [number, number] }) {
@@ -155,7 +184,7 @@ function BodySilhouette({ activeGlow }: { activeGlow: [number, number] }) {
       -1,
       false,
     );
-  }, [glowOpacity]);
+  }, []);
 
   const animatedGlowStyle = useAnimatedStyle(() => ({
     opacity: glowOpacity.value,
@@ -226,10 +255,14 @@ function BodySilhouette({ activeGlow }: { activeGlow: [number, number] }) {
             top: (activeGlow[1] / 400) * 340 - 50,
             left: '50%',
             marginLeft: ((activeGlow[0] - 100) / 200) * 160 - 50,
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.6,
-            shadowRadius: 35,
+            boxShadow: [
+              {
+                offsetX: 0,
+                offsetY: 0,
+                blurRadius: 35,
+                color: withAlpha(colors.primary.pink, 0.6),
+              },
+            ],
           },
         ]}
       />
@@ -285,10 +318,14 @@ function MuscleGroupStep({
             borderRadius: 16,
             alignItems: 'center',
             justifyContent: 'center',
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.3,
-            shadowRadius: 12,
+            boxShadow: [
+              {
+                offsetX: 0,
+                offsetY: 4,
+                blurRadius: 12,
+                color: withAlpha(colors.primary.pink, 0.3),
+              },
+            ],
           }}
         >
           <MaterialIcons
@@ -323,6 +360,117 @@ function MuscleGroupStep({
   );
 }
 
+// ── Instruction Display Component ───────────────────────────────────────────
+
+function InstructionDisplay({
+  groupLabel,
+  phaseLabel,
+  instructionText,
+}: {
+  groupLabel: string;
+  phaseLabel: string;
+  instructionText: string;
+}) {
+  return (
+    <View className="z-20 items-center px-6 pb-4" style={{ minHeight: 150 }}>
+      {/* Active focus badge — fixed width to prevent width jumps */}
+      <View
+        className="mb-4 flex-row items-center justify-center gap-2 rounded-full border border-primary-pink/20 bg-primary-pink/10 py-1"
+        style={{ minWidth: 200, paddingHorizontal: 12 }}
+      >
+        <View
+          className="h-2 w-2 rounded-full bg-primary-pink"
+          style={{
+            boxShadow: [
+              {
+                offsetX: 0,
+                offsetY: 0,
+                blurRadius: 8,
+                color: colors.primary.pink,
+              },
+            ],
+          }}
+        />
+        <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+          Active Focus: {groupLabel}
+        </Text>
+      </View>
+
+      {/* Phase title */}
+      <Text className="mb-2 text-center text-2xl font-bold leading-tight text-white">
+        {phaseLabel}
+      </Text>
+
+      {/* Phase instruction */}
+      <Text
+        className="px-10 text-center text-sm leading-relaxed text-white/50"
+        style={{ fontVariant: ['tabular-nums'] }}
+      >
+        {instructionText}
+      </Text>
+    </View>
+  );
+}
+
+// ── Session Controls Component ──────────────────────────────────────────────
+
+function SessionControls({
+  isPaused,
+  onPauseToggle,
+  timeLabel,
+  progressBarStyle,
+}: {
+  isPaused: boolean;
+  onPauseToggle: () => void;
+  timeLabel: string;
+  progressBarStyle: { width: string };
+}) {
+  return (
+    <View className="z-20 px-6 pb-12 pt-4">
+      <View className="flex-row items-center gap-4">
+        <Pressable
+          onPress={onPauseToggle}
+          className="h-14 w-14 items-center justify-center rounded-2xl bg-white/5 active:scale-95"
+        >
+          <MaterialIcons
+            name={isPaused ? 'play-arrow' : 'pause'}
+            size={24}
+            color="white"
+          />
+        </Pressable>
+        <View className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
+          <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
+            <LinearGradient
+              colors={[colors.primary.pink, colors.accent.yellow]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{
+                height: '100%',
+                width: '100%',
+                borderRadius: 99,
+                boxShadow: [
+                  {
+                    offsetX: 0,
+                    offsetY: 0,
+                    blurRadius: 10,
+                    color: withAlpha(colors.primary.pink, 0.4),
+                  },
+                ],
+              }}
+            />
+          </Animated.View>
+        </View>
+        <Text
+          className="text-xs text-white/40"
+          style={{ fontVariant: ['tabular-nums'] }}
+        >
+          {timeLabel}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
 // ── Main Session Screen ──────────────────────────────────────────────────────
 
 export default function MuscleRelaxationSession() {
@@ -339,11 +487,12 @@ export default function MuscleRelaxationSession() {
     0,
   );
 
-  const [currentStepIndex, setCurrentStepIndex] = useState(
-    initialStepRef.current,
-  );
-  const [stepPhase, setStepPhase] = useState<StepPhase>('audio');
-  const [waitTimeRemaining, setWaitTimeRemaining] = useState(WAIT_DURATION);
+  const [session, dispatch] = useReducer(sessionReducer, {
+    currentStepIndex: initialStepRef.current,
+    stepPhase: 'audio',
+    waitTimeRemaining: WAIT_DURATION,
+  });
+  const { currentStepIndex, stepPhase, waitTimeRemaining } = session;
   const [isPaused, setIsPaused] = useState(false);
   const [elapsedTotal, setElapsedTotal] = useState(initialElapsed);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -361,7 +510,7 @@ export default function MuscleRelaxationSession() {
       duration: 1000,
       easing: Easing.linear,
     });
-  }, [overallProgress, animatedProgress]);
+  }, [overallProgress]);
   const progressBarStyle = useAnimatedStyle(() => ({
     width: `${animatedProgress.value * 100}%`,
   }));
@@ -400,8 +549,7 @@ export default function MuscleRelaxationSession() {
       audioElapsedRef.current += 1;
       if (audioElapsedRef.current >= currentGroup.audioDuration) {
         clearInterval(phaseIntervalRef.current!);
-        setStepPhase('wait');
-        setWaitTimeRemaining(WAIT_DURATION);
+        dispatch({ type: 'START_WAIT' });
       }
     }, 1000);
 
@@ -415,13 +563,7 @@ export default function MuscleRelaxationSession() {
     if (stepPhase !== 'wait' || isPaused) return;
 
     phaseIntervalRef.current = setInterval(() => {
-      setWaitTimeRemaining((prev) => {
-        if (prev <= 1) {
-          clearInterval(phaseIntervalRef.current!);
-          return 0;
-        }
-        return prev - 1;
-      });
+      dispatch({ type: 'TICK_WAIT' });
     }, 1000);
 
     return () => {
@@ -434,9 +576,7 @@ export default function MuscleRelaxationSession() {
     if (stepPhase === 'wait' && waitTimeRemaining === 0) {
       if (currentStepIndex < MUSCLE_GROUPS.length - 1) {
         audioElapsedRef.current = 0;
-        setCurrentStepIndex((prev) => prev + 1);
-        setStepPhase('audio');
-        setWaitTimeRemaining(WAIT_DURATION);
+        dispatch({ type: 'ADVANCE_STEP' });
       }
     }
   }, [stepPhase, waitTimeRemaining, currentStepIndex]);
@@ -524,10 +664,14 @@ export default function MuscleRelaxationSession() {
               <View
                 className="h-1.5 w-1.5 rounded-full bg-primary-pink"
                 style={{
-                  shadowColor: colors.primary.pink,
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.6,
-                  shadowRadius: 8,
+                  boxShadow: [
+                    {
+                      offsetX: 0,
+                      offsetY: 0,
+                      blurRadius: 8,
+                      color: withAlpha(colors.primary.pink, 0.6),
+                    },
+                  ],
                 }}
               />
               <Text className="text-[10px] font-medium uppercase tracking-wider text-primary-pink">
@@ -563,43 +707,12 @@ export default function MuscleRelaxationSession() {
           <BodySilhouette activeGlow={currentGroup.glowPosition} />
         </View>
 
-        {/* Instruction area — fixed height to prevent layout shifts */}
-        <View
-          className="z-20 items-center px-6 pb-4"
-          style={{ minHeight: 150 }}
-        >
-          {/* Active focus badge — fixed width to prevent width jumps */}
-          <View
-            className="mb-4 flex-row items-center justify-center gap-2 rounded-full border border-primary-pink/20 bg-primary-pink/10 py-1"
-            style={{ minWidth: 200, paddingHorizontal: 12 }}
-          >
-            <View
-              className="h-2 w-2 rounded-full bg-primary-pink"
-              style={{
-                shadowColor: colors.primary.pink,
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 1,
-                shadowRadius: 8,
-              }}
-            />
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-              Active Focus: {currentGroup.label}
-            </Text>
-          </View>
-
-          {/* Phase title */}
-          <Text className="mb-2 text-center text-2xl font-bold leading-tight text-white">
-            {phaseLabel}
-          </Text>
-
-          {/* Phase instruction */}
-          <Text
-            className="px-10 text-center text-sm leading-relaxed text-white/50"
-            style={{ fontVariant: ['tabular-nums'] }}
-          >
-            {instructionText}
-          </Text>
-        </View>
+        {/* Instruction area */}
+        <InstructionDisplay
+          groupLabel={currentGroup.label}
+          phaseLabel={phaseLabel}
+          instructionText={instructionText}
+        />
 
         {/* Muscle group step navigator */}
         <View className="z-20 pb-4 pt-2">
@@ -626,44 +739,12 @@ export default function MuscleRelaxationSession() {
         </View>
 
         {/* Bottom controls: pause + progress bar + timer */}
-        <View className="z-20 px-6 pb-12 pt-4">
-          <View className="flex-row items-center gap-4">
-            <Pressable
-              onPress={() => setIsPaused((p) => !p)}
-              className="h-14 w-14 items-center justify-center rounded-2xl bg-white/5 active:scale-95"
-            >
-              <MaterialIcons
-                name={isPaused ? 'play-arrow' : 'pause'}
-                size={24}
-                color="white"
-              />
-            </Pressable>
-            <View className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
-              <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
-                <LinearGradient
-                  colors={[colors.primary.pink, colors.accent.yellow]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                    borderRadius: 99,
-                    shadowColor: colors.primary.pink,
-                    shadowOffset: { width: 0, height: 0 },
-                    shadowOpacity: 0.4,
-                    shadowRadius: 10,
-                  }}
-                />
-              </Animated.View>
-            </View>
-            <Text
-              className="text-xs text-white/40"
-              style={{ fontVariant: ['tabular-nums'] }}
-            >
-              {formatTime(timeRemaining)}
-            </Text>
-          </View>
-        </View>
+        <SessionControls
+          isPaused={isPaused}
+          onPauseToggle={() => setIsPaused((p) => !p)}
+          timeLabel={formatTime(timeRemaining)}
+          progressBarStyle={progressBarStyle}
+        />
       </View>
     </Container>
   );
