@@ -1,6 +1,7 @@
 import { DialogContainer } from '@/components/ui/DialogContainer';
 import { colors } from '@/constants/colors';
 import useAppInitializer from '@/hooks/useAppInitializer';
+import '@/utils/ease-nativewind';
 import { asyncStoragePersister, queryClient } from '@/utils/query-client';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { Stack } from 'expo-router';
@@ -78,7 +79,7 @@ function RootNavigator() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="settings" />
         <Stack.Screen name="journal" />
-        <Stack.Screen name="community" />
+        <Stack.Screen name="community/create" />
       </Stack.Protected>
     </Stack>
   );

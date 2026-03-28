@@ -63,9 +63,21 @@ The app uses a **dual-state approach**:
 - **Keep inline `style` only when required:**
   - `LinearGradient` styles (NativeWind doesn't apply to gradient containers)
   - Shadow props (`shadowColor`, `shadowOffset`, `shadowOpacity`, `shadowRadius`) — limited NativeWind support on native
-  - Animated/Reanimated styles (must be style objects for animation drivers)
   - Dynamic computed values (e.g., `width: \`${percent}%\``)
   - SVG component props (no className support)
+
+### Animations
+
+- **Prefer `react-native-ease` (`EaseView`)** for all new animations. It supports: opacity, translateX, translateY, scale, scaleX, scaleY, rotate, rotateX, rotateY, borderRadius, backgroundColor.
+- **Fall back to `react-native-reanimated`** only when `EaseView` cannot handle the animation:
+  - Gesture-driven animations (`Gesture.Pan`, `Gesture.Pinch`, etc.)
+  - Scroll-driven animations (`useAnimatedScrollHandler`)
+  - Animation sequencing (`withSequence`)
+  - Complex interpolation (`interpolate` with >2 values, `interpolateColor`)
+  - SVG animated props (`useAnimatedProps`)
+  - Worklet-based animations (`runOnUI`, `'worklet'` directive)
+  - Unsupported properties (height, width, etc.)
+- **NativeWind integration**: `import 'react-native-ease/nativewind'` is added in `_layout.tsx` — this enables `className` on `EaseView`
 
 ### Key Configuration
 

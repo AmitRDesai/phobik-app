@@ -1,29 +1,10 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useEffect } from 'react';
 import { Text, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from 'react-native-reanimated';
+import { EaseView } from 'react-native-ease';
 
 export function ScanningIndicator() {
-  const scale = useSharedValue(0.8);
-  const opacity = useSharedValue(0.5);
-
-  useEffect(() => {
-    scale.value = withRepeat(withTiming(1.1, { duration: 1000 }), -1, true);
-    opacity.value = withRepeat(withTiming(1, { duration: 1000 }), -1, true);
-  }, []);
-
-  const pulseStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-    opacity: opacity.value,
-  }));
-
   return (
     <View className="mb-10 mt-6 items-center">
       {/* Bluetooth icon with pulse ring */}
@@ -40,16 +21,23 @@ export function ScanningIndicator() {
           />
         </View>
         <View className="h-24 w-24 items-center justify-center rounded-full border-2 border-primary-pink/30">
-          <Animated.View
+          <EaseView
+            initialAnimate={{ scale: 0.8, opacity: 0.5 }}
+            animate={{ scale: 1.1, opacity: 1 }}
+            transition={{
+              type: 'timing',
+              duration: 1000,
+              easing: [0.455, 0.03, 0.515, 0.955],
+              loop: 'reverse',
+            }}
             className="h-16 w-16 items-center justify-center rounded-full border-2 border-accent-yellow"
-            style={pulseStyle}
           >
             <MaterialIcons
               name="bluetooth-searching"
               size={30}
               color={colors.accent.yellow}
             />
-          </Animated.View>
+          </EaseView>
         </View>
       </View>
 

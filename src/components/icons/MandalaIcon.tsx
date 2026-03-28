@@ -1,12 +1,6 @@
 import { colors, withAlpha } from '@/constants/colors';
-import { useEffect } from 'react';
 import { View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from 'react-native-reanimated';
+import { EaseView } from 'react-native-ease';
 import Svg, {
   Circle,
   Defs,
@@ -22,29 +16,6 @@ interface MandalaIconProps {
 }
 
 export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
-  const pulseOpacity = useSharedValue(0.01);
-  const pulseScale = useSharedValue(1);
-
-  useEffect(() => {
-    if (animated) {
-      pulseOpacity.value = withRepeat(
-        withTiming(0.2, { duration: 2000 }),
-        -1,
-        true,
-      );
-      pulseScale.value = withRepeat(
-        withTiming(1.1, { duration: 2000 }),
-        -1,
-        true,
-      );
-    }
-  }, [animated]);
-
-  const animatedGlowStyle = useAnimatedStyle(() => ({
-    opacity: pulseOpacity.value,
-    transform: [{ scale: pulseScale.value }],
-  }));
-
   return (
     <View
       style={{
@@ -55,26 +26,36 @@ export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
       }}
     >
       {/* Glow backgrounds */}
-      <Animated.View
-        style={[
-          {
-            position: 'absolute',
-            width: size * 0.5,
-            height: size * 0.5,
-            backgroundColor: colors.primary.pink,
-            borderRadius: size * 0.25,
-            opacity: 0.15,
-            boxShadow: [
-              {
-                offsetX: 0,
-                offsetY: 0,
-                blurRadius: 30,
-                color: withAlpha(colors.primary.pink, 0.6),
-              },
-            ],
-          },
-          animatedGlowStyle,
-        ]}
+      <EaseView
+        initialAnimate={animated ? { opacity: 0.01, scale: 1 } : undefined}
+        animate={
+          animated ? { opacity: 0.2, scale: 1.1 } : { opacity: 0.15, scale: 1 }
+        }
+        transition={
+          animated
+            ? {
+                type: 'timing',
+                duration: 2000,
+                easing: [0.455, 0.03, 0.515, 0.955],
+                loop: 'reverse',
+              }
+            : { type: 'none' }
+        }
+        style={{
+          position: 'absolute',
+          width: size * 0.5,
+          height: size * 0.5,
+          backgroundColor: colors.primary.pink,
+          borderRadius: size * 0.25,
+          boxShadow: [
+            {
+              offsetX: 0,
+              offsetY: 0,
+              blurRadius: 30,
+              color: withAlpha(colors.primary.pink, 0.6),
+            },
+          ],
+        }}
       />
 
       {/* SVG Mandala */}

@@ -17,11 +17,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { EaseView } from 'react-native-ease';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GradientButton } from './GradientButton';
 
@@ -32,9 +28,6 @@ export function DialogContainer() {
   // Keep last dialog state during exit animation
   const [renderState, setRenderState] = useState<DialogState | null>(null);
   const isShowingRef = useRef(false);
-
-  const overlayOpacity = useSharedValue(0);
-  const sheetTranslateY = useSharedValue(300);
 
   const resolveRef = useRef<((result: DialogResult) => void) | null>(null);
 
@@ -49,17 +42,6 @@ export function DialogContainer() {
       setTimeout(() => setRenderState(null), 220);
     }
   }, [dialogState]);
-
-  // Animate in/out when dialog state changes
-  useEffect(() => {
-    if (dialogState) {
-      overlayOpacity.value = withTiming(1, { duration: 250 });
-      sheetTranslateY.value = withTiming(0, { duration: 250 });
-    } else if (renderState) {
-      overlayOpacity.value = withTiming(0, { duration: 200 });
-      sheetTranslateY.value = withTiming(300, { duration: 200 });
-    }
-  }, [dialogState, renderState]);
 
   const dismiss = useCallback(() => {
     resolveRef.current?.(undefined);
@@ -90,13 +72,7 @@ export function DialogContainer() {
     store.set(dialogAtom, null);
   }, []);
 
-  const overlayStyle = useAnimatedStyle(() => ({
-    opacity: overlayOpacity.value,
-  }));
-
-  const sheetStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: sheetTranslateY.value }],
-  }));
+  const isOpen = !!dialogState;
 
   if (!renderState) return null;
 
@@ -110,21 +86,35 @@ export function DialogContainer() {
       pointerEvents="box-none"
     >
       {/* Overlay */}
-      <Animated.View
+      <EaseView
         className="absolute bottom-0 left-0 right-0 top-0"
-        style={[{ backgroundColor: withAlpha('#0a0408', 0.4) }, overlayStyle]}
+        initialAnimate={{ opacity: 0 }}
+        animate={{ opacity: isOpen ? 1 : 0 }}
+        transition={{
+          type: 'timing',
+          duration: isOpen ? 250 : 200,
+          easing: [0.455, 0.03, 0.515, 0.955],
+        }}
+        style={{ backgroundColor: withAlpha('#0a0408', 0.4) }}
       >
         <Pressable
           className="flex-1"
           onPress={isLoading ? undefined : dismiss}
           disabled={isLoading}
         />
-      </Animated.View>
+      </EaseView>
 
       {/* Bottom sheet */}
-      <Animated.View
+      <EaseView
         className="absolute bottom-0 left-0 right-0 rounded-t-[2.5rem] bg-[#24111b]"
-        style={[sheetStyle, { paddingBottom: Math.max(insets.bottom, 10) }]}
+        initialAnimate={{ translateY: 300 }}
+        animate={{ translateY: isOpen ? 0 : 300 }}
+        transition={{
+          type: 'timing',
+          duration: isOpen ? 250 : 200,
+          easing: [0.455, 0.03, 0.515, 0.955],
+        }}
+        style={{ paddingBottom: Math.max(insets.bottom, 10) }}
       >
         {/* Drag handle */}
         <View className="items-center pt-3">
@@ -178,7 +168,7 @@ export function DialogContainer() {
             </>
           )}
         </View>
-      </Animated.View>
+      </EaseView>
     </View>
   );
 }

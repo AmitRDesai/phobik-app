@@ -1,14 +1,9 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
+import { useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
+import { EaseView } from 'react-native-ease';
 import { colors } from '@/constants/colors';
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface GradientButtonProps {
   onPress: () => void;
@@ -29,71 +24,64 @@ export function GradientButton({
   loading,
   compact,
 }: GradientButtonProps) {
-  const scale = useSharedValue(1);
+  const [pressed, setPressed] = useState(false);
   const isInteractionDisabled = disabled || loading;
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-    opacity: disabled ? 0.4 : 1,
-  }));
 
   const handlePressIn = () => {
     if (loading) return;
-    scale.value = withSpring(0.95, {
-      damping: 15,
-      stiffness: 300,
-    });
+    setPressed(true);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
   const handlePressOut = () => {
     if (loading) return;
-    scale.value = withSpring(1, {
-      damping: 15,
-      stiffness: 300,
-    });
+    setPressed(false);
   };
 
   return (
-    <AnimatedPressable
+    <Pressable
       onPress={onPress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       disabled={isInteractionDisabled}
-      style={animatedStyle}
       className={compact ? '' : 'w-full'}
     >
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={{
-          borderRadius: 9999,
-          paddingHorizontal: compact ? 20 : 32,
-          paddingVertical: compact ? 8 : 16,
-          minHeight: compact ? undefined : 56,
-          justifyContent: 'center',
-          shadowColor: colors.primary.pink,
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: compact ? 0.4 : 0.5,
-          shadowRadius: compact ? 15 : 12,
-          elevation: compact ? 4 : 8,
-        }}
+      <EaseView
+        animate={{ scale: pressed ? 0.95 : 1, opacity: disabled ? 0.4 : 1 }}
+        transition={{ type: 'spring', damping: 15, stiffness: 300 }}
       >
-        {loading ? (
-          <ActivityIndicator color="white" size="small" />
-        ) : (
-          <View className="flex-row items-center justify-center gap-2">
-            {prefixIcon}
-            <Text
-              className={`text-center font-bold text-white ${compact ? 'text-[10px] uppercase tracking-wider' : 'text-lg'}`}
-            >
-              {children}
-            </Text>
-            {icon}
-          </View>
-        )}
-      </LinearGradient>
-    </AnimatedPressable>
+        <LinearGradient
+          colors={[colors.primary.pink, colors.accent.yellow]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{
+            borderRadius: 9999,
+            paddingHorizontal: compact ? 20 : 32,
+            paddingVertical: compact ? 8 : 16,
+            minHeight: compact ? undefined : 56,
+            justifyContent: 'center',
+            shadowColor: colors.primary.pink,
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: compact ? 0.4 : 0.5,
+            shadowRadius: compact ? 15 : 12,
+            elevation: compact ? 4 : 8,
+          }}
+        >
+          {loading ? (
+            <ActivityIndicator color="white" size="small" />
+          ) : (
+            <View className="flex-row items-center justify-center gap-2">
+              {prefixIcon}
+              <Text
+                className={`text-center font-bold text-white ${compact ? 'text-[10px] uppercase tracking-wider' : 'text-lg'}`}
+              >
+                {children}
+              </Text>
+              {icon}
+            </View>
+          )}
+        </LinearGradient>
+      </EaseView>
+    </Pressable>
   );
 }
