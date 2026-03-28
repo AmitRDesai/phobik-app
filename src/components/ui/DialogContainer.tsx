@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import {
   dialogAtom,
   type DialogButton,
@@ -113,7 +113,7 @@ export function DialogContainer() {
       {/* Overlay */}
       <Animated.View
         className="absolute bottom-0 left-0 right-0 top-0"
-        style={[{ backgroundColor: 'rgba(10, 4, 8, 0.4)' }, overlayStyle]}
+        style={[{ backgroundColor: withAlpha('#0a0408', 0.4) }, overlayStyle]}
       >
         <Pressable
           className="flex-1"

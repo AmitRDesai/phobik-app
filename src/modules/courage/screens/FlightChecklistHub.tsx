@@ -1,5 +1,5 @@
 import heroImage from '@/assets/images/flight-checklist-hero.png';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
@@ -115,7 +115,7 @@ export default function FlightChecklistHub() {
               contentFit="cover"
             />
             <LinearGradient
-              colors={['transparent', 'rgba(0,0,0,0.8)']}
+              colors={['transparent', alpha.black80]}
               start={{ x: 0.5, y: 0 }}
               end={{ x: 0.5, y: 1 }}
               style={{

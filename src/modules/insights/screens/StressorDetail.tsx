@@ -34,7 +34,7 @@ export default function StressorDetail() {
           <View
             className="h-28 w-28 items-center justify-center rounded-full border border-white/10 bg-white/5"
             style={{
-              shadowColor: '#FF4D97',
+              shadowColor: colors.primary['pink-soft'],
               shadowOffset: { width: 0, height: 0 },
               shadowOpacity: 0.2,
               shadowRadius: 15,

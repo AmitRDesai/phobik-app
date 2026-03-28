@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
@@ -52,7 +52,7 @@ export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
     const [focused, setFocused] = useState(false);
     const [hidden, setHidden] = useState(true);
 
-    const resolvedIconColor = iconColor ?? 'rgba(255,255,255,0.4)';
+    const resolvedIconColor = iconColor ?? alpha.white40;
     const hasError = !!error;
 
     return (
@@ -70,7 +70,7 @@ export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
               ? colors.red[500]
               : focused
                 ? colors.primary.pink
-                : 'rgba(255,255,255,0.1)',
+                : alpha.white10,
             shadowColor: hasError ? colors.red[500] : colors.primary.pink,
             shadowOffset: { width: 0, height: 0 },
             shadowOpacity: focused || hasError ? 0.3 : 0,
@@ -87,7 +87,7 @@ export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
             ref={ref}
             className="flex-1 text-base text-white android:p-0"
             placeholder={placeholder}
-            placeholderTextColor="rgba(255,255,255,0.3)"
+            placeholderTextColor={alpha.white30}
             value={value}
             onChangeText={onChangeText}
             secureTextEntry={secureTextEntry && hidden}

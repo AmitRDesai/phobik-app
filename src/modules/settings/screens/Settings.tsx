@@ -1,6 +1,6 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { UserAvatar } from '@/components/ui/UserAvatar';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { useSession } from '@/lib/auth';
 import { useSignOut } from '@/modules/auth/hooks/useAuth';
 import { biometricEnabledAtom } from '@/modules/auth/store/biometric';
@@ -81,7 +81,7 @@ export default function Settings() {
           <SettingsMenuItem
             icon="notifications"
             iconColor={colors.accent.yellow}
-            iconBgColor="rgba(255,199,0,0.15)"
+            iconBgColor={withAlpha(colors.accent.yellow, 0.15)}
             label="Notifications"
             subtitle="Manage reminders"
             onPress={() => router.push('/settings/notifications')}
@@ -89,7 +89,7 @@ export default function Settings() {
           <SettingsMenuItem
             icon="fingerprint"
             iconColor={colors.accent.purple}
-            iconBgColor="rgba(167,139,250,0.15)"
+            iconBgColor={withAlpha(colors.purple[400], 0.15)}
             label="Biometric Login"
             subtitle="Quick sign-in settings"
             onPress={() => router.push('/settings/biometric')}
@@ -97,7 +97,7 @@ export default function Settings() {
           <SettingsMenuItem
             icon="calendar-today"
             iconColor={colors.accent.cyan}
-            iconBgColor="rgba(103,232,249,0.15)"
+            iconBgColor={withAlpha(colors.cyan[300], 0.15)}
             label="Calendar"
             subtitle="Connected calendars and check-ins"
             onPress={() => router.push('/settings/calendar')}

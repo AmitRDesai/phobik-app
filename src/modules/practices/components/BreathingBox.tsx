@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
@@ -225,9 +225,9 @@ export function BreathingBox({
           >
             <LinearGradient
               colors={[
-                'rgba(236, 72, 153, 0.35)',
-                'rgba(180, 83, 120, 0.25)',
-                'rgba(250, 204, 21, 0.15)',
+                withAlpha(colors.pink[400], 0.35),
+                withAlpha('#b45378', 0.25),
+                withAlpha(colors.yellow[400], 0.15),
               ]}
               start={{ x: 0.5, y: 0 }}
               end={{ x: 0.5, y: 1 }}

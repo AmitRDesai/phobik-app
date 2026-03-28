@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -282,7 +282,7 @@ export default function Breathing478Session() {
                   size={18}
                   color={colors.primary.pink}
                   style={{
-                    textShadowColor: 'rgba(244,63,94,0.5)',
+                    textShadowColor: withAlpha(colors.rose[500], 0.5),
                     textShadowOffset: { width: 0, height: 0 },
                     textShadowRadius: 10,
                   }}
@@ -312,7 +312,7 @@ export default function Breathing478Session() {
                   size={18}
                   color={colors.accent.yellow}
                   style={{
-                    textShadowColor: 'rgba(234,179,8,0.5)',
+                    textShadowColor: withAlpha(colors.yellow[500], 0.5),
                     textShadowOffset: { width: 0, height: 0 },
                     textShadowRadius: 10,
                   }}

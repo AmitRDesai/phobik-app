@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { useEffect } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import Animated, {
@@ -213,16 +213,12 @@ export function BreathingInfinity({
         />
 
         {/* Orb outer glow */}
-        <AnimatedCircle
-          r={14}
-          fill="rgba(255,255,255,0.08)"
-          animatedProps={glowProps}
-        />
+        <AnimatedCircle r={14} fill={alpha.white08} animatedProps={glowProps} />
 
         {/* Orb inner glow */}
         <AnimatedCircle
           r={9}
-          fill="rgba(236,72,153,0.25)"
+          fill={withAlpha(colors.pink[400], 0.25)}
           animatedProps={glowProps}
         />
 

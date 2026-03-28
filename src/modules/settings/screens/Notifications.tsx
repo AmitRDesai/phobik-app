@@ -1,5 +1,5 @@
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { BackButton } from '@/components/ui/BackButton';
 import { useAtom } from 'jotai';
 import { ScrollView, Switch, Text, View } from 'react-native';
@@ -33,7 +33,7 @@ function ToggleRow({
         value={value}
         onValueChange={onValueChange}
         trackColor={{
-          false: 'rgba(255,255,255,0.1)',
+          false: alpha.white10,
           true: colors.primary.pink,
         }}
         thumbColor="white"

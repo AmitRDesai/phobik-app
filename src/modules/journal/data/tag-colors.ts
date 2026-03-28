@@ -1,34 +1,34 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 
 export const TAG_COLORS = [
   {
-    bg: 'rgba(255,77,148,0.15)',
-    border: 'rgba(255,77,148,0.5)',
+    bg: withAlpha(colors.primary['pink-soft'], 0.15),
+    border: withAlpha(colors.primary['pink-soft'], 0.5),
     text: colors.primary.pink,
   },
   {
-    bg: 'rgba(255,215,0,0.15)',
-    border: 'rgba(255,215,0,0.5)',
+    bg: withAlpha(colors.accent.yellow, 0.15),
+    border: withAlpha(colors.accent.yellow, 0.5),
     text: colors.accent.yellow,
   },
   {
-    bg: 'rgba(77,255,235,0.15)',
-    border: 'rgba(77,255,235,0.5)',
+    bg: withAlpha(colors.accent.cyan, 0.15),
+    border: withAlpha(colors.accent.cyan, 0.5),
     text: colors.accent.cyan,
   },
   {
-    bg: 'rgba(195,181,253,0.15)',
-    border: 'rgba(195,181,253,0.5)',
+    bg: withAlpha(colors.accent.purple, 0.15),
+    border: withAlpha(colors.accent.purple, 0.5),
     text: colors.accent.purple,
   },
   {
-    bg: 'rgba(0,255,148,0.15)',
-    border: 'rgba(0,255,148,0.5)',
+    bg: withAlpha(colors.accent.mint, 0.15),
+    border: withAlpha(colors.accent.mint, 0.5),
     text: colors.accent.mint,
   },
   {
-    bg: 'rgba(255,142,83,0.15)',
-    border: 'rgba(255,142,83,0.5)',
+    bg: withAlpha(colors.accent.orange, 0.15),
+    border: withAlpha(colors.accent.orange, 0.5),
     text: colors.accent.orange,
   },
 ];

@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { ImageViewer } from '@/components/ui/ImageViewer';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { formatCount } from '@/modules/practices/utils/format';
@@ -152,7 +153,7 @@ export function FeedCard({
               style={
                 isActive
                   ? {
-                      shadowColor: '#f4258c',
+                      shadowColor: colors.gradient.magenta,
                       shadowOffset: { width: 0, height: 2 },
                       shadowOpacity: 0.3,
                       shadowRadius: 8,

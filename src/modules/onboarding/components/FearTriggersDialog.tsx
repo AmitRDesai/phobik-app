@@ -1,5 +1,6 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { SelectionCard } from '@/components/ui/SelectionCard';
+import { colors, alpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtom } from 'jotai';
 import { Text, View } from 'react-native';
@@ -24,21 +25,21 @@ const OPTIONS: {
     label: 'Yes, send me reminders',
     description: 'Proactive support for your triggers',
     icon: 'notifications-active',
-    iconColor: '#f4258c',
+    iconColor: colors.gradient.magenta,
   },
   {
     value: 'high-stress-only',
     label: 'Only for high-stress events',
     description: 'Manual trigger activation only',
     icon: 'calendar-month',
-    iconColor: '#ff8e53',
+    iconColor: colors.accent.orange,
   },
   {
     value: 'no-reminders',
     label: "No, I'll explore on my own",
     description: 'Silence all notifications for now',
     icon: 'explore',
-    iconColor: 'rgba(255,255,255,0.4)',
+    iconColor: alpha.white40,
   },
 ];
 

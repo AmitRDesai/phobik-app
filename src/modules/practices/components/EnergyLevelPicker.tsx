@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
@@ -62,43 +62,43 @@ const ICON_OPTIONS: IconOption[] = [
   {
     id: 'peak-positive',
     icon: 'flash-on',
-    iconColor: '#34d399',
-    iconBgColor: 'rgba(16,185,129,0.1)',
+    iconColor: colors.emerald[400],
+    iconBgColor: withAlpha(colors.emerald[500], 0.1),
     label: 'Peak Positive',
   },
   {
     id: 'positive-calm',
     icon: 'self-improvement',
-    iconColor: '#60a5fa',
-    iconBgColor: 'rgba(59,130,246,0.1)',
+    iconColor: colors.blue[400],
+    iconBgColor: withAlpha(colors.blue[400], 0.1),
     label: 'Positive Calm',
   },
   {
     id: 'low-energy',
     icon: 'battery-alert',
-    iconColor: '#fb923c',
-    iconBgColor: 'rgba(249,115,22,0.1)',
+    iconColor: colors.orange[400],
+    iconBgColor: withAlpha(colors.orange[400], 0.1),
     label: 'Low Energy',
   },
   {
     id: 'stressed',
     icon: 'warning',
-    iconColor: '#f472b6',
-    iconBgColor: 'rgba(236,72,153,0.1)',
+    iconColor: colors.pink[400],
+    iconBgColor: withAlpha(colors.pink[400], 0.1),
     label: 'Stressed',
   },
   {
     id: 'intense-negative',
     icon: 'mood-bad',
-    iconColor: '#f87171',
-    iconBgColor: 'rgba(239,68,68,0.1)',
+    iconColor: colors.red[400],
+    iconBgColor: withAlpha(colors.red[500], 0.1),
     label: 'Intense Negative',
   },
   {
     id: 'dont-know',
     icon: 'help-outline',
-    iconColor: 'rgba(255,255,255,0.6)',
-    iconBgColor: 'rgba(255,255,255,0.1)',
+    iconColor: alpha.white60,
+    iconBgColor: alpha.white10,
     label: "Don't Know",
   },
 ];
@@ -112,32 +112,37 @@ const CENTERED_ICON_OPTIONS: CenteredIconOption[] = [
   {
     id: 'peak-positive',
     icon: 'wb-sunny',
-    iconColor: '#facc15',
+    iconColor: colors.yellow[400],
     label: 'Peak Positive',
   },
   {
     id: 'positive-calm',
     icon: 'spa',
-    iconColor: '#4ade80',
+    iconColor: colors.green[400],
     label: 'Positive Calm',
   },
   {
     id: 'low-energy',
     icon: 'hotel',
-    iconColor: '#60a5fa',
+    iconColor: colors.blue[400],
     label: 'Low energy',
   },
-  { id: 'stressed', icon: 'flash-on', iconColor: '#fb923c', label: 'Stressed' },
+  {
+    id: 'stressed',
+    icon: 'flash-on',
+    iconColor: colors.orange[400],
+    label: 'Stressed',
+  },
   {
     id: 'intense-negative',
     icon: 'waves',
-    iconColor: '#ef4444',
+    iconColor: colors.red[500],
     label: 'Intense Negative',
   },
   {
     id: 'dont-know',
     icon: 'help',
-    iconColor: 'rgba(255,255,255,0.4)',
+    iconColor: alpha.white40,
     label: "Don't Know",
   },
 ];

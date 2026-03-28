@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, alpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
@@ -28,7 +28,7 @@ export function OnboardingGridCard({
       <MaterialIcons
         name={icon}
         size={28}
-        color={selected ? colors.primary.pink : 'rgba(255,255,255,0.3)'}
+        color={selected ? colors.primary.pink : alpha.white30}
       />
       <Text className="mt-2 text-sm font-bold leading-tight text-white/90">
         {label}

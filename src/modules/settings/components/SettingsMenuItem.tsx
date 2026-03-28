@@ -1,4 +1,4 @@
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
 
@@ -14,7 +14,7 @@ interface SettingsMenuItemProps {
 export function SettingsMenuItem({
   icon,
   iconColor = colors.primary.pink,
-  iconBgColor = 'rgba(233,75,147,0.15)',
+  iconBgColor = withAlpha(colors.primary.pink, 0.15),
   label,
   subtitle,
   onPress,

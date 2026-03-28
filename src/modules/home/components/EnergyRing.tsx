@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, alpha } from '@/constants/colors';
 import { Text, View } from 'react-native';
 import Svg, {
   Circle,
@@ -41,7 +41,7 @@ export function EnergyRing({
           cy={center}
           r={radius}
           fill="none"
-          stroke="rgba(255,255,255,0.05)"
+          stroke={alpha.white05}
           strokeWidth={strokeWidth}
         />
         <Defs>

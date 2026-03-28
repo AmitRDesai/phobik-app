@@ -1,5 +1,5 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { Text, View } from 'react-native';
 import Svg, { Defs, Line, LinearGradient, Path, Stop } from 'react-native-svg';
 
@@ -48,7 +48,7 @@ export function EnergyIndexChart() {
               y1="0"
               x2="400"
               y2="0"
-              stroke="rgba(255,255,255,0.05)"
+              stroke={alpha.white05}
               strokeWidth="1"
             />
             <Line
@@ -56,7 +56,7 @@ export function EnergyIndexChart() {
               y1="50"
               x2="400"
               y2="50"
-              stroke="rgba(255,255,255,0.05)"
+              stroke={alpha.white05}
               strokeWidth="1"
             />
             <Line
@@ -64,7 +64,7 @@ export function EnergyIndexChart() {
               y1="100"
               x2="400"
               y2="100"
-              stroke="rgba(255,255,255,0.05)"
+              stroke={alpha.white05}
               strokeWidth="1"
             />
             <Path

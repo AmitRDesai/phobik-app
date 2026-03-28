@@ -2,7 +2,7 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { BackButton } from '@/components/ui/BackButton';
-import { colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -126,7 +126,7 @@ export default function EnergyIndex() {
               style={{
                 width: 96,
                 height: 96,
-                backgroundColor: 'rgba(0,0,0,0.95)',
+                backgroundColor: alpha.black95,
                 shadowColor: colors.primary.pink,
                 shadowOffset: { width: 0, height: 0 },
                 shadowOpacity: 0.3,
@@ -244,7 +244,7 @@ function EnergyCircle({
           ...circlePositions[position],
           ...(value > 10
             ? {
-                borderColor: 'rgba(255,255,255,0.2)',
+                borderColor: alpha.white20,
                 shadowColor: colors.primary.pink,
                 shadowOffset: { width: 0, height: 0 },
                 shadowOpacity: 0.15,
@@ -254,7 +254,10 @@ function EnergyCircle({
         }}
       >
         <LinearGradient
-          colors={['rgba(255,77,151,0.14)', 'rgba(255,214,64,0.14)']}
+          colors={[
+            withAlpha(colors.primary['pink-soft'], 0.14),
+            withAlpha(colors.accent.gold, 0.14),
+          ]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
@@ -310,7 +313,7 @@ function ScorePill({ value, rotation }: { value: number; rotation?: string }) {
     <View
       className="rounded-md border px-1.5 py-0.5"
       style={{
-        backgroundColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: alpha.white10,
         borderColor: `${colors.primary.pink}30`,
         shadowColor: colors.primary.pink,
         shadowOffset: { width: 0, height: 0 },

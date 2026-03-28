@@ -1,6 +1,6 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import type { StressorExercise } from '../data/stressor-details';
@@ -132,7 +132,7 @@ export function SelfLeadershipPlan({
               style={{
                 backgroundColor: ex.highlighted
                   ? colors.primary['pink-soft']
-                  : (ex.iconColor ?? 'rgba(255,255,255,0.4)'),
+                  : (ex.iconColor ?? alpha.white40),
               }}
             />
             <Text className="text-[9px] font-black uppercase tracking-widest text-slate-500">
@@ -151,7 +151,7 @@ export function SelfLeadershipPlan({
           <TextInput
             className="flex-1 text-sm font-medium italic text-white"
             placeholder="One small action I will take now..."
-            placeholderTextColor="rgba(255,255,255,0.2)"
+            placeholderTextColor={alpha.white20}
           />
           <MaterialIcons
             name="send"

@@ -109,7 +109,7 @@ export default function FearTriggers() {
               value={customTrigger}
               onChangeText={setCustomTrigger}
               placeholder="Other (type here...)"
-              placeholderTextColor="rgba(255,255,255,0.3)"
+              placeholderTextColor={alpha.white30}
               className="flex-1 text-sm text-white android:p-0"
             />
           </View>

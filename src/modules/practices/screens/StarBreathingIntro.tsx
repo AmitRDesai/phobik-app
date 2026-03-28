@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { View } from 'react-native';
@@ -12,7 +12,7 @@ function StarIcon() {
       <View
         className="absolute h-16 w-16 rounded-full"
         style={{
-          backgroundColor: 'rgba(236,72,153,0.15)',
+          backgroundColor: withAlpha(colors.pink[400], 0.15),
           shadowColor: colors.primary.pink,
           shadowOffset: { width: 0, height: 0 },
           shadowOpacity: 0.5,

@@ -5,7 +5,7 @@ import {
   selectedCalendarIdsAtom,
   supportToneAtom,
 } from '@/modules/calendar/store/calendar';
-import { colors, alpha } from '@/constants/colors';
+import { colors, alpha, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtomValue } from 'jotai';
@@ -20,13 +20,13 @@ const PRIVACY_FEATURES: {
 }[] = [
   {
     icon: 'security',
-    iconBg: '#ff5d5d',
+    iconBg: colors.status.danger,
     title: 'No Data Sales',
     description: 'We never sell your personal metrics to third parties.',
   },
   {
     icon: 'visibility-off',
-    iconBg: '#ffb800',
+    iconBg: colors.gradient.amber,
     title: 'Private Events',
     description: "We don't read or analyze your specific event details.",
   },
@@ -74,10 +74,10 @@ export default function PrivacyTrust() {
           <View
             className="h-24 w-24 items-center justify-center rounded-3xl"
             style={{
-              backgroundColor: 'rgba(255,93,93,0.1)',
+              backgroundColor: withAlpha(colors.status.danger, 0.1),
               borderWidth: 1,
-              borderColor: 'rgba(255,93,93,0.3)',
-              shadowColor: '#ff5d5d',
+              borderColor: withAlpha(colors.status.danger, 0.3),
+              shadowColor: colors.status.danger,
               shadowOffset: { width: 0, height: 0 },
               shadowOpacity: 0.4,
               shadowRadius: 20,

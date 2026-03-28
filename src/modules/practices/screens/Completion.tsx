@@ -1,7 +1,7 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -259,8 +259,11 @@ export default function Completion() {
             </Text>
             <View className="flex-row justify-center gap-6">
               <RewardCircle
-                gradientColors={[colors.primary.pink, '#ff4b8b']}
-                glowColor="rgba(244,37,106,0.2)"
+                gradientColors={[
+                  colors.primary.pink,
+                  colors.gradient['soft-pink'],
+                ]}
+                glowColor={withAlpha(colors.gradient['hot-pink'], 0.2)}
                 shadowColor={colors.primary.pink}
                 amount="+10"
                 label="Endorphins"
@@ -268,7 +271,7 @@ export default function Completion() {
               />
               <RewardCircle
                 gradientColors={[colors.blue[500], colors.cyan[400]]}
-                glowColor="rgba(59,130,246,0.2)"
+                glowColor={withAlpha(colors.blue[400], 0.2)}
                 shadowColor={colors.blue[500]}
                 amount="+5"
                 label="Serotonin"

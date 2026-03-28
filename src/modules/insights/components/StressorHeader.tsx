@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { alpha } from '@/constants/colors';
 import { BlurView } from 'expo-blur';
 import { Platform, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -31,16 +32,14 @@ export function StressorHeader({ title, subtitle }: StressorHeaderProps) {
   );
 
   if (Platform.OS === 'android') {
-    return (
-      <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.85)' }}>{content}</View>
-    );
+    return <View style={{ backgroundColor: alpha.black85 }}>{content}</View>;
   }
 
   return (
     <BlurView
       intensity={25}
       tint="dark"
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.85)' }}
+      style={{ backgroundColor: alpha.black85 }}
     >
       {content}
     </BlurView>

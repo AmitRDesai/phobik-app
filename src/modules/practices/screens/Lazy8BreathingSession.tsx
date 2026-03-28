@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -293,9 +293,9 @@ export default function Lazy8BreathingSession() {
                 <View
                   className="h-10 w-10 items-center justify-center rounded-2xl"
                   style={{
-                    backgroundColor: 'rgba(244,63,94,0.2)',
+                    backgroundColor: withAlpha(colors.rose[500], 0.2),
                     borderWidth: 1,
-                    borderColor: 'rgba(244,63,94,0.3)',
+                    borderColor: withAlpha(colors.rose[500], 0.3),
                   }}
                 >
                   <MaterialIcons
@@ -327,9 +327,9 @@ export default function Lazy8BreathingSession() {
                 <View
                   className="h-10 w-10 items-center justify-center rounded-2xl"
                   style={{
-                    backgroundColor: 'rgba(234,179,8,0.2)',
+                    backgroundColor: withAlpha(colors.yellow[500], 0.2),
                     borderWidth: 1,
-                    borderColor: 'rgba(234,179,8,0.3)',
+                    borderColor: withAlpha(colors.yellow[500], 0.3),
                   }}
                 >
                   <MaterialIcons

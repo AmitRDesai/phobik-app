@@ -1,5 +1,5 @@
 import { UserAvatar } from '@/components/ui/UserAvatar';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { BlurView } from 'expo-blur';
 import { Platform, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -29,7 +29,11 @@ export function InsightsHeader() {
 
   if (Platform.OS === 'android') {
     return (
-      <View style={{ backgroundColor: 'rgba(18, 8, 18, 0.85)' }}>
+      <View
+        style={{
+          backgroundColor: withAlpha(colors.background.dashboard, 0.85),
+        }}
+      >
         {content}
       </View>
     );
@@ -39,7 +43,7 @@ export function InsightsHeader() {
     <BlurView
       intensity={25}
       tint="dark"
-      style={{ backgroundColor: 'rgba(18, 8, 18, 0.85)' }}
+      style={{ backgroundColor: withAlpha(colors.background.dashboard, 0.85) }}
     >
       {content}
     </BlurView>

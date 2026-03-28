@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, alpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams } from 'expo-router';
@@ -48,7 +48,7 @@ export default function ReflectionInput() {
             <TextInput
               className="flex-1 p-6 text-lg text-white/90"
               placeholder="Type your reflection here..."
-              placeholderTextColor="rgba(255,255,255,0.2)"
+              placeholderTextColor={alpha.white20}
               multiline
               textAlignVertical="top"
               value={reflection}

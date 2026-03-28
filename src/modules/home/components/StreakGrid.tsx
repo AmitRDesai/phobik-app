@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, alpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import { ScrollView, Text, View } from 'react-native';
@@ -71,9 +71,9 @@ export function StreakGrid({ days }: StreakGridProps) {
                       borderColor: `${colors.accent.yellow}80`,
                     }
                   : {
-                      backgroundColor: 'rgba(255,255,255,0.05)',
+                      backgroundColor: alpha.white05,
                       borderWidth: 1,
-                      borderColor: 'rgba(255,255,255,0.1)',
+                      borderColor: alpha.white10,
                     }
             }
           >

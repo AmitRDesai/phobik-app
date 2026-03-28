@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -298,7 +298,10 @@ export default function StarBreathingSession() {
             <View className="mb-6 flex-row items-center justify-between">
               <View className="flex-row items-center gap-4">
                 <LinearGradient
-                  colors={['rgba(244,37,106,0.2)', 'rgba(250,204,21,0.2)']}
+                  colors={[
+                    withAlpha(colors.gradient['hot-pink'], 0.2),
+                    withAlpha(colors.yellow[400], 0.2),
+                  ]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   style={{
@@ -308,7 +311,7 @@ export default function StarBreathingSession() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderWidth: 1,
-                    borderColor: 'rgba(255,255,255,0.05)',
+                    borderColor: alpha.white05,
                   }}
                 >
                   <MaterialIcons

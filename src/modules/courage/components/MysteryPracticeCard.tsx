@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -139,9 +139,9 @@ export function MysteryPracticeCard({ challenge }: MysteryPracticeCardProps) {
     <View
       className="overflow-hidden rounded-3xl"
       style={{
-        backgroundColor: 'rgba(255,255,255,0.05)',
+        backgroundColor: alpha.white05,
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.1)',
+        borderColor: alpha.white10,
       }}
     >
       {/* Top gradient accent bar */}

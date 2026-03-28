@@ -2,7 +2,7 @@ import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { useImagePicker } from '@/hooks/useImagePicker';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -121,7 +121,7 @@ export default function CreatePost() {
                 )
               }
               placeholder="Start writing here..."
-              placeholderTextColor="rgba(255,255,255,0.2)"
+              placeholderTextColor={alpha.white20}
               multiline
               textAlignVertical="top"
               className="h-64 rounded-2xl border-2 border-white/10 bg-white/5 p-5 text-lg leading-relaxed text-white"
@@ -236,7 +236,7 @@ export default function CreatePost() {
               value={isAnonymous}
               onValueChange={setIsAnonymous}
               trackColor={{
-                false: 'rgba(255,255,255,0.1)',
+                false: alpha.white10,
                 true: colors.primary.pink,
               }}
               thumbColor="white"

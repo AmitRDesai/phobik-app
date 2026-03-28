@@ -1,4 +1,5 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
+import { colors } from '@/constants/colors';
 import { useMemo } from 'react';
 import { Text, View } from 'react-native';
 
@@ -144,7 +145,7 @@ export function QuickResetCalendar() {
                       <View
                         className="h-1.5 w-1.5 rounded-full bg-primary-pink"
                         style={{
-                          shadowColor: '#FF4D97',
+                          shadowColor: colors.primary['pink-soft'],
                           shadowOffset: { width: 0, height: 0 },
                           shadowOpacity: 0.4,
                           shadowRadius: 8,

@@ -4,9 +4,9 @@ import { Text, View } from 'react-native';
 
 export function DoseDeficiencyAlert() {
   return (
-    <View className="overflow-hidden rounded-3xl border border-[#00D4FF]/30 bg-white/5 p-5">
+    <View className="overflow-hidden rounded-3xl border border-accent-info/30 bg-white/5 p-5">
       <View className="flex-row items-center gap-4">
-        <View className="h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#00D4FF]/20">
+        <View className="h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent-info/20">
           <MaterialIcons
             name="info-outline"
             size={24}

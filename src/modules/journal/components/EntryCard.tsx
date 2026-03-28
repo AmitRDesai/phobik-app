@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, ScrollView, Text, View } from 'react-native';
@@ -54,7 +54,10 @@ export function EntryCard({
   return (
     <Pressable onPress={onPress} className="active:opacity-80">
       <LinearGradient
-        colors={['rgba(255,77,148,0.3)', 'rgba(255,215,0,0.15)']}
+        colors={[
+          withAlpha(colors.primary['pink-soft'], 0.3),
+          withAlpha(colors.accent.yellow, 0.15),
+        ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={{ borderRadius: 16, padding: 1 }}

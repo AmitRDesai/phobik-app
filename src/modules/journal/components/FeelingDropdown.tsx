@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -47,10 +47,10 @@ export function FeelingDropdown({
         onPress={toggle}
         className="flex-row items-center justify-between rounded-2xl p-4"
         style={{
-          backgroundColor: 'rgba(45,21,45,0.4)',
+          backgroundColor: withAlpha(colors.card.plum, 0.4),
           borderWidth: 1,
-          borderColor: 'rgba(255,77,148,0.4)',
-          shadowColor: 'rgba(255,77,148,0.2)',
+          borderColor: withAlpha(colors.primary['pink-soft'], 0.4),
+          shadowColor: withAlpha(colors.primary['pink-soft'], 0.2),
           shadowOffset: { width: 0, height: 0 },
           shadowOpacity: 1,
           shadowRadius: 8,

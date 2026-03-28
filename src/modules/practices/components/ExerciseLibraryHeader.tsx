@@ -1,5 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { Pressable, Text, View } from 'react-native';
@@ -12,7 +12,7 @@ export function ExerciseLibraryHeader() {
     <BlurView
       intensity={25}
       tint="dark"
-      style={{ backgroundColor: 'rgba(18, 8, 18, 0.7)' }}
+      style={{ backgroundColor: withAlpha(colors.background.dashboard, 0.7) }}
     >
       <View
         className="border-b border-white/5 px-6 pb-4"

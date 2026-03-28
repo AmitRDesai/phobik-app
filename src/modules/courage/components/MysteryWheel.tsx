@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -167,14 +167,14 @@ export function MysteryWheel({ onLotusPress }: MysteryWheelProps) {
             >
               <Text
                 className="text-center text-[10px] font-bold uppercase tracking-wider"
-                style={{ color: isDark ? 'rgba(0,0,0,0.8)' : 'white' }}
+                style={{ color: isDark ? alpha.black80 : 'white' }}
               >
                 {challenge.wheelLabel}
               </Text>
               <Text
                 className="mt-0.5 px-1 text-center text-[7px] leading-tight"
                 style={{
-                  color: isDark ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.9)',
+                  color: isDark ? alpha.black70 : alpha.white90,
                 }}
               >
                 {challenge.wheelSubtext}

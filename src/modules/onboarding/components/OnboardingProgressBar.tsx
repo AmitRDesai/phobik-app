@@ -33,7 +33,11 @@ export function OnboardingProgressBar({
           }
         >
           <LinearGradient
-            colors={[colors.primary.pink, '#FF8D5C', colors.accent.yellow]}
+            colors={[
+              colors.primary.pink,
+              colors.gradient['warm-orange'],
+              colors.accent.yellow,
+            ]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={{ flex: 1, height: 5 }}

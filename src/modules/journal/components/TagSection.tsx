@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
@@ -74,9 +74,9 @@ export function TagSection({
                 onPress={readOnly ? undefined : onRemoveFeeling}
                 className="flex-row items-center gap-1 rounded-full px-4 py-1.5"
                 style={{
-                  backgroundColor: 'rgba(255,77,148,0.15)',
+                  backgroundColor: withAlpha(colors.primary['pink-soft'], 0.15),
                   borderWidth: 1,
-                  borderColor: 'rgba(255,77,148,0.5)',
+                  borderColor: withAlpha(colors.primary['pink-soft'], 0.5),
                 }}
               >
                 <Text className="text-xs font-bold text-primary-pink">
@@ -96,9 +96,9 @@ export function TagSection({
                 onPress={readOnly ? undefined : onRemoveNeed}
                 className="flex-row items-center gap-1 rounded-full px-4 py-1.5"
                 style={{
-                  backgroundColor: 'rgba(255,215,0,0.15)',
+                  backgroundColor: withAlpha(colors.accent.yellow, 0.15),
                   borderWidth: 1,
-                  borderColor: 'rgba(255,215,0,0.5)',
+                  borderColor: withAlpha(colors.accent.yellow, 0.5),
                 }}
               >
                 <Text className="text-xs font-bold text-accent-yellow">
@@ -156,7 +156,7 @@ export function TagSection({
               value={newTag}
               onChangeText={setNewTag}
               placeholder="Add tag..."
-              placeholderTextColor="rgba(255,255,255,0.3)"
+              placeholderTextColor={alpha.white30}
               onSubmitEditing={handleAddTag}
               returnKeyType="done"
               className="flex-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-[14px] text-white"

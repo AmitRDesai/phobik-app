@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { useCallback, useEffect } from 'react';
 import { View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -34,7 +34,7 @@ export function Slider({
   thumbColor = 'white',
   thumbBorderColor = colors.primary.pink,
   minimumTrackColor,
-  maximumTrackColor = 'rgba(255,255,255,0.1)',
+  maximumTrackColor = alpha.white10,
 }: SliderProps) {
   const usableWidth = trackWidth - THUMB_SIZE;
   const initialX = ((value - min) / (max - min)) * usableWidth;

@@ -1,5 +1,5 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -24,7 +24,7 @@ export function SleepIntelligenceCard() {
           <View
             className="absolute -left-10 top-0 h-32 w-32 rounded-full"
             style={{
-              backgroundColor: 'rgba(255, 45, 133, 0.1)',
+              backgroundColor: withAlpha(colors.primary.pink, 0.1),
               // blur is simulated with opacity
             }}
           />

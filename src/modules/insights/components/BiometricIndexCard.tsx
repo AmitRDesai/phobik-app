@@ -1,4 +1,5 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
+import { colors } from '@/constants/colors';
 import { Text, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
@@ -42,7 +43,7 @@ export function BiometricIndexCard() {
             <Path
               d="M0,80 L40,70 L80,75 L120,60 L160,55 L200,40 L240,45 L280,55 L320,60 L360,50 L400,45"
               fill="none"
-              stroke="#FF4D97"
+              stroke={colors.primary['pink-soft']}
               strokeWidth="1.5"
             />
           </Svg>

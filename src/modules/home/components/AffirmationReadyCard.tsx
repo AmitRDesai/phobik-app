@@ -1,4 +1,4 @@
-import { colors, alpha } from '@/constants/colors';
+import { colors, alpha, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -49,7 +49,7 @@ export function AffirmationReadyCard({
       >
         <View
           style={{
-            backgroundColor: 'rgba(10, 10, 10, 0.9)',
+            backgroundColor: withAlpha(colors.background.dark, 0.9),
             borderRadius: 22,
           }}
           className="px-8 py-10"

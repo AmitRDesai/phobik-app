@@ -1,6 +1,6 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, alpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -41,8 +41,8 @@ export default function Completion() {
         centerY={0.4}
         intensity={2}
         radius={0.4}
-        startColor="#FF8C37"
-        endColor="#FF3B8E"
+        startColor={colors.gradient['bright-orange']}
+        endColor={colors.gradient['hot-pink']}
       />
       <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
         <View className="flex-1">
@@ -70,7 +70,11 @@ export default function Completion() {
 
               {/* Main orb - solid gradient */}
               <LinearGradient
-                colors={['#FF3B8E', '#FF8C37', '#FFD64D']}
+                colors={[
+                  colors.gradient['hot-pink'],
+                  colors.gradient['bright-orange'],
+                  colors.gradient['light-gold'],
+                ]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={{
@@ -79,7 +83,7 @@ export default function Completion() {
                   borderRadius: 9999,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  shadowColor: '#FF8C37',
+                  shadowColor: colors.gradient['bright-orange'],
                   shadowOffset: { width: 0, height: 0 },
                   shadowOpacity: 0.5,
                   shadowRadius: 60,
@@ -109,7 +113,7 @@ export default function Completion() {
               />
               <View
                 className="absolute left-6 top-2 h-3 w-3 rounded-full"
-                style={{ backgroundColor: 'rgba(255,255,255,0.4)' }}
+                style={{ backgroundColor: alpha.white40 }}
               />
             </View>
 

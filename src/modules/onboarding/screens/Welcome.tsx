@@ -1,6 +1,6 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { BlurView } from 'expo-blur';
@@ -36,7 +36,7 @@ export default function Welcome() {
               <View
                 className="absolute h-[160px] w-[160px] rounded-full"
                 style={{
-                  shadowColor: '#FF8D5C',
+                  shadowColor: colors.gradient['warm-orange'],
                   shadowOffset: { width: 0, height: 0 },
                   shadowOpacity: 0.25,
                   shadowRadius: 50,
@@ -48,8 +48,8 @@ export default function Welcome() {
                 className="h-[128px] w-[128px] items-center justify-center overflow-hidden rounded-full"
                 style={{
                   borderWidth: 1.5,
-                  borderColor: 'rgba(200,160,100,0.3)',
-                  backgroundColor: 'rgba(200,160,100,0.15)',
+                  borderColor: withAlpha('#c8a064', 0.3),
+                  backgroundColor: withAlpha('#c8a064', 0.15),
                 }}
               >
                 <BlurView
@@ -65,7 +65,7 @@ export default function Welcome() {
                   <LinearGradient
                     colors={[
                       colors.primary.pink,
-                      '#FF8D5C',
+                      colors.gradient['warm-orange'],
                       colors.accent.yellow,
                     ]}
                     start={{ x: 0, y: 1 }}

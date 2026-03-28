@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import type { StressorKey } from '@/modules/daily-check-in/data/stressors';
 
 export interface StressorDetailData {
@@ -76,7 +77,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'grid-view',
-        iconColor: '#FFD640',
+        iconColor: colors.accent.gold,
         title: 'Box Breathing',
         description: 'For mental focus',
         supports: 'Focus & Calm',
@@ -84,7 +85,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'accessibility-new',
-        iconColor: '#FFFFFF',
+        iconColor: '#fff',
         title: 'Muscle Relaxation',
         description: 'Release jaw and shoulder tension',
         supports: 'Physical Ease',
@@ -123,7 +124,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'self-improvement',
-        iconColor: '#FFD640',
+        iconColor: colors.accent.gold,
         title: 'Sleep Meditation',
         description: 'Deep delta-wave guidance',
         supports: 'Deep Rest',
@@ -131,7 +132,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'accessibility-new',
-        iconColor: '#FFFFFF',
+        iconColor: '#fff',
         title: 'Muscle Relaxation (PMR)',
         description: 'Release physical stress points',
         supports: 'Physical Tension',
@@ -170,7 +171,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'favorite',
-        iconColor: '#FFD640',
+        iconColor: colors.accent.gold,
         title: 'Self-Compassion',
         description: 'Reflection guided session',
         supports: 'Inner Peace',
@@ -178,7 +179,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'edit-note',
-        iconColor: '#FFFFFF',
+        iconColor: '#fff',
         title: 'Journaling',
         description: 'Process thoughts freely',
         supports: 'Perspective',
@@ -221,7 +222,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'forum',
-        iconColor: '#FFD640',
+        iconColor: colors.accent.gold,
         title: 'Courage Wall',
         description: 'Interact with the community',
         supports: 'Visibility',
@@ -229,7 +230,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'favorite',
-        iconColor: '#FFFFFF',
+        iconColor: '#fff',
         title: 'Loving Kindness',
         description: 'Compassion-based meditation',
         supports: 'Self-Compassion',
@@ -274,7 +275,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'send',
-        iconColor: '#FFD640',
+        iconColor: colors.accent.gold,
         title: 'Appreciation Text',
         description: 'Reach out with gratitude',
         supports: 'Connection',
@@ -282,7 +283,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'favorite',
-        iconColor: '#FFFFFF',
+        iconColor: '#fff',
         title: 'Loving Kindness',
         description: 'Compassion meditation practice',
         supports: 'Compassion',
@@ -322,7 +323,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'air',
-        iconColor: '#FFD640',
+        iconColor: colors.accent.gold,
         title: '4-7-8 Breathing',
         description: 'Calm the nervous system',
         supports: 'Resilience',
@@ -330,7 +331,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'edit-note',
-        iconColor: '#FFFFFF',
+        iconColor: '#fff',
         title: 'Courage Journal',
         description: 'Track your courage wins',
         supports: 'Confidence',
@@ -370,7 +371,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'spa',
-        iconColor: '#FFD640',
+        iconColor: colors.accent.gold,
         title: '5-4-3-2-1 Grounding',
         description: 'Return to the present moment',
         supports: 'Calm',
@@ -378,7 +379,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'lightbulb',
-        iconColor: '#FFFFFF',
+        iconColor: '#fff',
         title: 'Positive Affirmation',
         description: 'Strengthen your sense of self',
         supports: 'Confidence',
@@ -418,7 +419,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'flag',
-        iconColor: '#FFD640',
+        iconColor: colors.accent.gold,
         title: 'Intent Setting',
         description: 'Define daily micro-aims',
         supports: 'Momentum',
@@ -426,7 +427,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'remove-red-eye',
-        iconColor: '#FFFFFF',
+        iconColor: '#fff',
         title: 'Visualization',
         description: 'Construct your future clear',
         supports: 'Future Self',
@@ -466,7 +467,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'checklist',
-        iconColor: '#FFD640',
+        iconColor: colors.accent.gold,
         title: 'Priority Log',
         description: 'What actually matters today?',
         supports: 'Clarity',
@@ -474,7 +475,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'spa',
-        iconColor: '#FFFFFF',
+        iconColor: '#fff',
         title: 'Mindful Reset',
         description: '1-minute grounding session',
         supports: 'Presence',
@@ -513,7 +514,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'edit-note',
-        iconColor: '#FFD640',
+        iconColor: colors.accent.gold,
         title: 'Control Journal',
         description: '"What is within my control?"',
         supports: 'Perspective',
@@ -521,7 +522,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
       },
       {
         icon: 'spa',
-        iconColor: '#FFFFFF',
+        iconColor: '#fff',
         title: '5-4-3-2-1 Grounding',
         description: 'Safety visualization exercise',
         supports: 'Grounding',

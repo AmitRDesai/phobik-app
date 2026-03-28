@@ -1,5 +1,5 @@
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { BiometricSetup } from '@/modules/auth/components/BiometricSetup';
 import { useSignOut } from '@/modules/auth/hooks/useAuth';
 import { useBiometricAvailability } from '@/modules/auth/hooks/useBiometric';
@@ -76,7 +76,7 @@ export default function Biometric() {
                     if (!val) handleDisable();
                   }}
                   trackColor={{
-                    false: 'rgba(255,255,255,0.1)',
+                    false: alpha.white10,
                     true: colors.primary.pink,
                   }}
                   thumbColor="white"

@@ -1,7 +1,7 @@
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
@@ -206,11 +206,7 @@ function CommunityFeed() {
           }
           ListEmptyComponent={
             <View className="items-center py-16">
-              <MaterialIcons
-                name="edit-note"
-                size={48}
-                color="rgba(255,255,255,0.2)"
-              />
+              <MaterialIcons name="edit-note" size={48} color={alpha.white20} />
               <Text className="mt-4 text-sm text-white/30">
                 No posts yet. Be the first to share!
               </Text>

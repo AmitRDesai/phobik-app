@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
@@ -161,7 +161,7 @@ export function BreathingStar({
         <Path
           d={STAR_PATH}
           fill="none"
-          stroke="rgba(255,255,255,0.1)"
+          stroke={alpha.white10}
           strokeWidth={2.5}
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -181,7 +181,7 @@ export function BreathingStar({
           cy={100}
           r={45}
           fill="none"
-          stroke="rgba(255,255,255,0.05)"
+          stroke={alpha.white05}
           strokeWidth={0.5}
         />
         <Circle
@@ -189,19 +189,15 @@ export function BreathingStar({
           cy={100}
           r={55}
           fill="none"
-          stroke="rgba(255,255,255,0.03)"
+          stroke={alpha.white03}
           strokeWidth={0.5}
         />
         {/* Orb outer glow */}
-        <AnimatedCircle
-          r={14}
-          fill="rgba(255,255,255,0.08)"
-          animatedProps={glowProps}
-        />
+        <AnimatedCircle r={14} fill={alpha.white08} animatedProps={glowProps} />
         {/* Orb inner glow */}
         <AnimatedCircle
           r={9}
-          fill="rgba(236,72,153,0.25)"
+          fill={withAlpha(colors.pink[400], 0.25)}
           animatedProps={glowProps}
         />
         {/* Breathing orb */}

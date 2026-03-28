@@ -1,5 +1,5 @@
 import { UserAvatar } from '@/components/ui/UserAvatar';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { useSession } from '@/lib/auth';
 import { MaterialIcons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
@@ -44,7 +44,11 @@ export function DashboardHeader() {
 
   if (Platform.OS === 'android') {
     return (
-      <View style={{ backgroundColor: 'rgba(18, 8, 18, 0.7)' }}>{content}</View>
+      <View
+        style={{ backgroundColor: withAlpha(colors.background.dashboard, 0.7) }}
+      >
+        {content}
+      </View>
     );
   }
 
@@ -52,7 +56,7 @@ export function DashboardHeader() {
     <BlurView
       intensity={25}
       tint="dark"
-      style={{ backgroundColor: 'rgba(18, 8, 18, 0.7)' }}
+      style={{ backgroundColor: withAlpha(colors.background.dashboard, 0.7) }}
     >
       {content}
     </BlurView>

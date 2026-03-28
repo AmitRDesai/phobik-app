@@ -1,3 +1,4 @@
+import { colors, withAlpha } from '@/constants/colors';
 import { BlurView } from 'expo-blur';
 import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -11,7 +12,7 @@ export function PracticesHeader() {
     <BlurView
       intensity={25}
       tint="dark"
-      style={{ backgroundColor: 'rgba(18, 8, 18, 0.7)' }}
+      style={{ backgroundColor: withAlpha(colors.background.dashboard, 0.7) }}
     >
       <View
         className="border-b border-white/10 px-6 pb-4"

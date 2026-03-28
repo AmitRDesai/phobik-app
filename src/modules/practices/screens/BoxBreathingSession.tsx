@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -222,14 +222,14 @@ export default function BoxBreathingSession() {
         <View className="z-20 px-6 pb-6">
           <View
             className="rounded-[32px] border border-white/10 p-6"
-            style={{ backgroundColor: '#0d0d0f' }}
+            style={{ backgroundColor: colors.background.dark }}
           >
             {/* HRV Header */}
             <View className="mb-6 flex-row items-center justify-between">
               <View className="flex-row items-center gap-2.5">
                 <View
                   className="h-8 w-8 items-center justify-center rounded-lg"
-                  style={{ backgroundColor: 'rgba(236, 72, 153, 0.1)' }}
+                  style={{ backgroundColor: withAlpha(colors.pink[400], 0.1) }}
                 >
                   <MaterialIcons
                     name="monitor-heart"
@@ -249,8 +249,8 @@ export default function BoxBreathingSession() {
               <View
                 className="flex-row items-center gap-2 rounded-full border px-2.5 py-1"
                 style={{
-                  backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                  borderColor: 'rgba(34, 197, 94, 0.2)',
+                  backgroundColor: withAlpha(colors.green[500], 0.1),
+                  borderColor: withAlpha(colors.green[500], 0.2),
                 }}
               >
                 <View className="h-1.5 w-1.5 rounded-full bg-green-500" />

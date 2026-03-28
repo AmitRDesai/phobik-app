@@ -14,7 +14,6 @@ module.exports = {
         },
         accent: {
           yellow: '#FFD700',
-          'yellow-light': '#FFFD8C',
           purple: '#c3b5fd',
           cyan: '#4DFFEB',
           gold: '#FFD640',
@@ -42,9 +41,17 @@ module.exports = {
           success: '#0bda8e',
           danger: '#ff5d5d',
         },
+        gradient: {
+          'warm-orange': '#FF8D5C',
+          'bright-orange': '#FF8C37',
+          'hot-pink': '#FF3B8E',
+          'light-gold': '#FFD64D',
+          'orange-red': '#ff6b3d',
+          'soft-pink': '#ff4b8b',
+          magenta: '#f4258c',
+          amber: '#ffb800',
+        },
         chakra: {
-          'pink-light': '#FFB8D9',
-          'pink-deep': '#FF2D85',
           yellow: '#FFE66D',
           violet: '#9D00FF',
           indigo: '#4B0082',

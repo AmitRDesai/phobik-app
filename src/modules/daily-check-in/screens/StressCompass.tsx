@@ -2,7 +2,7 @@ import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ScrollFade } from '@/components/ui/ScrollFade';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -113,7 +113,7 @@ export default function StressCompass() {
             </Text>
             <View className="mt-8">
               <LinearGradient
-                colors={['transparent', 'rgba(255,255,255,0.2)', 'transparent']}
+                colors={['transparent', alpha.white20, 'transparent']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={{ width: 48, height: 1 }}

@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { useEffect, useRef } from 'react';
 import { Text, useWindowDimensions, View } from 'react-native';
 import Animated, {
@@ -189,7 +189,7 @@ export function BreathingCircle478({
           cy={CENTER}
           r={RADIUS}
           fill="transparent"
-          stroke="rgba(255,255,255,0.1)"
+          stroke={alpha.white10}
           strokeWidth={TRACK_STROKE_WIDTH}
         />
 

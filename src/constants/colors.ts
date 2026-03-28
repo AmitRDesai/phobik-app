@@ -14,7 +14,6 @@ type CustomColors = {
   };
   accent: {
     yellow: string;
-    'yellow-light': string;
     purple: string;
     cyan: string;
     gold: string;
@@ -42,9 +41,17 @@ type CustomColors = {
     success: string;
     danger: string;
   };
+  gradient: {
+    'warm-orange': string;
+    'bright-orange': string;
+    'hot-pink': string;
+    'light-gold': string;
+    'orange-red': string;
+    'soft-pink': string;
+    magenta: string;
+    amber: string;
+  };
   chakra: {
-    'pink-light': string;
-    'pink-deep': string;
     yellow: string;
     violet: string;
     indigo: string;
@@ -59,14 +66,33 @@ type Colors = DefaultColors & CustomColors;
 
 export const colors = fullConfig.theme.colors as Colors;
 
+/** Convert a hex color to rgba with the given opacity (0–1) */
+export function withAlpha(hex: string, opacity: number): string {
+  const h = hex.replace('#', '');
+  const r = parseInt(h.substring(0, 2), 16);
+  const g = parseInt(h.substring(2, 4), 16);
+  const b = parseInt(h.substring(4, 6), 16);
+  return `rgba(${r},${g},${b},${opacity})`;
+}
+
 /** Opacity variants for icon/SVG props where className isn't supported */
 export const alpha = {
+  white03: 'rgba(255,255,255,0.03)',
+  white05: 'rgba(255,255,255,0.05)',
+  white08: 'rgba(255,255,255,0.08)',
+  white10: 'rgba(255,255,255,0.1)',
   white15: 'rgba(255,255,255,0.15)',
   white20: 'rgba(255,255,255,0.2)',
   white30: 'rgba(255,255,255,0.3)',
+  white35: 'rgba(255,255,255,0.35)',
   white40: 'rgba(255,255,255,0.4)',
   white50: 'rgba(255,255,255,0.5)',
   white60: 'rgba(255,255,255,0.6)',
   white70: 'rgba(255,255,255,0.7)',
   white80: 'rgba(255,255,255,0.8)',
+  white90: 'rgba(255,255,255,0.9)',
+  black70: 'rgba(0,0,0,0.7)',
+  black80: 'rgba(0,0,0,0.8)',
+  black85: 'rgba(0,0,0,0.85)',
+  black95: 'rgba(0,0,0,0.95)',
 } as const;

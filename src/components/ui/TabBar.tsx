@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { BlurView } from 'expo-blur';
@@ -77,7 +77,11 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 
   if (Platform.OS === 'android') {
     return (
-      <View style={{ backgroundColor: 'rgba(26, 11, 26, 0.95)' }}>
+      <View
+        style={{
+          backgroundColor: withAlpha(colors.background.onboarding, 0.95),
+        }}
+      >
         {content}
       </View>
     );
@@ -87,7 +91,7 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     <BlurView
       intensity={25}
       tint="dark"
-      style={{ backgroundColor: 'rgba(26, 11, 18, 0.95)' }}
+      style={{ backgroundColor: withAlpha(colors.background.onboarding, 0.95) }}
     >
       {content}
     </BlurView>

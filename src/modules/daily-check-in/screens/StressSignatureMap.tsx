@@ -3,7 +3,7 @@ import { CardAura } from '@/components/ui/CardAura';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ScrollFade } from '@/components/ui/ScrollFade';
-import { colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -28,7 +28,7 @@ import {
   topStressorsAtom,
 } from '../store/daily-check-in';
 
-const CYAN = '#4DFFEB';
+const CYAN = colors.accent.cyan;
 const CARD_AURA_COLORS = [
   { start: colors.primary.pink, label: 'Priority focus' },
   { start: CYAN, label: 'Social Bond' },
@@ -345,11 +345,7 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
           </Text>
         </View>
         <LinearGradient
-          colors={[
-            `${colors.primary.pink}30`,
-            'rgba(255,255,255,0.1)',
-            `${CYAN}30`,
-          ]}
+          colors={[`${colors.primary.pink}30`, alpha.white10, `${CYAN}30`]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={{ flex: 1, height: 1, marginHorizontal: 16 }}
@@ -391,8 +387,8 @@ function StressNode({
     },
     middle: {
       r: 8,
-      fill: 'rgba(255,255,255,0.05)',
-      stroke: 'rgba(255,255,255,0.2)',
+      fill: alpha.white05,
+      stroke: alpha.white20,
       fontSize: 8,
     },
     outer: {
@@ -442,9 +438,9 @@ function StressorResultCard({
     <View
       className="overflow-hidden rounded-[28px] p-6"
       style={{
-        backgroundColor: 'rgba(18,18,18,0.6)',
+        backgroundColor: withAlpha(colors.background.charcoal, 0.6),
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.08)',
+        borderColor: alpha.white08,
       }}
     >
       <CardAura color={accentColor} />

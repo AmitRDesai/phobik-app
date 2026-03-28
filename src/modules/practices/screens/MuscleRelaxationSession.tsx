@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { useKeepAwake } from 'expo-keep-awake';
@@ -169,7 +169,7 @@ function BodySilhouette({ activeGlow }: { activeGlow: [number, number] }) {
         viewBox="0 0 200 400"
         fill="none"
         strokeWidth={1.5}
-        stroke="rgba(255,255,255,0.2)"
+        stroke={alpha.white20}
       >
         {/* Head */}
         <Circle cx={100} cy={40} r={25} />
@@ -304,8 +304,8 @@ function MuscleGroupStep({
             size={24}
             color={
               state === 'completed'
-                ? 'rgba(244,63,94,0.5)'
-                : 'rgba(255,255,255,0.2)'
+                ? withAlpha(colors.rose[500], 0.5)
+                : alpha.white20
             }
           />
         </View>

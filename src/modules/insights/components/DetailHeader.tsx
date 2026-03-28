@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { colors, withAlpha } from '@/constants/colors';
 import { BlurView } from 'expo-blur';
 import { Platform, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -28,7 +29,11 @@ export function DetailHeader({ title, rightAction }: DetailHeaderProps) {
 
   if (Platform.OS === 'android') {
     return (
-      <View style={{ backgroundColor: 'rgba(18, 8, 18, 0.85)' }}>
+      <View
+        style={{
+          backgroundColor: withAlpha(colors.background.dashboard, 0.85),
+        }}
+      >
         {content}
       </View>
     );
@@ -38,7 +43,7 @@ export function DetailHeader({ title, rightAction }: DetailHeaderProps) {
     <BlurView
       intensity={25}
       tint="dark"
-      style={{ backgroundColor: 'rgba(18, 8, 18, 0.85)' }}
+      style={{ backgroundColor: withAlpha(colors.background.dashboard, 0.85) }}
     >
       {content}
     </BlurView>

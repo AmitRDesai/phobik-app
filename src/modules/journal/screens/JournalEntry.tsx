@@ -1,6 +1,6 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -208,7 +208,7 @@ export default function JournalEntry() {
           value={content}
           onChangeText={readOnly ? undefined : setContent}
           placeholder="How is your body feeling right now?"
-          placeholderTextColor="rgba(255,255,255,0.2)"
+          placeholderTextColor={alpha.white20}
           multiline
           editable={!readOnly}
           className="min-h-[200px] text-[18px] font-light text-white"

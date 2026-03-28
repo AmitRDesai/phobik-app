@@ -1,3 +1,4 @@
+import { alpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
 import { CalendarDay } from './CalendarDay';
@@ -99,14 +100,14 @@ export function JournalCalendar({
             <MaterialIcons
               name="chevron-left"
               size={24}
-              color="rgba(255,255,255,0.4)"
+              color={alpha.white40}
             />
           </Pressable>
           <Pressable onPress={onNextMonth} hitSlop={8}>
             <MaterialIcons
               name="chevron-right"
               size={24}
-              color="rgba(255,255,255,0.4)"
+              color={alpha.white40}
             />
           </Pressable>
         </View>

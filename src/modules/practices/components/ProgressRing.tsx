@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { useEffect } from 'react';
 import Animated, {
   Easing,
@@ -52,7 +52,7 @@ export function ProgressRing({ progress }: ProgressRingProps) {
         cy={SIZE / 2}
         r={RADIUS}
         fill="transparent"
-        stroke="rgba(255,255,255,0.05)"
+        stroke={alpha.white05}
         strokeWidth={STROKE_WIDTH}
       />
       {/* Animated progress arc */}
