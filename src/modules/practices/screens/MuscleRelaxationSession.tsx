@@ -423,7 +423,7 @@ function SessionControls({
   isPaused: boolean;
   onPauseToggle: () => void;
   timeLabel: string;
-  progressBarStyle: { width: string };
+  progressBarStyle: object;
 }) {
   return (
     <View className="z-20 px-6 pb-12 pt-4">

@@ -1,8 +1,8 @@
+import { BlurView } from '@/components/ui/BlurView';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { BlurView } from 'expo-blur';
-import { Platform, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const TAB_ICONS: Record<string, keyof typeof MaterialIcons.glyphMap> = {
@@ -74,18 +74,6 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
       })}
     </View>
   );
-
-  if (Platform.OS === 'android') {
-    return (
-      <View
-        style={{
-          backgroundColor: withAlpha(colors.background.onboarding, 0.95),
-        }}
-      >
-        {content}
-      </View>
-    );
-  }
 
   return (
     <BlurView

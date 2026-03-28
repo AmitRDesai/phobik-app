@@ -1,16 +1,16 @@
+import { BlurView } from '@/components/ui/BlurView';
 import { colors } from '@/constants/colors';
-import { BlurView } from 'expo-blur';
-import { View, Text } from 'react-native';
-import Svg, {
-  Defs,
-  RadialGradient,
-  LinearGradient as SvgLinearGradient,
-  Stop,
-  Circle,
-  Mask,
-  Rect,
-} from 'react-native-svg';
 import { Ionicons } from '@expo/vector-icons';
+import { Text, View } from 'react-native';
+import Svg, {
+  Circle,
+  Defs,
+  Mask,
+  RadialGradient,
+  Rect,
+  Stop,
+  LinearGradient as SvgLinearGradient,
+} from 'react-native-svg';
 
 export function ChakraFigure() {
   const chakraColors = [

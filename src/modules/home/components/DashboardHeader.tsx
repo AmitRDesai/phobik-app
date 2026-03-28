@@ -1,10 +1,10 @@
+import { BlurView } from '@/components/ui/BlurView';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { colors, withAlpha } from '@/constants/colors';
 import { useSession } from '@/lib/auth';
 import { MaterialIcons } from '@expo/vector-icons';
-import { BlurView } from 'expo-blur';
 import { useRouter } from 'expo-router';
-import { Platform, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function DashboardHeader() {
@@ -41,16 +41,6 @@ export function DashboardHeader() {
       </Pressable>
     </View>
   );
-
-  if (Platform.OS === 'android') {
-    return (
-      <View
-        style={{ backgroundColor: withAlpha(colors.background.dashboard, 0.7) }}
-      >
-        {content}
-      </View>
-    );
-  }
 
   return (
     <BlurView

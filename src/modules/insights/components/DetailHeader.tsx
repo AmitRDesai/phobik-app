@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { BlurView } from '@/components/ui/BlurView';
 import { colors, withAlpha } from '@/constants/colors';
-import { BlurView } from 'expo-blur';
-import { Platform, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface DetailHeaderProps {
@@ -26,18 +26,6 @@ export function DetailHeader({ title, rightAction }: DetailHeaderProps) {
       {rightAction}
     </View>
   );
-
-  if (Platform.OS === 'android') {
-    return (
-      <View
-        style={{
-          backgroundColor: withAlpha(colors.background.dashboard, 0.85),
-        }}
-      >
-        {content}
-      </View>
-    );
-  }
 
   return (
     <BlurView

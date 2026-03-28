@@ -1,10 +1,10 @@
+import { BlurView } from '@/components/ui/BlurView';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors } from '@/constants/colors';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { SelectionCard } from '@/components/ui/SelectionCard';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
-import { BlurView } from 'expo-blur';
 import { PermissionStatus } from 'expo-calendar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtom } from 'jotai';

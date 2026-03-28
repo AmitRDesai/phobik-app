@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { BlurView } from '@/components/ui/BlurView';
 import { alpha } from '@/constants/colors';
-import { BlurView } from 'expo-blur';
-import { Platform, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface StressorHeaderProps {
@@ -30,10 +30,6 @@ export function StressorHeader({ title, subtitle }: StressorHeaderProps) {
       </View>
     </View>
   );
-
-  if (Platform.OS === 'android') {
-    return <View style={{ backgroundColor: alpha.black85 }}>{content}</View>;
-  }
 
   return (
     <BlurView

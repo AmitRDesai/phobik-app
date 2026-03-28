@@ -1,5 +1,5 @@
+import { BlurView } from '@/components/ui/BlurView';
 import { colors, withAlpha } from '@/constants/colors';
-import { BlurView } from 'expo-blur';
 import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 

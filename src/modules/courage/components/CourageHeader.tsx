@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { BlurView } from '@/components/ui/BlurView';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { colors } from '@/constants/colors';
-import { BlurView } from 'expo-blur';
 import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
