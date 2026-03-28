@@ -10,7 +10,7 @@ import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuraFilterToggle } from '../components/AuraFilterToggle';
 import { ProfilePictureCircle } from '../components/ProfilePictureCircle';
-import { useImagePicker } from '../hooks/useImagePicker';
+import { useImagePicker } from '@/hooks/useImagePicker';
 import { useUploadProfilePicture } from '../hooks/useUploadProfilePicture';
 import { auraFilterEnabledAtom } from '../store/onboarding';
 

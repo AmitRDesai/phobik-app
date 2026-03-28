@@ -1,3 +1,5 @@
+import type { Href } from 'expo-router';
+
 export interface PracticeCategory {
   id: string;
   category: string;
@@ -7,6 +9,7 @@ export interface PracticeCategory {
   benefit: string;
   benefitIcon: string;
   thumbnailIcon: string;
+  url: Href;
 }
 
 export type AnxietyLevel = 'severe' | 'moderate' | 'mild' | 'calm';

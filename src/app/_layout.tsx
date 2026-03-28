@@ -77,6 +77,8 @@ function RootNavigator() {
       <Stack.Protected guard={activeStack === 'home'}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="settings" />
+        <Stack.Screen name="journal" />
+        <Stack.Screen name="community" />
       </Stack.Protected>
     </Stack>
   );

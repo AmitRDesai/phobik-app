@@ -4,7 +4,7 @@ import { TextInput } from '@/components/ui/TextInput';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { colors } from '@/constants/colors';
 import { authClient, useSession } from '@/lib/auth';
-import { useImagePicker } from '@/modules/onboarding/hooks/useImagePicker';
+import { useImagePicker } from '@/hooks/useImagePicker';
 import { useUploadProfilePicture } from '@/modules/onboarding/hooks/useUploadProfilePicture';
 import { dialog } from '@/utils/dialog';
 import { BackButton } from '@/components/ui/BackButton';

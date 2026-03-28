@@ -84,7 +84,7 @@ export function PracticeCard({ practice }: PracticeCardProps) {
           </Text>
         </View>
         <Pressable
-          onPress={() => router.push('/practices/exercise-library')}
+          onPress={() => router.push(practice.url)}
           className="rounded-full bg-primary-pink px-6 py-2 active:opacity-90"
         >
           <Text className="text-sm font-bold text-white">Explore</Text>

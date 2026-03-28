@@ -10,6 +10,7 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
     benefit: 'Lowers Heart Rate',
     benefitIcon: 'trending-down',
     thumbnailIcon: 'air',
+    url: '/practices/exercise-library',
   },
   {
     id: 'courage',
@@ -20,6 +21,7 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
     benefit: 'Regulates Stress',
     benefitIcon: 'analytics',
     thumbnailIcon: 'bolt',
+    url: '/practices/courage-options',
   },
   {
     id: 'love',
@@ -30,6 +32,7 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
     benefit: 'Heart Opening',
     benefitIcon: 'monitor-heart',
     thumbnailIcon: 'favorite',
+    url: '/practices/exercise-library',
   },
   {
     id: 'journal',
@@ -40,5 +43,6 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
     benefit: 'Interrupts Loops',
     benefitIcon: 'psychology',
     thumbnailIcon: 'auto-stories',
+    url: '/journal',
   },
 ];

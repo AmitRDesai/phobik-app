@@ -10,15 +10,18 @@ interface UserAvatarProps {
   fallbackColor?: string;
   /** Icon size. Default: 20 */
   iconSize?: number;
+  /** Explicit image URI. When provided, overrides the session user image. */
+  imageUri?: string | null;
 }
 
 export function UserAvatar({
   className,
   fallbackColor = 'white',
   iconSize = 20,
+  imageUri,
 }: UserAvatarProps) {
   const { data: session } = useSession();
-  const userImage = session?.user?.image;
+  const userImage = imageUri !== undefined ? imageUri : session?.user?.image;
 
   return (
     <View

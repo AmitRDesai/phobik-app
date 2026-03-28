@@ -11,9 +11,9 @@ interface QuickAccessItem {
 
 const ITEMS: QuickAccessItem[] = [
   { icon: 'menu-book', label: 'Library', href: '/practices/exercise-library' },
-  { icon: 'shield', label: 'Courage' },
+  { icon: 'shield', label: 'Courage', href: '/practices/courage-options' },
   { icon: 'favorite', label: 'Love' },
-  { icon: 'edit-note', label: 'Journal' },
+  { icon: 'edit-note', label: 'Journal', href: '/journal' },
 ];
 
 export function QuickAccessGrid() {
