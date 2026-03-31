@@ -1,14 +1,14 @@
+import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { SelectionCard } from '@/components/ui/SelectionCard';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { CourageHeader } from '../components/CourageHeader';
 import {
   ANCHOR_OPTIONS,
   ChecklistItem,
@@ -16,63 +16,7 @@ import {
 } from '../data/flight-checklist-data';
 import { flightChecklistAtom } from '../store/flight-checklist';
 
-function CategoryLabel({ category }: { category: string }) {
-  return (
-    <Text className="mb-1 ml-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-      {category}
-    </Text>
-  );
-}
-
-function HighlightedCard({
-  item,
-  selected,
-  onPress,
-}: {
-  item: ChecklistItem;
-  selected: boolean;
-  onPress: () => void;
-}) {
-  const borderColor =
-    item.highlight === 'yellow' ? colors.accent.yellow : colors.primary.pink;
-  const bgColor =
-    item.highlight === 'yellow'
-      ? `${colors.accent.yellow}0D`
-      : `${colors.primary.pink}0D`;
-
-  return (
-    <View>
-      {item.category && <CategoryLabel category={item.category} />}
-      <Pressable onPress={onPress}>
-        <View
-          className="flex-row items-center gap-4 rounded-2xl px-4 py-4"
-          style={{
-            backgroundColor: bgColor,
-            borderWidth: 1,
-            borderColor: `${borderColor}33`,
-          }}
-        >
-          {item.icon && (
-            <View className="h-10 w-10 items-center justify-center rounded-full bg-white/10">
-              <MaterialIcons name={item.icon} size={20} color={borderColor} />
-            </View>
-          )}
-          <View className="flex-1">
-            <Text className="text-base font-semibold italic text-white">
-              {item.text}
-            </Text>
-            {item.description && (
-              <Text className="mt-0.5 text-sm text-white/50">
-                {item.description}
-              </Text>
-            )}
-          </View>
-          <CheckboxCircle selected={selected} />
-        </View>
-      </Pressable>
-    </View>
-  );
-}
+// --- Shared components ---
 
 function CheckboxCircle({ selected }: { selected: boolean }) {
   if (selected) {
@@ -89,14 +33,24 @@ function CheckboxCircle({ selected }: { selected: boolean }) {
           justifyContent: 'center',
         }}
       >
-        <MaterialIcons name="check" size={14} color="black" />
+        <MaterialIcons name="check" size={14} color="white" />
       </LinearGradient>
     );
   }
-  return <View className="h-6 w-6 rounded-full border-2 border-gray-700" />;
+  return (
+    <View
+      style={{
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: colors.gray[700],
+      }}
+    />
+  );
 }
 
-function PhaseChecklistItem({
+function GlassCard({
   item,
   selected,
   onPress,
@@ -105,32 +59,67 @@ function PhaseChecklistItem({
   selected: boolean;
   onPress: () => void;
 }) {
-  if (item.highlight) {
-    return (
-      <HighlightedCard item={item} selected={selected} onPress={onPress} />
-    );
-  }
+  const isHighlighted = !!item.highlight;
+  const borderColor = isHighlighted
+    ? item.highlight === 'yellow'
+      ? `${colors.accent.yellow}33`
+      : `${colors.primary.pink}33`
+    : 'rgba(255,255,255,0.1)';
+  const bgColor = isHighlighted
+    ? item.highlight === 'yellow'
+      ? `${colors.accent.yellow}0D`
+      : `${colors.primary.pink}0D`
+    : 'rgba(255,255,255,0.03)';
 
   return (
-    <View>
-      {item.category && <CategoryLabel category={item.category} />}
-      <SelectionCard
-        label={item.text}
-        description={item.description}
-        icon={
-          item.icon ? (
-            <MaterialIcons
-              name={item.icon}
-              size={20}
-              color={colors.accent.yellow}
-            />
-          ) : undefined
-        }
-        variant="checkbox"
-        selected={selected}
-        onPress={onPress}
-      />
-    </View>
+    <Pressable onPress={onPress} className="active:scale-[0.98]">
+      <View
+        className="rounded-2xl p-4"
+        style={{ backgroundColor: bgColor, borderWidth: 1, borderColor }}
+      >
+        {item.category && (
+          <Text className="mb-1.5 text-xs font-bold uppercase tracking-widest text-gray-500">
+            {item.category}
+          </Text>
+        )}
+        <View className="flex-row items-center gap-4">
+          {item.icon && (
+            <View
+              className="h-10 w-10 items-center justify-center rounded-full"
+              style={{
+                backgroundColor: isHighlighted
+                  ? `${colors.primary.pink}1A`
+                  : 'rgba(255,255,255,0.1)',
+              }}
+            >
+              <MaterialIcons
+                name={item.icon}
+                size={20}
+                color={
+                  isHighlighted ? colors.primary.pink : colors.accent.yellow
+                }
+              />
+            </View>
+          )}
+          <View className="flex-1">
+            <Text
+              className="text-base font-semibold"
+              style={{
+                color: isHighlighted ? colors.primary.pink : 'white',
+              }}
+            >
+              {item.text}
+            </Text>
+            {item.description && (
+              <Text className="mt-1 text-sm leading-5 text-white/50">
+                {item.description}
+              </Text>
+            )}
+          </View>
+          <CheckboxCircle selected={selected} />
+        </View>
+      </View>
+    </Pressable>
   );
 }
 
@@ -217,7 +206,7 @@ function AnchorSelection() {
                 backgroundColor:
                   selectedAnchor === opt.id
                     ? `${colors.primary.pink}26`
-                    : `${colors.white}0D`,
+                    : 'rgba(255,255,255,0.05)',
                 borderWidth: 1,
                 borderColor:
                   selectedAnchor === opt.id
@@ -276,11 +265,38 @@ function ExhaleCard() {
   );
 }
 
+// --- Journal prompt (Before Airport only) ---
+
+function JournalPrompt() {
+  const [text, setText] = useState('');
+
+  return (
+    <View className="mt-6">
+      <Text className="mb-2 text-base font-bold text-white">
+        Journal Prompt
+      </Text>
+      <Text className="mb-3 text-sm italic text-white/60">
+        {'"What am I worried about? Fact or fiction?"'}
+      </Text>
+      <TextInput
+        value={text}
+        onChangeText={setText}
+        placeholder="Type your reflections here..."
+        placeholderTextColor={colors.gray[600]}
+        multiline
+        className="min-h-[120px] rounded-xl border border-gray-800 bg-black/40 p-4 text-sm text-white"
+        textAlignVertical="top"
+      />
+    </View>
+  );
+}
+
 // --- Main screen ---
 
 export default function FlightChecklistPhase() {
   const { phaseId } = useLocalSearchParams<{ phaseId: string }>();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [checkedItems, setCheckedItems] = useAtom(flightChecklistAtom);
 
   const phase = phaseId ? PHASE_CHECKLISTS[phaseId] : undefined;
@@ -288,17 +304,15 @@ export default function FlightChecklistPhase() {
   const toggleItem = useCallback(
     (itemId: string) => {
       const key = `${phaseId}:${itemId}`;
-      setCheckedItems((prev: Set<string>) => {
-        const next = new Set(prev);
-        if (next.has(key)) {
-          next.delete(key);
-        } else {
-          next.add(key);
-        }
-        return next;
-      });
+      const next = new Set(checkedItems);
+      if (next.has(key)) {
+        next.delete(key);
+      } else {
+        next.add(key);
+      }
+      setCheckedItems(next);
     },
-    [phaseId, setCheckedItems],
+    [phaseId, checkedItems, setCheckedItems],
   );
 
   const handleNext = useCallback(() => {
@@ -315,20 +329,37 @@ export default function FlightChecklistPhase() {
 
   return (
     <View className="flex-1 bg-background-charcoal">
-      <CourageHeader title={phase.title} />
+      {/* Header — just back button */}
+      <View className="px-4 pb-2" style={{ paddingTop: insets.top + 8 }}>
+        <BackButton />
+      </View>
 
       <ScrollView
-        contentContainerClassName="px-6 pb-32 pt-4"
+        contentContainerClassName="px-6 pb-8 pt-2"
         showsVerticalScrollIndicator={false}
       >
         {/* Phase badge */}
         {phase.phaseBadge && (
-          <View className="mb-3 self-start rounded-full bg-primary-pink/20 px-3 py-1">
+          <View className="mb-4 self-start rounded-full bg-primary-pink/10 px-3 py-1">
             <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
               {phase.phaseBadge}
             </Text>
           </View>
         )}
+
+        {/* Title */}
+        <Text className="mb-2 text-3xl font-black uppercase tracking-tighter text-white">
+          {phase.title}
+          {'\n'}Checklist
+        </Text>
+
+        {/* Gradient accent line below title */}
+        <LinearGradient
+          colors={[colors.primary.pink, colors.accent.yellow]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ height: 3, width: 64, borderRadius: 2, marginBottom: 16 }}
+        />
 
         {/* Subtitle */}
         {phase.subtitle && (
@@ -338,9 +369,9 @@ export default function FlightChecklistPhase() {
         )}
 
         {/* Checklist items */}
-        <View className="gap-4">
+        <View className="mt-4 gap-4">
           {phase.items.map((item) => (
-            <PhaseChecklistItem
+            <GlassCard
               key={item.id}
               item={item}
               selected={checkedItems.has(`${phaseId}:${item.id}`)}
@@ -364,15 +395,54 @@ export default function FlightChecklistPhase() {
           </View>
         )}
 
+        {phaseId === 'during-turbulence' && (
+          <Pressable
+            onPress={() => router.push('/practices/turbulence-tools')}
+            className="mt-6 active:scale-[0.98]"
+          >
+            <View
+              className="flex-row items-center gap-4 rounded-2xl border border-white/10 p-4"
+              style={{ backgroundColor: `${colors.primary.pink}0D` }}
+            >
+              <View
+                className="h-10 w-10 items-center justify-center rounded-xl"
+                style={{ backgroundColor: `${colors.primary.pink}1A` }}
+              >
+                <MaterialIcons
+                  name="psychology"
+                  size={22}
+                  color={colors.primary.pink}
+                />
+              </View>
+              <View className="flex-1">
+                <Text className="text-base font-bold text-white">
+                  Turbulence Tools
+                </Text>
+                <Text className="mt-0.5 text-sm text-white/50">
+                  Practical grounding techniques
+                </Text>
+              </View>
+              <MaterialIcons
+                name="chevron-right"
+                size={24}
+                color={colors.gray[600]}
+              />
+            </View>
+          </Pressable>
+        )}
+
+        {/* Journal prompt (before airport only) */}
+        {phaseId === 'before-airport' && <JournalPrompt />}
+
         {/* Status text */}
         {phase.statusText && (
-          <Text className="mt-4 text-center text-xs uppercase tracking-widest text-gray-500">
+          <Text className="mt-6 text-center text-xs uppercase tracking-widest text-gray-500">
             {phase.statusText}
           </Text>
         )}
 
         {/* CTA */}
-        <View className="mt-8">
+        <View className="mt-12">
           <GradientButton onPress={handleNext}>{phase.ctaLabel}</GradientButton>
         </View>
       </ScrollView>

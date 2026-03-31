@@ -5,9 +5,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
+
+import { RadialGlow } from '@/modules/ebook/components/RadialGlow';
 
 import { CourageHeader } from '../components/CourageHeader';
 import { FLIGHT_PHASES, FlightPhase, PhaseAccent } from '../data/flight-phases';
@@ -51,7 +53,8 @@ function PhaseButton({
 
 export default function FlightChecklistHub() {
   const router = useRouter();
-  const setCheckedItems = useSetAtom(flightChecklistAtom);
+  const [checkedItems, setCheckedItems] = useAtom(flightChecklistAtom);
+  const hasProgress = checkedItems.size > 0;
 
   const handlePhasePress = useCallback(
     (phaseId: string) => {
@@ -76,20 +79,16 @@ export default function FlightChecklistHub() {
 
   return (
     <View className="flex-1 bg-background-charcoal">
-      {/* Decorative mesh gradients */}
-      <View
-        className="absolute right-[-10%] top-[20%] h-64 w-64 rounded-full"
-        style={{ backgroundColor: `${colors.primary.pink}0D` }}
+      {/* Decorative radial glows */}
+      <RadialGlow
+        color={colors.primary.pink}
+        size={300}
+        style={{ top: '20%', right: -150 }}
       />
-      <View
-        className="absolute bottom-[20%] left-[-10%] h-80 w-80 rounded-full"
-        style={{ backgroundColor: `${colors.accent.yellow}0D` }}
-      />
-
       <CourageHeader title="Flight Checklist" />
 
       <ScrollView
-        contentContainerClassName="px-6 pb-32"
+        contentContainerClassName="px-6 pb-8"
         showsVerticalScrollIndicator={false}
       >
         {/* Hero Section */}
@@ -154,21 +153,23 @@ export default function FlightChecklistHub() {
           ))}
         </View>
 
-        {/* Quick Reset / Panic SOS */}
-        <View className="mb-8 mt-12">
-          <Pressable onPress={handleQuickReset} className="active:scale-95">
-            <View className="flex-row items-center justify-center gap-3 rounded-xl border border-status-danger/30 bg-status-danger/10 py-4">
-              <MaterialIcons
-                name="emergency"
-                size={20}
-                color={colors.status.danger}
-              />
-              <Text className="font-black uppercase tracking-widest text-status-danger">
-                Quick Reset
-              </Text>
-            </View>
-          </Pressable>
-        </View>
+        {/* Quick Reset - only show when there's saved progress */}
+        {hasProgress && (
+          <View className="mb-8 mt-12">
+            <Pressable onPress={handleQuickReset} className="active:scale-95">
+              <View className="flex-row items-center justify-center gap-3 rounded-xl border border-status-danger/30 bg-status-danger/10 py-4">
+                <MaterialIcons
+                  name="emergency"
+                  size={20}
+                  color={colors.status.danger}
+                />
+                <Text className="font-black uppercase tracking-widest text-status-danger">
+                  Quick Reset
+                </Text>
+              </View>
+            </Pressable>
+          </View>
+        )}
       </ScrollView>
     </View>
   );

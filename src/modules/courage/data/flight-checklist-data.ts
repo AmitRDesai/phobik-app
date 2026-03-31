@@ -81,7 +81,6 @@ export const PHASE_CHECKLISTS: Record<string, PhaseChecklist> = {
         id: '4',
         category: 'Affirmation',
         text: 'I can move slowly even if the environment is fast',
-        highlight: 'pink',
       },
     ],
     ctaLabel: 'Next Step',
@@ -142,12 +141,18 @@ export const PHASE_CHECKLISTS: Record<string, PhaseChecklist> = {
       { id: '3', text: 'Soften belly' },
       {
         id: '4',
-        text: 'Remind yourself: Turbulence is uncomfortable. I got this! I can handle it, I can tolerate this.',
+        text: 'Remind yourself:',
+        description:
+          'Turbulence is uncomfortable, not unsafe. I got this! I can handle it, I can tolerate this.',
       },
-      { id: '5', text: 'If thoughts escalate \u2192 5-4-3-2-1 grounding' },
+      {
+        id: '5',
+        text: 'If thoughts escalate \u2192 5-4-3-2-1 grounding',
+      },
       {
         id: '6',
-        text: 'Allow the movement: The sky can wiggle. I can too.',
+        text: 'Allow the movement:',
+        description: 'The sky can wiggle. I can too.',
         highlight: 'pink',
       },
     ],

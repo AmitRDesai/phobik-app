@@ -1,0 +1,130 @@
+import { colors } from '@/constants/colors';
+import { BackButton } from '@/components/ui/BackButton';
+import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
+import { useAtom } from 'jotai';
+import { useCallback } from 'react';
+import { Pressable, ScrollView, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { EBOOK_CHAPTERS } from '../data/ebook-chapters';
+import {
+  ebookCompletedChaptersAtom,
+  ebookLastChapterAtom,
+} from '../store/ebook-purchase';
+
+export default function EbookIndex() {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const [completedChapters] = useAtom(ebookCompletedChaptersAtom);
+  const [lastChapter] = useAtom(ebookLastChapterAtom);
+
+  const handleChapterPress = useCallback(
+    (chapterId: number) => {
+      router.push(`/practices/ebook-chapter?chapter=${chapterId}`);
+    },
+    [router],
+  );
+
+  return (
+    <View className="flex-1 bg-background-charcoal">
+      {/* Header */}
+      <View
+        className="flex-row items-center border-b border-white/5 px-4 pb-2"
+        style={{ paddingTop: insets.top + 8 }}
+      >
+        <BackButton icon="close" />
+        <Text className="flex-1 pr-10 text-center text-lg font-bold text-white">
+          Table of Contents
+        </Text>
+      </View>
+
+      <ScrollView
+        contentContainerClassName="pb-32"
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Book Title */}
+        <View className="mb-2 px-6 py-4 text-left">
+          <Text className="mb-1 text-sm font-semibold uppercase tracking-tight text-white/60">
+            E-Book
+          </Text>
+          <Text className="text-3xl font-bold leading-tight text-white">
+            Calm Above the Clouds
+          </Text>
+        </View>
+
+        {/* Chapter List */}
+        <View className="w-full">
+          {EBOOK_CHAPTERS.map((chapter) => {
+            const isCompleted = completedChapters.includes(chapter.id);
+            const isCurrent = lastChapter === chapter.id;
+
+            return (
+              <Pressable
+                key={chapter.id}
+                onPress={() => handleChapterPress(chapter.id)}
+                className="active:bg-white/5"
+              >
+                {isCurrent ? (
+                  <LinearGradient
+                    colors={[
+                      `${colors.primary.pink}26`,
+                      `${colors.accent.yellow}0D`,
+                    ]}
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      paddingHorizontal: 24,
+                      paddingVertical: 16,
+                      borderBottomWidth: 1,
+                      borderBottomColor: 'rgba(255,255,255,0.05)',
+                      borderLeftWidth: 4,
+                      borderLeftColor: colors.primary.pink,
+                    }}
+                  >
+                    <View className="flex-1 pr-4">
+                      <Text
+                        className="mb-1 text-xs font-semibold uppercase tracking-wider"
+                        style={{ color: colors.primary.pink }}
+                      >
+                        {chapter.label}
+                      </Text>
+                      <Text className="text-base font-bold text-white">
+                        {chapter.title}
+                      </Text>
+                    </View>
+                    <Text className="text-xs font-medium text-white/50">
+                      Reading
+                    </Text>
+                  </LinearGradient>
+                ) : (
+                  <View className="flex-row items-center justify-between border-b border-white/5 px-6 py-4">
+                    <View className="flex-1 pr-4">
+                      <Text className="mb-1 text-xs font-semibold uppercase tracking-wider text-white/50">
+                        {chapter.label}
+                      </Text>
+                      <Text className="text-base font-medium text-white/80">
+                        {chapter.title}
+                      </Text>
+                    </View>
+                    {isCompleted && (
+                      <MaterialIcons
+                        name="check-circle"
+                        size={20}
+                        color={colors.accent.yellow}
+                      />
+                    )}
+                  </View>
+                )}
+              </Pressable>
+            );
+          })}
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
