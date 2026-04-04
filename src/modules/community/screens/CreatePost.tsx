@@ -7,7 +7,7 @@ import { useImagePicker } from '@/hooks/useImagePicker';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { File as ExpoFile } from 'expo-file-system';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   Image,
@@ -28,8 +28,9 @@ export default function CreatePost() {
   const router = useRouter();
   const createPost = useCreatePost();
   const { pickMultiple } = useImagePicker();
+  const { prefill } = useLocalSearchParams<{ prefill?: string }>();
 
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(prefill ?? '');
   const [circle, setCircle] = useState<Circle | undefined>();
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [imageUris, setImageUris] = useState<string[]>([]);

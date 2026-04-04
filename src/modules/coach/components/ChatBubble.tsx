@@ -1,16 +1,12 @@
 import { alpha, colors } from '@/constants/colors';
+import { dialog } from '@/utils/dialog';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
-import { useState } from 'react';
+import { useRouter } from 'expo-router';
 import { Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
-import Animated, {
-  FadeIn,
-  FadeInDown,
-  FadeInRight,
-  FadeOut,
-} from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeInRight } from 'react-native-reanimated';
 import type { ChatMessage } from '../hooks/useCoachChat';
 
 type ChatBubbleProps = {
@@ -26,32 +22,40 @@ function formatTime(ts: number): string {
 
 export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
   const isUser = message.role === 'user';
-  const [showActions, setShowActions] = useState(false);
+  const router = useRouter();
 
   if (!isUser && !message.content && message.status !== 'error') return null;
-
-  const handleLongPress = () => {
-    if (!message.content) return;
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    setShowActions(true);
-  };
 
   const handleCopy = async () => {
     if (!message.content) return;
     await Clipboard.setStringAsync(message.content);
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    setShowActions(false);
   };
 
   const handleShare = async () => {
     if (!message.content) return;
-    try {
-      await Share.share({ message: message.content });
-    } catch {
-      // Fallback: copy
-      await handleCopy();
+    const result = await dialog.info({
+      title: 'Share',
+      message: 'Where would you like to share this?',
+      buttons: [
+        { label: 'Community', value: 'community', variant: 'primary' },
+        { label: 'Other Apps', value: 'external', variant: 'secondary' },
+        { label: 'Cancel', value: 'cancel', variant: 'secondary' },
+      ],
+    });
+
+    if (result === 'community') {
+      router.push({
+        pathname: '/community/create',
+        params: { prefill: message.content },
+      });
+    } else if (result === 'external') {
+      try {
+        await Share.share({ message: message.content });
+      } catch {
+        await handleCopy();
+      }
     }
-    setShowActions(false);
   };
 
   // Error state
@@ -99,32 +103,28 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
         entering={isNew ? FadeInRight.duration(200) : undefined}
         className="mb-3 max-w-[80%] self-end"
       >
-        <Pressable onLongPress={handleLongPress} delayLongPress={400}>
-          <View
-            className="rounded-2xl rounded-br-sm px-4 py-3"
-            style={{
-              backgroundColor: colors.primary.pink,
-              shadowColor: colors.primary.pink,
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.25,
-              shadowRadius: 8,
-            }}
-          >
-            <Text className="text-[15px] leading-[22px] text-white">
-              {message.content}
-            </Text>
-          </View>
-        </Pressable>
-        <Text className="mt-1 self-end text-[10px] text-white/20">
-          {formatTime(message.timestamp)}
-        </Text>
-        {showActions && (
-          <MessageActions
-            onCopy={handleCopy}
-            onDismiss={() => setShowActions(false)}
-            align="right"
-          />
-        )}
+        <View
+          className="rounded-2xl rounded-br-sm px-4 py-3"
+          style={{
+            backgroundColor: colors.primary.pink,
+            shadowColor: colors.primary.pink,
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 8,
+          }}
+        >
+          <Text className="text-[15px] leading-[22px] text-white">
+            {message.content}
+          </Text>
+        </View>
+        <View className="mt-1 flex-row items-center justify-end gap-2">
+          <Text className="text-[10px] text-white/20">
+            {formatTime(message.timestamp)}
+          </Text>
+          <Pressable onPress={handleCopy} hitSlop={8}>
+            <Ionicons name="copy-outline" size={12} color={alpha.white20} />
+          </Pressable>
+        </View>
       </Animated.View>
     );
   }
@@ -146,9 +146,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
         />
       </View>
       <View className="flex-1">
-        <Pressable onLongPress={handleLongPress} delayLongPress={400}>
-          <Markdown style={markdownStyles}>{message.content}</Markdown>
-        </Pressable>
+        <Markdown style={markdownStyles}>{message.content}</Markdown>
         <View className="mt-1 flex-row items-center justify-between">
           <Text className="text-[10px] text-white/20">
             {formatTime(message.timestamp)}
@@ -168,63 +166,8 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
             </View>
           )}
         </View>
-        {showActions && (
-          <MessageActions
-            onCopy={handleCopy}
-            onShare={handleShare}
-            onDismiss={() => setShowActions(false)}
-            align="left"
-          />
-        )}
       </View>
     </Animated.View>
-  );
-}
-
-function MessageActions({
-  onCopy,
-  onShare,
-  onDismiss,
-  align,
-}: {
-  onCopy: () => void;
-  onShare?: () => void;
-  onDismiss: () => void;
-  align: 'left' | 'right';
-}) {
-  return (
-    <>
-      <Pressable
-        onPress={onDismiss}
-        className="absolute -bottom-2 -left-4 -right-4 -top-4"
-        style={{ zIndex: 1 }}
-      />
-      <Animated.View
-        entering={FadeIn.duration(100)}
-        exiting={FadeOut.duration(100)}
-        className={`mt-1 flex-row gap-1 ${align === 'right' ? 'self-end' : 'self-start'}`}
-        style={{ zIndex: 2 }}
-      >
-        <Pressable
-          onPress={onCopy}
-          className="flex-row items-center gap-1.5 rounded-full px-3 py-1.5"
-          style={{ backgroundColor: alpha.white08 }}
-        >
-          <Ionicons name="copy-outline" size={12} color={alpha.white60} />
-          <Text className="text-[11px] text-white/60">Copy</Text>
-        </Pressable>
-        {onShare && (
-          <Pressable
-            onPress={onShare}
-            className="flex-row items-center gap-1.5 rounded-full px-3 py-1.5"
-            style={{ backgroundColor: alpha.white08 }}
-          >
-            <Ionicons name="share-outline" size={12} color={alpha.white60} />
-            <Text className="text-[11px] text-white/60">Share</Text>
-          </Pressable>
-        )}
-      </Animated.View>
-    </>
   );
 }
 

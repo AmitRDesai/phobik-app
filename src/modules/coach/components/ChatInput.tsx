@@ -2,7 +2,7 @@ import { alpha, colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useCallback, useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Keyboard, Pressable, Text, TextInput, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useVoiceInput } from '../hooks/useVoiceInput';
 
@@ -20,6 +20,7 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     onSend(text.trim());
     setText('');
+    Keyboard.dismiss();
   }, [text, isLoading, onSend]);
 
   const handleStop = useCallback(() => {
