@@ -18,6 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CommunityPrinciples } from '../components/CommunityPrinciples';
 import { FeedCard } from '../components/FeedCard';
 import { FilterChips } from '../components/FilterChips';
+import { NetworkBanner } from '../components/NetworkBanner';
 import { SearchBar } from '../components/SearchBar';
 import { useCommunityMember } from '../hooks/useCommunity';
 import { useCommunityPosts } from '../hooks/useCommunityFeed';
@@ -164,6 +165,8 @@ function CommunityFeed() {
         <SearchBar value={search} onChangeText={handleSearchChange} />
         <FilterChips selected={circle} onSelect={setCircle} />
       </View>
+
+      <NetworkBanner />
 
       {/* Feed */}
       {isLoading ? (

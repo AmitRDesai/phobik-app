@@ -23,10 +23,10 @@ import {
   type StressorKey,
 } from '../data/stressors';
 import {
-  resetDailyCheckInAtom,
+  resetStressCompassAtom,
   stressorRatingsAtom,
   topStressorsAtom,
-} from '../store/daily-check-in';
+} from '../store/self-check-ins';
 
 const CYAN = colors.accent.cyan;
 const CARD_AURA_COLORS = [
@@ -38,12 +38,12 @@ const CARD_AURA_COLORS = [
 export default function StressSignatureMap() {
   const topStressors = useAtomValue(topStressorsAtom);
   const allRatings = useAtomValue(stressorRatingsAtom);
-  const reset = useSetAtom(resetDailyCheckInAtom);
+  const reset = useSetAtom(resetStressCompassAtom);
   const { width: screenWidth } = useWindowDimensions();
 
   const handleSave = () => {
     reset();
-    router.navigate('/');
+    router.replace('/');
   };
 
   const stressorMap = Object.fromEntries(
@@ -87,7 +87,7 @@ export default function StressSignatureMap() {
           />
 
           {/* Top 3 Stressors */}
-          <View className="px-5 mt-8">
+          <View className="mt-8 px-5">
             <View className="mb-6 flex-row items-center justify-between">
               <Text className="text-[11px] font-black uppercase tracking-[3px] text-white/80">
                 Your Top 3 Stressors
@@ -144,8 +144,6 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
   const cx = 100;
   const cy = 50;
 
-  // Sort stressors into orbit rings based on rating
-  // Inner ring (balanced, 7-10), Middle ring (moderate, 4-6), Outer ring (drained, 1-3)
   const sorted = (Object.entries(ratings) as [StressorKey, number][]).map(
     ([key, rating]) => {
       let ring: 'inner' | 'middle' | 'outer';
@@ -160,8 +158,6 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
   const middle = sorted.filter((s) => s.ring === 'middle');
   const outer = sorted.filter((s) => s.ring === 'outer');
 
-  // Angle presets per ring matching the design layout
-  // Inner: top + two lower sides. Middle: left, right, bottom. Outer: lower arc.
   const ringAngles: Record<string, number[][]> = {
     inner: [[], [90], [45, 135], [-90, 45, 135], [-90, 0, 90, 180]],
     middle: [[], [90], [0, 180], [180, 0, 90], [180, 0, 60, 120]],
@@ -212,7 +208,6 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
         className="absolute z-10 items-center gap-2"
         style={{ top: size * 0.295 - 29 }}
       >
-        {/* Outer glow */}
         <View
           className="absolute items-center justify-center"
           style={{
@@ -254,7 +249,6 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
         viewBox="0 0 200 200"
         style={{ marginTop: size * 0.02 }}
       >
-        {/* Core radial glow in SVG */}
         <Defs>
           <RadialGradient id="coreGlow" cx="50%" cy="25%" rx="15%" ry="15%">
             <Stop offset="0%" stopColor={CYAN} stopOpacity={0.35} />
@@ -293,7 +287,6 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
           opacity={0.3}
         />
 
-        {/* Inner ring nodes (balanced) */}
         {innerNodes.map((node) => (
           <StressNode
             key={node.key}
@@ -303,8 +296,6 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
             ring="inner"
           />
         ))}
-
-        {/* Middle ring nodes */}
         {middleNodes.map((node) => (
           <StressNode
             key={node.key}
@@ -314,8 +305,6 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
             ring="middle"
           />
         ))}
-
-        {/* Outer ring nodes (drained) */}
         {outerNodes.map((node) => (
           <StressNode
             key={node.key}
@@ -327,7 +316,7 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
         ))}
       </Svg>
 
-      {/* Legend — inside orbit container at bottom */}
+      {/* Legend */}
       <View
         className="absolute bottom-4 flex-row items-center justify-between px-8"
         style={{ width: size }}
@@ -444,7 +433,6 @@ function StressorResultCard({
       }}
     >
       <CardAura color={accentColor} />
-      {/* Card header */}
       <View className="mb-4 flex-row items-start justify-between">
         <View className="flex-row items-center gap-4">
           <View
@@ -476,7 +464,6 @@ function StressorResultCard({
         </Text>
       </View>
 
-      {/* Biological root */}
       <View className="mb-5">
         <Text className="mb-2 text-[9px] font-black uppercase tracking-[3px] text-slate-500">
           Biological Root
@@ -486,7 +473,6 @@ function StressorResultCard({
         </Text>
       </View>
 
-      {/* Practice recommendation */}
       <View className="rounded-2xl border border-white/5 bg-black/40 p-4">
         <View className="mb-2 flex-row items-center gap-2">
           <MaterialIcons

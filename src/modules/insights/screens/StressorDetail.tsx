@@ -1,6 +1,6 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
-import type { StressorKey } from '@/modules/daily-check-in/data/stressors';
+import type { StressorKey } from '@/modules/self-check-ins/data/stressors';
 import { useLocalSearchParams } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 

@@ -1,9 +1,10 @@
-import { LinearGradient } from 'expo-linear-gradient';
+import { colors } from '@/constants/colors';
+import clsx from 'clsx';
 import * as Haptics from 'expo-haptics';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
-import { colors } from '@/constants/colors';
 
 interface GradientButtonProps {
   onPress: () => void;
@@ -13,6 +14,7 @@ interface GradientButtonProps {
   disabled?: boolean;
   loading?: boolean;
   compact?: boolean;
+  className?: string;
 }
 
 export function GradientButton({
@@ -23,6 +25,7 @@ export function GradientButton({
   disabled,
   loading,
   compact,
+  className,
 }: GradientButtonProps) {
   const [pressed, setPressed] = useState(false);
   const isInteractionDisabled = disabled || loading;
@@ -44,7 +47,7 @@ export function GradientButton({
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       disabled={isInteractionDisabled}
-      className={compact ? '' : 'w-full'}
+      className={clsx(compact ? '' : 'w-full', className)}
     >
       <EaseView
         animate={{ scale: pressed ? 0.95 : 1, opacity: disabled ? 0.4 : 1 }}

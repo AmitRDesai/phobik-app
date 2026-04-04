@@ -167,7 +167,9 @@ export default function EnergyIndex() {
           {'"'}When your energy aligns, courage follows.{'"'}
         </Text>
         <GradientButton
-          onPress={() => router.push('/daily-check-in/stress-compass')}
+          onPress={() =>
+            router.push('/practices/self-check-ins/stress-compass')
+          }
           icon={<MaterialIcons name="arrow-forward" size={20} color="white" />}
         >
           Continue

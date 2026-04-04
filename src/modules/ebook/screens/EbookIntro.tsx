@@ -13,7 +13,7 @@ import { useSetAtom } from 'jotai';
 import { useCallback } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
-import { RadialGlow } from '../components/RadialGlow';
+import { RadialGlow } from '@/components/ui/RadialGlow';
 
 import { ebookIntroSeenAtom } from '../store/ebook-purchase';
 

@@ -1,9 +1,11 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
+import { dialog } from '@/utils/dialog';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useRef } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -16,7 +18,29 @@ import {
 export default function MysteryPractice() {
   const { type } = useLocalSearchParams<{ type: MysteryType }>();
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const challenge = getMysteryChallenge(type as MysteryType);
+  const hasStarted = useRef(false);
+
+  const handleBack = async () => {
+    if (!hasStarted.current) {
+      router.back();
+      return;
+    }
+
+    const result = await dialog.info({
+      title: 'Quit Challenge?',
+      message: 'Your progress will not be saved.',
+      buttons: [
+        { label: 'Quit', value: 'quit', variant: 'primary' },
+        { label: 'Continue', value: 'continue', variant: 'secondary' },
+      ],
+    });
+
+    if (result === 'quit') {
+      router.back();
+    }
+  };
 
   return (
     <View className="flex-1">
@@ -31,7 +55,7 @@ export default function MysteryPractice() {
       {/* Fixed header */}
       <View style={{ paddingTop: insets.top + 8 }}>
         <View className="px-6">
-          <BackButton />
+          <BackButton onPress={handleBack} />
         </View>
 
         <View className="px-6 pb-6 pt-4">
@@ -70,14 +94,19 @@ export default function MysteryPractice() {
 
         {/* Practice card */}
         <View className="px-6">
-          <MysteryPracticeCard challenge={challenge} />
+          <MysteryPracticeCard
+            challenge={challenge}
+            onStart={() => {
+              hasStarted.current = true;
+            }}
+          />
         </View>
 
         {/* Mindful insight */}
         <View className="mt-8 items-center">
           <Text
             className="text-xs font-medium uppercase tracking-widest"
-            style={{ color: `${colors.primary.pink}99` }}
+            style={{ color: withAlpha(colors.primary.pink, 0.6) }}
           >
             Mindful Insight
           </Text>

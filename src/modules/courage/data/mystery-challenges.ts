@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export type MysteryType =
@@ -41,7 +42,7 @@ export const MYSTERY_CHALLENGES: MysteryChallenge[] = [
       'Paced Breathing: Complete 1 minute of Paced Breathing (4s in, 6s out) to reset your internal rhythm.',
     highlightText: '1 minute',
     dose: { dopamine: 0, oxytocin: 0, serotonin: 5, endorphins: 10 },
-    wheelGradient: ['#FF9933', '#FFD700'],
+    wheelGradient: [colors.gradient.amber, colors.accent.yellow],
     wheelLabel: 'Breathing',
     wheelSubtext: 'spend a minute focusing on your breath',
   },
@@ -56,7 +57,7 @@ export const MYSTERY_CHALLENGES: MysteryChallenge[] = [
       'Identify 3 small things that went well today, no matter how tiny, and acknowledge how they made you feel.',
     highlightText: '3 small things',
     dose: { dopamine: 10, oxytocin: 0, serotonin: 5, endorphins: 0 },
-    wheelGradient: ['#FF4B91', '#FF1493'],
+    wheelGradient: [colors.primary['pink-soft'], colors.primary['pink-dark']],
     wheelLabel: 'Gratitude',
     wheelSubtext: 'write down what you are grateful for',
   },
@@ -70,7 +71,7 @@ export const MYSTERY_CHALLENGES: MysteryChallenge[] = [
     practiceText:
       'Say out loud 3 times:\n\u201CI am capable of leading myself through this day with calm and clarity.\u201D',
     dose: { dopamine: 10, oxytocin: 0, serotonin: 5, endorphins: 0 },
-    wheelGradient: ['#FF007A', '#FF5E62'],
+    wheelGradient: [colors.primary.pink, colors.gradient['hot-pink']],
     wheelLabel: 'Affirmations',
     wheelSubtext: 'take time to say positive affirmations',
   },
@@ -84,7 +85,7 @@ export const MYSTERY_CHALLENGES: MysteryChallenge[] = [
     practiceText: 'Pause right now and name your current emotion.',
     highlightText: 'Where do you feel it in your body?',
     dose: { dopamine: 0, oxytocin: 5, serotonin: 10, endorphins: 0 },
-    wheelGradient: ['#FF80AB', '#FF4B91'],
+    wheelGradient: [colors.primary['pink-light'], colors.primary['pink-soft']],
     wheelLabel: 'Feelings',
     wheelSubtext: 'ask yourself how you are feeling',
   },
@@ -98,7 +99,7 @@ export const MYSTERY_CHALLENGES: MysteryChallenge[] = [
     practiceText:
       '\u201CIdentify one physical or emotional need you are currently suppressing and name one small action to meet it.\u201D',
     dose: { dopamine: 0, oxytocin: 5, serotonin: 10, endorphins: 0 },
-    wheelGradient: ['#FF9933', '#FF007A'],
+    wheelGradient: [colors.gradient['warm-orange'], colors.primary.pink],
     wheelLabel: 'Needs',
     wheelSubtext: 'figure out what your current needs are',
   },
@@ -112,7 +113,7 @@ export const MYSTERY_CHALLENGES: MysteryChallenge[] = [
     practiceText:
       '\u201CPick one small task you\u2019ve been avoiding and finish it in the next 10 minutes.\u201D',
     dose: { dopamine: 10, oxytocin: 0, serotonin: 5, endorphins: 0 },
-    wheelGradient: ['#FFCC00', '#FFD700'],
+    wheelGradient: [colors.accent.yellow, colors.gradient['light-gold']],
     wheelLabel: 'Wants',
     wheelSubtext: 'determine what you would like to achieve',
   },

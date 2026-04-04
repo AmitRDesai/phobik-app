@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import type { StressorKey } from '@/modules/daily-check-in/data/stressors';
+import type { StressorKey } from '@/modules/self-check-ins/data/stressors';
 
 export interface StressorDetailData {
   key: StressorKey;

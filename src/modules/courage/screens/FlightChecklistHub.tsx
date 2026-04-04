@@ -9,7 +9,7 @@ import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
-import { RadialGlow } from '@/modules/ebook/components/RadialGlow';
+import { RadialGlow } from '@/components/ui/RadialGlow';
 
 import { CourageHeader } from '../components/CourageHeader';
 import { FLIGHT_PHASES, FlightPhase, PhaseAccent } from '../data/flight-phases';

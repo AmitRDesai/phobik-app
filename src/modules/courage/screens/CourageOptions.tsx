@@ -9,10 +9,14 @@ export default function CourageOptions() {
   const router = useRouter();
 
   const handleOptionPress = (id: string) => {
-    if (id === 'mystery-challenge') {
+    if (id === 'micro-challenges') {
+      router.push('/practices/micro-challenges');
+    } else if (id === 'mystery-challenge') {
       router.push('/practices/mystery-challenge');
     } else if (id === 'specialized-packs') {
       router.push('/practices/specialized-packs');
+    } else if (id === 'self-check-ins') {
+      router.push('/practices/self-check-ins');
     }
   };
 
@@ -20,7 +24,7 @@ export default function CourageOptions() {
     <View className="flex-1 bg-background-charcoal">
       <CourageHeader />
       <ScrollView
-        contentContainerClassName="px-4 pb-28"
+        contentContainerClassName="px-4 pb-8"
         showsVerticalScrollIndicator={false}
       >
         <View className="px-2 pt-2 pb-2">

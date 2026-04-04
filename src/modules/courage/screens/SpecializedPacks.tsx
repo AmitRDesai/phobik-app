@@ -3,10 +3,10 @@ import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
+import { ebookPurchasedAtom } from '@/modules/ebook/store/ebook-purchase';
 import { CourageHeader } from '../components/CourageHeader';
 import { SpecializedPackCard } from '../components/SpecializedPackCard';
 import { SPECIALIZED_PACKS } from '../data/specialized-packs';
-import { ebookPurchasedAtom } from '@/modules/ebook/store/ebook-purchase';
 
 export default function SpecializedPacks() {
   const router = useRouter();
@@ -20,7 +20,7 @@ export default function SpecializedPacks() {
     <View className="flex-1 bg-background-charcoal">
       <CourageHeader title="Specialized Packs" />
       <ScrollView
-        contentContainerClassName="px-4 pb-28"
+        contentContainerClassName="px-4 pb-8"
         showsVerticalScrollIndicator={false}
       >
         <View className="px-2 pb-2 pt-4">

@@ -6,10 +6,12 @@ import * as Haptics from 'expo-haptics';
 import { Pressable, Text, View } from 'react-native';
 
 import type { DoseReward, MysteryChallenge } from '../data/mystery-challenges';
+import { useRecordChallenge } from '../hooks/useMysteryChallenge';
 import { usePracticeTimer } from '../hooks/usePracticeTimer';
 
 interface MysteryPracticeCardProps {
   challenge: MysteryChallenge;
+  onStart?: () => void;
 }
 
 function DoseGrid({ dose }: { dose: DoseReward }) {
@@ -68,17 +70,30 @@ function GradientTimer({ formatted }: { formatted: string }) {
   );
 }
 
-export function MysteryPracticeCard({ challenge }: MysteryPracticeCardProps) {
-  const { formatted, isRunning, start, stop } = usePracticeTimer();
+export function MysteryPracticeCard({
+  challenge,
+  onStart,
+}: MysteryPracticeCardProps) {
+  const { seconds, formatted, isRunning, start, stop } = usePracticeTimer();
+  const recordChallenge = useRecordChallenge();
 
   const handleStart = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     start();
+    onStart?.();
   };
 
   const handleDone = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     stop();
+    recordChallenge.mutate({
+      challengeType: challenge.type,
+      doseDopamine: challenge.dose.dopamine,
+      doseOxytocin: challenge.dose.oxytocin,
+      doseSerotonin: challenge.dose.serotonin,
+      doseEndorphins: challenge.dose.endorphins,
+      durationSeconds: seconds,
+    });
   };
 
   // Split practice text around highlight if present

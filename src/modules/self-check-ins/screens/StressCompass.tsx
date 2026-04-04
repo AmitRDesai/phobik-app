@@ -11,7 +11,7 @@ import { useCallback } from 'react';
 import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import { Slider } from '../components/Slider';
 import { STRESSOR_CATEGORIES, type StressorKey } from '../data/stressors';
-import { stressorRatingsAtom } from '../store/daily-check-in';
+import { stressorRatingsAtom } from '../store/self-check-ins';
 
 export default function StressCompass() {
   const [ratings, setRatings] = useAtom(stressorRatingsAtom);
@@ -28,27 +28,18 @@ export default function StressCompass() {
   return (
     <Container>
       {/* Header */}
-      <View className="border-b border-white/5 bg-black/60">
+      <View className="border-b border-white/5">
         <View className="flex-row items-center justify-between p-4">
           <BackButton />
           <View className="items-center">
-            <Text
-              className="text-[13px] font-bold uppercase tracking-[3px]"
-              style={{ color: colors.primary.pink }}
-            >
+            <Text className="text-[13px] font-bold uppercase tracking-[3px] text-white">
               Stress Compass
             </Text>
             <Text className="text-[10px] font-medium uppercase tracking-[4px] text-slate-500">
               Assessment
             </Text>
           </View>
-          <View className="size-10 items-center justify-center">
-            <MaterialIcons
-              name="info-outline"
-              size={24}
-              style={{ color: colors.accent.yellow }}
-            />
-          </View>
+          <View className="size-10" />
         </View>
       </View>
 
@@ -126,7 +117,9 @@ export default function StressCompass() {
       {/* Fixed Bottom Button */}
       <View className="px-6 pb-6">
         <GradientButton
-          onPress={() => router.push('/daily-check-in/stress-signature-map')}
+          onPress={() =>
+            router.replace('/practices/self-check-ins/stress-signature-map')
+          }
           icon={<MaterialIcons name="rocket-launch" size={20} color="white" />}
         >
           Generate My Map

@@ -164,6 +164,14 @@ export { default } from '@/modules/account-creation/screens/Index';
    ```
 
 7. **Design HTML references** - When design references include HTML code (`code.html`), extract exact colors, spacing, border-radius, and font sizes from the HTML/CSS rather than guessing. Map HTML colors to existing Tailwind/colors.ts values where possible; add new color tokens when no match exists.
+8. **Keyboard handling** - Always use `react-native-keyboard-controller` instead of React Native's built-in `KeyboardAvoidingView`. The `KeyboardProvider` is already set up in `_layout.tsx`. Use:
+   - `KeyboardAwareScrollView` for screens with text inputs inside scroll views
+   - `KeyboardAvoidingView` from `react-native-keyboard-controller` (not from `react-native`) for non-scroll layouts
+   ```typescript
+   import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+   // or
+   import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
+   ```
 
 ## Platform Support
 

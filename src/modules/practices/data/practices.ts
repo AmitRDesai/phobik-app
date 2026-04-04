@@ -32,7 +32,7 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
     benefit: 'Heart Opening',
     benefitIcon: 'monitor-heart',
     thumbnailIcon: 'favorite',
-    url: '/practices/exercise-library',
+    url: '/practices/love-landing',
   },
   {
     id: 'journal',

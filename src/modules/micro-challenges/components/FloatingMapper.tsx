@@ -1,0 +1,225 @@
+import { GradientButton } from '@/components/ui/GradientButton';
+import { useEffect, useMemo } from 'react';
+import { Text, useWindowDimensions, View } from 'react-native';
+import { EaseView } from 'react-native-ease';
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
+
+import { FloatingSphere } from './FloatingSphere';
+
+export interface MapperItem {
+  id: string;
+  label: string;
+  gradient: [string, string];
+  shadowColor: string;
+  subItems: string[];
+}
+
+interface FloatingMapperProps {
+  items: MapperItem[];
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+  onConfirm: () => void;
+  promptText: string;
+  confirmLabel: string;
+}
+
+const SPHERE_SIZE = 125;
+const ORBITAL_RADIUS = 110;
+
+function generateBgSlots(totalItems: number, w: number, h: number) {
+  const canvasH = h - 220;
+  const pad = 20;
+  const cols = 3;
+  const rows = Math.ceil((totalItems + 3) / cols);
+  const cellW = (w - pad * 2) / cols;
+  const cellH = (canvasH - pad * 2) / rows;
+  const centerX = w / 2;
+  const centerY = canvasH / 2;
+  const exclusionR = 130;
+
+  const zones: { x: number; y: number }[] = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const zx = pad + c * cellW + cellW / 2;
+      const zy = pad + r * cellH + cellH / 2;
+      const dist = Math.sqrt((zx - centerX) ** 2 + (zy - centerY) ** 2);
+      if (dist > exclusionR) {
+        zones.push({ x: zx, y: zy });
+      }
+    }
+  }
+
+  const half = SPHERE_SIZE / 2;
+  return zones.map((zone, i) => {
+    const jx = (((i * 13 + 7) % 11) / 11 - 0.5) * cellW * 0.35;
+    const jy = (((i * 17 + 3) % 13) / 13 - 0.5) * cellH * 0.35;
+    const bgScale = 0.25 + (((i * 7 + 3) % 11) / 10) * 0.25;
+    return {
+      left: Math.max(pad, Math.min(zone.x + jx - half, w - SPHERE_SIZE - pad)),
+      top: Math.max(
+        pad,
+        Math.min(zone.y + jy - half, canvasH - SPHERE_SIZE - pad),
+      ),
+      bgScale,
+    };
+  });
+}
+
+export function FloatingMapper({
+  items,
+  selectedId,
+  onSelect,
+  onConfirm,
+  promptText,
+  confirmLabel,
+}: FloatingMapperProps) {
+  const { width, height } = useWindowDimensions();
+  const selected = items.find((i) => i.id === selectedId) ?? items[0];
+
+  // Orbital rotation (needs Reanimated for continuous loop)
+  const rotation = useSharedValue(0);
+  useEffect(() => {
+    rotation.value = withRepeat(
+      withTiming(360, { duration: 25000 }),
+      -1,
+      false,
+    );
+    return () => cancelAnimation(rotation);
+  }, []);
+
+  const orbitalStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${rotation.value}deg` }],
+  }));
+  const counterRotateStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${-rotation.value}deg` }],
+  }));
+
+  const bgSlots = useMemo(
+    () => generateBgSlots(items.length, width, height),
+    [items.length, width, height],
+  );
+
+  const canvasH = height - 220;
+  const centerLeft = width / 2 - SPHERE_SIZE / 2;
+  const centerTop = canvasH / 2 - SPHERE_SIZE / 2;
+
+  return (
+    <View className="flex-1">
+      {/* Prompt */}
+      <View className="items-center px-6 pt-2">
+        <Text className="text-center text-base leading-relaxed text-slate-300">
+          {promptText}
+        </Text>
+      </View>
+
+      {/* Canvas */}
+      <View className="flex-1" style={{ height: canvasH }}>
+        {/* All spheres — positioned at bg slot, EaseView moves selected to center */}
+        {items.map((item, i) => {
+          const slot = bgSlots[i % bgSlots.length];
+          const isSelected = item.id === selected.id;
+          // Offset from bg slot to center
+          const dx = centerLeft - slot.left;
+          const dy = centerTop - slot.top;
+
+          return (
+            <EaseView
+              key={item.id}
+              style={{
+                position: 'absolute',
+                left: slot.left,
+                top: slot.top,
+                zIndex: isSelected ? 10 : 1,
+              }}
+              animate={{
+                translateX: isSelected ? dx : 0,
+                translateY: isSelected ? dy : 0,
+                scale: isSelected ? 1 : slot.bgScale,
+                opacity: isSelected ? 1 : 0.4,
+              }}
+              transition={{ type: 'timing', duration: 400 }}
+            >
+              <FloatingSphere
+                label={item.label}
+                gradient={item.gradient}
+                shadowColor={item.shadowColor}
+                size={SPHERE_SIZE}
+                onPress={() => onSelect(item.id)}
+                floatAmplitude={isSelected ? 5 : 6 + (i % 4) * 3}
+                floatDuration={isSelected ? 4000 : 5000 + (i % 5) * 800}
+                blurred={!isSelected}
+              />
+            </EaseView>
+          );
+        })}
+
+        {/* Orbital ring (centered, fades in on selection change) */}
+        <EaseView
+          key={selected.id}
+          className="absolute items-center justify-center"
+          style={{
+            left: centerLeft - ORBITAL_RADIUS + SPHERE_SIZE / 2,
+            top: centerTop - ORBITAL_RADIUS + SPHERE_SIZE / 2,
+            width: ORBITAL_RADIUS * 2,
+            height: ORBITAL_RADIUS * 2,
+          }}
+          initialAnimate={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: 'timing', duration: 400 }}
+          pointerEvents="none"
+        >
+          <Animated.View
+            className="absolute"
+            style={[
+              {
+                width: ORBITAL_RADIUS * 2,
+                height: ORBITAL_RADIUS * 2,
+                borderRadius: ORBITAL_RADIUS,
+                borderWidth: 1,
+                borderColor: 'rgba(255,255,255,0.1)',
+              },
+              orbitalStyle,
+            ]}
+          >
+            {selected.subItems.map((sub, i) => {
+              const angle =
+                (i / selected.subItems.length) * Math.PI * 2 - Math.PI / 2;
+              const cx = ORBITAL_RADIUS + ORBITAL_RADIUS * Math.cos(angle);
+              const cy = ORBITAL_RADIUS + ORBITAL_RADIUS * Math.sin(angle);
+              return (
+                <View
+                  key={sub}
+                  className="absolute items-center"
+                  style={{ left: cx - 45, top: cy - 12, width: 90 }}
+                >
+                  <View className="mb-1 h-1.5 w-1.5 rounded-full bg-white/50" />
+                  <Animated.View style={counterRotateStyle}>
+                    <Text
+                      className="text-center text-[11px] font-semibold text-white/70"
+                      numberOfLines={1}
+                    >
+                      {sub}
+                    </Text>
+                  </Animated.View>
+                </View>
+              );
+            })}
+          </Animated.View>
+        </EaseView>
+      </View>
+
+      {/* Confirm button */}
+      <View className="px-6 pb-6">
+        <GradientButton onPress={onConfirm} disabled={!selectedId}>
+          {confirmLabel}
+        </GradientButton>
+      </View>
+    </View>
+  );
+}

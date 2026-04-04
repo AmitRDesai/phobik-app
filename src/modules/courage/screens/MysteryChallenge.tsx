@@ -8,14 +8,13 @@ import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { MysteryWheel } from '../components/MysteryWheel';
-import { getRandomMysteryType } from '../data/mystery-challenges';
+import type { MysteryType } from '../data/mystery-challenges';
 
 export default function MysteryChallenge() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  const handleLotusPress = () => {
-    const type = getRandomMysteryType();
+  const handleSpinComplete = (type: MysteryType) => {
     router.push(`/practices/mystery-practice?type=${type}`);
   };
 
@@ -66,7 +65,7 @@ export default function MysteryChallenge() {
       >
         {/* Wheel */}
         <View className="my-4">
-          <MysteryWheel onLotusPress={handleLotusPress} />
+          <MysteryWheel onSpinComplete={handleSpinComplete} />
         </View>
 
         {/* Bottom motivational text */}

@@ -2,7 +2,7 @@ import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { Pressable, ScrollView, Text, View } from 'react-native';
-import type { StressorKey } from '@/modules/daily-check-in/data/stressors';
+import type { StressorKey } from '@/modules/self-check-ins/data/stressors';
 
 interface StressorCardData {
   key: StressorKey;

@@ -12,7 +12,7 @@ interface QuickAccessItem {
 const ITEMS: QuickAccessItem[] = [
   { icon: 'menu-book', label: 'Library', href: '/practices/exercise-library' },
   { icon: 'shield', label: 'Courage', href: '/practices/courage-options' },
-  { icon: 'favorite', label: 'Love' },
+  { icon: 'favorite', label: 'Love', href: '/practices/love-landing' },
   { icon: 'edit-note', label: 'Journal', href: '/journal' },
 ];
 
