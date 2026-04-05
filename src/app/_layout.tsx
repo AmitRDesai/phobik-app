@@ -1,8 +1,11 @@
+import '@azure/core-asynciterator-polyfill';
 import { DialogContainer } from '@/components/ui/DialogContainer';
 import { colors } from '@/constants/colors';
 import useAppInitializer from '@/hooks/useAppInitializer';
+import { powersync } from '@/lib/powersync';
 import '@/utils/ease-nativewind';
 import { asyncStoragePersister, queryClient } from '@/utils/query-client';
+import { PowerSyncContext } from '@powersync/react';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -17,14 +20,16 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardProvider>
-        <PersistQueryClientProvider
-          client={queryClient}
-          persistOptions={{ persister: asyncStoragePersister }}
-        >
-          <RootNavigator />
-          <DialogContainer />
-          <SystemBars style="light" />
-        </PersistQueryClientProvider>
+        <PowerSyncContext.Provider value={powersync}>
+          <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={{ persister: asyncStoragePersister }}
+          >
+            <RootNavigator />
+            <DialogContainer />
+            <SystemBars style="light" />
+          </PersistQueryClientProvider>
+        </PowerSyncContext.Provider>
       </KeyboardProvider>
     </GestureHandlerRootView>
   );

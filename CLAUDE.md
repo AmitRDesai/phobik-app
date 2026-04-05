@@ -4,17 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Phobik is an Expo mobile app built with React Native, using Expo Router for navigation and NativeWind (Tailwind CSS) for styling. The app targets iOS, Android, and web platforms with the New Architecture enabled.
+Phobik is an Expo mobile app built with React Native, using Expo Router for navigation and NativeWind (Tailwind CSS) for styling. The app uses an **offline-first architecture** via PowerSync for user-scoped data. It targets iOS, Android, and web platforms with the New Architecture enabled.
 
 ## Development Commands
 
 ```bash
-# Start development server (use Expo Go first - it supports most features)
-npx expo start
-
-# Build and run on native platforms (only needed for custom native modules)
+# Build and run (REQUIRED for PowerSync — Expo Go does NOT work)
 npx expo run:ios
 npx expo run:android
+
+# Start development server (only for non-PowerSync features)
+npx expo start
 
 # Install dependencies (IMPORTANT: Always use expo install, not npm install)
 npx expo install <package-name>
@@ -25,25 +25,84 @@ npm run lint
 
 ## Architecture
 
-### State Management
+### Data Layer — Offline-First with PowerSync
 
-The app uses a **dual-state approach**:
+The app uses a **dual data layer**:
 
-1. **Jotai** (`src/store/`) - Client-side state with AsyncStorage persistence
-   - `userTokenAtom`: Persisted authentication tokens
-   - `userAtom`: Current user object (in-memory)
-   - Storage configured in `src/utils/jotai.ts` with SSR-safe checks
+1. **PowerSync** (`src/lib/powersync/`) — Offline-first local SQLite with sync to Postgres
+   - Reads: `useQuery()` from `@powersync/react` — reactive SQL queries against local SQLite
+   - Writes: `powersync.execute()` — instant local writes, synced to backend via oRPC
+   - Schema: `src/lib/powersync/schema.ts` — 9 synced tables
+   - Connector: `src/lib/powersync/connector.ts` — routes writes to oRPC procedures
+   - Provider: `PowerSyncContext.Provider` wraps the app in `_layout.tsx`
+   - Connected/disconnected in `useAppInitializer.ts` based on auth state
 
-2. **React Query** (`@tanstack/react-query`) - Server state and caching
+   **Offline-first modules** (use PowerSync hooks):
+   - Journal (entries, tags, stats)
+   - Gentle Letter
+   - Empathy Challenge
+   - Mystery Challenge
+   - Self Check-Ins
+   - Calendar Preferences
+
+2. **React Query + oRPC** — Online-only server state
    - Configured in `src/utils/query-client.ts`
-   - 7-day cache with AsyncStorage persistence
    - Integrated with NetInfo for offline detection
-   - Auto-focus management tied to AppState
+   - Used via `orpc.*` query/mutation options from `src/lib/orpc.ts`
+
+   **Online-only modules** (use React Query):
+   - Auth (Better Auth)
+   - AI Coach (streaming)
+   - Community (social feed)
+   - Profile status + onboarding (navigation guard)
+
+### PowerSync Hook Patterns
+
+**Reading data:**
+```typescript
+import { useQuery } from '@powersync/react';
+import { toCamel } from '@/lib/powersync/utils';
+
+// toCamel converts snake_case → camelCase and parses JSON columns
+const ENTRY_JSON = { tags: true };
+const { data, isLoading } = useQuery('SELECT * FROM journal_entry WHERE user_id = ?', [userId]);
+const entries = data?.map(r => toCamel(r, ENTRY_JSON));
+```
+
+**Writing data:**
+```typescript
+import { uuid } from '@/lib/crypto';
+import { useLocalMutation } from '@/lib/powersync/useLocalMutation';
+import { usePowerSync } from '@powersync/react';
+
+// useLocalMutation provides .mutate(), .mutateAsync(), .isPending (React Query-compatible)
+const powersync = usePowerSync();
+const fn = useCallback(async (input) => {
+  await powersync.execute('INSERT INTO ... VALUES (?, ?)', [uuid(), input.value]);
+}, [powersync]);
+return useLocalMutation(fn);
+```
+
+**Key rules:**
+- Use `toCamel(row, jsonColumns?)` from `@/lib/powersync/utils` — never access snake_case fields directly in screens
+- Use `uuid()` from `@/lib/crypto` — `crypto.randomUUID()` does NOT work in React Native
+- Use `useLocalMutation(fn)` — returns `.mutate()`, `.mutateAsync()`, `.isPending`, `.error` matching React Query's API
+- Use `toJSON()` when writing JSONB columns, pass column name to `toCamel()` when reading
+- Use `useUserId()` from `@/lib/powersync/useUserId` to get the current user ID for queries
+
+### Client-Side State (Jotai)
+
+Jotai is used only for **local UI state** — not for server/synced data:
+- `isReturningUserAtom` — persisted flag for auth flow
+- `biometricEnabledAtom`, `isSignedOutAtom` — auth module state
+- `journalDraftAtom` — crash-recovery draft for journal entries
+- `questionnaireAtom` — account creation form state
+- Various module-specific UI state (selected date, filters, timer state)
 
 ### Navigation
 
 - **Expo Router** with file-based routing in `src/app/`
-- Root layout (`src/app/_layout.tsx`) wraps with `PersistQueryClientProvider`
+- Root layout (`src/app/_layout.tsx`) wraps with `PowerSyncContext.Provider` and `PersistQueryClientProvider`
 - All Stack screens have `headerShown: false` by default
 - Uses typed routes (`experiments.typedRoutes: true` in app.json)
 
@@ -52,7 +111,7 @@ The app uses a **dual-state approach**:
 - **NativeWind v4** (Tailwind CSS for React Native)
 - Global CSS: `global.css` imported in `_layout.tsx`
 - Metro configured with NativeWind transformer
-- **⚠️ Do not hardcode colors** — Always use `tailwind.config.js` for Tailwind classes and `src/constants/colors.ts` for programmatic color access
+- **Do not hardcode colors** — Always use `tailwind.config.js` for Tailwind classes and `src/constants/colors.ts` for programmatic color access
 - **Prefer `className` over inline `style`** — convert static styles to NativeWind classes:
   - Layout/spacing/sizing: `flex-1`, `items-center`, `px-8`, `h-14 w-14`, etc.
   - Colors/backgrounds: `bg-primary-pink`, `text-white/50`, `border-white/10`
@@ -94,31 +153,40 @@ The app uses a **dual-state approach**:
 ```
 src/
 ├── app/              # Expo Router routes (thin re-exports + layouts ONLY)
-├── components/       # SHARED: ui/, icons/, ErrorBoundary
+├��─ components/       # SHARED: ui/, icons/, ErrorBoundary
 │   ├── ui/          # Base UI components (Button, Container, etc.)
 │   ├── icons/       # Shared icon components
 │   └── ErrorBoundary.tsx
 ├── constants/        # SHARED: Static values (colors, query keys)
 ├── hooks/            # SHARED: Custom hooks
+├── lib/              # SHARED: Libraries and integrations
+│   ├── auth.ts      # Better Auth client
+│   ├── orpc.ts      # oRPC React Query utils (online-only)
+│   ├── rpc.ts       # oRPC client with auth cookies
+│   ├── crypto.ts    # UUID generation (expo-crypto)
+│   └── powersync/   # PowerSync offline-first layer
+│       ├── schema.ts       # 9 synced table definitions
+│       ├── connector.ts    # uploadData routes writes to oRPC
+│       ├── index.ts        # PowerSync instance + connect/disconnect
+│       ├── useLocalMutation.ts  # React Query-compatible mutation wrapper
+│       ├── useUserId.ts    # Current user ID from Better Auth session
+│       └── utils.ts        # toCamel, parseJSON, toJSON
 ├── models/           # SHARED: TypeScript types/interfaces
-├── store/            # SHARED: Jotai atoms (user.ts for auth state)
+├── store/            # SHARED: Jotai atoms (UI state only)
 ├── utils/            # SHARED: Utilities (query-client, jotai, env, session)
 └── modules/          # Feature modules with colocated code
-    ├── auth/
-    │   ├── screens/      # SignIn.tsx, CreateAccount.tsx
-    │   ├── components/   # Auth-specific components
-    │   ├── hooks/        # Auth-specific hooks
-    │   └── store/        # Auth-specific state
-    ├── home/
-    │   ├── screens/      # Home.tsx
-    │   ├── components/
-    │   ├── hooks/
-    │   └── store/
-    └── account-creation/
-        ├── screens/      # Index.tsx, Second.tsx, AgeSelection.tsx, etc.
-        ├── components/   # ChakraFigure, GlowBg, ProgressBar, etc.
-        ├── hooks/
-        └── store/        # account-creation.ts
+    ├── auth/         # Auth screens + hooks (online — React Query)
+    ├── journal/      # Journal CRUD (offline — PowerSync)
+    ├── gentle-letter/    # Letter writing (offline — PowerSync)
+    ├── empathy-challenge/ # 7-day challenge (offline — PowerSync)
+    ├── courage/      # Mystery challenges (offline — PowerSync)
+    ├── self-check-ins/   # Assessments (offline — PowerSync)
+    ├── calendar/     # Calendar prefs (offline — PowerSync)
+    ├── coach/        # AI chat (online — custom fetch)
+    ├── community/    # Social feed (online — React Query)
+    ├── home/         # Dashboard
+    ├── onboarding/   # Onboarding flow (online — React Query)
+    └── ...           # practices, insights, ebook, etc.
 ```
 
 ### Modules Architecture
@@ -148,30 +216,15 @@ export { default } from '@/modules/account-creation/screens/Index';
 6. **Dialogs** - Use `dialog` from `@/utils/dialog` instead of `Alert.alert()`. Provides a themed bottom-sheet modal with async/await support:
    ```typescript
    import { dialog } from '@/utils/dialog';
-   // Error/info — returns a promise with the button value
-   const result = await dialog.error({
-     title: 'Oops',
-     message: 'Something failed.',
-   });
-   const result = await dialog.info({
-     title: 'Tip',
-     message: 'Swipe to dismiss.',
-   });
-   // Loading — returns a close function
+   const result = await dialog.error({ title: 'Oops', message: 'Something failed.' });
+   const result = await dialog.info({ title: 'Tip', message: 'Swipe to dismiss.' });
    const close = dialog.loading({ message: 'Saving...' });
-   // Custom component inside the sheet
    await dialog.open({ component: MyForm, props: { userId } });
    ```
-
 7. **Design HTML references** - When design references include HTML code (`code.html`), extract exact colors, spacing, border-radius, and font sizes from the HTML/CSS rather than guessing. Map HTML colors to existing Tailwind/colors.ts values where possible; add new color tokens when no match exists.
 8. **Keyboard handling** - Always use `react-native-keyboard-controller` instead of React Native's built-in `KeyboardAvoidingView`. The `KeyboardProvider` is already set up in `_layout.tsx`. Use:
    - `KeyboardAwareScrollView` for screens with text inputs inside scroll views
    - `KeyboardAvoidingView` from `react-native-keyboard-controller` (not from `react-native`) for non-scroll layouts
-   ```typescript
-   import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-   // or
-   import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
-   ```
 
 ## Platform Support
 
@@ -193,7 +246,7 @@ xcrun simctl io booted screenshot /tmp/claude/screenshot.png
 
 ## Development Notes
 
-- Start with **Expo Go** for testing - custom builds only needed for native modules or Apple targets
+- **Dev builds required** — PowerSync uses native modules (`@op-engineering/op-sqlite`), Expo Go will not work
 - New Architecture is enabled - use modern APIs and patterns
 - React 19 and React Native 0.81 are in use
 - TypeScript strict mode is enabled

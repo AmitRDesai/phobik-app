@@ -1,4 +1,5 @@
 import { useSession } from '@/lib/auth';
+import { connectPowerSync, disconnectPowerSync } from '@/lib/powersync';
 import { questionnaireAtom } from '@/modules/account-creation/store/account-creation';
 import { useBiometricAvailability } from '@/modules/auth/hooks/useBiometric';
 import {
@@ -41,6 +42,15 @@ const useAppInitializer = () => {
   useEffect(() => {
     if (isAuthenticated && !isReturningUser) setIsReturningUser(true);
   }, [isAuthenticated, isReturningUser, setIsReturningUser]);
+
+  // Connect/disconnect PowerSync based on auth state
+  useEffect(() => {
+    if (isAuthenticated) {
+      connectPowerSync().catch(console.error);
+    } else if (!isSessionLoading) {
+      disconnectPowerSync().catch(console.error);
+    }
+  }, [isAuthenticated, isSessionLoading]);
 
   // Backend profile state via oRPC + React Query
   const { data: profileStatus, isPending: isProfileChecking } =
