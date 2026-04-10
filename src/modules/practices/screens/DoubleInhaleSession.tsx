@@ -350,6 +350,7 @@ export default function DoubleInhaleSession() {
     initialTimeRemaining: initialTimeRef.current,
     isPaused,
     sessionReady,
+    practiceType: 'double-inhale',
     onComplete: () => setSession(null),
   });
 

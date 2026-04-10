@@ -1,24 +1,36 @@
 import { uuid } from '@/lib/crypto';
-import { useLocalMutation } from '@/lib/powersync/useLocalMutation';
+import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
-import { usePowerSync, useQuery } from '@powersync/react';
-import { useCallback, useMemo } from 'react';
+import { useQuery } from '@powersync/tanstack-react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
 export function useActiveChallenge() {
   const userId = useUserId();
 
-  const { data: challenges, ...challengeRest } = useQuery(
-    "SELECT * FROM empathy_challenge WHERE user_id = ? AND status = 'active' LIMIT 1",
-    [userId ?? ''],
-  );
+  const { data: challenges, ...challengeRest } = useQuery({
+    queryKey: ['empathy-challenge-active', userId],
+    query: db
+      .selectFrom('empathy_challenge')
+      .selectAll()
+      .where('user_id', '=', userId ?? '')
+      .where('status', '=', 'active')
+      .limit(1),
+    enabled: !!userId,
+  });
 
-  const challengeId = (challenges?.[0]?.id as string) ?? '';
+  const challengeId = challenges?.[0]?.id ?? '';
 
-  const { data: days } = useQuery(
-    'SELECT * FROM empathy_challenge_day WHERE challenge_id = ? ORDER BY day_number ASC',
-    [challengeId],
-  );
+  const { data: days } = useQuery({
+    queryKey: ['empathy-challenge-days', challengeId],
+    query: db
+      .selectFrom('empathy_challenge_day')
+      .selectAll()
+      .where('challenge_id', '=', challengeId)
+      .orderBy('day_number', 'asc'),
+    enabled: !!challengeId,
+  });
 
   const challenge = challenges?.[0];
 
@@ -34,97 +46,108 @@ export function useActiveChallenge() {
 }
 
 export function useStartChallenge() {
-  const powersync = usePowerSync();
   const userId = useUserId();
 
-  const fn = useCallback(async () => {
-    if (!userId) throw new Error('Not authenticated');
+  return useMutation({
+    mutationFn: async () => {
+      if (!userId) throw new Error('Not authenticated');
 
-    await powersync.execute(
-      "UPDATE empathy_challenge SET status = 'abandoned' WHERE user_id = ? AND status = 'active'",
-      [userId],
-    );
+      await db
+        .updateTable('empathy_challenge')
+        .set({ status: 'abandoned' })
+        .where('user_id', '=', userId)
+        .where('status', '=', 'active')
+        .execute();
 
-    const challengeId = uuid();
-    const now = new Date().toISOString();
+      const challengeId = uuid();
+      const now = new Date().toISOString();
 
-    await powersync.execute(
-      `INSERT INTO empathy_challenge (id, user_id, status, started_at, created_at)
-       VALUES (?, ?, 'active', ?, ?)`,
-      [challengeId, userId, now, now],
-    );
+      await db
+        .insertInto('empathy_challenge')
+        .values({
+          id: challengeId,
+          user_id: userId,
+          status: 'active',
+          started_at: now,
+          created_at: now,
+        })
+        .execute();
 
-    for (let i = 0; i < 7; i++) {
-      const dayId = uuid();
-      const status = i === 0 ? 'unlocked' : 'locked';
-      await powersync.execute(
-        `INSERT INTO empathy_challenge_day (id, challenge_id, user_id, day_number, status, dose_oxytocin, dose_serotonin, created_at)
-         VALUES (?, ?, ?, ?, ?, 0, 0, ?)`,
-        [dayId, challengeId, userId, i + 1, status, now],
-      );
-    }
+      for (let i = 0; i < 7; i++) {
+        await db
+          .insertInto('empathy_challenge_day')
+          .values({
+            id: uuid(),
+            challenge_id: challengeId,
+            user_id: userId,
+            day_number: i + 1,
+            status: i === 0 ? 'unlocked' : 'locked',
+            dose_oxytocin: 0,
+            dose_serotonin: 0,
+            created_at: now,
+          })
+          .execute();
+      }
 
-    return { id: challengeId };
-  }, [powersync, userId]);
-
-  return useLocalMutation(fn);
+      return { id: challengeId };
+    },
+  });
 }
 
 export function useStartDay() {
-  const powersync = usePowerSync();
-
-  const fn = useCallback(
-    async (input: { dayId: string }) => {
-      const now = new Date().toISOString();
-      await powersync.execute(
-        "UPDATE empathy_challenge_day SET status = 'in_progress', started_at = ? WHERE id = ?",
-        [now, input.dayId],
-      );
+  return useMutation({
+    mutationFn: async (input: { dayId: string }) => {
+      await db
+        .updateTable('empathy_challenge_day')
+        .set({ status: 'in_progress', started_at: new Date().toISOString() })
+        .where('id', '=', input.dayId)
+        .execute();
     },
-    [powersync],
-  );
-
-  return useLocalMutation(fn);
+  });
 }
 
 export function useCompleteDay() {
-  const powersync = usePowerSync();
-
-  const fn = useCallback(
-    async (input: { dayId: string; reflection: string }) => {
+  return useMutation({
+    mutationFn: async (input: { dayId: string; reflection: string }) => {
       const now = new Date().toISOString();
 
-      const day = await powersync.getOptional<Record<string, unknown>>(
-        'SELECT * FROM empathy_challenge_day WHERE id = ?',
-        [input.dayId],
-      );
+      const day = await db
+        .selectFrom('empathy_challenge_day')
+        .selectAll()
+        .where('id', '=', input.dayId)
+        .executeTakeFirst();
 
       if (!day) throw new Error('Day not found');
 
-      await powersync.execute(
-        "UPDATE empathy_challenge_day SET status = 'completed', reflection = ?, dose_oxytocin = 10, dose_serotonin = 5, completed_at = ? WHERE id = ?",
-        [input.reflection, now, input.dayId],
-      );
+      await db
+        .updateTable('empathy_challenge_day')
+        .set({
+          status: 'completed',
+          reflection: input.reflection,
+          dose_oxytocin: 10,
+          dose_serotonin: 5,
+          completed_at: now,
+        })
+        .where('id', '=', input.dayId)
+        .execute();
 
-      const dayNumber = day.day_number as number;
-      const challengeId = day.challenge_id as string;
-
-      if (dayNumber && dayNumber < 7) {
-        await powersync.execute(
-          "UPDATE empathy_challenge_day SET status = 'unlocked' WHERE challenge_id = ? AND day_number = ? AND status = 'locked'",
-          [challengeId, dayNumber + 1],
-        );
+      if (day.day_number && day.day_number < 7) {
+        await db
+          .updateTable('empathy_challenge_day')
+          .set({ status: 'unlocked' })
+          .where('challenge_id', '=', day.challenge_id)
+          .where('day_number', '=', day.day_number + 1)
+          .where('status', '=', 'locked')
+          .execute();
       }
 
-      if (dayNumber === 7) {
-        await powersync.execute(
-          "UPDATE empathy_challenge SET status = 'completed', completed_at = ? WHERE id = ?",
-          [now, challengeId],
-        );
+      if (day.day_number === 7) {
+        await db
+          .updateTable('empathy_challenge')
+          .set({ status: 'completed', completed_at: now })
+          .where('id', '=', day.challenge_id)
+          .execute();
       }
     },
-    [powersync],
-  );
-
-  return useLocalMutation(fn);
+  });
 }

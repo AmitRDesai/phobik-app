@@ -1,31 +1,21 @@
+import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { TextInput } from '@/components/ui/TextInput';
 import { UserAvatar } from '@/components/ui/UserAvatar';
-import { colors } from '@/constants/colors';
-import { authClient, useSession } from '@/lib/auth';
 import { useImagePicker } from '@/hooks/useImagePicker';
+import { authClient, useSession } from '@/lib/auth';
 import { useUploadProfilePicture } from '@/modules/onboarding/hooks/useUploadProfilePicture';
 import { dialog } from '@/utils/dialog';
-import { BackButton } from '@/components/ui/BackButton';
 import { MaterialIcons } from '@expo/vector-icons';
-import { File as ExpoFile } from 'expo-file-system';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'expo-router';
+import { File as ExpoFile } from 'expo-file-system';
 import { useState } from 'react';
-import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Profile() {
-  const router = useRouter();
   const insets = useSafeAreaInsets();
   const { data: session } = useSession();
   const queryClient = useQueryClient();
@@ -118,10 +108,7 @@ export default function Profile() {
         <Text className="text-lg font-bold text-white">Edit Profile</Text>
       </View>
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
-      >
+      <KeyboardAvoidingView behavior="padding" className="flex-1">
         <ScrollView contentContainerClassName="gap-6 px-4 py-4 pb-8">
           {/* Avatar */}
           <Pressable onPress={handleChangePhoto} className="items-center py-4">

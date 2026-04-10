@@ -8,17 +8,18 @@ const DAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 export interface StreakDay {
   label: string;
   dateNum: number;
+  dateStr: string; // YYYY-MM-DD
   completed: boolean;
   isToday: boolean;
 }
 
 interface StreakGridProps {
-  days?: StreakDay[];
+  completedDates?: Set<string>;
 }
 
-function getCurrentWeekDays(): StreakDay[] {
+function getCurrentWeekDays(completedDates?: Set<string>): StreakDay[] {
   const today = new Date();
-  const dayOfWeek = today.getDay(); // 0 = Sunday
+  const dayOfWeek = today.getDay();
   const sunday = new Date(today);
   sunday.setDate(today.getDate() - dayOfWeek);
 
@@ -26,23 +27,27 @@ function getCurrentWeekDays(): StreakDay[] {
     const date = new Date(sunday);
     date.setDate(sunday.getDate() + i);
     const dateNum = date.getDate();
+    const dateStr = date.toISOString().slice(0, 10);
     const isToday =
       date.getFullYear() === today.getFullYear() &&
       date.getMonth() === today.getMonth() &&
       date.getDate() === today.getDate();
-    const isPast = date < today && !isToday;
 
     return {
       label,
       dateNum,
-      completed: isPast, // past days default to completed
+      dateStr,
+      completed: completedDates?.has(dateStr) ?? false,
       isToday,
     };
   });
 }
 
-export function StreakGrid({ days }: StreakGridProps) {
-  const weekDays = useMemo(() => days ?? getCurrentWeekDays(), [days]);
+export function StreakGrid({ completedDates }: StreakGridProps) {
+  const weekDays = useMemo(
+    () => getCurrentWeekDays(completedDates),
+    [completedDates],
+  );
 
   return (
     <ScrollView

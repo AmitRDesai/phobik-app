@@ -2,18 +2,16 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAtom } from 'jotai';
+import { useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
-import { reflectionTextAtom } from '../store/micro-challenges';
-
 interface ReflectWithCuriosityProps {
-  onFinish: () => void;
+  onFinish: (reflection?: string) => void;
 }
 
 export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
-  const [reflection, setReflection] = useAtom(reflectionTextAtom);
+  const [reflection, setReflection] = useState('');
 
   return (
     <KeyboardAwareScrollView
@@ -62,7 +60,7 @@ export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
 
       {/* Save button */}
       <GradientButton
-        onPress={onFinish}
+        onPress={() => onFinish(reflection.trim() || undefined)}
         icon={<MaterialIcons name="check-circle" size={20} color="white" />}
       >
         Save & Finish

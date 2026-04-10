@@ -3,10 +3,13 @@ import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
-import { DOSE_CHEMICALS } from '../data/dose-config';
+import { buildDoseChemicals } from '../data/dose-config';
+import { useDailyDose } from '../hooks/useDailyDose';
 
 export function DoseSummaryCard() {
   const router = useRouter();
+  const { data: totals } = useDailyDose();
+  const chemicals = buildDoseChemicals(totals);
 
   return (
     <View className="gap-4">
@@ -39,7 +42,7 @@ export function DoseSummaryCard() {
             </Text>
           </View>
           <View className="flex-row flex-wrap gap-4">
-            {DOSE_CHEMICALS.map((chem) => (
+            {chemicals.map((chem) => (
               <View
                 key={chem.key}
                 className="w-[45%] flex-row items-center gap-3"

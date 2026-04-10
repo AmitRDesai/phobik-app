@@ -29,21 +29,24 @@ npm run lint
 
 The app uses a **dual data layer**:
 
-1. **PowerSync** (`src/lib/powersync/`) — Offline-first local SQLite with sync to Postgres
-   - Reads: `useQuery()` from `@powersync/react` — reactive SQL queries against local SQLite
-   - Writes: `powersync.execute()` — instant local writes, synced to backend via oRPC
-   - Schema: `src/lib/powersync/schema.ts` — 9 synced tables
+1. **PowerSync + Kysely + TanStack Query** (`src/lib/powersync/`) — Offline-first local SQLite with sync to Postgres
+   - Reads: `useQuery()` from `@powersync/tanstack-react-query` with Kysely query builders — type-safe, reactive watched queries that auto-update on any table change
+   - Writes: Kysely `db.insertInto()` / `db.updateTable()` / `db.deleteFrom()` via standard TanStack `useMutation` — no manual query invalidation needed (watched queries auto-update)
+   - Kysely wrapper: `src/lib/powersync/database.ts` — `wrapPowerSyncWithKysely<Database>(powersync)`
+   - Schema: `src/lib/powersync/schema.ts` — 10 synced tables (includes user_affirmation)
    - Connector: `src/lib/powersync/connector.ts` — routes writes to oRPC procedures
-   - Provider: `PowerSyncContext.Provider` wraps the app in `_layout.tsx`
+   - Provider: `PowerSyncContext.Provider` + `PersistQueryClientProvider` in `_layout.tsx`
    - Connected/disconnected in `useAppInitializer.ts` based on auth state
 
-   **Offline-first modules** (use PowerSync hooks):
+   **Offline-first modules** (use PowerSync + Kysely + TanStack):
    - Journal (entries, tags, stats)
    - Gentle Letter
    - Empathy Challenge
    - Mystery Challenge
    - Self Check-Ins
    - Calendar Preferences
+   - Affirmations (daily selection + history)
+   - Profile writes (saveProfile, onboarding answers, completeOnboarding)
 
 2. **React Query + oRPC** — Online-only server state
    - Configured in `src/utils/query-client.ts`
@@ -58,35 +61,45 @@ The app uses a **dual data layer**:
 
 ### PowerSync Hook Patterns
 
-**Reading data:**
+**Reading data (Kysely + TanStack watched query):**
 ```typescript
-import { useQuery } from '@powersync/react';
+import { useQuery } from '@powersync/tanstack-react-query';
+import { db } from '@/lib/powersync/database';
 import { toCamel } from '@/lib/powersync/utils';
 
-// toCamel converts snake_case → camelCase and parses JSON columns
+// Kysely query builder — type-safe, auto-updates when table changes
 const ENTRY_JSON = { tags: true };
-const { data, isLoading } = useQuery('SELECT * FROM journal_entry WHERE user_id = ?', [userId]);
+const { data, isLoading } = useQuery({
+  queryKey: ['journal-entries', userId, date],
+  query: db.selectFrom('journal_entry').selectAll().where('user_id', '=', userId).where('entry_date', '=', date),
+  enabled: !!userId,
+});
+// toCamel converts snake_case → camelCase and parses JSON columns
 const entries = data?.map(r => toCamel(r, ENTRY_JSON));
 ```
 
-**Writing data:**
+**Writing data (Kysely + TanStack useMutation):**
 ```typescript
 import { uuid } from '@/lib/crypto';
-import { useLocalMutation } from '@/lib/powersync/useLocalMutation';
-import { usePowerSync } from '@powersync/react';
+import { db } from '@/lib/powersync/database';
+import { useMutation } from '@tanstack/react-query';
 
-// useLocalMutation provides .mutate(), .mutateAsync(), .isPending (React Query-compatible)
-const powersync = usePowerSync();
-const fn = useCallback(async (input) => {
-  await powersync.execute('INSERT INTO ... VALUES (?, ?)', [uuid(), input.value]);
-}, [powersync]);
-return useLocalMutation(fn);
+// Standard TanStack useMutation — no manual invalidation needed
+// PowerSync's watched queries auto-update when the table changes
+return useMutation({
+  mutationFn: async (input) => {
+    await db.insertInto('journal_entry').values({ id: uuid(), ...input }).execute();
+  },
+});
 ```
 
 **Key rules:**
-- Use `toCamel(row, jsonColumns?)` from `@/lib/powersync/utils` — never access snake_case fields directly in screens
+- Use `useQuery` from `@powersync/tanstack-react-query` for reads — NOT from `@tanstack/react-query` or `@powersync/react`
+- Use `useMutation` from `@tanstack/react-query` for writes — standard TanStack API
+- Use `db` from `@/lib/powersync/database` for Kysely query builders — NOT raw SQL strings
+- Use `toCamel(row, jsonColumns?)` from `@/lib/powersync/utils` — Kysely returns snake_case, screens expect camelCase
 - Use `uuid()` from `@/lib/crypto` — `crypto.randomUUID()` does NOT work in React Native
-- Use `useLocalMutation(fn)` — returns `.mutate()`, `.mutateAsync()`, `.isPending`, `.error` matching React Query's API
+- No manual query invalidation needed for PowerSync data — watched queries auto-update on table changes
 - Use `toJSON()` when writing JSONB columns, pass column name to `toCamel()` when reading
 - Use `useUserId()` from `@/lib/powersync/useUserId` to get the current user ID for queries
 
@@ -165,10 +178,10 @@ src/
 │   ├── rpc.ts       # oRPC client with auth cookies
 │   ├── crypto.ts    # UUID generation (expo-crypto)
 │   └── powersync/   # PowerSync offline-first layer
-│       ├── schema.ts       # 9 synced table definitions
+│       ├── schema.ts       # 10 synced table definitions + Database type
+│       ├── database.ts     # Kysely-wrapped PowerSync instance (db)
 │       ├── connector.ts    # uploadData routes writes to oRPC
 │       ├── index.ts        # PowerSync instance + connect/disconnect
-│       ├── useLocalMutation.ts  # React Query-compatible mutation wrapper
 │       ├── useUserId.ts    # Current user ID from Better Auth session
 │       └── utils.ts        # toCamel, parseJSON, toJSON
 ├── models/           # SHARED: TypeScript types/interfaces

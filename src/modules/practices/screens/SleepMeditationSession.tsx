@@ -18,6 +18,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Defs, RadialGradient, Rect, Stop } from 'react-native-svg';
 
+import { useRecordPracticeCompletion } from '../hooks/usePracticeCompletion';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import {
   SleepMeditationDuration,
@@ -144,6 +145,7 @@ function PulsingAura({ isPlaying }: { isPlaying: boolean }) {
 
 export default function SleepMeditationSession() {
   useKeepAwake();
+  const recordCompletion = useRecordPracticeCompletion();
   const savedState = useAtomValue(sleepMeditationSessionAtom);
   const setSession = useSetAtom(sleepMeditationSessionAtom);
 
@@ -209,7 +211,8 @@ export default function SleepMeditationSession() {
     canSave: hasStarted && status.currentTime > 0 && status.duration > 0,
   });
 
-  // Clear saved state when audio finishes
+  // Clear saved state and record completion when audio finishes
+  const hasRecordedRef = useRef(false);
   useEffect(() => {
     if (
       hasStarted &&
@@ -218,6 +221,13 @@ export default function SleepMeditationSession() {
       !status.playing
     ) {
       setSession(null);
+      if (!hasRecordedRef.current) {
+        hasRecordedRef.current = true;
+        recordCompletion.mutate({
+          practiceType: 'sleep-meditation',
+          durationSeconds: Math.round(status.duration),
+        });
+      }
     }
   }, [
     hasStarted,
@@ -225,6 +235,7 @@ export default function SleepMeditationSession() {
     status.duration,
     status.playing,
     setSession,
+    recordCompletion,
   ]);
 
   const elapsed = status.currentTime ?? 0;

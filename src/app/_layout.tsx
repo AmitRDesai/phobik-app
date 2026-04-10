@@ -2,6 +2,8 @@ import '@azure/core-asynciterator-polyfill';
 import { DialogContainer } from '@/components/ui/DialogContainer';
 import { colors } from '@/constants/colors';
 import useAppInitializer from '@/hooks/useAppInitializer';
+import { useNotificationScheduler } from '@/hooks/useNotificationScheduler';
+import { setupNotificationHandler } from '@/lib/notifications';
 import { powersync } from '@/lib/powersync';
 import '@/utils/ease-nativewind';
 import { asyncStoragePersister, queryClient } from '@/utils/query-client';
@@ -15,6 +17,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import '../../global.css';
 
 SplashScreen.preventAutoHideAsync();
+setupNotificationHandler();
 
 export default function RootLayout() {
   return (
@@ -37,6 +40,9 @@ export default function RootLayout() {
 
 function RootNavigator() {
   const { activeStack, isReady, isReturningUser } = useAppInitializer();
+
+  // Schedule/cancel daily affirmation reminder based on user's notification setting
+  useNotificationScheduler();
 
   if (!isReady) return null;
 
@@ -84,6 +90,7 @@ function RootNavigator() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="settings" />
         <Stack.Screen name="journal" />
+        <Stack.Screen name="affirmation" />
         <Stack.Screen name="community/create" />
       </Stack.Protected>
     </Stack>

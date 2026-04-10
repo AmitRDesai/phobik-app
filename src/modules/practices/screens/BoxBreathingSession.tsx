@@ -47,6 +47,7 @@ export default function BoxBreathingSession() {
     initialTimeRemaining: initialTimeRef.current,
     isPaused,
     sessionReady,
+    practiceType: 'box-breathing',
     onComplete: () => setSession(null),
   });
 

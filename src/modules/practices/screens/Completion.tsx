@@ -2,12 +2,17 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { alpha, colors, withAlpha } from '@/constants/colors';
+import {
+  DOSE_REWARDS,
+  getActiveDoseRewards,
+  type PracticeType,
+} from '@/constants/dose-rewards';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -26,10 +31,41 @@ import Animated, {
 
 import { BackButton } from '@/components/ui/BackButton';
 import { CompletionBadge } from '../components/CompletionBadge';
+import { useRecordPracticeCompletion } from '../hooks/usePracticeCompletion';
 import { groundingSessionAtom } from '../store/grounding';
 
 const CONFETTI_COLORS = [colors.primary.pink, colors.accent.yellow, 'white'];
 const CONFETTI_COUNT = 24;
+
+const REWARD_STYLES: Record<
+  string,
+  { gradient: [string, string]; glow: string; shadow: string; label: string }
+> = {
+  dopamine: {
+    gradient: [colors.accent.yellow, colors.accent.gold],
+    glow: withAlpha(colors.accent.yellow, 0.2),
+    shadow: colors.accent.yellow,
+    label: colors.accent.yellow,
+  },
+  oxytocin: {
+    gradient: [colors.accent.purple, colors.primary.pink],
+    glow: withAlpha(colors.accent.purple, 0.2),
+    shadow: colors.accent.purple,
+    label: colors.accent.purple,
+  },
+  serotonin: {
+    gradient: [colors.blue[500], colors.cyan[400]],
+    glow: withAlpha(colors.blue[400], 0.2),
+    shadow: colors.blue[500],
+    label: colors.blue[400],
+  },
+  endorphins: {
+    gradient: [colors.primary.pink, colors.gradient['soft-pink']],
+    glow: withAlpha(colors.gradient['hot-pink'], 0.2),
+    shadow: colors.primary.pink,
+    label: colors.primary.pink,
+  },
+};
 
 function ConfettiPiece({
   color,
@@ -209,7 +245,24 @@ function RewardCircle({
 
 export default function Completion() {
   const router = useRouter();
+  const { practiceType, durationSeconds } = useLocalSearchParams<{
+    practiceType?: string;
+    durationSeconds?: string;
+  }>();
   const setGroundingSession = useSetAtom(groundingSessionAtom);
+  const recordCompletion = useRecordPracticeCompletion();
+  const hasRecorded = useRef(false);
+
+  const activeRewards = useMemo(
+    () =>
+      practiceType && practiceType in DOSE_REWARDS
+        ? getActiveDoseRewards(practiceType as PracticeType)
+        : [
+            { chemical: 'endorphins' as const, value: 10, label: 'Endorphins' },
+            { chemical: 'serotonin' as const, value: 5, label: 'Serotonin' },
+          ],
+    [practiceType],
+  );
 
   // Play success trumpets on mount
   const trumpetPlayer = useAudioPlayer(
@@ -218,9 +271,23 @@ export default function Completion() {
 
   useEffect(() => {
     trumpetPlayer.play();
-    // Clear saved session state on completion
     setGroundingSession(null);
-  }, [trumpetPlayer, setGroundingSession]);
+
+    // Record practice completion
+    if (practiceType && practiceType in DOSE_REWARDS && !hasRecorded.current) {
+      hasRecorded.current = true;
+      recordCompletion.mutate({
+        practiceType: practiceType as PracticeType,
+        durationSeconds: Number(durationSeconds) || 0,
+      });
+    }
+  }, [
+    trumpetPlayer,
+    setGroundingSession,
+    practiceType,
+    durationSeconds,
+    recordCompletion,
+  ]);
 
   const handleFinish = () => {
     router.dismissAll();
@@ -271,25 +338,17 @@ export default function Completion() {
               Daily D.O.S.E. Rewards
             </Text>
             <View className="flex-row justify-center gap-6">
-              <RewardCircle
-                gradientColors={[
-                  colors.primary.pink,
-                  colors.gradient['soft-pink'],
-                ]}
-                glowColor={withAlpha(colors.gradient['hot-pink'], 0.2)}
-                shadowColor={colors.primary.pink}
-                amount="+10"
-                label="Endorphins"
-                labelColor={colors.primary.pink}
-              />
-              <RewardCircle
-                gradientColors={[colors.blue[500], colors.cyan[400]]}
-                glowColor={withAlpha(colors.blue[400], 0.2)}
-                shadowColor={colors.blue[500]}
-                amount="+5"
-                label="Serotonin"
-                labelColor={colors.blue[400]}
-              />
+              {activeRewards.map((reward) => (
+                <RewardCircle
+                  key={reward.chemical}
+                  gradientColors={REWARD_STYLES[reward.chemical].gradient}
+                  glowColor={REWARD_STYLES[reward.chemical].glow}
+                  shadowColor={REWARD_STYLES[reward.chemical].shadow}
+                  amount={`+${reward.value}`}
+                  label={reward.label}
+                  labelColor={REWARD_STYLES[reward.chemical].label}
+                />
+              ))}
             </View>
           </View>
         </ScrollView>

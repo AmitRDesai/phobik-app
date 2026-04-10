@@ -165,7 +165,10 @@ export default function GroundingSession() {
   useEffect(() => {
     if (timeRemaining === 0) {
       setGroundingSession(null);
-      router.replace('/practices/completion');
+      router.replace({
+        pathname: '/practices/completion',
+        params: { practiceType: 'grounding', durationSeconds: '120' },
+      });
     }
   }, [timeRemaining, setGroundingSession, router]);
 

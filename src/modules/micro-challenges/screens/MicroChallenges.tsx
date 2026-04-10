@@ -3,9 +3,8 @@ import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { dialog } from '@/utils/dialog';
 import { useRouter } from 'expo-router';
-import { useAtom, useSetAtom } from 'jotai';
-import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -17,37 +16,73 @@ import { ReflectWithCuriosity } from '../components/ReflectWithCuriosity';
 import { StepProgress } from '../components/StepProgress';
 import { EMOTIONS } from '../data/emotions';
 import { NEEDS } from '../data/needs';
+import { clearChallengeCache } from '../hooks/useAIChallenge';
 import {
-  mcStepAtom,
-  resetMicroChallengeAtom,
-  selectedEmotionAtom,
-  selectedNeedAtom,
-} from '../store/micro-challenges';
+  useActiveChallenge,
+  useStartChallenge,
+  useUpdateChallenge,
+  useCompleteChallenge,
+  useAbandonChallenge,
+} from '../hooks/useMicroChallenge';
 
 const TOTAL_STEPS = 6;
-
-const STEP_TITLES = [
-  'Micro-Challenge',
-  'Micro-Challenge',
-  'Feelings Mapper',
-  'Needs Mapper',
-  'Daily Dose',
-  'Reflect with Curiosity',
-];
 
 export default function MicroChallenges() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const [step, setStep] = useAtom(mcStepAtom);
-  const [selectedEmotion, setSelectedEmotion] = useAtom(selectedEmotionAtom);
-  const [selectedNeed, setSelectedNeed] = useAtom(selectedNeedAtom);
-  const reset = useSetAtom(resetMicroChallengeAtom);
+  const { challenge, isLoading: isLoadingChallenge } = useActiveChallenge();
+  const startChallenge = useStartChallenge();
+  const updateChallenge = useUpdateChallenge();
+  const completeChallenge = useCompleteChallenge();
+  const abandonChallenge = useAbandonChallenge();
+
   const [direction, setDirection] = useState<'forward' | 'back'>('forward');
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Current state from DB or defaults
+  const challengeId = challenge?.id ?? null;
+  const step = challenge?.currentStep ?? 0;
+  const selectedEmotion = challenge?.emotionId ?? null;
+  const selectedNeed = challenge?.needId ?? null;
+
+  // On mount: start a new challenge if none is active
+  useEffect(() => {
+    if (isLoadingChallenge || isInitialized) return;
+    setIsInitialized(true);
+
+    if (!challenge) {
+      startChallenge.mutate();
+    }
+  }, [isLoadingChallenge, isInitialized, challenge, startChallenge]);
+
+  const setStep = useCallback(
+    (newStep: number) => {
+      if (!challengeId) return;
+      updateChallenge.mutate({ id: challengeId, currentStep: newStep });
+    },
+    [challengeId, updateChallenge],
+  );
+
+  const setSelectedEmotion = useCallback(
+    (emotionId: string | null) => {
+      if (!challengeId || !emotionId) return;
+      updateChallenge.mutate({ id: challengeId, emotionId });
+    },
+    [challengeId, updateChallenge],
+  );
+
+  const setSelectedNeed = useCallback(
+    (needId: string | null) => {
+      if (!challengeId || !needId) return;
+      updateChallenge.mutate({ id: challengeId, needId });
+    },
+    [challengeId, updateChallenge],
+  );
 
   const handleBack = async () => {
     if (step > 0) {
       setDirection('back');
-      setStep((s) => s - 1);
+      setStep(step - 1);
       return;
     }
     const result = await dialog.info({
@@ -59,7 +94,8 @@ export default function MicroChallenges() {
       ],
     });
     if (result === 'quit') {
-      reset();
+      if (challengeId) abandonChallenge.mutate(challengeId);
+      clearChallengeCache();
       router.back();
     }
   };
@@ -74,7 +110,8 @@ export default function MicroChallenges() {
       ],
     });
     if (result === 'quit') {
-      reset();
+      if (challengeId) abandonChallenge.mutate(challengeId);
+      clearChallengeCache();
       router.back();
     }
   };
@@ -82,14 +119,53 @@ export default function MicroChallenges() {
   const handleNext = () => {
     if (step < TOTAL_STEPS - 1) {
       setDirection('forward');
-      setStep((s) => s + 1);
+      setStep(step + 1);
     }
   };
 
-  const handleFinish = () => {
-    reset();
+  const handleFinish = (reflection?: string) => {
+    if (challengeId) {
+      completeChallenge.mutate({ id: challengeId, reflection });
+    }
+    clearChallengeCache();
     router.back();
   };
+
+  // Save AI response + dose to DB when DailyDose generates them
+  const handleAIResponse = useCallback(
+    (data: {
+      title: string;
+      prompt: string;
+      challengeText: string;
+      doseDopamine: number;
+      doseOxytocin: number;
+      doseSerotonin: number;
+      doseEndorphins: number;
+    }) => {
+      if (!challengeId) return;
+      updateChallenge.mutate({
+        id: challengeId,
+        aiResponse: {
+          title: data.title,
+          prompt: data.prompt,
+          challengeText: data.challengeText,
+        },
+        doseDopamine: data.doseDopamine,
+        doseOxytocin: data.doseOxytocin,
+        doseSerotonin: data.doseSerotonin,
+        doseEndorphins: data.doseEndorphins,
+      });
+    },
+    [challengeId, updateChallenge],
+  );
+
+  if (!isInitialized || isLoadingChallenge || !challengeId) {
+    return (
+      <View className="flex-1 items-center justify-center bg-black">
+        <ActivityIndicator color={colors.primary.pink} />
+      </View>
+    );
+  }
 
   const renderStep = () => {
     switch (step) {
@@ -132,7 +208,9 @@ export default function MicroChallenges() {
           />
         );
       case 4:
-        return <DailyDose onAccept={handleNext} />;
+        return (
+          <DailyDose onAccept={handleNext} onAIResponse={handleAIResponse} />
+        );
       case 5:
         return <ReflectWithCuriosity onFinish={handleFinish} />;
       default:

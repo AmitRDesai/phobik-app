@@ -186,6 +186,7 @@ export default function Lazy8BreathingSession() {
     initialTimeRemaining: initialTimeRef.current,
     isPaused,
     sessionReady,
+    practiceType: 'lazy8-breathing',
     onComplete: () => setSession(null),
   });
 

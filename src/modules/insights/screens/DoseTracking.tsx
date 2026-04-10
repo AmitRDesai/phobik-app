@@ -6,9 +6,12 @@ import { DetailHeader } from '../components/DetailHeader';
 import { DoseActivityLog } from '../components/DoseActivityLog';
 import { DoseDeficiencyAlert } from '../components/DoseDeficiencyAlert';
 import { DoseProgressBar } from '../components/DoseProgressBar';
-import { DOSE_CHEMICALS } from '../data/dose-config';
+import { buildDoseChemicals } from '../data/dose-config';
+import { useDailyDose } from '../hooks/useDailyDose';
 
 export default function DoseTracking() {
+  const { data: totals } = useDailyDose();
+  const chemicals = buildDoseChemicals(totals);
   return (
     <View className="flex-1">
       <GlowBg
@@ -34,12 +37,12 @@ export default function DoseTracking() {
         </View>
         {/* Progress Bars */}
         <View className="gap-6">
-          {DOSE_CHEMICALS.map((chem, i) => (
+          {chemicals.map((chem, i) => (
             <DoseProgressBar key={chem.key} chemical={chem} index={i} />
           ))}
         </View>
         {/* Deficiency Alert */}
-        <DoseDeficiencyAlert />
+        <DoseDeficiencyAlert totals={totals} />
         {/* Activity Log */}
         <DoseActivityLog />
         <View className="h-4" />

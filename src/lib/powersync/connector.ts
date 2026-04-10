@@ -59,10 +59,16 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         return this.handleEmpathyChallenge(op);
       case 'empathy_challenge_day':
         return this.handleEmpathyChallengeDay(op);
+      case 'micro_challenge':
+        return this.handleMicroChallenge(op);
       case 'mystery_challenge':
         return this.handleMysteryChallenge(op);
       case 'self_check_in':
         return this.handleSelfCheckIn(op);
+      case 'user_affirmation':
+        return this.handleUserAffirmation(op);
+      case 'practice_session':
+        return this.handlePracticeSession(op);
       case 'user_profile':
         return this.handleUserProfile(op);
       case 'calendar_preferences':
@@ -155,6 +161,40 @@ export class PhobikConnector implements PowerSyncBackendConnector {
     }
   }
 
+  private async handleMicroChallenge(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op === 'PUT') {
+      await rpcClient.microChallenge.startChallenge({ id: op.id });
+    } else if (op.op === 'PATCH') {
+      const status = d?.status as string | undefined;
+      if (status === 'completed') {
+        await rpcClient.microChallenge.completeChallenge({
+          id: op.id,
+          reflection: (d?.reflection as string) ?? undefined,
+          durationSeconds: (d?.duration_seconds as number) ?? undefined,
+        });
+      } else if (status === 'abandoned') {
+        await rpcClient.microChallenge.abandonChallenge({ id: op.id });
+      } else {
+        // Partial update (emotion, need, step, dose, AI response)
+        await rpcClient.microChallenge.updateChallenge({
+          id: op.id,
+          emotionId: (d?.emotion_id as string) ?? undefined,
+          needId: (d?.need_id as string) ?? undefined,
+          currentStep: (d?.current_step as number) ?? undefined,
+          aiResponse: d?.ai_response
+            ? (parseJSON(d.ai_response as string) ?? undefined)
+            : undefined,
+          doseDopamine: (d?.dose_dopamine as number) ?? undefined,
+          doseOxytocin: (d?.dose_oxytocin as number) ?? undefined,
+          doseSerotonin: (d?.dose_serotonin as number) ?? undefined,
+          doseEndorphins: (d?.dose_endorphins as number) ?? undefined,
+          durationSeconds: (d?.duration_seconds as number) ?? undefined,
+        });
+      }
+    }
+  }
+
   private async handleMysteryChallenge(op: CrudEntry) {
     const d = op.opData;
     if (op.op === 'PUT') {
@@ -201,6 +241,33 @@ export class PhobikConnector implements PowerSyncBackendConnector {
       }
     } else if (op.op === 'DELETE') {
       await rpcClient.selfCheckIn.abandonAssessment({ id: op.id });
+    }
+  }
+
+  private async handlePracticeSession(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op === 'PUT') {
+      await rpcClient.practiceSession.recordSession({
+        id: op.id,
+        practiceType: (d?.practice_type as string) ?? '',
+        doseDopamine: (d?.dose_dopamine as number) ?? 0,
+        doseOxytocin: (d?.dose_oxytocin as number) ?? 0,
+        doseSerotonin: (d?.dose_serotonin as number) ?? 0,
+        doseEndorphins: (d?.dose_endorphins as number) ?? 0,
+        durationSeconds: (d?.duration_seconds as number) ?? 0,
+      });
+    }
+  }
+
+  private async handleUserAffirmation(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op === 'PUT') {
+      await rpcClient.affirmation.createAffirmation({
+        id: op.id,
+        feeling: (d?.feeling as string) ?? '',
+        text: (d?.text as string) ?? '',
+        selectedDate: (d?.selected_date as string) ?? '',
+      });
     }
   }
 

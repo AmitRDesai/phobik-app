@@ -1,50 +1,278 @@
-import { atomWithStorage } from 'jotai/utils';
-import { storage } from '@/utils/jotai';
+export type TimeOfDay = 'morning' | 'evening';
 
-export const affirmationAtom = atomWithStorage<{
-  feeling: string;
-  text: string;
-} | null>('affirmation', null, storage);
+export type Feeling =
+  | 'courage'
+  | 'calm'
+  | 'confidence'
+  | 'clarity'
+  | 'compassion'
+  | 'curiosity'
+  | 'creativity'
+  | 'connection';
 
-export const AFFIRMATIONS: Record<string, string[]> = {
-  courage: [
-    'I choose to step forward with courage and trust my inner strength',
-    'Today, I embrace courage and let it guide my every step',
-    'With courage in my heart, I am unstoppable',
-  ],
-  calm: [
-    'I breathe deeply and welcome calm into every moment',
-    'Today, calm flows through me like a gentle stream',
-    'I am centered in calm and at peace with the present',
-  ],
-  confidence: [
-    'I radiate confidence and believe in my abilities',
-    'Today, confidence empowers me to pursue my dreams',
-    'I trust myself with confidence to handle anything',
-  ],
-  clarity: [
-    'I see my path with clarity and move forward with purpose',
-    'Today, clarity illuminates every decision I make',
-    'With clarity as my guide, I know exactly where I belong',
-  ],
-  compassion: [
-    'I lead with compassion and treat myself with kindness',
-    'Today, compassion opens my heart to deeper connections',
-    'I embrace compassion for myself and everyone around me',
-  ],
-  curiosity: [
-    'I approach life with curiosity and wonder',
-    'Today, curiosity leads me to discover something beautiful',
-    'I let curiosity guide me toward growth and understanding',
-  ],
-  creativity: [
-    'I express my creativity freely and without judgment',
-    'Today, creativity flows through me effortlessly',
-    'I trust my creativity to find unique solutions',
-  ],
-  connection: [
-    'I nurture connection with those who lift me higher',
-    'Today, connection deepens my sense of belonging',
-    'I am open to meaningful connection in every interaction',
-  ],
+export const FEELINGS: Feeling[] = [
+  'courage',
+  'calm',
+  'confidence',
+  'clarity',
+  'compassion',
+  'curiosity',
+  'creativity',
+  'connection',
+];
+
+/**
+ * Affirmations organized by time of day and feeling.
+ * Morning: short, energizing, forward-looking
+ * Evening: soothing, forgiving, letting go
+ */
+export const AFFIRMATIONS: Record<TimeOfDay, Record<Feeling, string[]>> = {
+  morning: {
+    courage: [
+      'I am stronger than my fear.',
+      'I am filled with courage.',
+      'I am rising with resilience.',
+      'I am brave in my steps.',
+      'I am brave in small steps.',
+      'I am brave in uncertainty.',
+      'I am choosing courage.',
+      'I am full of quiet courage.',
+      'I am stronger than my doubts.',
+      'I am resilient and grounded.',
+      'I am resilient in spirit.',
+      "I am free from panic's hold.",
+      'I am breathing away my fear.',
+    ],
+    calm: [
+      'I am calm and ready for today.',
+      'I am free from panic.',
+      'I am choosing calm over fear.',
+      'I am letting go of tension.',
+      'I am capable of great calm.',
+      'I am calm in my heart.',
+      'I am capable of calm focus.',
+      'I am calm in new moments.',
+      'I am calm under pressure.',
+      'I am calm in my mind and body.',
+      'I am choosing peace again and again.',
+      'I am breathing in peace.',
+      'I am peaceful inside.',
+    ],
+    confidence: [
+      'I am capable of handling challenges.',
+      'I am walking with confidence.',
+      'I am in control of my choices.',
+      'I am strong in spirit.',
+      'I am confident in my strength.',
+      'I am capable of handling stress.',
+      'I am confident in small steps.',
+      'I am strong, calm, and centered.',
+      'I am strong enough for today.',
+      'I am moving forward with ease.',
+      'I am walking forward calmly.',
+      'I am ready for today.',
+    ],
+    clarity: [
+      'I am clear in mind and heart.',
+      'I am present and aware.',
+      'I am clear and focused.',
+      'I am grounded in the present.',
+      'I am focused and grounded.',
+      'I am free from anxious thoughts.',
+      'I am free from racing thoughts.',
+      'I am steady in change.',
+      "I am letting go of what I can't control.",
+      'I am letting go of worry.',
+      'I am choosing balance.',
+      'I am trusting my path.',
+    ],
+    compassion: [
+      'I am patient with myself.',
+      'I am patient with fear.',
+      'I am softening into today.',
+      'I am softening into trust.',
+      'I am growing calmer each day.',
+      'I am grateful for this day.',
+      'I am grateful for small wins.',
+      'I am peaceful in my choices.',
+      'I am safe to slow down.',
+      'I am able to pause with ease.',
+      'I am welcoming peace into my morning.',
+      'I am free to begin again.',
+      'I am gentle with my path.',
+    ],
+    curiosity: [
+      'I am at ease with what comes.',
+      'I am open to calm energy.',
+      'I am open to joy today.',
+      'I am open to peace within.',
+      'I am guided by calm energy.',
+      'I am welcoming peace.',
+      'I am light and open.',
+      'I am safe to move forward.',
+      'I am secure in my path.',
+      'I am trusting my inner strength.',
+      'I am safe wherever I go.',
+      'I am safe wherever I stand.',
+    ],
+    creativity: [
+      'I am light and steady.',
+      'I am free to live calmly.',
+      'I am starting fresh.',
+      'I am capable of stillness.',
+      'I am letting today unfold.',
+      'I am free of tension.',
+      'I am choosing safety.',
+      'I am steady in uncertainty.',
+      'I am centered in peace.',
+      'I am able to relax fully.',
+      'I am free to begin again.',
+      'I am safe in the here and now.',
+    ],
+    connection: [
+      'I am grounded and steady.',
+      'I am breathing deeply and slowly.',
+      'I am rooted in safety.',
+      'I am relaxed in my body.',
+      'I am centered in breath.',
+      'I am steady like the earth.',
+      'I am in tune with my body.',
+      'I am steady in my breath.',
+      'I am safe in my body.',
+      'I am anchored in trust.',
+      'I am breathing myself steady.',
+      'I am grounded in my breath.',
+      'I am rooted in calm strength.',
+      'I am steady in my heart.',
+    ],
+  },
+  evening: {
+    courage: [
+      'I am proud of my courage.',
+      'I am letting go of panic.',
+      'I am proud of my resilience.',
+      'I am safe to release.',
+      'I am free from fear tonight.',
+      'I am proud I kept going.',
+      'I am safe to release fear.',
+      "I am free from panic's grip.",
+      'I am proud of showing up.',
+      'I am proud of choosing courage.',
+      'I am letting go of fear.',
+      'I am free from panic tonight.',
+      'I am proud of my courage today.',
+    ],
+    calm: [
+      'I am safe to rest.',
+      'I am calm in this moment.',
+      'I am safe in stillness.',
+      'I am at ease tonight.',
+      'I am calm as the day ends.',
+      'I am safe to close my eyes.',
+      'I am resting in peace.',
+      'I am calm in the night.',
+      'I am calm in my heart.',
+      'I am calm in the quiet.',
+      'I am calm as I let go.',
+      'I am calm in the night air.',
+      'I am calm as the night deepens.',
+      'I am safe, I am calm, I am whole.',
+    ],
+    confidence: [
+      'I am proud of myself.',
+      'I am proud of my effort.',
+      'I am proud of my strength.',
+      'I am proud of my progress.',
+      'I am proud of my growth.',
+      'I am proud of myself today.',
+      'I am proud of small steps.',
+      'I am proud of my healing.',
+      'I am proud of my persistence.',
+      'I am proud of small wins.',
+      'I am proud of my resilience.',
+      'I am calm and steady.',
+    ],
+    clarity: [
+      'I am letting go of worry.',
+      "I am free from today's stress.",
+      "I am letting go of what I can't control.",
+      'I am letting go of racing thoughts.',
+      "I am grateful for today's lessons.",
+      'I am free from heavy thoughts.',
+      'I am calm in my mind.',
+      'I am letting go of doubt.',
+      'I am letting go of control.',
+      'I am free from worry now.',
+      'I am letting go of stress.',
+      'I am letting go with ease.',
+    ],
+    compassion: [
+      'I am grateful for today.',
+      'I am softening into peace.',
+      'I am gentle with myself.',
+      'I am soft in body and mind.',
+      'I am gentle with my feelings.',
+      'I am softening into trust.',
+      'I am safe in surrender.',
+      'I am grateful for inner peace.',
+      'I am letting go with love.',
+      'I am grateful for quiet courage.',
+      'I am grateful for calm moments.',
+      'I am grateful for rest.',
+      'I am grateful for this breath.',
+    ],
+    curiosity: [
+      'I am grateful for quiet.',
+      'I am grateful for small joys.',
+      'I am letting peace in.',
+      'I am grateful for calm energy.',
+      'I am grateful for simple moments.',
+      'I am grateful for this night.',
+      'I am thankful for my breath.',
+      'I am grateful for this body.',
+      'I am grateful for my body.',
+      'I am grateful for my breath.',
+      'I am safe in the present.',
+      'I am ready for peaceful sleep.',
+    ],
+    creativity: [
+      'I am resting with ease.',
+      'I am free to relax.',
+      'I am free to rest peacefully.',
+      'I am safe to rest deeply.',
+      'I am safe to rest fully.',
+      'I am free in stillness.',
+      'I am free to rest calmly.',
+      'I am free to breathe deeply.',
+      'I am safe to close this day.',
+      'I am calm in my soul.',
+      'I am letting go of tension.',
+      'I am releasing tension.',
+    ],
+    connection: [
+      'I am safe as I sleep.',
+      'I am calm in my breath.',
+      'I am steady in rest.',
+      'I am free from tension.',
+      'I am safe in my body.',
+      'I am calm in the silence.',
+      'I am calm in my heart.',
+      'I am calm in my body.',
+      'I am safe in rest.',
+      'I am safe as I drift to sleep.',
+      'I am safe in stillness.',
+      'I am grateful for simple moments.',
+    ],
+  },
 };
+
+/** Returns 'morning' (5am–5pm) or 'evening' (5pm–5am) based on current hour */
+export function getTimeOfDay(): TimeOfDay {
+  const hour = new Date().getHours();
+  return hour >= 5 && hour < 17 ? 'morning' : 'evening';
+}
+
+/** Returns affirmations for a given time of day and feeling */
+export function getAffirmations(time: TimeOfDay, feeling: Feeling): string[] {
+  return AFFIRMATIONS[time][feeling];
+}

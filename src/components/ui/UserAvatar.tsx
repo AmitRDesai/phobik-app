@@ -31,7 +31,10 @@ export function UserAvatar({
       )}
     >
       {userImage ? (
-        <Image source={{ uri: userImage }} className="h-full w-full" />
+        <Image
+          source={{ uri: userImage }}
+          className="h-full w-full rounded-full"
+        />
       ) : (
         <MaterialIcons name="person" size={iconSize} color={fallbackColor} />
       )}

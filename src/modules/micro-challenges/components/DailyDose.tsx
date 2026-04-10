@@ -1,27 +1,75 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
+import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAtomValue } from 'jotai';
-import { ScrollView, Text, View } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
-import { DoseRewardsGrid } from './DoseRewardsGrid';
-import { getChallenge } from '../data/challenges';
 import { EMOTIONS } from '../data/emotions';
 import { NEEDS } from '../data/needs';
-import {
-  selectedEmotionAtom,
-  selectedNeedAtom,
-} from '../store/micro-challenges';
+import { useAIChallenge } from '../hooks/useAIChallenge';
+import { useActiveChallenge } from '../hooks/useMicroChallenge';
+import { DoseRewardsGrid } from './DoseRewardsGrid';
 
 interface DailyDoseProps {
   onAccept: () => void;
+  onAIResponse?: (data: {
+    title: string;
+    prompt: string;
+    challengeText: string;
+    doseDopamine: number;
+    doseOxytocin: number;
+    doseSerotonin: number;
+    doseEndorphins: number;
+  }) => void;
 }
 
-export function DailyDose({ onAccept }: DailyDoseProps) {
-  const emotionId = useAtomValue(selectedEmotionAtom) ?? 'afraid';
-  const needId = useAtomValue(selectedNeedAtom) ?? 'safety';
-  const challenge = getChallenge(emotionId, needId);
+export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
+  const { challenge: activeChallenge } = useActiveChallenge();
+  const emotionId = (activeChallenge?.emotionId as string) ?? 'afraid';
+  const needId = (activeChallenge?.needId as string) ?? 'safety';
+
+  // If DB already has an AI response (resuming), use it directly
+  const cachedAI = activeChallenge?.aiResponse as
+    | { title: string; prompt: string; challengeText: string }
+    | null
+    | undefined;
+
+  const { challenge, isLoading, isAI } = useAIChallenge({
+    emotionId,
+    needId,
+  });
+
+  // Notify parent when AI response arrives so it gets persisted
+  const notifiedRef = useRef(false);
+  useEffect(() => {
+    if (isAI && !notifiedRef.current && onAIResponse) {
+      notifiedRef.current = true;
+      onAIResponse({
+        title: challenge.title,
+        prompt: challenge.prompt,
+        challengeText: challenge.challengeText,
+        doseDopamine: challenge.dose.dopamine,
+        doseOxytocin: challenge.dose.oxytocin,
+        doseSerotonin: challenge.dose.serotonin,
+        doseEndorphins: challenge.dose.endorphins,
+      });
+    }
+  }, [isAI, challenge, onAIResponse]);
+
+  // Use DB-cached AI response if available and AI hasn't loaded yet
+  const displayChallenge =
+    cachedAI && !isAI
+      ? {
+          ...challenge,
+          title: cachedAI.title,
+          prompt: cachedAI.prompt,
+          challengeText: cachedAI.challengeText,
+        }
+      : challenge;
+  const showAsAI = isAI || !!cachedAI;
+  const showLoading = isLoading && !cachedAI;
 
   const emotionLabel =
     EMOTIONS.find((e) => e.id === emotionId)?.label.toLowerCase() ?? emotionId;
@@ -30,7 +78,6 @@ export function DailyDose({ onAccept }: DailyDoseProps) {
 
   return (
     <View className="flex-1">
-      {/* Nebula glow */}
       <GlowBg
         centerY={0.1}
         radius={0.5}
@@ -44,7 +91,6 @@ export function DailyDose({ onAccept }: DailyDoseProps) {
         contentContainerClassName="px-6 pb-12"
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
         <View className="mb-8 items-center pt-4">
           <Text className="text-2xl font-bold text-white">
             Get your Daily Dose
@@ -54,7 +100,6 @@ export function DailyDose({ onAccept }: DailyDoseProps) {
           </Text>
         </View>
 
-        {/* Challenge card */}
         <LinearGradient
           colors={[colors.primary.pink, colors.accent.yellow]}
           start={{ x: 0, y: 0 }}
@@ -62,16 +107,23 @@ export function DailyDose({ onAccept }: DailyDoseProps) {
           style={{ borderRadius: 20, padding: 1 }}
         >
           <View className="rounded-[19px] bg-black p-6">
-            {/* Badge with pulsing dot */}
             <View className="mb-4 flex-row items-center gap-2">
-              <View className="h-2 w-2 rounded-full bg-primary-pink" />
+              {showLoading ? (
+                <ActivityIndicator size={10} color={colors.primary.pink} />
+              ) : (
+                <View className="h-2 w-2 rounded-full bg-primary-pink" />
+              )}
               <Text className="text-xs font-bold uppercase tracking-wider text-primary-pink">
-                Your Personalized Challenge
+                {showLoading
+                  ? 'Personalizing...'
+                  : showAsAI
+                    ? 'AI-Personalized Challenge'
+                    : 'Your Personalized Challenge'}
               </Text>
             </View>
 
             <Text className="mb-3 text-xl font-semibold leading-tight text-white">
-              {challenge.title}
+              {displayChallenge.title}
             </Text>
             <Text className="text-base leading-relaxed text-slate-300">
               Since you&apos;re feeling{' '}
@@ -83,23 +135,35 @@ export function DailyDose({ onAccept }: DailyDoseProps) {
               , try this:
             </Text>
 
-            {/* Challenge text */}
             <View className="mt-6 rounded-xl border border-white/10 bg-white/5 p-4">
               <Text className="text-sm italic leading-relaxed text-white/90">
-                &ldquo;{challenge.challengeText}&rdquo;
+                &ldquo;{displayChallenge.challengeText}&rdquo;
               </Text>
             </View>
+
+            {showAsAI && (
+              <View className="mt-3 flex-row items-center gap-1.5 self-end">
+                <Ionicons name="sparkles" size={12} color={alpha.white30} />
+                <Text className="text-[10px] text-white/30">
+                  Tailored by AI based on your history
+                </Text>
+              </View>
+            )}
           </View>
         </LinearGradient>
 
-        {/* D.O.S.E. Rewards */}
         <View className="mt-8">
           <DoseRewardsGrid dose={challenge.dose} />
         </View>
 
-        {/* Accept button */}
         <View className="mt-8">
-          <GradientButton onPress={onAccept}>Accept & Start</GradientButton>
+          <GradientButton
+            onPress={onAccept}
+            disabled={showLoading}
+            loading={showLoading}
+          >
+            Accept & Start
+          </GradientButton>
         </View>
       </ScrollView>
     </View>

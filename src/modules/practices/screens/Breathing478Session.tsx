@@ -60,6 +60,7 @@ export default function Breathing478Session() {
     initialTimeRemaining: initialTimeRef.current,
     isPaused,
     sessionReady,
+    practiceType: '478-breathing',
     onComplete: () => setSession(null),
   });
 

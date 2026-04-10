@@ -1,26 +1,36 @@
 import { uuid } from '@/lib/crypto';
-import { useLocalMutation } from '@/lib/powersync/useLocalMutation';
+import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
-import { usePowerSync, useQuery } from '@powersync/react';
-import { useCallback, useMemo } from 'react';
+import { useQuery } from '@powersync/tanstack-react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { sql } from 'kysely';
 
 export function useTodaysChallenge() {
   const userId = useUserId();
   const today = new Date().toISOString().slice(0, 10);
-  const { data, ...rest } = useQuery(
-    'SELECT * FROM mystery_challenge WHERE user_id = ? AND date(completed_at) = ? ORDER BY completed_at DESC LIMIT 1',
-    [userId ?? '', today],
-  );
+
+  const { data, ...rest } = useQuery({
+    queryKey: ['mystery-challenge-today', userId, today],
+    query: db
+      .selectFrom('mystery_challenge')
+      .selectAll()
+      .where('user_id', '=', userId ?? '')
+      .where(sql`date(completed_at)`, '=', today)
+      .orderBy('completed_at', 'desc')
+      .limit(1),
+    enabled: !!userId,
+  });
+
   return { data: data?.[0] ? toCamel(data[0]) : null, ...rest };
 }
 
 export function useRecordChallenge() {
-  const powersync = usePowerSync();
   const userId = useUserId();
 
-  const fn = useCallback(
-    async (input: {
+  return useMutation({
+    mutationFn: async (input: {
       challengeType: string;
       doseDopamine: number;
       doseOxytocin: number;
@@ -33,37 +43,40 @@ export function useRecordChallenge() {
       const id = uuid();
       const now = new Date().toISOString();
 
-      await powersync.execute(
-        `INSERT INTO mystery_challenge (id, user_id, challenge_type, dose_dopamine, dose_oxytocin, dose_serotonin, dose_endorphins, duration_seconds, completed_at, created_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
+      await db
+        .insertInto('mystery_challenge')
+        .values({
           id,
-          userId,
-          input.challengeType,
-          input.doseDopamine,
-          input.doseOxytocin,
-          input.doseSerotonin,
-          input.doseEndorphins,
-          input.durationSeconds,
-          now,
-          now,
-        ],
-      );
+          user_id: userId,
+          challenge_type: input.challengeType,
+          dose_dopamine: input.doseDopamine,
+          dose_oxytocin: input.doseOxytocin,
+          dose_serotonin: input.doseSerotonin,
+          dose_endorphins: input.doseEndorphins,
+          duration_seconds: input.durationSeconds,
+          completed_at: now,
+          created_at: now,
+        })
+        .execute();
 
       return { id };
     },
-    [powersync, userId],
-  );
-
-  return useLocalMutation(fn);
+  });
 }
 
 export function useChallengeHistory() {
   const userId = useUserId();
-  const { data, ...rest } = useQuery(
-    'SELECT * FROM mystery_challenge WHERE user_id = ? ORDER BY completed_at DESC LIMIT 20',
-    [userId ?? ''],
-  );
+
+  const { data, ...rest } = useQuery({
+    queryKey: ['mystery-challenge-history', userId],
+    query: db
+      .selectFrom('mystery_challenge')
+      .selectAll()
+      .where('user_id', '=', userId ?? '')
+      .orderBy('completed_at', 'desc')
+      .limit(20),
+    enabled: !!userId,
+  });
 
   const transformed = useMemo(() => data?.map((r) => toCamel(r)), [data]);
   return { data: transformed, ...rest };

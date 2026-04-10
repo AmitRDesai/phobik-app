@@ -1,18 +1,18 @@
 import { uuid } from '@/lib/crypto';
-import { useLocalMutation } from '@/lib/powersync/useLocalMutation';
+import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel, toJSON } from '@/lib/powersync/utils';
-import { usePowerSync, useQuery } from '@powersync/react';
-import { useCallback, useMemo } from 'react';
+import { useQuery } from '@powersync/tanstack-react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
 const LETTER_JSON = { content: true } as const;
 
 export function useCreateLetter() {
-  const powersync = usePowerSync();
   const userId = useUserId();
 
-  const fn = useCallback(
-    async (input: {
+  return useMutation({
+    mutationFn: async (input: {
       content: {
         step1: string;
         step2: string;
@@ -39,35 +39,38 @@ export function useCreateLetter() {
         input.title || (autoTitle ? autoTitle.slice(0, 50) : 'Untitled');
       const isoNow = now.toISOString();
 
-      await powersync.execute(
-        `INSERT INTO gentle_letter (id, user_id, title, core_act, content, entry_date, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
+      await db
+        .insertInto('gentle_letter')
+        .values({
           id,
-          userId,
+          user_id: userId,
           title,
-          input.coreAct,
-          toJSON(input.content),
-          entryDate,
-          isoNow,
-          isoNow,
-        ],
-      );
+          core_act: input.coreAct,
+          content: toJSON(input.content),
+          entry_date: entryDate,
+          created_at: isoNow,
+          updated_at: isoNow,
+        })
+        .execute();
 
       return { id };
     },
-    [powersync, userId],
-  );
-
-  return useLocalMutation(fn);
+  });
 }
 
 export function useListLetters() {
   const userId = useUserId();
-  const { data, ...rest } = useQuery(
-    'SELECT * FROM gentle_letter WHERE user_id = ? ORDER BY created_at DESC LIMIT 20',
-    [userId ?? ''],
-  );
+
+  const { data, ...rest } = useQuery({
+    queryKey: ['gentle-letters', userId],
+    query: db
+      .selectFrom('gentle_letter')
+      .selectAll()
+      .where('user_id', '=', userId ?? '')
+      .orderBy('created_at', 'desc')
+      .limit(20),
+    enabled: !!userId,
+  });
 
   const transformed = useMemo(
     () => data?.map((r) => toCamel(r, LETTER_JSON)),
@@ -78,10 +81,17 @@ export function useListLetters() {
 
 export function useLettersForDate(date: string | null) {
   const userId = useUserId();
-  const { data, ...rest } = useQuery(
-    'SELECT * FROM gentle_letter WHERE user_id = ? AND entry_date = ? ORDER BY created_at DESC',
-    [userId ?? '', date ?? ''],
-  );
+
+  const { data, ...rest } = useQuery({
+    queryKey: ['gentle-letters-date', userId, date],
+    query: db
+      .selectFrom('gentle_letter')
+      .selectAll()
+      .where('user_id', '=', userId ?? '')
+      .where('entry_date', '=', date ?? '')
+      .orderBy('created_at', 'desc'),
+    enabled: !!userId && !!date,
+  });
 
   const transformed = useMemo(
     () => data?.map((r) => toCamel(r, LETTER_JSON)),
@@ -91,10 +101,14 @@ export function useLettersForDate(date: string | null) {
 }
 
 export function useGetLetter(id: string | undefined) {
-  const { data, ...rest } = useQuery(
-    'SELECT * FROM gentle_letter WHERE id = ?',
-    [id ?? ''],
-  );
+  const { data, ...rest } = useQuery({
+    queryKey: ['gentle-letter', id],
+    query: db
+      .selectFrom('gentle_letter')
+      .selectAll()
+      .where('id', '=', id ?? ''),
+    enabled: !!id,
+  });
 
   const letter = useMemo(
     () => (data?.[0] ? toCamel(data[0], LETTER_JSON) : null),
@@ -107,10 +121,17 @@ export function useLetterDatesForMonth(month: number, year: number) {
   const userId = useUserId();
   const monthStr = String(month).padStart(2, '0');
   const prefix = `${year}-${monthStr}%`;
-  const { data, ...rest } = useQuery<{ entry_date: string }>(
-    'SELECT DISTINCT entry_date FROM gentle_letter WHERE user_id = ? AND entry_date LIKE ?',
-    [userId ?? '', prefix],
-  );
+
+  const { data, ...rest } = useQuery({
+    queryKey: ['gentle-letter-dates', userId, month, year],
+    query: db
+      .selectFrom('gentle_letter')
+      .select('entry_date')
+      .distinct()
+      .where('user_id', '=', userId ?? '')
+      .where('entry_date', 'like', prefix),
+    enabled: !!userId,
+  });
 
   return { data: data?.map((r) => r.entry_date), ...rest };
 }

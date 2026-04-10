@@ -230,6 +230,7 @@ export default function StarBreathingSession() {
     initialTimeRemaining: initialTimeRef.current,
     isPaused,
     sessionReady,
+    practiceType: 'star-breathing',
     onComplete: () => setSession(null),
   });
 

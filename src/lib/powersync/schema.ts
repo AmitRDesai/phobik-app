@@ -108,6 +108,31 @@ const empathy_challenge_day = new Table(
   { indexes: { challenge: ['challenge_id'] } },
 );
 
+const micro_challenge = new Table(
+  {
+    user_id: column.text,
+    emotion_id: column.text,
+    need_id: column.text,
+    status: column.text,
+    ai_response: column.text, // JSONB as JSON string
+    current_step: column.integer,
+    dose_dopamine: column.integer,
+    dose_oxytocin: column.integer,
+    dose_serotonin: column.integer,
+    dose_endorphins: column.integer,
+    duration_seconds: column.integer,
+    reflection: column.text,
+    created_at: column.text,
+    completed_at: column.text,
+  },
+  {
+    indexes: {
+      user_status: ['user_id', 'status'],
+      user_created: ['user_id', 'created_at'],
+    },
+  },
+);
+
 const mystery_challenge = new Table(
   {
     user_id: column.text,
@@ -143,6 +168,32 @@ const self_check_in = new Table(
   },
 );
 
+const user_affirmation = new Table(
+  {
+    user_id: column.text,
+    feeling: column.text,
+    text: column.text,
+    selected_date: column.text,
+    created_at: column.text,
+  },
+  { indexes: { user_date: ['user_id', 'selected_date'] } },
+);
+
+const practice_session = new Table(
+  {
+    user_id: column.text,
+    practice_type: column.text,
+    dose_dopamine: column.integer,
+    dose_oxytocin: column.integer,
+    dose_serotonin: column.integer,
+    dose_endorphins: column.integer,
+    duration_seconds: column.integer,
+    completed_at: column.text,
+    created_at: column.text,
+  },
+  { indexes: { user_completed: ['user_id', 'completed_at'] } },
+);
+
 export const AppSchema = new Schema({
   user_profile,
   calendar_preferences,
@@ -151,8 +202,11 @@ export const AppSchema = new Schema({
   gentle_letter,
   empathy_challenge,
   empathy_challenge_day,
+  micro_challenge,
   mystery_challenge,
   self_check_in,
+  user_affirmation,
+  practice_session,
 });
 
 export type Database = (typeof AppSchema)['types'];
@@ -163,5 +217,8 @@ export type JournalTagRecord = Database['journal_tag'];
 export type GentleLetterRecord = Database['gentle_letter'];
 export type EmpathyChallengeRecord = Database['empathy_challenge'];
 export type EmpathyChallengeDayRecord = Database['empathy_challenge_day'];
+export type MicroChallengeRecord = Database['micro_challenge'];
 export type MysteryChallengeRecord = Database['mystery_challenge'];
 export type SelfCheckInRecord = Database['self_check_in'];
+export type UserAffirmationRecord = Database['user_affirmation'];
+export type PracticeSessionRecord = Database['practice_session'];

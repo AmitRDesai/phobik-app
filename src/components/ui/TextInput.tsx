@@ -85,7 +85,7 @@ export const TextInput = React.forwardRef<RNTextInput, TextInputProps>(
           />
           <RNTextInput
             ref={ref}
-            className="flex-1 text-base text-white android:p-0"
+            className="flex-1 text-[16px] text-white android:p-0"
             placeholder={placeholder}
             placeholderTextColor={alpha.white30}
             value={value}

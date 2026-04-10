@@ -1,57 +1,64 @@
 import { uuid } from '@/lib/crypto';
-import { useLocalMutation } from '@/lib/powersync/useLocalMutation';
+import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
-import { usePowerSync, useQuery } from '@powersync/react';
-import { useCallback, useMemo } from 'react';
+import { useQuery } from '@powersync/tanstack-react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
 export function useJournalTags() {
   const userId = useUserId();
-  const { data, isLoading, error } = useQuery(
-    'SELECT * FROM journal_tag WHERE user_id = ? ORDER BY name',
-    [userId ?? ''],
-  );
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['journal-tags', userId],
+    query: db
+      .selectFrom('journal_tag')
+      .selectAll()
+      .where('user_id', '=', userId ?? '')
+      .orderBy('name'),
+    enabled: !!userId,
+  });
 
   const transformed = useMemo(() => data?.map((r) => toCamel(r)), [data]);
   return { data: transformed, isLoading, isPending: isLoading, error };
 }
 
 export function useCreateTag() {
-  const powersync = usePowerSync();
   const userId = useUserId();
 
-  const fn = useCallback(
-    async (input: { name: string; color?: string | null }) => {
+  return useMutation({
+    mutationFn: async (input: { name: string; color?: string | null }) => {
       if (!userId) throw new Error('Not authenticated');
 
       const id = uuid();
-      await powersync.execute(
-        'INSERT INTO journal_tag (id, user_id, name, color, created_at) VALUES (?, ?, ?, ?, ?)',
-        [id, userId, input.name, input.color ?? null, new Date().toISOString()],
-      );
+      await db
+        .insertInto('journal_tag')
+        .values({
+          id,
+          user_id: userId,
+          name: input.name,
+          color: input.color ?? null,
+          created_at: new Date().toISOString(),
+        })
+        .execute();
+
       return { id };
     },
-    [powersync, userId],
-  );
-
-  return useLocalMutation(fn);
+  });
 }
 
 export function useDeleteTag() {
-  const powersync = usePowerSync();
   const userId = useUserId();
 
-  const fn = useCallback(
-    async (input: { id: string }) => {
+  return useMutation({
+    mutationFn: async (input: { id: string }) => {
       if (!userId) throw new Error('Not authenticated');
 
-      await powersync.execute(
-        'DELETE FROM journal_tag WHERE id = ? AND user_id = ?',
-        [input.id, userId],
-      );
+      await db
+        .deleteFrom('journal_tag')
+        .where('id', '=', input.id)
+        .where('user_id', '=', userId)
+        .execute();
     },
-    [powersync, userId],
-  );
-
-  return useLocalMutation(fn);
+  });
 }

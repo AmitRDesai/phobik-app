@@ -1,33 +1,45 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useSetAtom } from 'jotai';
+import { StackActions } from '@react-navigation/native';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 
 import { AffirmationHeader } from '../components/AffirmationHeader';
 import { AffirmationReadyCard } from '../components/AffirmationReadyCard';
-import { AFFIRMATIONS, affirmationAtom } from '../store/affirmation';
+import { useSaveAffirmation } from '../hooks/useAffirmation';
+import {
+  type Feeling,
+  getAffirmations,
+  getTimeOfDay,
+} from '../store/affirmation';
+
+function pickRandom(options: string[]): string {
+  return options[Math.floor(Math.random() * options.length)];
+}
 
 export default function AffirmationReady() {
   const { feeling } = useLocalSearchParams<{ feeling: string }>();
-  const setAffirmation = useSetAtom(affirmationAtom);
+  const saveAffirmation = useSaveAffirmation();
+  const navigation = useNavigation();
+  const parentNavigation = navigation.getParent();
 
   const [text, setText] = useState(() => {
-    const options = AFFIRMATIONS[feeling] ?? AFFIRMATIONS.courage;
-    return options[Math.floor(Math.random() * options.length)];
+    const pool = getAffirmations(getTimeOfDay(), feeling as Feeling);
+    return pickRandom(pool);
   });
 
   const handleSync = () => {
-    const options = AFFIRMATIONS[feeling] ?? AFFIRMATIONS.courage;
-    const newText = options[Math.floor(Math.random() * options.length)];
-    setText(newText);
+    const pool = getAffirmations(getTimeOfDay(), feeling as Feeling);
+    setText(pickRandom(pool));
   };
 
-  const handleSave = () => {
-    setAffirmation({ feeling, text });
-    router.navigate('/');
+  const handleSave = async () => {
+    await saveAffirmation.mutateAsync({ feeling, text });
+
+    // Pop the affirmation group from the root Stack
+    parentNavigation?.dispatch(StackActions.pop());
   };
 
   return (
@@ -53,7 +65,10 @@ export default function AffirmationReady() {
       </View>
 
       <View className="px-6 pb-10">
-        <GradientButton onPress={handleSave}>
+        <GradientButton
+          onPress={handleSave}
+          loading={saveAffirmation.isPending}
+        >
           Save to Today Dashboard
         </GradientButton>
       </View>

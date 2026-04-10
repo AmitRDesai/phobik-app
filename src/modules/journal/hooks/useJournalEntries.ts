@@ -1,18 +1,26 @@
 import { uuid } from '@/lib/crypto';
-import { useLocalMutation } from '@/lib/powersync/useLocalMutation';
+import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
-import { toCamel, toJSON } from '@/lib/powersync/utils';
-import { usePowerSync, useQuery } from '@powersync/react';
-import { useCallback, useMemo } from 'react';
+import { parseJSON, toCamel, toJSON } from '@/lib/powersync/utils';
+import { useQuery } from '@powersync/tanstack-react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
 const ENTRY_JSON = { tags: true } as const;
 
 export function useJournalEntriesForDate(date: string) {
   const userId = useUserId();
-  const { data, isLoading, error } = useQuery(
-    'SELECT * FROM journal_entry WHERE user_id = ? AND entry_date = ? ORDER BY created_at DESC',
-    [userId ?? '', date],
-  );
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['journal-entries', userId, date],
+    query: db
+      .selectFrom('journal_entry')
+      .selectAll()
+      .where('user_id', '=', userId ?? '')
+      .where('entry_date', '=', date)
+      .orderBy('created_at', 'desc'),
+    enabled: !!userId,
+  });
 
   const transformed = useMemo(
     () => data?.map((r) => toCamel(r, ENTRY_JSON)),
@@ -25,20 +33,31 @@ export function useEntryDatesForMonth(month: number, year: number) {
   const userId = useUserId();
   const monthStr = String(month).padStart(2, '0');
   const prefix = `${year}-${monthStr}%`;
-  const { data, isLoading, error } = useQuery<{ entry_date: string }>(
-    'SELECT DISTINCT entry_date FROM journal_entry WHERE user_id = ? AND entry_date LIKE ?',
-    [userId ?? '', prefix],
-  );
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['journal-entry-dates', userId, month, year],
+    query: db
+      .selectFrom('journal_entry')
+      .select('entry_date')
+      .distinct()
+      .where('user_id', '=', userId ?? '')
+      .where('entry_date', 'like', prefix),
+    enabled: !!userId,
+  });
 
   const transformed = useMemo(() => data?.map((r) => r.entry_date), [data]);
   return { data: transformed, isLoading, isPending: isLoading, error };
 }
 
 export function useJournalEntry(id: string | undefined) {
-  const { data, isLoading, error } = useQuery(
-    'SELECT * FROM journal_entry WHERE id = ?',
-    [id ?? ''],
-  );
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['journal-entry', id],
+    query: db
+      .selectFrom('journal_entry')
+      .selectAll()
+      .where('id', '=', id ?? ''),
+    enabled: !!id,
+  });
 
   const entry = useMemo(
     () => (data?.[0] ? toCamel(data[0], ENTRY_JSON) : null),
@@ -48,11 +67,10 @@ export function useJournalEntry(id: string | undefined) {
 }
 
 export function useCreateEntry() {
-  const powersync = usePowerSync();
   const userId = useUserId();
 
-  const fn = useCallback(
-    async (input: {
+  return useMutation({
+    mutationFn: async (input: {
       feeling?: string | null;
       need?: string | null;
       content: string;
@@ -62,8 +80,6 @@ export function useCreateEntry() {
     }) => {
       if (!userId) throw new Error('Not authenticated');
 
-      const id = uuid();
-      const now = new Date().toISOString();
       const contentOneLine = input.content.replace(/\n+/g, ' ').trim();
       const title =
         input.title ||
@@ -72,37 +88,35 @@ export function useCreateEntry() {
           : contentOneLine) ||
         null;
 
-      await powersync.execute(
-        `INSERT INTO journal_entry (id, user_id, feeling, need, content, title, tags, entry_date, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
+      const id = uuid();
+      const now = new Date().toISOString();
+
+      await db
+        .insertInto('journal_entry')
+        .values({
           id,
-          userId,
-          input.feeling ?? null,
-          input.need ?? null,
-          input.content,
+          user_id: userId,
+          feeling: input.feeling ?? null,
+          need: input.need ?? null,
+          content: input.content,
           title,
-          toJSON(input.tags ?? []),
-          input.entryDate,
-          now,
-          now,
-        ],
-      );
+          tags: toJSON(input.tags ?? []),
+          entry_date: input.entryDate,
+          created_at: now,
+          updated_at: now,
+        })
+        .execute();
 
       return { id };
     },
-    [powersync, userId],
-  );
-
-  return useLocalMutation(fn);
+  });
 }
 
 export function useUpdateEntry() {
-  const powersync = usePowerSync();
   const userId = useUserId();
 
-  const fn = useCallback(
-    async (input: {
+  return useMutation({
+    mutationFn: async (input: {
       id: string;
       feeling?: string | null;
       need?: string | null;
@@ -112,58 +126,40 @@ export function useUpdateEntry() {
     }) => {
       if (!userId) throw new Error('Not authenticated');
 
-      const sets: string[] = ['updated_at = ?'];
-      const params: (string | null)[] = [new Date().toISOString()];
+      let query = db
+        .updateTable('journal_entry')
+        .set('updated_at', new Date().toISOString())
+        .where('id', '=', input.id)
+        .where('user_id', '=', userId);
 
-      if (input.feeling !== undefined) {
-        sets.push('feeling = ?');
-        params.push(input.feeling ?? null);
-      }
-      if (input.need !== undefined) {
-        sets.push('need = ?');
-        params.push(input.need ?? null);
-      }
-      if (input.content !== undefined) {
-        sets.push('content = ?');
-        params.push(input.content);
-      }
-      if (input.title !== undefined) {
-        sets.push('title = ?');
-        params.push(input.title ?? null);
-      }
-      if (input.tags !== undefined) {
-        sets.push('tags = ?');
-        params.push(toJSON(input.tags));
-      }
+      if (input.feeling !== undefined)
+        query = query.set('feeling', input.feeling ?? null);
+      if (input.need !== undefined)
+        query = query.set('need', input.need ?? null);
+      if (input.content !== undefined)
+        query = query.set('content', input.content);
+      if (input.title !== undefined)
+        query = query.set('title', input.title ?? null);
+      if (input.tags !== undefined)
+        query = query.set('tags', toJSON(input.tags));
 
-      params.push(input.id, userId);
-
-      await powersync.execute(
-        `UPDATE journal_entry SET ${sets.join(', ')} WHERE id = ? AND user_id = ?`,
-        params,
-      );
+      await query.execute();
     },
-    [powersync, userId],
-  );
-
-  return useLocalMutation(fn);
+  });
 }
 
 export function useDeleteEntry() {
-  const powersync = usePowerSync();
   const userId = useUserId();
 
-  const fn = useCallback(
-    async (input: { id: string }) => {
+  return useMutation({
+    mutationFn: async (input: { id: string }) => {
       if (!userId) throw new Error('Not authenticated');
 
-      await powersync.execute(
-        'DELETE FROM journal_entry WHERE id = ? AND user_id = ?',
-        [input.id, userId],
-      );
+      await db
+        .deleteFrom('journal_entry')
+        .where('id', '=', input.id)
+        .where('user_id', '=', userId)
+        .execute();
     },
-    [powersync, userId],
-  );
-
-  return useLocalMutation(fn);
+  });
 }

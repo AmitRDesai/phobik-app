@@ -7,6 +7,7 @@ interface UseSessionTimerOptions {
   initialTimeRemaining?: number;
   isPaused: boolean;
   sessionReady: boolean;
+  practiceType: string;
   onComplete: () => void;
 }
 
@@ -15,6 +16,7 @@ export function useSessionTimer({
   initialTimeRemaining,
   isPaused,
   sessionReady,
+  practiceType,
   onComplete,
 }: UseSessionTimerOptions) {
   useKeepAwake();
@@ -31,9 +33,15 @@ export function useSessionTimer({
   useEffect(() => {
     if (timeRemaining === 0) {
       onComplete();
-      router.replace('/practices/completion');
+      router.replace({
+        pathname: '/practices/completion',
+        params: {
+          practiceType,
+          durationSeconds: String(totalDuration),
+        },
+      });
     }
-  }, [timeRemaining, onComplete, router]);
+  }, [timeRemaining, onComplete, router, practiceType, totalDuration]);
 
   // Timer only runs after session is ready
   useEffect(() => {

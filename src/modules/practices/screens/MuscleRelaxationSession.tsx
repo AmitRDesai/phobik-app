@@ -595,7 +595,13 @@ export default function MuscleRelaxationSession() {
       currentStepIndex === MUSCLE_GROUPS.length - 1
     ) {
       setSession(null);
-      router.replace('/practices/completion');
+      router.replace({
+        pathname: '/practices/completion',
+        params: {
+          practiceType: 'muscle-relaxation',
+          durationSeconds: String(elapsedTotal),
+        },
+      });
     }
   }, [stepPhase, waitTimeRemaining, currentStepIndex, router, setSession]);
 
