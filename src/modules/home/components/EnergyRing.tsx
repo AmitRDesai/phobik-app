@@ -8,7 +8,7 @@ import Svg, {
 } from 'react-native-svg';
 
 interface EnergyRingProps {
-  value: number;
+  value: number | null;
   maxValue?: number;
   size?: number;
   strokeWidth?: number;
@@ -22,7 +22,7 @@ export function EnergyRing({
 }: EnergyRingProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const progress = Math.min(value / maxValue, 1);
+  const progress = value !== null ? Math.min(value / maxValue, 1) : 0;
   const strokeDashoffset = circumference * (1 - progress);
   const center = size / 2;
 
@@ -70,14 +70,14 @@ export function EnergyRing({
       </Svg>
       <View className="absolute items-center">
         <Text
-          className="text-5xl font-black text-white"
+          className={`${value !== null ? 'text-5xl' : 'text-3xl'} font-black text-white`}
           style={{
             textShadowColor: `${colors.primary.pink}80`,
             textShadowOffset: { width: 0, height: 0 },
             textShadowRadius: 10,
           }}
         >
-          {value}
+          {value !== null ? value : 'N/A'}
         </Text>
         <Text className="mt-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">
           Energy

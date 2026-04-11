@@ -52,3 +52,31 @@ export async function scheduleDailyAffirmationReminder() {
 export async function cancelDailyAffirmationReminder() {
   await Notifications.cancelScheduledNotificationAsync(AFFIRMATION_REMINDER_ID);
 }
+
+const ENERGY_REMINDER_ID = 'daily-energy-reminder';
+
+/** Schedule a daily notification at 9:30 AM to remind user to log their energy */
+export async function scheduleDailyEnergyReminder() {
+  await cancelDailyEnergyReminder();
+
+  const granted = await requestNotificationPermissions();
+  if (!granted) return;
+
+  await Notifications.scheduleNotificationAsync({
+    identifier: ENERGY_REMINDER_ID,
+    content: {
+      title: 'Log your energy level',
+      body: 'Take a moment to check in with your energy across all four pillars.',
+      sound: true,
+    },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.DAILY,
+      hour: 9,
+      minute: 30,
+    },
+  });
+}
+
+export async function cancelDailyEnergyReminder() {
+  await Notifications.cancelScheduledNotificationAsync(ENERGY_REMINDER_ID);
+}

@@ -179,6 +179,20 @@ const user_affirmation = new Table(
   { indexes: { user_date: ['user_id', 'selected_date'] } },
 );
 
+const energy_check_in = new Table(
+  {
+    user_id: column.text,
+    purpose: column.integer,
+    mental: column.integer,
+    physical: column.integer,
+    relationship: column.integer,
+    energy_index: column.integer,
+    selected_date: column.text,
+    created_at: column.text,
+  },
+  { indexes: { user_date: ['user_id', 'selected_date'] } },
+);
+
 const practice_session = new Table(
   {
     user_id: column.text,
@@ -231,6 +245,7 @@ export const AppSchema = new Schema({
   mystery_challenge,
   self_check_in,
   user_affirmation,
+  energy_check_in,
   practice_session,
   ebook_progress,
   notification_settings,
@@ -248,6 +263,7 @@ export type MicroChallengeRecord = Database['micro_challenge'];
 export type MysteryChallengeRecord = Database['mystery_challenge'];
 export type SelfCheckInRecord = Database['self_check_in'];
 export type UserAffirmationRecord = Database['user_affirmation'];
+export type EnergyCheckInRecord = Database['energy_check_in'];
 export type PracticeSessionRecord = Database['practice_session'];
 export type EbookProgressRecord = Database['ebook_progress'];
 export type NotificationSettingsRecord = Database['notification_settings'];

@@ -7,33 +7,66 @@ import MaskedView from '@react-native-masked-view/masked-view';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { useAtom, useAtomValue } from 'jotai';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Text, useWindowDimensions, View } from 'react-native';
 import { Slider } from '../components/Slider';
 import {
-  type EnergyPillars,
-  energyIndexAtom,
-  energyPillarsAtom,
-} from '../store/daily-check-in';
+  useSaveEnergyCheckIn,
+  useTodayEnergyCheckIn,
+} from '@/modules/home/hooks/useEnergyCheckIn';
 
-type PillarKey = keyof EnergyPillars;
+interface Pillars {
+  purpose: number;
+  mental: number;
+  physical: number;
+  relationship: number;
+}
+
+type PillarKey = keyof Pillars;
+
+const DEFAULT_PILLARS: Pillars = {
+  purpose: 12,
+  mental: 12,
+  physical: 12,
+  relationship: 12,
+};
 
 export default function EnergyIndex() {
-  const [pillars, setPillars] = useAtom(energyPillarsAtom);
-  const energyIndex = useAtomValue(energyIndexAtom);
+  const { data: todayRecord, isLoading } = useTodayEnergyCheckIn();
+  const saveEnergyCheckIn = useSaveEnergyCheckIn();
+  const [pillars, setPillars] = useState<Pillars>(DEFAULT_PILLARS);
+  const [initialized, setInitialized] = useState(false);
   const { width: screenWidth } = useWindowDimensions();
 
   const containerSize = Math.min(screenWidth - 48, 340);
   const circleSize = containerSize * 0.47;
   const sliderWidth = 150;
 
-  const updatePillar = useCallback(
-    (key: PillarKey, value: number) => {
-      setPillars((prev) => ({ ...prev, [key]: value }));
-    },
-    [setPillars],
-  );
+  const energyIndex =
+    pillars.purpose + pillars.mental + pillars.physical + pillars.relationship;
+
+  // Pre-populate from today's saved record (once)
+  useEffect(() => {
+    if (initialized || isLoading) return;
+    if (todayRecord) {
+      setPillars({
+        purpose: todayRecord.purpose as number,
+        mental: todayRecord.mental as number,
+        physical: todayRecord.physical as number,
+        relationship: todayRecord.relationship as number,
+      });
+    }
+    setInitialized(true);
+  }, [todayRecord, isLoading, initialized]);
+
+  const updatePillar = useCallback((key: PillarKey, value: number) => {
+    setPillars((prev) => ({ ...prev, [key]: value }));
+  }, []);
+
+  const handleSave = async () => {
+    await saveEnergyCheckIn.mutateAsync(pillars);
+    router.back();
+  };
 
   return (
     <Container>
@@ -167,12 +200,11 @@ export default function EnergyIndex() {
           {'"'}When your energy aligns, courage follows.{'"'}
         </Text>
         <GradientButton
-          onPress={() =>
-            router.push('/practices/self-check-ins/stress-compass')
-          }
-          icon={<MaterialIcons name="arrow-forward" size={20} color="white" />}
+          onPress={handleSave}
+          disabled={saveEnergyCheckIn.isPending}
+          icon={<MaterialIcons name="check" size={20} color="white" />}
         >
-          Continue
+          {saveEnergyCheckIn.isPending ? 'Saving...' : 'Save'}
         </GradientButton>
       </View>
     </Container>

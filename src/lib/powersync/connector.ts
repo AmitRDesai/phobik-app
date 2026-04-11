@@ -67,6 +67,8 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         return this.handleSelfCheckIn(op);
       case 'user_affirmation':
         return this.handleUserAffirmation(op);
+      case 'energy_check_in':
+        return this.handleEnergyCheckIn(op);
       case 'practice_session':
         return this.handlePracticeSession(op);
       case 'ebook_progress':
@@ -270,6 +272,21 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         id: op.id,
         feeling: (d?.feeling as string) ?? '',
         text: (d?.text as string) ?? '',
+        selectedDate: (d?.selected_date as string) ?? '',
+      });
+    }
+  }
+
+  private async handleEnergyCheckIn(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op === 'PUT') {
+      await rpcClient.energyCheckIn.createEnergyCheckIn({
+        id: op.id,
+        purpose: (d?.purpose as number) ?? 0,
+        mental: (d?.mental as number) ?? 0,
+        physical: (d?.physical as number) ?? 0,
+        relationship: (d?.relationship as number) ?? 0,
+        energyIndex: (d?.energy_index as number) ?? 0,
         selectedDate: (d?.selected_date as string) ?? '',
       });
     }

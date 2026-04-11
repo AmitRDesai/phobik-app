@@ -1,9 +1,9 @@
+import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
-import { alpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChakraFigure } from '../components/ChakraFigure';
 import { GlowBg } from '@/components/ui/GlowBg';
@@ -35,12 +35,7 @@ export default function PhilosophyScreen() {
         <View className="flex-1">
           {/* Header */}
           <View className="z-20 flex-row items-center justify-between px-6 pb-4 pt-8">
-            <Pressable
-              onPress={() => router.back()}
-              className="h-10 w-10 items-start justify-center"
-            >
-              <Ionicons name="chevron-back" size={24} color={alpha.white50} />
-            </Pressable>
+            <BackButton />
 
             <ProgressDots total={7} current={2} />
 

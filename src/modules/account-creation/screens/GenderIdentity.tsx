@@ -1,11 +1,12 @@
+import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { alpha, colors } from '@/constants/colors';
+import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { SelectionCard } from '@/components/ui/SelectionCard';
@@ -47,12 +48,7 @@ export default function GenderIdentityScreen() {
         <View className="flex-1">
           {/* Header */}
           <View className="z-20 flex-row items-center justify-between px-6 pb-4 pt-8">
-            <Pressable
-              onPress={() => router.back()}
-              className="h-10 w-10 items-start justify-center"
-            >
-              <Ionicons name="chevron-back" size={24} color={alpha.white50} />
-            </Pressable>
+            <BackButton />
             <ProgressDots total={totalSteps} current={currentStep} />
             <View className="w-10" />
           </View>

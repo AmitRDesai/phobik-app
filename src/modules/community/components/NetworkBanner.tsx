@@ -7,6 +7,8 @@ export function NetworkBanner() {
   const { isConnected } = useNetInfo();
   const isOffline = isConnected === false;
 
+  if (!isOffline) return null;
+
   return (
     <EaseView
       animate={{ opacity: isOffline ? 1 : 0 }}

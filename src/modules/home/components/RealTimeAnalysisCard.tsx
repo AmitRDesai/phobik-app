@@ -15,6 +15,7 @@ import Animated, {
 
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { EnergyRing } from './EnergyRing';
+import { useTodayEnergyCheckIn } from '../hooks/useEnergyCheckIn';
 
 function PingDot() {
   const opacity = useSharedValue(0.75);
@@ -54,6 +55,12 @@ function PingDot() {
 }
 
 export function RealTimeAnalysisCard() {
+  const { data: energyCheckIn } = useTodayEnergyCheckIn();
+  const energyValue =
+    energyCheckIn?.energyIndex != null
+      ? (energyCheckIn.energyIndex as number)
+      : null;
+
   return (
     <DashboardCard glow>
       {/* Radial glow at top-right */}
@@ -93,7 +100,9 @@ export function RealTimeAnalysisCard() {
 
       {/* Ring + metrics */}
       <View className="flex-row items-center justify-between gap-8 py-2">
-        <EnergyRing value={28} />
+        <Pressable onPress={() => router.push('/daily-check-in')}>
+          <EnergyRing value={energyValue} />
+        </Pressable>
 
         <View className="flex-1 justify-center gap-8">
           <View>
