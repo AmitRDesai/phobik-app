@@ -5,6 +5,8 @@ export default function AuthLayout() {
     <Stack screenOptions={{ headerShown: false }} initialRouteName="sign-in">
       <Stack.Screen name="create-account" />
       <Stack.Screen name="sign-in" />
+      <Stack.Screen name="forgot-password" />
+      <Stack.Screen name="reset-password" />
       <Stack.Screen
         name="terms-of-service"
         options={{

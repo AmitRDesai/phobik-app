@@ -236,7 +236,11 @@ export default function SignInScreen() {
                 />
               </View>
 
-              <Pressable className="mt-3 self-end" disabled={isLoading}>
+              <Pressable
+                className="mt-3 self-end"
+                disabled={isLoading}
+                onPress={() => router.push('/auth/forgot-password')}
+              >
                 <Text className="text-sm text-primary-muted/80">
                   Forgot Password?
                 </Text>
