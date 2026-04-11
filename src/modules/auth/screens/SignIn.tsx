@@ -2,6 +2,7 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { TextInput } from '@/components/ui/TextInput';
 import { alpha, colors } from '@/constants/colors';
 import { useSession as useBetterAuthSession } from '@/lib/auth';
+import { isReturningUserAtom } from '@/store/user';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -18,7 +19,6 @@ import {
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { isReturningUserAtom } from '@/store/user';
 import { questionnaireAtom } from '../../account-creation/store/account-creation';
 import { useAppleSignIn, useGoogleSignIn, useSignIn } from '../hooks/useAuth';
 import {

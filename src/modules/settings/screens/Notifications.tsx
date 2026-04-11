@@ -1,14 +1,12 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
 import { BackButton } from '@/components/ui/BackButton';
-import { useAtom } from 'jotai';
 import { ScrollView, Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
-  challengeNotificationsAtom,
-  checkInRemindersAtom,
-  dailyRemindersAtom,
-} from '../store/notifications';
+  useNotificationSettings,
+  useUpdateNotificationSettings,
+} from '../hooks/useNotificationSettings';
 
 interface ToggleRowProps {
   label: string;
@@ -44,11 +42,8 @@ function ToggleRow({
 
 export default function Notifications() {
   const insets = useSafeAreaInsets();
-  const [dailyReminders, setDailyReminders] = useAtom(dailyRemindersAtom);
-  const [checkInReminders, setCheckInReminders] = useAtom(checkInRemindersAtom);
-  const [challengeNotifications, setChallengeNotifications] = useAtom(
-    challengeNotificationsAtom,
-  );
+  const { data: settings } = useNotificationSettings();
+  const updateSettings = useUpdateNotificationSettings();
 
   return (
     <View className="flex-1">
@@ -71,20 +66,26 @@ export default function Notifications() {
         <ToggleRow
           label="Daily Reminders"
           description="Get a daily reminder to check in with your practice"
-          value={dailyReminders}
-          onValueChange={setDailyReminders}
+          value={settings.dailyReminders}
+          onValueChange={(value) =>
+            updateSettings.mutate({ dailyReminders: value })
+          }
         />
         <ToggleRow
           label="Check-in Reminders"
           description="Reminders before your scheduled check-ins"
-          value={checkInReminders}
-          onValueChange={setCheckInReminders}
+          value={settings.checkInReminders}
+          onValueChange={(value) =>
+            updateSettings.mutate({ checkInReminders: value })
+          }
         />
         <ToggleRow
           label="Challenge Notifications"
           description="Updates about your active challenges"
-          value={challengeNotifications}
-          onValueChange={setChallengeNotifications}
+          value={settings.challengeNotifications}
+          onValueChange={(value) =>
+            updateSettings.mutate({ challengeNotifications: value })
+          }
         />
 
         <View className="h-4" />

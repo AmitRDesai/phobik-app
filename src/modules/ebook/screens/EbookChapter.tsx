@@ -1,5 +1,4 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useAtom } from 'jotai';
 import {
   lazy,
   Suspense,
@@ -15,9 +14,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { EBOOK_CHAPTERS, TOTAL_CHAPTERS } from '../data/ebook-chapters';
 import {
-  ebookCompletedChaptersAtom,
-  ebookLastChapterAtom,
-} from '../store/ebook-purchase';
+  useEbookProgress,
+  useUpdateEbookProgress,
+} from '../hooks/useEbookProgress';
 import { EbookHeader } from '../components/EbookHeader';
 import { EbookNavControls } from '../components/EbookNavControls';
 import { EbookProgressBar } from '../components/EbookProgressBar';
@@ -86,10 +85,9 @@ export default function EbookChapter() {
   const [visible, setVisible] = useState(true);
   const pendingChapterId = useRef<number | null>(null);
 
-  const [completedChapters, setCompletedChapters] = useAtom(
-    ebookCompletedChaptersAtom,
-  );
-  const [, setLastChapter] = useAtom(ebookLastChapterAtom);
+  const { data: progress } = useEbookProgress();
+  const updateProgress = useUpdateEbookProgress();
+  const completedChapters = progress.completedChapters;
 
   const chapterInfo = useMemo(
     () => EBOOK_CHAPTERS.find((c) => c.id === chapterId),
@@ -110,14 +108,17 @@ export default function EbookChapter() {
   const hasNext = chapterIndex < EBOOK_CHAPTERS.length - 1;
 
   useEffect(() => {
-    setLastChapter(chapterId);
-  }, [chapterId, setLastChapter]);
+    updateProgress.mutate({ lastChapterId: chapterId });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapterId]);
 
   const markCompleted = useCallback(() => {
     if (!completedChapters.includes(chapterId)) {
-      setCompletedChapters([...completedChapters, chapterId]);
+      updateProgress.mutate({
+        completedChapters: [...completedChapters, chapterId],
+      });
     }
-  }, [chapterId, completedChapters, setCompletedChapters]);
+  }, [chapterId, completedChapters, updateProgress]);
 
   const navigateToChapter = useCallback(
     (targetId: number) => {

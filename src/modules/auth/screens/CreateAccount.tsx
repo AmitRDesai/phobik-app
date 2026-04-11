@@ -11,9 +11,9 @@ import { useRef, useState } from 'react';
 import {
   Platform,
   Pressable,
+  TextInput as RNTextInput,
   ScrollView,
   Text,
-  TextInput as RNTextInput,
   View,
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';

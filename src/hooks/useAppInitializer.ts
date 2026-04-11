@@ -52,7 +52,7 @@ const useAppInitializer = () => {
     }
   }, [isAuthenticated, isSessionLoading]);
 
-  // Backend profile state via oRPC + React Query
+  // Profile status from PowerSync local SQLite (instant for returning users)
   const { data: profileStatus, isPending: isProfileChecking } =
     useProfileStatus(isAuthenticated);
   const hasProfile = profileStatus?.hasProfile ?? false;
@@ -81,7 +81,6 @@ const useAppInitializer = () => {
         );
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, isProfileChecking, hasProfile]);
 
   const dataResolved =

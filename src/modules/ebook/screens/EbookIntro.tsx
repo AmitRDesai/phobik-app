@@ -9,13 +9,12 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { useRouter } from 'expo-router';
-import { useSetAtom } from 'jotai';
 import { useCallback } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
 import { RadialGlow } from '@/components/ui/RadialGlow';
 
-import { ebookIntroSeenAtom } from '../store/ebook-purchase';
+import { useUpdateEbookProgress } from '../hooks/useEbookProgress';
 
 function GradientText({ text }: { text: string }) {
   return (
@@ -41,12 +40,12 @@ function GradientText({ text }: { text: string }) {
 
 export default function EbookIntro() {
   const router = useRouter();
-  const setIntroSeen = useSetAtom(ebookIntroSeenAtom);
+  const updateProgress = useUpdateEbookProgress();
 
   const handleStartReading = useCallback(() => {
-    setIntroSeen(true);
+    updateProgress.mutate({ introSeen: true });
     router.replace('/practices/ebook-index');
-  }, [setIntroSeen, router]);
+  }, [updateProgress, router]);
 
   return (
     <Container safeAreaClass="bg-background-charcoal">

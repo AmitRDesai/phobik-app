@@ -1,16 +1,16 @@
 import { useRouter } from 'expo-router';
-import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
-import { ebookPurchasedAtom } from '@/modules/ebook/store/ebook-purchase';
+import { useEbookProgress } from '@/modules/ebook/hooks/useEbookProgress';
 import { CourageHeader } from '../components/CourageHeader';
 import { SpecializedPackCard } from '../components/SpecializedPackCard';
 import { SPECIALIZED_PACKS } from '../data/specialized-packs';
 
 export default function SpecializedPacks() {
   const router = useRouter();
-  const [ebookPurchased] = useAtom(ebookPurchasedAtom);
+  const { data: progress } = useEbookProgress();
+  const ebookPurchased = progress.purchased;
 
   const handleNavigateToLanding = useCallback(() => {
     router.push('/practices/ebook-landing');

@@ -69,6 +69,10 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         return this.handleUserAffirmation(op);
       case 'practice_session':
         return this.handlePracticeSession(op);
+      case 'ebook_progress':
+        return this.handleEbookProgress(op);
+      case 'notification_settings':
+        return this.handleNotificationSettings(op);
       case 'user_profile':
         return this.handleUserProfile(op);
       case 'calendar_preferences':
@@ -267,6 +271,51 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         feeling: (d?.feeling as string) ?? '',
         text: (d?.text as string) ?? '',
         selectedDate: (d?.selected_date as string) ?? '',
+      });
+    }
+  }
+
+  private async handleEbookProgress(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op === 'PUT' || op.op === 'PATCH') {
+      const completedChaptersRaw = d?.completed_chapters;
+      const completedChapters =
+        typeof completedChaptersRaw === 'string'
+          ? (parseJSON<number[]>(completedChaptersRaw) ?? undefined)
+          : undefined;
+
+      await rpcClient.ebookProgress.updateProgress({
+        id: op.id,
+        purchased:
+          d?.purchased !== undefined ? Boolean(d.purchased) : undefined,
+        introSeen:
+          d?.intro_seen !== undefined ? Boolean(d.intro_seen) : undefined,
+        lastChapterId:
+          d?.last_chapter_id !== undefined
+            ? ((d.last_chapter_id as number | null) ?? null)
+            : undefined,
+        completedChapters,
+      });
+    }
+  }
+
+  private async handleNotificationSettings(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op === 'PUT' || op.op === 'PATCH') {
+      await rpcClient.notificationSettings.updateSettings({
+        id: op.id,
+        dailyReminders:
+          d?.daily_reminders !== undefined
+            ? Boolean(d.daily_reminders)
+            : undefined,
+        checkInReminders:
+          d?.check_in_reminders !== undefined
+            ? Boolean(d.check_in_reminders)
+            : undefined,
+        challengeNotifications:
+          d?.challenge_notifications !== undefined
+            ? Boolean(d.challenge_notifications)
+            : undefined,
       });
     }
   }

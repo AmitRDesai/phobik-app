@@ -106,7 +106,7 @@ export function ChakraFigure() {
       <BlurView
         intensity={40}
         tint="dark"
-        className="absolute -left-6 top-4 flex-row items-center gap-2 rounded-2xl border border-white/10 bg-primary-pink/[0.15] px-3.5 py-2 shadow-lg"
+        className="absolute -left-6 top-4 flex-row items-center gap-2 rounded-2xl border border-white/10 bg-primary-pink/[0.15] px-3.5 py-2 shadow-lg overflow-hidden"
       >
         <Ionicons name="eye" size={14} color={colors.accent.yellow} />
         <Text className="text-[10px] font-bold uppercase tracking-wider text-white">
@@ -118,7 +118,7 @@ export function ChakraFigure() {
       <BlurView
         intensity={40}
         tint="dark"
-        className="absolute -right-6 bottom-12 flex-row items-center gap-2 rounded-2xl border border-white/10 bg-accent-yellow/10 px-3.5 py-2 shadow-lg"
+        className="absolute -right-6 bottom-12 flex-row items-center gap-2 rounded-2xl border border-white/10 bg-accent-yellow/10 px-3.5 py-2 shadow-lg overflow-hidden"
       >
         <Ionicons name="volume-medium" size={14} color={colors.primary.pink} />
         <Text className="text-[10px] font-bold uppercase tracking-wider text-white">

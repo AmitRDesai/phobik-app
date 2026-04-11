@@ -194,6 +194,31 @@ const practice_session = new Table(
   { indexes: { user_completed: ['user_id', 'completed_at'] } },
 );
 
+const ebook_progress = new Table(
+  {
+    user_id: column.text,
+    purchased: column.integer,
+    intro_seen: column.integer,
+    last_chapter_id: column.integer,
+    completed_chapters: column.text,
+    created_at: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { user: ['user_id'] } },
+);
+
+const notification_settings = new Table(
+  {
+    user_id: column.text,
+    daily_reminders: column.integer,
+    check_in_reminders: column.integer,
+    challenge_notifications: column.integer,
+    created_at: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { user: ['user_id'] } },
+);
+
 export const AppSchema = new Schema({
   user_profile,
   calendar_preferences,
@@ -207,6 +232,8 @@ export const AppSchema = new Schema({
   self_check_in,
   user_affirmation,
   practice_session,
+  ebook_progress,
+  notification_settings,
 });
 
 export type Database = (typeof AppSchema)['types'];
@@ -222,3 +249,5 @@ export type MysteryChallengeRecord = Database['mystery_challenge'];
 export type SelfCheckInRecord = Database['self_check_in'];
 export type UserAffirmationRecord = Database['user_affirmation'];
 export type PracticeSessionRecord = Database['practice_session'];
+export type EbookProgressRecord = Database['ebook_progress'];
+export type NotificationSettingsRecord = Database['notification_settings'];

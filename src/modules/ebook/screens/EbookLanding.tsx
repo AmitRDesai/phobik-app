@@ -8,25 +8,21 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
-  ebookCompletedChaptersAtom,
-  ebookIntroSeenAtom,
-  ebookLastChapterAtom,
-  ebookPurchasedAtom,
-} from '../store/ebook-purchase';
+  useEbookProgress,
+  useUpdateEbookProgress,
+} from '../hooks/useEbookProgress';
 
 export default function EbookLanding() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const [purchased, setPurchased] = useAtom(ebookPurchasedAtom);
-  const [introSeen, setIntroSeen] = useAtom(ebookIntroSeenAtom);
-  const [, setLastChapter] = useAtom(ebookLastChapterAtom);
-  const [, setCompletedChapters] = useAtom(ebookCompletedChaptersAtom);
+  const { data: progress } = useEbookProgress();
+  const updateProgress = useUpdateEbookProgress();
+  const { purchased, introSeen } = progress;
 
   const handleBuyNow = useCallback(async () => {
     const result = await dialog.info({
@@ -39,9 +35,9 @@ export default function EbookLanding() {
       ],
     });
     if (result === 'unlock') {
-      setPurchased(true);
+      updateProgress.mutate({ purchased: true });
     }
-  }, [setPurchased]);
+  }, [updateProgress]);
 
   const handleEbookPress = useCallback(() => {
     if (!purchased) return;
@@ -59,11 +55,13 @@ export default function EbookLanding() {
 
   // TODO: Remove this — temporary reset for testing
   const handleReset = useCallback(() => {
-    setPurchased(false);
-    setIntroSeen(false);
-    setLastChapter(null);
-    setCompletedChapters([]);
-  }, [setPurchased, setIntroSeen, setLastChapter, setCompletedChapters]);
+    updateProgress.mutate({
+      purchased: false,
+      introSeen: false,
+      lastChapterId: null,
+      completedChapters: [],
+    });
+  }, [updateProgress]);
 
   return (
     <View className="flex-1 bg-background-charcoal">

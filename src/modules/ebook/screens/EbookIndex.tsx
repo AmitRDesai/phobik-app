@@ -3,22 +3,18 @@ import { BackButton } from '@/components/ui/BackButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { EBOOK_CHAPTERS } from '../data/ebook-chapters';
-import {
-  ebookCompletedChaptersAtom,
-  ebookLastChapterAtom,
-} from '../store/ebook-purchase';
+import { useEbookProgress } from '../hooks/useEbookProgress';
 
 export default function EbookIndex() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const [completedChapters] = useAtom(ebookCompletedChaptersAtom);
-  const [lastChapter] = useAtom(ebookLastChapterAtom);
+  const { data: progress } = useEbookProgress();
+  const { completedChapters, lastChapterId: lastChapter } = progress;
 
   const handleChapterPress = useCallback(
     (chapterId: number) => {

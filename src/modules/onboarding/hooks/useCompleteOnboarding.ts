@@ -1,12 +1,9 @@
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
-import { orpc } from '@/lib/orpc';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export function useCompleteOnboarding() {
   const userId = useUserId();
-  const queryClient = useQueryClient();
-  const queryKey = orpc.profile.getProfileStatus.key({ type: 'query' });
 
   return useMutation({
     mutationFn: async () => {
@@ -19,14 +16,6 @@ export function useCompleteOnboarding() {
         .set({ onboarding_completed_at: now, updated_at: now })
         .where('user_id', '=', userId)
         .execute();
-
-      queryClient.setQueryData(
-        queryKey,
-        (prev: Record<string, unknown> | undefined) => ({
-          ...prev,
-          onboardingCompleted: true,
-        }),
-      );
     },
   });
 }

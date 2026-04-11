@@ -1,6 +1,6 @@
+import { storage } from '@/utils/jotai';
 import { atom } from 'jotai';
 import { atomWithStorage, unwrap } from 'jotai/utils';
-import { storage } from '@/utils/jotai';
 
 export type AgeRange = '18-24' | '25-34' | '35-44' | '45-54' | '55+';
 export type GenderIdentity =

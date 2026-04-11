@@ -2,8 +2,7 @@ import {
   cancelDailyAffirmationReminder,
   scheduleDailyAffirmationReminder,
 } from '@/lib/notifications';
-import { dailyRemindersAtom } from '@/modules/settings/store/notifications';
-import { useAtomValue } from 'jotai';
+import { useNotificationSettings } from '@/modules/settings/hooks/useNotificationSettings';
 import { useEffect } from 'react';
 
 /**
@@ -13,7 +12,8 @@ import { useEffect } from 'react';
  * Call this once from the root layout when the user is authenticated.
  */
 export function useNotificationScheduler() {
-  const dailyReminders = useAtomValue(dailyRemindersAtom);
+  const { data: settings } = useNotificationSettings();
+  const dailyReminders = settings.dailyReminders;
 
   useEffect(() => {
     if (dailyReminders) {
