@@ -133,7 +133,7 @@ export default function Welcome() {
             </GradientButton>
 
             <Pressable
-              onPress={() => router.push('/onboarding/completion')}
+              onPress={() => router.push('/onboarding/completion?skipped=true')}
               className="mt-4 py-3"
             >
               <Text className="text-center text-base font-medium text-white/40">

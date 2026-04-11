@@ -1,4 +1,4 @@
-import { colors, alpha } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { Pressable, View } from 'react-native';
@@ -34,11 +34,11 @@ export function ProfilePictureCircle({
         {imageUri ? (
           <Image
             source={{ uri: imageUri }}
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', borderRadius: 9999 }}
             contentFit="cover"
           />
         ) : (
-          <View className="flex-1 items-center justify-center bg-background-charcoal">
+          <View className="flex-1 items-center justify-center bg-background-charcoal rounded-full">
             <Ionicons name="person" size={80} color={alpha.white15} />
           </View>
         )}

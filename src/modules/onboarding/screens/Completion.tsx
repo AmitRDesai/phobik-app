@@ -1,10 +1,11 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, alpha } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAtomValue, useSetAtom } from 'jotai';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useLocalSearchParams } from 'expo-router';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { OnboardingProgressBar } from '../components/OnboardingProgressBar';
@@ -17,6 +18,9 @@ export default function Completion() {
   const saveOnboardingAnswers = useSaveOnboardingAnswers();
   const onboardingData = useAtomValue(onboardingDataAtom);
   const resetOnboarding = useSetAtom(resetOnboardingAtom);
+
+  const { skipped } = useLocalSearchParams();
+  const isSkipped = skipped === 'true';
 
   const isPending =
     saveOnboardingAnswers.isPending || completeOnboarding.isPending;
@@ -46,18 +50,22 @@ export default function Completion() {
       />
       <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
         <View className="flex-1">
-          {/* Header: Progress bar at 100% */}
-          <View className="px-10 pt-4">
-            <OnboardingProgressBar step={8} />
-          </View>
+          {!isSkipped && (
+            <>
+              {/* Header: Progress bar at 100% */}
+              <View className="px-10 pt-4">
+                <OnboardingProgressBar step={8} />
+              </View>
 
-          {/* Step indicator */}
-          <View className="mt-3 flex-row items-center justify-center gap-2">
-            <Text className="text-sm font-medium text-white/40">
-              Onboarding Complete
-            </Text>
-            <Text className="text-sm font-bold text-[#FF8C37]">100%</Text>
-          </View>
+              {/* Step indicator */}
+              <View className="mt-3 flex-row items-center justify-center gap-2">
+                <Text className="text-sm font-medium text-white/40">
+                  Onboarding Complete
+                </Text>
+                <Text className="text-sm font-bold text-[#FF8C37]">100%</Text>
+              </View>
+            </>
+          )}
 
           {/* Center content */}
           <View className="flex-1 items-center justify-center px-8">

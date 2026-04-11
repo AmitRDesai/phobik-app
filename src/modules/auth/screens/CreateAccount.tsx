@@ -5,8 +5,6 @@ import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { useStore } from 'jotai';
-import { RESET } from 'jotai/utils';
 import { useRef, useState } from 'react';
 import {
   Platform,
@@ -18,9 +16,7 @@ import {
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { questionnaireAtom } from '../../account-creation/store/account-creation';
 import { useAppleSignIn, useGoogleSignIn, useSignUp } from '../hooks/useAuth';
-import { useSaveProfile } from '../hooks/useProfile';
 
 export default function CreateAccountScreen() {
   const [name, setName] = useState('');
@@ -38,9 +34,6 @@ export default function CreateAccountScreen() {
   const signUpMutation = useSignUp();
   const googleSignInMutation = useGoogleSignIn();
   const appleSignInMutation = useAppleSignIn();
-  const saveProfile = useSaveProfile();
-  const store = useStore();
-
   const isValid = name.trim() && email.trim() && password.trim();
   const isLoading =
     signUpMutation.isPending ||
@@ -72,46 +65,22 @@ export default function CreateAccountScreen() {
     return message;
   };
 
-  const saveProfileFromLocal = async () => {
-    const questionnaire = await store.get(questionnaireAtom);
-    try {
-      await saveProfile.mutateAsync({
-        ageRange: questionnaire.age,
-        genderIdentity: questionnaire.gender,
-        goals: questionnaire.goals,
-        termsAcceptedAt: questionnaire.termsAcceptedAt,
-        privacyAcceptedAt: questionnaire.privacyAcceptedAt,
-      });
-      // Clear local questionnaire data on success
-      store.set(questionnaireAtom, RESET);
-    } catch (error) {
-      // Profile save failed — recovery effect in _layout.tsx will retry
-      // Do NOT clear questionnaireAtom on failure
-      console.warn('Profile save failed after signup:', error);
-    }
-  };
+  // Profile saving is handled centrally in useAppInitializer after auth succeeds.
+  // These handlers only create the account.
 
   const handleCreateAccount = async () => {
     clearFieldErrors();
-
-    // Step 1: Create account
     try {
       await signUpMutation.mutateAsync({ name, email, password });
     } catch (error) {
       const message = parseSignUpError(error);
       dialog.error({ title: 'Sign Up Failed', message });
-      return;
     }
-
-    // Step 2: Save profile (non-blocking — root layout retries if this fails)
-    await saveProfileFromLocal();
-    // Guards handle navigation (email verification, etc.)
   };
 
   const handleGoogleSignUp = async () => {
     try {
       await googleSignInMutation.mutateAsync();
-      await saveProfileFromLocal();
     } catch (error) {
       dialog.error({
         title: 'Sign Up Failed',
@@ -123,7 +92,6 @@ export default function CreateAccountScreen() {
   const handleAppleSignUp = async () => {
     try {
       await appleSignInMutation.mutateAsync();
-      await saveProfileFromLocal();
     } catch (error: any) {
       if (error.code === 'ERR_REQUEST_CANCELED') return;
       dialog.error({

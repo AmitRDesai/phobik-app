@@ -342,13 +342,13 @@ export class PhobikConnector implements PowerSyncBackendConnector {
           stressors: parseJSON<string[]>(d?.stressors as string) ?? [],
           triggers: parseJSON<string[]>(d?.triggers as string) ?? [],
           customTrigger: (d?.custom_trigger as string) ?? '',
-          reminderPreference: d?.reminder_preference as string,
+          reminderPreference: (d?.reminder_preference as string) || null,
           regulationTools:
             parseJSON<string[]>(d?.regulation_tools as string) ?? [],
           customTool: (d?.custom_tool as string) ?? '',
-          energyFocus: d?.energy_focus as string,
-          energyCreativity: d?.energy_creativity as string,
-          energyDip: d?.energy_dip as string,
+          energyFocus: (d?.energy_focus as string) || null,
+          energyCreativity: (d?.energy_creativity as string) || null,
+          energyDip: (d?.energy_dip as string) || null,
         });
       }
       if (d?.onboarding_completed_at !== undefined) {

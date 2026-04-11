@@ -1,20 +1,16 @@
 import { useSession } from '@/lib/auth';
 import { connectPowerSync, disconnectPowerSync } from '@/lib/powersync';
-import { questionnaireAtom } from '@/modules/account-creation/store/account-creation';
 import { useBiometricAvailability } from '@/modules/auth/hooks/useBiometric';
-import {
-  useProfileStatus,
-  useSaveProfile,
-} from '@/modules/auth/hooks/useProfile';
+import { useProfileStatus } from '@/modules/auth/hooks/useProfile';
 import {
   biometricPromptShownAtom,
   isSignedOutAtom,
 } from '@/modules/auth/store/biometric';
 import { isReturningUserAtom } from '@/store/user';
 import * as SplashScreen from 'expo-splash-screen';
-import { useAtomValue, useSetAtom, useStore } from 'jotai';
-import { RESET } from 'jotai/utils';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
+import { useProfileAutoRecovery } from './useProfileAutoRecovery';
 import '../../global.css';
 
 type ActiveStack =
@@ -52,39 +48,22 @@ const useAppInitializer = () => {
     }
   }, [isAuthenticated, isSessionLoading]);
 
-  // Profile status from PowerSync local SQLite (instant for returning users)
+  // Profile status from PowerSync local SQLite
   const { data: profileStatus, isPending: isProfileChecking } =
     useProfileStatus(isAuthenticated);
   const hasProfile = profileStatus?.hasProfile ?? false;
   const onboardingCompleted = profileStatus?.onboardingCompleted ?? false;
-  const saveProfile = useSaveProfile();
-  const store = useStore();
 
-  // Auto-recovery: if backend has no profile but local questionnaire data exists, re-save
-  useEffect(() => {
-    if (!isAuthenticated || isProfileChecking || hasProfile) return;
-
-    (async () => {
-      const questionnaire = await store.get(questionnaireAtom);
-      if (questionnaire.age && questionnaire.termsAcceptedAt) {
-        saveProfile.mutate(
-          {
-            ageRange: questionnaire.age,
-            genderIdentity: questionnaire.gender,
-            goals: questionnaire.goals,
-            termsAcceptedAt: questionnaire.termsAcceptedAt,
-            privacyAcceptedAt: questionnaire.privacyAcceptedAt,
-          },
-          {
-            onSuccess: () => store.set(questionnaireAtom, RESET),
-          },
-        );
-      }
-    })();
-  }, [isAuthenticated, isProfileChecking, hasProfile]);
+  // Auto-save questionnaire data after signup (separate hook for clarity)
+  const { isPending: isAutoRecoveryPending } = useProfileAutoRecovery({
+    isAuthenticated,
+    hasProfile,
+  });
 
   const dataResolved =
-    !isSessionLoading && (!isAuthenticated || !isProfileChecking);
+    !isSessionLoading &&
+    (!isAuthenticated || !isProfileChecking) &&
+    !isAutoRecoveryPending;
 
   useEffect(() => {
     if (dataResolved) {

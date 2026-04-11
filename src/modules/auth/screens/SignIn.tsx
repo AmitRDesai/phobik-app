@@ -79,6 +79,10 @@ export default function SignInScreen() {
     }
   };
 
+  // Profile saving handled centrally in useAppInitializer.
+  // On sign-in, clear questionnaire to prevent overwriting existing profile.
+  // On social auth, don't clear — useAppInitializer checks hasSynced first.
+
   const handleSignIn = async () => {
     try {
       await signInMutation.mutateAsync({ email, password });
