@@ -89,6 +89,15 @@ export default function ResetPasswordScreen() {
               Request New Link
             </Text>
           </Pressable>
+
+          <Pressable
+            onPress={() => router.replace('/auth/sign-in')}
+            className="mt-4 py-2"
+          >
+            <Text className="text-sm text-primary-muted/60">
+              Back to Sign In
+            </Text>
+          </Pressable>
         </View>
       </SafeAreaView>
     );
@@ -168,6 +177,17 @@ export default function ResetPasswordScreen() {
                 Reset Password
               </GradientButton>
             </View>
+
+            <Pressable
+              onPress={() => router.replace('/auth/sign-in')}
+              className="mt-6 py-2"
+              disabled={isLoading}
+            >
+              <Text className="text-center text-sm text-primary-muted/60">
+                Remember your password?{' '}
+                <Text className="font-bold text-primary-pink">Sign In</Text>
+              </Text>
+            </Pressable>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

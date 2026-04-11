@@ -3,41 +3,89 @@ import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
+import { usePackOffering } from '@/modules/purchases/hooks/usePackOffering';
+import { usePackPurchased } from '@/modules/purchases/hooks/usePackPurchased';
+import { usePurchasePack } from '@/modules/purchases/hooks/usePurchasePack';
+import { useRestorePurchases } from '@/modules/purchases/hooks/useRestorePurchases';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import {
-  useEbookProgress,
-  useUpdateEbookProgress,
-} from '../hooks/useEbookProgress';
+import { useEbookProgress } from '../hooks/useEbookProgress';
+
+const PACK_ID = 'fear-of-flying';
 
 export default function EbookLanding() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { data: progress } = useEbookProgress();
-  const updateProgress = useUpdateEbookProgress();
-  const { purchased, introSeen } = progress;
+  const purchased = usePackPurchased(PACK_ID);
+  const { introSeen } = progress;
+  const purchasePack = usePurchasePack();
+  const restorePurchases = useRestorePurchases();
+  const { data: offering } = usePackOffering(PACK_ID);
 
   const handleBuyNow = useCallback(async () => {
-    const result = await dialog.info({
-      title: 'Unlock Premium Access',
-      message:
-        'This will unlock the full Calm Above the Clouds journey including the E-Book and Quick Flight Checklist.\n\nNote: This requires in-app purchase to unlock.',
-      buttons: [
-        { label: 'Cancel', value: 'cancel', variant: 'secondary' },
-        { label: 'Unlock', value: 'unlock', variant: 'primary' },
-      ],
-    });
-    if (result === 'unlock') {
-      updateProgress.mutate({ purchased: true });
+    try {
+      await purchasePack.mutateAsync(PACK_ID);
+      dialog.info({
+        title: 'Purchase Successful',
+        message:
+          'You now have full access to Calm Above the Clouds, including the E-Book and Quick Flight Checklist.',
+      });
+    } catch (error: unknown) {
+      // RevenueCat sets userCancelled on cancellation — not an error
+      if (
+        error instanceof Error &&
+        'userCancelled' in error &&
+        (error as { userCancelled: boolean }).userCancelled
+      ) {
+        return;
+      }
+      dialog.error({
+        title: 'Purchase Failed',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'Something went wrong. Please try again.',
+      });
     }
-  }, [updateProgress]);
+  }, [purchasePack]);
+
+  const handleRestore = useCallback(async () => {
+    try {
+      const close = dialog.loading({ message: 'Restoring purchases...' });
+      const result = await restorePurchases.mutateAsync();
+      close();
+      if (result.restoredCount > 0) {
+        dialog.info({
+          title: 'Purchases Restored',
+          message: 'Your purchases have been restored successfully.',
+        });
+      } else {
+        dialog.info({
+          title: 'No Purchases Found',
+          message: 'No previous purchases were found for this account.',
+        });
+      }
+    } catch {
+      dialog.error({
+        title: 'Restore Failed',
+        message: 'Could not restore purchases. Please try again.',
+      });
+    }
+  }, [restorePurchases]);
 
   const handleEbookPress = useCallback(() => {
     if (!purchased) return;
@@ -53,15 +101,8 @@ export default function EbookLanding() {
     router.push('/practices/flight-checklist-hub');
   }, [purchased, router]);
 
-  // TODO: Remove this — temporary reset for testing
-  const handleReset = useCallback(() => {
-    updateProgress.mutate({
-      purchased: false,
-      introSeen: false,
-      lastChapterId: null,
-      completedChapters: [],
-    });
-  }, [updateProgress]);
+  const priceLabel = offering?.priceString ?? '$9.99';
+  const isPurchasing = purchasePack.isPending;
 
   return (
     <View className="flex-1 bg-background-charcoal">
@@ -71,13 +112,6 @@ export default function EbookLanding() {
         style={{ paddingTop: insets.top + 8 }}
       >
         <BackButton icon="close" />
-        {/* TODO: Remove — temporary reset for testing */}
-        <Pressable
-          onPress={handleReset}
-          className="h-10 w-10 items-center justify-center"
-        >
-          <MaterialIcons name="refresh" size={22} color={colors.gray[500]} />
-        </Pressable>
       </View>
 
       <ScrollFade fadeColor={colors.background.charcoal}>
@@ -241,22 +275,34 @@ export default function EbookLanding() {
             <Text className="text-sm font-medium uppercase tracking-widest text-gray-400">
               Premium Access
             </Text>
-            <Text className="text-xl font-bold text-white">$9.99</Text>
+            <Text className="text-xl font-bold text-white">{priceLabel}</Text>
           </View>
           <View className="mt-3">
             <GradientButton
               onPress={handleBuyNow}
+              disabled={isPurchasing}
               prefixIcon={
-                <MaterialIcons name="shopping-cart" size={20} color="white" />
+                isPurchasing ? (
+                  <ActivityIndicator size="small" color="white" />
+                ) : (
+                  <MaterialIcons name="shopping-cart" size={20} color="white" />
+                )
               }
             >
-              Buy Now
+              {isPurchasing ? 'Processing...' : 'Buy Now'}
             </GradientButton>
           </View>
-          <Text className="px-8 pb-2 pt-2 text-center text-[10px] text-gray-500">
-            Restore purchase {'\u00b7'} Terms of Service {'\u00b7'} Privacy
-            Policy
-          </Text>
+          <View className="flex-row items-center justify-center gap-1 px-8 pb-2 pt-2">
+            <Pressable onPress={handleRestore}>
+              <Text className="text-[10px] text-gray-500 underline">
+                Restore purchase
+              </Text>
+            </Pressable>
+            <Text className="text-[10px] text-gray-500">{'\u00b7'}</Text>
+            <Text className="text-[10px] text-gray-500">Terms of Service</Text>
+            <Text className="text-[10px] text-gray-500">{'\u00b7'}</Text>
+            <Text className="text-[10px] text-gray-500">Privacy Policy</Text>
+          </View>
         </View>
       )}
     </View>

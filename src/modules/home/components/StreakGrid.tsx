@@ -1,4 +1,4 @@
-import { colors, alpha } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import { ScrollView, Text, View } from 'react-native';
@@ -53,7 +53,7 @@ export function StreakGrid({ completedDates }: StreakGridProps) {
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerClassName="gap-2"
+      contentContainerClassName="gap-2 px-4"
     >
       {weekDays.map((day, index) => (
         <View key={index} className="items-center gap-1.5">

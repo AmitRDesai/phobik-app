@@ -81,16 +81,36 @@ export default function EmpathyChallengeCalendar() {
               (d) => d.dayNumber === empathyDay.day,
             );
             const status = challengeDay?.status ?? 'locked';
-            const isActive = status === 'unlocked' || status === 'in_progress';
             const isCompleted = status === 'completed';
             const isLocked = status === 'locked';
             const isLast = index === EMPATHY_DAYS.length - 1;
+
+            // A day is available to start only if unlocked/in_progress AND
+            // either it's day 1 or the previous day was completed before today
+            const isActive = (() => {
+              if (status === 'in_progress') return true;
+              if (status !== 'unlocked') return false;
+              if (empathyDay.day === 1) return true;
+
+              const prevDay = days.find(
+                (d) => d.dayNumber === empathyDay.day - 1,
+              );
+              if (!prevDay?.completedAt) return false;
+              const completedDate = String(prevDay.completedAt).slice(0, 10);
+              const today = new Date().toISOString().slice(0, 10);
+              return completedDate < today;
+            })();
+
+            // Unlocked in DB but gated until tomorrow
+            const isWaiting = status === 'unlocked' && !isActive;
 
             return (
               <View
                 key={empathyDay.day}
                 className="flex-row"
-                style={{ opacity: isLocked ? 0.4 : 1 }}
+                style={{
+                  opacity: isLocked || isWaiting ? 0.4 : 1,
+                }}
               >
                 {/* Timeline column */}
                 <View className="w-10 items-center">
@@ -117,7 +137,13 @@ export default function EmpathyChallengeCalendar() {
                     </LinearGradient>
                   ) : (
                     <View className="h-10 w-10 items-center justify-center rounded-full border-2 border-white/20">
-                      {empathyDay.icon ? (
+                      {isWaiting ? (
+                        <MaterialIcons
+                          name="schedule"
+                          size={18}
+                          color="white"
+                        />
+                      ) : empathyDay.icon ? (
                         <MaterialIcons
                           name={empathyDay.icon}
                           size={18}
@@ -152,7 +178,7 @@ export default function EmpathyChallengeCalendar() {
                   {isActive ? (
                     <ActiveDayCard
                       empathyDay={empathyDay}
-                      dayId={challengeDay?.id ?? ''}
+                      dayId={String(challengeDay?.id ?? '')}
                     />
                   ) : (
                     <View className="justify-center pt-2">
@@ -162,11 +188,8 @@ export default function EmpathyChallengeCalendar() {
                       <Text className="text-sm text-slate-400">
                         {isCompleted
                           ? 'Completed'
-                          : index > 0 &&
-                              days.find(
-                                (d) => d.dayNumber === empathyDay.day - 1,
-                              )?.status === 'unlocked'
-                            ? 'Unlock tomorrow'
+                          : isWaiting
+                            ? 'Come back tomorrow'
                             : 'Locked'}
                       </Text>
                     </View>

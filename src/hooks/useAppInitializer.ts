@@ -3,6 +3,11 @@ import { connectPowerSync, disconnectPowerSync } from '@/lib/powersync';
 import { useBiometricAvailability } from '@/modules/auth/hooks/useBiometric';
 import { useProfileStatus } from '@/modules/auth/hooks/useProfile';
 import {
+  identifyUser,
+  initRevenueCat,
+  logOutRevenueCat,
+} from '@/modules/purchases/lib/revenue-cat';
+import {
   biometricPromptShownAtom,
   isSignedOutAtom,
 } from '@/modules/auth/store/biometric';
@@ -39,14 +44,23 @@ const useAppInitializer = () => {
     if (isAuthenticated && !isReturningUser) setIsReturningUser(true);
   }, [isAuthenticated, isReturningUser, setIsReturningUser]);
 
-  // Connect/disconnect PowerSync based on auth state
+  // Initialize RevenueCat SDK on mount
+  useEffect(() => {
+    initRevenueCat().catch(console.error);
+  }, []);
+
+  // Connect/disconnect PowerSync + RevenueCat based on auth state
   useEffect(() => {
     if (isAuthenticated) {
       connectPowerSync().catch(console.error);
+      if (session?.user?.id) {
+        identifyUser(session.user.id).catch(console.error);
+      }
     } else if (!isSessionLoading) {
       disconnectPowerSync().catch(console.error);
+      logOutRevenueCat().catch(console.error);
     }
-  }, [isAuthenticated, isSessionLoading]);
+  }, [isAuthenticated, isSessionLoading, session?.user?.id]);
 
   // Profile status from PowerSync local SQLite
   const { data: profileStatus, isPending: isProfileChecking } =

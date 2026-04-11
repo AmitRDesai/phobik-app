@@ -1,6 +1,7 @@
 import {
   cancelDailyAffirmationReminder,
   cancelDailyEnergyReminder,
+  cancelEmpathyChallengeReminder,
   scheduleDailyAffirmationReminder,
   scheduleDailyEnergyReminder,
 } from '@/lib/notifications';
@@ -17,6 +18,7 @@ export function useNotificationScheduler() {
   const { data: settings } = useNotificationSettings();
   const dailyReminders = settings.dailyReminders;
   const checkInReminders = settings.checkInReminders;
+  const challengeNotifications = settings.challengeNotifications;
 
   useEffect(() => {
     if (dailyReminders) {
@@ -33,4 +35,11 @@ export function useNotificationScheduler() {
       cancelDailyEnergyReminder().catch(console.error);
     }
   }, [checkInReminders]);
+
+  // Cancel empathy challenge reminder if user disables challenge notifications
+  useEffect(() => {
+    if (!challengeNotifications) {
+      cancelEmpathyChallengeReminder().catch(console.error);
+    }
+  }, [challengeNotifications]);
 }

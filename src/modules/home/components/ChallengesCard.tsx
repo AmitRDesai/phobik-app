@@ -1,8 +1,8 @@
 import { colors } from '@/constants/colors';
 import {
+  formatCount,
   useActiveChallenge,
   useMicroChallengeStats,
-  formatCount,
 } from '@/modules/micro-challenges/hooks/useMicroChallenge';
 import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
@@ -48,7 +48,9 @@ export function ChallengesCard() {
           <Text className="mb-3 text-right text-[8px] font-bold uppercase tracking-widest text-slate-400">
             Weekly Streak
           </Text>
-          <StreakGrid completedDates={completedDates} />
+          <View className="-mx-4">
+            <StreakGrid completedDates={completedDates} />
+          </View>
         </View>
       </View>
 

@@ -1,3 +1,4 @@
+import { env } from '@/utils/env';
 import type {
   AbstractPowerSyncDatabase,
   CrudEntry,
@@ -6,7 +7,6 @@ import type {
 } from '@powersync/react-native';
 import { authClient } from '../auth';
 import { rpcClient } from '../rpc';
-import { env } from '@/utils/env';
 import { parseJSON } from './utils';
 
 export class PhobikConnector implements PowerSyncBackendConnector {
@@ -35,7 +35,7 @@ export class PhobikConnector implements PowerSyncBackendConnector {
 
     try {
       for (const op of batch.crud) {
-        await this.processOp(op);
+        await this.processOp(op, database);
       }
       await batch.complete();
     } catch (e) {
@@ -45,7 +45,7 @@ export class PhobikConnector implements PowerSyncBackendConnector {
     }
   }
 
-  private async processOp(op: CrudEntry) {
+  private async processOp(op: CrudEntry, database: AbstractPowerSyncDatabase) {
     const { table, opData, id } = op;
 
     switch (table) {
@@ -56,7 +56,7 @@ export class PhobikConnector implements PowerSyncBackendConnector {
       case 'gentle_letter':
         return this.handleGentleLetter(op);
       case 'empathy_challenge':
-        return this.handleEmpathyChallenge(op);
+        return this.handleEmpathyChallenge(op, database);
       case 'empathy_challenge_day':
         return this.handleEmpathyChallengeDay(op);
       case 'micro_challenge':
@@ -71,6 +71,8 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         return this.handleEnergyCheckIn(op);
       case 'practice_session':
         return this.handlePracticeSession(op);
+      case 'pack_purchase':
+        return this.handlePackPurchase(op);
       case 'ebook_progress':
         return this.handleEbookProgress(op);
       case 'notification_settings':
@@ -146,10 +148,25 @@ export class PhobikConnector implements PowerSyncBackendConnector {
     }
   }
 
-  private async handleEmpathyChallenge(op: CrudEntry) {
-    // Challenge creation is handled as a unit via startChallenge
-    // Individual PATCH operations (status changes) don't need separate upload
-    // since day completion triggers challenge completion on the backend
+  private async handleEmpathyChallenge(
+    op: CrudEntry,
+    database: AbstractPowerSyncDatabase,
+  ) {
+    if (op.op === 'PUT') {
+      // Read the client-generated day IDs from local SQLite so the server
+      // uses the same IDs — prevents ID mismatch during sync reconciliation
+      const days = await database.getAll<{ id: string }>(
+        'SELECT id FROM empathy_challenge_day WHERE challenge_id = ? ORDER BY day_number ASC',
+        [op.id],
+      );
+      const dayIds = days.map((d) => d.id);
+      await rpcClient.empathyChallenge.startChallenge({
+        id: op.id,
+        dayIds: dayIds.length === 7 ? dayIds : undefined,
+      });
+    }
+    // PATCH operations (status changes like 'abandoned', 'completed') are
+    // handled by the server via startChallenge/completeDay — no separate upload needed
   }
 
   private async handleEmpathyChallengeDay(op: CrudEntry) {
@@ -187,6 +204,8 @@ export class PhobikConnector implements PowerSyncBackendConnector {
           id: op.id,
           emotionId: (d?.emotion_id as string) ?? undefined,
           needId: (d?.need_id as string) ?? undefined,
+          feeling: (d?.feeling as string) ?? undefined,
+          need: (d?.need as string) ?? undefined,
           currentStep: (d?.current_step as number) ?? undefined,
           aiResponse: d?.ai_response
             ? (parseJSON(d.ai_response as string) ?? undefined)
@@ -288,6 +307,18 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         relationship: (d?.relationship as number) ?? 0,
         energyIndex: (d?.energy_index as number) ?? 0,
         selectedDate: (d?.selected_date as string) ?? '',
+      });
+    }
+  }
+
+  private async handlePackPurchase(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op === 'PUT' || op.op === 'PATCH') {
+      await rpcClient.packPurchase.recordPurchase({
+        id: op.id,
+        packId: (d?.pack_id as string) ?? '',
+        productId: (d?.product_id as string) ?? '',
+        purchasedAt: (d?.purchased_at as string) ?? undefined,
       });
     }
   }

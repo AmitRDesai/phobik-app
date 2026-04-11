@@ -1,6 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import * as Haptics from 'expo-haptics';
 import { useEffect, useMemo } from 'react';
-import { Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import Animated, {
   cancelAnimation,
@@ -23,7 +24,9 @@ export interface MapperItem {
 interface FloatingMapperProps {
   items: MapperItem[];
   selectedId: string | null;
+  selectedSubItem: string | null;
   onSelect: (id: string) => void;
+  onSubItemSelect: (sub: string) => void;
   onConfirm: () => void;
   promptText: string;
   confirmLabel: string;
@@ -74,7 +77,9 @@ function generateBgSlots(totalItems: number, w: number, h: number) {
 export function FloatingMapper({
   items,
   selectedId,
+  selectedSubItem,
   onSelect,
+  onSubItemSelect,
   onConfirm,
   promptText,
   confirmLabel,
@@ -172,7 +177,7 @@ export function FloatingMapper({
           initialAnimate={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: 'timing', duration: 400 }}
-          pointerEvents="none"
+          pointerEvents="box-none"
         >
           <Animated.View
             className="absolute"
@@ -186,28 +191,55 @@ export function FloatingMapper({
               },
               orbitalStyle,
             ]}
+            pointerEvents="box-none"
           >
             {selected.subItems.map((sub, i) => {
               const angle =
                 (i / selected.subItems.length) * Math.PI * 2 - Math.PI / 2;
               const cx = ORBITAL_RADIUS + ORBITAL_RADIUS * Math.cos(angle);
               const cy = ORBITAL_RADIUS + ORBITAL_RADIUS * Math.sin(angle);
+              const isSubSelected = selectedSubItem === sub;
               return (
-                <View
+                <Pressable
                   key={sub}
                   className="absolute items-center"
                   style={{ left: cx - 45, top: cy - 12, width: 90 }}
+                  onPress={() => {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                    onSubItemSelect(sub);
+                  }}
+                  hitSlop={8}
                 >
-                  <View className="mb-1 h-1.5 w-1.5 rounded-full bg-white/50" />
+                  <EaseView
+                    animate={{
+                      scale: isSubSelected ? 2.5 : 1,
+                      opacity: isSubSelected ? 1 : 0.5,
+                    }}
+                    transition={{ type: 'timing', duration: 200 }}
+                  >
+                    <View
+                      className={`mb-1 h-1.5 w-1.5 rounded-full ${isSubSelected ? 'bg-white' : 'bg-white/50'}`}
+                      style={
+                        isSubSelected
+                          ? {
+                              shadowColor: selected.shadowColor,
+                              shadowOffset: { width: 0, height: 0 },
+                              shadowOpacity: 0.8,
+                              shadowRadius: 8,
+                            }
+                          : undefined
+                      }
+                    />
+                  </EaseView>
                   <Animated.View style={counterRotateStyle}>
                     <Text
-                      className="text-center text-[11px] font-semibold text-white/70"
+                      className={`text-center text-[11px] ${isSubSelected ? 'font-bold text-white' : 'font-semibold text-white/70'}`}
                       numberOfLines={1}
                     >
                       {sub}
                     </Text>
                   </Animated.View>
-                </View>
+                </Pressable>
               );
             })}
           </Animated.View>
@@ -216,7 +248,7 @@ export function FloatingMapper({
 
       {/* Confirm button */}
       <View className="px-6 pb-6">
-        <GradientButton onPress={onConfirm} disabled={!selectedId}>
+        <GradientButton onPress={onConfirm} disabled={!selectedSubItem}>
           {confirmLabel}
         </GradientButton>
       </View>

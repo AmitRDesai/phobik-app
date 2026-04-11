@@ -4,6 +4,7 @@ import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
+import { useActiveChallenge } from '@/modules/empathy-challenge/hooks/useEmpathyChallenge';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -27,6 +28,17 @@ const cardShadow = {
 export default function LoveLanding() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { data: challenge } = useActiveChallenge();
+
+  const hasActiveChallenge = !!challenge;
+
+  const handleEmpathyChallenge = () => {
+    if (hasActiveChallenge) {
+      router.push('/practices/empathy-challenge/calendar');
+    } else {
+      router.push('/practices/empathy-challenge/intro');
+    }
+  };
 
   return (
     <View className="flex-1 bg-background-dark">
@@ -62,7 +74,7 @@ export default function LoveLanding() {
         <View className="gap-8">
           {/* Card 1: 7-Day Empathy Challenge */}
           <Pressable
-            onPress={() => router.push('/practices/empathy-challenge')}
+            onPress={handleEmpathyChallenge}
             className="active:scale-[0.98]"
           >
             <View className="rounded-[32px]" style={cardShadow}>
@@ -100,9 +112,7 @@ export default function LoveLanding() {
                   </Text>
                   <View className="w-3/4">
                     <GradientButton
-                      onPress={() =>
-                        router.push('/practices/empathy-challenge')
-                      }
+                      onPress={handleEmpathyChallenge}
                       icon={
                         <MaterialIcons
                           name="arrow-forward"
@@ -111,7 +121,9 @@ export default function LoveLanding() {
                         />
                       }
                     >
-                      Start Journey
+                      {hasActiveChallenge
+                        ? 'Continue Journey'
+                        : 'Start Journey'}
                     </GradientButton>
                   </View>
                 </View>

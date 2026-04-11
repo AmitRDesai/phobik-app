@@ -6,7 +6,10 @@ import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
 import { sql } from 'kysely';
 import { useMemo } from 'react';
-import type { MicroChallengeAIContent } from './useMicroChallenge.types';
+import type {
+  MicroChallenge,
+  MicroChallengeAIContent,
+} from './useMicroChallenge.types';
 
 // ─── Active challenge ───
 
@@ -26,8 +29,7 @@ export function useActiveChallenge() {
 
   const challenge = useMemo(() => {
     if (!data?.[0]) return null;
-    const row = toCamel(data[0], { aiResponse: true });
-    return row;
+    return toCamel(data[0], { ai_response: true }) as unknown as MicroChallenge;
   }, [data]);
 
   return { challenge, ...rest };
@@ -133,6 +135,8 @@ export function useUpdateChallenge() {
       id: string;
       emotionId?: string;
       needId?: string;
+      feeling?: string;
+      need?: string;
       aiResponse?: MicroChallengeAIContent;
       currentStep?: number;
       doseDopamine?: number;
@@ -143,6 +147,8 @@ export function useUpdateChallenge() {
       const set: {
         emotion_id?: string;
         need_id?: string;
+        feeling?: string;
+        need?: string;
         current_step?: number;
         dose_dopamine?: number;
         dose_oxytocin?: number;
@@ -152,6 +158,8 @@ export function useUpdateChallenge() {
       } = {};
       if (input.emotionId !== undefined) set.emotion_id = input.emotionId;
       if (input.needId !== undefined) set.need_id = input.needId;
+      if (input.feeling !== undefined) set.feeling = input.feeling;
+      if (input.need !== undefined) set.need = input.need;
       if (input.currentStep !== undefined) set.current_step = input.currentStep;
       if (input.doseDopamine !== undefined)
         set.dose_dopamine = input.doseDopamine;

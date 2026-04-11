@@ -113,6 +113,8 @@ const micro_challenge = new Table(
     user_id: column.text,
     emotion_id: column.text,
     need_id: column.text,
+    feeling: column.text,
+    need: column.text,
     status: column.text,
     ai_response: column.text, // JSONB as JSON string
     current_step: column.integer,
@@ -208,6 +210,18 @@ const practice_session = new Table(
   { indexes: { user_completed: ['user_id', 'completed_at'] } },
 );
 
+const pack_purchase = new Table(
+  {
+    user_id: column.text,
+    pack_id: column.text,
+    product_id: column.text,
+    purchased_at: column.text,
+    created_at: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { user_pack: ['user_id', 'pack_id'] } },
+);
+
 const ebook_progress = new Table(
   {
     user_id: column.text,
@@ -247,11 +261,13 @@ export const AppSchema = new Schema({
   user_affirmation,
   energy_check_in,
   practice_session,
+  pack_purchase,
   ebook_progress,
   notification_settings,
 });
 
 export type Database = (typeof AppSchema)['types'];
+export type PackPurchaseRecord = Database['pack_purchase'];
 export type UserProfileRecord = Database['user_profile'];
 export type CalendarPreferencesRecord = Database['calendar_preferences'];
 export type JournalEntryRecord = Database['journal_entry'];

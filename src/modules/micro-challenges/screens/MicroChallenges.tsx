@@ -44,6 +44,8 @@ export default function MicroChallenges() {
   const step = challenge?.currentStep ?? 0;
   const selectedEmotion = challenge?.emotionId ?? null;
   const selectedNeed = challenge?.needId ?? null;
+  const selectedFeeling = challenge?.feeling ?? null;
+  const selectedNeedItem = challenge?.need ?? null;
 
   // On mount: start a new challenge if none is active
   useEffect(() => {
@@ -66,7 +68,7 @@ export default function MicroChallenges() {
   const setSelectedEmotion = useCallback(
     (emotionId: string | null) => {
       if (!challengeId || !emotionId) return;
-      updateChallenge.mutate({ id: challengeId, emotionId });
+      updateChallenge.mutate({ id: challengeId, emotionId, feeling: '' });
     },
     [challengeId, updateChallenge],
   );
@@ -74,7 +76,23 @@ export default function MicroChallenges() {
   const setSelectedNeed = useCallback(
     (needId: string | null) => {
       if (!challengeId || !needId) return;
-      updateChallenge.mutate({ id: challengeId, needId });
+      updateChallenge.mutate({ id: challengeId, needId, need: '' });
+    },
+    [challengeId, updateChallenge],
+  );
+
+  const setSelectedFeeling = useCallback(
+    (feeling: string) => {
+      if (!challengeId) return;
+      updateChallenge.mutate({ id: challengeId, feeling });
+    },
+    [challengeId, updateChallenge],
+  );
+
+  const setSelectedNeedItem = useCallback(
+    (need: string) => {
+      if (!challengeId) return;
+      updateChallenge.mutate({ id: challengeId, need });
     },
     [challengeId, updateChallenge],
   );
@@ -184,7 +202,9 @@ export default function MicroChallenges() {
               subItems: e.subFeelings,
             }))}
             selectedId={selectedEmotion}
+            selectedSubItem={selectedFeeling}
             onSelect={setSelectedEmotion}
+            onSubItemSelect={setSelectedFeeling}
             onConfirm={handleNext}
             promptText={`Name the feelings without judgment.\nI feel...`}
             confirmLabel="Confirm Feeling"
@@ -201,7 +221,9 @@ export default function MicroChallenges() {
               subItems: n.subNeeds,
             }))}
             selectedId={selectedNeed}
+            selectedSubItem={selectedNeedItem}
             onSelect={setSelectedNeed}
+            onSubItemSelect={setSelectedNeedItem}
             onConfirm={handleNext}
             promptText={`Name what you are needing.\nI need...`}
             confirmLabel="Confirm Need"

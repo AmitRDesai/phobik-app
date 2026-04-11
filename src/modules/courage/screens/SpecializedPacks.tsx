@@ -1,16 +1,15 @@
+import { usePackPurchases } from '@/modules/purchases/hooks/usePackPurchased';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
-import { useEbookProgress } from '@/modules/ebook/hooks/useEbookProgress';
 import { CourageHeader } from '../components/CourageHeader';
 import { SpecializedPackCard } from '../components/SpecializedPackCard';
 import { SPECIALIZED_PACKS } from '../data/specialized-packs';
 
 export default function SpecializedPacks() {
   const router = useRouter();
-  const { data: progress } = useEbookProgress();
-  const ebookPurchased = progress.purchased;
+  const purchasedPacks = usePackPurchases();
 
   const handleNavigateToLanding = useCallback(() => {
     router.push('/practices/ebook-landing');
@@ -37,16 +36,12 @@ export default function SpecializedPacks() {
             <SpecializedPackCard
               key={pack.id}
               pack={pack}
-              unlocked={pack.id === 'fear-of-flying' ? ebookPurchased : false}
+              unlocked={purchasedPacks.has(pack.id)}
               onUnlock={
-                pack.id === 'fear-of-flying'
-                  ? handleNavigateToLanding
-                  : undefined
+                pack.status === 'active' ? handleNavigateToLanding : undefined
               }
               onView={
-                pack.id === 'fear-of-flying'
-                  ? handleNavigateToLanding
-                  : undefined
+                pack.status === 'active' ? handleNavigateToLanding : undefined
               }
             />
           ))}

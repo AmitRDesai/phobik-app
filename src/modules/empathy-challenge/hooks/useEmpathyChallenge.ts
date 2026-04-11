@@ -42,7 +42,13 @@ export function useActiveChallenge() {
     [challenge, days],
   );
 
-  return { data, ...challengeRest };
+  // Treat as loading when no data found yet but a refetch is in progress —
+  // prevents routing decisions based on stale cached empty results
+  const isLoading =
+    challengeRest.isLoading ||
+    (!challenges?.length && challengeRest.fetchStatus === 'fetching');
+
+  return { ...challengeRest, data, isLoading };
 }
 
 export function useStartChallenge() {

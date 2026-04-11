@@ -80,3 +80,36 @@ export async function scheduleDailyEnergyReminder() {
 export async function cancelDailyEnergyReminder() {
   await Notifications.cancelScheduledNotificationAsync(ENERGY_REMINDER_ID);
 }
+
+const EMPATHY_CHALLENGE_REMINDER_ID = 'empathy-challenge-reminder';
+
+/** Schedule a one-shot notification at 9 AM tomorrow to remind the user their next empathy day is available */
+export async function scheduleEmpathyChallengeReminder(nextDayNumber: number) {
+  await cancelEmpathyChallengeReminder();
+
+  const granted = await requestNotificationPermissions();
+  if (!granted) return;
+
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(9, 0, 0, 0);
+
+  await Notifications.scheduleNotificationAsync({
+    identifier: EMPATHY_CHALLENGE_REMINDER_ID,
+    content: {
+      title: 'Your next empathy day is ready',
+      body: `Day ${nextDayNumber} of your 7-Day Empathy Challenge is now available.`,
+      sound: true,
+    },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.DATE,
+      date: tomorrow,
+    },
+  });
+}
+
+export async function cancelEmpathyChallengeReminder() {
+  await Notifications.cancelScheduledNotificationAsync(
+    EMPATHY_CHALLENGE_REMINDER_ID,
+  );
+}
