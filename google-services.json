@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "597382793705",
+    "project_id": "phobik-bb61d",
+    "storage_bucket": "phobik-bb61d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597382793705:android:d1454bf669d5e0bba56378",
+        "android_client_info": {
+          "package_name": "com.phobik.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5JFpIaSBQnvwfJN_CvqqzTlSuNvkM5Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

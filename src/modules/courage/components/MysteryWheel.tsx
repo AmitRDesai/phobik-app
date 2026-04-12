@@ -2,6 +2,7 @@ import { alpha, colors, withAlpha } from '@/constants/colors';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
+  useAnimatedProps,
   useSharedValue,
   useAnimatedReaction,
   withRepeat,
@@ -11,13 +12,7 @@ import Animated, {
   runOnJS,
   Easing,
 } from 'react-native-reanimated';
-import Svg, {
-  Defs,
-  LinearGradient,
-  Path,
-  Polygon,
-  Stop,
-} from 'react-native-svg';
+import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg';
 import { useEffect, useRef } from 'react';
 import * as Haptics from 'expo-haptics';
 
@@ -28,11 +23,13 @@ import {
 
 const WHEEL_SIZE = 340;
 const CENTER_SIZE = 80;
-const POINTER_SIZE = 24;
 const SEGMENTS = 6;
-const SEGMENT_ANGLE = 360 / SEGMENTS; // 60°
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+const AnimatedPath = Animated.createAnimatedComponent(Path);
+// Inactive segments are dimmed by this much during a spin so the active
+// (full-color) segment reads as the spotlight.
+const DIM_OPACITY = 0.7;
 
 // Segment order matches the design (clockwise from 12 o'clock):
 // Breathing (0-60°), Gratitude (60-120°), Affirmations (120-180°),
@@ -82,11 +79,11 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
   const glowOpacity = useSharedValue(0.8);
   const glowScale = useSharedValue(1);
   const pressScale = useSharedValue(1);
-  const rotation = useSharedValue(0);
-  const pointerScale = useSharedValue(1);
+  // Continuous segment index. Negative = no segment highlighted (initial state).
+  // Otherwise, Math.floor(value) % SEGMENTS = active segment.
+  const highlightPosition = useSharedValue(-1);
   const spinningOpacity = useSharedValue(1);
   const isSpinning = useRef(false);
-  const lastSegmentCrossing = useSharedValue(0);
   const selectedTypeRef = useRef<MysteryType>('breathing');
 
   useEffect(() => {
@@ -116,11 +113,9 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
 
   // Haptic ticks when crossing segment boundaries
   useAnimatedReaction(
-    () => rotation.value,
-    (current) => {
-      const currentSegment = Math.floor(current / SEGMENT_ANGLE);
-      if (currentSegment !== lastSegmentCrossing.value) {
-        lastSegmentCrossing.value = currentSegment;
+    () => Math.floor(highlightPosition.value),
+    (current, prev) => {
+      if (prev !== null && current !== prev) {
         runOnJS(triggerTick)();
       }
     },
@@ -131,13 +126,56 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
     transform: [{ scale: glowScale.value * pressScale.value }],
   }));
 
-  const wheelAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${rotation.value}deg` }],
-  }));
-
-  const pointerAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: pointerScale.value }],
-  }));
+  // Per-segment dim overlay props. The active segment stays at full color
+  // (overlay opacity 0); inactive segments get a translucent black overlay
+  // so the spotlight effect comes from dimming the others, not painting the
+  // active one. `highlightPosition.value < 0` is the "no highlight" sentinel
+  // (initial state) — all overlays are transparent so the full board shows.
+  // Hooks can't run in a loop, so precompute all six explicitly.
+  const dimProps0 = useAnimatedProps(() => {
+    if (highlightPosition.value < 0) return { opacity: 0 };
+    const active =
+      ((Math.floor(highlightPosition.value) % SEGMENTS) + SEGMENTS) % SEGMENTS;
+    return { opacity: active === 0 ? 0 : DIM_OPACITY };
+  });
+  const dimProps1 = useAnimatedProps(() => {
+    if (highlightPosition.value < 0) return { opacity: 0 };
+    const active =
+      ((Math.floor(highlightPosition.value) % SEGMENTS) + SEGMENTS) % SEGMENTS;
+    return { opacity: active === 1 ? 0 : DIM_OPACITY };
+  });
+  const dimProps2 = useAnimatedProps(() => {
+    if (highlightPosition.value < 0) return { opacity: 0 };
+    const active =
+      ((Math.floor(highlightPosition.value) % SEGMENTS) + SEGMENTS) % SEGMENTS;
+    return { opacity: active === 2 ? 0 : DIM_OPACITY };
+  });
+  const dimProps3 = useAnimatedProps(() => {
+    if (highlightPosition.value < 0) return { opacity: 0 };
+    const active =
+      ((Math.floor(highlightPosition.value) % SEGMENTS) + SEGMENTS) % SEGMENTS;
+    return { opacity: active === 3 ? 0 : DIM_OPACITY };
+  });
+  const dimProps4 = useAnimatedProps(() => {
+    if (highlightPosition.value < 0) return { opacity: 0 };
+    const active =
+      ((Math.floor(highlightPosition.value) % SEGMENTS) + SEGMENTS) % SEGMENTS;
+    return { opacity: active === 4 ? 0 : DIM_OPACITY };
+  });
+  const dimProps5 = useAnimatedProps(() => {
+    if (highlightPosition.value < 0) return { opacity: 0 };
+    const active =
+      ((Math.floor(highlightPosition.value) % SEGMENTS) + SEGMENTS) % SEGMENTS;
+    return { opacity: active === 5 ? 0 : DIM_OPACITY };
+  });
+  const dimPropsList = [
+    dimProps0,
+    dimProps1,
+    dimProps2,
+    dimProps3,
+    dimProps4,
+    dimProps5,
+  ];
 
   const handlePressIn = () => {
     if (isSpinning.current) return;
@@ -152,12 +190,7 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
   const handleSpinFinished = () => {
     isSpinning.current = false;
     spinningOpacity.value = withTiming(1, { duration: 300 });
-    // Bounce the pointer
-    pointerScale.value = withSequence(
-      withSpring(1.4, { damping: 4, stiffness: 300 }),
-      withSpring(1, { damping: 8, stiffness: 200 }),
-    );
-    // Navigate after a short delay
+    // Navigate after a short delay so the user sees the landed segment glow
     setTimeout(() => {
       onSpinComplete(selectedTypeRef.current);
     }, 600);
@@ -172,23 +205,18 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
     const selectedIndex = Math.floor(Math.random() * SEGMENTS);
     selectedTypeRef.current = SEGMENT_ORDER[selectedIndex];
 
-    // Calculate target rotation:
-    // - Add 4-7 full spins for visual effect
-    // - Land on the selected segment center (segmentIndex * 60 + 30)
-    // - Rotation is clockwise, so we need to account for the fact that
-    //   the pointer is at top (0°) and segments go clockwise
-    const fullSpins = 4 + Math.floor(Math.random() * 4);
-    const targetSegmentAngle =
-      selectedIndex * SEGMENT_ANGLE + SEGMENT_ANGLE / 2;
-    const targetRotation =
-      rotation.value + fullSpins * 360 + (360 - targetSegmentAngle);
+    // Reset to a clean starting position so the highlight begins on segment 0
+    // (avoids any leftover state from a previous spin influencing the math).
+    highlightPosition.value = 0;
 
-    // Round to avoid float drift
-    const finalTarget =
-      Math.round(targetRotation / SEGMENT_ANGLE) * SEGMENT_ANGLE +
-      SEGMENT_ANGLE / 2;
+    // Calculate target highlight position in segment units:
+    // - Add 4-7 full laps (6 segments each) for visual effect
+    // - Land on the selected segment's center so Math.floor(x) % 6 === selectedIndex
+    const fullLaps = 4 + Math.floor(Math.random() * 4);
+    // +0.5 lands in the middle of the target segment to avoid float drift near boundaries
+    const finalTarget = fullLaps * SEGMENTS + selectedIndex + 0.5;
 
-    rotation.value = withTiming(
+    highlightPosition.value = withTiming(
       finalTarget,
       {
         duration: 4500,
@@ -209,43 +237,16 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
   return (
     <View
       className="items-center justify-center"
-      style={{ width: WHEEL_SIZE, height: WHEEL_SIZE + POINTER_SIZE }}
+      style={{ width: WHEEL_SIZE, height: WHEEL_SIZE }}
     >
-      {/* Pointer indicator at top center */}
-      <Animated.View
-        style={[
-          {
-            position: 'absolute',
-            top: 0,
-            zIndex: 10,
-            alignSelf: 'center',
-          },
-          pointerAnimatedStyle,
-        ]}
-      >
-        <Svg width={POINTER_SIZE} height={POINTER_SIZE} viewBox="0 0 24 24">
-          <Defs>
-            <LinearGradient id="pointer-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <Stop offset="0%" stopColor={colors.primary.pink} />
-              <Stop offset="100%" stopColor={colors.accent.yellow} />
-            </LinearGradient>
-          </Defs>
-          <Polygon points="12,22 2,4 22,4" fill="url(#pointer-grad)" />
-        </Svg>
-      </Animated.View>
-
-      {/* Rotating wheel wrapper */}
-      <Animated.View
-        style={[
-          {
-            width: WHEEL_SIZE,
-            height: WHEEL_SIZE,
-            marginTop: POINTER_SIZE,
-            alignItems: 'center',
-            justifyContent: 'center',
-          },
-          wheelAnimatedStyle,
-        ]}
+      {/* Static wheel wrapper (board does not rotate — highlight moves instead) */}
+      <View
+        style={{
+          width: WHEEL_SIZE,
+          height: WHEEL_SIZE,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
         {/* SVG Wheel */}
         <Svg
@@ -292,6 +293,17 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
           {SEGMENT_ORDER.map((type, i) => (
             <Path key={type} d={SEGMENT_PATHS[i]} fill={`url(#grad-${type})`} />
           ))}
+          {/* Spotlight: dim every inactive segment with a translucent black
+              overlay. The active segment's overlay is fully transparent, so
+              it stays at full color and reads as the highlighted one. */}
+          {SEGMENT_ORDER.map((type, i) => (
+            <AnimatedPath
+              key={`dim-${type}`}
+              d={SEGMENT_PATHS[i]}
+              fill="black"
+              animatedProps={dimPropsList[i]}
+            />
+          ))}
         </Svg>
 
         {/* Labels overlay */}
@@ -330,7 +342,7 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
             );
           })}
         </View>
-      </Animated.View>
+      </View>
 
       {/* Center lotus button (fixed, not rotating) */}
       <AnimatedPressable
@@ -342,7 +354,7 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
           {
             width: CENTER_SIZE,
             height: CENTER_SIZE,
-            top: POINTER_SIZE + (WHEEL_SIZE - CENTER_SIZE) / 2,
+            top: (WHEEL_SIZE - CENTER_SIZE) / 2,
             backgroundColor: colors.background.dark,
             borderWidth: 4,
             borderColor: 'black',

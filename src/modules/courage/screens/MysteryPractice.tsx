@@ -99,6 +99,13 @@ export default function MysteryPractice() {
             onStart={() => {
               hasStarted.current = true;
             }}
+            onComplete={() => {
+              // Drop the user back at the Practices tab. Skipping the wheel
+              // screen on the way out — they just completed today's challenge,
+              // so landing them at "spin again" would be awkward. Matches the
+              // pattern used by Empathy Challenge completion.
+              router.replace('/(tabs)/practices');
+            }}
           />
         </View>
 

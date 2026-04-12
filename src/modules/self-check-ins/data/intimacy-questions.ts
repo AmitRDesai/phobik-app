@@ -72,6 +72,87 @@ export const INTIMACY_QUESTIONS: IntimacyQuestion[] = [
       body: 'Authentic connection requires the courage to be seen without masks. By sharing your raw truth, you invite your partner into a deeper level of shared safety and understanding.',
     },
   },
+  {
+    id: 8,
+    section: 'Speaker Role',
+    text: 'After I speak, I am willing to pause and allow the other person to take the Inquirer role.',
+    insight: {
+      title: 'Why this matters',
+      body: 'True connection requires a rhythmic exchange. By consciously stepping back, you create the sacred space needed for the other person to feel heard and for the conversation to shift from a monologue to a healing dialogue.',
+    },
+  },
+  {
+    id: 9,
+    section: 'Listener Role',
+    text: 'When I\u2019m listening, I try to fully hear my partner\u2019s experience, rather than immediately launching into my own stories or defenses.',
+    insight: {
+      title: 'Why this matters',
+      body: 'Active listening reduces conflict by ensuring the other person feels seen and heard before you respond.',
+    },
+  },
+  {
+    id: 10,
+    section: 'Listener Role',
+    text: 'I summarise or restate what they said (in my own words) to check I understood them, before giving my viewpoint.',
+    insight: {
+      title: 'Why this matters',
+      body: 'Paraphrasing prevents misunderstandings and demonstrates cognitive empathy. By echoing your partner\u2019s intent, you validate their experience before introducing your own perspective.',
+    },
+  },
+  {
+    id: 11,
+    section: 'Listener Role',
+    text: 'I ask open-ended questions (e.g., \u201CCan you tell me more about what this feels like?\u201D) rather than closed ones (\u201CWhy did you do that?\u201D).',
+    insight: {
+      title: 'Why this matters',
+      body: 'Open questions invite exploration and reduce the feeling of being interrogated. This fosters a safe space for vulnerability and deeper connection.',
+    },
+  },
+  {
+    id: 12,
+    section: 'Listener Role',
+    text: 'I resist the impulse to \u201Cfix\u201D or solve the moment right away; instead I stay curious about their experience.',
+    insight: {
+      title: 'Why this matters',
+      body: 'Deep listening requires presence without the pressure to provide immediate solutions.',
+    },
+  },
+  {
+    id: 13,
+    section: 'Listener Role',
+    text: 'I respond with empathy \u2014 acknowledging their feelings and what might be under the surface \u2014 rather than judging or dismissing.',
+    insight: {
+      title: 'Why this matters',
+      body: 'Empathy builds emotional safety and deepens intimacy by validating your partner\u2019s internal experience without judgment.',
+    },
+  },
+  {
+    id: 14,
+    section: 'Listener Role',
+    text: 'I allow space and silence after they speak, rather than rushing to fill it with my response.',
+    insight: {
+      title: 'Why this matters',
+      body: 'Silence allows emotions to settle and provides space for deeper reflection.',
+    },
+  },
+  {
+    id: 15,
+    section: 'Listener Role',
+    text: 'I am aware of my own internal reactions and try not to hijack the conversation.',
+    insight: {
+      title: 'Why this matters',
+      body: 'Self-awareness prevents personal triggers from disrupting the connection loop.',
+    },
+  },
+  {
+    id: 16,
+    section: 'Listener Role',
+    text: 'I switch into the Initiator role only after my partner has had time to speak, and I feel I have heard them sufficiently.',
+    insight: {
+      title: 'Why this matters',
+      body: 'Balanced turn-taking ensures both partners feel respected and valued.',
+    },
+  },
 ];
 
 export const INTIMACY_RATING_LABELS = [

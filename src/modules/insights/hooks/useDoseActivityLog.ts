@@ -1,5 +1,6 @@
 import { useUserId } from '@/lib/powersync/useUserId';
 import { useQuery } from '@powersync/tanstack-react-query';
+import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
 export type DoseActivity = {
@@ -14,7 +15,7 @@ export type DoseActivity = {
 
 /** Returns YYYY-MM-DD in local time */
 function todayLocal(): string {
-  return new Date().toLocaleDateString('en-CA');
+  return dayjs().format('YYYY-MM-DD');
 }
 
 /** Friendly display name for a practice type */

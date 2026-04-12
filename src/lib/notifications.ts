@@ -1,4 +1,7 @@
+import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
+import { Platform } from 'react-native';
 
 const AFFIRMATION_REMINDER_ID = 'daily-affirmation-reminder';
 
@@ -6,7 +9,6 @@ const AFFIRMATION_REMINDER_ID = 'daily-affirmation-reminder';
 export function setupNotificationHandler() {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
-      shouldShowAlert: true,
       shouldShowBanner: true,
       shouldShowList: true,
       shouldPlaySound: true,
@@ -112,4 +114,36 @@ export async function cancelEmpathyChallengeReminder() {
   await Notifications.cancelScheduledNotificationAsync(
     EMPATHY_CHALLENGE_REMINDER_ID,
   );
+}
+
+/**
+ * Get the Expo push token for this device.
+ * Returns null if not a physical device or permissions denied.
+ */
+export async function getExpoPushToken(): Promise<string | null> {
+  if (!Device.isDevice) {
+    return null;
+  }
+
+  const granted = await requestNotificationPermissions();
+  if (!granted) return null;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'Default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+    });
+  }
+
+  const projectId =
+    Constants.expoConfig?.extra?.eas?.projectId ??
+    Constants.easConfig?.projectId;
+  if (!projectId) {
+    console.error('[Push] No EAS project ID found');
+    return null;
+  }
+
+  const { data } = await Notifications.getExpoPushTokenAsync({ projectId });
+  return data;
 }

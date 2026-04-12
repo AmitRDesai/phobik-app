@@ -108,11 +108,8 @@ export default function PivotPointQuestion() {
     <View className="flex-1 bg-background-charcoal">
       {/* Header */}
       <View
-        className="flex-row items-center justify-between px-6 pb-4"
-        style={{
-          paddingTop: insets.top + 8,
-          backgroundColor: 'rgba(14,14,14,0.9)',
-        }}
+        className="flex-row items-center justify-between bg-background-charcoal px-6 pb-4"
+        style={{ paddingTop: insets.top + 8 }}
       >
         <BackButton onPress={handleBack} />
         <Text className="text-lg font-bold tracking-tight text-white">
@@ -175,12 +172,10 @@ export default function PivotPointQuestion() {
             endLabel="Very much like me"
           />
 
-          {/* Rating Label */}
-          {ratingLabel ? (
-            <Text className="mt-4 text-center text-sm font-medium text-zinc-400">
-              {ratingLabel}
-            </Text>
-          ) : null}
+          {/* Rating Label — always rendered to keep layout stable */}
+          <Text className="mt-4 text-center text-sm font-medium text-zinc-400">
+            {ratingLabel || ' '}
+          </Text>
 
           {/* Context Card */}
           <View className="mt-12 rounded-2xl border border-white/5 bg-white/[0.03] p-6">

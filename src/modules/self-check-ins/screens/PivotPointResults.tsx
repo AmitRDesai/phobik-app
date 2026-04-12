@@ -1,5 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { colors } from '@/constants/colors';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -80,6 +82,30 @@ export default function PivotPointResults() {
             </Text>
           </View>
           <PatternResultCard archetype={secondary} />
+        </View>
+
+        {/* Personalization — Your Next Practices */}
+        <View className="mb-4 rounded-2xl border border-white/5 bg-white/[0.03] p-6">
+          <View className="mb-4 flex-row items-center gap-2">
+            <MaterialIcons
+              name="auto-awesome"
+              size={18}
+              color={colors.accent.yellow}
+            />
+            <Text className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+              Your Next Practices
+            </Text>
+          </View>
+          <Text className="mb-4 text-sm leading-relaxed text-zinc-400">
+            Based on your primary pattern, these are the practices that will
+            help you most right now.
+          </Text>
+          {primary.recommendations.map((rec) => (
+            <View key={rec} className="mb-3 flex-row items-start gap-3">
+              <View className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary-pink" />
+              <Text className="flex-1 text-sm text-white">{rec}</Text>
+            </View>
+          ))}
         </View>
 
         {/* Closing Message */}

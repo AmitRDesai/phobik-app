@@ -3,6 +3,7 @@ import { DialogContainer } from '@/components/ui/DialogContainer';
 import { colors } from '@/constants/colors';
 import useAppInitializer from '@/hooks/useAppInitializer';
 import { useNotificationScheduler } from '@/hooks/useNotificationScheduler';
+import { usePushTokenRegistration } from '@/hooks/usePushTokenRegistration';
 import { setupNotificationHandler } from '@/lib/notifications';
 import { powersync } from '@/lib/powersync';
 import '@/utils/ease-nativewind';
@@ -43,6 +44,7 @@ function RootNavigator() {
 
   // Schedule/cancel daily affirmation reminder based on user's notification setting
   useNotificationScheduler();
+  usePushTokenRegistration();
 
   if (!isReady) return null;
 
@@ -92,6 +94,7 @@ function RootNavigator() {
         <Stack.Screen name="journal" />
         <Stack.Screen name="affirmation" />
         <Stack.Screen name="community/create" />
+        <Stack.Screen name="notifications" />
       </Stack.Protected>
     </Stack>
   );

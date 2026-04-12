@@ -1,8 +1,19 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
+import {
+  STRESSOR_CATEGORIES,
+  type StressorKey,
+} from '@/modules/self-check-ins/data/stressors';
+import { useAssessmentList } from '@/modules/self-check-ins/hooks/useSelfCheckIn';
 import { useRouter } from 'expo-router';
+import { useMemo } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
-import type { StressorKey } from '@/modules/self-check-ins/data/stressors';
+
+const ACCENT_COLORS = [
+  colors.primary['pink-soft'],
+  colors.accent.gold,
+  colors.white,
+];
 
 interface StressorCardData {
   key: StressorKey;
@@ -12,32 +23,45 @@ interface StressorCardData {
   color: string;
 }
 
-const SAMPLE_STRESSORS: StressorCardData[] = [
-  {
-    key: 'work',
-    emoji: '💼',
-    label: 'Workload',
-    count: '12x',
-    color: colors.primary['pink-soft'],
-  },
-  {
-    key: 'financial',
-    emoji: '💰',
-    label: 'Finances',
-    count: '8x',
-    color: colors.accent.gold,
-  },
-  {
-    key: 'relationships',
-    emoji: '💔',
-    label: 'Conflict',
-    count: '5x',
-    color: colors.white,
-  },
-];
+interface CompletedAssessment {
+  id: string;
+  type: string;
+  status: string;
+  answers?: Record<string, number>;
+}
 
 export function TopStressorsRow() {
   const router = useRouter();
+  const { data: assessments } = useAssessmentList();
+
+  const topStressors = useMemo<StressorCardData[]>(() => {
+    const list = assessments as CompletedAssessment[] | undefined;
+    const latest = list?.find(
+      (a) => a.type === 'stress-compass' && a.status === 'completed',
+    );
+    if (!latest) return [];
+
+    const answers = (latest.answers ?? {}) as Record<string, number>;
+    const ratings: { key: StressorKey; rating: number }[] = [];
+    for (const [qid, value] of Object.entries(answers)) {
+      const idx = Number(qid);
+      const stressor = STRESSOR_CATEGORIES[idx];
+      if (stressor) ratings.push({ key: stressor.key, rating: value });
+    }
+    return ratings
+      .sort((a, b) => a.rating - b.rating)
+      .slice(0, 3)
+      .map((item, i) => {
+        const stressor = STRESSOR_CATEGORIES.find((s) => s.key === item.key)!;
+        return {
+          key: item.key,
+          emoji: stressor.emoji,
+          label: stressor.label,
+          count: `${item.rating}/10`,
+          color: ACCENT_COLORS[i] ?? colors.white,
+        };
+      });
+  }, [assessments]);
 
   return (
     <View className="-mx-5 gap-4">
@@ -54,27 +78,45 @@ export function TopStressorsRow() {
         showsHorizontalScrollIndicator={false}
         contentContainerClassName="gap-4 px-5"
       >
-        {SAMPLE_STRESSORS.map((s) => (
+        {topStressors.length === 0 ? (
           <Pressable
-            key={s.key}
             onPress={() =>
-              router.push({
-                pathname: '/insights/stressor-detail',
-                params: { key: s.key },
-              })
+              router.push('/practices/self-check-ins/stress-compass')
             }
           >
-            <DashboardCard className="min-w-[120px] items-center p-4">
-              <Text className="mb-2 text-3xl">{s.emoji}</Text>
-              <Text className="text-[10px] font-bold uppercase tracking-tighter text-white/60">
-                {s.label}
+            <DashboardCard className="min-w-[200px] items-center justify-center p-4">
+              <Text className="mb-2 text-3xl">🧭</Text>
+              <Text className="text-center text-[10px] font-bold uppercase tracking-tighter text-white/60">
+                Take the Stress{'\n'}Compass
               </Text>
-              <Text className="text-lg font-black" style={{ color: s.color }}>
-                {s.count}
+              <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+                Start
               </Text>
             </DashboardCard>
           </Pressable>
-        ))}
+        ) : (
+          topStressors.map((s) => (
+            <Pressable
+              key={s.key}
+              onPress={() =>
+                router.push({
+                  pathname: '/insights/stressor-detail',
+                  params: { key: s.key },
+                })
+              }
+            >
+              <DashboardCard className="min-w-[120px] items-center p-4">
+                <Text className="mb-2 text-3xl">{s.emoji}</Text>
+                <Text className="text-[10px] font-bold uppercase tracking-tighter text-white/60">
+                  {s.label}
+                </Text>
+                <Text className="text-lg font-black" style={{ color: s.color }}>
+                  {s.count}
+                </Text>
+              </DashboardCard>
+            </Pressable>
+          ))
+        )}
       </ScrollView>
     </View>
   );

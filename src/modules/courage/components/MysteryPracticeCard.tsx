@@ -1,4 +1,5 @@
 import { alpha, colors } from '@/constants/colors';
+import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -8,10 +9,12 @@ import { Pressable, Text, View } from 'react-native';
 import type { DoseReward, MysteryChallenge } from '../data/mystery-challenges';
 import { useRecordChallenge } from '../hooks/useMysteryChallenge';
 import { usePracticeTimer } from '../hooks/usePracticeTimer';
+import { MysteryComplete } from './MysteryComplete';
 
 interface MysteryPracticeCardProps {
   challenge: MysteryChallenge;
   onStart?: () => void;
+  onComplete?: () => void;
 }
 
 function DoseGrid({ dose }: { dose: DoseReward }) {
@@ -73,6 +76,7 @@ function GradientTimer({ formatted }: { formatted: string }) {
 export function MysteryPracticeCard({
   challenge,
   onStart,
+  onComplete,
 }: MysteryPracticeCardProps) {
   const { seconds, formatted, isRunning, start, stop } = usePracticeTimer();
   const recordChallenge = useRecordChallenge();
@@ -83,17 +87,39 @@ export function MysteryPracticeCard({
     onStart?.();
   };
 
-  const handleDone = () => {
+  const handleDone = async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    // Snapshot the duration before stop() — keeps the value stable through
+    // the dialog flow even if the timer state churns.
+    const durationSeconds = seconds;
     stop();
-    recordChallenge.mutate({
-      challengeType: challenge.type,
-      doseDopamine: challenge.dose.dopamine,
-      doseOxytocin: challenge.dose.oxytocin,
-      doseSerotonin: challenge.dose.serotonin,
-      doseEndorphins: challenge.dose.endorphins,
-      durationSeconds: seconds,
+
+    try {
+      await recordChallenge.mutateAsync({
+        challengeType: challenge.type,
+        doseDopamine: challenge.dose.dopamine,
+        doseOxytocin: challenge.dose.oxytocin,
+        doseSerotonin: challenge.dose.serotonin,
+        doseEndorphins: challenge.dose.endorphins,
+        durationSeconds,
+      });
+    } catch (error) {
+      await dialog.error({
+        title: 'Could not save',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'Something went wrong saving your practice. Please try again.',
+      });
+      return;
+    }
+
+    await dialog.open({
+      component: MysteryComplete,
+      props: { challenge, durationSeconds },
     });
+
+    onComplete?.();
   };
 
   // Split practice text around highlight if present

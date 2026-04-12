@@ -1,7 +1,9 @@
 import { BlurView } from '@/components/ui/BlurView';
+import { NotificationBadge } from '@/components/ui/NotificationBadge';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { colors, withAlpha } from '@/constants/colors';
 import { useSession } from '@/lib/auth';
+import { useUnreadCount } from '@/modules/notifications/hooks/useNotifications';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
@@ -12,6 +14,7 @@ export function DashboardHeader() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const userName = session?.user?.name ?? 'Friend';
+  const unreadCount = useUnreadCount();
 
   const content = (
     <View
@@ -32,13 +35,19 @@ export function DashboardHeader() {
           </Text>
         </View>
       </Pressable>
-      <Pressable className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5">
-        <MaterialIcons
-          name="notifications"
-          size={22}
-          color={colors.accent.yellow}
-        />
-      </Pressable>
+      <View className="relative">
+        <Pressable
+          onPress={() => router.push('/notifications')}
+          className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
+        >
+          <MaterialIcons
+            name="notifications"
+            size={22}
+            color={colors.accent.yellow}
+          />
+        </Pressable>
+        <NotificationBadge count={unreadCount} />
+      </View>
     </View>
   );
 

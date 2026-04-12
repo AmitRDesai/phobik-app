@@ -247,6 +247,19 @@ const notification_settings = new Table(
   { indexes: { user: ['user_id'] } },
 );
 
+const notification = new Table(
+  {
+    user_id: column.text,
+    type: column.text,
+    title: column.text,
+    body: column.text,
+    data: column.text, // JSONB stored as JSON string
+    read_at: column.text, // ISO string or null
+    created_at: column.text,
+  },
+  { indexes: { user_created: ['user_id', 'created_at'] } },
+);
+
 export const AppSchema = new Schema({
   user_profile,
   calendar_preferences,
@@ -264,6 +277,7 @@ export const AppSchema = new Schema({
   pack_purchase,
   ebook_progress,
   notification_settings,
+  notification,
 });
 
 export type Database = (typeof AppSchema)['types'];
@@ -283,3 +297,4 @@ export type EnergyCheckInRecord = Database['energy_check_in'];
 export type PracticeSessionRecord = Database['practice_session'];
 export type EbookProgressRecord = Database['ebook_progress'];
 export type NotificationSettingsRecord = Database['notification_settings'];
+export type NotificationRecord = Database['notification'];

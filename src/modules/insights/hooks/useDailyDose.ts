@@ -1,5 +1,6 @@
 import { useUserId } from '@/lib/powersync/useUserId';
 import { useQuery } from '@powersync/tanstack-react-query';
+import dayjs from 'dayjs';
 
 export type DoseTotals = {
   dopamine: number;
@@ -17,7 +18,7 @@ const EMPTY_TOTALS: DoseTotals = {
 
 /** Returns YYYY-MM-DD in local time */
 function todayLocal(): string {
-  return new Date().toLocaleDateString('en-CA');
+  return dayjs().format('YYYY-MM-DD');
 }
 
 /**

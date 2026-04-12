@@ -77,6 +77,8 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         return this.handleEbookProgress(op);
       case 'notification_settings':
         return this.handleNotificationSettings(op);
+      case 'notification':
+        return this.handleNotification(op);
       case 'user_profile':
         return this.handleUserProfile(op);
       case 'calendar_preferences':
@@ -364,6 +366,32 @@ export class PhobikConnector implements PowerSyncBackendConnector {
           d?.challenge_notifications !== undefined
             ? Boolean(d.challenge_notifications)
             : undefined,
+      });
+    }
+  }
+
+  private async handleNotification(op: CrudEntry) {
+    const d = op.opData;
+
+    if (op.op === 'PATCH') {
+      // Local mark-as-read: only sync if read_at was set
+      if (d?.read_at !== undefined && d?.read_at !== null) {
+        await rpcClient.notification.markRead({ id: op.id });
+      }
+    } else if (op.op === 'PUT') {
+      // Locally created notifications (rare — most come from the server)
+      const type = (d?.type as string) ?? 'system';
+      await rpcClient.notification.createNotification({
+        id: op.id,
+        type: type as
+          | 'system'
+          | 'reminder'
+          | 'challenge'
+          | 'community'
+          | 'coach',
+        title: (d?.title as string) ?? '',
+        body: (d?.body as string) ?? '',
+        data: parseJSON(d?.data as string) ?? undefined,
       });
     }
   }

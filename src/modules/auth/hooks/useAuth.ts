@@ -1,4 +1,6 @@
 import { authClient, useSession as useBetterAuthSession } from '@/lib/auth';
+import { getDeviceId } from '@/lib/device-id';
+import { rpcClient } from '@/lib/rpc';
 import { env } from '@/utils/env';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as AppleAuthentication from 'expo-apple-authentication';
@@ -95,6 +97,14 @@ export function useSignOut() {
         // Soft sign-out: keep session, just set flag
         setIsSignedOut(true);
       } else {
+        // Unregister push token before destroying session
+        try {
+          const deviceId = await getDeviceId();
+          await rpcClient.pushToken.unregisterToken({ deviceId });
+        } catch {
+          // Best-effort: don't block sign-out if this fails
+        }
+
         // Full sign-out: destroy session, reset biometric so it's offered again
         await authClient.signOut();
         setIsSignedOut(false);

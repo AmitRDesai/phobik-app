@@ -4,11 +4,12 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
 /** Returns YYYY-MM-DD in local time (not UTC) */
 function todayLocal(): string {
-  return new Date().toLocaleDateString('en-CA');
+  return dayjs().format('YYYY-MM-DD');
 }
 
 /** Today's most recent affirmation (null if none set today) */

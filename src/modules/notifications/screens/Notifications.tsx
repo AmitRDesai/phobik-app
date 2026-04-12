@@ -1,0 +1,141 @@
+import { BackButton } from '@/components/ui/BackButton';
+import { GlowBg } from '@/components/ui/GlowBg';
+import { alpha, colors } from '@/constants/colors';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useEffect, useMemo, useState, useCallback } from 'react';
+import {
+  ActivityIndicator,
+  RefreshControl,
+  SectionList,
+  Text,
+  View,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { NotificationItem } from '../components/NotificationItem';
+import {
+  type NotificationItem as NotificationItemType,
+  useMarkAllRead,
+  useNotifications,
+} from '../hooks/useNotifications';
+
+interface Section {
+  title: string;
+  data: NotificationItemType[];
+}
+
+function startOfDay(d: Date): Date {
+  const c = new Date(d);
+  c.setHours(0, 0, 0, 0);
+  return c;
+}
+
+function groupByDate(items: NotificationItemType[]): Section[] {
+  const today = startOfDay(new Date()).getTime();
+  const yesterday = today - 24 * 60 * 60 * 1000;
+  const weekAgo = today - 7 * 24 * 60 * 60 * 1000;
+
+  const todayItems: NotificationItemType[] = [];
+  const yesterdayItems: NotificationItemType[] = [];
+  const thisWeekItems: NotificationItemType[] = [];
+  const earlierItems: NotificationItemType[] = [];
+
+  for (const item of items) {
+    const itemDay = startOfDay(new Date(item.createdAt)).getTime();
+    if (itemDay === today) todayItems.push(item);
+    else if (itemDay === yesterday) yesterdayItems.push(item);
+    else if (itemDay >= weekAgo) thisWeekItems.push(item);
+    else earlierItems.push(item);
+  }
+
+  const sections: Section[] = [];
+  if (todayItems.length) sections.push({ title: 'Today', data: todayItems });
+  if (yesterdayItems.length)
+    sections.push({ title: 'Yesterday', data: yesterdayItems });
+  if (thisWeekItems.length)
+    sections.push({ title: 'This week', data: thisWeekItems });
+  if (earlierItems.length)
+    sections.push({ title: 'Earlier', data: earlierItems });
+
+  return sections;
+}
+
+export default function Notifications() {
+  const insets = useSafeAreaInsets();
+  const { data, isLoading } = useNotifications();
+  const { mutate: markAllRead } = useMarkAllRead();
+  const [refreshing, setRefreshing] = useState(false);
+
+  // Auto-mark all as read when the screen opens
+  useEffect(() => {
+    markAllRead();
+  }, [markAllRead]);
+
+  const sections = useMemo(() => groupByDate(data), [data]);
+
+  const handleRefresh = useCallback(() => {
+    // PowerSync is reactive — refresh is a no-op visual cue.
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 600);
+  }, []);
+
+  return (
+    <View className="flex-1 bg-background-dashboard">
+      <GlowBg
+        bgClassName="bg-background-dashboard"
+        intensity={0.2}
+        startColor={colors.primary.pink}
+        endColor={colors.accent.yellow}
+        centerY={0.1}
+      />
+
+      {/* Header */}
+      <View
+        className="z-10 flex-row items-center justify-between px-4 pb-4"
+        style={{ paddingTop: insets.top + 8 }}
+      >
+        <BackButton />
+        <Text className="text-lg font-bold text-white">Notifications</Text>
+        <View className="w-10" />
+      </View>
+
+      {isLoading ? (
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator color={colors.primary.pink} size="large" />
+        </View>
+      ) : (
+        <SectionList
+          sections={sections}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <NotificationItem notification={item} />}
+          renderSectionHeader={({ section }) => (
+            <Text className="mb-2 mt-4 px-1 text-[11px] font-bold uppercase tracking-widest text-white/40">
+              {section.title}
+            </Text>
+          )}
+          contentContainerClassName="px-4 pb-12 gap-3"
+          stickySectionHeadersEnabled={false}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              tintColor={colors.primary.pink}
+            />
+          }
+          ListEmptyComponent={
+            <View className="items-center px-8 py-24">
+              <MaterialIcons
+                name="notifications-none"
+                size={48}
+                color={alpha.white20}
+              />
+              <Text className="mt-4 text-center text-sm text-white/30">
+                No notifications yet.{'\n'}You're all caught up.
+              </Text>
+            </View>
+          }
+        />
+      )}
+    </View>
+  );
+}

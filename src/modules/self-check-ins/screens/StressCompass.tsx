@@ -1,16 +1,16 @@
 import { BackButton } from '@/components/ui/BackButton';
-import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { ScrollFade } from '@/components/ui/ScrollFade';
 import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Slider } from '../components/Slider';
 import { STRESSOR_CATEGORIES, type StressorKey } from '../data/stressors';
+import { useSaveAnswer, useStartAssessment } from '../hooks/useSelfCheckIn';
 import { stressorRatingsAtom } from '../store/self-check-ins';
 
 export default function StressCompass() {
@@ -18,15 +18,62 @@ export default function StressCompass() {
   const { width: screenWidth } = useWindowDimensions();
   const sliderWidth = screenWidth - 96;
 
+  const startAssessment = useStartAssessment();
+  const saveAnswer = useSaveAnswer();
+  const [assessmentId, setAssessmentId] = useState<string | null>(null);
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    startAssessment.mutate(
+      { type: 'stress-compass' },
+      {
+        onSuccess: (result) => {
+          const record = result as {
+            id: string;
+            answers?: Record<string, number>;
+          };
+          setAssessmentId(record.id);
+          // Pre-seed ratings from any persisted answers (resume case)
+          const answers = record.answers ?? {};
+          if (Object.keys(answers).length > 0) {
+            setRatings((prev) => {
+              const next = { ...prev };
+              for (const [qid, value] of Object.entries(answers)) {
+                const idx = Number(qid);
+                const stressor = STRESSOR_CATEGORIES[idx];
+                if (stressor) next[stressor.key] = value;
+              }
+              return next;
+            });
+          }
+        },
+      },
+    );
+  }, []);
+
   const updateRating = useCallback(
     (key: StressorKey, value: number) => {
       setRatings((prev) => ({ ...prev, [key]: value }));
+      if (!assessmentId) return;
+      const questionId = STRESSOR_CATEGORIES.findIndex((s) => s.key === key);
+      if (questionId < 0) return;
+      saveAnswer.mutate({
+        id: assessmentId,
+        questionId,
+        answer: value,
+        currentQuestion: questionId,
+      });
     },
-    [setRatings],
+    [setRatings, assessmentId, saveAnswer],
   );
 
   return (
-    <Container>
+    <SafeAreaView
+      edges={['top', 'left', 'right']}
+      className="flex-1 bg-background"
+    >
       {/* Header */}
       <View className="border-b border-white/5">
         <View className="flex-row items-center justify-between p-4">
@@ -43,89 +90,88 @@ export default function StressCompass() {
         </View>
       </View>
 
-      <ScrollFade>
-        <ScrollView
-          className="flex-1"
-          contentContainerClassName="px-6 pt-8"
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Intro Section */}
-          <View className="mb-10">
-            <Text className="mb-4 text-3xl font-black leading-tight text-white">
-              What is the Stress{'\n'}Compass?
+      <ScrollView
+        className="flex-1"
+        contentContainerClassName="px-6 pt-8 pb-10"
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Intro Section */}
+        <View className="mb-10">
+          <Text className="mb-4 text-3xl font-black leading-tight text-white">
+            What is the Stress{'\n'}Compass?
+          </Text>
+          <Text className="mb-6 text-[15px] font-light leading-relaxed text-slate-300">
+            The Stress Compass helps you understand which areas of life are
+            drawing the most energy from you right now. It is not about
+            labelling you — it is about giving you insight into your nervous
+            system patterns.
+          </Text>
+          <View className="rounded-3xl border border-white/10 bg-white/[0.03] p-5">
+            <Text
+              className="mb-2 text-[11px] font-black uppercase tracking-[3px]"
+              style={{ color: colors.accent.yellow }}
+            >
+              How it works
             </Text>
-            <Text className="mb-6 text-[15px] font-light leading-relaxed text-slate-300">
-              The Stress Compass helps you understand which areas of life are
-              drawing the most energy from you right now. It is not about
-              labelling you — it is about giving you insight into your nervous
-              system patterns.
-            </Text>
-            <View className="rounded-3xl border border-white/10 bg-white/[0.03] p-5">
-              <Text
-                className="mb-2 text-[11px] font-black uppercase tracking-[3px]"
-                style={{ color: colors.accent.yellow }}
-              >
-                How it works
+            <Text className="text-sm leading-relaxed text-slate-400">
+              You will rate 10 core stressor categories on a scale of 1-10.{' '}
+              <Text className="font-medium text-white">
+                1 is {'"'}draining me{'"'}
+              </Text>{' '}
+              and{' '}
+              <Text className="font-medium text-white">
+                10 {'"'}feels balanced{'"'}
               </Text>
-              <Text className="text-sm leading-relaxed text-slate-400">
-                You will rate 10 core stressor categories on a scale of 1-10.{' '}
-                <Text className="font-medium text-white">
-                  1 is {'"'}draining me{'"'}
-                </Text>{' '}
-                and{' '}
-                <Text className="font-medium text-white">
-                  10 {'"'}feels balanced{'"'}
-                </Text>
-                . Your results create a {'"'}stress signature map{'"'} showing
-                which nervous system pathways need support.
-              </Text>
-            </View>
-          </View>
-
-          {/* Stressor Cards */}
-          <View className="gap-4">
-            {STRESSOR_CATEGORIES.map((stressor) => (
-              <StressorCard
-                key={stressor.key}
-                label={stressor.label}
-                icon={stressor.icon}
-                value={ratings[stressor.key]}
-                onValueChange={(v) => updateRating(stressor.key, v)}
-                sliderWidth={sliderWidth}
-              />
-            ))}
-          </View>
-
-          {/* Bottom Quote */}
-          <View className="items-center px-6 py-16">
-            <Text className="max-w-[280px] text-center text-sm font-light italic leading-relaxed text-slate-500">
-              {'"'}This is not a test you can fail. It is a map to help you find
-              your way back to yourself.{'"'}
+              . Your results create a {'"'}stress signature map{'"'} showing
+              which nervous system pathways need support.
             </Text>
-            <View className="mt-8">
-              <LinearGradient
-                colors={['transparent', alpha.white20, 'transparent']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={{ width: 48, height: 1 }}
-              />
-            </View>
           </View>
-        </ScrollView>
-      </ScrollFade>
+        </View>
 
-      {/* Fixed Bottom Button */}
-      <View className="px-6 pb-6">
+        {/* Stressor Cards */}
+        <View className="gap-4">
+          {STRESSOR_CATEGORIES.map((stressor) => (
+            <StressorCard
+              key={stressor.key}
+              label={stressor.label}
+              icon={stressor.icon}
+              value={ratings[stressor.key]}
+              onValueChange={(v) => updateRating(stressor.key, v)}
+              sliderWidth={sliderWidth}
+            />
+          ))}
+        </View>
+
+        {/* Bottom Quote */}
+        <View className="items-center px-6 py-16">
+          <Text className="max-w-[280px] text-center text-sm font-light italic leading-relaxed text-slate-500">
+            {'"'}This is not a test you can fail. It is a map to help you find
+            your way back to yourself.{'"'}
+          </Text>
+          <View className="mt-8">
+            <LinearGradient
+              colors={['transparent', alpha.white20, 'transparent']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{ width: 48, height: 1 }}
+            />
+          </View>
+        </View>
+
+        {/* Generate Button (in-scroll) */}
         <GradientButton
           onPress={() =>
-            router.replace('/practices/self-check-ins/stress-signature-map')
+            router.replace({
+              pathname: '/practices/self-check-ins/stress-signature-map',
+              params: assessmentId ? { id: assessmentId } : {},
+            })
           }
           icon={<MaterialIcons name="rocket-launch" size={20} color="white" />}
         >
           Generate My Map
         </GradientButton>
-      </View>
-    </Container>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

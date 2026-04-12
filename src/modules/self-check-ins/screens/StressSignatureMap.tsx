@@ -1,14 +1,14 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { CardAura } from '@/components/ui/CardAura';
-import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { ScrollFade } from '@/components/ui/ScrollFade';
 import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
+import { useMemo } from 'react';
 import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, {
   Circle,
   Defs,
@@ -23,9 +23,12 @@ import {
   type StressorKey,
 } from '../data/stressors';
 import {
+  useAssessmentList,
+  useCompleteAssessment,
+} from '../hooks/useSelfCheckIn';
+import {
   resetStressCompassAtom,
   stressorRatingsAtom,
-  topStressorsAtom,
 } from '../store/self-check-ins';
 
 const CYAN = colors.accent.cyan;
@@ -36,12 +39,56 @@ const CARD_AURA_COLORS = [
 ];
 
 export default function StressSignatureMap() {
-  const topStressors = useAtomValue(topStressorsAtom);
-  const allRatings = useAtomValue(stressorRatingsAtom);
+  const params = useLocalSearchParams<{ id?: string }>();
+  const assessmentId = params.id;
+  const { data: assessments } = useAssessmentList();
+  const completeAssessment = useCompleteAssessment();
+  const atomRatings = useAtomValue(stressorRatingsAtom);
   const reset = useSetAtom(resetStressCompassAtom);
   const { width: screenWidth } = useWindowDimensions();
 
-  const handleSave = () => {
+  const assessment = useMemo(
+    () =>
+      assessmentId
+        ? (
+            assessments as
+              | { id: string; answers?: Record<string, number> }[]
+              | undefined
+          )?.find((a) => a.id === assessmentId)
+        : undefined,
+    [assessments, assessmentId],
+  );
+
+  // Derive ratings from persisted assessment if present, otherwise fall back to live atom
+  const allRatings = useMemo<Record<StressorKey, number>>(() => {
+    if (!assessment) return atomRatings;
+    const next = { ...atomRatings };
+    const answers = (assessment.answers ?? {}) as Record<string, number>;
+    for (const [qid, value] of Object.entries(answers)) {
+      const idx = Number(qid);
+      const stressor = STRESSOR_CATEGORIES[idx];
+      if (stressor) next[stressor.key] = value;
+    }
+    return next;
+  }, [assessment, atomRatings]);
+
+  const topStressors = useMemo(
+    () =>
+      (Object.entries(allRatings) as [StressorKey, number][])
+        .sort((a, b) => a[1] - b[1])
+        .slice(0, 3)
+        .map(([key, rating]) => ({ key, rating })),
+    [allRatings],
+  );
+
+  const handleSave = async () => {
+    if (assessmentId) {
+      try {
+        await completeAssessment.mutateAsync({ id: assessmentId });
+      } catch {
+        // Best-effort: PowerSync queues the write; navigate regardless
+      }
+    }
     reset();
     router.replace('/');
   };
@@ -51,9 +98,12 @@ export default function StressSignatureMap() {
   ) as Record<StressorKey, StressorCategory>;
 
   return (
-    <Container>
+    <SafeAreaView
+      edges={['top', 'left', 'right']}
+      className="flex-1 bg-background"
+    >
       {/* Header */}
-      <View className="border-b border-white/5 bg-black/80">
+      <View className="border-b border-white/5">
         <View className="flex-row items-center justify-between p-4">
           <BackButton />
           <View className="items-center">
@@ -73,62 +123,60 @@ export default function StressSignatureMap() {
         </View>
       </View>
 
-      <ScrollFade>
-        <ScrollView
-          className="flex-1"
-          contentContainerClassName="px-0 pt-0 pb-24"
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Orbital Visualization */}
-          <OrbitMap
-            ratings={allRatings}
-            screenWidth={screenWidth}
-            stressorMap={stressorMap}
-          />
+      <ScrollView
+        className="flex-1"
+        contentContainerClassName="px-0 pt-0 pb-10"
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Orbital Visualization */}
+        <OrbitMap
+          ratings={allRatings}
+          screenWidth={screenWidth}
+          stressorMap={stressorMap}
+        />
 
-          {/* Top 3 Stressors */}
-          <View className="mt-8 px-5">
-            <View className="mb-6 flex-row items-center justify-between">
-              <Text className="text-[11px] font-black uppercase tracking-[3px] text-white/80">
-                Your Top 3 Stressors
-              </Text>
-              <Text
-                className="text-[10px] font-bold uppercase"
-                style={{ color: colors.primary.pink }}
-              >
-                Focus Priority
-              </Text>
-            </View>
-
-            <View className="gap-5">
-              {topStressors.map((item, index) => {
-                const stressor = stressorMap[item.key];
-                const aura = CARD_AURA_COLORS[index];
-                return (
-                  <StressorResultCard
-                    key={item.key}
-                    stressor={stressor}
-                    rank={index + 1}
-                    accentColor={aura.start}
-                    subtitle={aura.label}
-                  />
-                );
-              })}
-            </View>
+        {/* Top 3 Stressors */}
+        <View className="mt-8 px-5">
+          <View className="mb-6 flex-row items-center justify-between">
+            <Text className="text-[11px] font-black uppercase tracking-[3px] text-white/80">
+              Your Top 3 Stressors
+            </Text>
+            <Text
+              className="text-[10px] font-bold uppercase"
+              style={{ color: colors.primary.pink }}
+            >
+              Focus Priority
+            </Text>
           </View>
-        </ScrollView>
-      </ScrollFade>
 
-      {/* Fixed Bottom Button */}
-      <View className="px-6 pb-6">
-        <GradientButton
-          onPress={handleSave}
-          icon={<MaterialIcons name="insights" size={20} color="white" />}
-        >
-          Save to Insights
-        </GradientButton>
-      </View>
-    </Container>
+          <View className="gap-5">
+            {topStressors.map((item, index) => {
+              const stressor = stressorMap[item.key];
+              const aura = CARD_AURA_COLORS[index];
+              return (
+                <StressorResultCard
+                  key={item.key}
+                  stressor={stressor}
+                  rank={index + 1}
+                  accentColor={aura.start}
+                  subtitle={aura.label}
+                />
+              );
+            })}
+          </View>
+        </View>
+
+        {/* Save Button (in-scroll) */}
+        <View className="mt-10 px-6">
+          <GradientButton
+            onPress={handleSave}
+            icon={<MaterialIcons name="insights" size={20} color="white" />}
+          >
+            Save to Insights
+          </GradientButton>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -142,11 +190,18 @@ interface OrbitMapProps {
 function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
   const size = screenWidth;
   const cx = 100;
-  const cy = 50;
+  const cy = 100;
 
-  const sorted = (Object.entries(ratings) as [StressorKey, number][]).map(
+  // Ring radii chosen so that outermost node (radius + node_r ≈ 90) stays
+  // safely within the 0..200 viewBox (center 100, half-extent 100).
+  const INNER_R = 28;
+  const MIDDLE_R = 54;
+  const OUTER_R = 80;
+
+  type RingKey = 'inner' | 'middle' | 'outer';
+  const bucketed = (Object.entries(ratings) as [StressorKey, number][]).map(
     ([key, rating]) => {
-      let ring: 'inner' | 'middle' | 'outer';
+      let ring: RingKey;
       if (rating >= 7) ring = 'inner';
       else if (rating >= 4) ring = 'middle';
       else ring = 'outer';
@@ -154,38 +209,15 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
     },
   );
 
-  const inner = sorted.filter((s) => s.ring === 'inner');
-  const middle = sorted.filter((s) => s.ring === 'middle');
-  const outer = sorted.filter((s) => s.ring === 'outer');
-
-  const ringAngles: Record<string, number[][]> = {
-    inner: [[], [90], [45, 135], [-90, 45, 135], [-90, 0, 90, 180]],
-    middle: [[], [90], [0, 180], [180, 0, 90], [180, 0, 60, 120]],
-    outer: [
-      [],
-      [90],
-      [30, 150],
-      [30, 90, 150],
-      [30, 90, 135, 165],
-      [20, 60, 100, 140, 170],
-    ],
-  };
-
-  const placeOnRing = (
-    items: typeof sorted,
+  const placeEvenly = (
+    items: typeof bucketed,
     radius: number,
-    ring: 'inner' | 'middle' | 'outer',
+    startAngleDeg: number,
   ) => {
-    const presets = ringAngles[ring];
-    const angles =
-      items.length < presets.length
-        ? presets[items.length]
-        : Array.from(
-            { length: items.length },
-            (_, i) => -90 + (360 / items.length) * i,
-          );
+    const count = items.length;
     return items.map((item, i) => {
-      const angle = (angles[i] * Math.PI) / 180;
+      const angle =
+        ((startAngleDeg + (count > 0 ? (360 / count) * i : 0)) * Math.PI) / 180;
       return {
         ...item,
         x: cx + radius * Math.cos(angle),
@@ -194,27 +226,40 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
     });
   };
 
-  const innerNodes = placeOnRing(inner, 35, 'inner');
-  const middleNodes = placeOnRing(middle, 70, 'middle');
-  const outerNodes = placeOnRing(outer, 105, 'outer');
+  // Sort within each ring by rating so the layout feels deterministic
+  // and visually clustered (strongest pattern at the top of each ring).
+  const sortRing = (a: { rating: number }, b: { rating: number }) =>
+    a.rating - b.rating;
+
+  const innerNodes = placeEvenly(
+    bucketed.filter((s) => s.ring === 'inner').sort(sortRing),
+    INNER_R,
+    -90,
+  );
+  const middleNodes = placeEvenly(
+    bucketed.filter((s) => s.ring === 'middle').sort(sortRing),
+    MIDDLE_R,
+    -90,
+  );
+  const outerNodes = placeEvenly(
+    bucketed.filter((s) => s.ring === 'outer').sort(sortRing),
+    OUTER_R,
+    -90,
+  );
 
   return (
     <View
-      className="mb-0 items-center overflow-hidden"
+      className="mb-0 items-center justify-center"
       style={{ width: size, height: size }}
     >
-      {/* Core icon */}
-      <View
-        className="absolute z-10 items-center gap-2"
-        style={{ top: size * 0.295 - 29 }}
-      >
+      {/* Core icon — centered in the parent */}
+      <View className="absolute inset-0 z-10 items-center justify-center">
         <View
           className="absolute items-center justify-center"
           style={{
-            width: 100,
-            height: 100,
-            top: -30,
-            borderRadius: 50,
+            width: 110,
+            height: 110,
+            borderRadius: 55,
             backgroundColor: `${CYAN}08`,
             shadowColor: CYAN,
             shadowOffset: { width: 0, height: 0 },
@@ -236,23 +281,18 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
           <MaterialIcons name="spa" size={18} color={CYAN} />
         </View>
         <Text
-          className="text-[8px] font-bold uppercase tracking-[3px]"
+          className="mt-2 text-[8px] font-bold uppercase tracking-[3px]"
           style={{ color: CYAN }}
         >
           Core
         </Text>
       </View>
 
-      <Svg
-        width={size * 1.1}
-        height={size * 1.1}
-        viewBox="0 0 200 200"
-        style={{ marginTop: size * 0.02 }}
-      >
+      <Svg width={size} height={size} viewBox="0 0 200 200">
         <Defs>
-          <RadialGradient id="coreGlow" cx="50%" cy="25%" rx="15%" ry="15%">
-            <Stop offset="0%" stopColor={CYAN} stopOpacity={0.35} />
-            <Stop offset="60%" stopColor={CYAN} stopOpacity={0.08} />
+          <RadialGradient id="coreGlow" cx="50%" cy="50%" rx="50%" ry="50%">
+            <Stop offset="0%" stopColor={CYAN} stopOpacity={0.25} />
+            <Stop offset="50%" stopColor={CYAN} stopOpacity={0.06} />
             <Stop offset="100%" stopColor={CYAN} stopOpacity={0} />
           </RadialGradient>
         </Defs>
@@ -262,7 +302,7 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
         <Circle
           cx={cx}
           cy={cy}
-          r={35}
+          r={INNER_R}
           fill="none"
           stroke={CYAN}
           strokeWidth={0.5}
@@ -271,7 +311,7 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
         <Circle
           cx={cx}
           cy={cy}
-          r={70}
+          r={MIDDLE_R}
           fill="none"
           stroke="#A6A5C1"
           strokeWidth={0.75}
@@ -280,7 +320,7 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
         <Circle
           cx={cx}
           cy={cy}
-          r={105}
+          r={OUTER_R}
           fill="none"
           stroke={colors.primary.pink}
           strokeWidth={1}
@@ -318,7 +358,7 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
 
       {/* Legend */}
       <View
-        className="absolute bottom-4 flex-row items-center justify-between px-8"
+        className="absolute bottom-2 flex-row items-center justify-between px-8"
         style={{ width: size }}
       >
         <View className="items-center gap-1">

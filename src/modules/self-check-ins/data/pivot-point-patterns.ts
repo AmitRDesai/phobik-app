@@ -7,6 +7,7 @@ export interface PatternArchetype {
   tagline: string;
   strength: string;
   growthEdge: string;
+  recommendations: string[];
 }
 
 export const PATTERN_ARCHETYPES: Record<PivotPattern, PatternArchetype> = {
@@ -17,6 +18,11 @@ export const PATTERN_ARCHETYPES: Record<PivotPattern, PatternArchetype> = {
     tagline: 'I handle stress by doing more.',
     strength: 'Driven, proactive',
     growthEdge: 'Slowing down, feeling more',
+    recommendations: [
+      'Breathwork (long exhale)',
+      '\u201CSlow down\u201D prompts',
+      'Emotional awareness',
+    ],
   },
   escaper: {
     pattern: 'escaper',
@@ -25,6 +31,7 @@ export const PATTERN_ARCHETYPES: Record<PivotPattern, PatternArchetype> = {
     tagline: 'I handle stress by avoiding it.',
     strength: 'Protects energy',
     growthEdge: 'Taking small action',
+    recommendations: ['Courage challenges', 'Exposure steps', 'Action nudges'],
   },
   freezer: {
     pattern: 'freezer',
@@ -33,6 +40,7 @@ export const PATTERN_ARCHETYPES: Record<PivotPattern, PatternArchetype> = {
     tagline: 'I handle stress by shutting down.',
     strength: 'Sensitive, aware',
     growthEdge: 'Safe activation',
+    recommendations: ['Body activation', 'Micro steps', 'Grounding'],
   },
   pleaser: {
     pattern: 'pleaser',
@@ -41,6 +49,7 @@ export const PATTERN_ARCHETYPES: Record<PivotPattern, PatternArchetype> = {
     tagline: 'I handle stress by prioritizing others.',
     strength: 'Empathetic, relational',
     growthEdge: 'Boundaries + self-trust',
+    recommendations: ['Boundary scripts', 'Self-trust exercises'],
   },
   regulator: {
     pattern: 'regulator',
@@ -49,5 +58,6 @@ export const PATTERN_ARCHETYPES: Record<PivotPattern, PatternArchetype> = {
     tagline: 'I can feel stress and still move forward.',
     strength: 'Balanced, resilient',
     growthEdge: 'Continued expansion',
+    recommendations: ['Growth challenges', 'Leadership expansion'],
   },
 };
