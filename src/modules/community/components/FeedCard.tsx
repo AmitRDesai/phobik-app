@@ -64,7 +64,7 @@ export function FeedCard({
   const validImages = images.filter(Boolean) as string[];
 
   return (
-    <View className="rounded-3xl border border-white/5 bg-card-plum/20 p-5">
+    <View className="rounded-3xl border border-white/[0.08] bg-card-plum/80 p-5">
       {/* Author row */}
       <View className="flex-row items-center gap-3">
         <UserAvatar

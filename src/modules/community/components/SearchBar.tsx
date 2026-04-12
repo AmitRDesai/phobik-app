@@ -1,4 +1,4 @@
-import { colors, withAlpha } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TextInput, View } from 'react-native';
 
@@ -9,7 +9,7 @@ interface SearchBarProps {
 
 export function SearchBar({ value, onChangeText }: SearchBarProps) {
   return (
-    <View className="flex-row items-center rounded-full bg-card-plum/40 px-4">
+    <View className="flex-row items-center rounded-full bg-card-plum/80 px-4">
       <MaterialIcons
         name="search"
         size={22}
@@ -20,8 +20,9 @@ export function SearchBar({ value, onChangeText }: SearchBarProps) {
         value={value}
         onChangeText={onChangeText}
         placeholder="Find inspiration..."
-        placeholderTextColor={withAlpha(colors.gradient.magenta, 0.3)}
-        className="ml-3 h-12 flex-1 text-sm text-white"
+        placeholderTextColor={alpha.white40}
+        style={{ color: 'white' }}
+        className="ml-3 h-12 flex-1 text-sm"
       />
     </View>
   );

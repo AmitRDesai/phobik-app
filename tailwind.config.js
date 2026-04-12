@@ -6,7 +6,7 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          pink: '#FF2D85',
+          pink: '#FF4D94',
           'pink-light': '#FF71CD',
           'pink-dark': '#D11A66',
           'pink-soft': '#FF4D97',

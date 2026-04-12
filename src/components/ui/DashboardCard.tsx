@@ -15,7 +15,7 @@ export function DashboardCard({
   return (
     <View
       className={clsx(
-        'overflow-hidden rounded-3xl border border-white/[0.08] bg-white/5 p-6',
+        'overflow-hidden rounded-3xl border border-white/[0.08] bg-card-plum/80 p-6',
         glow && 'ios:shadow-2xl ios:shadow-primary-pink/10 android:elevation-4',
         className,
       )}

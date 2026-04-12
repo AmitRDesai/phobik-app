@@ -5,6 +5,7 @@ import { ScrollView, View } from 'react-native';
 import { ActionButtons } from '../components/ActionButtons';
 import { AffirmationCard } from '../components/AffirmationCard';
 import { ChallengesCard } from '../components/ChallengesCard';
+import { DailyFlowHero } from '../components/DailyFlowHero';
 import { DashboardHeader } from '../components/DashboardHeader';
 import { QuickAccessGrid } from '../components/QuickAccessGrid';
 import { RealTimeAnalysisCard } from '../components/RealTimeAnalysisCard';
@@ -21,14 +22,15 @@ export default function Today() {
       />
       <DashboardHeader />
       <ScrollView
-        contentContainerClassName="gap-4 px-4 py-4 pb-8"
+        contentContainerClassName="gap-4 px-4"
         showsVerticalScrollIndicator={false}
       >
-        <AffirmationCard />
+        <DailyFlowHero />
         <RealTimeAnalysisCard />
         <ActionButtons />
         <ChallengesCard />
         <QuickAccessGrid />
+        <AffirmationCard />
         {/* Extra bottom padding for tab bar clearance */}
         <View className="h-4" />
       </ScrollView>

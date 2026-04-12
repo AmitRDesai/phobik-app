@@ -79,7 +79,7 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     <BlurView
       intensity={25}
       tint="dark"
-      style={{ backgroundColor: withAlpha(colors.background.onboarding, 0.95) }}
+      style={{ backgroundColor: withAlpha(colors.background.dashboard, 0.7) }}
     >
       {content}
     </BlurView>
