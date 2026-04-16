@@ -32,5 +32,6 @@ export async function identifyUser(userId: string) {
 
 export async function logOutRevenueCat() {
   if (!initialized) return;
+  if (await Purchases.isAnonymous()) return;
   await Purchases.logOut();
 }
