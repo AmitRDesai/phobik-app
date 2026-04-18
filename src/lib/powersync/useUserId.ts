@@ -1,4 +1,4 @@
-import { useSession } from '@/lib/auth';
+import { useSession } from '@/modules/auth/hooks/useAuth';
 
 export function useUserId(): string | undefined {
   const { data: session } = useSession();

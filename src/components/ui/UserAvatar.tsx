@@ -1,4 +1,4 @@
-import { useSession } from '@/lib/auth';
+import { useSession } from '@/modules/auth/hooks/useAuth';
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { Image, View } from 'react-native';

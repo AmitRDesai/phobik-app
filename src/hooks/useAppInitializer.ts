@@ -1,4 +1,4 @@
-import { useSession } from '@/lib/auth';
+import { useSession } from '@/modules/auth/hooks/useAuth';
 import { connectPowerSync, disconnectPowerSync } from '@/lib/powersync';
 import { useBiometricAvailability } from '@/modules/auth/hooks/useBiometric';
 import { useProfileStatus } from '@/modules/auth/hooks/useProfile';

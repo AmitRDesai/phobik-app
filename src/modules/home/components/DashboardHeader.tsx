@@ -2,7 +2,7 @@ import { BlurView } from '@/components/ui/BlurView';
 import { NotificationBadge } from '@/components/ui/NotificationBadge';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { colors, withAlpha } from '@/constants/colors';
-import { useSession } from '@/lib/auth';
+import { useSession } from '@/modules/auth/hooks/useAuth';
 import { useUnreadCount } from '@/modules/notifications/hooks/useNotifications';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';

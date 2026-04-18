@@ -11,13 +11,13 @@
     "format": "prettier --write src",
     "prebuild": "dotenv -e .env.${env} -- expo prebuild --clean",
     "build": "eas build -p ${platform} --local -e ${env} --non-interactive",
-    "build:android": "platform=android npm run build",
-    "build:ios": "platform=ios npm run build",
+    "build:android": "platform=android pnpm build",
+    "build:ios": "platform=ios pnpm build",
     "submit": "eas submit -p ${platform} -e ${env}",
-    "submit:android": "platform=android yarn submit --path=$(find . -name '*.aab')",
-    "submit:ios": "platform=ios yarn submit --path=$(find . -name '*.ipa')",
+    "submit:android": "platform=android pnpm submit --path=$(find . -name '*.aab')",
+    "submit:ios": "platform=ios pnpm submit --path=$(find . -name '*.ipa')",
     "update": "eas update --channel ${env} --environment ${env} --clear-cache --auto",
-    "update:preview": "env=preview yarn update"
+    "update:preview": "env=preview pnpm update"
   },
   "dependencies": {
     "@ai-sdk/react": "^3.0.148",

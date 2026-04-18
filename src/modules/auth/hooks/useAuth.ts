@@ -1,6 +1,9 @@
-import { authClient, useSession as useBetterAuthSession } from '@/lib/auth';
+import { authClient } from '@/lib/auth';
+import { useCachedSession } from '@/hooks/useCachedSession';
 import { getDeviceId } from '@/lib/device-id';
+import { powersync } from '@/lib/powersync';
 import { rpcClient } from '@/lib/rpc';
+import { dialog } from '@/utils/dialog';
 import { env } from '@/utils/env';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as AppleAuthentication from 'expo-apple-authentication';
@@ -16,7 +19,7 @@ import {
  * Returns session data, loading state, and error
  */
 export function useSession() {
-  return useBetterAuthSession();
+  return useCachedSession();
 }
 
 /**
@@ -93,6 +96,32 @@ export function useSignOut() {
 
   return useMutation({
     mutationFn: async ({ force = false }: { force?: boolean } = {}) => {
+      // Sign-out triggers `disconnectAndClear()` on PowerSync, which wipes the
+      // local SQLite DB — including any pending writes that haven't uploaded.
+      // If the queue is non-empty, confirm with the user before proceeding.
+      let hasPending = false;
+      try {
+        hasPending = (await powersync.getCrudBatch(1)) !== null;
+      } catch {
+        // PowerSync not initialized — safe to proceed
+      }
+      if (hasPending) {
+        const result = await dialog.error({
+          title: 'Unsynced Changes',
+          message:
+            "You have changes that haven't been saved to the cloud yet. Signing out now will permanently delete them.",
+          buttons: [
+            {
+              label: 'Sign Out Anyway',
+              value: 'confirm',
+              variant: 'destructive',
+            },
+            { label: 'Cancel', value: 'cancel', variant: 'secondary' },
+          ],
+        });
+        if (result !== 'confirm') return;
+      }
+
       if (biometricEnabled && !force) {
         // Soft sign-out: keep session, just set flag
         setIsSignedOut(true);
