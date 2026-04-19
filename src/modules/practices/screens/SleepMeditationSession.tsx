@@ -1,3 +1,8 @@
+import sleepMeditation15Min from '@/assets/audio/practices/sleep-meditation/sleep-meditation-1-15min.m4a';
+import sleepMeditation30Min from '@/assets/audio/practices/sleep-meditation/sleep-meditation-1-30min.m4a';
+import sleepMeditation45Min from '@/assets/audio/practices/sleep-meditation/sleep-meditation-1-45min.m4a';
+import sleepMeditationFull from '@/assets/audio/practices/sleep-meditation/sleep-meditation-1.m4a';
+import sleepMeditationImage from '@/assets/images/practices/sleep-meditation.jpg';
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
@@ -29,10 +34,10 @@ import { formatTime } from '../utils/format';
 // ── Audio files ──────────────────────────────────────────────────────────────
 
 const AUDIO_FILES: Record<SleepMeditationDuration, number> = {
-  full: require('@/assets/audio/practices/sleep-meditation/sleep-meditation-1.m4a'),
-  '15min': require('@/assets/audio/practices/sleep-meditation/sleep-meditation-1-15min.m4a'),
-  '30min': require('@/assets/audio/practices/sleep-meditation/sleep-meditation-1-30min.m4a'),
-  '45min': require('@/assets/audio/practices/sleep-meditation/sleep-meditation-1-45min.m4a'),
+  full: sleepMeditationFull,
+  '15min': sleepMeditation15Min,
+  '30min': sleepMeditation30Min,
+  '45min': sleepMeditation45Min,
 };
 
 const DURATION_LABELS: { key: SleepMeditationDuration; label: string }[] = [
@@ -43,8 +48,6 @@ const DURATION_LABELS: { key: SleepMeditationDuration; label: string }[] = [
 ];
 
 // ── Pulsing Aura Circle ─────────────────────────────────────────────────────
-
-const SLEEP_MEDITATION_IMAGE = require('@/assets/images/practices/sleep-meditation.jpg');
 
 function PulsingAura({ isPlaying }: { isPlaying: boolean }) {
   const scale = useSharedValue(1);
@@ -132,7 +135,7 @@ function PulsingAura({ isPlaying }: { isPlaying: boolean }) {
       <View className="items-center justify-center rounded-full bg-accent-yellow/[0.06] p-6">
         {/* Center circle with image */}
         <Image
-          source={SLEEP_MEDITATION_IMAGE}
+          source={sleepMeditationImage}
           className="h-[190px] w-[190px] rounded-full border border-white/10"
           resizeMode="cover"
         />

@@ -2,10 +2,14 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
 
+import { isTodayLocal } from '@/modules/daily-flow/data/flow-navigation';
+import { useActiveDailyFlowSession } from '@/modules/daily-flow/hooks/useDailyFlowSession';
+import { useEnterDailyFlow } from '@/modules/daily-flow/hooks/useEnterDailyFlow';
+
 export function DailyFlowHero() {
-  const handleStartDailyFlow = () => {
-    // TODO: wire to Daily Flow route once it exists
-  };
+  const { session } = useActiveDailyFlowSession();
+  const canResume = !!session && isTodayLocal(session.startedAt);
+  const enterFlow = useEnterDailyFlow();
 
   return (
     <View className="items-center px-2 pb-2 pt-6">
@@ -13,16 +17,20 @@ export function DailyFlowHero() {
         How do you want to feel right now?
       </Text>
       <Text className="mb-6 text-center text-sm font-medium text-white/60">
-        Start your Daily Flow
+        {canResume ? 'Pick up where you left off' : 'Start your Daily Flow'}
       </Text>
       <View className="w-full px-6">
         <GradientButton
-          onPress={handleStartDailyFlow}
+          onPress={enterFlow}
           prefixIcon={
-            <MaterialIcons name="play-circle-filled" size={24} color="white" />
+            <MaterialIcons
+              name={canResume ? 'play-arrow' : 'play-circle-filled'}
+              size={24}
+              color="white"
+            />
           }
         >
-          DAILY FLOW
+          {canResume ? 'RESUME DAILY FLOW' : 'DAILY FLOW'}
         </GradientButton>
       </View>
     </View>

@@ -1,0 +1,87 @@
+import { colors } from '@/constants/colors';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Text, View } from 'react-native';
+import { EaseView } from 'react-native-ease';
+
+function Ring({
+  size,
+  borderColor,
+  duration,
+}: {
+  size: number;
+  borderColor: string;
+  duration: number;
+}) {
+  return (
+    <EaseView
+      initialAnimate={{ scale: 1, opacity: 0.4 }}
+      animate={{ scale: 1.05, opacity: 0.75 }}
+      transition={{
+        type: 'timing',
+        duration,
+        easing: 'easeInOut',
+        loop: 'reverse',
+      }}
+      className="absolute rounded-full border"
+      style={{
+        width: size,
+        height: size,
+        borderColor,
+      }}
+    />
+  );
+}
+
+type Props = {
+  cue: string;
+};
+
+export function PlayerOrb({ cue }: Props) {
+  return (
+    <View className="h-[320px] w-[320px] items-center justify-center">
+      <Ring
+        size={320}
+        borderColor={`${colors.primary.pink}26`}
+        duration={3600}
+      />
+      <Ring
+        size={260}
+        borderColor={`${colors.accent.yellow}26`}
+        duration={3800}
+      />
+      <Ring
+        size={200}
+        borderColor={`${colors.accent.purple}26`}
+        duration={4000}
+      />
+      <EaseView
+        initialAnimate={{ scale: 1 }}
+        animate={{ scale: 1.04 }}
+        transition={{
+          type: 'timing',
+          duration: 3200,
+          easing: 'easeInOut',
+          loop: 'reverse',
+        }}
+        className="h-[140px] w-[140px] overflow-hidden rounded-full"
+        style={{
+          shadowColor: colors.primary.pink,
+          shadowOffset: { width: 0, height: 0 },
+          shadowOpacity: 0.6,
+          shadowRadius: 30,
+        }}
+      >
+        <LinearGradient
+          colors={[colors.primary.pink, colors.accent.yellow]}
+          start={{ x: 0.1, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Text className="text-base font-black uppercase tracking-[0.2em] text-black">
+            {cue}
+          </Text>
+        </LinearGradient>
+      </EaseView>
+    </View>
+  );
+}

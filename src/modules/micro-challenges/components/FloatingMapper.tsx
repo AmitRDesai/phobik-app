@@ -1,7 +1,13 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import * as Haptics from 'expo-haptics';
-import { useEffect, useMemo } from 'react';
-import { Pressable, Text, useWindowDimensions, View } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  Pressable,
+  Text,
+  useWindowDimensions,
+  View,
+  type LayoutChangeEvent,
+} from 'react-native';
 import { EaseView } from 'react-native-ease';
 import Animated, {
   cancelAnimation,
@@ -35,8 +41,7 @@ interface FloatingMapperProps {
 const SPHERE_SIZE = 125;
 const ORBITAL_RADIUS = 110;
 
-function generateBgSlots(totalItems: number, w: number, h: number) {
-  const canvasH = h - 220;
+function generateBgSlots(totalItems: number, w: number, canvasH: number) {
   const pad = 20;
   const cols = 3;
   const rows = Math.ceil((totalItems + 3) / cols);
@@ -85,7 +90,22 @@ export function FloatingMapper({
   confirmLabel,
 }: FloatingMapperProps) {
   const { width, height } = useWindowDimensions();
+  const [canvasLayout, setCanvasLayout] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
   const selected = items.find((i) => i.id === selectedId) ?? items[0];
+
+  const handleCanvasLayout = (e: LayoutChangeEvent) => {
+    const { width: w, height: h } = e.nativeEvent.layout;
+    if (
+      !canvasLayout ||
+      Math.abs(canvasLayout.width - w) > 1 ||
+      Math.abs(canvasLayout.height - h) > 1
+    ) {
+      setCanvasLayout({ width: w, height: h });
+    }
+  };
 
   // Orbital rotation (needs Reanimated for continuous loop)
   const rotation = useSharedValue(0);
@@ -105,13 +125,15 @@ export function FloatingMapper({
     transform: [{ rotate: `${-rotation.value}deg` }],
   }));
 
+  const canvasW = canvasLayout?.width ?? width;
+  const canvasH = canvasLayout?.height ?? height - 220;
+
   const bgSlots = useMemo(
-    () => generateBgSlots(items.length, width, height),
-    [items.length, width, height],
+    () => generateBgSlots(items.length, canvasW, canvasH),
+    [items.length, canvasW, canvasH],
   );
 
-  const canvasH = height - 220;
-  const centerLeft = width / 2 - SPHERE_SIZE / 2;
+  const centerLeft = canvasW / 2 - SPHERE_SIZE / 2;
   const centerTop = canvasH / 2 - SPHERE_SIZE / 2;
 
   return (
@@ -124,7 +146,7 @@ export function FloatingMapper({
       </View>
 
       {/* Canvas */}
-      <View className="flex-1" style={{ height: canvasH }}>
+      <View className="flex-1" onLayout={handleCanvasLayout}>
         {/* All spheres — positioned at bg slot, EaseView moves selected to center */}
         {items.map((item, i) => {
           const slot = bgSlots[i % bgSlots.length];

@@ -1,3 +1,7 @@
+import exhaleAudio from '@/assets/audio/practices/common/exhale.mp3';
+import inhaleAudio from '@/assets/audio/practices/common/inhale.mp3';
+import tibetanBowlAudio from '@/assets/audio/practices/common/tibetan-bowl.mp3';
+import lazy8Instructions from '@/assets/audio/practices/lazy-8-breathing-session/instructions.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
@@ -171,7 +175,7 @@ export default function Lazy8BreathingSession() {
     skipToReady,
     skipToCountdown,
   } = useInstructionAudio({
-    audioSource: require('@/assets/audio/practices/lazy-8-breathing-session/instructions.mp3'),
+    audioSource: lazy8Instructions,
     skipInstruction: savedState !== null,
     isPaused,
   });
@@ -214,15 +218,9 @@ export default function Lazy8BreathingSession() {
       : breathPhase;
 
   // Phase audio players
-  const inhalePlayer = useAudioPlayer(
-    require('@/assets/audio/practices/common/inhale.mp3'),
-  );
-  const exhalePlayer = useAudioPlayer(
-    require('@/assets/audio/practices/common/exhale.mp3'),
-  );
-  const bowlPlayer = useAudioPlayer(
-    require('@/assets/audio/practices/common/tibetan-bowl.mp3'),
-  );
+  const inhalePlayer = useAudioPlayer(inhaleAudio);
+  const exhalePlayer = useAudioPlayer(exhaleAudio);
+  const bowlPlayer = useAudioPlayer(tibetanBowlAudio);
 
   // Set bowl volume
   useEffect(() => {
@@ -253,7 +251,6 @@ export default function Lazy8BreathingSession() {
       bowlPlayer.seekTo(0);
       bowlPlayer.play();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phaseIndex, sessionReady, isPaused]);
 
   // Save state on back navigation (only if session has started)

@@ -83,6 +83,8 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         return this.handleUserProfile(op);
       case 'calendar_preferences':
         return this.handleCalendarPreferences(op);
+      case 'daily_flow_session':
+        return this.handleDailyFlowSession(op);
       default:
         console.warn(`[PowerSync] Skipping unknown table: ${table}`);
     }
@@ -430,6 +432,65 @@ export class PhobikConnector implements PowerSyncBackendConnector {
       if (d?.onboarding_completed_at !== undefined) {
         await rpcClient.profile.completeOnboarding();
       }
+    }
+  }
+
+  private async handleDailyFlowSession(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op === 'PUT' || op.op === 'PATCH') {
+      const status = d?.status as
+        | 'in_progress'
+        | 'completed'
+        | 'abandoned'
+        | undefined;
+
+      if (status === 'completed') {
+        await rpcClient.dailyFlow.completeSession({
+          id: op.id,
+          reflection: (d?.reflection as string) ?? '',
+        });
+        return;
+      }
+
+      if (status === 'abandoned') {
+        await rpcClient.dailyFlow.abandonSession({ id: op.id });
+        return;
+      }
+
+      const addOns = parseJSON<{ eft: boolean; bilateral: boolean }>(
+        d?.add_ons as string,
+      );
+
+      await rpcClient.dailyFlow.upsertSession({
+        id: op.id,
+        status: (status as 'in_progress') ?? undefined,
+        currentStep:
+          (d?.current_step as
+            | 'intro'
+            | 'feeling'
+            | 'feeling_detail'
+            | 'guide'
+            | 'intention'
+            | 'detailed_feeling'
+            | 'support_options'
+            | 'player'
+            | 'bi_lateral_tutorial'
+            | 'eft_guide'
+            | 'eft_toh_focus'
+            | 'tapping'
+            | 'reflection') ?? undefined,
+        startedAt: (d?.started_at as string) ?? undefined,
+        feeling: d?.feeling !== undefined ? (d.feeling as string) : undefined,
+        intention:
+          d?.intention !== undefined ? (d.intention as string) : undefined,
+        supportOption:
+          d?.support_option !== undefined
+            ? (d.support_option as string)
+            : undefined,
+        addOns: addOns ?? undefined,
+        reflection:
+          d?.reflection !== undefined ? (d.reflection as string) : undefined,
+      });
     }
   }
 

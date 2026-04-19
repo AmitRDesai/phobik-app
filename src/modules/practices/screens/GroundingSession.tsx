@@ -1,3 +1,8 @@
+import grounding1 from '@/assets/audio/practices/grounding-session/1.mp3';
+import grounding2 from '@/assets/audio/practices/grounding-session/2.mp3';
+import grounding3 from '@/assets/audio/practices/grounding-session/3.mp3';
+import grounding4 from '@/assets/audio/practices/grounding-session/4.mp3';
+import grounding5 from '@/assets/audio/practices/grounding-session/5.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
@@ -68,11 +73,11 @@ const STEPS: SessionStep[] = [
 const TOTAL_DURATION = STEPS.reduce((sum, s) => sum + s.durationSec, 0);
 
 const AUDIO_FILES: Record<number, number> = {
-  5: require('@/assets/audio/practices/grounding-session/5.mp3'),
-  4: require('@/assets/audio/practices/grounding-session/4.mp3'),
-  3: require('@/assets/audio/practices/grounding-session/3.mp3'),
-  2: require('@/assets/audio/practices/grounding-session/2.mp3'),
-  1: require('@/assets/audio/practices/grounding-session/1.mp3'),
+  5: grounding5,
+  4: grounding4,
+  3: grounding3,
+  2: grounding2,
+  1: grounding1,
 };
 
 function parseInstruction(text: string) {

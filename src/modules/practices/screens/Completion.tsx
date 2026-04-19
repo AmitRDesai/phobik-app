@@ -1,3 +1,4 @@
+import successTrumpets from '@/assets/audio/success-trumpets.mp3';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
@@ -265,9 +266,7 @@ export default function Completion() {
   );
 
   // Play success trumpets on mount
-  const trumpetPlayer = useAudioPlayer(
-    require('@/assets/audio/success-trumpets.mp3'),
-  );
+  const trumpetPlayer = useAudioPlayer(successTrumpets);
 
   useEffect(() => {
     trumpetPlayer.play();

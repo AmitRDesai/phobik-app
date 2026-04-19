@@ -1,0 +1,73 @@
+import { colors } from '@/constants/colors';
+import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Image, Pressable, Text, View } from 'react-native';
+
+import type { FeelingContent } from '../data/feelings';
+
+type Props = {
+  feeling: FeelingContent;
+  onPress: () => void;
+};
+
+const ACCENT_COLORS = {
+  primary: colors.primary.pink,
+  secondary: colors.accent.yellow,
+  tertiary: colors.accent.purple,
+} as const;
+
+export function FeelingOptionCard({ feeling, onPress }: Props) {
+  const accent = ACCENT_COLORS[feeling.accentToken];
+  return (
+    <Pressable
+      onPress={onPress}
+      className="h-[340px] overflow-hidden rounded-[32px] border border-white/5 bg-card-dark"
+    >
+      <Image
+        source={feeling.image}
+        className="absolute h-full w-full opacity-70"
+        resizeMode="cover"
+      />
+      <LinearGradient
+        colors={['transparent', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.95)']}
+        locations={[0, 0.5, 1]}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}
+      />
+      <View className="flex-1 p-7">
+        <View
+          className="h-14 w-14 items-center justify-center rounded-full"
+          style={{ backgroundColor: `${accent}33` }}
+        >
+          <MaterialIcons
+            name={feeling.icon as keyof typeof MaterialIcons.glyphMap}
+            size={26}
+            color={accent}
+          />
+        </View>
+        <View className="mt-auto">
+          <Text className="text-3xl font-black tracking-tight text-white">
+            {feeling.label}
+          </Text>
+          <Text className="mt-2 text-[15px] leading-6 text-white/65">
+            {feeling.description}
+          </Text>
+          <View className="mt-5 flex-row items-center gap-1.5">
+            <Text
+              className="text-[11px] font-black uppercase tracking-[0.25em]"
+              style={{ color: accent }}
+            >
+              {feeling.ctaLabel}
+            </Text>
+            <MaterialIcons name="arrow-forward" size={14} color={accent} />
+          </View>
+        </View>
+      </View>
+    </Pressable>
+  );
+}

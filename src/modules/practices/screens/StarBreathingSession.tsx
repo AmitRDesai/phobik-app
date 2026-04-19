@@ -1,3 +1,7 @@
+import exhaleAudio from '@/assets/audio/practices/common/exhale.mp3';
+import holdAudio from '@/assets/audio/practices/common/hold.mp3';
+import inhaleAudio from '@/assets/audio/practices/common/inhale.mp3';
+import starBreathingInstructions from '@/assets/audio/practices/star-breathing-session/instructions.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
@@ -215,7 +219,7 @@ export default function StarBreathingSession() {
     skipToReady,
     skipToCountdown,
   } = useInstructionAudio({
-    audioSource: require('@/assets/audio/practices/star-breathing-session/instructions.mp3'),
+    audioSource: starBreathingInstructions,
     skipInstruction: savedState !== null,
     isPaused,
   });
@@ -265,15 +269,9 @@ export default function StarBreathingSession() {
       : 'Follow the light around the star';
 
   // Phase audio players
-  const inhalePlayer = useAudioPlayer(
-    require('@/assets/audio/practices/common/inhale.mp3'),
-  );
-  const holdPlayer = useAudioPlayer(
-    require('@/assets/audio/practices/common/hold.mp3'),
-  );
-  const exhalePlayer = useAudioPlayer(
-    require('@/assets/audio/practices/common/exhale.mp3'),
-  );
+  const inhalePlayer = useAudioPlayer(inhaleAudio);
+  const holdPlayer = useAudioPlayer(holdAudio);
+  const exhalePlayer = useAudioPlayer(exhaleAudio);
 
   // Play phase audio on phase changes
   useEffect(() => {
@@ -283,7 +281,6 @@ export default function StarBreathingSession() {
     const currentPlayer = players[phaseIndex];
     currentPlayer.seekTo(0);
     currentPlayer.play();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phaseIndex, sessionReady, isPaused]);
 
   // Mute/unmute all audio

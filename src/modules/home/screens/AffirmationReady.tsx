@@ -1,8 +1,8 @@
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { StackActions } from '@react-navigation/native';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { dismissToRoot } from '@/utils/navigation';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 
@@ -22,8 +22,7 @@ function pickRandom(options: string[]): string {
 export default function AffirmationReady() {
   const { feeling } = useLocalSearchParams<{ feeling: string }>();
   const saveAffirmation = useSaveAffirmation();
-  const navigation = useNavigation();
-  const parentNavigation = navigation.getParent();
+  const router = useRouter();
 
   const [text, setText] = useState(() => {
     const pool = getAffirmations(getTimeOfDay(), feeling as Feeling);
@@ -37,9 +36,7 @@ export default function AffirmationReady() {
 
   const handleSave = async () => {
     await saveAffirmation.mutateAsync({ feeling, text });
-
-    // Pop the affirmation group from the root Stack
-    parentNavigation?.dispatch(StackActions.pop());
+    dismissToRoot(router);
   };
 
   return (

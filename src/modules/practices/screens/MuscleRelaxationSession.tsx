@@ -1,3 +1,13 @@
+import mrAbdomen from '@/assets/audio/practices/muscle-relaxation-session/abdomen.mp3';
+import mrChest from '@/assets/audio/practices/muscle-relaxation-session/chest.mp3';
+import mrFace from '@/assets/audio/practices/muscle-relaxation-session/face.mp3';
+import mrFeet from '@/assets/audio/practices/muscle-relaxation-session/feet.mp3';
+import mrHandsAndArms from '@/assets/audio/practices/muscle-relaxation-session/hands-and-arms.mp3';
+import mrLeftLeg from '@/assets/audio/practices/muscle-relaxation-session/left-leg.mp3';
+import mrNeck from '@/assets/audio/practices/muscle-relaxation-session/neck.mp3';
+import mrRightLeg from '@/assets/audio/practices/muscle-relaxation-session/right-leg.mp3';
+import mrShoulders from '@/assets/audio/practices/muscle-relaxation-session/shoulders.mp3';
+import mrUpperBack from '@/assets/audio/practices/muscle-relaxation-session/upper-back.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
@@ -45,7 +55,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Face',
     icon: 'face',
     instruction: 'Squeeze your eyes shut and scrunch your face tightly.',
-    audio: require('@/assets/audio/practices/muscle-relaxation-session/face.mp3'),
+    audio: mrFace,
     audioDuration: 15,
     glowPosition: [100, 40],
   },
@@ -54,7 +64,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Neck',
     icon: 'accessibility-new',
     instruction: 'Tilt your head back and tense your neck muscles.',
-    audio: require('@/assets/audio/practices/muscle-relaxation-session/neck.mp3'),
+    audio: mrNeck,
     audioDuration: 9,
     glowPosition: [100, 55],
   },
@@ -63,7 +73,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Chest',
     icon: 'favorite',
     instruction: 'Take a deep breath and tighten your chest muscles.',
-    audio: require('@/assets/audio/practices/muscle-relaxation-session/chest.mp3'),
+    audio: mrChest,
     audioDuration: 9,
     glowPosition: [100, 100],
   },
@@ -73,7 +83,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     icon: 'accessibility-new',
     instruction:
       'Pull your shoulders up toward your ears as tightly as you can.',
-    audio: require('@/assets/audio/practices/muscle-relaxation-session/shoulders.mp3'),
+    audio: mrShoulders,
     audioDuration: 12,
     glowPosition: [100, 75],
   },
@@ -83,7 +93,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     icon: 'airline-seat-flat',
     instruction:
       'Push your shoulder blades together and tense your upper back.',
-    audio: require('@/assets/audio/practices/muscle-relaxation-session/upper-back.mp3'),
+    audio: mrUpperBack,
     audioDuration: 3,
     glowPosition: [100, 110],
   },
@@ -92,7 +102,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Abdomen',
     icon: 'self-improvement',
     instruction: 'Tighten your abdominal muscles as hard as you can.',
-    audio: require('@/assets/audio/practices/muscle-relaxation-session/abdomen.mp3'),
+    audio: mrAbdomen,
     audioDuration: 3,
     glowPosition: [100, 145],
   },
@@ -101,7 +111,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Hands & Arms',
     icon: 'back-hand',
     instruction: 'Make tight fists and tense your arms.',
-    audio: require('@/assets/audio/practices/muscle-relaxation-session/hands-and-arms.mp3'),
+    audio: mrHandsAndArms,
     audioDuration: 18,
     glowPosition: [50, 165],
   },
@@ -110,7 +120,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Right Leg',
     icon: 'directions-walk',
     instruction: 'Tense your right thigh, calf, and foot.',
-    audio: require('@/assets/audio/practices/muscle-relaxation-session/right-leg.mp3'),
+    audio: mrRightLeg,
     audioDuration: 14,
     glowPosition: [120, 280],
   },
@@ -119,7 +129,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Left Leg',
     icon: 'directions-walk',
     instruction: 'Tense your left thigh, calf, and foot.',
-    audio: require('@/assets/audio/practices/muscle-relaxation-session/left-leg.mp3'),
+    audio: mrLeftLeg,
     audioDuration: 18,
     glowPosition: [80, 280],
   },
@@ -128,7 +138,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Feet',
     icon: 'do-not-step',
     instruction: 'Curl your toes tightly and tense your feet.',
-    audio: require('@/assets/audio/practices/muscle-relaxation-session/feet.mp3'),
+    audio: mrFeet,
     audioDuration: 7,
     glowPosition: [100, 370],
   },

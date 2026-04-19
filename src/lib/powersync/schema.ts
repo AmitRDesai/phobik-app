@@ -247,6 +247,29 @@ const notification_settings = new Table(
   { indexes: { user: ['user_id'] } },
 );
 
+const daily_flow_session = new Table(
+  {
+    user_id: column.text,
+    status: column.text,
+    current_step: column.text,
+    started_at: column.text,
+    completed_at: column.text,
+    feeling: column.text,
+    intention: column.text,
+    support_option: column.text,
+    add_ons: column.text, // JSONB as JSON string
+    reflection: column.text,
+    created_at: column.text,
+    updated_at: column.text,
+  },
+  {
+    indexes: {
+      user_status: ['user_id', 'status'],
+      user_started: ['user_id', 'started_at'],
+    },
+  },
+);
+
 const notification = new Table(
   {
     user_id: column.text,
@@ -278,6 +301,7 @@ export const AppSchema = new Schema({
   ebook_progress,
   notification_settings,
   notification,
+  daily_flow_session,
 });
 
 export type Database = (typeof AppSchema)['types'];
@@ -298,3 +322,4 @@ export type PracticeSessionRecord = Database['practice_session'];
 export type EbookProgressRecord = Database['ebook_progress'];
 export type NotificationSettingsRecord = Database['notification_settings'];
 export type NotificationRecord = Database['notification'];
+export type DailyFlowSessionRecord = Database['daily_flow_session'];
