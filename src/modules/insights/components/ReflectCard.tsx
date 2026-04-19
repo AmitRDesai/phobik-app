@@ -9,7 +9,7 @@ interface ReflectCardProps {
 
 export function ReflectCard({ question }: ReflectCardProps) {
   return (
-    <DashboardCard className="p-5">
+    <DashboardCard className="border-l-4 border-l-primary-pink p-5">
       <View className="mb-2 flex-row items-center gap-2">
         <MaterialIcons
           name="psychology"

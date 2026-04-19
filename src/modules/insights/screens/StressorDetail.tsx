@@ -6,8 +6,6 @@ import { ScrollView, Text, View } from 'react-native';
 
 import { ReflectCard } from '../components/ReflectCard';
 import { SelfLeadershipPlan } from '../components/SelfLeadershipPlan';
-import { StressMetricsRow } from '../components/StressMetricsRow';
-import { StressSignsChips } from '../components/StressSignsChips';
 import { StressorHeader } from '../components/StressorHeader';
 import { STRESSOR_DETAILS } from '../data/stressor-details';
 
@@ -53,12 +51,7 @@ export default function StressorDetail() {
           </View>
         </View>
 
-        <StressMetricsRow
-          impact={data.stressImpact}
-          duration={data.avgDuration}
-        />
         <ReflectCard question={data.reflectQuestion} />
-        <StressSignsChips signs={data.stressSigns} />
         <SelfLeadershipPlan
           selectedStrengths={data.selectedStrengths}
           exercises={data.exercises}

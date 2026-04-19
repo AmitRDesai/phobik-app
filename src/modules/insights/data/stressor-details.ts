@@ -8,10 +8,7 @@ export interface StressorDetailData {
   emoji: string;
   title: string;
   description: string;
-  stressImpact: string;
-  avgDuration: string;
   reflectQuestion: string;
-  stressSigns: string[];
   selectedStrengths: string[];
   exercises: StressorExercise[];
 }
@@ -24,6 +21,7 @@ export interface StressorExercise {
   supports: string;
   buttonLabel: string;
   highlighted?: boolean;
+  route?: string;
 }
 
 const STRENGTHS = [
@@ -48,16 +46,8 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
     title: 'Achievement Pressure',
     description:
       'Triggers cortisol and adrenaline surges through perceived threat to achievement or identity.',
-    stressImpact: 'High',
-    avgDuration: '4.2 hrs',
     reflectQuestion:
       '"Do I feel like I\'m always racing to prove my worth or stay ahead?"',
-    stressSigns: [
-      'Tight jaw',
-      'Racing mind',
-      'Sunday dread',
-      'Difficulty unplugging',
-    ],
     selectedStrengths: ['Clarity', 'Confidence'],
     exercises: [
       {
@@ -67,6 +57,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         supports: 'Courage & Action',
         buttonLabel: 'Get Challenge',
         highlighted: true,
+        route: '/coach',
       },
       {
         icon: 'air',
@@ -74,6 +65,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Physiological Sigh to reset',
         supports: 'Calm & Clarity',
         buttonLabel: 'Start',
+        route: '/practices/double-inhale-intro',
       },
       {
         icon: 'grid-view',
@@ -82,6 +74,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'For mental focus',
         supports: 'Focus & Calm',
         buttonLabel: 'Start',
+        route: '/practices/box-breathing-intro',
       },
       {
         icon: 'accessibility-new',
@@ -90,6 +83,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Release jaw and shoulder tension',
         supports: 'Physical Ease',
         buttonLabel: 'Start',
+        route: '/practices/muscle-relaxation-intro',
       },
     ],
   },
@@ -101,10 +95,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
     title: 'Exhaustion',
     description:
       'Chronic hyperarousal without recovery impairs memory and immune health.',
-    stressImpact: 'Severe',
-    avgDuration: '7.2 hrs',
     reflectQuestion: '"Am I giving my body and mind real downtime?"',
-    stressSigns: ['Insomnia', 'Irritability', 'Burnout'],
     selectedStrengths: ['Compassion', 'Calm'],
     exercises: [
       {
@@ -114,6 +105,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         supports: 'Resilience & Agency',
         buttonLabel: 'Get Challenge',
         highlighted: true,
+        route: '/coach',
       },
       {
         icon: 'nights-stay',
@@ -129,6 +121,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Deep delta-wave guidance',
         supports: 'Deep Rest',
         buttonLabel: 'Start',
+        route: '/practices/sleep-meditation-session',
       },
       {
         icon: 'accessibility-new',
@@ -137,6 +130,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Release physical stress points',
         supports: 'Physical Tension',
         buttonLabel: 'Start',
+        route: '/practices/muscle-relaxation-intro',
       },
     ],
   },
@@ -148,10 +142,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
     title: 'Self-Image',
     description:
       "The brain's reward network becomes hijacked by comparison and external validation loops.",
-    stressImpact: 'Constant',
-    avgDuration: '5.1 hrs',
     reflectQuestion: '"Do I judge myself harshly or feel behind others?"',
-    stressSigns: ['Shame spirals', 'Social media fatigue', 'Perfectionism'],
     selectedStrengths: ['Compassion', 'Curiosity'],
     exercises: [
       {
@@ -161,6 +152,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         supports: 'Agency',
         buttonLabel: 'Get Challenge',
         highlighted: true,
+        route: '/coach',
       },
       {
         icon: 'visibility',
@@ -184,6 +176,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Process thoughts freely',
         supports: 'Perspective',
         buttonLabel: 'Start',
+        route: '/journal/new',
       },
     ],
   },
@@ -195,14 +188,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
     title: 'Isolation',
     description:
       'Social isolation increases inflammation and lowers vagal tone.',
-    stressImpact: 'Deep',
-    avgDuration: 'All-Day',
     reflectQuestion: '"Do I feel supported or alone in my struggles?"',
-    stressSigns: [
-      'Disconnection',
-      'Emotional numbing',
-      'Scrolling instead of connecting',
-    ],
     selectedStrengths: ['Connect', 'Courage'],
     exercises: [
       {
@@ -212,6 +198,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         supports: 'Confidence',
         buttonLabel: 'Get Challenge',
         highlighted: true,
+        route: '/coach',
       },
       {
         icon: 'group',
@@ -227,6 +214,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Interact with the community',
         supports: 'Visibility',
         buttonLabel: 'Interact',
+        route: '/community',
       },
       {
         icon: 'favorite',
@@ -246,16 +234,8 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
     title: 'Social Connection',
     description:
       'Social disconnection suppresses oxytocin and heightens threat detection.',
-    stressImpact: 'High',
-    avgDuration: '2.8 hrs',
     reflectQuestion:
       '"Do I feel emotionally safe expressing myself around others?"',
-    stressSigns: [
-      'Over-apologizing',
-      'People-pleasing',
-      'Withdrawal',
-      'Explosive reactions',
-    ],
     selectedStrengths: ['Connect', 'Compassion'],
     exercises: [
       {
@@ -265,6 +245,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         supports: 'Courage & Confidence',
         buttonLabel: 'Get Challenge',
         highlighted: true,
+        route: '/coach',
       },
       {
         icon: 'groups',
@@ -299,11 +280,8 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
     title: 'Unresolved Fear',
     description:
       "Fear loops form when the amygdala doesn't get new evidence that it's safe.",
-    stressImpact: 'Sharp',
-    avgDuration: '1.5 hrs',
     reflectQuestion:
       '"What situations or thoughts do I keep avoiding out of fear?"',
-    stressSigns: ['Avoidance', 'Procrastination', 'Catastrophizing'],
     selectedStrengths: ['Courage', 'Curiosity'],
     exercises: [
       {
@@ -313,6 +291,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         supports: 'Micro-Action',
         buttonLabel: 'Get Challenge',
         highlighted: true,
+        route: '/coach',
       },
       {
         icon: 'shield',
@@ -328,6 +307,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Calm the nervous system',
         supports: 'Resilience',
         buttonLabel: 'Start',
+        route: '/practices/478-breathing-intro',
       },
       {
         icon: 'edit-note',
@@ -347,11 +327,8 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
     title: 'Inner Critic',
     description:
       'Self-judgment activates the same neural pain circuits as physical harm.',
-    stressImpact: 'Persistent',
-    avgDuration: '4.8 hrs',
     reflectQuestion:
       '"How often does my inner dialogue sound like a bully instead of a coach?"',
-    stressSigns: ['Rumination', 'Paralysis', 'Low Confidence'],
     selectedStrengths: ['Compassion', 'Clarity'],
     exercises: [
       {
@@ -361,6 +338,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         supports: 'Resilience',
         buttonLabel: 'Get Challenge',
         highlighted: true,
+        route: '/coach',
       },
       {
         icon: 'edit-note',
@@ -368,6 +346,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Rewrite your internal dialogue',
         supports: 'Empathy',
         buttonLabel: 'Start',
+        route: '/practices/gentle-letter',
       },
       {
         icon: 'spa',
@@ -376,6 +355,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Return to the present moment',
         supports: 'Calm',
         buttonLabel: 'Start',
+        route: '/practices/grounding-intro',
       },
       {
         icon: 'lightbulb',
@@ -395,11 +375,8 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
     title: 'Lack of Purpose',
     description:
       'Dopamine circuits depend on having meaningful goals and perceived progress.',
-    stressImpact: 'Chronic',
-    avgDuration: 'Indefinite',
     reflectQuestion:
       '"Do I feel energized by something bigger than my to-do list?"',
-    stressSigns: ['Apathy', 'Numbness', 'Loss of motivation'],
     selectedStrengths: ['Creativity', 'Clarity'],
     exercises: [
       {
@@ -409,6 +386,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         supports: 'Meaning',
         buttonLabel: 'Get Challenge',
         highlighted: true,
+        route: '/coach',
       },
       {
         icon: 'edit-note',
@@ -443,11 +421,8 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
     title: 'Time Scarcity',
     description:
       'Perceived lack of time increases sympathetic activation and impulsivity.',
-    stressImpact: 'Intermittent',
-    avgDuration: '6.2 hrs',
     reflectQuestion:
       '"Do I often feel there\'s never enough time to catch my breath?"',
-    stressSigns: ['Over-scheduling', 'Multitasking', 'Irritability'],
     selectedStrengths: ['Calm', 'Clarity'],
     exercises: [
       {
@@ -457,6 +432,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         supports: 'Focus',
         buttonLabel: 'Get Challenge',
         highlighted: true,
+        route: '/coach',
       },
       {
         icon: 'grid-view',
@@ -464,6 +440,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: '4-4-4-4 technique for focus',
         supports: 'Calm',
         buttonLabel: 'Start',
+        route: '/practices/box-breathing-intro',
       },
       {
         icon: 'checklist',
@@ -491,10 +468,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
     title: 'Financial Security',
     description:
       "Chronic uncertainty activates the amygdala's fear circuits tied to survival.",
-    stressImpact: 'Moderate',
-    avgDuration: '3.5 hrs',
     reflectQuestion: '"Do money concerns dominate my mental space or sleep?"',
-    stressSigns: ['Catastrophic thinking', 'Tight chest', 'Scarcity mindset'],
     selectedStrengths: ['Courage', 'Calm'],
     exercises: [
       {
@@ -504,6 +478,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         supports: 'Micro-Action',
         buttonLabel: 'Get Challenge',
         highlighted: true,
+        route: '/coach',
       },
       {
         icon: 'air',
@@ -511,6 +486,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: '4-7-8 technique for calm',
         supports: 'Regulation',
         buttonLabel: 'Start',
+        route: '/practices/478-breathing-intro',
       },
       {
         icon: 'edit-note',
@@ -527,6 +503,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Safety visualization exercise',
         supports: 'Grounding',
         buttonLabel: 'Start',
+        route: '/practices/grounding-intro',
       },
     ],
   },

@@ -1,8 +1,9 @@
-import { GradientButton } from '@/components/ui/GradientButton';
 import { DashboardCard } from '@/components/ui/DashboardCard';
+import { GradientButton } from '@/components/ui/GradientButton';
 import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Pressable, Text, View } from 'react-native';
 import type { StressorExercise } from '../data/stressor-details';
 import { STRENGTHS } from '../data/stressor-details';
 
@@ -15,6 +16,8 @@ export function SelfLeadershipPlan({
   selectedStrengths,
   exercises,
 }: SelfLeadershipPlanProps) {
+  const router = useRouter();
+
   return (
     <View className="gap-6">
       {/* Self-Leadership Check */}
@@ -95,7 +98,7 @@ export function SelfLeadershipPlan({
             glow={ex.highlighted}
           >
             <View
-              className={`h-${ex.highlighted ? '14' : '12'} w-${ex.highlighted ? '14' : '12'} shrink-0 items-center justify-center rounded-2xl bg-white/10`}
+              className="shrink-0 items-center justify-center rounded-2xl bg-white/10"
               style={
                 ex.highlighted
                   ? {
@@ -111,7 +114,7 @@ export function SelfLeadershipPlan({
               }
             >
               <MaterialIcons
-                name={ex.icon as any}
+                name={ex.icon as never}
                 size={ex.highlighted ? 30 : 24}
                 color={ex.iconColor ?? colors.primary['pink-soft']}
               />
@@ -122,7 +125,13 @@ export function SelfLeadershipPlan({
                 {ex.description}
               </Text>
             </View>
-            <GradientButton onPress={() => {}} compact>
+            <GradientButton
+              onPress={() => {
+                if (ex.route) router.push(ex.route as never);
+              }}
+              disabled={!ex.route}
+              compact
+            >
               {ex.buttonLabel}
             </GradientButton>
           </DashboardCard>
@@ -141,25 +150,6 @@ export function SelfLeadershipPlan({
           </View>
         </View>
       ))}
-
-      {/* Next Step input */}
-      <DashboardCard className="rounded-[2rem] border-dashed border-primary-pink/30 p-6">
-        <Text className="mb-4 text-[11px] font-black uppercase tracking-[3px] text-primary-pink">
-          Next Step
-        </Text>
-        <View className="flex-row items-center rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
-          <TextInput
-            className="flex-1 text-sm font-medium italic text-white"
-            placeholder="One small action I will take now..."
-            placeholderTextColor={alpha.white20}
-          />
-          <MaterialIcons
-            name="send"
-            size={20}
-            color={colors.primary['pink-soft']}
-          />
-        </View>
-      </DashboardCard>
     </View>
   );
 }
