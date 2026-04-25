@@ -85,6 +85,8 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         return this.handleCalendarPreferences(op);
       case 'daily_flow_session':
         return this.handleDailyFlowSession(op);
+      case 'biometric_reading':
+        return this.handleBiometricReading(op);
       default:
         console.warn(`[PowerSync] Skipping unknown table: ${table}`);
     }
@@ -102,6 +104,8 @@ export class PhobikConnector implements PowerSyncBackendConnector {
           title: d?.title ?? undefined,
           tags: parseJSON<string[]>(d?.tags as string) ?? undefined,
           entryDate: d?.entry_date ?? new Date().toISOString().slice(0, 10),
+          hrAtEntry: (d?.hr_at_entry as number | null) ?? null,
+          hrvAtEntry: (d?.hrv_at_entry as number | null) ?? null,
         });
       } else {
         await rpcClient.journal.updateEntry({
@@ -492,6 +496,31 @@ export class PhobikConnector implements PowerSyncBackendConnector {
           d?.reflection !== undefined ? (d.reflection as string) : undefined,
       });
     }
+  }
+
+  private async handleBiometricReading(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op !== 'PUT') return;
+    const metric = d?.metric as
+      | 'heart_rate'
+      | 'hrv_sdnn'
+      | 'hrv_rmssd'
+      | 'resting_hr'
+      | 'respiratory_rate'
+      | undefined;
+    const source = d?.source as 'apple_health' | 'health_connect' | undefined;
+    const unit = d?.unit as 'bpm' | 'ms' | 'breaths_per_min' | undefined;
+    const value = d?.value as number | undefined;
+    const recordedAt = d?.recorded_at as string | undefined;
+    if (!metric || !source || !unit || value == null || !recordedAt) return;
+    await rpcClient.biometricReading.recordReading({
+      id: op.id,
+      metric,
+      value,
+      unit,
+      source,
+      recordedAt,
+    });
   }
 
   private async handleCalendarPreferences(op: CrudEntry) {

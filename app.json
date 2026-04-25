@@ -33,7 +33,11 @@
         "android.permission.USE_FINGERPRINT",
         "android.permission.READ_CALENDAR",
         "android.permission.WRITE_CALENDAR",
-        "android.permission.MODIFY_AUDIO_SETTINGS"
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.health.READ_HEART_RATE",
+        "android.permission.health.READ_HEART_RATE_VARIABILITY",
+        "android.permission.health.READ_RESTING_HEART_RATE",
+        "android.permission.health.READ_RESPIRATORY_RATE"
       ],
       "googleServicesFile": "./google-services.json"
     },
@@ -79,7 +83,31 @@
       ],
       "expo-asset",
       "expo-sharing",
-      "expo-speech-recognition"
+      "expo-speech-recognition",
+      [
+        "@kingstinct/react-native-healthkit",
+        {
+          "NSHealthShareUsageDescription": "Phobik reads heart rate, HRV, resting heart rate, and respiratory rate from Apple Health to show real-time stress and recovery insights.",
+          "NSHealthUpdateUsageDescription": "Phobik does not write to Apple Health.",
+          "background": true
+        }
+      ],
+      "react-native-health-connect",
+      "expo-health-connect",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 28,
+            "manifestQueries": {
+              "package": [
+                "com.google.android.apps.healthdata"
+              ]
+            }
+          }
+        }
+      ],
+      "expo-background-task"
     ],
     "experiments": {
       "typedRoutes": true,

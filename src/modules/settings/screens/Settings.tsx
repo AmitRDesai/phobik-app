@@ -101,6 +101,14 @@ export default function Settings() {
             subtitle="Connected calendars and check-ins"
             onPress={() => router.push('/settings/calendar')}
           />
+          <SettingsMenuItem
+            icon="favorite"
+            iconColor={colors.primary.pink}
+            iconBgColor={withAlpha(colors.primary.pink, 0.15)}
+            label="Health"
+            subtitle="Connect Apple Health or Health Connect"
+            onPress={() => router.push('/settings/health')}
+          />
         </View>
 
         {/* Lock App + Logout */}

@@ -1,9 +1,45 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
-import { Text, View } from 'react-native';
+import {
+  useBiometricHistory,
+  type BiometricHistoryPoint,
+} from '@/modules/insights/hooks/useBiometricHistory';
+import { timeRangeAtom } from '@/modules/insights/store/insights';
+import { useAtomValue } from 'jotai';
+import { Pressable, Text, View } from 'react-native';
+import { router } from 'expo-router';
 import Svg, { Path } from 'react-native-svg';
 
+const VIEW_W = 400;
+const VIEW_H = 100;
+const PAD = 6;
+
+function buildPath(points: BiometricHistoryPoint[]): string {
+  if (points.length === 0) return '';
+  if (points.length === 1) {
+    return `M${VIEW_W / 2},${VIEW_H / 2}`;
+  }
+  const values = points.map((p) => p.value);
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const xStep = (VIEW_W - PAD * 2) / (points.length - 1);
+  return points
+    .map((p, i) => {
+      const x = PAD + i * xStep;
+      const y = PAD + (VIEW_H - PAD * 2) * (1 - (p.value - min) / range);
+      return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(' ');
+}
+
 export function BiometricIndexCard() {
+  const range = useAtomValue(timeRangeAtom);
+  const hr = useBiometricHistory('heart_rate', range);
+  const hrv = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], range);
+
+  const hasData = hr.points.length > 0 || hrv.points.length > 0;
+
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
@@ -26,43 +62,68 @@ export function BiometricIndexCard() {
         </View>
       </View>
       <DashboardCard className="p-5">
-        <View className="h-24 w-full">
-          <Svg
-            width="100%"
-            height="100%"
-            viewBox="0 0 400 100"
-            preserveAspectRatio="none"
+        {hasData ? (
+          <View className="h-24 w-full">
+            <Svg
+              width="100%"
+              height="100%"
+              viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+              preserveAspectRatio="none"
+            >
+              {hr.points.length > 1 ? (
+                <Path
+                  d={buildPath(hr.points)}
+                  fill="none"
+                  stroke="white"
+                  strokeOpacity={0.4}
+                  strokeWidth="1.5"
+                />
+              ) : null}
+              {hrv.points.length > 1 ? (
+                <Path
+                  d={buildPath(hrv.points)}
+                  fill="none"
+                  stroke={colors.primary['pink-soft']}
+                  strokeWidth="1.5"
+                />
+              ) : null}
+            </Svg>
+          </View>
+        ) : (
+          <Pressable
+            onPress={() => router.push('/settings/health')}
+            className="h-24 w-full items-center justify-center"
           >
-            <Path
-              d="M0,50 L40,45 L80,60 L120,55 L160,70 L200,65 L240,50 L280,40 L320,55 L360,45 L400,50"
-              fill="none"
-              stroke="white"
-              strokeOpacity={0.2}
-              strokeWidth="1.5"
-            />
-            <Path
-              d="M0,80 L40,70 L80,75 L120,60 L160,55 L200,40 L240,45 L280,55 L320,60 L360,50 L400,45"
-              fill="none"
-              stroke={colors.primary['pink-soft']}
-              strokeWidth="1.5"
-            />
-          </Svg>
-        </View>
+            <Text className="text-center text-xs leading-relaxed text-white/40">
+              Connect Apple Health or Health Connect to see your HR & HRV
+              trends.
+            </Text>
+            <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+              Set up →
+            </Text>
+          </Pressable>
+        )}
         <View className="mt-4 flex-row gap-4 border-t border-white/5 pt-4">
           <View className="flex-1">
             <Text className="text-[9px] font-black uppercase tracking-widest text-white/40">
-              Resting Heart Rate
+              {range === 'Day' ? 'Latest Heart Rate' : 'Avg Heart Rate'}
             </Text>
             <Text className="text-xl font-black text-white">
-              64 <Text className="text-xs text-white/30">BPM</Text>
+              {hr.avg != null
+                ? Math.round(range === 'Day' ? hr.latest!.value : hr.avg)
+                : '—'}{' '}
+              <Text className="text-xs text-white/30">BPM</Text>
             </Text>
           </View>
           <View className="flex-1">
             <Text className="text-[9px] font-black uppercase tracking-widest text-white/40">
-              Mean HRV
+              {range === 'Day' ? 'Latest HRV' : 'Mean HRV'}
             </Text>
             <Text className="text-xl font-black text-primary-pink">
-              72 <Text className="text-xs text-white/30">ms</Text>
+              {hrv.avg != null
+                ? (range === 'Day' ? hrv.latest!.value : hrv.avg).toFixed(1)
+                : '—'}{' '}
+              <Text className="text-xs text-white/30">ms</Text>
             </Text>
           </View>
         </View>

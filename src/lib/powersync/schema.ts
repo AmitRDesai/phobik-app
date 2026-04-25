@@ -52,6 +52,8 @@ const journal_entry = new Table(
     content: column.text,
     tags: column.text,
     entry_date: column.text,
+    hr_at_entry: column.real,
+    hrv_at_entry: column.real,
     created_at: column.text,
     updated_at: column.text,
   },
@@ -283,6 +285,23 @@ const notification = new Table(
   { indexes: { user_created: ['user_id', 'created_at'] } },
 );
 
+const biometric_reading = new Table(
+  {
+    user_id: column.text,
+    metric: column.text, // 'heart_rate' | 'hrv_sdnn' | 'hrv_rmssd'
+    value: column.real,
+    unit: column.text, // 'bpm' | 'ms'
+    source: column.text, // 'apple_health' | 'health_connect'
+    recorded_at: column.text, // ISO 8601 — bucketing uses strftime
+    created_at: column.text,
+  },
+  {
+    indexes: {
+      user_metric_recorded: ['user_id', 'metric', 'recorded_at'],
+    },
+  },
+);
+
 export const AppSchema = new Schema({
   user_profile,
   calendar_preferences,
@@ -302,6 +321,7 @@ export const AppSchema = new Schema({
   notification_settings,
   notification,
   daily_flow_session,
+  biometric_reading,
 });
 
 export type Database = (typeof AppSchema)['types'];
@@ -323,3 +343,4 @@ export type EbookProgressRecord = Database['ebook_progress'];
 export type NotificationSettingsRecord = Database['notification_settings'];
 export type NotificationRecord = Database['notification'];
 export type DailyFlowSessionRecord = Database['daily_flow_session'];
+export type BiometricReadingRecord = Database['biometric_reading'];

@@ -15,6 +15,7 @@ import { isReturningUserAtom } from '@/store/user';
 import * as SplashScreen from 'expo-splash-screen';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
+import { Platform } from 'react-native';
 import { useProfileAutoRecovery } from './useProfileAutoRecovery';
 import '../../global.css';
 
@@ -47,6 +48,28 @@ const useAppInitializer = () => {
   // Initialize RevenueCat SDK on mount
   useEffect(() => {
     initRevenueCat().catch(console.error);
+  }, []);
+
+  // Initialize Health Connect once at startup (Android only). HealthKit on
+  // iOS does not require an explicit init step.
+  useEffect(() => {
+    if (Platform.OS !== 'android') return;
+    import('react-native-health-connect')
+      .then(({ initialize }) => initialize())
+      .catch(() => {
+        // Health Connect may be unavailable on this device; silently ignore.
+      });
+  }, []);
+
+  // Register the periodic background biometrics sync task. The task itself is
+  // defined at module-scope inside the imported file (TaskManager.defineTask),
+  // so importing it is enough to wire the handler.
+  useEffect(() => {
+    import('@/lib/biometrics-background').then(
+      ({ registerBiometricsBackgroundTask }) => {
+        registerBiometricsBackgroundTask();
+      },
+    );
   }, []);
 
   // Connect/disconnect PowerSync + RevenueCat based on auth state

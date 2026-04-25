@@ -2,6 +2,7 @@ import { uuid } from '@/lib/crypto';
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { parseJSON, toCamel, toJSON } from '@/lib/powersync/utils';
+import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
 import { useMemo } from 'react';
@@ -68,6 +69,7 @@ export function useJournalEntry(id: string | undefined) {
 
 export function useCreateEntry() {
   const userId = useUserId();
+  const { heartRate, hrv, heartRateAt, hrvAt } = useLatestBiometrics();
 
   return useMutation({
     mutationFn: async (input: {
@@ -91,6 +93,15 @@ export function useCreateEntry() {
       const id = uuid();
       const now = new Date().toISOString();
 
+      // Snapshot biometrics only when the most recent sample is fresh
+      // (within 30 min) so a stale reading doesn't get attached to a new
+      // entry hours later.
+      const FRESH_MS = 30 * 60 * 1000;
+      const isFresh = (at: Date | null) =>
+        at != null && Date.now() - at.getTime() < FRESH_MS;
+      const hrAtEntry = isFresh(heartRateAt) ? (heartRate ?? null) : null;
+      const hrvAtEntry = isFresh(hrvAt) ? (hrv ?? null) : null;
+
       await db
         .insertInto('journal_entry')
         .values({
@@ -102,6 +113,8 @@ export function useCreateEntry() {
           title,
           tags: toJSON(input.tags ?? []),
           entry_date: input.entryDate,
+          hr_at_entry: hrAtEntry,
+          hrv_at_entry: hrvAtEntry,
           created_at: now,
           updated_at: now,
         })
