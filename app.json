@@ -37,7 +37,8 @@
         "android.permission.health.READ_HEART_RATE",
         "android.permission.health.READ_HEART_RATE_VARIABILITY",
         "android.permission.health.READ_RESTING_HEART_RATE",
-        "android.permission.health.READ_RESPIRATORY_RATE"
+        "android.permission.health.READ_RESPIRATORY_RATE",
+        "android.permission.health.READ_SLEEP"
       ],
       "googleServicesFile": "./google-services.json"
     },
@@ -87,7 +88,7 @@
       [
         "@kingstinct/react-native-healthkit",
         {
-          "NSHealthShareUsageDescription": "Phobik reads heart rate, HRV, resting heart rate, and respiratory rate from Apple Health to show real-time stress and recovery insights.",
+          "NSHealthShareUsageDescription": "Phobik reads heart rate, HRV, resting heart rate, respiratory rate, and sleep analysis from Apple Health to show real-time stress and recovery insights.",
           "NSHealthUpdateUsageDescription": "Phobik does not write to Apple Health.",
           "background": true
         }
