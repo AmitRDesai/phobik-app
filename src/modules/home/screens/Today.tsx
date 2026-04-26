@@ -5,6 +5,7 @@ import { ScrollView, View } from 'react-native';
 import { ActionButtons } from '../components/ActionButtons';
 import { AffirmationCard } from '../components/AffirmationCard';
 import { ChallengesCard } from '../components/ChallengesCard';
+import { CharacterDevLinks } from '../components/CharacterDevLinks';
 import { DailyFlowHero } from '../components/DailyFlowHero';
 import { DashboardHeader } from '../components/DashboardHeader';
 import { QuickAccessGrid } from '../components/QuickAccessGrid';
@@ -31,6 +32,7 @@ export default function Today() {
         <ChallengesCard />
         <QuickAccessGrid />
         <AffirmationCard />
+        <CharacterDevLinks />
         {/* Extra bottom padding for tab bar clearance */}
         <View className="h-4" />
       </ScrollView>

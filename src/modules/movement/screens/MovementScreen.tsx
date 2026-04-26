@@ -132,8 +132,8 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
 
           {/* Body paragraphs in a glass card */}
           <View className="mt-6 gap-3 rounded-3xl border border-white/10 bg-white/5 p-5">
-            {exercise.body.map((p, i) => (
-              <Text key={i} className="text-base leading-relaxed text-white/80">
+            {exercise.body.map((p) => (
+              <Text key={p} className="text-base leading-relaxed text-white/80">
                 {p}
               </Text>
             ))}

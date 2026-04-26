@@ -123,8 +123,8 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
 
           {/* Body */}
           <View className="mt-6 gap-3">
-            {meditation.body.map((p, i) => (
-              <Text key={i} className="text-base leading-relaxed text-white/75">
+            {meditation.body.map((p) => (
+              <Text key={p} className="text-base leading-relaxed text-white/75">
                 {p}
               </Text>
             ))}
