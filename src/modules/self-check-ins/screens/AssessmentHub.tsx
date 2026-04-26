@@ -14,7 +14,12 @@ export default function AssessmentHub() {
     assessments?.find((a) => a.type === type && a.status === 'in_progress');
 
   return (
-    <PracticeScreenShell wordmark="Self Check-Ins">
+    <PracticeScreenShell
+      wordmark="Self Check-Ins"
+      bgClassName="bg-background-charcoal"
+      glowCenterY={0.25}
+      glowIntensity={0.5}
+    >
       <View className="mb-8 mt-2">
         <Text className="text-3xl font-extrabold tracking-tight text-white">
           Assessment Hub

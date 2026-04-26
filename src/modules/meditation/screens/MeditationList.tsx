@@ -10,7 +10,12 @@ export default function MeditationList() {
   const router = useRouter();
 
   return (
-    <PracticeScreenShell wordmark="FLOW STUDIO">
+    <PracticeScreenShell
+      wordmark="FLOW STUDIO"
+      bgClassName="bg-background-charcoal"
+      glowCenterY={0.25}
+      glowIntensity={0.5}
+    >
       <View className="mb-8 mt-4">
         <GradientText className="text-[44px] font-extrabold leading-none tracking-tighter">
           Meditations

@@ -29,7 +29,12 @@ export default function BreatheList() {
   }, [filter]);
 
   return (
-    <PracticeScreenShell wordmark="FLOW STUDIO">
+    <PracticeScreenShell
+      wordmark="FLOW STUDIO"
+      bgClassName="bg-background-charcoal"
+      glowCenterY={0.25}
+      glowIntensity={0.5}
+    >
       <View className="mb-8 mt-4">
         <View className="flex-row flex-wrap items-baseline">
           <Text className="text-[44px] font-extrabold uppercase leading-none tracking-tighter text-white">

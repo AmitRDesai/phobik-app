@@ -30,7 +30,12 @@ export function PillarSubMenuScreen({
   };
 
   return (
-    <PracticeScreenShell wordmark="FOUR PILLARS">
+    <PracticeScreenShell
+      wordmark="FOUR PILLARS"
+      bgClassName="bg-background-charcoal"
+      glowCenterY={0.25}
+      glowIntensity={0.5}
+    >
       <PillarHeroHeader
         title={submenu.title}
         accent={submenu.accent}

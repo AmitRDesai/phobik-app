@@ -12,6 +12,12 @@ type PracticeScreenShellProps = {
   children: React.ReactNode;
   scrollContentClassName?: string;
   scrollProps?: ScrollViewProps;
+  /** Background color class. Defaults to bg-background-dark. */
+  bgClassName?: string;
+  /** Vertical position of the glow center (0–1). Defaults to 0.2. */
+  glowCenterY?: number;
+  /** Glow intensity multiplier. Defaults to 0.4. */
+  glowIntensity?: number;
 };
 
 export function PracticeScreenShell({
@@ -21,16 +27,19 @@ export function PracticeScreenShell({
   children,
   scrollContentClassName = 'px-6 pb-32',
   scrollProps,
+  bgClassName = 'bg-background-dark',
+  glowCenterY = 0.2,
+  glowIntensity = 0.4,
 }: PracticeScreenShellProps) {
   return (
-    <View className="flex-1 bg-background-dark">
+    <View className={`flex-1 ${bgClassName}`}>
       <GlowBg
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
-        centerY={0.2}
+        centerY={glowCenterY}
         radius={0.35}
-        intensity={0.4}
-        bgClassName="bg-background-dark"
+        intensity={glowIntensity}
+        bgClassName={bgClassName}
       />
       {hideHeader ? null : (
         <PracticeStackHeader wordmark={wordmark} hideBack={hideBack} />
