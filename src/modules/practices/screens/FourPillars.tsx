@@ -31,7 +31,7 @@ export default function FourPillars() {
         </GradientText>
       </View>
       <ScrollView
-        contentContainerClassName="px-6 pb-32"
+        contentContainerClassName="px-6 pb-8"
         showsVerticalScrollIndicator={false}
       >
         <View className="mb-8 mt-4">

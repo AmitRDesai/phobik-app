@@ -25,7 +25,7 @@ export function PracticeScreenShell({
   hideHeader,
   hideBack,
   children,
-  scrollContentClassName = 'px-6 pb-32',
+  scrollContentClassName = 'px-6 pb-8',
   scrollProps,
   bgClassName = 'bg-background-dark',
   glowCenterY = 0.2,
