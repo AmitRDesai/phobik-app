@@ -8,14 +8,10 @@ export interface AssessmentMeta {
   route: string;
 }
 
+// Note: Intimacy & Connection lives under the Relationship pillar now.
+// It still exists as a route at /practices/self-check-ins/intimacy-intro
+// but is no longer surfaced in this hub.
 export const ASSESSMENTS: AssessmentMeta[] = [
-  {
-    id: 'intimacy',
-    title: 'Intimacy & Connection',
-    description: 'Discover your relationship dynamics.',
-    icon: { name: 'favorite' },
-    route: '/practices/self-check-ins/intimacy-intro',
-  },
   {
     id: 'pivot-point',
     title: 'The Pivot Point',

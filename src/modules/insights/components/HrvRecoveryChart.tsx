@@ -1,11 +1,13 @@
 import { colors } from '@/constants/colors';
+import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
 import {
   useBiometricHistory,
   type BiometricHistoryPoint,
 } from '@/modules/insights/hooks/useBiometricHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
 import { useAtomValue } from 'jotai';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+import { router } from 'expo-router';
 import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg';
 
 const VIEW_W = 400;
@@ -65,6 +67,7 @@ function timeLabels(
 
 export function HrvRecoveryChart() {
   const range = useAtomValue(timeRangeAtom);
+  const hasConnectedHealth = useAtomValue(hasConnectedHealthAtom);
   const hrv = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], range);
   const { line, area } = buildAreaAndLine(hrv.points);
   const labels = timeLabels(hrv.points, hrv.bucketLabel);
@@ -143,12 +146,27 @@ export function HrvRecoveryChart() {
                 strokeLinecap="round"
               />
             </Svg>
-          ) : (
+          ) : hasConnectedHealth ? (
             <View className="h-full w-full items-center justify-center">
-              <Text className="text-center text-xs text-white/40">
-                No HRV samples in this window yet.
+              <Text className="text-center text-xs font-semibold uppercase tracking-widest text-white/40">
+                No data
+              </Text>
+              <Text className="mt-1 text-[10px] text-white/30">
+                No HRV samples in this window
               </Text>
             </View>
+          ) : (
+            <Pressable
+              onPress={() => router.push('/settings/health')}
+              className="h-full w-full items-center justify-center"
+            >
+              <Text className="text-center text-xs text-white/40">
+                Connect Apple Health or Health Connect for HRV trends.
+              </Text>
+              <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+                Set up →
+              </Text>
+            </Pressable>
           )}
         </View>
         {labels.length > 0 ? (

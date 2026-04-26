@@ -4,12 +4,15 @@ import {
   type BiometricSample,
 } from '@/modules/home/utils/biometrics-storage';
 import { readHealthSamplesInWindow } from '@/modules/home/utils/health-reader';
+import { readSleepSessionsInWindow } from '@/modules/home/utils/sleep-reader';
+import { persistSleepSessions } from '@/modules/home/utils/sleep-storage';
 import * as BackgroundTask from 'expo-background-task';
 import * as TaskManager from 'expo-task-manager';
 
 export const BIOMETRICS_BACKGROUND_TASK = 'phobik-biometrics-sync';
 
 const BACKGROUND_WINDOW_HOURS = 2;
+const SLEEP_BACKGROUND_WINDOW_DAYS = 2;
 
 async function runBiometricsSync(): Promise<BackgroundTask.BackgroundTaskResult> {
   try {
@@ -21,15 +24,28 @@ async function runBiometricsSync(): Promise<BackgroundTask.BackgroundTaskResult>
     const start = new Date(
       end.getTime() - BACKGROUND_WINDOW_HOURS * 60 * 60 * 1000,
     );
+    // Sleep needs a wider window — a session can span ~midnight, and the
+    // background task may fire mid-morning long after the night ended.
+    const sleepStart = new Date(
+      end.getTime() - SLEEP_BACKGROUND_WINDOW_DAYS * 24 * 60 * 60 * 1000,
+    );
 
-    const { hrSamples, hrvSamples, extraSamples } =
-      await readHealthSamplesInWindow(start, end);
+    const [{ hrSamples, hrvSamples, extraSamples }, sleepSessions] =
+      await Promise.all([
+        readHealthSamplesInWindow(start, end),
+        readSleepSessionsInWindow(sleepStart, end),
+      ]);
     const all: BiometricSample[] = [
       ...hrSamples,
       ...hrvSamples,
       ...extraSamples,
     ];
-    if (all.length > 0) await persistReadings(userId, all);
+    await Promise.all([
+      all.length > 0 ? persistReadings(userId, all) : Promise.resolve(),
+      sleepSessions.length > 0
+        ? persistSleepSessions(userId, sleepSessions)
+        : Promise.resolve(),
+    ]);
     return BackgroundTask.BackgroundTaskResult.Success;
   } catch {
     return BackgroundTask.BackgroundTaskResult.Failed;

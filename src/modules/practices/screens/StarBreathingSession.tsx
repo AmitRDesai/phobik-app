@@ -19,6 +19,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+import { useStressScore } from '@/modules/home/hooks/useStressScore';
+import { useBiometricHistory } from '@/modules/insights/hooks/useBiometricHistory';
+
 import { BreathingStar } from '../components/BreathingStar';
 import { useInstructionAudio } from '../hooks/useInstructionAudio';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
@@ -34,6 +38,19 @@ const HOLD_END = 6;
 const CYCLE_DURATION = 10;
 
 function StatsCard() {
+  const { hrv, hasAccess, hrvAt } = useLatestBiometrics();
+  const baseline = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], 'Month');
+  const stress = useStressScore();
+  const FRESH_MS = 30 * 60 * 1000;
+  const isFresh = hrvAt != null && Date.now() - hrvAt.getTime() < FRESH_MS;
+  const liveHrv = isFresh ? hrv : null;
+  const baselineHrv = baseline.avg;
+  const deltaPct =
+    liveHrv != null && baselineHrv != null && baselineHrv > 0
+      ? ((liveHrv - baselineHrv) / baselineHrv) * 100
+      : null;
+  const isLive = hasAccess && liveHrv != null;
+
   return (
     <View className="mb-6 w-full rounded-[32px] border border-white/[0.08] bg-white/[0.03] p-6">
       {/* HRV header */}
@@ -67,15 +84,27 @@ function StatsCard() {
               Heart Rate Variability
             </Text>
             <View className="flex-row items-baseline gap-2">
-              <Text className="text-lg font-semibold text-white">64ms</Text>
-              <View className="flex-row items-center">
-                <MaterialIcons
-                  name="arrow-upward"
-                  size={14}
-                  color={colors.emerald[400]}
-                />
-                <Text className="text-xs font-bold text-emerald-400">12%</Text>
-              </View>
+              <Text className="text-lg font-semibold text-white">
+                {liveHrv != null ? `${Math.round(liveHrv)}ms` : '—'}
+              </Text>
+              {deltaPct != null ? (
+                <View className="flex-row items-center">
+                  <MaterialIcons
+                    name={deltaPct >= 0 ? 'arrow-upward' : 'arrow-downward'}
+                    size={14}
+                    color={
+                      deltaPct >= 0 ? colors.emerald[400] : colors.primary.pink
+                    }
+                  />
+                  <Text
+                    className={`text-xs font-bold ${
+                      deltaPct >= 0 ? 'text-emerald-400' : 'text-primary-pink'
+                    }`}
+                  >
+                    {Math.abs(Math.round(deltaPct))}%
+                  </Text>
+                </View>
+              ) : null}
             </View>
           </View>
         </View>
@@ -108,8 +137,18 @@ function StatsCard() {
             Stress Level
           </Text>
           <View className="flex-row items-center gap-2">
-            <View className="h-2 w-2 rounded-full bg-emerald-400" />
-            <Text className="text-sm font-semibold text-white">Low</Text>
+            <View
+              className={`h-2 w-2 rounded-full ${
+                stress.label === 'Stressed'
+                  ? 'bg-primary-pink'
+                  : stress.label === 'Balanced'
+                    ? 'bg-amber-400'
+                    : 'bg-emerald-400'
+              }`}
+            />
+            <Text className="text-sm font-semibold text-white">
+              {stress.label ?? '—'}
+            </Text>
           </View>
         </View>
         <View className="flex-1 rounded-2xl border border-white/5 bg-white/[0.04] p-4">
@@ -118,20 +157,26 @@ function StatsCard() {
           </Text>
           <View className="flex-row items-center gap-2">
             <View
-              className="h-2 w-2 rounded-full bg-emerald-400"
-              style={{
-                boxShadow: [
-                  {
-                    offsetX: 0,
-                    offsetY: 0,
-                    blurRadius: 8,
-                    color: colors.emerald[400],
-                  },
-                ],
-              }}
+              className={`h-2 w-2 rounded-full ${
+                isLive ? 'bg-emerald-400' : 'bg-white/30'
+              }`}
+              style={
+                isLive
+                  ? {
+                      boxShadow: [
+                        {
+                          offsetX: 0,
+                          offsetY: 0,
+                          blurRadius: 8,
+                          color: colors.emerald[400],
+                        },
+                      ],
+                    }
+                  : undefined
+              }
             />
             <Text className="text-sm font-semibold text-white">
-              Live Tracking
+              {isLive ? 'Live Tracking' : hasAccess ? 'Idle' : 'Not Connected'}
             </Text>
           </View>
         </View>

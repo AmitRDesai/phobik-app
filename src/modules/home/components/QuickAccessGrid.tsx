@@ -10,9 +10,17 @@ interface QuickAccessItem {
 }
 
 const ITEMS: QuickAccessItem[] = [
-  { icon: 'menu-book', label: 'Library', href: '/practices/exercise-library' },
-  { icon: 'shield', label: 'Courage', href: '/practices/courage-options' },
-  { icon: 'favorite', label: 'Love', href: '/practices/love-landing' },
+  {
+    icon: 'self-improvement',
+    label: 'Body',
+    href: '/practices/body-regulation',
+  },
+  { icon: 'psychology', label: 'Mind', href: '/practices/mind-regulation' },
+  {
+    icon: 'favorite',
+    label: 'Relationship',
+    href: '/practices/relationship-regulation',
+  },
   { icon: 'edit-note', label: 'Journal', href: '/journal' },
 ];
 

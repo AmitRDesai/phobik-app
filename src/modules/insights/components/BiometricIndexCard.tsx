@@ -1,5 +1,6 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
+import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
 import {
   useBiometricHistory,
   type BiometricHistoryPoint,
@@ -35,6 +36,7 @@ function buildPath(points: BiometricHistoryPoint[]): string {
 
 export function BiometricIndexCard() {
   const range = useAtomValue(timeRangeAtom);
+  const hasConnectedHealth = useAtomValue(hasConnectedHealthAtom);
   const hr = useBiometricHistory('heart_rate', range);
   const hrv = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], range);
 
@@ -88,6 +90,15 @@ export function BiometricIndexCard() {
                 />
               ) : null}
             </Svg>
+          </View>
+        ) : hasConnectedHealth ? (
+          <View className="h-24 w-full items-center justify-center">
+            <Text className="text-center text-xs font-semibold uppercase tracking-widest text-white/40">
+              No data
+            </Text>
+            <Text className="mt-1 text-[10px] leading-snug text-white/30">
+              No HR or HRV samples in this window
+            </Text>
           </View>
         ) : (
           <Pressable

@@ -85,8 +85,12 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         return this.handleCalendarPreferences(op);
       case 'daily_flow_session':
         return this.handleDailyFlowSession(op);
+      case 'morning_reset_session':
+        return this.handleMorningResetSession(op);
       case 'biometric_reading':
         return this.handleBiometricReading(op);
+      case 'sleep_session':
+        return this.handleSleepSession(op);
       default:
         console.warn(`[PowerSync] Skipping unknown table: ${table}`);
     }
@@ -498,6 +502,43 @@ export class PhobikConnector implements PowerSyncBackendConnector {
     }
   }
 
+  private async handleMorningResetSession(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op === 'PUT' || op.op === 'PATCH') {
+      const status = d?.status as
+        | 'in_progress'
+        | 'completed'
+        | 'abandoned'
+        | undefined;
+
+      if (status === 'completed') {
+        await rpcClient.morningReset.completeSession({ id: op.id });
+        return;
+      }
+
+      if (status === 'abandoned') {
+        await rpcClient.morningReset.abandonSession({ id: op.id });
+        return;
+      }
+
+      await rpcClient.morningReset.upsertSession({
+        id: op.id,
+        status: (status as 'in_progress') ?? undefined,
+        currentStep:
+          (d?.current_step as
+            | 'landing'
+            | 'light_exposure'
+            | 'stillness'
+            | 'mental_reset'
+            | 'movement'
+            | 'cold_exposure'
+            | 'nourishment'
+            | 'deep_focus') ?? undefined,
+        startedAt: (d?.started_at as string) ?? undefined,
+      });
+    }
+  }
+
   private async handleBiometricReading(op: CrudEntry) {
     const d = op.opData;
     if (op.op !== 'PUT') return;
@@ -518,6 +559,31 @@ export class PhobikConnector implements PowerSyncBackendConnector {
       metric,
       value,
       unit,
+      source,
+      recordedAt,
+    });
+  }
+
+  private async handleSleepSession(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op !== 'PUT') return;
+    const source = d?.source as 'apple_health' | 'health_connect' | undefined;
+    const startTime = d?.start_time as string | undefined;
+    const endTime = d?.end_time as string | undefined;
+    const recordedAt = d?.recorded_at as string | undefined;
+    if (!source || !startTime || !endTime || !recordedAt) return;
+    await rpcClient.sleepSession.recordSession({
+      id: op.id,
+      startTime,
+      endTime,
+      inBedMinutes: (d?.in_bed_minutes as number) ?? 0,
+      totalMinutes: (d?.total_minutes as number) ?? 0,
+      deepMinutes: (d?.deep_minutes as number | null) ?? null,
+      remMinutes: (d?.rem_minutes as number | null) ?? null,
+      lightMinutes: (d?.light_minutes as number | null) ?? null,
+      awakeMinutes: (d?.awake_minutes as number | null) ?? null,
+      efficiencyPct: (d?.efficiency_pct as number | null) ?? null,
+      restorativePct: (d?.restorative_pct as number | null) ?? null,
       source,
       recordedAt,
     });

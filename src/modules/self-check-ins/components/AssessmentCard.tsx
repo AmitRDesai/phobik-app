@@ -1,6 +1,6 @@
+import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, withAlpha } from '@/constants/colors';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 
 import type { AssessmentMeta } from '../data/assessments';
@@ -11,9 +11,22 @@ interface AssessmentCardProps {
   onPress: () => void;
 }
 
+const cardShadow = {
+  borderRadius: 28,
+  boxShadow: [
+    {
+      offsetX: 0,
+      offsetY: 16,
+      blurRadius: 32,
+      spreadDistance: -8,
+      color: `${colors.primary.pink}1A`,
+    },
+  ],
+} as const;
+
 function renderIcon(assessment: AssessmentMeta) {
   const icon = assessment.icon;
-  const size = 28;
+  const size = 24;
   const color = colors.primary.pink;
 
   if ('family' in icon && icon.family === 'ionicons') {
@@ -35,18 +48,19 @@ export function AssessmentCard({
   onPress,
 }: AssessmentCardProps) {
   return (
-    <Pressable
-      onPress={onPress}
-      className="overflow-hidden rounded-2xl bg-card-elevated active:opacity-95"
-    >
-      <View className="p-5">
-        <View className="mb-4 flex-row items-center gap-4">
+    <Pressable onPress={onPress} className="active:scale-[0.98]">
+      <View
+        className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-6"
+        style={cardShadow}
+      >
+        <View className="mb-5 flex-row items-center gap-4">
           <View
-            className="h-14 w-14 items-center justify-center rounded-xl"
+            className="h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/10"
             style={{
-              backgroundColor: withAlpha(colors.primary.pink, 0.1),
-              borderWidth: 1,
-              borderColor: withAlpha(colors.primary.pink, 0.3),
+              shadowColor: withAlpha(colors.primary.pink, 0.5),
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 1,
+              shadowRadius: 12,
             }}
           >
             {renderIcon(assessment)}
@@ -55,39 +69,27 @@ export function AssessmentCard({
             <Text className="text-lg font-bold text-white">
               {assessment.title}
             </Text>
-            <Text className="text-xs text-slate-400">
+            <Text className="mt-1 text-xs leading-relaxed text-white/60">
               {assessment.description}
             </Text>
           </View>
         </View>
 
-        <LinearGradient
-          colors={
-            isInProgress
-              ? [colors.accent.yellow, colors.accent.gold]
-              : [colors.primary.pink, colors.accent.yellow]
-          }
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={{
-            borderRadius: 12,
-            paddingVertical: 12,
-            paddingHorizontal: 16,
-          }}
-        >
-          <View className="flex-row items-center justify-center gap-2">
-            <MaterialIcons
-              name={isInProgress ? 'play-arrow' : 'arrow-forward'}
-              size={16}
-              color={isInProgress ? colors.background.dark : 'white'}
-            />
-            <Text
-              className={`text-xs font-black uppercase tracking-widest ${isInProgress ? 'text-background-dark' : 'text-white'}`}
-            >
-              {isInProgress ? 'Resume' : 'Start Test'}
-            </Text>
-          </View>
-        </LinearGradient>
+        <View className="self-start">
+          <GradientButton
+            compact
+            onPress={onPress}
+            icon={
+              <MaterialIcons
+                name={isInProgress ? 'play-arrow' : 'arrow-forward'}
+                size={14}
+                color="white"
+              />
+            }
+          >
+            {isInProgress ? 'Resume' : 'Start Test'}
+          </GradientButton>
+        </View>
       </View>
     </Pressable>
   );

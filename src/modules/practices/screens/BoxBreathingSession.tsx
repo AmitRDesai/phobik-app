@@ -15,6 +15,8 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+
 import { BreathingBox } from '../components/BreathingBox';
 import { useInstructionAudio } from '../hooks/useInstructionAudio';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
@@ -145,9 +147,17 @@ export default function BoxBreathingSession() {
     canSave: sessionReady && timeRemaining > 0,
   });
 
-  // Mock HRV data (would come from biometric sensor in production)
-  const hrvMs = 72;
-  const heartRateBpm = 64;
+  // Live HR / HRV from Apple Health / Health Connect via the wearable hook.
+  const { heartRate, hrv, hasAccess, heartRateAt, hrvAt } =
+    useLatestBiometrics();
+  const FRESH_MS = 30 * 60 * 1000;
+  const isFresh = (at: Date | null) =>
+    at != null && Date.now() - at.getTime() < FRESH_MS;
+  const hrvLive = isFresh(hrvAt) ? hrv : null;
+  const hrLive = isFresh(heartRateAt) ? heartRate : null;
+  const hrvMs = hrvLive != null ? Math.round(hrvLive) : null;
+  const heartRateBpm = hrLive;
+  const hasLiveData = hasAccess && (hrvMs != null || heartRateBpm != null);
 
   return (
     <Container safeAreaClass="bg-background-dark">
@@ -238,20 +248,32 @@ export default function BoxBreathingSession() {
                     HRV Tracking
                   </Text>
                   <Text className="text-[10px] leading-none text-white/40">
-                    Optical Sensor Active
+                    {hasLiveData
+                      ? 'Wearable Streaming'
+                      : hasAccess
+                        ? 'No recent samples'
+                        : 'Wearable Not Connected'}
                   </Text>
                 </View>
               </View>
               <View
-                className="flex-row items-center gap-2 rounded-full border px-2.5 py-1"
-                style={{
-                  backgroundColor: withAlpha(colors.green[500], 0.1),
-                  borderColor: withAlpha(colors.green[500], 0.2),
-                }}
+                className={`flex-row items-center gap-2 rounded-full border px-2.5 py-1 ${
+                  hasLiveData
+                    ? 'border-green-500/20 bg-green-500/10'
+                    : 'border-white/10 bg-white/5'
+                }`}
               >
-                <View className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                <Text className="text-[10px] font-bold uppercase text-green-500">
-                  Synced
+                <View
+                  className={`h-1.5 w-1.5 rounded-full ${
+                    hasLiveData ? 'bg-green-500' : 'bg-white/30'
+                  }`}
+                />
+                <Text
+                  className={`text-[10px] font-bold uppercase ${
+                    hasLiveData ? 'text-green-500' : 'text-white/40'
+                  }`}
+                >
+                  {hasLiveData ? 'Synced' : 'Idle'}
                 </Text>
               </View>
             </View>
@@ -261,7 +283,9 @@ export default function BoxBreathingSession() {
               {/* Variability */}
               <View className="flex-1 gap-2">
                 <View className="flex-row items-baseline gap-1.5">
-                  <Text className="text-3xl font-bold text-white">{hrvMs}</Text>
+                  <Text className="text-3xl font-bold text-white">
+                    {hrvMs != null ? hrvMs : '—'}
+                  </Text>
                   <Text className="text-xs font-medium uppercase tracking-tighter text-primary-pink">
                     ms
                   </Text>
@@ -273,7 +297,7 @@ export default function BoxBreathingSession() {
                     end={{ x: 1, y: 0 }}
                     style={{
                       height: '100%',
-                      width: `${hrvMs}%`,
+                      width: `${Math.min(100, hrvMs ?? 0)}%`,
                       borderRadius: 99,
                     }}
                   />
@@ -287,7 +311,7 @@ export default function BoxBreathingSession() {
               <View className="flex-1 items-end gap-2">
                 <View className="flex-row items-baseline gap-1.5">
                   <Text className="text-3xl font-bold text-white">
-                    {heartRateBpm}
+                    {heartRateBpm != null ? heartRateBpm : '—'}
                   </Text>
                   <Text className="text-xs font-medium uppercase tracking-tighter text-accent-yellow">
                     bpm
@@ -301,7 +325,7 @@ export default function BoxBreathingSession() {
                       end={{ x: 0, y: 0 }}
                       style={{
                         height: '100%',
-                        width: `${heartRateBpm}%`,
+                        width: `${Math.min(100, heartRateBpm ?? 0)}%`,
                         borderRadius: 99,
                       }}
                     />

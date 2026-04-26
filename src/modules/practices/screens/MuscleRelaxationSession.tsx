@@ -30,6 +30,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Circle, Path } from 'react-native-svg';
 
+import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+import { useStressScore } from '@/modules/home/hooks/useStressScore';
+
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { muscleRelaxationSessionAtom } from '../store/muscle-relaxation';
 import { formatTime } from '../utils/format';
@@ -489,6 +492,22 @@ export default function MuscleRelaxationSession() {
   const savedState = useAtomValue(muscleRelaxationSessionAtom);
   const setSession = useSetAtom(muscleRelaxationSessionAtom);
 
+  // Live biometrics for the header HRV badge + side stress badge.
+  const { hrv, hrvAt, hasAccess } = useLatestBiometrics();
+  const stress = useStressScore();
+  const FRESH_MS = 30 * 60 * 1000;
+  const liveHrv =
+    hrvAt != null && Date.now() - hrvAt.getTime() < FRESH_MS ? hrv : null;
+  const isLive = hasAccess && liveHrv != null;
+  const breathLabel = (() => {
+    // Approximate from stress label — we do not poll respiratory rate here;
+    // a higher stress state usually correlates with quicker breathing.
+    if (stress.label === 'Stressed') return 'Quick';
+    if (stress.label === 'Balanced') return 'Stable';
+    if (stress.label === 'Calm') return 'Slow';
+    return '—';
+  })();
+
   const initialStepRef = useRef(savedState?.currentStepIndex ?? 0);
 
   // Compute elapsed time for all completed steps (audio + wait for each)
@@ -691,7 +710,11 @@ export default function MuscleRelaxationSession() {
                 }}
               />
               <Text className="text-[10px] font-medium uppercase tracking-wider text-primary-pink">
-                HRV Live: 74ms
+                {isLive
+                  ? `HRV Live: ${Math.round(liveHrv)}ms`
+                  : hasAccess
+                    ? 'HRV: No recent data'
+                    : 'HRV: Not connected'}
               </Text>
             </View>
           </View>
@@ -707,14 +730,14 @@ export default function MuscleRelaxationSession() {
               icon="monitor-heart"
               iconColor={colors.accent.yellow}
               label="Stress"
-              value="Low"
+              value={stress.label ?? '—'}
               valueColor={colors.accent.yellow}
             />
             <BiometricBadge
               icon="air"
               iconColor={colors.primary.pink}
               label="Breath"
-              value="Stable"
+              value={breathLabel}
               valueColor={colors.primary.pink}
             />
           </View>

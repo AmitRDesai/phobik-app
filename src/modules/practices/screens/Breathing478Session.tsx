@@ -14,6 +14,8 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+
 import { BreathingCircle478 } from '../components/BreathingCircle478';
 import { useInstructionAudio } from '../hooks/useInstructionAudio';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
@@ -160,6 +162,14 @@ export default function Breathing478Session() {
     }
   };
 
+  // Live HR / HRV from connected wearable (Apple Health / Health Connect).
+  const { heartRate, hrv, heartRateAt, hrvAt } = useLatestBiometrics();
+  const FRESH_MS = 30 * 60 * 1000;
+  const isFresh = (at: Date | null) =>
+    at != null && Date.now() - at.getTime() < FRESH_MS;
+  const liveHr = isFresh(heartRateAt) ? heartRate : null;
+  const liveHrv = isFresh(hrvAt) ? hrv : null;
+
   return (
     <Container safeAreaClass="bg-background-dark">
       <View className="flex-1 bg-background-dark">
@@ -293,7 +303,7 @@ export default function Breathing478Session() {
                   className="text-2xl font-semibold text-white"
                   style={{ fontVariant: ['tabular-nums'] }}
                 >
-                  72
+                  {liveHr != null ? liveHr : '—'}
                 </Text>
                 <Text className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
                   BPM
@@ -323,7 +333,7 @@ export default function Breathing478Session() {
                   className="text-2xl font-semibold text-white"
                   style={{ fontVariant: ['tabular-nums'] }}
                 >
-                  74
+                  {liveHrv != null ? Math.round(liveHrv) : '—'}
                 </Text>
                 <Text className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
                   MS

@@ -302,6 +302,46 @@ const biometric_reading = new Table(
   },
 );
 
+const morning_reset_session = new Table(
+  {
+    user_id: column.text,
+    status: column.text,
+    current_step: column.text,
+    started_at: column.text,
+    completed_at: column.text,
+    created_at: column.text,
+    updated_at: column.text,
+  },
+  {
+    indexes: {
+      user_status: ['user_id', 'status'],
+      user_started: ['user_id', 'started_at'],
+    },
+  },
+);
+
+const sleep_session = new Table(
+  {
+    user_id: column.text,
+    start_time: column.text, // ISO 8601
+    end_time: column.text, // ISO 8601
+    in_bed_minutes: column.real,
+    total_minutes: column.real,
+    deep_minutes: column.real, // nullable
+    rem_minutes: column.real, // nullable
+    light_minutes: column.real, // nullable
+    awake_minutes: column.real, // nullable
+    efficiency_pct: column.real, // nullable
+    restorative_pct: column.real, // nullable — (deep+rem)/total*100
+    source: column.text, // 'apple_health' | 'health_connect'
+    recorded_at: column.text,
+    created_at: column.text,
+  },
+  {
+    indexes: { user_start: ['user_id', 'start_time'] },
+  },
+);
+
 export const AppSchema = new Schema({
   user_profile,
   calendar_preferences,
@@ -321,7 +361,9 @@ export const AppSchema = new Schema({
   notification_settings,
   notification,
   daily_flow_session,
+  morning_reset_session,
   biometric_reading,
+  sleep_session,
 });
 
 export type Database = (typeof AppSchema)['types'];
@@ -343,4 +385,6 @@ export type EbookProgressRecord = Database['ebook_progress'];
 export type NotificationSettingsRecord = Database['notification_settings'];
 export type NotificationRecord = Database['notification'];
 export type DailyFlowSessionRecord = Database['daily_flow_session'];
+export type MorningResetSessionRecord = Database['morning_reset_session'];
 export type BiometricReadingRecord = Database['biometric_reading'];
+export type SleepSessionRecord = Database['sleep_session'];

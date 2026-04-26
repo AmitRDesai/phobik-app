@@ -22,6 +22,7 @@ export function DashboardHeader() {
       style={{ paddingTop: insets.top + 8 }}
     >
       <Pressable
+        testID="settings-button"
         onPress={() => router.push('/settings')}
         className="flex-row items-center gap-3"
       >

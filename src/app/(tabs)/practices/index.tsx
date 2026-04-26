@@ -1,1 +1,1 @@
-export { default } from '@/modules/practices/screens/Practices';
+export { default } from '@/modules/practices/screens/FourPillars';

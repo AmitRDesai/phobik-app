@@ -6,7 +6,7 @@ import { BiometricIndexCard } from '../components/BiometricIndexCard';
 import { DoseSummaryCard } from '../components/DoseSummaryCard';
 import { EnergyIndexChart } from '../components/EnergyIndexChart';
 import { InsightsHeader } from '../components/InsightsHeader';
-import { QuickResetCalendar } from '../components/QuickResetCalendar';
+import { MorningResetCalendar } from '../components/MorningResetCalendar';
 import { SleepIntelligenceCard } from '../components/SleepIntelligenceCard';
 import { TimeRangeControl } from '../components/TimeRangeControl';
 import { TopStressorsRow } from '../components/TopStressorsRow';
@@ -28,7 +28,7 @@ export default function InsightsDashboard() {
       >
         <TimeRangeControl />
         <TopStressorsRow />
-        <QuickResetCalendar />
+        <MorningResetCalendar />
         <EnergyIndexChart />
         <DoseSummaryCard />
         <BiometricIndexCard />

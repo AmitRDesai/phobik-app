@@ -5,6 +5,8 @@ import {
   type BiometricSample,
 } from '@/modules/home/utils/biometrics-storage';
 import { readHealthSamplesInWindow } from '@/modules/home/utils/health-reader';
+import { readSleepSessionsInWindow } from '@/modules/home/utils/sleep-reader';
+import { persistSleepSessions } from '@/modules/home/utils/sleep-storage';
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect } from 'react';
@@ -28,10 +30,12 @@ const READ_PERMISSIONS = [
   },
   { accessType: 'read' as const, recordType: 'RestingHeartRate' as const },
   { accessType: 'read' as const, recordType: 'RespiratoryRate' as const },
+  { accessType: 'read' as const, recordType: 'SleepSession' as const },
 ];
 
 const BACKFILL_DAYS = 30;
 const RECENT_WINDOW_HOURS = 24;
+const SLEEP_RECENT_WINDOW_DAYS = 7;
 const POLL_INTERVAL_MS = 90_000;
 type ReadResult = {
   heartRate: number | null;
@@ -73,13 +77,22 @@ export function useLatestBiometrics(): LatestBiometrics {
       const start = new Date(
         end.getTime() - RECENT_WINDOW_HOURS * 60 * 60 * 1000,
       );
-      const { hrSamples, hrvSamples, extraSamples } =
-        await readHealthSamplesInWindow(start, end);
+      const sleepStart = new Date(
+        end.getTime() - SLEEP_RECENT_WINDOW_DAYS * 24 * 60 * 60 * 1000,
+      );
+      const [{ hrSamples, hrvSamples, extraSamples }, sleepSessions] =
+        await Promise.all([
+          readHealthSamplesInWindow(start, end),
+          readSleepSessionsInWindow(sleepStart, end),
+        ]);
       if (userId) {
-        await persistReadings(userId, [
-          ...hrSamples,
-          ...hrvSamples,
-          ...extraSamples,
+        await Promise.all([
+          persistReadings(userId, [
+            ...hrSamples,
+            ...hrvSamples,
+            ...extraSamples,
+          ]),
+          persistSleepSessions(userId, sleepSessions),
         ]);
       }
       const latestHr = pickLatest(hrSamples);
@@ -173,11 +186,19 @@ export function useLatestBiometrics(): LatestBiometrics {
           const start = new Date(
             end.getTime() - BACKFILL_DAYS * 24 * 60 * 60 * 1000,
           );
-          const { hrSamples, hrvSamples } = await readHealthSamplesInWindow(
-            start,
-            end,
-          );
-          await persistReadings(userId, [...hrSamples, ...hrvSamples]);
+          const [{ hrSamples, hrvSamples, extraSamples }, sleepSessions] =
+            await Promise.all([
+              readHealthSamplesInWindow(start, end),
+              readSleepSessionsInWindow(start, end),
+            ]);
+          await Promise.all([
+            persistReadings(userId, [
+              ...hrSamples,
+              ...hrvSamples,
+              ...extraSamples,
+            ]),
+            persistSleepSessions(userId, sleepSessions),
+          ]);
         }
         await query.refetch();
       }

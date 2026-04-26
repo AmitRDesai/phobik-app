@@ -7,17 +7,20 @@ interface SelectableChipProps {
   label: string;
   selected: boolean;
   onPress: () => void;
+  /** Show the checkmark when selected. Defaults to true. */
+  showCheckmark?: boolean;
 }
 
 export function SelectableChip({
   label,
   selected,
   onPress,
+  showCheckmark = true,
 }: SelectableChipProps) {
   const inner = (
     <View className="h-11 flex-row items-center px-5">
       <Text className="text-sm font-bold text-white">{label}</Text>
-      {selected && (
+      {selected && showCheckmark && (
         <Ionicons
           name="checkmark-circle-outline"
           size={18}

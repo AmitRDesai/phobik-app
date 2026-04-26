@@ -5,6 +5,8 @@ import {
   type BiometricSample,
 } from '@/modules/home/utils/biometrics-storage';
 import { readHealthSamplesInWindow } from '@/modules/home/utils/health-reader';
+import { readSleepSessionsInWindow } from '@/modules/home/utils/sleep-reader';
+import { persistSleepSessions } from '@/modules/home/utils/sleep-storage';
 import {
   enableBackgroundDelivery,
   isHealthDataAvailable,
@@ -24,10 +26,12 @@ const READ_TYPES = [
   'HKQuantityTypeIdentifierHeartRateVariabilitySDNN',
   'HKQuantityTypeIdentifierRestingHeartRate',
   'HKQuantityTypeIdentifierRespiratoryRate',
+  'HKCategoryTypeIdentifierSleepAnalysis',
 ] as const;
 
 const BACKFILL_DAYS = 30;
 const RECENT_WINDOW_HOURS = 24;
+const SLEEP_RECENT_WINDOW_DAYS = 7;
 
 function pickLatest(samples: BiometricSample[]): BiometricSample | undefined {
   // Samples come back in descending order from HealthKit, but be defensive.
@@ -50,13 +54,22 @@ export function useLatestBiometrics(): LatestBiometrics {
       const start = new Date(
         end.getTime() - RECENT_WINDOW_HOURS * 60 * 60 * 1000,
       );
-      const { hrSamples, hrvSamples, extraSamples } =
-        await readHealthSamplesInWindow(start, end);
+      const sleepStart = new Date(
+        end.getTime() - SLEEP_RECENT_WINDOW_DAYS * 24 * 60 * 60 * 1000,
+      );
+      const [{ hrSamples, hrvSamples, extraSamples }, sleepSessions] =
+        await Promise.all([
+          readHealthSamplesInWindow(start, end),
+          readSleepSessionsInWindow(sleepStart, end),
+        ]);
       if (userId) {
-        await persistReadings(userId, [
-          ...hrSamples,
-          ...hrvSamples,
-          ...extraSamples,
+        await Promise.all([
+          persistReadings(userId, [
+            ...hrSamples,
+            ...hrvSamples,
+            ...extraSamples,
+          ]),
+          persistSleepSessions(userId, sleepSessions),
         ]);
       }
       const latestHr = pickLatest(hrSamples);
@@ -121,12 +134,18 @@ export function useLatestBiometrics(): LatestBiometrics {
           const start = new Date(
             end.getTime() - BACKFILL_DAYS * 24 * 60 * 60 * 1000,
           );
-          const { hrSamples, hrvSamples, extraSamples } =
-            await readHealthSamplesInWindow(start, end);
-          await persistReadings(userId, [
-            ...hrSamples,
-            ...hrvSamples,
-            ...extraSamples,
+          const [{ hrSamples, hrvSamples, extraSamples }, sleepSessions] =
+            await Promise.all([
+              readHealthSamplesInWindow(start, end),
+              readSleepSessionsInWindow(start, end),
+            ]);
+          await Promise.all([
+            persistReadings(userId, [
+              ...hrSamples,
+              ...hrvSamples,
+              ...extraSamples,
+            ]),
+            persistSleepSessions(userId, sleepSessions),
           ]);
         }
         await query.refetch();
