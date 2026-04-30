@@ -6,8 +6,9 @@ import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors, withAlpha } from '@/constants/colors';
+import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
+import { useNow } from '@/hooks/useNow';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
@@ -43,7 +44,9 @@ export default function Breathing478Session() {
   const savedState = useAtomValue(breathing478SessionAtom);
   const setSession = useSetAtom(breathing478SessionAtom);
 
-  const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
+  const [initialTimeRemaining] = useState(
+    () => savedState?.timeRemaining ?? TOTAL_DURATION,
+  );
 
   const [isPaused, setIsPaused] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -52,18 +55,18 @@ export default function Breathing478Session() {
     sessionReady,
     countdown,
     instructionDone,
-    instructionPlayer,
     skipToReady,
     skipToCountdown,
   } = useInstructionAudio({
     audioKey: 'breathing-478-instructions',
     skipInstruction: savedState !== null,
     isPaused,
+    isMuted,
   });
 
   const { timeRemaining, setTimeRemaining, elapsed } = useSessionTimer({
     totalDuration: TOTAL_DURATION,
-    initialTimeRemaining: initialTimeRef.current,
+    initialTimeRemaining,
     isPaused,
     sessionReady,
     practiceType: '478-breathing',
@@ -88,34 +91,19 @@ export default function Breathing478Session() {
       ? 'Get ready...'
       : PHASE_SUBTEXTS[phaseIndex];
 
-  // Phase audio players
-  const inhalePlayer = useAudioPlayer(inhaleAudio);
-  const holdPlayer = useAudioPlayer(holdAudio);
-  const exhalePlayer = useAudioPlayer(exhaleAudio);
-  const bowlPlayer = useAudioPlayer(tibetanBowlAudio);
-
-  // Set bowl volume
-  useEffect(() => {
-    bowlPlayer.volume = 0.8;
-  }, [bowlPlayer]);
-
-  // Mute/unmute all audio
-  useEffect(() => {
-    const vol = isMuted ? 0 : 1;
-    const bowlVol = isMuted ? 0 : 0.8;
-    instructionPlayer.volume = vol;
-    inhalePlayer.volume = vol;
-    holdPlayer.volume = vol;
-    exhalePlayer.volume = vol;
-    bowlPlayer.volume = bowlVol;
-  }, [
-    isMuted,
-    instructionPlayer,
-    inhalePlayer,
-    holdPlayer,
-    exhalePlayer,
-    bowlPlayer,
-  ]);
+  // Phase audio players (volume managed declaratively by the wrapper hook)
+  const inhalePlayer = useManagedAudioPlayer(inhaleAudio, {
+    volume: isMuted ? 0 : 1,
+  });
+  const holdPlayer = useManagedAudioPlayer(holdAudio, {
+    volume: isMuted ? 0 : 1,
+  });
+  const exhalePlayer = useManagedAudioPlayer(exhaleAudio, {
+    volume: isMuted ? 0 : 1,
+  });
+  const bowlPlayer = useManagedAudioPlayer(tibetanBowlAudio, {
+    volume: isMuted ? 0 : 0.8,
+  });
 
   // Play phase audio on phase changes + tibetan bowl at cycle start
   useEffect(() => {
@@ -164,8 +152,9 @@ export default function Breathing478Session() {
   // Live HR / HRV from connected wearable (Apple Health / Health Connect).
   const { heartRate, hrv, heartRateAt, hrvAt } = useLatestBiometrics();
   const FRESH_MS = 30 * 60 * 1000;
+  const now = useNow();
   const isFresh = (at: Date | null) =>
-    at != null && Date.now() - at.getTime() < FRESH_MS;
+    at != null && now - at.getTime() < FRESH_MS;
   const liveHr = isFresh(heartRateAt) ? heartRate : null;
   const liveHrv = isFresh(hrvAt) ? hrv : null;
 

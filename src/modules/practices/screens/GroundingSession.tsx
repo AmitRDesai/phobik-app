@@ -89,23 +89,32 @@ export default function GroundingSession() {
   const router = useRouter();
   const savedState = useAtomValue(groundingSessionAtom);
 
-  const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
-
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(initialTimeRef.current);
+  const [timeRemaining, setTimeRemaining] = useState(
+    () => savedState?.timeRemaining ?? TOTAL_DURATION,
+  );
   const [isPaused, setIsPaused] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const currentStep = STEPS[currentStepIndex];
   const elapsedInTotal = TOTAL_DURATION - timeRemaining;
   const progress = elapsedInTotal / TOTAL_DURATION;
+
+  // Derive current step from elapsed time so we never `setState` in an effect
+  const currentStepIndex = useMemo(() => {
+    let accumulated = 0;
+    for (let i = 0; i < STEPS.length; i++) {
+      accumulated += STEPS[i].durationSec;
+      if (elapsedInTotal < accumulated) return i;
+    }
+    return STEPS.length - 1;
+  }, [elapsedInTotal]);
+  const currentStep = STEPS[currentStepIndex];
 
   // Audio player — source resolves async per current step (cached on disk).
   // 100ms status updates keep the visualizer smooth.
   const { player, status, isReady } = useStreamedAudioPlayer(
     AUDIO_KEYS[currentStep.count],
-    { updateInterval: 100 },
+    { volume: isMuted ? 0 : 1, player: { updateInterval: 100 } },
   );
 
   // Generate visualizer levels from audio playback position
@@ -130,17 +139,12 @@ export default function GroundingSession() {
     }
   }, [isReady, isPaused, player, currentStep.count]);
 
-  // Mute/unmute audio
-  useEffect(() => {
-    player.volume = isMuted ? 0 : 1;
-  }, [isMuted, player]);
-
   const handleRestart = () => {
     setTimeRemaining(TOTAL_DURATION);
-    setCurrentStepIndex(0);
     setIsPaused(false);
-    // Source swaps automatically when currentStep.count changes; the
-    // ready/pause effect above will resume playback.
+    // currentStepIndex is derived from elapsedInTotal, so resetting time
+    // resets the step. Source swaps automatically when currentStep.count
+    // changes; the ready/pause effect above will resume playback.
   };
 
   // Save state on back navigation
@@ -178,19 +182,6 @@ export default function GroundingSession() {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, [isPaused]);
-
-  // Advance step based on elapsed time
-  useEffect(() => {
-    let accumulated = 0;
-    for (let i = 0; i < STEPS.length; i++) {
-      accumulated += STEPS[i].durationSec;
-      if (elapsedInTotal < accumulated) {
-        setCurrentStepIndex(i);
-        return;
-      }
-    }
-    setCurrentStepIndex(STEPS.length - 1);
-  }, [elapsedInTotal]);
 
   const instructionParts = parseInstruction(currentStep.instruction);
 

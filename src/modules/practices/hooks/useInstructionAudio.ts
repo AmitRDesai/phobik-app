@@ -7,12 +7,15 @@ interface UseInstructionAudioOptions {
   audioKey: string | null;
   skipInstruction: boolean;
   isPaused: boolean;
+  /** When true, instruction audio is silenced. */
+  isMuted?: boolean;
 }
 
 export function useInstructionAudio({
   audioKey,
   skipInstruction,
   isPaused,
+  isMuted = false,
 }: UseInstructionAudioOptions) {
   const [instructionDone, setInstructionDone] = useState(skipInstruction);
   const [sessionReady, setSessionReady] = useState(skipInstruction);
@@ -84,6 +87,11 @@ export function useInstructionAudio({
       player.play();
     }
   }, [isPaused, player, instructionDone]);
+
+  // Mute / unmute the instruction track
+  useEffect(() => {
+    player.volume = isMuted ? 0 : 1;
+  }, [player, isMuted]);
 
   /** Skip instruction and jump straight to session-ready (used by restart) */
   const skipToReady = () => {

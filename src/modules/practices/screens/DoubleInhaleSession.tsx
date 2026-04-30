@@ -5,8 +5,8 @@ import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors, withAlpha } from '@/constants/colors';
+import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
@@ -302,6 +302,88 @@ function PhaseProgress({
   );
 }
 
+// Animation hook for the breathing visualization. Animation builders are
+// pure factories so the effect body has the same shape on every render —
+// just three `.value =` lines. React Compiler accepts this single-shape
+// pattern even though reanimated's API is mutation-based.
+function buildBreathScaleAnim(active: boolean) {
+  if (!active) return withTiming(1, { duration: 300 });
+  return withRepeat(
+    withSequence(
+      withTiming(1.15, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
+      withTiming(1.3, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
+      withTiming(1, { duration: 6000, easing: Easing.inOut(Easing.ease) }),
+    ),
+    -1,
+    false,
+  );
+}
+
+function buildPulse1Anim(active: boolean) {
+  if (!active) return withTiming(0.2, { duration: 300 });
+  return withRepeat(
+    withSequence(
+      withTiming(0.35, { duration: 4000, easing: Easing.inOut(Easing.ease) }),
+      withTiming(0.1, { duration: 6000, easing: Easing.inOut(Easing.ease) }),
+    ),
+    -1,
+    false,
+  );
+}
+
+function buildPulse2Anim(active: boolean) {
+  if (!active) return withTiming(0.1, { duration: 300 });
+  return withRepeat(
+    withSequence(
+      withTiming(0.2, { duration: 4000, easing: Easing.inOut(Easing.ease) }),
+      withTiming(0.05, { duration: 6000, easing: Easing.inOut(Easing.ease) }),
+    ),
+    -1,
+    false,
+  );
+}
+
+/**
+ * Drives a single shared value with `withTiming`/`withRepeat` builders.
+ * Encapsulating one mutation per hook lets React Compiler analyze each
+ * individually rather than tripping on a 3-mutation effect body.
+ */
+function useDrivenSharedValue(
+  initial: number,
+  active: boolean,
+  build: (active: boolean) => number,
+) {
+  const value = useSharedValue(initial);
+  useEffect(() => {
+    value.value = build(active);
+    // build is a stable module-level function reference
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active, value]);
+  return value;
+}
+
+function useBreathingPulse(active: boolean) {
+  // Casts: builders return reanimated animation primitives at runtime, but
+  // the type system sees `number` since SharedValue<number>'s setter accepts
+  // animations interchangeably.
+  const breathScale = useDrivenSharedValue(
+    1,
+    active,
+    buildBreathScaleAnim as (a: boolean) => number,
+  );
+  const pulse1Opacity = useDrivenSharedValue(
+    0.2,
+    active,
+    buildPulse1Anim as (a: boolean) => number,
+  );
+  const pulse2Opacity = useDrivenSharedValue(
+    0.1,
+    active,
+    buildPulse2Anim as (a: boolean) => number,
+  );
+  return { breathScale, pulse1Opacity, pulse2Opacity };
+}
+
 // Double inhale pattern: short inhale 2s, second inhale 2s, long exhale 6s
 const BREATHING_PHASES = [
   'Deep Inhale',
@@ -330,7 +412,9 @@ export default function DoubleInhaleSession() {
   const savedState = useAtomValue(doubleInhaleSessionAtom);
   const setSession = useSetAtom(doubleInhaleSessionAtom);
 
-  const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
+  const [initialTimeRemaining] = useState(
+    () => savedState?.timeRemaining ?? TOTAL_DURATION,
+  );
 
   const [isPaused, setIsPaused] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -339,18 +423,18 @@ export default function DoubleInhaleSession() {
     sessionReady,
     countdown,
     instructionDone,
-    instructionPlayer,
     skipToReady,
     skipToCountdown,
   } = useInstructionAudio({
     audioKey: 'breathing-double-inhale-instructions',
     skipInstruction: savedState !== null,
     isPaused,
+    isMuted,
   });
 
   const { timeRemaining, setTimeRemaining, elapsed } = useSessionTimer({
     totalDuration: TOTAL_DURATION,
-    initialTimeRemaining: initialTimeRef.current,
+    initialTimeRemaining,
     isPaused,
     sessionReady,
     practiceType: 'double-inhale',
@@ -384,25 +468,16 @@ export default function DoubleInhaleSession() {
 
   const currentStep = PHASE_STEPS[phaseIndex];
 
-  // Phase audio players
-  const inhalePlayer = useAudioPlayer(inhaleAudio);
-  const exhalePlayer = useAudioPlayer(exhaleAudio);
-  const bowlPlayer = useAudioPlayer(tibetanBowlAudio);
-
-  // Set bowl volume
-  useEffect(() => {
-    bowlPlayer.volume = 0.8;
-  }, [bowlPlayer]);
-
-  // Mute/unmute all audio
-  useEffect(() => {
-    const vol = isMuted ? 0 : 1;
-    const bowlVol = isMuted ? 0 : 0.8;
-    instructionPlayer.volume = vol;
-    inhalePlayer.volume = vol;
-    exhalePlayer.volume = vol;
-    bowlPlayer.volume = bowlVol;
-  }, [isMuted, instructionPlayer, inhalePlayer, exhalePlayer, bowlPlayer]);
+  // Phase audio players (volume managed declaratively by the wrapper hook)
+  const inhalePlayer = useManagedAudioPlayer(inhaleAudio, {
+    volume: isMuted ? 0 : 1,
+  });
+  const exhalePlayer = useManagedAudioPlayer(exhaleAudio, {
+    volume: isMuted ? 0 : 1,
+  });
+  const bowlPlayer = useManagedAudioPlayer(tibetanBowlAudio, {
+    volume: isMuted ? 0 : 0.8,
+  });
 
   // Play phase audio on phase changes + tibetan bowl at cycle start
   useEffect(() => {
@@ -443,63 +518,9 @@ export default function DoubleInhaleSession() {
   };
 
   // Animated values for breathing visualization
-  const breathScale = useSharedValue(1);
-  const pulse1Opacity = useSharedValue(0.2);
-  const pulse2Opacity = useSharedValue(0.1);
-
-  useEffect(() => {
-    if (!sessionReady || isPaused) {
-      breathScale.value = 1;
-      pulse1Opacity.value = 0.2;
-      pulse2Opacity.value = 0.1;
-      return;
-    }
-
-    // Breathing animation: inhale -> second inhale -> exhale
-    breathScale.value = withRepeat(
-      withSequence(
-        withTiming(1.15, {
-          duration: 2000,
-          easing: Easing.inOut(Easing.ease),
-        }),
-        withTiming(1.3, {
-          duration: 2000,
-          easing: Easing.inOut(Easing.ease),
-        }),
-        withTiming(1, {
-          duration: 6000,
-          easing: Easing.inOut(Easing.ease),
-        }),
-      ),
-      -1,
-      false,
-    );
-
-    pulse1Opacity.value = withRepeat(
-      withSequence(
-        withTiming(0.35, { duration: 4000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(0.1, { duration: 6000, easing: Easing.inOut(Easing.ease) }),
-      ),
-      -1,
-      false,
-    );
-
-    pulse2Opacity.value = withRepeat(
-      withSequence(
-        withTiming(0.2, { duration: 4000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(0.05, {
-          duration: 6000,
-          easing: Easing.inOut(Easing.ease),
-        }),
-      ),
-      -1,
-      false,
-    );
-
-    return () => {
-      breathScale.value = 1;
-    };
-  }, [sessionReady, isPaused]);
+  const { breathScale, pulse1Opacity, pulse2Opacity } = useBreathingPulse(
+    sessionReady && !isPaused,
+  );
 
   const mainOrbStyle = useAnimatedStyle(() => ({
     transform: [{ scale: breathScale.value }],

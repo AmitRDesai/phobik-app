@@ -6,20 +6,28 @@ import {
 import { useEffect, useRef } from 'react';
 import { useAudioSource } from './useAudioSource';
 
+type StreamedOptions = {
+  /** 0..1 volume. Defaults to 1. */
+  volume?: number;
+  /** Forwarded to `useAudioPlayer`. */
+  player?: AudioPlayerOptions;
+};
+
 /**
  * Wraps `expo-audio`'s `useAudioPlayer` with backend-driven source resolution
  * and on-device caching. The underlying player is created once with no
  * source; once the asset is downloaded (or already cached), `player.replace()`
- * is called automatically.
+ * is called automatically. Volume is set declaratively via `options.volume`.
  *
  * `isReady` becomes true the first time the player has audio loaded.
  */
 export function useStreamedAudioPlayer(
   key: string | null,
-  options?: AudioPlayerOptions,
+  options: StreamedOptions = {},
 ) {
+  const { volume = 1, player: playerOptions } = options;
   const { source, isDownloading, progress, error } = useAudioSource(key);
-  const player = useAudioPlayer(null, options);
+  const player = useAudioPlayer(null, playerOptions);
   const status = useAudioPlayerStatus(player);
 
   const lastSourceRef = useRef<string | null>(null);
@@ -29,6 +37,10 @@ export function useStreamedAudioPlayer(
       lastSourceRef.current = source;
     }
   }, [source, player]);
+
+  useEffect(() => {
+    player.volume = volume;
+  }, [player, volume]);
 
   return {
     player,

@@ -9,14 +9,8 @@ import { useKeepAwake } from 'expo-keep-awake';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import { usePulseAnimation } from '@/hooks/usePulseAnimation';
 import Svg, { Defs, RadialGradient, Rect, Stop } from 'react-native-svg';
 
 import { useRecordPracticeCompletion } from '../hooks/usePracticeCompletion';
@@ -46,44 +40,19 @@ const DURATION_LABELS: { key: SleepMeditationDuration; label: string }[] = [
 // ── Pulsing Aura Circle ─────────────────────────────────────────────────────
 
 function PulsingAura({ isPlaying }: { isPlaying: boolean }) {
-  const scale = useSharedValue(1);
-  const opacity = useSharedValue(0.4);
-
-  useEffect(() => {
-    if (isPlaying) {
-      scale.value = withRepeat(
-        withSequence(
-          withTiming(1.12, {
-            duration: 3000,
-            easing: Easing.inOut(Easing.ease),
-          }),
-          withTiming(1, {
-            duration: 3000,
-            easing: Easing.inOut(Easing.ease),
-          }),
-        ),
-        -1,
-        false,
-      );
-      opacity.value = withRepeat(
-        withSequence(
-          withTiming(0.6, {
-            duration: 3000,
-            easing: Easing.inOut(Easing.ease),
-          }),
-          withTiming(0.3, {
-            duration: 3000,
-            easing: Easing.inOut(Easing.ease),
-          }),
-        ),
-        -1,
-        false,
-      );
-    } else {
-      scale.value = withTiming(1, { duration: 500 });
-      opacity.value = withTiming(0.4, { duration: 500 });
-    }
-  }, [isPlaying]);
+  const scale = usePulseAnimation({
+    active: isPlaying,
+    from: 1,
+    to: 1.12,
+    duration: 3000,
+  });
+  const opacity = usePulseAnimation({
+    active: isPlaying,
+    from: 0.3,
+    to: 0.6,
+    duration: 3000,
+    restValue: 0.4,
+  });
 
   const auraStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],

@@ -5,18 +5,14 @@ import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors, withAlpha } from '@/constants/colors';
+import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
+import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
 
 import { BreathingInfinity } from '../components/BreathingInfinity';
 import { useInstructionAudio } from '../hooks/useInstructionAudio';
@@ -159,7 +155,9 @@ export default function Lazy8BreathingSession() {
   const savedState = useAtomValue(lazy8BreathingSessionAtom);
   const setSession = useSetAtom(lazy8BreathingSessionAtom);
 
-  const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
+  const [initialTimeRemaining] = useState(
+    () => savedState?.timeRemaining ?? TOTAL_DURATION,
+  );
 
   const [isPaused, setIsPaused] = useState(false);
   const [breathPhase, setBreathPhase] = useState('Inhale');
@@ -170,13 +168,13 @@ export default function Lazy8BreathingSession() {
     sessionReady,
     countdown,
     instructionDone,
-    instructionPlayer,
     skipToReady,
     skipToCountdown,
   } = useInstructionAudio({
     audioKey: 'breathing-lazy-8-instructions',
     skipInstruction: savedState !== null,
     isPaused,
+    isMuted,
   });
 
   const {
@@ -186,7 +184,7 @@ export default function Lazy8BreathingSession() {
     progress: overallProgress,
   } = useSessionTimer({
     totalDuration: TOTAL_DURATION,
-    initialTimeRemaining: initialTimeRef.current,
+    initialTimeRemaining,
     isPaused,
     sessionReady,
     practiceType: 'lazy8-breathing',
@@ -194,13 +192,10 @@ export default function Lazy8BreathingSession() {
   });
 
   // Animated progress bar
-  const animatedProgress = useSharedValue(overallProgress);
-  useEffect(() => {
-    animatedProgress.value = withTiming(overallProgress, {
-      duration: 1000,
-      easing: Easing.linear,
-    });
-  }, [overallProgress]);
+  const animatedProgress = useAnimatedTiming(overallProgress, {
+    duration: 1000,
+    easing: Easing.linear,
+  });
   const progressBarStyle = useAnimatedStyle(() => ({
     width: `${animatedProgress.value * 100}%`,
   }));
@@ -216,25 +211,16 @@ export default function Lazy8BreathingSession() {
       ? `Starting in ${countdown}s`
       : breathPhase;
 
-  // Phase audio players
-  const inhalePlayer = useAudioPlayer(inhaleAudio);
-  const exhalePlayer = useAudioPlayer(exhaleAudio);
-  const bowlPlayer = useAudioPlayer(tibetanBowlAudio);
-
-  // Set bowl volume
-  useEffect(() => {
-    bowlPlayer.volume = 0.8;
-  }, [bowlPlayer]);
-
-  // Mute/unmute all audio
-  useEffect(() => {
-    const vol = isMuted ? 0 : 1;
-    const bowlVol = isMuted ? 0 : 0.8;
-    instructionPlayer.volume = vol;
-    inhalePlayer.volume = vol;
-    exhalePlayer.volume = vol;
-    bowlPlayer.volume = bowlVol;
-  }, [isMuted, instructionPlayer, inhalePlayer, exhalePlayer, bowlPlayer]);
+  // Phase audio players (volume managed declaratively by the wrapper hook)
+  const inhalePlayer = useManagedAudioPlayer(inhaleAudio, {
+    volume: isMuted ? 0 : 1,
+  });
+  const exhalePlayer = useManagedAudioPlayer(exhaleAudio, {
+    volume: isMuted ? 0 : 1,
+  });
+  const bowlPlayer = useManagedAudioPlayer(tibetanBowlAudio, {
+    volume: isMuted ? 0 : 0.8,
+  });
 
   // Play phase audio on phase changes + tibetan bowl at cycle start
   useEffect(() => {
@@ -319,7 +305,7 @@ export default function Lazy8BreathingSession() {
               isPaused={isPaused}
               onPhaseChange={setBreathPhase}
               initialElapsed={
-                savedState ? TOTAL_DURATION - initialTimeRef.current : 0
+                savedState ? TOTAL_DURATION - initialTimeRemaining : 0
               }
             />
           </View>

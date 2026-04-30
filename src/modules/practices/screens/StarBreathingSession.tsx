@@ -5,18 +5,15 @@ import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors, withAlpha } from '@/constants/colors';
+import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
+import { useNow } from '@/hooks/useNow';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
+import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
 
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { useStressScore } from '@/modules/home/hooks/useStressScore';
@@ -41,7 +38,8 @@ function StatsCard() {
   const baseline = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], 'Month');
   const stress = useStressScore();
   const FRESH_MS = 30 * 60 * 1000;
-  const isFresh = hrvAt != null && Date.now() - hrvAt.getTime() < FRESH_MS;
+  const now = useNow();
+  const isFresh = hrvAt != null && now - hrvAt.getTime() < FRESH_MS;
   const liveHrv = isFresh ? hrv : null;
   const baselineHrv = baseline.avg;
   const deltaPct =
@@ -249,7 +247,9 @@ export default function StarBreathingSession() {
   const savedState = useAtomValue(starBreathingSessionAtom);
   const setSession = useSetAtom(starBreathingSessionAtom);
 
-  const initialTimeRef = useRef(savedState?.timeRemaining ?? TOTAL_DURATION);
+  const [initialTimeRemaining] = useState(
+    () => savedState?.timeRemaining ?? TOTAL_DURATION,
+  );
 
   const [isPaused, setIsPaused] = useState(false);
   const [breathPhase, setBreathPhase] = useState('Inhale');
@@ -259,13 +259,13 @@ export default function StarBreathingSession() {
     sessionReady,
     countdown,
     instructionDone,
-    instructionPlayer,
     skipToReady,
     skipToCountdown,
   } = useInstructionAudio({
     audioKey: 'breathing-star-instructions',
     skipInstruction: savedState !== null,
     isPaused,
+    isMuted,
   });
 
   const {
@@ -275,7 +275,7 @@ export default function StarBreathingSession() {
     progress: overallProgress,
   } = useSessionTimer({
     totalDuration: TOTAL_DURATION,
-    initialTimeRemaining: initialTimeRef.current,
+    initialTimeRemaining,
     isPaused,
     sessionReady,
     practiceType: 'star-breathing',
@@ -283,13 +283,10 @@ export default function StarBreathingSession() {
   });
 
   // Animated progress bar
-  const animatedProgress = useSharedValue(overallProgress);
-  useEffect(() => {
-    animatedProgress.value = withTiming(overallProgress, {
-      duration: 1000,
-      easing: Easing.linear,
-    });
-  }, [overallProgress]);
+  const animatedProgress = useAnimatedTiming(overallProgress, {
+    duration: 1000,
+    easing: Easing.linear,
+  });
   const progressBarStyle = useAnimatedStyle(() => ({
     width: `${animatedProgress.value * 100}%`,
   }));
@@ -312,10 +309,16 @@ export default function StarBreathingSession() {
       ? 'Get ready...'
       : 'Follow the light around the star';
 
-  // Phase audio players
-  const inhalePlayer = useAudioPlayer(inhaleAudio);
-  const holdPlayer = useAudioPlayer(holdAudio);
-  const exhalePlayer = useAudioPlayer(exhaleAudio);
+  // Phase audio players (volume managed declaratively by the wrapper hook)
+  const inhalePlayer = useManagedAudioPlayer(inhaleAudio, {
+    volume: isMuted ? 0 : 1,
+  });
+  const holdPlayer = useManagedAudioPlayer(holdAudio, {
+    volume: isMuted ? 0 : 1,
+  });
+  const exhalePlayer = useManagedAudioPlayer(exhaleAudio, {
+    volume: isMuted ? 0 : 1,
+  });
 
   // Play phase audio on phase changes
   useEffect(() => {
@@ -326,15 +329,6 @@ export default function StarBreathingSession() {
     currentPlayer.seekTo(0);
     currentPlayer.play();
   }, [phaseIndex, sessionReady, isPaused]);
-
-  // Mute/unmute all audio
-  useEffect(() => {
-    const vol = isMuted ? 0 : 1;
-    instructionPlayer.volume = vol;
-    inhalePlayer.volume = vol;
-    holdPlayer.volume = vol;
-    exhalePlayer.volume = vol;
-  }, [isMuted, instructionPlayer, inhalePlayer, holdPlayer, exhalePlayer]);
 
   // Save state on back navigation (only if session has started)
   useSaveOnLeave({
@@ -413,7 +407,7 @@ export default function StarBreathingSession() {
               isPaused={isPaused}
               onPhaseChange={setBreathPhase}
               initialElapsed={
-                savedState ? TOTAL_DURATION - initialTimeRef.current : 0
+                savedState ? TOTAL_DURATION - initialTimeRemaining : 0
               }
             />
           </View>

@@ -10,14 +10,10 @@ import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useReducer, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
+import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
+import { usePulseAnimation } from '@/hooks/usePulseAnimation';
+import { useNow } from '@/hooks/useNow';
 import Svg, { Circle, Path } from 'react-native-svg';
 
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
@@ -176,18 +172,12 @@ function sessionReducer(
 // ── Body Silhouette Component ────────────────────────────────────────────────
 
 function BodySilhouette({ activeGlow }: { activeGlow: [number, number] }) {
-  const glowOpacity = useSharedValue(0.08);
-
-  useEffect(() => {
-    glowOpacity.value = withRepeat(
-      withSequence(
-        withTiming(0.15, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
-        withTiming(0.08, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
-      ),
-      -1,
-      false,
-    );
-  }, []);
+  const glowOpacity = usePulseAnimation({
+    active: true,
+    from: 0.08,
+    to: 0.15,
+    duration: 1200,
+  });
 
   const animatedGlowStyle = useAnimatedStyle(() => ({
     opacity: glowOpacity.value,
@@ -486,8 +476,9 @@ export default function MuscleRelaxationSession() {
   const { hrv, hrvAt, hasAccess } = useLatestBiometrics();
   const stress = useStressScore();
   const FRESH_MS = 30 * 60 * 1000;
+  const now = useNow();
   const liveHrv =
-    hrvAt != null && Date.now() - hrvAt.getTime() < FRESH_MS ? hrv : null;
+    hrvAt != null && now - hrvAt.getTime() < FRESH_MS ? hrv : null;
   const isLive = hasAccess && liveHrv != null;
   const breathLabel = (() => {
     // Approximate from stress label — we do not poll respiratory rate here;
@@ -498,16 +489,17 @@ export default function MuscleRelaxationSession() {
     return '—';
   })();
 
-  const initialStepRef = useRef(savedState?.currentStepIndex ?? 0);
-
+  const [initialStepIndex] = useState(() => savedState?.currentStepIndex ?? 0);
   // Compute elapsed time for all completed steps (audio + wait for each)
-  const initialElapsed = MUSCLE_GROUPS.slice(0, initialStepRef.current).reduce(
-    (sum, g) => sum + g.audioDuration + WAIT_DURATION,
-    0,
+  const [initialElapsed] = useState(() =>
+    MUSCLE_GROUPS.slice(0, initialStepIndex).reduce(
+      (sum, g) => sum + g.audioDuration + WAIT_DURATION,
+      0,
+    ),
   );
 
   const [session, dispatch] = useReducer(sessionReducer, {
-    currentStepIndex: initialStepRef.current,
+    currentStepIndex: initialStepIndex,
     stepPhase: 'audio',
     waitTimeRemaining: WAIT_DURATION,
   });
@@ -523,13 +515,10 @@ export default function MuscleRelaxationSession() {
   const overallProgress = Math.min(elapsedTotal / TOTAL_DURATION, 1);
 
   // Animated progress bar
-  const animatedProgress = useSharedValue(overallProgress);
-  useEffect(() => {
-    animatedProgress.value = withTiming(overallProgress, {
-      duration: 1000,
-      easing: Easing.linear,
-    });
-  }, [overallProgress]);
+  const animatedProgress = useAnimatedTiming(overallProgress, {
+    duration: 1000,
+    easing: Easing.linear,
+  });
   const progressBarStyle = useAnimatedStyle(() => ({
     width: `${animatedProgress.value * 100}%`,
   }));
