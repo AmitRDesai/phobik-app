@@ -242,7 +242,7 @@ export const EMOTION_SUBMENU: PillarSubMenu = {
       title: 'SOUND STUDIO',
       subtitle: 'Choose or Create Immersive Sounds that shift how you feel.',
       image: emotionSoundStudioImg,
-      comingSoon: true,
+      route: '/practices/emotion/sound-studio',
       icon: 'graphic-eq',
       accentColor: colors.accent.yellow,
       cta: 'Tune In',
