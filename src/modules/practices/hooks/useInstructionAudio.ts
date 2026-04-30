@@ -1,6 +1,7 @@
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { useEffect, useRef, useState } from 'react';
 import { useAudioSource } from '@/lib/audio/useAudioSource';
+import { useAudioStatusDialog } from '@/lib/audio/useAudioStatusDialog';
 
 interface UseInstructionAudioOptions {
   /** Key from the audio manifest (e.g. "breathing-478-instructions"). */
@@ -25,11 +26,23 @@ export function useInstructionAudio({
     source,
     isDownloading: audioIsDownloading,
     progress: audioProgress,
+    isOffline: audioIsOffline,
     error: audioError,
+    errorMessage: audioErrorMessage,
+    retry: retryAudio,
   } = useAudioSource(audioKey);
 
   const player = useAudioPlayer(null);
   const status = useAudioPlayerStatus(player);
+
+  // Surface offline / network-error state to the user via the shared dialog.
+  // Closes automatically once the asset is downloaded.
+  useAudioStatusDialog({
+    isReady: !!source,
+    isOffline: audioIsOffline,
+    errorMessage: audioErrorMessage,
+    onRetry: retryAudio,
+  });
 
   // Swap the player's source once the file is downloaded/cached.
   const lastSourceRef = useRef<string | null>(null);
@@ -116,6 +129,9 @@ export function useInstructionAudio({
     skipToCountdown,
     audioIsDownloading,
     audioProgress,
+    audioIsOffline,
     audioError,
+    audioErrorMessage,
+    retryAudio,
   };
 }

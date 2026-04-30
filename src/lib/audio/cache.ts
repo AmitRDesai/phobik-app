@@ -34,6 +34,25 @@ export type DownloadProgress = {
 };
 
 /**
+ * Synchronous "is this asset already on disk and the right size?" check.
+ * Useful for offline UX: if cached, skip the download flow entirely.
+ */
+export function isAudioCached(entry: AudioManifestEntry): boolean {
+  const file = fileFor(entry);
+  return file.exists && file.size === entry.size;
+}
+
+/** Returns the cached file URI without downloading. `null` if not cached. */
+export function getCachedAudioPath(entry: AudioManifestEntry): string | null {
+  const file = fileFor(entry);
+  if (file.exists && file.size === entry.size) {
+    recordAccess(file.name);
+    return file.uri;
+  }
+  return null;
+}
+
+/**
  * Returns the local file URI for the audio asset, downloading it if not
  * already cached. Updates an access index on cache hit so LRU eviction
  * targets the least-recently-used entry first.
@@ -71,12 +90,6 @@ async function downloadToFile(
     `/api/audio/file/${encodeURIComponent(entry.key)}`,
     { signal },
   );
-
-  if (!response.ok) {
-    throw new Error(
-      `Audio download failed: ${response.status} ${response.statusText}`,
-    );
-  }
 
   const total = entry.size;
   const reader = response.body?.getReader();

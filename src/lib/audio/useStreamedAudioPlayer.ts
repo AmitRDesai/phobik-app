@@ -5,6 +5,7 @@ import {
 } from 'expo-audio';
 import { useEffect, useRef } from 'react';
 import { useAudioSource } from './useAudioSource';
+import { useAudioStatusDialog } from './useAudioStatusDialog';
 
 type StreamedOptions = {
   /** 0..1 volume. Defaults to 1. */
@@ -26,9 +27,25 @@ export function useStreamedAudioPlayer(
   options: StreamedOptions = {},
 ) {
   const { volume = 1, player: playerOptions } = options;
-  const { source, isDownloading, progress, error } = useAudioSource(key);
+  const {
+    source,
+    isDownloading,
+    progress,
+    isOffline,
+    error,
+    errorMessage,
+    retry,
+  } = useAudioSource(key);
   const player = useAudioPlayer(null, playerOptions);
   const status = useAudioPlayerStatus(player);
+
+  // Surface offline / network-error state via the shared dialog.
+  useAudioStatusDialog({
+    isReady: !!source,
+    isOffline,
+    errorMessage,
+    onRetry: retry,
+  });
 
   const lastSourceRef = useRef<string | null>(null);
   useEffect(() => {
@@ -48,6 +65,9 @@ export function useStreamedAudioPlayer(
     isReady: !!source,
     isDownloading,
     progress,
+    isOffline,
     error,
+    errorMessage,
+    retry,
   };
 }

@@ -291,18 +291,6 @@ export default function SleepMeditationSession() {
           </View>
         </View>
 
-        {/* Download progress (shown until audio is cached) */}
-        {isDownloading && (
-          <View className="z-20 items-center px-8 pb-2">
-            <Text className="text-[11px] font-semibold uppercase tracking-widest text-white/50">
-              Preparing audio
-              {downloadProgress != null
-                ? ` ${Math.round(downloadProgress * 100)}%`
-                : ''}
-            </Text>
-          </View>
-        )}
-
         {/* Progress section */}
         <View className="z-20 px-8 pb-4">
           {/* Time labels */}
@@ -392,17 +380,31 @@ export default function SleepMeditationSession() {
                 ],
               }}
             >
-              <MaterialIcons
-                name={
-                  !hasStarted
-                    ? 'play-arrow'
-                    : status.playing
-                      ? 'pause'
-                      : 'play-arrow'
-                }
-                size={48}
-                color={colors.background.dark}
-              />
+              {isDownloading ? (
+                <Text
+                  className="text-lg font-bold"
+                  style={{
+                    color: colors.background.dark,
+                    fontVariant: ['tabular-nums'],
+                  }}
+                >
+                  {downloadProgress != null
+                    ? `${Math.round(downloadProgress * 100)}%`
+                    : '…'}
+                </Text>
+              ) : (
+                <MaterialIcons
+                  name={
+                    !hasStarted
+                      ? 'play-arrow'
+                      : status.playing
+                        ? 'pause'
+                        : 'play-arrow'
+                  }
+                  size={48}
+                  color={colors.background.dark}
+                />
+              )}
             </Pressable>
 
             {/* Forward 10s */}
