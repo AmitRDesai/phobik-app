@@ -1,19 +1,9 @@
-import mrAbdomen from '@/assets/audio/practices/muscle-relaxation-session/abdomen.mp3';
-import mrChest from '@/assets/audio/practices/muscle-relaxation-session/chest.mp3';
-import mrFace from '@/assets/audio/practices/muscle-relaxation-session/face.mp3';
-import mrFeet from '@/assets/audio/practices/muscle-relaxation-session/feet.mp3';
-import mrHandsAndArms from '@/assets/audio/practices/muscle-relaxation-session/hands-and-arms.mp3';
-import mrLeftLeg from '@/assets/audio/practices/muscle-relaxation-session/left-leg.mp3';
-import mrNeck from '@/assets/audio/practices/muscle-relaxation-session/neck.mp3';
-import mrRightLeg from '@/assets/audio/practices/muscle-relaxation-session/right-leg.mp3';
-import mrShoulders from '@/assets/audio/practices/muscle-relaxation-session/shoulders.mp3';
-import mrUpperBack from '@/assets/audio/practices/muscle-relaxation-session/upper-back.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors, withAlpha } from '@/constants/colors';
+import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -46,7 +36,7 @@ interface MuscleGroup {
   label: string;
   icon: keyof typeof MaterialIcons.glyphMap;
   instruction: string;
-  audio: number;
+  audioKey: string;
   audioDuration: number;
   /** SVG glow position: [cx, cy] in the 200x400 viewBox */
   glowPosition: [number, number];
@@ -58,7 +48,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Face',
     icon: 'face',
     instruction: 'Squeeze your eyes shut and scrunch your face tightly.',
-    audio: mrFace,
+    audioKey: 'muscle-relaxation-face',
     audioDuration: 15,
     glowPosition: [100, 40],
   },
@@ -67,7 +57,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Neck',
     icon: 'accessibility-new',
     instruction: 'Tilt your head back and tense your neck muscles.',
-    audio: mrNeck,
+    audioKey: 'muscle-relaxation-neck',
     audioDuration: 9,
     glowPosition: [100, 55],
   },
@@ -76,7 +66,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Chest',
     icon: 'favorite',
     instruction: 'Take a deep breath and tighten your chest muscles.',
-    audio: mrChest,
+    audioKey: 'muscle-relaxation-chest',
     audioDuration: 9,
     glowPosition: [100, 100],
   },
@@ -86,7 +76,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     icon: 'accessibility-new',
     instruction:
       'Pull your shoulders up toward your ears as tightly as you can.',
-    audio: mrShoulders,
+    audioKey: 'muscle-relaxation-shoulders',
     audioDuration: 12,
     glowPosition: [100, 75],
   },
@@ -96,7 +86,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     icon: 'airline-seat-flat',
     instruction:
       'Push your shoulder blades together and tense your upper back.',
-    audio: mrUpperBack,
+    audioKey: 'muscle-relaxation-upper-back',
     audioDuration: 3,
     glowPosition: [100, 110],
   },
@@ -105,7 +95,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Abdomen',
     icon: 'self-improvement',
     instruction: 'Tighten your abdominal muscles as hard as you can.',
-    audio: mrAbdomen,
+    audioKey: 'muscle-relaxation-abdomen',
     audioDuration: 3,
     glowPosition: [100, 145],
   },
@@ -114,7 +104,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Hands & Arms',
     icon: 'back-hand',
     instruction: 'Make tight fists and tense your arms.',
-    audio: mrHandsAndArms,
+    audioKey: 'muscle-relaxation-hands-and-arms',
     audioDuration: 18,
     glowPosition: [50, 165],
   },
@@ -123,7 +113,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Right Leg',
     icon: 'directions-walk',
     instruction: 'Tense your right thigh, calf, and foot.',
-    audio: mrRightLeg,
+    audioKey: 'muscle-relaxation-right-leg',
     audioDuration: 14,
     glowPosition: [120, 280],
   },
@@ -132,7 +122,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Left Leg',
     icon: 'directions-walk',
     instruction: 'Tense your left thigh, calf, and foot.',
-    audio: mrLeftLeg,
+    audioKey: 'muscle-relaxation-left-leg',
     audioDuration: 18,
     glowPosition: [80, 280],
   },
@@ -141,7 +131,7 @@ const MUSCLE_GROUPS: MuscleGroup[] = [
     label: 'Feet',
     icon: 'do-not-step',
     instruction: 'Curl your toes tightly and tense your feet.',
-    audio: mrFeet,
+    audioKey: 'muscle-relaxation-feet',
     audioDuration: 7,
     glowPosition: [100, 370],
   },
@@ -545,9 +535,12 @@ export default function MuscleRelaxationSession() {
   }));
   const timeRemaining = Math.max(TOTAL_DURATION - elapsedTotal, 0);
 
-  // Audio player — start with the correct step's audio
-  const player = useAudioPlayer(MUSCLE_GROUPS[initialStepRef.current].audio);
-  const audioStatus = useAudioPlayerStatus(player);
+  // Audio player — source resolves async per step (cached on disk).
+  // `useStreamedAudioPlayer` handles `player.replace()` automatically when
+  // the muscle group's `audioKey` changes.
+  const { player, status: audioStatus } = useStreamedAudioPlayer(
+    MUSCLE_GROUPS[currentStepIndex].audioKey,
+  );
 
   // Play audio once the source finishes loading (handles both initial mount and step changes)
   useEffect(() => {
@@ -560,15 +553,6 @@ export default function MuscleRelaxationSession() {
       player.play();
     }
   }, [audioStatus.isLoaded, audioStatus.playing, stepPhase, isPaused, player]);
-
-  // Switch audio when step changes — only replace, don't play (wait for isLoaded)
-  const prevStepRef = useRef(initialStepRef.current);
-  useEffect(() => {
-    if (prevStepRef.current !== currentStepIndex) {
-      prevStepRef.current = currentStepIndex;
-      player.replace(MUSCLE_GROUPS[currentStepIndex].audio);
-    }
-  }, [currentStepIndex, player]);
 
   // Audio phase countdown — ticks each second, transitions to wait when audio duration elapsed
   useEffect(() => {

@@ -1,7 +1,6 @@
-import exhaleAudio from '@/assets/audio/practices/common/exhale.mp3';
-import inhaleAudio from '@/assets/audio/practices/common/inhale.mp3';
-import tibetanBowlAudio from '@/assets/audio/practices/common/tibetan-bowl.mp3';
-import doubleInhaleInstructions from '@/assets/audio/practices/double-inhale-session/instructions.mp3';
+import exhaleAudio from '@/assets/audio/practices/exhale.mp3';
+import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
+import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
@@ -23,9 +22,9 @@ import Animated, {
 import Svg, {
   Circle,
   Defs,
-  LinearGradient as SvgLinearGradient,
   Path,
   Stop,
+  LinearGradient as SvgLinearGradient,
 } from 'react-native-svg';
 
 import { useInstructionAudio } from '../hooks/useInstructionAudio';
@@ -344,7 +343,7 @@ export default function DoubleInhaleSession() {
     skipToReady,
     skipToCountdown,
   } = useInstructionAudio({
-    audioSource: doubleInhaleInstructions,
+    audioKey: 'breathing-double-inhale-instructions',
     skipInstruction: savedState !== null,
     isPaused,
   });

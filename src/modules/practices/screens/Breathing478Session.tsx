@@ -1,8 +1,7 @@
-import breathing478Instructions from '@/assets/audio/practices/478-breathing-session/instructions.mp3';
-import exhaleAudio from '@/assets/audio/practices/common/exhale.mp3';
-import holdAudio from '@/assets/audio/practices/common/hold.mp3';
-import inhaleAudio from '@/assets/audio/practices/common/inhale.mp3';
-import tibetanBowlAudio from '@/assets/audio/practices/common/tibetan-bowl.mp3';
+import exhaleAudio from '@/assets/audio/practices/exhale.mp3';
+import holdAudio from '@/assets/audio/practices/hold.mp3';
+import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
+import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
@@ -57,7 +56,7 @@ export default function Breathing478Session() {
     skipToReady,
     skipToCountdown,
   } = useInstructionAudio({
-    audioSource: breathing478Instructions,
+    audioKey: 'breathing-478-instructions',
     skipInstruction: savedState !== null,
     isPaused,
   });

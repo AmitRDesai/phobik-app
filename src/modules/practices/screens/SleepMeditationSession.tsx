@@ -1,14 +1,10 @@
-import sleepMeditation15Min from '@/assets/audio/practices/sleep-meditation/sleep-meditation-1-15min.m4a';
-import sleepMeditation30Min from '@/assets/audio/practices/sleep-meditation/sleep-meditation-1-30min.m4a';
-import sleepMeditation45Min from '@/assets/audio/practices/sleep-meditation/sleep-meditation-1-45min.m4a';
-import sleepMeditationFull from '@/assets/audio/practices/sleep-meditation/sleep-meditation-1.m4a';
 import sleepMeditationImage from '@/assets/images/practices/sleep-meditation.jpg';
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors, withAlpha } from '@/constants/colors';
+import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { useKeepAwake } from 'expo-keep-awake';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
@@ -31,13 +27,13 @@ import {
 } from '../store/sleep-meditation';
 import { formatTime } from '../utils/format';
 
-// ── Audio files ──────────────────────────────────────────────────────────────
+// ── Audio keys (resolved from backend manifest at runtime) ───────────────────
 
-const AUDIO_FILES: Record<SleepMeditationDuration, number> = {
-  full: sleepMeditationFull,
-  '15min': sleepMeditation15Min,
-  '30min': sleepMeditation30Min,
-  '45min': sleepMeditation45Min,
+const AUDIO_KEYS: Record<SleepMeditationDuration, string> = {
+  full: 'sleep-meditation-1',
+  '15min': 'sleep-meditation-1-15min',
+  '30min': 'sleep-meditation-1-30min',
+  '45min': 'sleep-meditation-1-45min',
 };
 
 const DURATION_LABELS: { key: SleepMeditationDuration; label: string }[] = [
@@ -159,9 +155,14 @@ export default function SleepMeditationSession() {
     useState<SleepMeditationDuration>(initialDuration);
   const [hasStarted, setHasStarted] = useState(savedState !== null);
 
-  // Audio player
-  const player = useAudioPlayer(AUDIO_FILES[selectedDuration]);
-  const status = useAudioPlayerStatus(player);
+  // Audio player — source resolves async from backend (cached on disk)
+  const {
+    player,
+    status,
+    isReady,
+    isDownloading,
+    progress: downloadProgress,
+  } = useStreamedAudioPlayer(AUDIO_KEYS[selectedDuration]);
 
   // Seek to saved position on mount if resuming (don't auto-play)
   const didResumeRef = useRef(false);
@@ -172,16 +173,18 @@ export default function SleepMeditationSession() {
     }
   }, [savedState, status.duration, player, initialTime]);
 
-  // Handle duration change (allowed before playing or when paused)
+  // Handle duration change (allowed before playing or when paused).
+  // Source is resolved by `useStreamedAudioPlayer` based on selectedDuration —
+  // it calls `player.replace()` automatically once the new track is cached.
   const handleDurationChange = (duration: SleepMeditationDuration) => {
     if (status.playing) return;
     setSelectedDuration(duration);
-    player.replace(AUDIO_FILES[duration]);
     setHasStarted(false);
   };
 
   // Play/Pause toggle
   const handlePlayPause = () => {
+    if (!isReady) return; // audio still downloading
     if (!hasStarted) {
       setHasStarted(true);
       player.play();
@@ -319,6 +322,18 @@ export default function SleepMeditationSession() {
           </View>
         </View>
 
+        {/* Download progress (shown until audio is cached) */}
+        {isDownloading && (
+          <View className="z-20 items-center px-8 pb-2">
+            <Text className="text-[11px] font-semibold uppercase tracking-widest text-white/50">
+              Preparing audio
+              {downloadProgress != null
+                ? ` ${Math.round(downloadProgress * 100)}%`
+                : ''}
+            </Text>
+          </View>
+        )}
+
         {/* Progress section */}
         <View className="z-20 px-8 pb-4">
           {/* Time labels */}
@@ -390,12 +405,14 @@ export default function SleepMeditationSession() {
             {/* Play/Pause */}
             <Pressable
               onPress={handlePlayPause}
+              disabled={!isReady}
               className="items-center justify-center active:scale-95"
               style={{
                 width: 80,
                 height: 80,
                 borderRadius: 40,
                 backgroundColor: colors.accent.yellow,
+                opacity: isReady ? 1 : 0.4,
                 boxShadow: [
                   {
                     offsetX: 0,

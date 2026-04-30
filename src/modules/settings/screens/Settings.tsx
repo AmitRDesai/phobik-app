@@ -109,6 +109,14 @@ export default function Settings() {
             subtitle="Connect Apple Health or Health Connect"
             onPress={() => router.push('/settings/health')}
           />
+          <SettingsMenuItem
+            icon="library-music"
+            iconColor={colors.accent.cyan}
+            iconBgColor={withAlpha(colors.accent.cyan, 0.15)}
+            label="Audio & Storage"
+            subtitle="Manage cached meditation audio"
+            onPress={() => router.push('/settings/audio-storage')}
+          />
         </View>
 
         {/* Lock App + Logout */}

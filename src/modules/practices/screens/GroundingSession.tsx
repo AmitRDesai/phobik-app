@@ -1,15 +1,10 @@
-import grounding1 from '@/assets/audio/practices/grounding-session/1.mp3';
-import grounding2 from '@/assets/audio/practices/grounding-session/2.mp3';
-import grounding3 from '@/assets/audio/practices/grounding-session/3.mp3';
-import grounding4 from '@/assets/audio/practices/grounding-session/4.mp3';
-import grounding5 from '@/assets/audio/practices/grounding-session/5.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
+import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
-import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -72,12 +67,12 @@ const STEPS: SessionStep[] = [
 
 const TOTAL_DURATION = STEPS.reduce((sum, s) => sum + s.durationSec, 0);
 
-const AUDIO_FILES: Record<number, number> = {
-  5: grounding5,
-  4: grounding4,
-  3: grounding3,
-  2: grounding2,
-  1: grounding1,
+const AUDIO_KEYS: Record<number, string> = {
+  5: 'grounding-5',
+  4: 'grounding-4',
+  3: 'grounding-3',
+  2: 'grounding-2',
+  1: 'grounding-1',
 };
 
 function parseInstruction(text: string) {
@@ -106,9 +101,12 @@ export default function GroundingSession() {
   const elapsedInTotal = TOTAL_DURATION - timeRemaining;
   const progress = elapsedInTotal / TOTAL_DURATION;
 
-  // Audio player — 100ms status updates for smooth visualizer
-  const player = useAudioPlayer(AUDIO_FILES[5], { updateInterval: 100 });
-  const status = useAudioPlayerStatus(player);
+  // Audio player — source resolves async per current step (cached on disk).
+  // 100ms status updates keep the visualizer smooth.
+  const { player, status, isReady } = useStreamedAudioPlayer(
+    AUDIO_KEYS[currentStep.count],
+    { updateInterval: 100 },
+  );
 
   // Generate visualizer levels from audio playback position
   const audioLevels = useMemo(() => {
@@ -120,31 +118,17 @@ export default function GroundingSession() {
     });
   }, [status.playing, status.currentTime, isMuted]);
 
-  // Start audio on mount
+  // Start playback once the current step's audio is ready.
+  // `useStreamedAudioPlayer` swaps the player's source automatically when
+  // `currentStep.count` changes, so we just respond to ready+pause state.
   useEffect(() => {
-    player.play();
-  }, [player]);
-
-  // Switch audio when step changes
-  const prevStepRef = useRef(currentStep.count);
-  useEffect(() => {
-    if (prevStepRef.current !== currentStep.count) {
-      prevStepRef.current = currentStep.count;
-      player.replace(AUDIO_FILES[currentStep.count]);
-      if (!isPaused) {
-        player.play();
-      }
-    }
-  }, [currentStep.count, isPaused, player]);
-
-  // Sync audio with pause state
-  useEffect(() => {
+    if (!isReady) return;
     if (isPaused) {
       player.pause();
     } else {
       player.play();
     }
-  }, [isPaused, player]);
+  }, [isReady, isPaused, player, currentStep.count]);
 
   // Mute/unmute audio
   useEffect(() => {
@@ -155,8 +139,8 @@ export default function GroundingSession() {
     setTimeRemaining(TOTAL_DURATION);
     setCurrentStepIndex(0);
     setIsPaused(false);
-    player.replace(AUDIO_FILES[5]);
-    player.play();
+    // Source swaps automatically when currentStep.count changes; the
+    // ready/pause effect above will resume playback.
   };
 
   // Save state on back navigation

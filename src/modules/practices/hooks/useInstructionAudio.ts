@@ -1,14 +1,16 @@
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useAudioSource } from '@/lib/audio/useAudioSource';
 
 interface UseInstructionAudioOptions {
-  audioSource: number;
+  /** Key from the audio manifest (e.g. "breathing-478-instructions"). */
+  audioKey: string | null;
   skipInstruction: boolean;
   isPaused: boolean;
 }
 
 export function useInstructionAudio({
-  audioSource,
+  audioKey,
   skipInstruction,
   isPaused,
 }: UseInstructionAudioOptions) {
@@ -16,16 +18,33 @@ export function useInstructionAudio({
   const [sessionReady, setSessionReady] = useState(skipInstruction);
   const [countdown, setCountdown] = useState<number | undefined>(undefined);
 
-  const player = useAudioPlayer(audioSource);
+  const {
+    source,
+    isDownloading: audioIsDownloading,
+    progress: audioProgress,
+    error: audioError,
+  } = useAudioSource(audioKey);
+
+  const player = useAudioPlayer(null);
   const status = useAudioPlayerStatus(player);
 
-  // Start instruction audio on mount (skip if resuming)
+  // Swap the player's source once the file is downloaded/cached.
+  const lastSourceRef = useRef<string | null>(null);
   useEffect(() => {
-    if (!instructionDone) {
-      player.play();
+    if (source && source !== lastSourceRef.current) {
+      player.replace(source);
+      lastSourceRef.current = source;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player]);
+  }, [source, player]);
+
+  // Start playback once when source is ready (and not skipping).
+  const playStartedRef = useRef(false);
+  useEffect(() => {
+    if (instructionDone || playStartedRef.current) return;
+    if (!source) return;
+    playStartedRef.current = true;
+    player.play();
+  }, [player, source, instructionDone]);
 
   // Detect when instruction audio finishes naturally
   useEffect(() => {
@@ -61,7 +80,7 @@ export function useInstructionAudio({
   useEffect(() => {
     if (isPaused) {
       player.pause();
-    } else if (!instructionDone) {
+    } else if (!instructionDone && playStartedRef.current) {
       player.play();
     }
   }, [isPaused, player, instructionDone]);
@@ -87,5 +106,8 @@ export function useInstructionAudio({
     instructionPlayer: player,
     skipToReady,
     skipToCountdown,
+    audioIsDownloading,
+    audioProgress,
+    audioError,
   };
 }
