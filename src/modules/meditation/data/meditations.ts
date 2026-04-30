@@ -1,23 +1,21 @@
 import type { Href } from 'expo-router';
 
+import befriendingYourFearImg from '@/assets/images/four-pillars/meditation-befriending-your-fear.jpg';
 import bodyScanImg from '@/assets/images/four-pillars/meditation-body-scan.jpg';
-import breathAwarenessImg from '@/assets/images/four-pillars/meditation-breath-awareness.jpg';
-import futureSelfImg from '@/assets/images/four-pillars/meditation-future-self.jpg';
+import breathResetImg from '@/assets/images/four-pillars/meditation-breath-reset.jpg';
+import futureVisualizationImg from '@/assets/images/four-pillars/meditation-future-visualization.jpg';
 import lettingGoImg from '@/assets/images/four-pillars/meditation-letting-go.jpg';
 import lovingKindnessImg from '@/assets/images/four-pillars/meditation-loving-kindness.jpg';
-import presentMomentImg from '@/assets/images/four-pillars/meditation-present-moment.jpg';
-import selfCompassionImg from '@/assets/images/four-pillars/meditation-self-compassion.jpg';
-import thoughtObservationImg from '@/assets/images/four-pillars/meditation-thought-observation.jpg';
+import presentMomentResetImg from '@/assets/images/four-pillars/meditation-present-moment-reset.jpg';
 import yogaNidraImg from '@/assets/images/four-pillars/meditation-yoga-nidra.jpg';
 
+import listBefriendingYourFearImg from '@/assets/images/four-pillars/meditation-list-befriending-your-fear.jpg';
 import listBodyScanImg from '@/assets/images/four-pillars/meditation-list-body-scan.jpg';
-import listBreathAwarenessImg from '@/assets/images/four-pillars/meditation-list-breath-awareness.jpg';
-import listFutureSelfImg from '@/assets/images/four-pillars/meditation-list-future-self.jpg';
+import listBreathResetImg from '@/assets/images/four-pillars/meditation-list-breath-reset.jpg';
+import listFutureVisualizationImg from '@/assets/images/four-pillars/meditation-list-future-visualization.jpg';
 import listLettingGoImg from '@/assets/images/four-pillars/meditation-list-letting-go.jpg';
 import listLovingKindnessImg from '@/assets/images/four-pillars/meditation-list-loving-kindness.jpg';
-import listPresentMomentImg from '@/assets/images/four-pillars/meditation-list-present-moment.jpg';
-import listSelfCompassionImg from '@/assets/images/four-pillars/meditation-list-self-compassion.jpg';
-import listThoughtObservationImg from '@/assets/images/four-pillars/meditation-list-thought-observation.jpg';
+import listPresentMomentResetImg from '@/assets/images/four-pillars/meditation-list-present-moment-reset.jpg';
 import listYogaNidraImg from '@/assets/images/four-pillars/meditation-list-yoga-nidra.jpg';
 
 export type Meditation = {
@@ -34,17 +32,27 @@ export type Meditation = {
   /** Display duration */
   duration: string;
   /**
-   * Optional stat cards. Set `live: 'heart_rate' | 'hrv'` to bind to live
-   * biometric data — the screen replaces `value` with the latest sample.
+   * Optional stat cards. Set `live` to bind a card to a live source — the
+   * screen replaces `value` with the current sample.
+   *  - `heart_rate` / `hrv`: from connected wearable
+   *  - `duration`: total length of the loaded audio file
+   *  - `remaining`: countdown derived from audio playback position
+   *  - `elapsed`: time-into-session from audio playback position
    */
   stats?: {
     label: string;
     value: string;
-    live?: 'heart_rate' | 'hrv';
+    live?: 'heart_rate' | 'hrv' | 'duration' | 'remaining' | 'elapsed';
   }[];
   listImage: number;
   introImage: number;
   route: Href;
+  /**
+   * If set, the meditation has guided audio. The actual audio key resolves
+   * at runtime as `${audioBaseKey}-${voice}` (e.g. "body-scan-female").
+   * Omit for meditations that don't yet have a recording.
+   */
+  audioBaseKey?: string;
 };
 
 // All copy in this file (titles, eyebrows, meta, body paragraphs, stat
@@ -68,8 +76,8 @@ export const MEDITATIONS: Meditation[] = [
     route: '/practices/body/meditation/yoga-nidra',
   },
   {
-    id: 'breath-awareness',
-    title: 'Breath Awareness',
+    id: 'breath-reset',
+    title: 'Breath Reset',
     eyebrow: 'Session Active',
     shortDescription:
       'Follow your breath to steady your mind and calm your body.',
@@ -78,12 +86,13 @@ export const MEDITATIONS: Meditation[] = [
     ],
     duration: '12 min',
     stats: [
-      { label: 'Remaining', value: '12:00' },
+      { label: 'Remaining', value: '—', live: 'remaining' },
       { label: 'Synced BPM', value: '—', live: 'heart_rate' },
     ],
-    listImage: listBreathAwarenessImg,
-    introImage: breathAwarenessImg,
-    route: '/practices/body/meditation/breath-awareness',
+    listImage: listBreathResetImg,
+    introImage: breathResetImg,
+    route: '/practices/body/meditation/breath-reset',
+    audioBaseKey: 'breath-reset',
   },
   {
     id: 'body-scan',
@@ -97,16 +106,17 @@ export const MEDITATIONS: Meditation[] = [
     ],
     duration: '24 min',
     stats: [
-      { label: 'Focus', value: '92%' },
+      { label: 'Remaining', value: '—', live: 'remaining' },
       { label: 'Heart Rate', value: '— BPM', live: 'heart_rate' },
     ],
     listImage: listBodyScanImg,
     introImage: bodyScanImg,
     route: '/practices/body/meditation/body-scan',
+    audioBaseKey: 'body-scan',
   },
   {
-    id: 'thought-observation',
-    title: 'Thought Observation',
+    id: 'befriending-your-fear',
+    title: 'Befriending Your Fear',
     eyebrow: 'Current Session',
     shortDescription:
       'Step back from your thoughts and let them pass without getting pulled in.',
@@ -116,26 +126,13 @@ export const MEDITATIONS: Meditation[] = [
     ],
     duration: '15 min',
     stats: [
-      { label: 'Duration', value: '15 Min' },
-      { label: 'Intention', value: 'Clarity' },
+      { label: 'Duration', value: '—', live: 'duration' },
+      { label: 'Remaining', value: '—', live: 'remaining' },
     ],
-    listImage: listThoughtObservationImg,
-    introImage: thoughtObservationImg,
-    route: '/practices/body/meditation/thought-observation',
-  },
-  {
-    id: 'self-compassion',
-    title: 'Self-Compassion',
-    meta: 'Healing Presence • 12:40 Remaining',
-    shortDescription:
-      'Meet yourself with kindness and soften the inner pressure.',
-    body: [
-      "Self-compassion meditations help calm the brain's threat response by activating areas associated with safety and care. Instead of pushing against difficult emotions, you learn to meet them with understanding and kindness. This is especially helpful during moments of self-criticism, shame, or emotional overwhelm, helping you feel supported rather than stuck.",
-    ],
-    duration: '21 min',
-    listImage: listSelfCompassionImg,
-    introImage: selfCompassionImg,
-    route: '/practices/body/meditation/self-compassion',
+    listImage: listBefriendingYourFearImg,
+    introImage: befriendingYourFearImg,
+    route: '/practices/body/meditation/befriending-your-fear',
+    audioBaseKey: 'befriending-your-fear',
   },
   {
     id: 'letting-go',
@@ -147,17 +144,13 @@ export const MEDITATIONS: Meditation[] = [
       "This meditation helps your body release built-up stress by guiding you to notice tension and soften it. By pairing awareness with intentional release, you reduce physical and emotional holding patterns. It's particularly useful when you feel weighed down, tense, or emotionally overloaded, allowing your system to reset and lighten.",
     ],
     duration: '18 min',
-    stats: [
-      { label: 'Duration', value: '18:45' },
-      { label: 'Aura Intensity', value: 'Minimal' },
-    ],
     listImage: listLettingGoImg,
     introImage: lettingGoImg,
     route: '/practices/body/meditation/letting-go',
   },
   {
     id: 'loving-kindness',
-    title: 'Loving-Kindness',
+    title: 'Loving Kindness',
     eyebrow: 'Emotional Flow',
     meta: 'Guided Practice • 12 Mins',
     shortDescription:
@@ -167,30 +160,31 @@ export const MEDITATIONS: Meditation[] = [
     ],
     duration: '12 min',
     stats: [
-      { label: 'Focus', value: 'Empathy & Bonding' },
-      { label: 'Impact', value: 'High Recovery' },
+      { label: 'Duration', value: '—', live: 'duration' },
+      { label: 'Remaining', value: '—', live: 'remaining' },
     ],
     listImage: listLovingKindnessImg,
     introImage: lovingKindnessImg,
     route: '/practices/body/meditation/loving-kindness',
+    audioBaseKey: 'loving-kindness',
   },
   {
-    id: 'present-moment',
+    id: 'present-moment-reset',
     title: 'Present Moment Reset',
-    meta: '10:00 Duration',
+    meta: 'Developing Relationship with Your Mind and Body',
     shortDescription:
       "Ground yourself quickly by returning to what's here right now.",
     body: [
       "This quick grounding practice brings your attention back to what's happening right now, interrupting stress and anxiety loops. By engaging your senses and awareness, you signal to your brain that you are safe in the present moment. It's ideal for immediate relief when you feel overwhelmed or need a fast reset during the day.",
     ],
     duration: '10 min',
-    listImage: listPresentMomentImg,
-    introImage: presentMomentImg,
-    route: '/practices/body/meditation/present-moment',
+    listImage: listPresentMomentResetImg,
+    introImage: presentMomentResetImg,
+    route: '/practices/body/meditation/present-moment-reset',
   },
   {
-    id: 'future-self',
-    title: 'Future Self / Visualization',
+    id: 'future-visualization',
+    title: 'Future Visualization',
     eyebrow: 'Active Session',
     shortDescription:
       'Step into the version of you that feels calm, capable, and in control.',
@@ -198,9 +192,14 @@ export const MEDITATIONS: Meditation[] = [
       'Visualization activates many of the same neural pathways as real experience, helping your brain rehearse calm, confident behavior. By imagining your future self in a grounded and capable state, you reinforce positive patterns and reduce fear-based thinking. This is especially useful when you feel stuck, uncertain, or need motivation.',
     ],
     duration: '12 min',
-    listImage: listFutureSelfImg,
-    introImage: futureSelfImg,
-    route: '/practices/body/meditation/future-self',
+    stats: [
+      { label: 'Duration', value: '—', live: 'duration' },
+      { label: 'Remaining', value: '—', live: 'remaining' },
+    ],
+    listImage: listFutureVisualizationImg,
+    introImage: futureVisualizationImg,
+    route: '/practices/body/meditation/future-visualization',
+    audioBaseKey: 'future-visualization',
   },
 ];
 

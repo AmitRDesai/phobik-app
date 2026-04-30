@@ -1,6 +1,7 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
+import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { GradientText } from '@/modules/practices/components/GradientText';
 import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
@@ -8,7 +9,9 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useState } from 'react';
+import { audioVoiceAtom, type AudioVoice } from '@/lib/audio/voice';
+import { useAtom } from 'jotai';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { getMeditation } from '../data/meditations';
@@ -17,49 +20,146 @@ type MeditationScreenProps = {
   meditationId: string;
 };
 
-const FAKE_PROGRESS = 0.34;
+function formatTime(seconds: number): string {
+  const safe = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0;
+  const m = Math.floor(safe / 60);
+  const s = safe % 60;
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
 
 /**
- * Unified meditation screen — single consistent template for all 10 meditations.
- * Layout:
- *  - Fixed top: PracticeStackHeader
- *  - Scrollable middle: hero image, eyebrow, title, meta, body, stats
- *  - Fixed bottom: progress bar, controls, footer actions
+ * Unified meditation screen — single template for every meditation.
+ * Audio playback is driven by `useStreamedAudioPlayer`; meditations without
+ * an `audioBaseKey` show a "Coming soon" dialog when the user taps Play.
  */
 export function MeditationScreen({ meditationId }: MeditationScreenProps) {
   const meditation = getMeditation(meditationId);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [voicePref, setVoicePref] = useAtom(audioVoiceAtom);
+  // Per-screen override (session-only). Tapping the toggle sets this; the
+  // global preference stays untouched so other meditations still use it.
+  const [overrideVoice, setOverrideVoice] = useState<AudioVoice | null>(null);
+  const effectiveVoice: AudioVoice | null = overrideVoice ?? voicePref ?? null;
+
+  // After the user picks a voice from the first-play dialog, we want
+  // playback to begin as soon as the asset finishes downloading.
+  const autoPlayWhenReadyRef = useRef(false);
+
   const { heartRate, hrv } = useLatestBiometrics();
+
+  const audioKey =
+    meditation?.audioBaseKey && effectiveVoice
+      ? `${meditation.audioBaseKey}-${effectiveVoice}`
+      : null;
+
+  const { player, status, isReady, isDownloading, progress } =
+    useStreamedAudioPlayer(audioKey);
+
+  // Honor the deferred autoplay flag once the source is ready.
+  useEffect(() => {
+    if (autoPlayWhenReadyRef.current && isReady) {
+      autoPlayWhenReadyRef.current = false;
+      player.play();
+    }
+  }, [isReady, player]);
 
   if (!meditation) return null;
 
+  const promptForVoice = async (): Promise<AudioVoice | null> => {
+    const result = await dialog.info<AudioVoice>({
+      title: 'Choose a voice',
+      message:
+        'Pick the narrator voice you prefer. You can change this later in Settings → Audio & Storage.',
+      buttons: [
+        { label: 'Female voice', value: 'female', variant: 'primary' },
+        { label: 'Male voice', value: 'male', variant: 'secondary' },
+      ],
+    });
+    if (result === 'female' || result === 'male') {
+      setVoicePref(result);
+      return result;
+    }
+    return null;
+  };
+
   const renderStatValue = (stat: {
     value: string;
-    live?: 'heart_rate' | 'hrv';
+    live?: 'heart_rate' | 'hrv' | 'duration' | 'remaining' | 'elapsed';
   }): string => {
     if (!stat.live) return stat.value;
     if (stat.live === 'heart_rate') {
       return heartRate != null ? `${heartRate} BPM` : '— BPM';
     }
-    return hrv != null ? `${Math.round(hrv)} ms` : '— ms';
+    if (stat.live === 'hrv') {
+      return hrv != null ? `${Math.round(hrv)} ms` : '— ms';
+    }
+    if (stat.live === 'duration') {
+      return isReady && status.duration > 0 ? formatTime(status.duration) : '—';
+    }
+    if (stat.live === 'remaining') {
+      return isReady && status.duration > 0
+        ? formatTime(Math.max(0, status.duration - status.currentTime))
+        : '—';
+    }
+    // elapsed
+    return isReady ? formatTime(status.currentTime) : '—';
   };
 
-  const onTogglePlay = () => {
-    void dialog.info({
-      title: 'Coming soon',
-      message: 'Audio playback will be available soon.',
-    });
-    setIsPlaying((p) => !p);
+  const onTogglePlay = async () => {
+    if (!meditation.audioBaseKey) {
+      void dialog.info({
+        title: 'Coming soon',
+        message: 'Audio for this meditation is not available yet.',
+      });
+      return;
+    }
+    // First-play voice picker: if neither a global pref nor a per-screen
+    // override is set, ask before kicking off the download.
+    if (!effectiveVoice) {
+      const picked = await promptForVoice();
+      if (!picked) return;
+      // Voice atom updated; useStreamedAudioPlayer will start downloading on
+      // the next render. Defer playback until the file is ready.
+      autoPlayWhenReadyRef.current = true;
+      return;
+    }
+    if (!isReady) return; // still downloading; status dialog handles UX
+    if (status.playing) {
+      player.pause();
+    } else {
+      player.play();
+    }
   };
-  const onAction = (label: string) =>
-    void dialog.info({
-      title: label,
-      message: 'Audio playback will be available soon.',
-    });
 
-  // Display-only times derived from the meditation duration.
-  const totalDisplay = meditation.duration.replace(' min', ':00');
-  const elapsedDisplay = '04:12';
+  const onToggleVoice = () => {
+    const current = effectiveVoice ?? 'female';
+    // If audio is currently playing, resume on the new voice once its source
+    // is ready so the swap feels seamless.
+    if (status.playing) {
+      autoPlayWhenReadyRef.current = true;
+    }
+    setOverrideVoice(current === 'female' ? 'male' : 'female');
+  };
+
+  const onReplay10 = () => {
+    if (!isReady) return;
+    player.seekTo(Math.max(0, status.currentTime - 10));
+  };
+
+  const onForward30 = () => {
+    if (!isReady) return;
+    if (status.duration > 0) {
+      player.seekTo(Math.min(status.duration, status.currentTime + 30));
+    }
+  };
+
+  // Times: prefer real status when audio is loaded, fall back to the
+  // meditation's advertised duration as a placeholder until then.
+  const elapsed = isReady ? formatTime(status.currentTime) : '00:00';
+  const total = isReady
+    ? formatTime(status.duration)
+    : meditation.duration.replace(' min', ':00');
+  const playbackRatio =
+    isReady && status.duration > 0 ? status.currentTime / status.duration : 0;
 
   return (
     <View className="flex-1 bg-background-dark">
@@ -73,7 +173,6 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
       />
       <PracticeStackHeader wordmark="Meditation" />
 
-      {/* Scrollable top content with bottom fade hint */}
       <ScrollFade fadeColor={colors.background.dark}>
         <ScrollView
           className="flex-1"
@@ -81,7 +180,6 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
           contentContainerStyle={{ paddingBottom: FADE_HEIGHT }}
           showsVerticalScrollIndicator={false}
         >
-          {/* Hero image */}
           <View
             className="overflow-hidden rounded-[28px]"
             style={{
@@ -98,7 +196,6 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
             />
           </View>
 
-          {/* Eyebrow pill */}
           {meditation.eyebrow ? (
             <View className="mt-6 self-start rounded-full border border-primary-pink/30 bg-primary-pink/10 px-3 py-1.5">
               <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
@@ -109,19 +206,16 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
             <View className="mt-6" />
           )}
 
-          {/* Title */}
           <GradientText className="mt-3 text-[34px] font-extrabold leading-tight tracking-tight">
             {meditation.title}
           </GradientText>
 
-          {/* Meta */}
           {meditation.meta ? (
             <Text className="mt-1 text-sm text-white/60">
               {meditation.meta}
             </Text>
           ) : null}
 
-          {/* Body */}
           <View className="mt-6 gap-3">
             {meditation.body.map((p) => (
               <Text key={p} className="text-base leading-relaxed text-white/75">
@@ -130,7 +224,6 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
             ))}
           </View>
 
-          {/* Stat cards */}
           {meditation.stats && meditation.stats.length > 0 ? (
             <View className="mt-6 flex-row gap-3">
               {meditation.stats.map((stat) => (
@@ -151,40 +244,70 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
         </ScrollView>
       </ScrollFade>
 
-      {/* Fixed bottom: progress + controls + footer */}
-      <View className="border-t border-white/5 bg-background-dark/80 px-6 pb-8 pt-5">
-        {/* Progress bar */}
+      {/* Fixed bottom: voice toggle + progress + controls */}
+      <View className="gap-7 border-t border-white/5 bg-background-dark/80 px-6 pb-12 pt-6">
+        {/* Voice toggle (only once a voice is in effect) */}
+        {meditation.audioBaseKey && effectiveVoice ? (
+          <View className="items-center">
+            <Pressable
+              onPress={onToggleVoice}
+              className="flex-row items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 active:opacity-70"
+            >
+              <MaterialIcons
+                name={effectiveVoice === 'female' ? 'female' : 'male'}
+                size={14}
+                color="white"
+              />
+              <Text className="text-[11px] font-semibold uppercase tracking-widest text-white/70">
+                {effectiveVoice === 'female' ? 'Female' : 'Male'} voice
+              </Text>
+              <MaterialIcons name="swap-horiz" size={14} color="white" />
+            </Pressable>
+          </View>
+        ) : null}
+
+        {/* Progress bar + times */}
         <View>
           <View className="h-[3px] w-full overflow-hidden rounded-full bg-white/10">
             <LinearGradient
               colors={[colors.primary.pink, colors.accent.yellow]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              style={{ height: 3, width: `${FAKE_PROGRESS * 100}%` }}
+              style={{ height: 3, width: `${playbackRatio * 100}%` }}
             />
           </View>
-          <View className="mt-2 flex-row justify-between">
-            <Text className="text-xs text-white/60">{elapsedDisplay}</Text>
-            <Text className="text-xs text-white/60">{totalDisplay}</Text>
+          <View className="mt-2 flex-row items-center justify-between">
+            <Text className="text-xs text-white/60">{elapsed}</Text>
+            <Text className="text-xs text-white/60">{total}</Text>
           </View>
         </View>
 
-        {/* Controls */}
-        <View className="mt-4 flex-row items-center justify-center gap-6">
+        <View className="flex-row items-center justify-center gap-6">
           <Pressable
-            onPress={() => onAction('Replay 10s')}
+            onPress={onReplay10}
+            disabled={!isReady}
             className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+            style={{ opacity: isReady ? 1 : 0.4 }}
           >
             <MaterialIcons name="replay-10" size={22} color="white" />
           </Pressable>
+
           <Pressable
             onPress={onTogglePlay}
+            // Only disable while a download is *actively* in progress with a
+            // voice already selected — every other state lets the handler
+            // decide what to do (open the voice picker, show "Coming soon",
+            // play, pause). Disabling earlier traps the user with no way to
+            // open the voice picker.
+            disabled={!!meditation.audioBaseKey && !!effectiveVoice && !isReady}
             className="h-20 w-20 items-center justify-center rounded-full active:scale-95"
             style={{
               shadowColor: colors.primary.pink,
               shadowOffset: { width: 0, height: 0 },
               shadowOpacity: 0.6,
               shadowRadius: 20,
+              opacity:
+                meditation.audioBaseKey && effectiveVoice && !isReady ? 0.7 : 1,
             }}
           >
             <LinearGradient
@@ -199,49 +322,33 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
                 justifyContent: 'center',
               }}
             >
-              <MaterialIcons
-                name={isPlaying ? 'pause' : 'play-arrow'}
-                size={40}
-                color="black"
-              />
+              {isDownloading ? (
+                <Text
+                  className="text-base font-bold"
+                  style={{
+                    color: 'black',
+                    fontVariant: ['tabular-nums'],
+                  }}
+                >
+                  {progress != null ? `${Math.round(progress * 100)}%` : '…'}
+                </Text>
+              ) : (
+                <MaterialIcons
+                  name={status.playing ? 'pause' : 'play-arrow'}
+                  size={40}
+                  color="black"
+                />
+              )}
             </LinearGradient>
           </Pressable>
+
           <Pressable
-            onPress={() => onAction('Forward 30s')}
+            onPress={onForward30}
+            disabled={!isReady}
             className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+            style={{ opacity: isReady ? 1 : 0.4 }}
           >
             <MaterialIcons name="forward-30" size={22} color="white" />
-          </Pressable>
-        </View>
-
-        {/* Footer actions */}
-        <View className="mt-5 flex-row justify-center gap-10">
-          <Pressable
-            onPress={() => onAction('Sleep timer')}
-            className="items-center active:scale-95"
-          >
-            <MaterialIcons name="bedtime" size={20} color="white" />
-            <Text className="mt-1 text-[10px] uppercase tracking-widest text-white/60">
-              Sleep timer
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => onAction('Save')}
-            className="items-center active:scale-95"
-          >
-            <MaterialIcons name="favorite-border" size={20} color="white" />
-            <Text className="mt-1 text-[10px] uppercase tracking-widest text-white/60">
-              Save
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => onAction('Share')}
-            className="items-center active:scale-95"
-          >
-            <MaterialIcons name="ios-share" size={20} color="white" />
-            <Text className="mt-1 text-[10px] uppercase tracking-widest text-white/60">
-              Share
-            </Text>
           </Pressable>
         </View>
       </View>

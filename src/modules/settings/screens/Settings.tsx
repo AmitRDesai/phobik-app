@@ -114,7 +114,7 @@ export default function Settings() {
             iconColor={colors.accent.cyan}
             iconBgColor={withAlpha(colors.accent.cyan, 0.15)}
             label="Audio & Storage"
-            subtitle="Manage cached meditation audio"
+            subtitle="Voice preference and cached audio"
             onPress={() => router.push('/settings/audio-storage')}
           />
         </View>

@@ -105,6 +105,9 @@ export function useAudioManifest() {
     queryFn: fetchManifest,
     staleTime: 24 * 60 * 60 * 1000, // 24h
     gcTime: Infinity,
+    // Retry once on transient failures, but don't loop forever — the
+    // useAudioSource error path surfaces a "Try again" UI.
+    retry: 1,
   });
 }
 

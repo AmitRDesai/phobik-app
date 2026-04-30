@@ -67,7 +67,12 @@ function describeError(err: unknown): string {
  * the download again.
  */
 export function useAudioSource(key: string | null): UseAudioSourceResult {
-  const { data: manifest } = useAudioManifest();
+  const {
+    data: manifest,
+    error: manifestError,
+    isFetching: manifestIsFetching,
+    refetch: refetchManifest,
+  } = useAudioManifest();
   const { isConnected } = useNetInfo();
   const [source, setSource] = useState<string | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -84,8 +89,9 @@ export function useAudioSource(key: string | null): UseAudioSourceResult {
   const isOnline = isConnected !== false;
 
   const retry = useCallback(() => {
+    void refetchManifest();
     setRetryCount((c) => c + 1);
-  }, []);
+  }, [refetchManifest]);
 
   useEffect(() => {
     abortRef.current?.abort();
@@ -94,8 +100,30 @@ export function useAudioSource(key: string | null): UseAudioSourceResult {
     setProgress(null);
     setIsOffline(false);
 
-    if (!entry) {
+    if (!key) {
       setIsDownloading(false);
+      return;
+    }
+
+    // Manifest fetch failed — surface as either offline or error so the
+    // dialog appears even before we've resolved a manifest entry.
+    if (manifestError) {
+      setIsDownloading(false);
+      if (!isOnline) setIsOffline(true);
+      else setError(manifestError as Error);
+      return;
+    }
+
+    // Manifest still loading on first launch — wait quietly.
+    if (!manifest) {
+      setIsDownloading(manifestIsFetching);
+      return;
+    }
+
+    if (!entry) {
+      // Manifest loaded but the key isn't in it — config/data mismatch.
+      setIsDownloading(false);
+      setError(new Error(`Audio "${key}" is not available.`));
       return;
     }
 
@@ -138,11 +166,23 @@ export function useAudioSource(key: string | null): UseAudioSourceResult {
     return () => {
       controller.abort();
     };
-    // sha256 — re-run when the asset is re-recorded.
-    // isOnline — auto-retry when connectivity returns.
-    // retryCount — manual retry trigger.
+    // Deps explained:
+    //   key, sha256, manifest — re-run when the target or manifest changes
+    //   manifestError — re-run when manifest fetch flips between ok/failed
+    //   manifestIsFetching — flip the spinner state while a refetch is in
+    //     flight after the user taps Retry
+    //   isOnline — auto-retry when connectivity returns
+    //   retryCount — manual retry trigger from `retry()`
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entry?.key, sha256, isOnline, retryCount]);
+  }, [
+    key,
+    sha256,
+    manifest,
+    manifestError,
+    manifestIsFetching,
+    isOnline,
+    retryCount,
+  ]);
 
   return {
     source,
