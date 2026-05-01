@@ -8,7 +8,9 @@ import { PracticeStackHeader } from '@/modules/practices/components/PracticeStac
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
+import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { audioVoiceAtom, type AudioVoice } from '@/lib/audio/voice';
 import { useAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
@@ -33,6 +35,8 @@ function formatTime(seconds: number): string {
  * an `audioBaseKey` show a "Coming soon" dialog when the user taps Play.
  */
 export function MeditationScreen({ meditationId }: MeditationScreenProps) {
+  useKeepAwake();
+  const router = useRouter();
   const meditation = getMeditation(meditationId);
   const [voicePref, setVoicePref] = useAtom(audioVoiceAtom);
   // Per-screen override (session-only). Tapping the toggle sets this; the
@@ -43,6 +47,21 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
   // After the user picks a voice from the first-play dialog, we want
   // playback to begin as soon as the asset finishes downloading.
   const autoPlayWhenReadyRef = useRef(false);
+
+  // Tracks whether playback has actually started at least once, so we don't
+  // misfire completion when both currentTime and duration are 0 on mount.
+  const hasStartedRef = useRef(false);
+  const hasNavigatedToCompletionRef = useRef(false);
+
+  // When the user swaps the narrator voice mid-session, we want playback to
+  // resume at the current position on the new track instead of restarting.
+  // Captured before the audioKey changes; consumed once the new source has
+  // actually loaded into the player after player.replace().
+  const seekOnReadyRef = useRef<{
+    time: number;
+    key: string;
+    shouldPlay: boolean;
+  } | null>(null);
 
   const { heartRate, hrv } = useLatestBiometrics();
 
@@ -61,6 +80,71 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
       player.play();
     }
   }, [isReady, player]);
+
+  // Restore playback position after a voice swap. We subscribe directly to
+  // the player's status events because `useAudioPlayerStatus` updates can
+  // lag the underlying native state, and we need a precise signal for
+  // "the new source has finished loading after player.replace()" — not
+  // "the old source is still loaded". The post-swap event is identified by
+  // `currentTime` resetting to ~0, well below the captured target time.
+  useEffect(() => {
+    const target = seekOnReadyRef.current;
+    if (!target) return;
+    if (target.key !== audioKey) return;
+
+    let consumed = false;
+    const sub = player.addListener('playbackStatusUpdate', (s) => {
+      if (consumed) return;
+      if (!s.isLoaded || s.duration <= 0) return;
+      // Old source still loaded — currentTime would still be near where the
+      // user toggled. Skip until expo-audio reports a fresh post-replace
+      // status (currentTime resets to ~0).
+      if (s.currentTime + 0.5 >= target.time) return;
+
+      consumed = true;
+      seekOnReadyRef.current = null;
+      sub.remove();
+      player.seekTo(target.time);
+      if (target.shouldPlay) player.play();
+    });
+
+    return () => {
+      consumed = true;
+      sub.remove();
+    };
+  }, [audioKey, player]);
+
+  // Detect audio completion → navigate to the shared practices completion
+  // screen. Loving Kindness gets the 4-chemical reward set; everything else
+  // gets the 3-chemical default. See dose-rewards.ts.
+  useEffect(() => {
+    if (status.playing) hasStartedRef.current = true;
+
+    if (hasNavigatedToCompletionRef.current) return;
+    if (!hasStartedRef.current) return;
+    if (status.duration <= 0) return;
+    if (status.currentTime < status.duration) return;
+    if (status.playing) return;
+
+    hasNavigatedToCompletionRef.current = true;
+    const practiceType =
+      meditationId === 'loving-kindness'
+        ? 'meditation-loving-kindness'
+        : 'meditation';
+    router.replace({
+      pathname: '/practices/completion',
+      params: {
+        practiceType,
+        durationSeconds: String(Math.round(status.duration)),
+      },
+    });
+  }, [
+    status.currentTime,
+    status.duration,
+    status.playing,
+    meditationId,
+    router,
+  ]);
 
   if (!meditation) return null;
 
@@ -132,12 +216,28 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
 
   const onToggleVoice = () => {
     const current = effectiveVoice ?? 'female';
-    // If audio is currently playing, resume on the new voice once its source
-    // is ready so the swap feels seamless.
-    if (status.playing) {
-      autoPlayWhenReadyRef.current = true;
+    const newVoice: AudioVoice = current === 'female' ? 'male' : 'female';
+    // Preserve position + play state across the swap. We require >= 1s of
+    // elapsed playback because the post-swap detection relies on the new
+    // source's currentTime being well below the captured target time —
+    // toggles within the first second fall through to start-from-0 behavior.
+    if (
+      meditation.audioBaseKey &&
+      isReady &&
+      status.duration > 0 &&
+      status.currentTime >= 1
+    ) {
+      seekOnReadyRef.current = {
+        time: status.currentTime,
+        key: `${meditation.audioBaseKey}-${newVoice}`,
+        shouldPlay: status.playing,
+      };
+      // Pause now so the new source doesn't auto-resume from 0 while we
+      // wait for it to load. The seek-on-ready effect will play() after
+      // seeking if the user was playing before the toggle.
+      if (status.playing) player.pause();
     }
-    setOverrideVoice(current === 'female' ? 'male' : 'female');
+    setOverrideVoice(newVoice);
   };
 
   const onReplay10 = () => {

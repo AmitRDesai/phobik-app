@@ -1,4 +1,3 @@
-import successTrumpets from '@/assets/audio/success-trumpets.mp3';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
@@ -9,7 +8,6 @@ import {
   type PracticeType,
 } from '@/constants/dose-rewards';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAudioPlayer } from 'expo-audio';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
@@ -265,14 +263,9 @@ export default function Completion() {
     [practiceType],
   );
 
-  // Play success trumpets on mount
-  const trumpetPlayer = useAudioPlayer(successTrumpets);
-
   useEffect(() => {
-    trumpetPlayer.play();
     setGroundingSession(null);
 
-    // Record practice completion
     if (practiceType && practiceType in DOSE_REWARDS && !hasRecorded.current) {
       hasRecorded.current = true;
       recordCompletion.mutate({
@@ -280,13 +273,7 @@ export default function Completion() {
         durationSeconds: Number(durationSeconds) || 0,
       });
     }
-  }, [
-    trumpetPlayer,
-    setGroundingSession,
-    practiceType,
-    durationSeconds,
-    recordCompletion,
-  ]);
+  }, [setGroundingSession, practiceType, durationSeconds, recordCompletion]);
 
   const handleFinish = () => {
     router.dismissAll();

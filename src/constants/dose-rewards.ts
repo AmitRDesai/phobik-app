@@ -18,7 +18,9 @@ export type PracticeType =
   | 'lazy8-breathing'
   | 'grounding'
   | 'muscle-relaxation'
-  | 'sleep-meditation';
+  | 'sleep-meditation'
+  | 'meditation'
+  | 'meditation-loving-kindness';
 
 export const DOSE_REWARDS: Record<PracticeType, DoseReward> = {
   'box-breathing': { dopamine: 0, oxytocin: 0, serotonin: 5, endorphins: 10 },
@@ -38,6 +40,13 @@ export const DOSE_REWARDS: Record<PracticeType, DoseReward> = {
     oxytocin: 5,
     serotonin: 10,
     endorphins: 0,
+  },
+  meditation: { dopamine: 5, oxytocin: 0, serotonin: 5, endorphins: 5 },
+  'meditation-loving-kindness': {
+    dopamine: 5,
+    oxytocin: 5,
+    serotonin: 5,
+    endorphins: 5,
   },
 };
 
