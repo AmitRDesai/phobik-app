@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { EaseView } from 'react-native-ease';
@@ -10,13 +11,15 @@ import Svg, {
   Stop,
 } from 'react-native-svg';
 import { blobPath } from './blobPath';
+import { useCelebrationBounce } from './celebrate/useCelebrationBounce';
+import { useFadeIn, useFadeOut } from './celebrate/useFade';
 import { Smile } from './Smile';
 import { useJiggleStyle } from './useJiggle';
 
 const BODY_W = 128;
 const BODY_H = 144;
+const FADE_MS = 400;
 
-// Design CSS: border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%
 const BODY_PATH = blobPath(
   BODY_W,
   BODY_H,
@@ -24,36 +27,57 @@ const BODY_PATH = blobPath(
   [0.6, 0.6, 0.4, 0.4],
 );
 
-export function OliveCharacter() {
-  const jiggleStyle = useJiggleStyle(2200);
+type Props = { celebrating?: boolean };
+
+export function OliveCharacter({ celebrating = false }: Props) {
+  const [renderCelebrate, setRenderCelebrate] = useState(celebrating);
+  const [renderIdle, setRenderIdle] = useState(!celebrating);
+
+  useEffect(() => {
+    if (celebrating) {
+      setRenderCelebrate(true);
+      setRenderIdle(false);
+      return;
+    }
+    setRenderIdle(true);
+    const t = setTimeout(() => setRenderCelebrate(false), FADE_MS);
+    return () => clearTimeout(t);
+  }, [celebrating]);
 
   return (
     <View
-      className="items-center justify-center"
-      style={{ width: 280, height: 280 }}
+      style={{
+        width: 280,
+        height: 280,
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'visible',
+      }}
     >
-      <EaseView
-        className="absolute rounded-full"
-        style={{
-          width: 224,
-          height: 224,
-          borderWidth: 2,
-          borderColor: 'rgba(224, 176, 255, 0.4)',
-          borderStyle: 'dashed',
-          shadowColor: '#FF9ECD',
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.2,
-          shadowRadius: 30,
-        }}
-        initialAnimate={{ rotate: 0 }}
-        animate={{ rotate: 360 }}
-        transition={{
-          type: 'timing',
-          duration: 12000,
-          easing: 'linear',
-          loop: 'repeat',
-        }}
-      />
+      {renderIdle && <OliveIdle />}
+      {renderCelebrate && <OliveCelebrating fading={!celebrating} />}
+    </View>
+  );
+}
+
+function OliveIdle() {
+  const jiggleStyle = useJiggleStyle(2200);
+  const fadeStyle = useFadeIn(FADE_MS);
+
+  return (
+    <Animated.View
+      style={[
+        {
+          position: 'absolute',
+          width: 280,
+          height: 280,
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        fadeStyle,
+      ]}
+    >
+      <TrustRing />
 
       <EaseView
         initialAnimate={{ translateY: 0 }}
@@ -72,23 +96,7 @@ export function OliveCharacter() {
             alignItems: 'center',
           }}
         >
-          <CloudPart top={0} left={20} size={64} delay={0} tint="#FF9ECD" />
-          <CloudPart top={8} right={8} size={56} delay={1000} tint="#E0B0FF" />
-          <CloudPart top={-16} left={62} size={80} delay={500} tint="#FF9ECD" />
-          <CloudPart
-            bottom={40}
-            left={-16}
-            size={48}
-            delay={1500}
-            tint="#E0B0FF"
-          />
-          <CloudPart
-            bottom={48}
-            right={-8}
-            size={40}
-            delay={2000}
-            tint="#FF9ECD"
-          />
+          <CloudParts />
 
           <Animated.View
             style={[
@@ -104,98 +112,228 @@ export function OliveCharacter() {
               jiggleStyle,
             ]}
           >
-            <Svg
-              width={BODY_W}
-              height={BODY_H}
-              style={{ position: 'absolute' }}
-            >
-              <Defs>
-                <SvgLinearGradient id="oliveBody" x1="0" y1="0" x2="1" y2="1">
-                  <Stop offset="0" stopColor="#FFB7D5" />
-                  <Stop offset="1" stopColor="#D8B4FE" />
-                </SvgLinearGradient>
-              </Defs>
-              <Path
-                d={BODY_PATH}
-                fill="url(#oliveBody)"
-                stroke="rgba(255,255,255,0.2)"
-                strokeWidth={1}
-              />
-            </Svg>
-
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <View className="flex-row" style={{ gap: 20, marginBottom: 12 }}>
-                <Eye />
-                <Eye />
-              </View>
-              <Smile width={40} height={20} color="#0A0A0A" />
-              <Text
-                style={{
-                  position: 'absolute',
-                  bottom: 24,
-                  color: 'rgba(255,255,255,0.4)',
-                  fontSize: 10,
-                }}
-              >
-                ❤
-              </Text>
-            </View>
+            <OliveBody />
           </Animated.View>
 
-          {/* Heart pendant: outward-expanding ripple ring + solid white pill.
-              Mirrors the design's `connection-glow` keyframe (radiate). */}
-          <View
-            style={{
-              position: 'absolute',
-              bottom: -16,
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 40,
-              height: 40,
-            }}
-          >
-            <EaseView
-              className="absolute rounded-full"
-              style={{
-                width: 40,
-                height: 40,
-                backgroundColor: 'rgba(255, 158, 205, 0.4)',
-              }}
-              initialAnimate={{ scale: 1, opacity: 0.4 }}
-              animate={{ scale: 2.4, opacity: 0 }}
-              transition={{
-                type: 'timing',
-                duration: 2000,
-                easing: 'easeOut',
-                loop: 'repeat',
-              }}
-            />
-            <View
-              className="items-center justify-center rounded-full bg-white"
-              style={{
-                width: 40,
-                height: 40,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.2,
-                shadowRadius: 6,
-              }}
-            >
-              <Text style={{ fontSize: 18, color: '#EC4899' }}>♥</Text>
-            </View>
-          </View>
+          <HeartPendant />
         </View>
       </EaseView>
+    </Animated.View>
+  );
+}
+
+function OliveCelebrating({ fading }: { fading: boolean }) {
+  const bodyStyle = useCelebrationBounce({
+    active: true,
+    durationMs: 1200,
+    repeat: 2,
+    y: [0, -100, 0, -80, 0, -40, 0],
+    scaleX: [1, 0.8, 1.2, 0.9, 1.1, 0.95, 1],
+    scaleY: [1, 1.2, 0.8, 1.1, 0.9, 1.05, 1],
+    rotate: [0, -5, 5, -3, 3, 0, 0],
+    times: [0, 0.2, 0.4, 0.6, 0.7, 0.85, 1],
+  });
+  const fadeStyle = useFadeOut(fading, FADE_MS);
+
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[
+        {
+          position: 'absolute',
+          width: 280,
+          height: 280,
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        fadeStyle,
+      ]}
+    >
+      <PinkHalo />
+      <TrustRing />
+
+      <Animated.View
+        style={[
+          {
+            width: BODY_W + 64,
+            height: BODY_H + 32,
+            alignItems: 'center',
+          },
+          bodyStyle,
+        ]}
+      >
+        <CloudParts />
+
+        <View
+          style={{
+            marginTop: 16,
+            width: BODY_W,
+            height: BODY_H,
+            shadowColor: '#FF9ECD',
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.6,
+            shadowRadius: 20,
+          }}
+        >
+          <OliveBody />
+        </View>
+
+        <HeartPendant />
+      </Animated.View>
+    </Animated.View>
+  );
+}
+
+function PinkHalo() {
+  return (
+    <EaseView
+      className="absolute rounded-full"
+      style={{
+        width: 240,
+        height: 240,
+        backgroundColor: 'rgba(255, 158, 205, 0.4)',
+      }}
+      initialAnimate={{ opacity: 0.4, scale: 1 }}
+      animate={{ opacity: 0.8, scale: 1.5 }}
+      transition={{
+        type: 'timing',
+        duration: 600,
+        easing: 'easeInOut',
+        loop: 'reverse',
+      }}
+    />
+  );
+}
+
+function TrustRing() {
+  return (
+    <EaseView
+      className="absolute rounded-full"
+      style={{
+        width: 224,
+        height: 224,
+        borderWidth: 2,
+        borderColor: 'rgba(224, 176, 255, 0.4)',
+        borderStyle: 'dashed',
+        shadowColor: '#FF9ECD',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.2,
+        shadowRadius: 30,
+      }}
+      initialAnimate={{ rotate: 0 }}
+      animate={{ rotate: 360 }}
+      transition={{
+        type: 'timing',
+        duration: 12000,
+        easing: 'linear',
+        loop: 'repeat',
+      }}
+    />
+  );
+}
+
+function CloudParts() {
+  return (
+    <>
+      <CloudPart top={0} left={20} size={64} delay={0} tint="#FF9ECD" />
+      <CloudPart top={8} right={8} size={56} delay={1000} tint="#E0B0FF" />
+      <CloudPart top={-16} left={62} size={80} delay={500} tint="#FF9ECD" />
+      <CloudPart bottom={40} left={-16} size={48} delay={1500} tint="#E0B0FF" />
+      <CloudPart bottom={48} right={-8} size={40} delay={2000} tint="#FF9ECD" />
+    </>
+  );
+}
+
+function OliveBody() {
+  return (
+    <View style={{ width: BODY_W, height: BODY_H }}>
+      <Svg width={BODY_W} height={BODY_H} style={{ position: 'absolute' }}>
+        <Defs>
+          <SvgLinearGradient id="oliveBody" x1="0" y1="0" x2="1" y2="1">
+            <Stop offset="0" stopColor="#FFB7D5" />
+            <Stop offset="1" stopColor="#D8B4FE" />
+          </SvgLinearGradient>
+        </Defs>
+        <Path
+          d={BODY_PATH}
+          fill="url(#oliveBody)"
+          stroke="rgba(255,255,255,0.2)"
+          strokeWidth={1}
+        />
+      </Svg>
+
+      <View
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <View className="flex-row" style={{ gap: 20, marginBottom: 12 }}>
+          <Eye />
+          <Eye />
+        </View>
+        <Smile width={40} height={20} color="#0A0A0A" />
+        <Text
+          style={{
+            position: 'absolute',
+            bottom: 24,
+            color: 'rgba(255,255,255,0.4)',
+            fontSize: 10,
+          }}
+        >
+          ❤
+        </Text>
+      </View>
+    </View>
+  );
+}
+
+function HeartPendant() {
+  return (
+    <View
+      style={{
+        position: 'absolute',
+        bottom: -16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 40,
+        height: 40,
+      }}
+    >
+      <EaseView
+        className="absolute rounded-full"
+        style={{
+          width: 40,
+          height: 40,
+          backgroundColor: 'rgba(255, 158, 205, 0.4)',
+        }}
+        initialAnimate={{ scale: 1, opacity: 0.4 }}
+        animate={{ scale: 2.4, opacity: 0 }}
+        transition={{
+          type: 'timing',
+          duration: 2000,
+          easing: 'easeOut',
+          loop: 'repeat',
+        }}
+      />
+      <View
+        className="items-center justify-center rounded-full bg-white"
+        style={{
+          width: 40,
+          height: 40,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.2,
+          shadowRadius: 6,
+        }}
+      >
+        <Text style={{ fontSize: 18, color: '#EC4899' }}>♥</Text>
+      </View>
     </View>
   );
 }
