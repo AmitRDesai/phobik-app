@@ -33,6 +33,15 @@ function formatPracticeType(source: string, type: string): string {
     grounding: 'Grounding',
     'muscle-relaxation': 'Muscle Relaxation',
     'sleep-meditation': 'Sleep Meditation',
+    // meditation
+    'yoga-nidra': 'Yoga Nidra',
+    'breath-reset': 'Breath Reset',
+    'body-scan': 'Body Scan',
+    'befriending-your-fear': 'Befriending Your Fear',
+    'letting-go': 'Letting Go',
+    'loving-kindness': 'Loving Kindness',
+    'present-moment-reset': 'Present Moment Reset',
+    'future-visualization': 'Future Visualization',
   };
 
   return labels[type] ?? type;

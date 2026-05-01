@@ -12,11 +12,13 @@ import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { audioVoiceAtom, type AudioVoice } from '@/lib/audio/voice';
-import { useAtom } from 'jotai';
+import { useSaveOnLeave } from '@/modules/practices/hooks/useSaveOnLeave';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { getMeditation } from '../data/meditations';
+import { meditationSessionsAtom } from '../store/sessions';
 
 type MeditationScreenProps = {
   meditationId: string;
@@ -63,6 +65,15 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
     shouldPlay: boolean;
   } | null>(null);
 
+  // Resume support: if the user backed out of this meditation mid-session
+  // earlier, we restore their position once the audio loads. The saved entry
+  // is cleared either by completing the meditation or by tapping the
+  // "Restart" affordance.
+  const sessions = useAtomValue(meditationSessionsAtom);
+  const setSessions = useSetAtom(meditationSessionsAtom);
+  const savedSession = sessions[meditationId];
+  const didResumeRef = useRef(false);
+
   const { heartRate, hrv } = useLatestBiometrics();
 
   const audioKey =
@@ -80,6 +91,35 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
       player.play();
     }
   }, [isReady, player]);
+
+  // Restore saved playback position on mount once the audio is loaded.
+  // We don't auto-play — the user taps play to continue from there. Mirrors
+  // the SleepMeditationSession resume pattern.
+  useEffect(() => {
+    if (didResumeRef.current) return;
+    if (!savedSession) return;
+    if (status.duration <= 0) return;
+    didResumeRef.current = true;
+    player.seekTo(savedSession.currentTime);
+  }, [savedSession, status.duration, player]);
+
+  // Persist current position when the user navigates away mid-session.
+  // Skips when the meditation has effectively completed (so we don't save
+  // a "duration-equals-end" state that re-opens a finished session).
+  useSaveOnLeave({
+    save: () =>
+      setSessions({
+        ...sessions,
+        [meditationId]: {
+          currentTime: status.currentTime,
+          updatedAt: Date.now(),
+        },
+      }),
+    canSave:
+      status.duration > 0 &&
+      status.currentTime > 0 &&
+      status.currentTime < status.duration - 1,
+  });
 
   // Restore playback position after a voice swap. We subscribe directly to
   // the player's status events because `useAudioPlayerStatus` updates can
@@ -127,14 +167,15 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
     if (status.playing) return;
 
     hasNavigatedToCompletionRef.current = true;
-    const practiceType =
-      meditationId === 'loving-kindness'
-        ? 'meditation-loving-kindness'
-        : 'meditation';
+    if (meditationId in sessions) {
+      const next = { ...sessions };
+      delete next[meditationId];
+      setSessions(next);
+    }
     router.replace({
       pathname: '/practices/completion',
       params: {
-        practiceType,
+        practiceType: meditationId,
         durationSeconds: String(Math.round(status.duration)),
       },
     });
@@ -144,6 +185,8 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
     status.playing,
     meditationId,
     router,
+    sessions,
+    setSessions,
   ]);
 
   if (!meditation) return null;
