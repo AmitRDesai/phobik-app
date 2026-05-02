@@ -2,13 +2,14 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { TextInput } from '@/components/ui/TextInput';
 import { alpha, colors } from '@/constants/colors';
 import { useSession as useBetterAuthSession } from '@/lib/auth';
+import { warmServer } from '@/lib/server-warmup';
 import { isReturningUserAtom } from '@/store/user';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Platform,
   Pressable,
@@ -52,6 +53,11 @@ export default function SignInScreen() {
     signInMutation.isPending ||
     googleSignInMutation.isPending ||
     appleSignInMutation.isPending;
+  const showWarmingHint = signInMutation.slowResponse;
+
+  useEffect(() => {
+    warmServer();
+  }, []);
 
   const handleBiometricSignIn = async () => {
     const result = await authenticate(`Use ${biometricType} to sign in`);
@@ -254,6 +260,11 @@ export default function SignInScreen() {
                 >
                   Sign In
                 </GradientButton>
+                {showWarmingHint && (
+                  <Text className="mt-3 text-center text-xs text-primary-muted/70">
+                    Hang tight — we&apos;re getting things ready for you.
+                  </Text>
+                )}
               </View>
 
               {/* Social Sign In */}

@@ -3,14 +3,20 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { colors } from '@/constants/colors';
+import { warmServer } from '@/lib/server-warmup';
 import { Ionicons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, router } from 'expo-router';
+import { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function WelcomeScreen() {
+  useEffect(() => {
+    warmServer();
+  }, []);
+
   return (
     <View className="flex-1">
       <GlowBg centerY={0.38} />

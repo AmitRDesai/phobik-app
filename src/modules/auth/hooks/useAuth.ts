@@ -3,16 +3,48 @@ import { useCachedSession } from '@/hooks/useCachedSession';
 import { getDeviceId } from '@/lib/device-id';
 import { powersync } from '@/lib/powersync';
 import { rpcClient } from '@/lib/rpc';
+import { withTimeoutAndRetry } from '@/lib/server-warmup';
 import { dialog } from '@/utils/dialog';
 import { env } from '@/utils/env';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { useAtomValue, useSetAtom } from 'jotai';
+import { useEffect, useRef, useState } from 'react';
 import {
   biometricEnabledAtom,
   biometricPromptShownAtom,
   isSignedOutAtom,
 } from '../store/biometric';
+
+const SLOW_RESPONSE_THRESHOLD_MS = 3_000;
+
+/**
+ * Tracks whether a mutation has been pending long enough that we should
+ * surface a "still working" hint to the user — typical staging cold-start
+ * is 11–13s, so silent waits feel broken.
+ */
+function useSlowResponseFlag(isPending: boolean): boolean {
+  const [slow, setSlow] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  useEffect(() => {
+    if (isPending) {
+      setSlow(false);
+      timerRef.current = setTimeout(
+        () => setSlow(true),
+        SLOW_RESPONSE_THRESHOLD_MS,
+      );
+    } else {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      setSlow(false);
+    }
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [isPending]);
+
+  return slow;
+}
 
 /**
  * Hook to get the current session
@@ -28,7 +60,7 @@ export function useSession() {
 export function useSignIn() {
   const setIsSignedOut = useSetAtom(isSignedOutAtom);
 
-  return useMutation({
+  const mutation = useMutation({
     mutationFn: async ({
       email,
       password,
@@ -36,10 +68,9 @@ export function useSignIn() {
       email: string;
       password: string;
     }) => {
-      const result = await authClient.signIn.email({
-        email,
-        password,
-      });
+      const result = await withTimeoutAndRetry(() =>
+        authClient.signIn.email({ email, password }),
+      );
 
       if (result.error) {
         throw new Error(result.error.message || 'Sign in failed');
@@ -51,13 +82,16 @@ export function useSignIn() {
       setIsSignedOut(false);
     },
   });
+
+  const slowResponse = useSlowResponseFlag(mutation.isPending);
+  return { ...mutation, slowResponse };
 }
 
 /**
  * Hook for email/password sign up
  */
 export function useSignUp() {
-  return useMutation({
+  const mutation = useMutation({
     mutationFn: async ({
       email,
       password,
@@ -67,12 +101,14 @@ export function useSignUp() {
       password: string;
       name: string;
     }) => {
-      const result = await authClient.signUp.email({
-        email,
-        password,
-        name,
-        callbackURL: `${env.get('APP_SCHEME')}://email-verification`,
-      });
+      const result = await withTimeoutAndRetry(() =>
+        authClient.signUp.email({
+          email,
+          password,
+          name,
+          callbackURL: `${env.get('APP_SCHEME')}://email-verification`,
+        }),
+      );
 
       if (result.error) {
         throw new Error(result.error.message || 'Sign up failed');
@@ -81,6 +117,9 @@ export function useSignUp() {
       return result.data;
     },
   });
+
+  const slowResponse = useSlowResponseFlag(mutation.isPending);
+  return { ...mutation, slowResponse };
 }
 
 /**

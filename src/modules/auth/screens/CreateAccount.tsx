@@ -1,11 +1,12 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { TextInput } from '@/components/ui/TextInput';
 import { alpha, colors } from '@/constants/colors';
+import { warmServer } from '@/lib/server-warmup';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Platform,
   Pressable,
@@ -39,6 +40,11 @@ export default function CreateAccountScreen() {
     signUpMutation.isPending ||
     googleSignInMutation.isPending ||
     appleSignInMutation.isPending;
+  const showWarmingHint = signUpMutation.slowResponse;
+
+  useEffect(() => {
+    warmServer();
+  }, []);
 
   const clearFieldErrors = () => setFieldErrors({});
 
@@ -216,6 +222,11 @@ export default function CreateAccountScreen() {
               >
                 Create Account
               </GradientButton>
+              {showWarmingHint && (
+                <Text className="mt-3 text-center text-xs text-white/60">
+                  Hang tight — we&apos;re getting things ready for you.
+                </Text>
+              )}
             </View>
 
             {/* Social Sign Up */}

@@ -28,13 +28,14 @@ function readCachedSession(): SessionData {
 
 export function useCachedSession(): LiveReturn {
   const live = useSession();
-  const cached = useMemo(readCachedSession, []);
 
   return useMemo<LiveReturn>(() => {
     if (live.data) return live;
-    if (live.error && (live.error as { status?: number }).status === 401) {
-      return live;
-    }
+    // Only fall back to the cached session while the live session is still loading.
+    // Once Better Auth has resolved (logout, 401, or genuine no-session), trust it.
+    if (!live.isPending) return live;
+
+    const cached = readCachedSession();
     if (cached) {
       return {
         ...live,
@@ -43,5 +44,5 @@ export function useCachedSession(): LiveReturn {
       };
     }
     return live;
-  }, [live, cached]);
+  }, [live]);
 }
