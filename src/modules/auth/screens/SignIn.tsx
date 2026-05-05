@@ -2,6 +2,7 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
 import { alpha, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { useSession as useBetterAuthSession } from '@/lib/auth';
 import { warmServer } from '@/lib/server-warmup';
 import { isReturningUserAtom } from '@/store/user';
@@ -31,6 +32,12 @@ import {
 import { biometricEnabledAtom, isSignedOutAtom } from '@/store/auth';
 
 export default function SignInScreen() {
+  const scheme = useScheme();
+  const socialIconColor =
+    scheme === 'dark' ? alpha.white80 : 'rgba(0,0,0,0.78)';
+  const avatarIconColor =
+    scheme === 'dark' ? alpha.white30 : 'rgba(0,0,0,0.32)';
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -159,7 +166,7 @@ export default function SignInScreen() {
 
         {/* Avatar circle */}
         <View className="h-[180px] w-[180px] items-center justify-center rounded-[90px] border-2 border-foreground/10 bg-foreground/10">
-          <Ionicons name="person" size={72} color={alpha.white30} />
+          <Ionicons name="person" size={72} color={avatarIconColor} />
         </View>
       </View>
 
@@ -279,7 +286,11 @@ export default function SignInScreen() {
                 disabled={isLoading}
                 className="h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10"
               >
-                <Ionicons name="logo-google" size={24} color={alpha.white80} />
+                <Ionicons
+                  name="logo-google"
+                  size={24}
+                  color={socialIconColor}
+                />
               </Pressable>
 
               {Platform.OS === 'ios' && (
@@ -288,7 +299,11 @@ export default function SignInScreen() {
                   disabled={isLoading}
                   className="h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10"
                 >
-                  <Ionicons name="logo-apple" size={24} color={alpha.white80} />
+                  <Ionicons
+                    name="logo-apple"
+                    size={24}
+                    color={socialIconColor}
+                  />
                 </Pressable>
               )}
             </View>

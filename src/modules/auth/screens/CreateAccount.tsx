@@ -2,6 +2,7 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
 import { alpha, colors } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { warmServer } from '@/lib/server-warmup';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
@@ -30,6 +31,10 @@ const GRADIENT_HEADER_STYLE = {
 };
 
 export default function CreateAccountScreen() {
+  const scheme = useScheme();
+  const socialIconColor =
+    scheme === 'dark' ? alpha.white80 : 'rgba(0,0,0,0.78)';
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -249,7 +254,7 @@ export default function CreateAccountScreen() {
               disabled={isLoading}
               className="h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10"
             >
-              <Ionicons name="logo-google" size={24} color={alpha.white80} />
+              <Ionicons name="logo-google" size={24} color={socialIconColor} />
             </Pressable>
 
             {Platform.OS === 'ios' && (
@@ -258,7 +263,7 @@ export default function CreateAccountScreen() {
                 disabled={isLoading}
                 className="h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10"
               >
-                <Ionicons name="logo-apple" size={24} color={alpha.white80} />
+                <Ionicons name="logo-apple" size={24} color={socialIconColor} />
               </Pressable>
             )}
           </View>
