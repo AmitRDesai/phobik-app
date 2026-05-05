@@ -1,7 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { useSession as useBetterAuthSession } from '@/lib/auth';
 import { warmServer } from '@/lib/server-warmup';
 import { isReturningUserAtom } from '@/store/user';
@@ -142,20 +142,14 @@ export default function SignInScreen() {
         <View
           className="absolute top-[30px] h-[280px] w-[280px] rounded-[140px] bg-primary-pink opacity-[0.08]"
           style={{
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.15,
-            shadowRadius: 60,
+            boxShadow: `0 0 60px ${withAlpha(colors.primary.pink, 0.15)}`,
           }}
         />
         {/* Yellow inner glow */}
         <View
           className="absolute top-[70px] h-[200px] w-[200px] rounded-full bg-accent-yellow opacity-[0.04]"
           style={{
-            shadowColor: colors.accent.yellow,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.08,
-            shadowRadius: 40,
+            boxShadow: `0 0 40px ${withAlpha(colors.accent.yellow, 0.08)}`,
           }}
         />
 
@@ -164,14 +158,14 @@ export default function SignInScreen() {
         <View className="absolute bottom-[40px] left-[60px] h-1.5 w-1.5 rounded-[3px] bg-primary-pink" />
 
         {/* Avatar circle */}
-        <View className="h-[180px] w-[180px] items-center justify-center rounded-[90px] border-2 border-white/10 bg-white/10">
+        <View className="h-[180px] w-[180px] items-center justify-center rounded-[90px] border-2 border-foreground/10 bg-foreground/10">
           <Ionicons name="person" size={72} color={alpha.white30} />
         </View>
       </View>
 
       {/* Welcome Text */}
       <View className="items-center px-4">
-        <Text className="text-3xl font-bold text-white">Welcome Back</Text>
+        <Text className="text-3xl font-bold text-foreground">Welcome Back</Text>
         <Text className="mt-2 text-lg text-primary-muted/80">
           We missed your energy today.
         </Text>
@@ -190,7 +184,7 @@ export default function SignInScreen() {
               color={colors.primary.pink}
             />
           </Pressable>
-          <Text className="mt-3 text-sm text-white/50">
+          <Text className="mt-3 text-sm text-foreground/50">
             Tap to sign in with {biometricType}
           </Text>
 
@@ -283,7 +277,7 @@ export default function SignInScreen() {
               <Pressable
                 onPress={handleGoogleSignIn}
                 disabled={isLoading}
-                className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
+                className="h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10"
               >
                 <Ionicons name="logo-google" size={24} color={alpha.white80} />
               </Pressable>
@@ -292,7 +286,7 @@ export default function SignInScreen() {
                 <Pressable
                   onPress={handleAppleSignIn}
                   disabled={isLoading}
-                  className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
+                  className="h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10"
                 >
                   <Ionicons name="logo-apple" size={24} color={alpha.white80} />
                 </Pressable>

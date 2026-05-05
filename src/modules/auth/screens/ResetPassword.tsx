@@ -71,8 +71,10 @@ export default function ResetPasswordScreen() {
             <Ionicons name="alert-circle" size={48} color="#ef4444" />
           </View>
 
-          <Text className="text-3xl font-bold text-white">Invalid Link</Text>
-          <Text className="mt-3 text-center text-base leading-6 text-white/50">
+          <Text className="text-3xl font-bold text-foreground">
+            Invalid Link
+          </Text>
+          <Text className="mt-3 text-center text-base leading-6 text-foreground/50">
             This password reset link is invalid or has expired. Please request a
             new one.
           </Text>
@@ -109,8 +111,8 @@ export default function ResetPasswordScreen() {
     >
       {/* Title */}
       <View className="items-center px-4 pb-8">
-        <Text className="text-3xl font-bold text-white">New Password</Text>
-        <Text className="mt-3 text-center text-base leading-6 text-white/50">
+        <Text className="text-3xl font-bold text-foreground">New Password</Text>
+        <Text className="mt-3 text-center text-base leading-6 text-foreground/50">
           Enter your new password below.
         </Text>
       </View>

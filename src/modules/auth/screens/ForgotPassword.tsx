@@ -65,17 +65,17 @@ export default function ForgotPasswordScreen() {
             <Ionicons name="mail-open" size={48} color={colors.primary.pink} />
           </View>
 
-          <Text className="text-3xl font-bold text-white">
+          <Text className="text-3xl font-bold text-foreground">
             Check Your Email
           </Text>
-          <Text className="mt-3 text-center text-base leading-6 text-white/50">
+          <Text className="mt-3 text-center text-base leading-6 text-foreground/50">
             We sent a password reset link to
           </Text>
           <Text className="mt-1 text-center text-base font-semibold text-primary-pink">
             {email}
           </Text>
 
-          <Text className="mt-10 text-center text-xs leading-5 text-white/30">
+          <Text className="mt-10 text-center text-xs leading-5 text-foreground/30">
             Click the link in the email to reset your password.{'\n'}If you
             don&apos;t see it, check your spam folder.
           </Text>
@@ -120,8 +120,10 @@ export default function ForgotPasswordScreen() {
 
       {/* Title */}
       <View className="items-center px-4">
-        <Text className="text-3xl font-bold text-white">Forgot Password?</Text>
-        <Text className="mt-3 text-center text-base leading-6 text-white/50">
+        <Text className="text-3xl font-bold text-foreground">
+          Forgot Password?
+        </Text>
+        <Text className="mt-3 text-center text-base leading-6 text-foreground/50">
           Enter your email and we&apos;ll send you a link to reset your
           password.
         </Text>

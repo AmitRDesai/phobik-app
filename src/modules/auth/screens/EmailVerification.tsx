@@ -133,8 +133,10 @@ export default function EmailVerificationScreen() {
         </View>
 
         {/* Title */}
-        <Text className="text-3xl font-bold text-white">Verify Your Email</Text>
-        <Text className="mt-3 text-center text-base leading-6 text-white/50">
+        <Text className="text-3xl font-bold text-foreground">
+          Verify Your Email
+        </Text>
+        <Text className="mt-3 text-center text-base leading-6 text-foreground/50">
           We sent a verification link to
         </Text>
         <Text className="mt-1 text-center text-base font-semibold text-primary-pink">
@@ -157,7 +159,7 @@ export default function EmailVerificationScreen() {
           {isSending ? (
             <ActivityIndicator color={colors.primary.pink} size="small" />
           ) : resendCooldown > 0 ? (
-            <Text className="text-sm text-white/30">
+            <Text className="text-sm text-foreground/30">
               Resend in {resendCooldown}s
             </Text>
           ) : (
@@ -168,7 +170,7 @@ export default function EmailVerificationScreen() {
         </Pressable>
 
         {/* Hint */}
-        <Text className="mt-10 text-center text-xs leading-5 text-white/30">
+        <Text className="mt-10 text-center text-xs leading-5 text-foreground/30">
           Click the link in the email, then return here.{'\n'}The app will
           detect verification automatically.
         </Text>
