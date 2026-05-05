@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed';
 import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { forwardRef, useState, type ReactNode } from 'react';
 import {
   Pressable,

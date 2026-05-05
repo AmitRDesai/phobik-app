@@ -1,4 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
 import { alpha, colors } from '@/constants/colors';
 import { warmServer } from '@/lib/server-warmup';
@@ -11,12 +12,9 @@ import {
   Platform,
   Pressable,
   TextInput as RNTextInput,
-  ScrollView,
   Text,
   View,
 } from 'react-native';
-import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   useAppleSignIn,
   useGoogleSignIn,
@@ -112,197 +110,183 @@ export default function CreateAccountScreen() {
   };
 
   return (
-    <SafeAreaView edges={['bottom']} className="flex-1 bg-background-dark">
-      <KeyboardAvoidingView className="flex-1" behavior="padding">
-        <ScrollView
-          className="flex-1"
-          contentContainerClassName="grow"
-          keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="interactive"
-        >
-          {/* Gradient Header */}
-          <LinearGradient
-            colors={[colors.primary.pink, colors.accent.yellow]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{
-              paddingTop: Platform.OS === 'android' ? 40 : 60,
-              paddingBottom: Platform.OS === 'android' ? 24 : 40,
-              alignItems: 'center',
-              position: 'relative',
-              overflow: 'hidden',
+    <Screen
+      variant="auth"
+      scroll
+      keyboard
+      insetTop={false}
+      className="grow"
+      scrollViewProps={{ keyboardDismissMode: 'interactive' }}
+    >
+      {/* Gradient Header */}
+      <LinearGradient
+        colors={[colors.primary.pink, colors.accent.yellow]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={{
+          paddingTop: Platform.OS === 'android' ? 40 : 60,
+          paddingBottom: Platform.OS === 'android' ? 24 : 40,
+          alignItems: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Decorative blur circles */}
+        <View className="absolute -right-10 -top-10 h-40 w-40 rounded-[80px] bg-white/10" />
+        <View className="absolute -bottom-[30px] -left-[30px] h-[120px] w-[120px] rounded-[60px] bg-black/10" />
+
+        {/* Fingerprint icon in frosted glass */}
+        <View className="mb-4 h-20 w-20 items-center justify-center rounded-3xl border border-white/30 bg-white/20">
+          <Ionicons name="finger-print" size={40} color="white" />
+        </View>
+
+        <Text className="text-3xl font-extrabold tracking-tight text-white">
+          PHOBIK
+        </Text>
+        <Text className="mt-1 text-sm text-white/80">
+          Biometric Mental Wellness
+        </Text>
+      </LinearGradient>
+
+      {/* Form Section */}
+      <View className="flex-1 px-8 pt-8">
+        <Text className="text-2xl font-bold text-white">Create Account</Text>
+        <Text className="mb-8 mt-2 text-sm text-white/40">
+          Join the future of secure health tracking
+        </Text>
+
+        <View className="gap-5">
+          <TextInput
+            label="Full Name"
+            placeholder="Enter your name"
+            value={name}
+            onChangeText={(t) => {
+              setName(t);
+              if (fieldErrors.name) clearFieldErrors();
             }}
+            icon="person"
+            autoCapitalize="words"
+            labelUppercase={false}
+            labelColor={colors.gray[300]}
+            editable={!isLoading}
+            returnKeyType="next"
+            onSubmitEditing={() => emailRef.current?.focus()}
+            error={fieldErrors.name}
+          />
+          <TextInput
+            ref={emailRef}
+            label="Email Address"
+            placeholder="your@email.com"
+            value={email}
+            onChangeText={(t) => {
+              setEmail(t);
+              if (fieldErrors.email) clearFieldErrors();
+            }}
+            icon="at"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            labelUppercase={false}
+            labelColor={colors.gray[300]}
+            editable={!isLoading}
+            returnKeyType="next"
+            onSubmitEditing={() => passwordRef.current?.focus()}
+            error={fieldErrors.email}
+          />
+          <TextInput
+            ref={passwordRef}
+            label="Password"
+            placeholder="••••••••"
+            value={password}
+            onChangeText={(t) => {
+              setPassword(t);
+              if (fieldErrors.password) clearFieldErrors();
+            }}
+            icon="lock-closed"
+            secureTextEntry
+            labelUppercase={false}
+            labelColor={colors.gray[300]}
+            editable={!isLoading}
+            returnKeyType="done"
+            onSubmitEditing={() => {
+              if (isValid) handleCreateAccount();
+            }}
+            error={fieldErrors.password}
+          />
+        </View>
+
+        <View className="mt-8">
+          <GradientButton
+            onPress={handleCreateAccount}
+            disabled={!isValid}
+            loading={isLoading}
           >
-            {/* Decorative blur circles */}
-            <View className="absolute -right-10 -top-10 h-40 w-40 rounded-[80px] bg-white/10" />
-            <View className="absolute -bottom-[30px] -left-[30px] h-[120px] w-[120px] rounded-[60px] bg-black/10" />
-
-            {/* Fingerprint icon in frosted glass */}
-            <View className="mb-4 h-20 w-20 items-center justify-center rounded-3xl border border-white/30 bg-white/20">
-              <Ionicons name="finger-print" size={40} color="white" />
-            </View>
-
-            <Text className="text-3xl font-extrabold tracking-tight text-white">
-              PHOBIK
+            Create Account
+          </GradientButton>
+          {showWarmingHint && (
+            <Text className="mt-3 text-center text-xs text-white/60">
+              Hang tight — we&apos;re getting things ready for you.
             </Text>
-            <Text className="mt-1 text-sm text-white/80">
-              Biometric Mental Wellness
-            </Text>
-          </LinearGradient>
+          )}
+        </View>
 
-          {/* Form Section */}
-          <View className="flex-1 px-8 pt-8">
-            <Text className="text-2xl font-bold text-white">
-              Create Account
-            </Text>
-            <Text className="mb-8 mt-2 text-sm text-white/40">
-              Join the future of secure health tracking
-            </Text>
-
-            <View className="gap-5">
-              <TextInput
-                label="Full Name"
-                placeholder="Enter your name"
-                value={name}
-                onChangeText={(t) => {
-                  setName(t);
-                  if (fieldErrors.name) clearFieldErrors();
-                }}
-                icon="person"
-                autoCapitalize="words"
-                labelUppercase={false}
-                labelColor={colors.gray[300]}
-                editable={!isLoading}
-                returnKeyType="next"
-                onSubmitEditing={() => emailRef.current?.focus()}
-                error={fieldErrors.name}
-              />
-              <TextInput
-                ref={emailRef}
-                label="Email Address"
-                placeholder="your@email.com"
-                value={email}
-                onChangeText={(t) => {
-                  setEmail(t);
-                  if (fieldErrors.email) clearFieldErrors();
-                }}
-                icon="at"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                labelUppercase={false}
-                labelColor={colors.gray[300]}
-                editable={!isLoading}
-                returnKeyType="next"
-                onSubmitEditing={() => passwordRef.current?.focus()}
-                error={fieldErrors.email}
-              />
-              <TextInput
-                ref={passwordRef}
-                label="Password"
-                placeholder="••••••••"
-                value={password}
-                onChangeText={(t) => {
-                  setPassword(t);
-                  if (fieldErrors.password) clearFieldErrors();
-                }}
-                icon="lock-closed"
-                secureTextEntry
-                labelUppercase={false}
-                labelColor={colors.gray[300]}
-                editable={!isLoading}
-                returnKeyType="done"
-                onSubmitEditing={() => {
-                  if (isValid) handleCreateAccount();
-                }}
-                error={fieldErrors.password}
-              />
-            </View>
-
-            <View className="mt-8">
-              <GradientButton
-                onPress={handleCreateAccount}
-                disabled={!isValid}
-                loading={isLoading}
-              >
-                Create Account
-              </GradientButton>
-              {showWarmingHint && (
-                <Text className="mt-3 text-center text-xs text-white/60">
-                  Hang tight — we&apos;re getting things ready for you.
-                </Text>
-              )}
-            </View>
-
-            {/* Social Sign Up */}
-            <View className="mt-6">
-              <View className="mb-4 flex-row items-center">
-                <View className="h-px flex-1 bg-white/10" />
-                <Text className="mx-4 text-sm text-white/40">
-                  or continue with
-                </Text>
-                <View className="h-px flex-1 bg-white/10" />
-              </View>
-
-              <View className="flex-row justify-center gap-4">
-                <Pressable
-                  onPress={handleGoogleSignUp}
-                  disabled={isLoading}
-                  className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
-                >
-                  <Ionicons
-                    name="logo-google"
-                    size={24}
-                    color={alpha.white80}
-                  />
-                </Pressable>
-
-                {Platform.OS === 'ios' && (
-                  <Pressable
-                    onPress={handleAppleSignUp}
-                    disabled={isLoading}
-                    className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
-                  >
-                    <Ionicons
-                      name="logo-apple"
-                      size={24}
-                      color={alpha.white80}
-                    />
-                  </Pressable>
-                )}
-              </View>
-            </View>
-
-            <Text className="mt-4 text-center text-xs leading-5 text-white/40">
-              By signing up, you agree to our{'\n'}
-              <Text
-                className="text-primary-pink"
-                onPress={() => router.push('/auth/terms-of-service?modal=true')}
-              >
-                Terms of Service
-              </Text>{' '}
-              and{' '}
-              <Text
-                className="text-primary-pink"
-                onPress={() => router.push('/auth/privacy-policy?modal=true')}
-              >
-                Privacy Policy
-              </Text>
-              .
-            </Text>
-
-            <Pressable
-              onPress={() => router.replace('/auth/sign-in')}
-              className="mb-8 mt-6 py-2"
-              disabled={isLoading}
-            >
-              <Text className="text-center text-sm text-white/50">
-                Already have an account?{' '}
-                <Text className="font-bold text-accent-purple">Sign In</Text>
-              </Text>
-            </Pressable>
+        {/* Social Sign Up */}
+        <View className="mt-6">
+          <View className="mb-4 flex-row items-center">
+            <View className="h-px flex-1 bg-white/10" />
+            <Text className="mx-4 text-sm text-white/40">or continue with</Text>
+            <View className="h-px flex-1 bg-white/10" />
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+
+          <View className="flex-row justify-center gap-4">
+            <Pressable
+              onPress={handleGoogleSignUp}
+              disabled={isLoading}
+              className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
+            >
+              <Ionicons name="logo-google" size={24} color={alpha.white80} />
+            </Pressable>
+
+            {Platform.OS === 'ios' && (
+              <Pressable
+                onPress={handleAppleSignUp}
+                disabled={isLoading}
+                className="h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10"
+              >
+                <Ionicons name="logo-apple" size={24} color={alpha.white80} />
+              </Pressable>
+            )}
+          </View>
+        </View>
+
+        <Text className="mt-4 text-center text-xs leading-5 text-white/40">
+          By signing up, you agree to our{'\n'}
+          <Text
+            className="text-primary-pink"
+            onPress={() => router.push('/auth/terms-of-service?modal=true')}
+          >
+            Terms of Service
+          </Text>{' '}
+          and{' '}
+          <Text
+            className="text-primary-pink"
+            onPress={() => router.push('/auth/privacy-policy?modal=true')}
+          >
+            Privacy Policy
+          </Text>
+          .
+        </Text>
+
+        <Pressable
+          onPress={() => router.replace('/auth/sign-in')}
+          className="mb-8 mt-6 py-2"
+          disabled={isLoading}
+        >
+          <Text className="text-center text-sm text-white/50">
+            Already have an account?{' '}
+            <Text className="font-bold text-accent-purple">Sign In</Text>
+          </Text>
+        </Pressable>
+      </View>
+    </Screen>
   );
 }

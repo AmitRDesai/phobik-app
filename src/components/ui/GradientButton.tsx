@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';

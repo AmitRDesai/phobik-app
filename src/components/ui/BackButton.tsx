@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
 import { Pressable } from 'react-native';
 

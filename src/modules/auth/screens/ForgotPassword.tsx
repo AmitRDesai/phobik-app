@@ -1,4 +1,6 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
 import { colors, withAlpha } from '@/constants/colors';
 import { authClient } from '@/lib/auth';
@@ -7,9 +9,7 @@ import { env } from '@/utils/env';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
-import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Pressable, Text, View } from 'react-native';
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState('');
@@ -43,8 +43,11 @@ export default function ForgotPasswordScreen() {
 
   if (isSent) {
     return (
-      <SafeAreaView edges={['bottom']} className="flex-1 bg-background-dark">
-        <View className="flex-1 items-center justify-center px-8">
+      <Screen
+        variant="auth"
+        className="flex-1 items-center justify-center px-8"
+      >
+        <View className="items-center">
           {/* Icon */}
           <View
             className="mb-8 h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
@@ -83,108 +86,86 @@ export default function ForgotPasswordScreen() {
             </Text>
           </Pressable>
         </View>
-      </SafeAreaView>
+      </Screen>
     );
   }
 
   return (
-    <SafeAreaView edges={['bottom']} className="flex-1 bg-background-dark">
-      <KeyboardAvoidingView className="flex-1" behavior="padding">
-        <ScrollView
-          className="flex-1"
-          contentContainerClassName="grow justify-center"
-          keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="interactive"
+    <Screen
+      variant="auth"
+      scroll
+      keyboard
+      header={<Header variant="back" />}
+      className="grow justify-center"
+      scrollViewProps={{ keyboardDismissMode: 'interactive' }}
+    >
+      {/* Icon */}
+      <View className="items-center pb-8">
+        <View
+          className="h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
+          style={{
+            boxShadow: [
+              {
+                offsetX: 0,
+                offsetY: 0,
+                blurRadius: 30,
+                color: withAlpha(colors.primary.pink, 0.15),
+              },
+            ],
+          }}
         >
-          {/* Back button */}
-          <View className="absolute left-4 top-4 z-10">
-            <Pressable
-              onPress={() => router.back()}
-              className="h-10 w-10 items-center justify-center rounded-full bg-white/10"
-            >
-              <Ionicons
-                name="chevron-back"
-                size={20}
-                color={colors.primary.muted}
-              />
-            </Pressable>
-          </View>
+          <Ionicons name="lock-open" size={48} color={colors.primary.pink} />
+        </View>
+      </View>
 
-          {/* Icon */}
-          <View className="items-center pb-8">
-            <View
-              className="h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
-              style={{
-                boxShadow: [
-                  {
-                    offsetX: 0,
-                    offsetY: 0,
-                    blurRadius: 30,
-                    color: withAlpha(colors.primary.pink, 0.15),
-                  },
-                ],
-              }}
-            >
-              <Ionicons
-                name="lock-open"
-                size={48}
-                color={colors.primary.pink}
-              />
-            </View>
-          </View>
+      {/* Title */}
+      <View className="items-center px-4">
+        <Text className="text-3xl font-bold text-white">Forgot Password?</Text>
+        <Text className="mt-3 text-center text-base leading-6 text-white/50">
+          Enter your email and we&apos;ll send you a link to reset your
+          password.
+        </Text>
+      </View>
 
-          {/* Title */}
-          <View className="items-center px-4">
-            <Text className="text-3xl font-bold text-white">
-              Forgot Password?
-            </Text>
-            <Text className="mt-3 text-center text-base leading-6 text-white/50">
-              Enter your email and we&apos;ll send you a link to reset your
-              password.
-            </Text>
-          </View>
+      {/* Form */}
+      <View className="px-8 pt-8">
+        <TextInput
+          label="Email Address"
+          placeholder="your@email.com"
+          value={email}
+          onChangeText={setEmail}
+          icon="mail"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          labelUppercase={false}
+          labelColor={`${colors.primary.muted}B3`}
+          iconColor={`${colors.primary.muted}80`}
+          editable={!isLoading}
+          returnKeyType="done"
+          onSubmitEditing={handleSubmit}
+        />
 
-          {/* Form */}
-          <View className="px-8 pt-8">
-            <TextInput
-              label="Email Address"
-              placeholder="your@email.com"
-              value={email}
-              onChangeText={setEmail}
-              icon="mail"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              labelUppercase={false}
-              labelColor={`${colors.primary.muted}B3`}
-              iconColor={`${colors.primary.muted}80`}
-              editable={!isLoading}
-              returnKeyType="done"
-              onSubmitEditing={handleSubmit}
-            />
+        <View className="mt-8">
+          <GradientButton
+            onPress={handleSubmit}
+            disabled={!isValid}
+            loading={isLoading}
+          >
+            Send Reset Link
+          </GradientButton>
+        </View>
+      </View>
 
-            <View className="mt-8">
-              <GradientButton
-                onPress={handleSubmit}
-                disabled={!isValid}
-                loading={isLoading}
-              >
-                Send Reset Link
-              </GradientButton>
-            </View>
-
-            <Pressable
-              onPress={() => router.back()}
-              className="mt-6 py-2"
-              disabled={isLoading}
-            >
-              <Text className="text-center text-sm text-primary-muted/60">
-                Remember your password?{' '}
-                <Text className="font-bold text-primary-pink">Sign In</Text>
-              </Text>
-            </Pressable>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+      <Pressable
+        onPress={() => router.back()}
+        className="mt-6 py-2"
+        disabled={isLoading}
+      >
+        <Text className="text-center text-sm text-primary-muted/60">
+          Remember your password?{' '}
+          <Text className="font-bold text-primary-pink">Sign In</Text>
+        </Text>
+      </Pressable>
+    </Screen>
   );
 }

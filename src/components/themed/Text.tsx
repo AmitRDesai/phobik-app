@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { Text as RNText, type TextProps as RNTextProps } from 'react-native';
 
 export type TextVariant =

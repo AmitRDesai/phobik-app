@@ -3,7 +3,7 @@ import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Text } from '@/components/themed';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
 import { Pressable, View } from 'react-native';
 import { type ReactNode } from 'react';

@@ -1,4 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { authClient, getSession, useSession } from '@/lib/auth';
 import { dialog } from '@/utils/dialog';
@@ -15,7 +16,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const RESEND_COOLDOWN_SECONDS = 60;
 
@@ -113,8 +113,8 @@ export default function EmailVerificationScreen() {
   }, [email, resendCooldown, isSending]);
 
   return (
-    <SafeAreaView className="flex-1 bg-background-dark">
-      <View className="flex-1 items-center justify-center px-8">
+    <Screen variant="auth" className="flex-1 items-center justify-center px-8">
+      <View className="items-center">
         {/* Icon */}
         <View
           className="mb-8 h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
@@ -173,6 +173,6 @@ export default function EmailVerificationScreen() {
           detect verification automatically.
         </Text>
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }
