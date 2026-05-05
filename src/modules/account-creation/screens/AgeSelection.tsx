@@ -83,7 +83,7 @@ export default function AgeSelectionScreen() {
               Next
             </GradientButton>
             <View className="mt-3 items-center">
-              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/20">
+              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
                 Step {currentStep} of {totalSteps}
               </Text>
             </View>

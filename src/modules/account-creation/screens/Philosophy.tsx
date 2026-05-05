@@ -84,7 +84,7 @@ export default function PhilosophyScreen() {
             </GradientButton>
 
             <View className="mt-3 items-center">
-              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/20">
+              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
                 Step 2 of 7
               </Text>
             </View>

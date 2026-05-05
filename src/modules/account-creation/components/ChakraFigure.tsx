@@ -67,18 +67,18 @@ export function ChakraFigure() {
       {/* Human figure */}
       <View className="relative items-center opacity-90">
         {/* Head */}
-        <View className="mb-2 h-14 w-14 rounded-full border border-white/10 bg-white/5" />
+        <View className="mb-2 h-14 w-14 rounded-full border border-foreground/10 bg-foreground/5" />
 
         {/* Body and legs container */}
         <View className="relative h-40 w-48">
           {/* Torso */}
-          <View className="absolute left-1/2 top-0 h-32 w-20 -translate-x-1/2 rounded-t-[40px] border-x border-t border-white/10 bg-white/5" />
+          <View className="absolute left-1/2 top-0 h-32 w-20 -translate-x-1/2 rounded-t-[40px] border-x border-t border-foreground/10 bg-foreground/5" />
 
           {/* Left leg */}
-          <View className="absolute bottom-0 left-0 h-16 w-28 rotate-[-15deg] rounded-full border border-white/5 bg-white/5" />
+          <View className="absolute bottom-0 left-0 h-16 w-28 rotate-[-15deg] rounded-full border border-foreground/10 bg-foreground/5" />
 
           {/* Right leg */}
-          <View className="absolute bottom-0 right-0 h-16 w-28 rotate-[15deg] rounded-full border border-white/5 bg-white/5" />
+          <View className="absolute bottom-0 right-0 h-16 w-28 rotate-[15deg] rounded-full border border-foreground/10 bg-foreground/5" />
 
           {/* Chakra orbs */}
           <View className="absolute inset-0 z-10 items-center justify-between py-2">

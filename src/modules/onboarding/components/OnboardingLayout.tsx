@@ -70,7 +70,7 @@ export function OnboardingLayout({
         {buttonLabel}
       </GradientButton>
       {showStepCounter && (
-        <Text className="mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-foreground/35">
+        <Text className="mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-foreground/55">
           Step {step} of {totalSteps}
         </Text>
       )}
