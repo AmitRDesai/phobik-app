@@ -1,8 +1,8 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { colors, withAlpha } from '@/constants/colors';
-import { useSession, useSignOut } from '@/modules/auth/hooks/useAuth';
-import { biometricEnabledAtom } from '@/modules/auth/store/biometric';
+import { useSession, useSignOut } from '@/hooks/auth/useAuth';
+import { biometricEnabledAtom } from '@/store/auth';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';

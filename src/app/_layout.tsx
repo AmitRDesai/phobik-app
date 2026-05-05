@@ -2,7 +2,7 @@ import '@azure/core-asynciterator-polyfill';
 import { DialogContainer } from '@/components/ui/DialogContainer';
 import { colors } from '@/constants/colors';
 import useAppInitializer from '@/hooks/useAppInitializer';
-import { useNotificationScheduler } from '@/hooks/useNotificationScheduler';
+import { useNotificationScheduler } from '@/modules/notifications/hooks/useNotificationScheduler';
 import { usePushTokenRegistration } from '@/hooks/usePushTokenRegistration';
 import { setupNotificationHandler } from '@/lib/notifications';
 import { powersync } from '@/lib/powersync';

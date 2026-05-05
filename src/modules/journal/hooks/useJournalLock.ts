@@ -1,7 +1,7 @@
 import {
   useBiometricAuth,
   useBiometricAvailability,
-} from '@/modules/auth/hooks/useBiometric';
+} from '@/hooks/auth/useBiometric';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useRef } from 'react';
 import { AppState } from 'react-native';

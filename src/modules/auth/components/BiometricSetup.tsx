@@ -9,11 +9,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   useBiometricAuth,
   useBiometricAvailability,
-} from '../hooks/useBiometric';
-import {
-  biometricEnabledAtom,
-  biometricPromptShownAtom,
-} from '../store/biometric';
+} from '@/hooks/auth/useBiometric';
+import { biometricEnabledAtom, biometricPromptShownAtom } from '@/store/auth';
 
 interface BiometricSetupProps {
   mode: 'initial-setup' | 'settings';

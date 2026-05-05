@@ -13,7 +13,7 @@ import { SelectionCard } from '@/components/ui/SelectionCard';
 import {
   type GenderIdentity,
   questionnaireGenderAtom,
-} from '../store/account-creation';
+} from '@/store/onboarding';
 
 const GENDER_OPTIONS: {
   value: GenderIdentity;

@@ -9,7 +9,7 @@ import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
 import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { type AgeRange, questionnaireAgeAtom } from '../store/account-creation';
+import { type AgeRange, questionnaireAgeAtom } from '@/store/onboarding';
 
 const AGE_OPTIONS: { value: AgeRange; label: string }[] = [
   { value: '18-24', label: '18–24' },

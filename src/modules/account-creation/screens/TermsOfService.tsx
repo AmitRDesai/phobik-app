@@ -2,7 +2,7 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { alpha, colors, withAlpha } from '@/constants/colors';
-import { useSaveProfile } from '@/modules/auth/hooks/useProfile';
+import { useSaveProfile } from '@/hooks/auth/useProfile';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { questionnaireAtom } from '../store/account-creation';
+import { questionnaireAtom } from '@/store/onboarding';
 
 export default function TermsOfServiceScreen() {
   const { modal } = useLocalSearchParams<{ modal?: string }>();

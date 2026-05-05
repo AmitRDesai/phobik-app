@@ -219,16 +219,26 @@ Originally scoped 5 leaks. Of those, only the `home/utils` move was a pure path 
 
 ### Phase 0b — Extract shared module hooks/components
 
-Decoupling the high-coupling modules:
+**Status: ✅ COMPLETE (2026-05-05)**
 
-1. Extract biometric hooks (home + insights) → `src/hooks/biometrics/`
-2. Extract auth hooks → `src/hooks/auth/`
-3. Extract purchase hooks → `src/hooks/purchases/`
-4. Extract practice-shared components → `src/components/practice-shared/`
-5. Update all importers (movement, meditation, sound-studio, self-check-ins, settings, journal, etc.)
+**Re-scoped during execution.** Original plan extracted broadly (biometric/auth/purchase hooks + practice components). Re-evaluated based on the actual layering rule: *shared layer (`src/lib/`, `src/hooks/`, `src/components/`) cannot import from feature modules*. Cross-module imports between feature modules are tolerable and get cleaned up during Phase 3. So 0b focused on the 4 confirmed shared-layer leaks.
 
-**Risk:** Medium — touches many files, but mechanical (import path changes only).
-**Files affected:** ~50.
+Done in 0b:
+
+1. ✅ Moved `src/modules/auth/hooks/` (3 files: `useAuth.ts`, `useProfile.ts`, `useBiometric.ts`) → `src/hooks/auth/`
+2. ✅ Moved `src/modules/auth/store/biometric.ts` → `src/store/auth.ts` (contains `biometricEnabledAtom`, `biometricPromptShownAtom`, `isSignedOutAtom`)
+3. ✅ Moved `src/modules/account-creation/store/account-creation.ts` → `src/store/onboarding.ts` (contains `questionnaireAtom` + derived atoms)
+4. ✅ Moved `src/hooks/useNotificationScheduler.ts` → `src/modules/notifications/hooks/useNotificationScheduler.ts` (it was a notifications-domain hook misplaced in shared)
+5. ✅ Updated 13 absolute-path importers via `sed`
+6. ✅ Updated 7 relative-path importers (auth screens, account-creation screens) via `sed`
+7. ✅ Verified with `tsc --noEmit` — 218 errors before, 218 errors after (all pre-existing, none introduced by 0b)
+
+**Deferred** (no longer needed for layering — handled during Phase 3 module migrations):
+- Biometric hooks (`useLatestBiometrics`, `useStressScore`, etc.) stay in `home/hooks/` and `insights/hooks/` — feature modules can import each other's hooks for now
+- Purchase hooks stay in `purchases/` (service-only module, callable from feature modules)
+- Practice-shared components stay in `practices/components/` — get replaced by Phase 2 design-system primitives anyway
+
+**Empty dirs cleaned up:** `src/modules/auth/store/` (deleted), `src/modules/account-creation/store/` (deleted)
 
 ### Phase 0c — Standardize module folder structure
 

@@ -14,7 +14,7 @@ import {
   biometricEnabledAtom,
   biometricPromptShownAtom,
   isSignedOutAtom,
-} from '../store/biometric';
+} from '@/store/auth';
 
 const SLOW_RESPONSE_THRESHOLD_MS = 3_000;
 

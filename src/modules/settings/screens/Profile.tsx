@@ -5,7 +5,7 @@ import { TextInput } from '@/components/ui/TextInput';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { useImagePicker } from '@/hooks/useImagePicker';
 import { authClient } from '@/lib/auth';
-import { useSession } from '@/modules/auth/hooks/useAuth';
+import { useSession } from '@/hooks/auth/useAuth';
 import { useUploadProfilePicture } from '@/modules/onboarding/hooks/useUploadProfilePicture';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';

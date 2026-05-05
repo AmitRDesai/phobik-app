@@ -1,16 +1,13 @@
-import { useSession } from '@/modules/auth/hooks/useAuth';
+import { useSession } from '@/hooks/auth/useAuth';
 import { connectPowerSync, disconnectPowerSync } from '@/lib/powersync';
-import { useBiometricAvailability } from '@/modules/auth/hooks/useBiometric';
-import { useProfileStatus } from '@/modules/auth/hooks/useProfile';
+import { useBiometricAvailability } from '@/hooks/auth/useBiometric';
+import { useProfileStatus } from '@/hooks/auth/useProfile';
 import {
   identifyUser,
   initRevenueCat,
   logOutRevenueCat,
 } from '@/modules/purchases/lib/revenue-cat';
-import {
-  biometricPromptShownAtom,
-  isSignedOutAtom,
-} from '@/modules/auth/store/biometric';
+import { biometricPromptShownAtom, isSignedOutAtom } from '@/store/auth';
 import { isReturningUserAtom } from '@/store/user';
 import * as SplashScreen from 'expo-splash-screen';
 import { useAtomValue, useSetAtom } from 'jotai';

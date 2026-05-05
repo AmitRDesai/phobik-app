@@ -1,4 +1,4 @@
-import { useSession } from '@/modules/auth/hooks/useAuth';
+import { useSession } from '@/hooks/auth/useAuth';
 
 export function useUserId(): string | undefined {
   const { data: session } = useSession();

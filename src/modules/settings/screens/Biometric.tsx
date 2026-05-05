@@ -1,9 +1,9 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
 import { BiometricSetup } from '@/modules/auth/components/BiometricSetup';
-import { useSignOut } from '@/modules/auth/hooks/useAuth';
-import { useBiometricAvailability } from '@/modules/auth/hooks/useBiometric';
-import { biometricEnabledAtom } from '@/modules/auth/store/biometric';
+import { useSignOut } from '@/hooks/auth/useAuth';
+import { useBiometricAvailability } from '@/hooks/auth/useBiometric';
+import { biometricEnabledAtom } from '@/store/auth';
 import { BackButton } from '@/components/ui/BackButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtom } from 'jotai';

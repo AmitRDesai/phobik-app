@@ -20,13 +20,17 @@ import {
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { questionnaireAtom } from '../../account-creation/store/account-creation';
-import { useAppleSignIn, useGoogleSignIn, useSignIn } from '../hooks/useAuth';
+import { questionnaireAtom } from '@/store/onboarding';
+import {
+  useAppleSignIn,
+  useGoogleSignIn,
+  useSignIn,
+} from '@/hooks/auth/useAuth';
 import {
   useBiometricAuth,
   useBiometricAvailability,
-} from '../hooks/useBiometric';
-import { biometricEnabledAtom, isSignedOutAtom } from '../store/biometric';
+} from '@/hooks/auth/useBiometric';
+import { biometricEnabledAtom, isSignedOutAtom } from '@/store/auth';
 
 export default function SignInScreen() {
   const [email, setEmail] = useState('');

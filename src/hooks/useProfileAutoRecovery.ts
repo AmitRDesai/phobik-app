@@ -1,7 +1,7 @@
 import { powersync } from '@/lib/powersync';
 import { useUserId } from '@/lib/powersync/useUserId';
-import { questionnaireAtom } from '@/modules/account-creation/store/account-creation';
-import { useSaveProfile } from '@/modules/auth/hooks/useProfile';
+import { questionnaireAtom } from '@/store/onboarding';
+import { useSaveProfile } from '@/hooks/auth/useProfile';
 import { useStatus } from '@powersync/react';
 import { useStore } from 'jotai';
 import { RESET } from 'jotai/utils';

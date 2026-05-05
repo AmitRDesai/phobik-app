@@ -17,7 +17,11 @@ import {
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAppleSignIn, useGoogleSignIn, useSignUp } from '../hooks/useAuth';
+import {
+  useAppleSignIn,
+  useGoogleSignIn,
+  useSignUp,
+} from '@/hooks/auth/useAuth';
 
 export default function CreateAccountScreen() {
   const [name, setName] = useState('');

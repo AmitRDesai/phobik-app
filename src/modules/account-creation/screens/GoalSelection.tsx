@@ -10,7 +10,7 @@ import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { SelectionCard } from '@/components/ui/SelectionCard';
-import { type Goal, questionnaireGoalsAtom } from '../store/account-creation';
+import { type Goal, questionnaireGoalsAtom } from '@/store/onboarding';
 
 const GOAL_OPTIONS: {
   value: Goal;
