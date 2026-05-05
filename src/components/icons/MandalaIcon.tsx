@@ -1,4 +1,5 @@
 import { colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import Svg, {
@@ -16,6 +17,11 @@ interface MandalaIconProps {
 }
 
 export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
+  const scheme = useScheme();
+  // SVG stroke takes a JS color string, not a className — pick a theme-aware
+  // value so the mandala lines render visibly in both modes (white on dark,
+  // dark gray on light).
+  const stroke = scheme === 'dark' ? 'white' : '#1a1a1a';
   return (
     <View
       style={{
@@ -82,7 +88,7 @@ export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
             cx="0"
             cy="0"
             r="18"
-            stroke="white"
+            stroke={stroke}
             strokeWidth="0.5"
             fill="none"
             opacity="0.6"
@@ -96,7 +102,7 @@ export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
                 cx="0"
                 cy="-22"
                 r="22"
-                stroke="white"
+                stroke={stroke}
                 strokeWidth="0.3"
                 fill="none"
                 opacity="0.4"
@@ -114,7 +120,7 @@ export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
                 cy="-35"
                 rx="20"
                 ry="50"
-                stroke="white"
+                stroke={stroke}
                 strokeWidth="0.4"
                 fill="none"
                 opacity="0.7"
@@ -128,7 +134,7 @@ export function MandalaIcon({ size = 256, animated = true }: MandalaIconProps) {
             cx="0"
             cy="0"
             r="75"
-            stroke="white"
+            stroke={stroke}
             strokeWidth="0.2"
             strokeDasharray="2 4"
             fill="none"

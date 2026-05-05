@@ -77,7 +77,7 @@ export default function WelcomeScreen() {
             <Link href="/auth/sign-in" replace className="mt-6 py-2">
               <Text className="text-center text-sm text-foreground/50">
                 Already have an account?{' '}
-                <Text className="font-bold text-accent-purple">Sign In</Text>
+                <Text className="font-bold text-primary-pink">Sign In</Text>
               </Text>
             </Link>
           </View>

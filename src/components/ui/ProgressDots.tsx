@@ -16,7 +16,7 @@ export function ProgressDots({ total, current }: ProgressDotsProps) {
             className={
               isActive
                 ? 'h-1.5 w-6 rounded-full bg-primary-pink'
-                : 'h-1.5 w-2 rounded-full bg-white/20'
+                : 'h-1.5 w-2 rounded-full bg-foreground/20'
             }
           />
         );

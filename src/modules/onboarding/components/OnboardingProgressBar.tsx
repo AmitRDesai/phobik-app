@@ -47,7 +47,7 @@ export function OnboardingProgressBar({
       {Array.from({ length: totalSteps - step }, (_, i) => (
         <View
           key={i + step}
-          className="h-[5px] flex-1 rounded-full bg-white/10"
+          className="h-[5px] flex-1 rounded-full bg-foreground/15"
         />
       ))}
     </View>
