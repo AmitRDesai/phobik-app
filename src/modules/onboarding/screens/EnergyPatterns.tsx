@@ -42,7 +42,7 @@ export default function EnergyPatterns() {
     <OnboardingLayout
       step={5}
       title="Understanding your energy helps PHOBIK tailor your nervous system regulation."
-      titleClassName="text-[22px] font-extrabold leading-tight tracking-tight text-white"
+      titleClassName="text-[22px] font-extrabold leading-tight tracking-tight text-foreground"
       onBack={() => router.back()}
       buttonLabel="Continue"
       onButtonPress={() => router.push('/onboarding/calendar-support')}
@@ -56,7 +56,7 @@ export default function EnergyPatterns() {
                 size={20}
                 color={colors.primary.pink}
               />
-              <Text className="text-lg font-bold text-white">
+              <Text className="text-lg font-bold text-foreground">
                 {section.label}
               </Text>
             </View>

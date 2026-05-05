@@ -46,14 +46,14 @@ export default function RegulationPreference() {
       step={4}
       title="When you're stressed, what helps most?"
       subtitle="Select options to help us personalize your tools."
-      subtitleClassName="mt-3 text-base font-medium leading-relaxed text-primary-muted/80"
+      subtitleClassName="mt-3 text-base font-medium leading-relaxed text-foreground/60"
       onBack={() => router.back()}
       buttonLabel="Continue"
       onButtonPress={() => router.push('/onboarding/energy-patterns')}
       buttonDisabled={selected.length === 0}
     >
       {/* Selection limit counter */}
-      <Text className="mb-4 text-xs font-medium uppercase tracking-widest text-white/40">
+      <Text className="mb-4 text-xs font-medium uppercase tracking-widest text-foreground/40">
         Selection Limit: {selected.length} / {MAX_SELECTIONS}
       </Text>
 
@@ -70,14 +70,14 @@ export default function RegulationPreference() {
 
         {/* Other input */}
         <View className="mt-2 w-full">
-          <View className="h-12 flex-row items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5">
-            <Text className="text-sm font-bold text-white/50">Other:</Text>
+          <View className="h-12 flex-row items-center gap-2 rounded-full border border-foreground/10 bg-foreground/5 px-5">
+            <Text className="text-sm font-bold text-foreground/50">Other:</Text>
             <TextInput
               value={customTool}
               onChangeText={setCustomTool}
               placeholder="type here..."
               placeholderTextColor={alpha.white20}
-              className="flex-1 text-sm text-white"
+              className="flex-1 text-sm text-foreground"
             />
           </View>
         </View>
@@ -85,7 +85,7 @@ export default function RegulationPreference() {
 
       {/* Why this matters info box */}
       <View
-        className="mt-4 rounded-xl border border-accent-yellow/20 bg-white/5 p-5"
+        className="mt-4 rounded-xl border border-accent-yellow/20 bg-foreground/5 p-5"
         style={{
           shadowColor: colors.accent.orange,
           shadowOffset: { width: 0, height: 0 },
@@ -114,7 +114,7 @@ export default function RegulationPreference() {
             >
               Why this matters
             </Text>
-            <Text className="mt-1 text-xs leading-relaxed text-white/40">
+            <Text className="mt-1 text-xs leading-relaxed text-foreground/40">
               We match your preferences with your current nervous system state
               to find your optimal stress tolerance.
             </Text>

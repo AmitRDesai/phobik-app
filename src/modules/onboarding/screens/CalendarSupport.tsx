@@ -10,7 +10,7 @@ export default function CalendarSupport() {
       step={6}
       title="Sync Your Schedule"
       subtitle="PHOBIK notices upcoming events so you can prepare your nervous system before the stress hits."
-      subtitleClassName="mt-3 text-base font-normal leading-relaxed text-primary-muted"
+      subtitleClassName="mt-3 text-base font-normal leading-relaxed text-foreground/55"
       onBack={() => router.back()}
       buttonLabel="Continue"
       onButtonPress={navigateNext}

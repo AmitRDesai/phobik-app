@@ -1,5 +1,5 @@
-import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Screen } from '@/components/ui/Screen';
 import { useSession } from '@/lib/auth';
 import { dialog } from '@/utils/dialog';
 import { File as ExpoFile } from 'expo-file-system';
@@ -7,7 +7,6 @@ import { router } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuraFilterToggle } from '../components/AuraFilterToggle';
 import { ProfilePictureCircle } from '../components/ProfilePictureCircle';
 import { useImagePicker } from '@/hooks/useImagePicker';
@@ -45,7 +44,6 @@ export default function AuraPictureSetup() {
 
   const handleConfirm = async () => {
     if (!imageUri) {
-      // No new image picked — if one was already uploaded, just navigate
       if (hasUploadedImage) {
         router.push('/onboarding/welcome');
         return;
@@ -76,60 +74,55 @@ export default function AuraPictureSetup() {
   };
 
   return (
-    <View className="flex-1">
-      <GlowBg centerY={0.4} intensity={1.5} radius={0.3} />
-      <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
-        <View className="flex-1">
-          {/* Header */}
-          <View className="px-6 pb-2 pt-4">
-            <Text className="text-center text-lg font-bold text-white">
-              Profile Setup
-            </Text>
-          </View>
-
-          {/* Title */}
-          <View className="px-8 pt-8">
-            <Text className="text-center text-3xl font-bold tracking-tight text-white">
-              Your Signature Aura
-            </Text>
-            <Text className="mt-3 text-center text-base leading-relaxed text-primary-muted">
-              Express your energy. Upload a photo to see your PHOBIK aura.
-            </Text>
-          </View>
-
-          {/* Profile Picture */}
-          <View className="mt-8 items-center">
-            <ProfilePictureCircle
-              imageUri={imageUri ?? session?.user?.image ?? null}
-              auraEnabled={auraEnabled}
-              onCameraPress={handleCameraPress}
-            />
-          </View>
-
-          {/* Aura Toggle */}
-          <View className="mt-10 px-6">
-            <AuraFilterToggle
-              enabled={auraEnabled}
-              onToggle={() => setAuraEnabled(!auraEnabled)}
-            />
-          </View>
-
-          {/* Footer */}
-          <View className="mt-auto px-8 pb-10">
-            <GradientButton
-              onPress={handleConfirm}
-              loading={uploadMutation.isPending}
-            >
-              Looks Great
-            </GradientButton>
-            <Pressable onPress={handleSkip} className="mt-4 py-3">
-              <Text className="text-center text-base font-medium text-primary-muted">
-                Maybe Later
-              </Text>
-            </Pressable>
-          </View>
+    <Screen
+      variant="onboarding"
+      header={
+        <View className="px-6 pb-2 pt-4">
+          <Text className="text-center text-lg font-bold text-foreground">
+            Profile Setup
+          </Text>
         </View>
-      </SafeAreaView>
-    </View>
+      }
+      sticky={
+        <View className="items-center">
+          <GradientButton
+            onPress={handleConfirm}
+            loading={uploadMutation.isPending}
+          >
+            Looks Great
+          </GradientButton>
+          <Pressable onPress={handleSkip} className="mt-4 py-3">
+            <Text className="text-center text-base font-medium text-foreground/55">
+              Maybe Later
+            </Text>
+          </Pressable>
+        </View>
+      }
+      className=""
+    >
+      <View className="px-8 pt-8">
+        <Text className="text-center text-3xl font-bold tracking-tight text-foreground">
+          Your Signature Aura
+        </Text>
+        <Text className="mt-3 text-center text-base leading-relaxed text-foreground/55">
+          Express your energy. Upload a photo to see your PHOBIK aura.
+        </Text>
+      </View>
+
+      <View className="mt-8 items-center">
+        <ProfilePictureCircle
+          imageUri={imageUri ?? session?.user?.image ?? null}
+          auraEnabled={auraEnabled}
+          onCameraPress={handleCameraPress}
+        />
+      </View>
+
+      <View className="mt-10 px-6">
+        <AuraFilterToggle
+          enabled={auraEnabled}
+          onToggle={() => setAuraEnabled(!auraEnabled)}
+        />
+      </View>
+    </Screen>
   );
 }

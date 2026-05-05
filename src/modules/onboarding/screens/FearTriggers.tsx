@@ -69,21 +69,21 @@ export default function FearTriggers() {
     <OnboardingLayout
       step={3}
       title="Are there specific situations that spike anxiety for you?"
-      titleClassName="text-[22px] font-extrabold leading-tight tracking-tight text-white"
+      titleClassName="text-[22px] font-extrabold leading-tight tracking-tight text-foreground"
       subtitle="Select all that apply to personalize your nervous system support."
       onBack={() => router.back()}
       buttonLabel="Continue"
       onButtonPress={handleContinue}
     >
       {/* Search Input */}
-      <View className="mb-4 flex-row items-center gap-2 rounded-xl border border-white/5 bg-white/5 px-3.5 py-3">
+      <View className="mb-4 flex-row items-center gap-2 rounded-xl border border-foreground/5 bg-foreground/5 px-3.5 py-3">
         <MaterialIcons name="search" size={20} color={alpha.white30} />
         <TextInput
           value={search}
           onChangeText={setSearch}
           placeholder="Search triggers..."
           placeholderTextColor={colors.primary.muted}
-          className="flex-1 text-sm text-white android:p-0"
+          className="flex-1 text-sm text-foreground android:p-0"
         />
       </View>
 
@@ -103,14 +103,14 @@ export default function FearTriggers() {
 
         {/* Other input */}
         <View className="w-full">
-          <View className="flex-row items-center gap-2 rounded-xl border border-white/5 bg-white/5 px-3.5 py-3">
+          <View className="flex-row items-center gap-2 rounded-xl border border-foreground/5 bg-foreground/5 px-3.5 py-3">
             <MaterialIcons name="edit-note" size={20} color={alpha.white20} />
             <TextInput
               value={customTrigger}
               onChangeText={setCustomTrigger}
               placeholder="Other (type here...)"
               placeholderTextColor={alpha.white30}
-              className="flex-1 text-sm text-white android:p-0"
+              className="flex-1 text-sm text-foreground android:p-0"
             />
           </View>
         </View>
