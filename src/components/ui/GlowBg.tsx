@@ -24,7 +24,7 @@ interface GlowBgProps {
   startColor?: string;
   /** Gradient end color. Default: colors.primary.pink */
   endColor?: string;
-  /** Background className override. Default: "bg-background-dark" */
+  /** Background className override. Default: "bg-surface" (theme-aware). */
   bgClassName?: string;
 }
 
@@ -35,7 +35,7 @@ export const GlowBg = memo(function GlowBg({
   radius = 0.4,
   startColor = colors.chakra.orange,
   endColor = colors.primary.pink,
-  bgClassName = 'bg-background-dark',
+  bgClassName = 'bg-surface',
 }: GlowBgProps) {
   const { width, height } = useWindowDimensions();
   const glowSize = Math.max(width, height);

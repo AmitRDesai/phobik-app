@@ -99,10 +99,10 @@ export default function GoalSelectionScreen() {
 
           {/* Title + Subtitle */}
           <View className="px-8">
-            <Text className="text-center text-3xl font-extrabold tracking-tight text-white">
+            <Text className="text-center text-3xl font-extrabold tracking-tight text-foreground">
               What brings you here?
             </Text>
-            <Text className="mt-3 text-center text-sm text-white/60">
+            <Text className="mt-3 text-center text-sm text-foreground/60">
               Select the goals that matter most to you. We&apos;ll tailor your
               path accordingly.
             </Text>
@@ -142,7 +142,7 @@ export default function GoalSelectionScreen() {
             </GradientButton>
 
             <View className="mt-3 items-center">
-              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
+              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/20">
                 Step {currentStep} of {totalSteps}
               </Text>
             </View>

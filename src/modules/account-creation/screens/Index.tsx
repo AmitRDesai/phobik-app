@@ -32,7 +32,7 @@ export default function WelcomeScreen() {
             {/* Text Content */}
             <View className="items-center gap-4">
               <View className="flex-row flex-wrap items-center justify-center">
-                <Text className="text-center text-4xl font-extrabold tracking-tight text-white">
+                <Text className="text-center text-4xl font-extrabold tracking-tight text-foreground">
                   Welcome to{' '}
                 </Text>
                 <MaskedView
@@ -52,11 +52,11 @@ export default function WelcomeScreen() {
                 </MaskedView>
               </View>
 
-              <Text className="text-center text-lg font-semibold text-white">
+              <Text className="text-center text-lg font-semibold text-foreground">
                 Create the life you want.
               </Text>
 
-              <Text className="text-center text-lg font-semibold text-white">
+              <Text className="text-center text-lg font-semibold text-foreground">
                 Overcome your challenges and face your fears.
               </Text>
             </View>
@@ -75,7 +75,7 @@ export default function WelcomeScreen() {
             </GradientButton>
 
             <Link href="/auth/sign-in" replace className="mt-6 py-2">
-              <Text className="text-center text-sm text-white/50">
+              <Text className="text-center text-sm text-foreground/50">
                 Already have an account?{' '}
                 <Text className="font-bold text-accent-purple">Sign In</Text>
               </Text>

@@ -128,18 +128,18 @@ export default function TermsOfServiceScreen() {
                   <Ionicons name="shield-checkmark" size={36} color="white" />
                 </LinearGradient>
 
-                <Text className="text-3xl font-extrabold tracking-tight text-white">
+                <Text className="text-3xl font-extrabold tracking-tight text-foreground">
                   Terms of Service
                 </Text>
-                <Text className="mt-2 text-sm font-semibold uppercase tracking-widest text-white/40">
+                <Text className="mt-2 text-sm font-semibold uppercase tracking-widest text-foreground/40">
                   Phobik (PBK) App
                 </Text>
               </View>
 
               {/* Disclaimer Card */}
               <View className="mb-4">
-                <View className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                  <Text className="text-center text-[16px] font-bold leading-relaxed text-white">
+                <View className="rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
+                  <Text className="text-center text-[16px] font-bold leading-relaxed text-foreground">
                     Phobik is a wellness and self development app designed to
                     provide educational tools and personal growth. It is not a
                     healthcare provider and does not provide medical advice,
@@ -179,7 +179,7 @@ export default function TermsOfServiceScreen() {
                   I Accept the Terms
                 </GradientButton>
 
-                <Text className="mb-2 mt-6 text-[11px] font-bold tracking-[0.2em] text-white/30">
+                <Text className="mb-2 mt-6 text-[11px] font-bold tracking-[0.2em] text-foreground/30">
                   STEP {currentStep} OF {totalSteps}
                 </Text>
 

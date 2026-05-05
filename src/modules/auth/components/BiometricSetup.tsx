@@ -46,17 +46,17 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
 
   if (mode === 'settings') {
     return (
-      <View className="rounded-2xl border border-white/10 bg-white/5 p-6">
+      <View className="rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
         <View className="flex-row items-center justify-between">
           <View className="flex-1 flex-row items-center gap-3">
             <View className="h-10 w-10 items-center justify-center rounded-xl bg-primary-pink/20">
               <Ionicons name={iconName} size={22} color={colors.primary.pink} />
             </View>
             <View className="flex-1">
-              <Text className="text-base font-semibold text-white">
+              <Text className="text-base font-semibold text-foreground">
                 {biometricType}
               </Text>
-              <Text className="text-sm text-white/50">
+              <Text className="text-sm text-foreground/50">
                 Quick sign-in with {biometricType}
               </Text>
             </View>
@@ -75,10 +75,7 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
   }
 
   return (
-    <SafeAreaView
-      className="flex-1 bg-background-dark"
-      edges={['top', 'bottom']}
-    >
+    <SafeAreaView className="flex-1 bg-surface" edges={['top', 'bottom']}>
       <View className="flex-1 items-center justify-center px-8">
         {/* Icon */}
         <LinearGradient
@@ -101,10 +98,10 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
           <Ionicons name={iconName} size={56} color="white" />
         </LinearGradient>
 
-        <Text className="text-center text-3xl font-extrabold text-white">
+        <Text className="text-center text-3xl font-extrabold text-foreground">
           Enable {biometricType}
         </Text>
-        <Text className="mt-3 text-center text-base leading-relaxed text-white/50">
+        <Text className="mt-3 text-center text-base leading-relaxed text-foreground/50">
           Use {biometricType} to quickly sign back in without typing your
           password.
         </Text>
@@ -115,7 +112,7 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
           </GradientButton>
 
           <Pressable onPress={handleSkip} className="py-4">
-            <Text className="text-center text-base font-semibold text-white/40">
+            <Text className="text-center text-base font-semibold text-foreground/40">
               Skip for now
             </Text>
           </Pressable>

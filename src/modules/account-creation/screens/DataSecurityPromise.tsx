@@ -67,7 +67,7 @@ export default function DataSecurityPromiseScreen() {
           </View>
 
           {/* Security label */}
-          <Text className="text-center text-xs font-black uppercase tracking-[0.3em] text-white/40">
+          <Text className="text-center text-xs font-black uppercase tracking-[0.3em] text-foreground/40">
             Security
           </Text>
 
@@ -81,7 +81,7 @@ export default function DataSecurityPromiseScreen() {
             >
               {/* Title */}
               <View className="mb-8 mt-4 items-center">
-                <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight text-white">
+                <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight text-foreground">
                   Your Privacy is
                 </Text>
                 <MaskedView
@@ -106,12 +106,12 @@ export default function DataSecurityPromiseScreen() {
               {/* Lock Illustration */}
               <View className="mb-10 items-center justify-center py-4">
                 {/* Outer circle */}
-                <View className="absolute h-48 w-48 rounded-full border border-white/5" />
+                <View className="absolute h-48 w-48 rounded-full border border-foreground/5" />
                 {/* Middle circle */}
-                <View className="absolute h-36 w-36 rounded-full border border-white/10" />
+                <View className="absolute h-36 w-36 rounded-full border border-foreground/10" />
                 {/* Inner circle with glow */}
                 <View
-                  className="absolute h-24 w-24 rounded-full border border-white/20"
+                  className="absolute h-24 w-24 rounded-full border border-foreground/20"
                   style={{
                     shadowColor: colors.primary.pink,
                     shadowOffset: { width: 0, height: 0 },
@@ -121,7 +121,7 @@ export default function DataSecurityPromiseScreen() {
                   }}
                 />
                 {/* Lock container */}
-                <View className="h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-white/20 shadow-2xl">
+                <View className="h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-foreground/20 shadow-2xl">
                   <LinearGradient
                     colors={[
                       `${colors.primary.pink}33`,
@@ -157,10 +157,10 @@ export default function DataSecurityPromiseScreen() {
                       </View>
                     </View>
                     <View className="flex-1">
-                      <Text className="text-base font-bold leading-tight text-white">
+                      <Text className="text-base font-bold leading-tight text-foreground">
                         {point.title}
                       </Text>
-                      <Text className="mt-1 text-sm leading-relaxed text-white/50">
+                      <Text className="mt-1 text-sm leading-relaxed text-foreground/50">
                         {point.description}
                       </Text>
                     </View>
@@ -179,19 +179,19 @@ export default function DataSecurityPromiseScreen() {
             )}
 
             <Pressable className="mb-1 mt-6">
-              <Text className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white/60 underline underline-offset-4">
+              <Text className="text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground/60 underline underline-offset-4">
                 Download full privacy policy
               </Text>
             </Pressable>
 
             {!isModal && (
               <>
-                <Text className="mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/30">
+                <Text className="mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-foreground/30">
                   Step {currentStep} of {totalSteps}
                 </Text>
 
                 <Pressable className="w-full py-4">
-                  <Text className="text-center text-xs font-bold uppercase tracking-widest text-white/30">
+                  <Text className="text-center text-xs font-bold uppercase tracking-widest text-foreground/30">
                     Review Settings
                   </Text>
                 </Pressable>

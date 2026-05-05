@@ -55,10 +55,10 @@ export default function GenderIdentityScreen() {
 
           {/* Title + Subtitle */}
           <View className="px-8">
-            <Text className="text-center text-3xl font-extrabold tracking-tight text-white">
+            <Text className="text-center text-3xl font-extrabold tracking-tight text-foreground">
               How do you identify?
             </Text>
-            <Text className="mt-3 text-center text-sm text-white/60">
+            <Text className="mt-3 text-center text-sm text-foreground/60">
               This data helps us personalize your mental health journey with
               supportive, tailored care.
             </Text>
@@ -102,11 +102,11 @@ export default function GenderIdentityScreen() {
               Continue
             </GradientButton>
             <View className="mt-3 items-center">
-              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
+              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/20">
                 Step {currentStep} of {totalSteps}
               </Text>
             </View>
-            <Text className="mt-3 text-center text-xs text-white/30">
+            <Text className="mt-3 text-center text-xs text-foreground/30">
               PHOBIK values your privacy. Your data is encrypted and used only
               to enhance your experience.
             </Text>

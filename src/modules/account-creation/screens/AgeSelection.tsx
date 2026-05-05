@@ -44,10 +44,10 @@ export default function AgeSelectionScreen() {
 
           {/* Title + Subtitle */}
           <View className="px-8">
-            <Text className="text-center text-3xl font-extrabold tracking-tight text-white">
+            <Text className="text-center text-3xl font-extrabold tracking-tight text-foreground">
               What age range do you fall into?
             </Text>
-            <Text className="mt-3 text-center text-sm text-white/60">
+            <Text className="mt-3 text-center text-sm text-foreground/60">
               Select your age range to personalize your journey.
             </Text>
           </View>
@@ -83,7 +83,7 @@ export default function AgeSelectionScreen() {
               Next
             </GradientButton>
             <View className="mt-3 items-center">
-              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
+              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/20">
                 Step {currentStep} of {totalSteps}
               </Text>
             </View>

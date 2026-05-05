@@ -45,10 +45,10 @@ export default function PhilosophyScreen() {
 
           {/* Title + Subtitle */}
           <View className="px-8">
-            <Text className="text-center text-4xl font-extrabold tracking-tight text-white">
+            <Text className="text-center text-4xl font-extrabold tracking-tight text-foreground">
               Phobik Philosophy
             </Text>
-            <Text className="mt-3 text-center text-lg font-medium text-white/70">
+            <Text className="mt-3 text-center text-lg font-medium text-foreground/70">
               Phobik blends three major principles
             </Text>
           </View>
@@ -65,8 +65,8 @@ export default function PhilosophyScreen() {
                 <Text className="mr-3 text-lg font-bold text-primary-pink">
                   {p.number}
                 </Text>
-                <Text className="flex-1 text-[15px] text-white/90">
-                  <Text className="font-bold text-white">{p.title}</Text>
+                <Text className="flex-1 text-[15px] text-foreground/90">
+                  <Text className="font-bold text-foreground">{p.title}</Text>
                   {' – '}
                   {p.description}
                 </Text>
@@ -84,7 +84,7 @@ export default function PhilosophyScreen() {
             </GradientButton>
 
             <View className="mt-3 items-center">
-              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
+              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/20">
                 Step 2 of 7
               </Text>
             </View>
