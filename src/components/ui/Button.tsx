@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -39,11 +39,11 @@ const sizeStyles = {
 
 const labelClass = (variant: ButtonVariant, size: ButtonSize): string => {
   const base = `text-center font-bold ${sizeStyles[size].text}`;
-  if (variant === 'primary' || variant === 'destructive') {
-    return `${base} text-white`;
-  }
-  if (variant === 'secondary') return `${base} text-foreground`;
-  return `${base} text-foreground`; // ghost
+  const color =
+    variant === 'primary' || variant === 'destructive'
+      ? 'text-white'
+      : 'text-foreground';
+  return `${base} ${color}`;
 };
 
 /**
@@ -107,6 +107,8 @@ export function Button({
 
   let body: ReactNode;
   if (variant === 'primary') {
+    const blur = size === 'compact' ? 15 : 12;
+    const opacity = size === 'compact' ? 0.4 : 0.5;
     body = (
       <LinearGradient
         colors={[colors.primary.pink, colors.accent.yellow]}
@@ -114,11 +116,7 @@ export function Button({
         end={{ x: 1, y: 1 }}
         style={{
           ...sharedStyle,
-          shadowColor: colors.primary.pink,
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: size === 'compact' ? 0.4 : 0.5,
-          shadowRadius: size === 'compact' ? 15 : 12,
-          elevation: size === 'compact' ? 4 : 8,
+          boxShadow: `0 4px ${blur}px ${withAlpha(colors.primary.pink, opacity)}`,
         }}
       >
         {inner}

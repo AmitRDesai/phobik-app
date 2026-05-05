@@ -21,6 +21,14 @@ import {
   useSignUp,
 } from '@/hooks/auth/useAuth';
 
+const GRADIENT_HEADER_STYLE = {
+  paddingTop: Platform.OS === 'android' ? 40 : 60,
+  paddingBottom: Platform.OS === 'android' ? 24 : 40,
+  alignItems: 'center' as const,
+  position: 'relative' as const,
+  overflow: 'hidden' as const,
+};
+
 export default function CreateAccountScreen() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -123,13 +131,7 @@ export default function CreateAccountScreen() {
         colors={[colors.primary.pink, colors.accent.yellow]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={{
-          paddingTop: Platform.OS === 'android' ? 40 : 60,
-          paddingBottom: Platform.OS === 'android' ? 24 : 40,
-          alignItems: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
+        style={GRADIENT_HEADER_STYLE}
       >
         {/* Decorative blur circles */}
         <View className="absolute -right-10 -top-10 h-40 w-40 rounded-[80px] bg-white/10" />

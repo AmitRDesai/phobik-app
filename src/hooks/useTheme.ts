@@ -1,35 +1,38 @@
 import { themeModeAtom, type ThemeMode } from '@/store/theme';
-import { useAtom } from 'jotai';
-import { useColorScheme as useNativewindColorScheme } from 'nativewind';
-import { useEffect } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
 import { useColorScheme as useRNColorScheme } from 'react-native';
 
 export type ResolvedScheme = 'light' | 'dark';
 
+function resolve(
+  mode: ThemeMode,
+  system: ReturnType<typeof useRNColorScheme>,
+): ResolvedScheme {
+  return mode === 'system' ? (system === 'dark' ? 'dark' : 'light') : mode;
+}
+
 /**
- * Single source of truth for the app's theme.
+ * Read-only access to the resolved scheme. Used by every `<Screen>` — keep
+ * it minimal so a settings-screen `setMode` write doesn't re-render every
+ * mounted Screen. Subscribes only to the atom value, not the setter.
+ */
+export function useScheme(): ResolvedScheme {
+  const mode = useAtomValue(themeModeAtom);
+  const system = useRNColorScheme();
+  return resolve(mode, system);
+}
+
+/**
+ * Read + write theme mode. Use this in settings screens where you need
+ * `setMode`. Don't use in render-hot paths — `useScheme()` is cheaper.
  *
- * Returns the user's preference (`mode` — light/dark/system) and the resolved
- * scheme (`scheme` — light/dark, accounting for system if mode === 'system').
- *
- * Also keeps NativeWind's internal colorScheme in sync, so `dark:` modifier
- * classes work without needing every component to wire it up.
+ * Returns the resolved scheme too as a convenience so settings UI can show
+ * "(currently: dark)" alongside the toggle.
  */
 export function useTheme() {
   const [mode, setMode] = useAtom(themeModeAtom);
-  const systemScheme = useRNColorScheme();
-  const { setColorScheme } = useNativewindColorScheme();
-
-  const scheme: ResolvedScheme =
-    mode === 'system' ? (systemScheme === 'dark' ? 'dark' : 'light') : mode;
-
-  // Keep NativeWind's internal scheme in sync with our atom-driven mode.
-  // This makes `dark:` modifier classes resolve correctly app-wide.
-  useEffect(() => {
-    setColorScheme(mode);
-  }, [mode, setColorScheme]);
-
-  return { mode, setMode, scheme };
+  const system = useRNColorScheme();
+  return { mode, setMode, scheme: resolve(mode, system) };
 }
 
 export type { ThemeMode };

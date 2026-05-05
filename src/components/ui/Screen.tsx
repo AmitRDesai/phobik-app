@@ -2,11 +2,11 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { FADE_HEIGHT } from '@/components/ui/ScrollFade';
 import { variantConfig, type Variant } from '@/components/variant-config';
 import { VariantProvider } from '@/components/variant-context';
-import { useTheme } from '@/hooks/useTheme';
+import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSegments } from 'expo-router';
-import { useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -88,17 +88,17 @@ export function Screen({
   const resolvedInsetBottom = insetBottom ?? (!inTabs && !isModal);
   const showFade = fade ?? scroll;
 
-  const { scheme } = useTheme();
+  const scheme = useScheme();
   const v = variantConfig[variant][scheme];
   const insets = useSafeAreaInsets();
 
   // Sticky height is measured at runtime so scroll content reserves the
   // exact amount needed — no fixed estimate, no last-row clipping.
   const [stickyHeight, setStickyHeight] = useState(0);
-  const onStickyLayout = (e: LayoutChangeEvent) => {
+  const onStickyLayout = useCallback((e: LayoutChangeEvent) => {
     const h = e.nativeEvent.layout.height;
-    if (h !== stickyHeight) setStickyHeight(h);
-  };
+    setStickyHeight((prev) => (prev === h ? prev : h));
+  }, []);
 
   const bottomReserve =
     (resolvedInsetBottom ? insets.bottom : 0) +
@@ -107,10 +107,38 @@ export function Screen({
 
   const bodyPaddingClass = className ?? DEFAULT_BODY_PADDING;
 
-  // Stable reference — ScrollView re-checks contentContainerStyle by identity.
+  // Stable references — both contentContainerStyle and the root style array
+  // are re-checked by identity by their consumers.
   const scrollContentStyle = useMemo(
     () => ({ paddingBottom: bottomReserve }),
     [bottomReserve],
+  );
+
+  const rootStyle = useMemo(
+    () => [
+      styles.root,
+      { backgroundColor: v.bgHex },
+      v.vars,
+      insetTop && { paddingTop: insets.top },
+    ],
+    [v.bgHex, v.vars, insetTop, insets.top],
+  );
+
+  const fadeStyle = useMemo(
+    () => [
+      styles.fade,
+      {
+        bottom: stickyHeight + (resolvedInsetBottom ? insets.bottom : 0),
+      },
+    ],
+    [stickyHeight, resolvedInsetBottom, insets.bottom],
+  );
+
+  const stickyInnerStyle = useMemo(
+    () => ({
+      paddingBottom: (resolvedInsetBottom ? insets.bottom : 0) || 16,
+    }),
+    [resolvedInsetBottom, insets.bottom],
   );
 
   const body = scroll ? (
@@ -138,32 +166,19 @@ export function Screen({
 
   return (
     <VariantProvider variant={variant}>
-      <View
-        style={[
-          styles.root,
-          { backgroundColor: v.bgHex },
-          v.vars,
-          insetTop && { paddingTop: insets.top },
-        ]}
-      >
+      <View style={rootStyle}>
         {v.glow && (
           <View pointerEvents="none" style={StyleSheet.absoluteFill}>
             <GlowBg {...v.glow} bgClassName="bg-transparent" />
           </View>
         )}
         {header}
-        <View style={styles.flex1}>{bodyWithKeyboard}</View>
+        {bodyWithKeyboard}
         {showFade && (
           <LinearGradient
             colors={['transparent', v.bgHex]}
             pointerEvents="none"
-            style={[
-              styles.fade,
-              {
-                bottom:
-                  stickyHeight + (resolvedInsetBottom ? insets.bottom : 0),
-              },
-            ]}
+            style={fadeStyle}
           />
         )}
         {sticky && (
@@ -173,13 +188,7 @@ export function Screen({
           >
             <View
               onLayout={onStickyLayout}
-              style={[
-                styles.stickyInner,
-                {
-                  paddingBottom:
-                    (resolvedInsetBottom ? insets.bottom : 0) || 16,
-                },
-              ]}
+              style={stickyInnerStyle}
               className="px-screen-x pt-2"
             >
               {sticky}
@@ -193,7 +202,6 @@ export function Screen({
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  flex1: { flex: 1 },
   fade: {
     position: 'absolute',
     left: 0,
@@ -206,5 +214,4 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  stickyInner: {},
 });

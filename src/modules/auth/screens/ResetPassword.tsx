@@ -152,13 +152,13 @@ export default function ResetPasswordScreen() {
         </View>
 
         {password.length > 0 && password.length < 8 && (
-          <Text className="mt-2 text-xs text-red-400">
+          <Text className="mt-2 text-xs text-status-danger">
             Password must be at least 8 characters
           </Text>
         )}
 
         {confirmPassword.length > 0 && password !== confirmPassword && (
-          <Text className="mt-2 text-xs text-red-400">
+          <Text className="mt-2 text-xs text-status-danger">
             Passwords don't match
           </Text>
         )}

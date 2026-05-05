@@ -2,10 +2,9 @@ import { BackButton } from '@/components/ui/BackButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Text } from '@/components/themed';
 import { dialog } from '@/utils/dialog';
-import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { type ReactNode } from 'react';
 
 export type HeaderVariant = 'back' | 'close' | 'wordmark';
@@ -62,7 +61,7 @@ export function Header({
   confirmCloseConfig,
   className,
 }: HeaderProps) {
-  const router = useRouter();
+  const { back, dismissAll, canGoBack } = useRouter();
 
   const dismiss = async () => {
     if (confirmClose) {
@@ -77,51 +76,19 @@ export function Header({
       });
       if (choice !== 'confirm') return;
     }
-    if (variant === 'close') router.dismissAll();
-    else router.back();
+    if (variant === 'close') dismissAll();
+    else back();
   };
 
-  let leftSlot: ReactNode = left;
-  if (leftSlot === undefined) {
-    if (variant === 'close') {
-      leftSlot = (
-        <Pressable
-          onPress={dismiss}
-          className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
-          accessibilityRole="button"
-          accessibilityLabel="Close"
-        >
-          <MaterialIcons name="close" size={22} color="white" />
-        </Pressable>
-      );
-    } else if (router.canGoBack()) {
-      leftSlot = <BackButton onPress={dismiss} />;
-    } else {
-      leftSlot = null;
-    }
-  }
+  const leftSlot = resolveLeftSlot({ left, variant, dismiss, canGoBack });
+  const center = renderCenter({ variant, title, subtitle });
 
   return (
     <View className={clsx('px-screen-x pt-2 pb-3', className)}>
       <View className="flex-row items-center justify-between">
         <View className="min-w-[40px] flex-row items-center">{leftSlot}</View>
         <View className="flex-1 flex-row items-center justify-center">
-          {variant === 'wordmark' ? (
-            <Text variant="h3" className="tracking-wide">
-              Phobik
-            </Text>
-          ) : title ? (
-            <View className="items-center">
-              <Text variant="h3" numberOfLines={1}>
-                {title}
-              </Text>
-              {subtitle ? (
-                <Text variant="body-sm" muted numberOfLines={1}>
-                  {subtitle}
-                </Text>
-              ) : null}
-            </View>
-          ) : null}
+          {center}
         </View>
         <View className="min-w-[40px] flex-row items-center justify-end">
           {right}
@@ -131,6 +98,56 @@ export function Header({
         <View className="mt-2 items-center">
           <ProgressDots current={progress.current} total={progress.total} />
         </View>
+      ) : null}
+    </View>
+  );
+}
+
+function resolveLeftSlot({
+  left,
+  variant,
+  dismiss,
+  canGoBack,
+}: {
+  left: ReactNode;
+  variant: HeaderVariant;
+  dismiss: () => void;
+  canGoBack: () => boolean;
+}): ReactNode {
+  if (left !== undefined) return left;
+  if (variant === 'close') {
+    return <BackButton icon="close" onPress={dismiss} />;
+  }
+  if (canGoBack()) return <BackButton onPress={dismiss} />;
+  return null;
+}
+
+function renderCenter({
+  variant,
+  title,
+  subtitle,
+}: {
+  variant: HeaderVariant;
+  title?: string;
+  subtitle?: string;
+}): ReactNode {
+  if (variant === 'wordmark') {
+    return (
+      <Text variant="h3" className="tracking-wide">
+        Phobik
+      </Text>
+    );
+  }
+  if (!title) return null;
+  return (
+    <View className="items-center">
+      <Text variant="h3" numberOfLines={1}>
+        {title}
+      </Text>
+      {subtitle ? (
+        <Text variant="body-sm" muted numberOfLines={1}>
+          {subtitle}
+        </Text>
       ) : null}
     </View>
   );
