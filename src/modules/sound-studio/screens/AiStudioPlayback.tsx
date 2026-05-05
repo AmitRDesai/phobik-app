@@ -250,9 +250,7 @@ export default function AiStudioPlayback() {
             <View className="mt-4">
               <GradientButton
                 compact
-                onPress={() =>
-                  router.push('/practices/emotion/sound-studio/ai/write')
-                }
+                onPress={() => router.push('/sound-studio/ai/write')}
                 icon={
                   <MaterialIcons name="arrow-forward" size={14} color="white" />
                 }

@@ -73,7 +73,7 @@ export const MEDITATIONS: Meditation[] = [
     duration: '30 min',
     listImage: listYogaNidraImg,
     introImage: yogaNidraImg,
-    route: '/practices/body/meditation/yoga-nidra',
+    route: '/meditations/yoga-nidra',
   },
   {
     id: 'breath-reset',
@@ -91,7 +91,7 @@ export const MEDITATIONS: Meditation[] = [
     ],
     listImage: listBreathResetImg,
     introImage: breathResetImg,
-    route: '/practices/body/meditation/breath-reset',
+    route: '/meditations/breath-reset',
     audioBaseKey: 'breath-reset',
   },
   {
@@ -111,7 +111,7 @@ export const MEDITATIONS: Meditation[] = [
     ],
     listImage: listBodyScanImg,
     introImage: bodyScanImg,
-    route: '/practices/body/meditation/body-scan',
+    route: '/meditations/body-scan',
     audioBaseKey: 'body-scan',
   },
   {
@@ -131,7 +131,7 @@ export const MEDITATIONS: Meditation[] = [
     ],
     listImage: listBefriendingYourFearImg,
     introImage: befriendingYourFearImg,
-    route: '/practices/body/meditation/befriending-your-fear',
+    route: '/meditations/befriending-your-fear',
     audioBaseKey: 'befriending-your-fear',
   },
   {
@@ -146,7 +146,7 @@ export const MEDITATIONS: Meditation[] = [
     duration: '18 min',
     listImage: listLettingGoImg,
     introImage: lettingGoImg,
-    route: '/practices/body/meditation/letting-go',
+    route: '/meditations/letting-go',
   },
   {
     id: 'loving-kindness',
@@ -165,7 +165,7 @@ export const MEDITATIONS: Meditation[] = [
     ],
     listImage: listLovingKindnessImg,
     introImage: lovingKindnessImg,
-    route: '/practices/body/meditation/loving-kindness',
+    route: '/meditations/loving-kindness',
     audioBaseKey: 'loving-kindness',
   },
   {
@@ -180,7 +180,7 @@ export const MEDITATIONS: Meditation[] = [
     duration: '10 min',
     listImage: listPresentMomentResetImg,
     introImage: presentMomentResetImg,
-    route: '/practices/body/meditation/present-moment-reset',
+    route: '/meditations/present-moment-reset',
   },
   {
     id: 'future-visualization',
@@ -198,7 +198,7 @@ export const MEDITATIONS: Meditation[] = [
     ],
     listImage: listFutureVisualizationImg,
     introImage: futureVisualizationImg,
-    route: '/practices/body/meditation/future-visualization',
+    route: '/meditations/future-visualization',
     audioBaseKey: 'future-visualization',
   },
 ];

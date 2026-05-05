@@ -22,7 +22,7 @@ export const SOUNDSCAPE_CATEGORIES: SoundscapeCategory[] = [
     subtitle: 'Curated soundscapes designed to align your physiological state.',
     meta: 'Goal: Align breath, heart rate, motion',
     image: curatedBody,
-    route: '/practices/emotion/sound-studio/curated/body',
+    route: '/sound-studio/curated/body',
   },
   {
     id: 'mind',
@@ -30,7 +30,7 @@ export const SOUNDSCAPE_CATEGORIES: SoundscapeCategory[] = [
     subtitle: 'Soundscapes that quiet mental loops and improve clarity.',
     meta: 'Goal: Quieten cognitive chatter',
     image: curatedMind,
-    route: '/practices/emotion/sound-studio/curated/mind',
+    route: '/sound-studio/curated/mind',
   },
   {
     id: 'emotion',
@@ -38,7 +38,7 @@ export const SOUNDSCAPE_CATEGORIES: SoundscapeCategory[] = [
     subtitle: 'Tonal palettes to gently process difficult emotional textures.',
     meta: 'Goal: Settle emotional intensity',
     image: curatedEmotion,
-    route: '/practices/emotion/sound-studio/curated/emotion',
+    route: '/sound-studio/curated/emotion',
   },
   {
     id: 'connection',
@@ -46,7 +46,7 @@ export const SOUNDSCAPE_CATEGORIES: SoundscapeCategory[] = [
     subtitle: 'Warm, relational sound fields for safety and attuned presence.',
     meta: 'Goal: Cultivate safety + connection',
     image: curatedConnection,
-    route: '/practices/emotion/sound-studio/curated/connection',
+    route: '/sound-studio/curated/connection',
   },
 ];
 

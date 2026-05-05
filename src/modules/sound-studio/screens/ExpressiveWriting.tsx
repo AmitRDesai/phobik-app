@@ -111,11 +111,7 @@ export default function ExpressiveWriting() {
 
       {/* Sticky bottom: Start Session */}
       <View className="border-t border-white/5 bg-background-charcoal/80 px-6 pb-8 pt-5">
-        <GradientButton
-          onPress={() =>
-            router.push('/practices/emotion/sound-studio/ai/write')
-          }
-        >
+        <GradientButton onPress={() => router.push('/sound-studio/ai/write')}>
           Start Session
         </GradientButton>
         <Text className="mt-3 text-center text-[10px] uppercase tracking-widest text-white/50">

@@ -25,7 +25,7 @@ export default function SoundStudioHub() {
     >
       {/* Credits row */}
       <Pressable
-        onPress={() => router.push('/practices/emotion/sound-studio/credits')}
+        onPress={() => router.push('/sound-studio/credits')}
         className="mt-2 flex-row items-center justify-between rounded-3xl border border-white/10 bg-white/5 p-5 active:scale-[0.98]"
       >
         <View>
@@ -48,7 +48,7 @@ export default function SoundStudioHub() {
 
       {/* Curated Soundscapes card */}
       <Pressable
-        onPress={() => router.push('/practices/emotion/sound-studio/curated')}
+        onPress={() => router.push('/sound-studio/curated')}
         className="mt-5 active:scale-[0.98]"
       >
         <View
@@ -74,9 +74,7 @@ export default function SoundStudioHub() {
           </Text>
           <View className="mt-5">
             <GradientButton
-              onPress={() =>
-                router.push('/practices/emotion/sound-studio/curated')
-              }
+              onPress={() => router.push('/sound-studio/curated')}
               icon={<MaterialIcons name="play-arrow" size={18} color="white" />}
             >
               Start Listening
@@ -87,7 +85,7 @@ export default function SoundStudioHub() {
 
       {/* AI Studio card */}
       <Pressable
-        onPress={() => router.push('/practices/emotion/sound-studio/ai/write')}
+        onPress={() => router.push('/sound-studio/ai/write')}
         className="mt-5 active:scale-[0.98]"
       >
         <View
@@ -113,9 +111,7 @@ export default function SoundStudioHub() {
           </Text>
           <View className="mt-5">
             <GradientButton
-              onPress={() =>
-                router.push('/practices/emotion/sound-studio/ai/write')
-              }
+              onPress={() => router.push('/sound-studio/ai/write')}
               icon={<MaterialIcons name="bolt" size={18} color="white" />}
             >
               Start Creating
@@ -163,9 +159,7 @@ export default function SoundStudioHub() {
 
       {/* Open Expressive Writing practice */}
       <Pressable
-        onPress={() =>
-          router.push('/practices/emotion/sound-studio/expressive-writing')
-        }
+        onPress={() => router.push('/sound-studio/expressive-writing')}
         className="mt-3 self-center"
       >
         <Text className="text-xs font-semibold uppercase tracking-widest text-accent-yellow">

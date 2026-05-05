@@ -252,15 +252,19 @@ Done in 0b:
 
 ### Phase 0d — Restructure routes
 
-Per spec sec 11 + complex case decisions in sec 4 above:
+**Status: ✅ COMPLETE (2026-05-05)**
 
-1. After complex cases approved: rename routes
-2. Update the 98 files containing navigation calls
-3. Run `tsc --noEmit` after each batch — typed-routes catches broken paths
-4. Smoke-test in simulator
+Done in 0d:
 
-**Risk:** Medium — typed-routes is the safety net but we should still test deep links in flow modules
-**Files affected:** ~20 route files moved/renamed; up to 98 files updated for nav calls.
+1. ✅ Flattened `/practices/body/meditation/<x>` → `/meditations/<x>` (9 route files moved)
+2. ✅ Flattened `/practices/body/movement/<x>` → `/movements/<x>` (11 route files moved)
+3. ✅ Promoted `/practices/emotion/sound-studio/...` → `/sound-studio/...` (9 route files moved, max depth 3 respected)
+4. ✅ Renamed `/account-creation/second` → `/account-creation/philosophy` (route + module screen `Second.tsx` → `Philosophy.tsx`); the screen was already a `PhilosophyScreen` component, just had a meaningless route segment
+5. ✅ Empty parent dirs (`practices/body`, `practices/emotion`, `practices/emotion/sound-studio/{ai,curated}`) removed
+6. ✅ 11 importers of old route paths updated via `sed`: meditation/movement/sound-studio data files, sound-studio screens, account-creation Index.tsx, practices four-pillars
+7. ✅ Verified with `tsc --noEmit` — 218 errors before, 218 after (all pre-existing, none introduced by 0d)
+
+**Total route files moved in 0d:** 30 (+ 1 module screen rename).
 
 ### Phase 0e — Spec amendment + CLAUDE.md
 

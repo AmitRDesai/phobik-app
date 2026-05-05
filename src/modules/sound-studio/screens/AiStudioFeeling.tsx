@@ -163,11 +163,7 @@ export default function AiStudioFeeling() {
                 <Text className="font-bold text-white">{FAKE_CREDITS}</Text>
               </Text>
             </View>
-            <Pressable
-              onPress={() =>
-                router.push('/practices/emotion/sound-studio/credits')
-              }
-            >
+            <Pressable onPress={() => router.push('/sound-studio/credits')}>
               <Text className="text-xs font-bold uppercase tracking-widest text-primary-pink">
                 Add credits
               </Text>
@@ -179,9 +175,7 @@ export default function AiStudioFeeling() {
       {/* Sticky bottom: Next */}
       <View className="border-t border-white/5 bg-background-charcoal/80 px-6 pb-8 pt-5">
         <GradientButton
-          onPress={() =>
-            router.push('/practices/emotion/sound-studio/ai/express')
-          }
+          onPress={() => router.push('/sound-studio/ai/express')}
           icon={<MaterialIcons name="arrow-forward" size={18} color="white" />}
         >
           Next: Express it (1 credit)

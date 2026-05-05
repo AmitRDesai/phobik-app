@@ -18,7 +18,7 @@ export default function AiStudioExpress() {
   useEffect(() => {
     if (progress >= 1) {
       const t = setTimeout(
-        () => router.replace('/practices/emotion/sound-studio/ai/playback'),
+        () => router.replace('/sound-studio/ai/playback'),
         800,
       );
       return () => clearTimeout(t);

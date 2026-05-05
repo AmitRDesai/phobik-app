@@ -92,8 +92,8 @@ export const MOVEMENT_EXERCISES: MovementExercise[] = [
     footerNote: 'Estimated duration: 11 Minutes',
     listImage: listKundaliniImg,
     introImage: kundaliniImg,
-    introRoute: '/practices/body/movement/kundalini-intro',
-    sessionRoute: '/practices/body/movement/kundalini-session',
+    introRoute: '/movements/kundalini-intro',
+    sessionRoute: '/movements/kundalini-session',
   },
   {
     id: 'mindful-walking',
@@ -122,8 +122,8 @@ export const MOVEMENT_EXERCISES: MovementExercise[] = [
     footerNote: 'Approx. 15 Minutes • Active Recovery',
     listImage: listMindfulWalkingImg,
     introImage: mindfulWalkingImg,
-    introRoute: '/practices/body/movement/mindful-walking-intro',
-    sessionRoute: '/practices/body/movement/mindful-walking-session',
+    introRoute: '/movements/mindful-walking-intro',
+    sessionRoute: '/movements/mindful-walking-session',
   },
   {
     id: 'qi-gong',
@@ -154,8 +154,8 @@ export const MOVEMENT_EXERCISES: MovementExercise[] = [
       'Instead of storing tension, your system gets a chance to reset, leaving you feeling lighter, more relaxed, and more present.',
     listImage: listQiGongImg,
     introImage: qiGongImg,
-    introRoute: '/practices/body/movement/qi-gong-intro',
-    sessionRoute: '/practices/body/movement/qi-gong-session',
+    introRoute: '/movements/qi-gong-intro',
+    sessionRoute: '/movements/qi-gong-session',
   },
   {
     id: 'pmr',
@@ -193,8 +193,8 @@ export const MOVEMENT_EXERCISES: MovementExercise[] = [
     footerNote: 'Prepare to lift arms as you double inhale',
     listImage: listPhysiologicalSighImg,
     introImage: physiologicalSighImg,
-    introRoute: '/practices/body/movement/physiological-sigh-intro',
-    sessionRoute: '/practices/body/movement/physiological-sigh-session',
+    introRoute: '/movements/physiological-sigh-intro',
+    sessionRoute: '/movements/physiological-sigh-session',
   },
   {
     id: 'tai-chi',
@@ -216,8 +216,8 @@ export const MOVEMENT_EXERCISES: MovementExercise[] = [
     footerNote: 'Recommended for early restorative cycles',
     listImage: listTaiChiImg,
     introImage: taiChiImg,
-    introRoute: '/practices/body/movement/tai-chi-intro',
-    sessionRoute: '/practices/body/movement/tai-chi-session',
+    introRoute: '/movements/tai-chi-intro',
+    sessionRoute: '/movements/tai-chi-session',
   },
 ];
 

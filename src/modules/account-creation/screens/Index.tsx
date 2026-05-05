@@ -68,7 +68,7 @@ export default function WelcomeScreen() {
               <ProgressDots total={7} current={1} />
             </View>
             <GradientButton
-              onPress={() => router.push('/account-creation/second')}
+              onPress={() => router.push('/account-creation/philosophy')}
               icon={<Ionicons name="chevron-forward" size={24} color="white" />}
             >
               Next

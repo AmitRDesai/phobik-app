@@ -154,9 +154,7 @@ export default function AiStudioWriteIt() {
       {/* Sticky bottom: Next */}
       <View className="border-t border-white/5 bg-background-charcoal/80 px-6 pb-8 pt-5">
         <GradientButton
-          onPress={() =>
-            router.push('/practices/emotion/sound-studio/ai/feeling')
-          }
+          onPress={() => router.push('/sound-studio/ai/feeling')}
           icon={<MaterialIcons name="arrow-forward" size={18} color="white" />}
         >
           Next
