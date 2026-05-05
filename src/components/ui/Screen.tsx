@@ -101,10 +101,14 @@ export function Screen({
     setStickyHeight((prev) => (prev === h ? prev : h));
   }, []);
 
+  // When the fade is on, it sits flush with the bottom of the screen and
+  // covers the safe-area inset region (the gradient starts transparent and
+  // ends in bg color, so the home-indicator area stays visually solid).
+  // Reserve scroll padding equal to the larger of FADE_HEIGHT and
+  // insets.bottom — they don't stack.
   const bottomReserve =
-    (resolvedInsetBottom ? insets.bottom : 0) +
-    (showFade ? FADE_HEIGHT : 0) +
-    stickyHeight;
+    stickyHeight +
+    (showFade ? FADE_HEIGHT : resolvedInsetBottom ? insets.bottom : 0);
 
   const bodyPaddingClass = className ?? DEFAULT_BODY_PADDING;
 
@@ -126,13 +130,8 @@ export function Screen({
   );
 
   const fadeStyle = useMemo(
-    () => [
-      styles.fade,
-      {
-        bottom: stickyHeight + (resolvedInsetBottom ? insets.bottom : 0),
-      },
-    ],
-    [stickyHeight, resolvedInsetBottom, insets.bottom],
+    () => [styles.fade, { bottom: stickyHeight }],
+    [stickyHeight],
   );
 
   const stickyInnerStyle = useMemo(
