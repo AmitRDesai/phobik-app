@@ -21,7 +21,7 @@ import { useStressScore } from '@/modules/home/hooks/useStressScore';
 
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { muscleRelaxationSessionAtom } from '../store/muscle-relaxation';
-import { formatTime } from '../utils/format';
+import { formatTime } from '../lib/format';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 

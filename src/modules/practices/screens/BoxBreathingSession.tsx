@@ -22,7 +22,7 @@ import { useInstructionAudio } from '../hooks/useInstructionAudio';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
 import { boxBreathingSessionAtom } from '../store/session-atoms';
-import { formatTime } from '../utils/format';
+import { formatTime } from '../lib/format';
 
 const PHASE_DURATION = 4;
 const CYCLE_DURATION = PHASE_DURATION * 4; // 16s

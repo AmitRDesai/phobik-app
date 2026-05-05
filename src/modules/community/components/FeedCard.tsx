@@ -1,7 +1,7 @@
 import { colors } from '@/constants/colors';
 import { ImageViewer } from '@/components/ui/ImageViewer';
 import { UserAvatar } from '@/components/ui/UserAvatar';
-import { formatCount } from '@/modules/practices/utils/format';
+import { formatCount } from '@/modules/practices/lib/format';
 import { useState } from 'react';
 import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { useToggleReaction } from '../hooks/useCommunityFeed';

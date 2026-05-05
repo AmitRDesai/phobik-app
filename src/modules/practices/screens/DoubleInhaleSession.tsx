@@ -31,7 +31,7 @@ import { useInstructionAudio } from '../hooks/useInstructionAudio';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
 import { doubleInhaleSessionAtom } from '../store/session-atoms';
-import { formatTime } from '../utils/format';
+import { formatTime } from '../lib/format';
 
 // ── Extracted Presentational Components ─────────────────────────────────────
 

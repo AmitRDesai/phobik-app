@@ -242,15 +242,13 @@ Done in 0b:
 
 ### Phase 0c — Standardize module folder structure
 
-Per spec sec 11. Mostly trivial:
+**Status: ✅ COMPLETE (2026-05-05)**
 
-1. `home/utils/` rename → moved in 0a (now `src/lib/biometrics/`)
-2. `practices/utils/` rename → `practices/lib/`
-3. `practices/types.ts` → `practices/types/index.ts`
-4. `calendar/types.ts` → `calendar/types/index.ts`
-
-**Risk:** Low — folder rename, no path-string changes (TypeScript catches everything).
-**Files affected:** ~10.
+1. ✅ `home/utils/` → `src/lib/biometrics/` (handled in 0a)
+2. ✅ `practices/utils/format.ts` → `practices/lib/format.ts`; updated 8 importers
+3. ✅ `practices/types.ts` → `practices/types/index.ts`; no import updates needed (TS resolves `../types` → `../types/index.ts` automatically)
+4. ✅ `calendar/types.ts` → `calendar/types/index.ts`; no import updates needed
+5. ✅ Verified with `tsc --noEmit` — 218 errors before, 218 after (all pre-existing, none introduced)
 
 ### Phase 0d — Restructure routes
 

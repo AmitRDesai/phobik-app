@@ -17,7 +17,7 @@ import { HeartRateBadge } from '../components/HeartRateBadge';
 import { ProgressRing } from '../components/ProgressRing';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { groundingSessionAtom } from '../store/grounding';
-import { formatTime } from '../utils/format';
+import { formatTime } from '../lib/format';
 
 interface SessionStep {
   count: number;

@@ -24,7 +24,7 @@ import { useInstructionAudio } from '../hooks/useInstructionAudio';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
 import { starBreathingSessionAtom } from '../store/session-atoms';
-import { formatTime } from '../utils/format';
+import { formatTime } from '../lib/format';
 
 const TOTAL_DURATION = 50; // one full star orbit (5 breathing cycles)
 

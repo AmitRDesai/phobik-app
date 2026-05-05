@@ -19,7 +19,7 @@ import { useInstructionAudio } from '../hooks/useInstructionAudio';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
 import { lazy8BreathingSessionAtom } from '../store/session-atoms';
-import { formatTime } from '../utils/format';
+import { formatTime } from '../lib/format';
 
 const CYCLE_DURATION = 8; // 4s inhale + 4s exhale
 const TOTAL_DURATION = CYCLE_DURATION * 5; // 5 cycles = 40s

@@ -19,7 +19,7 @@ import {
   SleepMeditationDuration,
   sleepMeditationSessionAtom,
 } from '../store/sleep-meditation';
-import { formatTime } from '../utils/format';
+import { formatTime } from '../lib/format';
 
 // ── Audio keys (resolved from backend manifest at runtime) ───────────────────
 
