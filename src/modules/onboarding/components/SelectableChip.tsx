@@ -1,5 +1,4 @@
-import { colors } from '@/constants/colors';
-import { Ionicons } from '@expo/vector-icons';
+import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 
@@ -7,27 +6,20 @@ interface SelectableChipProps {
   label: string;
   selected: boolean;
   onPress: () => void;
-  /** Show the checkmark when selected. Defaults to true. */
-  showCheckmark?: boolean;
 }
 
 export function SelectableChip({
   label,
   selected,
   onPress,
-  showCheckmark = true,
 }: SelectableChipProps) {
   const inner = (
     <View className="h-11 flex-row items-center px-5">
-      <Text className="text-sm font-bold text-white">{label}</Text>
-      {selected && showCheckmark && (
-        <Ionicons
-          name="checkmark-circle-outline"
-          size={18}
-          color="white"
-          style={{ marginLeft: 6 }}
-        />
-      )}
+      <Text
+        className={`text-sm font-bold ${selected ? 'text-white' : 'text-foreground/80'}`}
+      >
+        {label}
+      </Text>
     </View>
   );
 
@@ -40,16 +32,13 @@ export function SelectableChip({
           end={{ x: 1, y: 1 }}
           style={{
             borderRadius: 9999,
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.3,
-            shadowRadius: 8,
+            boxShadow: `0 0 8px ${withAlpha(colors.primary.pink, 0.3)}`,
           }}
         >
           {inner}
         </LinearGradient>
       ) : (
-        <View className="rounded-full bg-white/5">{inner}</View>
+        <View className="rounded-full bg-foreground/10">{inner}</View>
       )}
     </Pressable>
   );

@@ -1,3 +1,4 @@
+import { useScheme } from '@/hooks/useTheme';
 import { useSaveCalendarPrefs } from '@/modules/calendar/hooks/useSaveCalendarPrefs';
 import {
   calendarConnectedAtom,
@@ -5,7 +6,7 @@ import {
   selectedCalendarIdsAtom,
   supportToneAtom,
 } from '@/modules/calendar/store/calendar';
-import { colors, alpha, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtomValue } from 'jotai';
@@ -39,6 +40,9 @@ const PRIVACY_FEATURES: {
 ];
 
 export default function PrivacyTrust() {
+  const scheme = useScheme();
+  const lockIconColor = foregroundFor(scheme, { dark: 0.3, light: 0.4 });
+
   const calendarConnected = useAtomValue(calendarConnectedAtom);
   const selectedCalendarIds = useAtomValue(selectedCalendarIdsAtom);
   const checkInTiming = useAtomValue(checkInTimingAtom);
@@ -131,7 +135,7 @@ export default function PrivacyTrust() {
           </Text>
         </Pressable>
         <View className="flex-row items-center gap-1.5">
-          <MaterialIcons name="lock" size={12} color={alpha.white30} />
+          <MaterialIcons name="lock" size={12} color={lockIconColor} />
           <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground/30">
             End-to-End Encrypted
           </Text>

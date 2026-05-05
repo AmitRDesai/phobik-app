@@ -1,4 +1,4 @@
-import { colors, alpha } from '@/constants/colors';
+import { alpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -23,7 +23,7 @@ const TRIGGERS: {
   { id: 'heights', label: 'Fear of Heights', icon: 'landscape' },
   { id: 'claustrophobia', label: 'Claustrophobia', icon: 'view-in-ar' },
   { id: 'flying', label: 'Flying', icon: 'flight' },
-  { id: 'snakes', label: 'Snakes', icon: 'vital-signs' as any },
+  { id: 'snakes', label: 'Snakes', icon: 'pets' },
   { id: 'dentist', label: 'Dentist', icon: 'local-hospital' },
   {
     id: 'public-speaking',
@@ -77,13 +77,13 @@ export default function FearTriggers() {
     >
       {/* Search Input */}
       <View className="mb-4 flex-row items-center gap-2 rounded-xl border border-foreground/5 bg-foreground/5 px-3.5 py-3">
-        <MaterialIcons name="search" size={20} color={alpha.white30} />
+        <MaterialIcons name="search" size={20} color={alpha.neutral60} />
         <TextInput
           value={search}
           onChangeText={setSearch}
           placeholder="Search triggers..."
-          placeholderTextColor={colors.primary.muted}
-          className="flex-1 text-sm text-foreground android:p-0"
+          placeholderTextColor={alpha.neutral55}
+          className="android:p-0 flex-1 text-sm text-foreground"
         />
       </View>
 
@@ -104,13 +104,13 @@ export default function FearTriggers() {
         {/* Other input */}
         <View className="w-full">
           <View className="flex-row items-center gap-2 rounded-xl border border-foreground/5 bg-foreground/5 px-3.5 py-3">
-            <MaterialIcons name="edit-note" size={20} color={alpha.white20} />
+            <MaterialIcons name="edit-note" size={20} color={alpha.neutral60} />
             <TextInput
               value={customTrigger}
               onChangeText={setCustomTrigger}
               placeholder="Other (type here...)"
-              placeholderTextColor={alpha.white30}
-              className="flex-1 text-sm text-foreground android:p-0"
+              placeholderTextColor={alpha.neutral55}
+              className="android:p-0 flex-1 text-sm text-foreground"
             />
           </View>
         </View>

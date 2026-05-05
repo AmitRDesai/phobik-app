@@ -26,12 +26,9 @@ export default function EmailVerificationScreen() {
   const [isSending, setIsSending] = useState(false);
   const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Countdown timer for resend cooldown
-  useEffect(() => {
-    if (resendCooldown <= 0) {
-      if (cooldownRef.current) clearInterval(cooldownRef.current);
-      return;
-    }
+  const startCooldown = useCallback(() => {
+    setResendCooldown(RESEND_COOLDOWN_SECONDS);
+    if (cooldownRef.current) clearInterval(cooldownRef.current);
     cooldownRef.current = setInterval(() => {
       setResendCooldown((prev) => {
         if (prev <= 1) {
@@ -41,10 +38,14 @@ export default function EmailVerificationScreen() {
         return prev - 1;
       });
     }, 1000);
-    return () => {
+  }, []);
+
+  useEffect(
+    () => () => {
       if (cooldownRef.current) clearInterval(cooldownRef.current);
-    };
-  }, [resendCooldown]);
+    },
+    [],
+  );
 
   const checkVerification = useCallback(async () => {
     let result;
@@ -105,16 +106,16 @@ export default function EmailVerificationScreen() {
     const callbackURL = `${env.get('APP_SCHEME')}://email-verification`;
     try {
       await authClient.sendVerificationEmail({ email, callbackURL });
-      setResendCooldown(RESEND_COOLDOWN_SECONDS);
+      startCooldown();
     } catch {
       // Silently fail — user can try again
     }
     setIsSending(false);
-  }, [email, resendCooldown, isSending]);
+  }, [email, resendCooldown, isSending, startCooldown]);
 
   return (
     <Screen variant="auth" className="flex-1 items-center justify-center px-8">
-      <View className="items-center">
+      <View className="w-full items-center">
         {/* Icon */}
         <View
           className="mb-8 h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"

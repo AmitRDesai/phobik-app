@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { useSession } from '@/lib/auth';
@@ -91,11 +92,9 @@ export default function AuraPictureSetup() {
           >
             Looks Great
           </GradientButton>
-          <Pressable onPress={handleSkip} className="mt-4 py-3">
-            <Text className="text-center text-base font-medium text-foreground/55">
-              Maybe Later
-            </Text>
-          </Pressable>
+          <Button variant="ghost" onPress={handleSkip} className="mt-2">
+            Maybe Later
+          </Button>
         </View>
       }
       className=""

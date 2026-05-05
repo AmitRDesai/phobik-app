@@ -1,6 +1,6 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -111,10 +111,7 @@ export default function Completion() {
             className="absolute -left-1 bottom-12 h-6 w-6 rounded-full"
             style={{ backgroundColor: `${colors.primary.pink}4D` }}
           />
-          <View
-            className="absolute left-6 top-2 h-3 w-3 rounded-full"
-            style={{ backgroundColor: alpha.white40 }}
-          />
+          <View className="absolute left-6 top-2 h-3 w-3 rounded-full bg-foreground/40" />
         </View>
 
         <Text className="text-center text-4xl font-extrabold tracking-tight text-foreground">

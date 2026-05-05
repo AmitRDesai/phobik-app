@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { Pressable, Text, View } from 'react-native';
@@ -53,9 +54,7 @@ export function OnboardingLayout({
         <Pressable onPress={onSkip} className="h-10 justify-center">
           <Text className="text-sm font-medium text-primary-pink">Skip</Text>
         </Pressable>
-      ) : (
-        <View className="w-10" />
-      )}
+      ) : null}
     </View>
   );
 
@@ -70,16 +69,14 @@ export function OnboardingLayout({
         {buttonLabel}
       </GradientButton>
       {showStepCounter && (
-        <Text className="mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-foreground/55">
+        <Text className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
           Step {step} of {totalSteps}
         </Text>
       )}
       {onSkip && (
-        <Pressable onPress={onSkip} className="mt-2 py-2">
-          <Text className="text-center text-[11px] font-bold uppercase tracking-[0.15em] text-foreground/45">
-            Skip for now
-          </Text>
-        </Pressable>
+        <Button variant="ghost" onPress={onSkip} className="mt-2">
+          Skip for now
+        </Button>
       )}
     </View>
   );

@@ -190,7 +190,7 @@ export default function CreateAccountScreen() {
               setEmail(t);
               if (fieldErrors.email) clearFieldErrors();
             }}
-            icon="at"
+            icon="mail"
             keyboardType="email-address"
             autoCapitalize="none"
             labelUppercase={false}
@@ -291,7 +291,7 @@ export default function CreateAccountScreen() {
         >
           <Text className="text-center text-sm text-foreground/50">
             Already have an account?{' '}
-            <Text className="font-bold text-accent-purple">Sign In</Text>
+            <Text className="font-bold text-primary-pink">Sign In</Text>
           </Text>
         </Pressable>
       </View>

@@ -47,7 +47,6 @@ export function MoodTabs({
                 }
                 onChange(option);
               }}
-              showCheckmark={false}
             />
           );
         })}

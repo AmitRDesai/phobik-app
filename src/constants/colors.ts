@@ -75,6 +75,21 @@ export function withAlpha(hex: string, opacity: number): string {
   return `rgba(${r},${g},${b},${opacity})`;
 }
 
+/**
+ * Theme-aware foreground color for JS-string color props (Ionicons, SVG strokes,
+ * placeholderTextColor) where NativeWind classes can't reach. Returns white in
+ * dark mode and near-black in light mode, at the given opacity. Pass an
+ * `{ dark, light }` object when the two modes need different opacities (common
+ * because soft-black on white needs less alpha than soft-white on dark).
+ */
+export function foregroundFor(
+  scheme: 'dark' | 'light',
+  opacity: number | { dark: number; light: number } = 1,
+): string {
+  const o = typeof opacity === 'number' ? opacity : opacity[scheme];
+  return scheme === 'dark' ? `rgba(255,255,255,${o})` : `rgba(0,0,0,${o})`;
+}
+
 /** Opacity variants for icon/SVG props where className isn't supported */
 export const alpha = {
   white03: 'rgba(255,255,255,0.03)',
@@ -95,4 +110,9 @@ export const alpha = {
   black80: 'rgba(0,0,0,0.8)',
   black85: 'rgba(0,0,0,0.85)',
   black95: 'rgba(0,0,0,0.95)',
+  // Mid-gray that reads as a soft "muted" tone in both light and dark mode
+  // — useful for placeholder text and decorative icons that shouldn't flip
+  // with the theme.
+  neutral55: 'rgba(127,127,127,0.55)',
+  neutral60: 'rgba(127,127,127,0.6)',
 } as const;

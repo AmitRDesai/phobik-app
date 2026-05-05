@@ -1,4 +1,5 @@
 import { BlurView } from '@/components/ui/BlurView';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
@@ -25,14 +26,13 @@ export default function Welcome() {
           >
             Start
           </GradientButton>
-          <Pressable
+          <Button
+            variant="ghost"
             onPress={() => router.push('/onboarding/completion?skipped=true')}
-            className="mt-4 py-3"
+            className="mt-2"
           >
-            <Text className="text-center text-base font-medium text-foreground/45">
-              Skip for now
-            </Text>
-          </Pressable>
+            Skip for now
+          </Button>
         </View>
       }
       className=""

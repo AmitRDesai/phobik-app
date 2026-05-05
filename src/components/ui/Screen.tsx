@@ -101,14 +101,21 @@ export function Screen({
     setStickyHeight((prev) => (prev === h ? prev : h));
   }, []);
 
-  // When the fade is on, it sits flush with the bottom of the screen and
-  // covers the safe-area inset region (the gradient starts transparent and
-  // ends in bg color, so the home-indicator area stays visually solid).
-  // Reserve scroll padding equal to the larger of FADE_HEIGHT and
-  // insets.bottom — they don't stack.
-  const bottomReserve =
-    stickyHeight +
-    (showFade ? FADE_HEIGHT : resolvedInsetBottom ? insets.bottom : 0);
+  // Bottom reservation:
+  //  - Scroll bodies: stickyHeight + FADE_HEIGHT. The fade gradient sits
+  //    immediately above the sticky CTA; if we only reserved stickyHeight,
+  //    the last item would scroll up into the fade and get partially
+  //    faded out. Adding FADE_HEIGHT puts the last row's bottom edge
+  //    flush with the TOP of the fade — fully readable at scroll end.
+  //  - Non-scroll bodies: just stickyHeight (or safe-area inset). No
+  //    scroll-end concern, so no fade clearance needed; this keeps the
+  //    layout tight when content fits without scrolling.
+  const baseReserve = sticky
+    ? stickyHeight
+    : resolvedInsetBottom
+      ? insets.bottom
+      : 0;
+  const bottomReserve = scroll ? baseReserve + FADE_HEIGHT : baseReserve;
 
   const bodyPaddingClass = className ?? DEFAULT_BODY_PADDING;
 
@@ -137,8 +144,11 @@ export function Screen({
   const stickyInnerStyle = useMemo(
     () => ({
       paddingBottom: (resolvedInsetBottom ? insets.bottom : 0) || 16,
+      // Solid bg matching the variant so scrolled content doesn't bleed
+      // through the translucent sticky CTA at the seam.
+      backgroundColor: v.bgHex,
     }),
-    [resolvedInsetBottom, insets.bottom],
+    [resolvedInsetBottom, insets.bottom, v.bgHex],
   );
 
   const body = scroll ? (
@@ -153,7 +163,12 @@ export function Screen({
       {children}
     </ScrollView>
   ) : (
-    <View className={clsx('flex-1', bodyPaddingClass)}>{children}</View>
+    <View
+      className={clsx('flex-1', bodyPaddingClass)}
+      style={scrollContentStyle}
+    >
+      {children}
+    </View>
   );
 
   const bodyWithKeyboard = keyboard ? (

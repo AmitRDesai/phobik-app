@@ -1,4 +1,4 @@
-import { colors, alpha } from '@/constants/colors';
+import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -76,7 +76,7 @@ export default function RegulationPreference() {
               value={customTool}
               onChangeText={setCustomTool}
               placeholder="type here..."
-              placeholderTextColor={alpha.white20}
+              placeholderTextColor={alpha.neutral55}
               className="flex-1 text-sm text-foreground"
             />
           </View>

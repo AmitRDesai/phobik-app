@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 
@@ -14,7 +14,7 @@ export function SegmentedControl<T extends string>({
   onSelect,
 }: SegmentedControlProps<T>) {
   return (
-    <View className="h-12 flex-row gap-1 rounded-xl bg-white/5 p-1">
+    <View className="h-12 flex-row gap-1 rounded-xl bg-foreground/10 p-1">
       {options.map((option) => {
         const isSelected = selected === option.value;
 
@@ -34,10 +34,7 @@ export function SegmentedControl<T extends string>({
                   flex: 1,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  shadowColor: colors.primary.pink,
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 8,
+                  boxShadow: `0 0 8px ${withAlpha(colors.primary.pink, 0.3)}`,
                 }}
               >
                 <Text className="text-sm font-bold text-white">
@@ -46,7 +43,7 @@ export function SegmentedControl<T extends string>({
               </LinearGradient>
             ) : (
               <View className="flex-1 items-center justify-center rounded-lg">
-                <Text className="text-sm font-bold text-primary-muted">
+                <Text className="text-sm font-bold text-foreground/65">
                   {option.label}
                 </Text>
               </View>

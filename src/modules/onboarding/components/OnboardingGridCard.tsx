@@ -1,4 +1,5 @@
-import { colors, alpha } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
@@ -18,19 +19,22 @@ export function OnboardingGridCard({
   onPress,
   height = 92,
 }: OnboardingGridCardProps) {
+  const scheme = useScheme();
+  const idleIconColor = foregroundFor(scheme, { dark: 0.3, light: 0.45 });
+
   const cardInner = (
     <View
       className={`justify-center rounded-xl p-3.5 ${
-        selected ? 'bg-background-onboarding' : 'bg-white/5'
+        selected ? 'bg-surface' : 'bg-foreground/5'
       }`}
       style={{ minHeight: height }}
     >
       <MaterialIcons
         name={icon}
         size={28}
-        color={selected ? colors.primary.pink : alpha.white30}
+        color={selected ? colors.primary.pink : idleIconColor}
       />
-      <Text className="mt-2 text-sm font-bold leading-tight text-white/90">
+      <Text className="mt-2 text-sm font-bold leading-tight text-foreground/90">
         {label}
       </Text>
     </View>
@@ -48,14 +52,7 @@ export function OnboardingGridCard({
           {cardInner}
         </LinearGradient>
       ) : (
-        <View
-          style={{
-            borderRadius: 12,
-            padding: 2,
-          }}
-        >
-          {cardInner}
-        </View>
+        cardInner
       )}
     </Pressable>
   );

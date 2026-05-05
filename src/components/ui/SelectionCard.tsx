@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
@@ -23,14 +23,16 @@ export function SelectionCard({
   const cardContent = (
     <>
       {icon && (
-        <View className="h-10 w-10 items-center justify-center rounded-full bg-white/10">
+        <View className="h-10 w-10 items-center justify-center rounded-full bg-foreground/10">
           {icon}
         </View>
       )}
       <View className="flex-1">
-        <Text className="text-base font-semibold text-white">{label}</Text>
+        <Text className="text-base font-semibold text-foreground">{label}</Text>
         {description && (
-          <Text className="mt-0.5 text-sm text-white/50">{description}</Text>
+          <Text className="mt-0.5 text-sm text-foreground/55">
+            {description}
+          </Text>
         )}
       </View>
       {variant === 'radio' ? (
@@ -45,7 +47,7 @@ export function SelectionCard({
     const cardInner = (
       <View
         className={`flex-row items-center gap-4 rounded-2xl px-4 py-4 ${
-          selected ? 'bg-background-charcoal' : 'bg-white/5'
+          selected ? 'bg-surface-elevated' : 'bg-foreground/5'
         }`}
       >
         {cardContent}
@@ -74,15 +76,14 @@ export function SelectionCard({
     <Pressable onPress={onPress}>
       <View
         className={`flex-row items-center gap-4 rounded-2xl border px-4 py-4 ${
-          selected ? 'border-primary-pink' : 'border-white/10 bg-white/5'
+          selected
+            ? 'border-primary-pink'
+            : 'border-foreground/10 bg-foreground/5'
         }`}
         style={
           selected
             ? {
-                shadowColor: colors.primary.pink,
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.3,
-                shadowRadius: 12,
+                boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.3)}`,
               }
             : undefined
         }
@@ -97,7 +98,7 @@ function RadioIndicator({ selected }: { selected: boolean }) {
   return (
     <View
       className={`h-6 w-6 items-center justify-center rounded-full border-2 ${
-        selected ? 'border-primary-pink' : 'border-white/20'
+        selected ? 'border-primary-pink' : 'border-foreground/25'
       }`}
     >
       {selected && <View className="h-3 w-3 rounded-full bg-primary-pink" />}
@@ -109,7 +110,7 @@ function CheckboxIndicator({ selected }: { selected: boolean }) {
   return (
     <View
       className={`h-6 w-6 items-center justify-center rounded-full ${
-        selected ? 'bg-accent-yellow' : 'bg-white/10'
+        selected ? 'bg-accent-yellow' : 'bg-foreground/15'
       }`}
     >
       {selected && <Ionicons name="checkmark-sharp" size={14} color="black" />}

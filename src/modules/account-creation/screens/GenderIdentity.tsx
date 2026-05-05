@@ -1,19 +1,17 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
-import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors } from '@/constants/colors';
-import { Ionicons } from '@expo/vector-icons';
-import { router, usePathname } from 'expo-router';
-import { useAtom } from 'jotai';
-import { ScrollView, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { GlowBg } from '@/components/ui/GlowBg';
+import { Screen } from '@/components/ui/Screen';
 import { SelectionCard } from '@/components/ui/SelectionCard';
+import { colors } from '@/constants/colors';
 import {
   type GenderIdentity,
   questionnaireGenderAtom,
 } from '@/store/onboarding';
+import { Ionicons } from '@expo/vector-icons';
+import { router, usePathname } from 'expo-router';
+import { useAtom } from 'jotai';
+import { Text, View } from 'react-native';
 
 const GENDER_OPTIONS: {
   value: GenderIdentity;
@@ -42,77 +40,61 @@ export default function GenderIdentityScreen() {
     : '/account-creation/goal-selection';
 
   return (
-    <View className="flex-1">
-      <GlowBg centerX={0.85} centerY={0.0} intensity={0.75} radius={0.35} />
-      <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
-        <View className="flex-1">
-          {/* Header */}
-          <View className="z-20 flex-row items-center justify-between px-6 pb-4 pt-8">
-            <BackButton />
-            <ProgressDots total={totalSteps} current={currentStep} />
-            <View className="w-10" />
-          </View>
-
-          {/* Title + Subtitle */}
-          <View className="px-8">
-            <Text className="text-center text-3xl font-extrabold tracking-tight text-foreground">
-              How do you identify?
-            </Text>
-            <Text className="mt-3 text-center text-sm text-foreground/60">
-              This data helps us personalize your mental health journey with
-              supportive, tailored care.
-            </Text>
-          </View>
-
-          {/* Content */}
-          <ScrollFade>
-            <ScrollView
-              className="flex-1 px-8"
-              contentContainerStyle={{ paddingBottom: FADE_HEIGHT }}
-              showsVerticalScrollIndicator={false}
-            >
-              <View className="mt-8 gap-4">
-                {GENDER_OPTIONS.map((option) => (
-                  <SelectionCard
-                    key={option.value}
-                    label={option.label}
-                    selected={selectedGender === option.value}
-                    onPress={() => setSelectedGender(option.value)}
-                    variant="radio"
-                    icon={
-                      <Ionicons
-                        name={option.icon}
-                        size={20}
-                        color={colors.primary.pink}
-                      />
-                    }
-                  />
-                ))}
-              </View>
-            </ScrollView>
-          </ScrollFade>
-
-          {/* Footer */}
-          <View className="z-10 px-8 pb-8">
-            <GradientButton
-              onPress={() => router.push(nextRoute)}
-              disabled={selectedGender === null}
-              icon={<Ionicons name="arrow-forward" size={24} color="white" />}
-            >
-              Continue
-            </GradientButton>
-            <View className="mt-3 items-center">
-              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
-                Step {currentStep} of {totalSteps}
-              </Text>
-            </View>
-            <Text className="mt-3 text-center text-xs text-foreground/30">
-              PHOBIK values your privacy. Your data is encrypted and used only
-              to enhance your experience.
-            </Text>
-          </View>
+    <Screen
+      variant="auth"
+      scroll
+      header={
+        <View className="flex-row items-center justify-between px-6 pb-4 pt-2">
+          <BackButton />
+          <ProgressDots total={totalSteps} current={currentStep} />
+          <View className="w-10" />
         </View>
-      </SafeAreaView>
-    </View>
+      }
+      sticky={
+        <View className="items-center">
+          <GradientButton
+            onPress={() => router.push(nextRoute)}
+            disabled={selectedGender === null}
+            icon={<Ionicons name="arrow-forward" size={24} color="white" />}
+          >
+            Continue
+          </GradientButton>
+          <Text className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
+            Step {currentStep} of {totalSteps}
+          </Text>
+          <Text className="mt-3 text-center text-xs text-foreground/45">
+            PHOBIK values your privacy. Your data is encrypted and used only to
+            enhance your experience.
+          </Text>
+        </View>
+      }
+      className="px-8 pt-2"
+    >
+      <Text className="text-center text-3xl font-extrabold tracking-tight text-foreground">
+        How do you identify?
+      </Text>
+      <Text className="mt-3 text-center text-sm text-foreground/60">
+        This data helps us personalize your mental health journey with
+        supportive, tailored care.
+      </Text>
+      <View className="mt-8 gap-4">
+        {GENDER_OPTIONS.map((option) => (
+          <SelectionCard
+            key={option.value}
+            label={option.label}
+            selected={selectedGender === option.value}
+            onPress={() => setSelectedGender(option.value)}
+            variant="radio"
+            icon={
+              <Ionicons
+                name={option.icon}
+                size={20}
+                color={colors.primary.pink}
+              />
+            }
+          />
+        ))}
+      </View>
+    </Screen>
   );
 }

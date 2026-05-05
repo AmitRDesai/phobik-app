@@ -106,7 +106,7 @@ export function DialogContainer() {
 
       {/* Bottom sheet */}
       <EaseView
-        className="absolute bottom-0 left-0 right-0 rounded-t-[2.5rem] bg-[#24111b]"
+        className="absolute bottom-0 left-0 right-0 rounded-t-[2.5rem] bg-surface-elevated"
         initialAnimate={{ translateY: 300 }}
         animate={{ translateY: isOpen ? 0 : 300 }}
         transition={{
@@ -118,7 +118,7 @@ export function DialogContainer() {
       >
         {/* Drag handle */}
         <View className="items-center pt-3">
-          <View className="h-1 w-10 rounded-full bg-white/20" />
+          <View className="h-1 w-10 rounded-full bg-foreground/25" />
         </View>
 
         <View className="px-6 pb-6 pt-4">
@@ -134,14 +134,14 @@ export function DialogContainer() {
 
               {/* Title */}
               {renderState.title && (
-                <Text className="mt-4 text-center text-xl font-bold text-white">
+                <Text className="mt-4 text-center text-xl font-bold text-foreground">
                   {renderState.title}
                 </Text>
               )}
 
               {/* Message */}
               {renderState.message && (
-                <Text className="mt-2 text-center text-base leading-6 text-white/60">
+                <Text className="mt-2 text-center text-base leading-6 text-foreground/60">
                   {renderState.message}
                 </Text>
               )}
@@ -233,7 +233,7 @@ function DialogButtonView({
   // secondary
   return (
     <Pressable onPress={onPress} className="items-center py-3">
-      <Text className="text-base font-medium text-white/50">
+      <Text className="text-base font-medium text-foreground/55">
         {button.label}
       </Text>
     </Pressable>

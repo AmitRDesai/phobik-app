@@ -1,60 +1,60 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
-import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors } from '@/constants/colors';
+import { Screen } from '@/components/ui/Screen';
+import { SelectionCard } from '@/components/ui/SelectionCard';
+import { foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+import { type Goal, questionnaireGoalsAtom } from '@/store/onboarding';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
-import { ScrollView, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { GlowBg } from '@/components/ui/GlowBg';
-import { SelectionCard } from '@/components/ui/SelectionCard';
-import { type Goal, questionnaireGoalsAtom } from '@/store/onboarding';
+import type { ReactNode } from 'react';
+import { Text, View } from 'react-native';
 
-const GOAL_OPTIONS: {
+type IconRenderProps = { size: number; color: string };
+
+type GoalOption = {
   value: Goal;
   label: string;
   description: string;
-  icon: React.ReactNode;
-}[] = [
+  renderIcon: (props: IconRenderProps) => ReactNode;
+};
+
+const GOAL_OPTIONS: GoalOption[] = [
   {
     value: 'reduce-anxiety',
     label: 'Reduce Panic & Anxiety',
     description: 'Manage symptoms and find calm',
-    icon: (
-      <MaterialCommunityIcons name="head-cog-outline" size={20} color="white" />
+    renderIcon: (p) => (
+      <MaterialCommunityIcons name="head-cog-outline" {...p} />
     ),
   },
   {
     value: 'build-resilience',
     label: 'Build Resilience',
     description: 'Strengthen your mental fortitude',
-    icon: (
-      <MaterialCommunityIcons
-        name="shield-check-outline"
-        size={20}
-        color="white"
-      />
+    renderIcon: (p) => (
+      <MaterialCommunityIcons name="shield-check-outline" {...p} />
     ),
   },
   {
     value: 'improve-sleep',
     label: 'Improve Sleep Quality',
     description: 'Rest deeper and wake refreshed',
-    icon: <Ionicons name="moon-outline" size={20} color="white" />,
+    renderIcon: (p) => <Ionicons name="moon-outline" {...p} />,
   },
   {
     value: 'face-social-fears',
     label: 'Face Social Fears',
     description: 'Connect with confidence and ease',
-    icon: <Ionicons name="people-outline" size={20} color="white" />,
+    renderIcon: (p) => <Ionicons name="people-outline" {...p} />,
   },
   {
     value: 'daily-mindfulness',
     label: 'Daily Mindfulness',
     description: 'Practice being present every day',
-    icon: <MaterialCommunityIcons name="meditation" size={20} color="white" />,
+    renderIcon: (p) => <MaterialCommunityIcons name="meditation" {...p} />,
   },
 ];
 
@@ -62,6 +62,8 @@ export default function GoalSelectionScreen() {
   const [selectedGoals, setSelectedGoals] = useAtom(questionnaireGoalsAtom);
   const pathname = usePathname();
   const isProfileSetup = pathname.startsWith('/profile-setup');
+  const scheme = useScheme();
+  const iconColor = foregroundFor(scheme, { dark: 1, light: 0.78 });
 
   const totalSteps = isProfileSetup ? 5 : 7;
   const currentStep = isProfileSetup ? 3 : 5;
@@ -78,77 +80,52 @@ export default function GoalSelectionScreen() {
   };
 
   return (
-    <View className="flex-1">
-      <GlowBg
-        centerY={0.0}
-        intensity={1.5}
-        radius={0.5}
-        startColor={colors.primary.pink}
-        endColor={colors.chakra.orange}
-      />
-      <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
-        <View className="flex-1">
-          {/* Header */}
-          <View className="z-20 flex-row items-center justify-between px-6 pb-4 pt-8">
-            <BackButton />
-
-            <ProgressDots total={totalSteps} current={currentStep} />
-
-            <View className="w-10" />
-          </View>
-
-          {/* Title + Subtitle */}
-          <View className="px-8">
-            <Text className="text-center text-3xl font-extrabold tracking-tight text-foreground">
-              What brings you here?
-            </Text>
-            <Text className="mt-3 text-center text-sm text-foreground/60">
-              Select the goals that matter most to you. We&apos;ll tailor your
-              path accordingly.
-            </Text>
-          </View>
-
-          {/* Content */}
-          <ScrollFade>
-            <ScrollView
-              className="flex-1 px-8"
-              contentContainerStyle={{ paddingBottom: FADE_HEIGHT }}
-              showsVerticalScrollIndicator={false}
-            >
-              <View className="mt-8 gap-4">
-                {GOAL_OPTIONS.map((option) => (
-                  <SelectionCard
-                    key={option.value}
-                    label={option.label}
-                    description={option.description}
-                    icon={option.icon}
-                    selected={selectedGoals.includes(option.value)}
-                    onPress={() => toggleGoal(option.value)}
-                    variant="checkbox"
-                  />
-                ))}
-              </View>
-            </ScrollView>
-          </ScrollFade>
-
-          {/* Footer */}
-          <View className="z-10 px-8 pb-8">
-            <GradientButton
-              onPress={() => router.push(nextRoute)}
-              disabled={selectedGoals.length === 0}
-              icon={<Ionicons name="arrow-forward" size={24} color="white" />}
-            >
-              Continue
-            </GradientButton>
-
-            <View className="mt-3 items-center">
-              <Text className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
-                Step {currentStep} of {totalSteps}
-              </Text>
-            </View>
-          </View>
+    <Screen
+      variant="auth"
+      scroll
+      header={
+        <View className="flex-row items-center justify-between px-6 pb-4 pt-2">
+          <BackButton />
+          <ProgressDots total={totalSteps} current={currentStep} />
+          <View className="w-10" />
         </View>
-      </SafeAreaView>
-    </View>
+      }
+      sticky={
+        <View className="items-center">
+          <GradientButton
+            onPress={() => router.push(nextRoute)}
+            disabled={selectedGoals.length === 0}
+            icon={<Ionicons name="arrow-forward" size={24} color="white" />}
+          >
+            Continue
+          </GradientButton>
+          <Text className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
+            Step {currentStep} of {totalSteps}
+          </Text>
+        </View>
+      }
+      className="px-8 pt-2"
+    >
+      <Text className="text-center text-3xl font-extrabold tracking-tight text-foreground">
+        What brings you here?
+      </Text>
+      <Text className="mt-3 text-center text-sm text-foreground/60">
+        Select the goals that matter most to you. We&apos;ll tailor your path
+        accordingly.
+      </Text>
+      <View className="mt-8 gap-4">
+        {GOAL_OPTIONS.map((option) => (
+          <SelectionCard
+            key={option.value}
+            label={option.label}
+            description={option.description}
+            icon={option.renderIcon({ size: 20, color: iconColor })}
+            selected={selectedGoals.includes(option.value)}
+            onPress={() => toggleGoal(option.value)}
+            variant="checkbox"
+          />
+        ))}
+      </View>
+    </Screen>
   );
 }

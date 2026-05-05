@@ -1,4 +1,5 @@
-import { colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import * as Haptics from 'expo-haptics';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
@@ -21,6 +22,9 @@ const TRANSLATE_X = TRACK_WIDTH - THUMB_SIZE - TRACK_PADDING * 2;
 
 export function AuraFilterToggle({ enabled, onToggle }: AuraFilterToggleProps) {
   const progress = useSharedValue(enabled ? 1 : 0);
+  const scheme = useScheme();
+  const trackOffColor = foregroundFor(scheme, { dark: 0.18, light: 0.12 });
+  const thumbColor = scheme === 'dark' ? 'white' : 'rgba(255,255,255,0.95)';
 
   const handlePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -32,7 +36,7 @@ export function AuraFilterToggle({ enabled, onToggle }: AuraFilterToggleProps) {
     backgroundColor: interpolateColor(
       progress.value,
       [0, 1],
-      [colors.aura.toggle, colors.primary.pink],
+      [trackOffColor, colors.primary.pink],
     ),
   }));
 
@@ -41,13 +45,13 @@ export function AuraFilterToggle({ enabled, onToggle }: AuraFilterToggleProps) {
   }));
 
   return (
-    <View className="rounded-2xl border border-aura-border bg-background-charcoal p-5">
+    <View className="rounded-2xl border border-foreground/10 bg-surface-elevated p-5">
       <View className="flex-row items-center justify-between">
         <View className="flex-1 gap-1">
-          <Text className="text-base font-bold text-white">
+          <Text className="text-base font-bold text-foreground">
             Apply Aura Filter
           </Text>
-          <Text className="text-sm text-primary-muted">
+          <Text className="text-sm text-foreground/55">
             Enhance your photo with our signature glow
           </Text>
         </View>
@@ -70,7 +74,7 @@ export function AuraFilterToggle({ enabled, onToggle }: AuraFilterToggleProps) {
                   width: THUMB_SIZE,
                   height: THUMB_SIZE,
                   borderRadius: THUMB_SIZE / 2,
-                  backgroundColor: 'white',
+                  backgroundColor: thumbColor,
                 },
                 thumbStyle,
               ]}

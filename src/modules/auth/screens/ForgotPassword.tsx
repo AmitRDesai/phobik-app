@@ -47,7 +47,7 @@ export default function ForgotPasswordScreen() {
         variant="auth"
         className="flex-1 items-center justify-center px-8"
       >
-        <View className="items-center">
+        <View className="w-full items-center">
           {/* Icon */}
           <View
             className="mb-8 h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"

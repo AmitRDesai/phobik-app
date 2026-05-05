@@ -38,27 +38,29 @@ export const questionnaireAtom = atomWithStorage<Questionnaire>(
   storage,
 );
 
-// Sync version — returns previous/default while hydrating, never triggers Suspense
-const syncQuestionnaireAtom = unwrap(
-  questionnaireAtom,
-  (prev) => prev ?? defaultQuestionnaire,
-);
+// Sync version — returns previous/default while hydrating, never triggers Suspense.
+// Merges with defaults so stored values from older app versions that lack newer
+// fields (e.g. `goals`) don't read as undefined.
+const syncQuestionnaireAtom = unwrap(questionnaireAtom, (prev) => ({
+  ...defaultQuestionnaire,
+  ...(prev ?? {}),
+}));
 
 // Derived atoms for individual screens (read/write to questionnaireAtom fields)
 export const questionnaireAgeAtom = atom(
-  (get) => get(syncQuestionnaireAtom).age,
+  (get) => get(syncQuestionnaireAtom).age ?? null,
   (get, set, value: AgeRange | null) =>
     set(questionnaireAtom, { ...get(syncQuestionnaireAtom), age: value }),
 );
 
 export const questionnaireGenderAtom = atom(
-  (get) => get(syncQuestionnaireAtom).gender,
+  (get) => get(syncQuestionnaireAtom).gender ?? null,
   (get, set, value: GenderIdentity | null) =>
     set(questionnaireAtom, { ...get(syncQuestionnaireAtom), gender: value }),
 );
 
 export const questionnaireGoalsAtom = atom(
-  (get) => get(syncQuestionnaireAtom).goals,
+  (get) => get(syncQuestionnaireAtom).goals ?? [],
   (get, set, value: Goal[]) =>
     set(questionnaireAtom, { ...get(syncQuestionnaireAtom), goals: value }),
 );

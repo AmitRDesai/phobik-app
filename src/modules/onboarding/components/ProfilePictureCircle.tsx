@@ -1,4 +1,5 @@
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { Pressable, View } from 'react-native';
@@ -15,17 +16,16 @@ export function ProfilePictureCircle({
   auraEnabled,
   onCameraPress,
 }: ProfilePictureCircleProps) {
+  const scheme = useScheme();
+  const fallbackIconColor = foregroundFor(scheme, { dark: 0.15, light: 0.18 });
+
   return (
     <View
       className="relative items-center justify-center"
       style={
         auraEnabled
           ? {
-              shadowColor: colors.primary.pink,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.4,
-              shadowRadius: 60,
-              elevation: 20,
+              boxShadow: `0 0 60px ${withAlpha(colors.primary.pink, 0.4)}`,
             }
           : undefined
       }
@@ -38,8 +38,8 @@ export function ProfilePictureCircle({
             contentFit="cover"
           />
         ) : (
-          <View className="flex-1 items-center justify-center bg-background-charcoal rounded-full">
-            <Ionicons name="person" size={80} color={alpha.white15} />
+          <View className="flex-1 items-center justify-center rounded-full bg-foreground/10">
+            <Ionicons name="person" size={80} color={fallbackIconColor} />
           </View>
         )}
         {auraEnabled && imageUri && <AuraFilterOverlay />}
@@ -48,13 +48,9 @@ export function ProfilePictureCircle({
       {/* Camera FAB */}
       <Pressable
         onPress={onCameraPress}
-        className="absolute bottom-2 right-2 items-center justify-center rounded-full border-4 border-background-dark bg-primary-pink p-3"
+        className="absolute bottom-2 right-2 items-center justify-center rounded-full border-4 border-surface bg-primary-pink p-3"
         style={{
-          shadowColor: colors.primary.pink,
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.4,
-          shadowRadius: 8,
-          elevation: 8,
+          boxShadow: `0 4px 8px ${withAlpha(colors.primary.pink, 0.4)}`,
         }}
       >
         <Ionicons name="camera" size={20} color="white" />

@@ -94,7 +94,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
   return (
     <View className="gap-6">
       {/* Calendar feature card */}
-      <View className="overflow-hidden rounded-2xl border border-white/5 bg-white/5">
+      <View className="overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/5">
         {/* Hero gradient */}
         <View className="h-36 items-center justify-center">
           <LinearGradient
@@ -134,10 +134,10 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
         {/* Card content */}
         <View className="gap-4 p-5">
           <View>
-            <Text className="text-xl font-bold text-white">
+            <Text className="text-xl font-bold text-foreground">
               Calendar Intelligence
             </Text>
-            <Text className="mt-2 text-sm leading-relaxed text-primary-muted">
+            <Text className="mt-2 text-sm leading-relaxed text-foreground/60">
               We&apos;ll scan for high-stress keywords like &quot;Performance
               Review&quot; or &quot;Public Speaking&quot; to offer pre-emptive
               nervous system support.
@@ -161,7 +161,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
               </GradientButton>
               {onSkip && (
                 <Pressable onPress={onSkip}>
-                  <Text className="text-center text-sm font-medium text-white/40">
+                  <Text className="text-center text-sm font-medium text-foreground/55">
                     Maybe later
                   </Text>
                 </Pressable>
@@ -171,7 +171,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
 
           {!connected && denied && (
             <View className="gap-3">
-              <Text className="text-sm leading-relaxed text-white/60">
+              <Text className="text-sm leading-relaxed text-foreground/60">
                 Calendar access was denied. You can enable it in your device
                 settings to let Phobik prepare you for stressful events.
               </Text>
@@ -183,7 +183,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
               </GradientButton>
               {onSkip && (
                 <Pressable onPress={onSkip}>
-                  <Text className="text-center text-sm font-medium text-white/40">
+                  <Text className="text-center text-sm font-medium text-foreground/55">
                     Skip for now
                   </Text>
                 </Pressable>
@@ -204,14 +204,14 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                 size={20}
                 color={colors.primary.pink}
               />
-              <Text className="text-base font-bold text-white">
+              <Text className="text-base font-bold text-foreground">
                 Which calendars to watch?
               </Text>
             </View>
             {calendars.length === 0 ? (
-              <View className="items-center rounded-xl border border-white/5 bg-white/5 p-6">
+              <View className="items-center rounded-xl border border-foreground/10 bg-foreground/5 p-6">
                 <ActivityIndicator color={colors.primary.pink} />
-                <Text className="mt-2 text-sm text-white/40">
+                <Text className="mt-2 text-sm text-foreground/55">
                   Loading calendars...
                 </Text>
               </View>
@@ -224,7 +224,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                       key={cal.stableId}
                       onPress={() => toggleCalendar(cal.stableId)}
                     >
-                      <View className="flex-row items-center justify-between rounded-xl border border-white/5 bg-white/5 p-4">
+                      <View className="flex-row items-center justify-between rounded-xl border border-foreground/10 bg-foreground/5 p-4">
                         <View className="flex-1 flex-row items-center gap-3">
                           <View
                             className="h-3 w-3 rounded-full"
@@ -232,13 +232,13 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                           />
                           <View className="flex-1">
                             <Text
-                              className="font-medium text-white"
+                              className="font-medium text-foreground"
                               numberOfLines={1}
                             >
                               {cal.title}
                             </Text>
                             <Text
-                              className="text-xs text-white/40"
+                              className="text-xs text-foreground/55"
                               numberOfLines={1}
                             >
                               {cal.sourceName}
@@ -249,7 +249,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                           className={`h-6 w-6 items-center justify-center rounded-full ${
                             isSelected
                               ? 'bg-primary-pink'
-                              : 'border-2 border-white/20'
+                              : 'border-2 border-foreground/25'
                           }`}
                         >
                           {isSelected && (
@@ -270,7 +270,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
 
           {/* Check-in timing */}
           <View>
-            <Text className="mb-3 text-base font-bold text-white">
+            <Text className="mb-3 text-base font-bold text-foreground">
               When should we check in?
             </Text>
             <SegmentedControl
@@ -282,7 +282,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
 
           {/* Support tone */}
           <View>
-            <Text className="mb-3 text-base font-bold text-white">
+            <Text className="mb-3 text-base font-bold text-foreground">
               Choose your support tone
             </Text>
             <View className="gap-3">

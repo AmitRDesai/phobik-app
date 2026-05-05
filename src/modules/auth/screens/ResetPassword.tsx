@@ -66,7 +66,7 @@ export default function ResetPasswordScreen() {
         variant="auth"
         className="flex-1 items-center justify-center px-8"
       >
-        <View className="items-center">
+        <View className="w-full items-center">
           <View className="mb-8 h-28 w-28 items-center justify-center rounded-full border border-red-500/30 bg-red-500/10">
             <Ionicons name="alert-circle" size={48} color="#ef4444" />
           </View>

@@ -1,8 +1,11 @@
+import { BackButton } from '@/components/ui/BackButton';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
-import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { Screen } from '@/components/ui/Screen';
+import { colors, withAlpha } from '@/constants/colors';
 import { useSaveProfile } from '@/hooks/auth/useProfile';
+import { questionnaireAtom } from '@/store/onboarding';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,10 +13,7 @@ import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { GlowBg } from '@/components/ui/GlowBg';
-import { questionnaireAtom } from '@/store/onboarding';
+import { Pressable, Text, View } from 'react-native';
 
 export default function TermsOfServiceScreen() {
   const { modal } = useLocalSearchParams<{ modal?: string }>();
@@ -25,8 +25,6 @@ export default function TermsOfServiceScreen() {
   const currentStep = isProfileSetup ? 5 : 7;
 
   const setQuestionnaire = useSetAtom(questionnaireAtom);
-
-  // For profile-setup: read questionnaire values to send to backend
   const questionnaire = useAtomValue(questionnaireAtom);
 
   const saveProfile = useSaveProfile();
@@ -36,21 +34,16 @@ export default function TermsOfServiceScreen() {
     const now = new Date().toISOString();
 
     if (isProfileSetup) {
-      // Profile setup flow: save to backend, navigate home on success
       setIsSaving(true);
-      const profileData = {
-        ageRange: questionnaire.age,
-        genderIdentity: questionnaire.gender,
-        goals: questionnaire.goals,
-        termsAcceptedAt: now,
-        privacyAcceptedAt: now,
-      };
       try {
-        await saveProfile.mutateAsync(profileData);
-        // Clear local questionnaire data on success only
+        await saveProfile.mutateAsync({
+          ageRange: questionnaire.age,
+          genderIdentity: questionnaire.gender,
+          goals: questionnaire.goals,
+          termsAcceptedAt: now,
+          privacyAcceptedAt: now,
+        });
         setQuestionnaire(RESET);
-        // Navigation is handled declaratively by Stack.Protected guards in _layout.tsx.
-        // The mutation's onSuccess sets hasProfile: true, which flips the guards automatically.
       } catch (error) {
         const message =
           error instanceof Error ? error.message : 'An error occurred';
@@ -58,7 +51,6 @@ export default function TermsOfServiceScreen() {
       }
       setIsSaving(false);
     } else {
-      // Account creation flow: set ISO dates and go to create-account
       setQuestionnaire((prev) => ({
         ...prev,
         termsAcceptedAt: now,
@@ -69,134 +61,92 @@ export default function TermsOfServiceScreen() {
   };
 
   return (
-    <View className="flex-1">
-      <GlowBg intensity={0} />
-      <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
-        <View className="flex-1">
-          {/* Header */}
-          <View className="z-20 flex-row items-center justify-between px-6 pb-4 pt-8">
-            <Pressable
-              onPress={() => router.back()}
-              className="h-10 w-10 items-start justify-center"
-            >
-              <Ionicons
-                name={isModal ? 'close' : 'chevron-back'}
-                size={24}
-                color={alpha.white50}
-              />
-            </Pressable>
-
-            {!isModal && (
-              <ProgressDots total={totalSteps} current={currentStep} />
-            )}
-
-            {/* Empty view for spacing */}
-            <View className="w-10" />
-          </View>
-
-          {/* Scrollable Content */}
-          <ScrollFade>
-            <ScrollView
-              className="flex-1"
-              contentContainerClassName="grow justify-center px-8"
-              contentContainerStyle={{ paddingBottom: FADE_HEIGHT }}
-              showsVerticalScrollIndicator={false}
-            >
-              {/* Shield Icon + Title */}
-              <View className="mb-6 items-center">
-                <LinearGradient
-                  colors={[colors.primary.pink, colors.accent.yellow]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={{
-                    width: 64,
-                    height: 64,
-                    borderRadius: 16,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: 20,
-                    boxShadow: [
-                      {
-                        offsetX: 0,
-                        offsetY: 4,
-                        blurRadius: 12,
-                        color: withAlpha(colors.primary.pink, 0.2),
-                      },
-                    ],
-                  }}
-                >
-                  <Ionicons name="shield-checkmark" size={36} color="white" />
-                </LinearGradient>
-
-                <Text className="text-3xl font-extrabold tracking-tight text-foreground">
-                  Terms of Service
-                </Text>
-                <Text className="mt-2 text-sm font-semibold uppercase tracking-widest text-foreground/40">
-                  Phobik (PBK) App
-                </Text>
-              </View>
-
-              {/* Disclaimer Card */}
-              <View className="mb-4">
-                <View className="rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
-                  <Text className="text-center text-[16px] font-bold leading-relaxed text-foreground">
-                    Phobik is a wellness and self development app designed to
-                    provide educational tools and personal growth. It is not a
-                    healthcare provider and does not provide medical advice,
-                    diagnosis or therapy.
-                  </Text>
-                </View>
-              </View>
-
-              {/* By continuing text */}
-              <View className="px-2">
-                <Text className="text-center text-[15px] leading-relaxed text-gray-400">
-                  By continuing, you agree to our full Terms of Service which
-                  govern your account, subscriptions, and use of our community
-                  and biometric features.
-                </Text>
-              </View>
-            </ScrollView>
-          </ScrollFade>
-
-          {/* Footer */}
-          <View className="z-10 items-center px-8 pb-8">
-            {/* Download link */}
-            <Pressable className="mb-4 flex-row items-center gap-2 py-2">
-              <Ionicons
-                name="document-text-outline"
-                size={18}
-                color={colors.primary.pink}
-              />
-              <Text className="text-sm font-semibold text-primary-pink">
-                Download full Terms of Service (PDF)
-              </Text>
-            </Pressable>
-
-            {!isModal && (
-              <>
-                <GradientButton onPress={handleAccept} loading={isSaving}>
-                  I Accept the Terms
-                </GradientButton>
-
-                <Text className="mb-2 mt-6 text-[11px] font-bold tracking-[0.2em] text-foreground/30">
-                  STEP {currentStep} OF {totalSteps}
-                </Text>
-
-                <Pressable
-                  onPress={() => router.back()}
-                  className="w-full py-4"
-                  disabled={isSaving}
-                >
-                  <Text className="text-center text-sm font-semibold text-gray-500">
-                    Decline
-                  </Text>
-                </Pressable>
-              </>
-            )}
-          </View>
+    <Screen
+      variant="auth"
+      scroll
+      header={
+        <View className="flex-row items-center justify-between px-6 pb-4 pt-2">
+          <BackButton icon={isModal ? 'close' : 'arrow-back'} />
+          {!isModal ? (
+            <ProgressDots total={totalSteps} current={currentStep} />
+          ) : (
+            <View />
+          )}
+          <View className="w-10" />
         </View>
-      </SafeAreaView>
-    </View>
+      }
+      sticky={
+        <View className="items-center">
+          <Pressable className="mb-4 flex-row items-center gap-2 py-2">
+            <Ionicons
+              name="document-text-outline"
+              size={18}
+              color={colors.primary.pink}
+            />
+            <Text className="text-sm font-semibold text-primary-pink">
+              Download full Terms of Service (PDF)
+            </Text>
+          </Pressable>
+          {!isModal && (
+            <>
+              <GradientButton onPress={handleAccept} loading={isSaving}>
+                I Accept the Terms
+              </GradientButton>
+              <Button
+                variant="ghost"
+                onPress={() => router.back()}
+                disabled={isSaving}
+                className="mt-2"
+              >
+                Decline
+              </Button>
+              <Text className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
+                Step {currentStep} of {totalSteps}
+              </Text>
+            </>
+          )}
+        </View>
+      }
+      className="grow justify-center px-8 pt-2"
+    >
+      <View className="mb-6 items-center">
+        <LinearGradient
+          colors={[colors.primary.pink, colors.accent.yellow]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{
+            width: 64,
+            height: 64,
+            borderRadius: 16,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 20,
+            boxShadow: `0 4px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
+          }}
+        >
+          <Ionicons name="shield-checkmark" size={36} color="white" />
+        </LinearGradient>
+        <Text className="text-3xl font-extrabold tracking-tight text-foreground">
+          Terms of Service
+        </Text>
+        <Text className="mt-2 text-sm font-semibold uppercase tracking-widest text-foreground/55">
+          Phobik (PBK) App
+        </Text>
+      </View>
+      <View className="mb-4 rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
+        <Text className="text-center text-[16px] font-bold leading-relaxed text-foreground">
+          Phobik is a wellness and self development app designed to provide
+          educational tools and personal growth. It is not a healthcare provider
+          and does not provide medical advice, diagnosis or therapy.
+        </Text>
+      </View>
+      <View className="px-2">
+        <Text className="text-center text-[15px] leading-relaxed text-foreground/55">
+          By continuing, you agree to our full Terms of Service which govern
+          your account, subscriptions, and use of our community and biometric
+          features.
+        </Text>
+      </View>
+    </Screen>
   );
 }
