@@ -268,8 +268,27 @@ Done in 0d:
 
 ### Phase 0e — Spec amendment + CLAUDE.md
 
-1. Amend `app/docs/design-system-spec.md` sec 11: relax max-depth rule to 4 for grouped collections (or pick a different solution from sec 4)
-2. Add routing rules to `app/CLAUDE.md` (full Phase 4 deferred but the new routing rules can land here)
+**Status: ✅ COMPLETE (2026-05-05)**
+
+1. ✅ Spec doc amended in real-time as decisions landed (sec 11 + Phase 0d locked decisions block added during planning)
+2. ✅ Added "Routing rules" + "Route conventions" subsections to `app/CLAUDE.md` Navigation section
+3. ✅ Updated `app/CLAUDE.md` Project Structure tree: new shared layer additions (`src/hooks/auth/`, `src/lib/biometrics/`, `src/store/auth.ts`, `src/store/onboarding.ts`)
+4. ✅ Added "Canonical module folder template" + "Layering rule" + "Design system overhaul (in progress)" sections to CLAUDE.md
+5. ✅ Updated module list to reflect service-only `calendar` + `purchases`, and to mention the broader module landscape (meditation, movement, sound-studio, etc.)
+
+---
+
+## Phase 0 — Complete
+
+| Sub-phase | Commit | Status |
+|---|---|---|
+| 0a — home/utils → src/lib/biometrics | `eb75d3d` | ✅ |
+| 0b — auth/onboarding state to shared | `589f49c` | ✅ |
+| 0c — module folder structure standardization | `9cf1251` | ✅ |
+| 0d — meditation/movement/sound-studio route flattening | `a391675` | ✅ |
+| 0e — CLAUDE.md routing rules + folder conventions | (this commit) | ✅ |
+
+Total: 5 commits, ~80 file moves/edits, 0 new TS errors introduced.
 
 ---
 

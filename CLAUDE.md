@@ -119,6 +119,21 @@ Jotai is used only for **local UI state** — not for server/synced data:
 - All Stack screens have `headerShown: false` by default
 - Uses typed routes (`experiments.typedRoutes: true` in app.json)
 
+#### Routing rules
+
+- `router.push()` for forward navigation in flows — back must always work
+- `router.replace()` only for: post-auth redirects, sign-in ↔ sign-up swaps, completion → root
+- `router.dismissAll()` to exit a multi-step flow back to its root
+- `<Redirect>` allowed for state-driven routing — be aware it doesn't push history (back goes wherever the user came from, not the redirect source)
+- **No `as never` / `as any` on route paths** — typed-routes works correctly when paths are right; a cast indicates a real bug to fix
+
+#### Route conventions
+
+- Always **kebab-case** (`daily-flow`, `self-check-ins`)
+- **Plural** for collections (`/practices`, `/meditations`, `/movements`), **singular** for actions/flows (`/affirmation/...`, `/journal/entry/[id]`)
+- **Max 3 levels of nesting** — flatten deeper paths
+- URL segments for routing-relevant params (`/journal/entry/[id]`); query strings only for ephemeral hints (`?autoUnlock=1`)
+
 ### Styling
 
 - **NativeWind v4** (Tailwind CSS for React Native)
@@ -188,19 +203,22 @@ src/
 ├── store/            # SHARED: Jotai atoms (UI state only)
 ├── utils/            # SHARED: Utilities (query-client, jotai, env, session)
 └── modules/          # Feature modules with colocated code
-    ├── auth/         # Auth screens + hooks (online — React Query)
+    ├── auth/         # Auth screens + components (hooks moved to src/hooks/auth)
     ├── journal/      # Journal CRUD (offline — PowerSync)
     ├── gentle-letter/    # Letter writing (offline — PowerSync)
     ├── empathy-challenge/ # 7-day challenge (offline — PowerSync)
     ├── courage/      # Mystery challenges (offline — PowerSync)
     ├── self-check-ins/   # Assessments (offline — PowerSync)
-    ├── calendar/     # Calendar prefs (offline — PowerSync)
+    ├── calendar/     # Calendar prefs — service-only, no screens
+    ├── purchases/    # RevenueCat integration — service-only, no screens
     ├── coach/        # AI chat (online — custom fetch)
     ├── community/    # Social feed (online — React Query)
     ├── home/         # Dashboard
     ├── onboarding/   # Onboarding flow (online — React Query)
-    └── ...           # practices, insights, ebook, etc.
+    └── ...           # practices, insights, ebook, meditation, movement, sound-studio, etc.
 ```
+
+> **Notable shared layer additions (Phase 0):** `src/hooks/auth/` (auth/session hooks), `src/lib/biometrics/` (health/sleep readers), `src/store/auth.ts` (auth/biometric atoms), `src/store/onboarding.ts` (questionnaire atoms).
 
 ### Modules Architecture
 
@@ -209,6 +227,33 @@ The app uses a **modules-based architecture** where feature-specific code is col
 - **`src/app/`** contains only thin re-export files and layouts for Expo Router
 - **`src/modules/<feature>/`** contains all feature-specific code (screens, components, hooks, store)
 - **`src/components/`, `src/store/`, etc.** contain only SHARED code used across multiple modules
+- **Layering rule:** the shared layer (`src/lib/`, `src/hooks/`, `src/components/`, `src/store/`) MUST NOT import from feature modules. Cross-module imports between feature modules are tolerable but should fade as the design-system migration progresses.
+
+#### Canonical module folder template
+
+```
+src/modules/<feature>/
+├── screens/      # screen components (one file per route)
+├── components/   # module-private components
+├── hooks/        # module-private hooks
+├── data/         # static data, constants
+├── store/        # Jotai atoms (UI state only)
+├── types/        # module-private types
+├── lib/          # module-private utils/helpers
+└── index.ts      # public surface (rare; usually empty)
+```
+
+Empty subfolders are not created — only added when needed. Service-only modules (`calendar`, `purchases`) have no `screens/`.
+
+### Design system overhaul (in progress)
+
+A multi-phase design-system + navigation refactor is underway. **Source of truth: `app/docs/design-system-spec.md`**. Future code changes should adhere to:
+
+- 3 background variants (`default`, `auth`, `onboarding`) defined as token bundles
+- Theme-aware (light + dark) — light is P1
+- New primitives `Screen`, `Header`, `Button`, `TextField`, `Card`, etc. (Phase 2)
+- Per-module migration order in spec sec 18
+- Phase 0 (folder + route restructure) is complete
 
 **Re-export Pattern**: Route files in `src/app/` are one-liners that re-export from modules:
 
