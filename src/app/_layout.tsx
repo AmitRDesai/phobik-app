@@ -1,7 +1,9 @@
 import '@azure/core-asynciterator-polyfill';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import { DialogContainer } from '@/components/ui/DialogContainer';
 import { colors } from '@/constants/colors';
 import useAppInitializer from '@/hooks/useAppInitializer';
+import { useTheme } from '@/hooks/useTheme';
 import { useNotificationScheduler } from '@/modules/notifications/hooks/useNotificationScheduler';
 import { usePushTokenRegistration } from '@/hooks/usePushTokenRegistration';
 import { setupNotificationHandler } from '@/lib/notifications';
@@ -29,9 +31,11 @@ export default function RootLayout() {
             client={queryClient}
             persistOptions={{ persister: asyncStoragePersister }}
           >
-            <RootNavigator />
-            <DialogContainer />
-            <SystemBars style="light" />
+            <ThemeProvider>
+              <RootNavigator />
+              <DialogContainer />
+              <ThemedSystemBars />
+            </ThemeProvider>
           </PersistQueryClientProvider>
         </PowerSyncContext.Provider>
       </KeyboardProvider>
@@ -39,8 +43,14 @@ export default function RootLayout() {
   );
 }
 
+function ThemedSystemBars() {
+  const { scheme } = useTheme();
+  return <SystemBars style={scheme === 'dark' ? 'light' : 'dark'} />;
+}
+
 function RootNavigator() {
   const { activeStack, isReady, isReturningUser } = useAppInitializer();
+  const { scheme } = useTheme();
 
   // Schedule/cancel daily affirmation reminder based on user's notification setting
   useNotificationScheduler();
@@ -52,7 +62,10 @@ function RootNavigator() {
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: colors.background.dark },
+        contentStyle: {
+          backgroundColor:
+            scheme === 'dark' ? colors.background.dark : '#FAFAFA',
+        },
       }}
     >
       {/* Auth screens — outer guard covers all unauthenticated states.

@@ -2,9 +2,24 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
+        // ---- Theme-aware semantic tokens (resolved at runtime via vars() in ThemeProvider) ----
+        // Use with opacity: `bg-surface`, `text-foreground/55`, `border-border/10`
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+        'surface-elevated': 'rgb(var(--color-surface-elevated) / <alpha-value>)',
+        'surface-input': 'rgb(var(--color-surface-input) / <alpha-value>)',
+        foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
+        border: 'rgb(var(--color-border) / <alpha-value>)',
+        overlay: 'rgb(var(--color-overlay) / <alpha-value>)',
+        // ---- Variant-aware tokens (set per-Screen by VariantContext in Phase 2) ----
+        'variant-bg': 'rgb(var(--variant-bg) / <alpha-value>)',
+        'variant-card': 'rgb(var(--variant-card) / <alpha-value>)',
+        'variant-fade': 'rgb(var(--variant-fade) / <alpha-value>)',
+        'variant-accent': 'rgb(var(--variant-accent) / <alpha-value>)',
+        // ---- Brand tokens (theme-independent — same hex in light + dark) ----
         primary: {
           pink: '#FF4D94',
           'pink-light': '#FF71CD',
@@ -21,6 +36,8 @@ module.exports = {
           mint: '#00FF94',
           orange: '#ff8e53',
         },
+        // ---- Legacy literal-color tokens (kept for backward compat during migration) ----
+        // New code should prefer semantic tokens (surface, foreground, etc.) above.
         background: {
           dark: '#050505',
           charcoal: '#121212',
@@ -60,6 +77,15 @@ module.exports = {
           orange: '#FF8A00',
           red: '#FF3131',
         },
+      },
+      spacing: {
+        // Named layout tokens — self-documenting at usage sites
+        'screen-x': '24px',
+        'screen-y': '16px',
+        section: '32px',
+        'card-x': '20px',
+        'card-y': '20px',
+        'control-y': '14px',
       },
     },
   },
