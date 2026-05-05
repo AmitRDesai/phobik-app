@@ -75,7 +75,7 @@ export default function ForgotPasswordScreen() {
             {email}
           </Text>
 
-          <Text className="mt-10 text-center text-xs leading-5 text-foreground/30">
+          <Text className="mt-10 text-center text-xs leading-5 text-foreground/50">
             Click the link in the email to reset your password.{'\n'}If you
             don&apos;t see it, check your spam folder.
           </Text>
@@ -140,8 +140,6 @@ export default function ForgotPasswordScreen() {
           keyboardType="email-address"
           autoCapitalize="none"
           labelUppercase={false}
-          labelColor={`${colors.primary.muted}B3`}
-          iconColor={`${colors.primary.muted}80`}
           editable={!isLoading}
           returnKeyType="done"
           onSubmitEditing={handleSubmit}
@@ -163,7 +161,7 @@ export default function ForgotPasswordScreen() {
         className="mt-6 py-2"
         disabled={isLoading}
       >
-        <Text className="text-center text-sm text-primary-muted/60">
+        <Text className="text-center text-sm text-foreground/55">
           Remember your password?{' '}
           <Text className="font-bold text-primary-pink">Sign In</Text>
         </Text>

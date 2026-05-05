@@ -138,19 +138,19 @@ export default function CreateAccountScreen() {
         end={{ x: 1, y: 1 }}
         style={GRADIENT_HEADER_STYLE}
       >
-        {/* Decorative blur circles */}
-        <View className="absolute -right-10 -top-10 h-40 w-40 rounded-[80px] bg-foreground/10" />
+        {/* Decorative blur circles — sit on fixed gradient bg, theme-independent */}
+        <View className="absolute -right-10 -top-10 h-40 w-40 rounded-[80px] bg-white/10" />
         <View className="absolute -bottom-[30px] -left-[30px] h-[120px] w-[120px] rounded-[60px] bg-black/10" />
 
         {/* Fingerprint icon in frosted glass */}
-        <View className="mb-4 h-20 w-20 items-center justify-center rounded-3xl border border-foreground/30 bg-foreground/20">
+        <View className="mb-4 h-20 w-20 items-center justify-center rounded-3xl border border-white/30 bg-white/20">
           <Ionicons name="finger-print" size={40} color="white" />
         </View>
 
-        <Text className="text-3xl font-extrabold tracking-tight text-foreground">
+        <Text className="text-3xl font-extrabold tracking-tight text-white">
           PHOBIK
         </Text>
-        <Text className="mt-1 text-sm text-foreground/80">
+        <Text className="mt-1 text-sm text-white/80">
           Biometric Mental Wellness
         </Text>
       </LinearGradient>
@@ -160,7 +160,7 @@ export default function CreateAccountScreen() {
         <Text className="text-2xl font-bold text-foreground">
           Create Account
         </Text>
-        <Text className="mb-8 mt-2 text-sm text-foreground/40">
+        <Text className="mb-8 mt-2 text-sm text-foreground/55">
           Join the future of secure health tracking
         </Text>
 
@@ -176,7 +176,6 @@ export default function CreateAccountScreen() {
             icon="person"
             autoCapitalize="words"
             labelUppercase={false}
-            labelColor={colors.gray[300]}
             editable={!isLoading}
             returnKeyType="next"
             onSubmitEditing={() => emailRef.current?.focus()}
@@ -195,7 +194,6 @@ export default function CreateAccountScreen() {
             keyboardType="email-address"
             autoCapitalize="none"
             labelUppercase={false}
-            labelColor={colors.gray[300]}
             editable={!isLoading}
             returnKeyType="next"
             onSubmitEditing={() => passwordRef.current?.focus()}
@@ -213,7 +211,6 @@ export default function CreateAccountScreen() {
             icon="lock-closed"
             secureTextEntry
             labelUppercase={false}
-            labelColor={colors.gray[300]}
             editable={!isLoading}
             returnKeyType="done"
             onSubmitEditing={() => {
@@ -242,7 +239,7 @@ export default function CreateAccountScreen() {
         <View className="mt-6">
           <View className="mb-4 flex-row items-center">
             <View className="h-px flex-1 bg-foreground/10" />
-            <Text className="mx-4 text-sm text-foreground/40">
+            <Text className="mx-4 text-sm text-foreground/55">
               or continue with
             </Text>
             <View className="h-px flex-1 bg-foreground/10" />
@@ -269,7 +266,7 @@ export default function CreateAccountScreen() {
           </View>
         </View>
 
-        <Text className="mt-4 text-center text-xs leading-5 text-foreground/40">
+        <Text className="mt-4 text-center text-xs leading-5 text-foreground/55">
           By signing up, you agree to our{'\n'}
           <Text
             className="text-primary-pink"

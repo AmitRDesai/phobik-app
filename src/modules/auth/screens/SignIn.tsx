@@ -173,7 +173,7 @@ export default function SignInScreen() {
       {/* Welcome Text */}
       <View className="items-center px-4">
         <Text className="text-3xl font-bold text-foreground">Welcome Back</Text>
-        <Text className="mt-2 text-lg text-primary-muted/80">
+        <Text className="mt-2 text-lg text-foreground/60">
           We missed your energy today.
         </Text>
       </View>
@@ -197,11 +197,11 @@ export default function SignInScreen() {
 
           {!isSignedOut && (
             <View className="mt-4 flex-row items-center">
-              <View className="h-px flex-1 bg-primary-muted/20" />
-              <Text className="mx-4 text-sm text-primary-muted/50">
+              <View className="h-px flex-1 bg-foreground/15" />
+              <Text className="mx-4 text-sm text-foreground/45">
                 or use credentials
               </Text>
-              <View className="h-px flex-1 bg-primary-muted/20" />
+              <View className="h-px flex-1 bg-foreground/15" />
             </View>
           )}
         </View>
@@ -220,8 +220,6 @@ export default function SignInScreen() {
               keyboardType="email-address"
               autoCapitalize="none"
               labelUppercase={false}
-              labelColor={`${colors.primary.muted}B3`}
-              iconColor={`${colors.primary.muted}80`}
               editable={!isLoading}
               returnKeyType="next"
               onSubmitEditing={() => passwordRef.current?.focus()}
@@ -235,8 +233,6 @@ export default function SignInScreen() {
               icon="lock-closed"
               secureTextEntry
               labelUppercase={false}
-              labelColor={`${colors.primary.muted}B3`}
-              iconColor={`${colors.primary.muted}80`}
               editable={!isLoading}
               returnKeyType="done"
               onSubmitEditing={() => {
@@ -250,9 +246,7 @@ export default function SignInScreen() {
             disabled={isLoading}
             onPress={() => router.push('/auth/forgot-password')}
           >
-            <Text className="text-sm text-primary-muted/80">
-              Forgot Password?
-            </Text>
+            <Text className="text-sm text-foreground/60">Forgot Password?</Text>
           </Pressable>
 
           <View className="mt-6">
@@ -264,7 +258,7 @@ export default function SignInScreen() {
               Sign In
             </GradientButton>
             {showWarmingHint && (
-              <Text className="mt-3 text-center text-xs text-primary-muted/70">
+              <Text className="mt-3 text-center text-xs text-foreground/55">
                 Hang tight — we&apos;re getting things ready for you.
               </Text>
             )}
@@ -273,11 +267,11 @@ export default function SignInScreen() {
           {/* Social Sign In */}
           <View className="mt-6">
             <View className="mb-4 flex-row items-center">
-              <View className="h-px flex-1 bg-primary-muted/20" />
-              <Text className="mx-4 text-sm text-primary-muted/50">
+              <View className="h-px flex-1 bg-foreground/15" />
+              <Text className="mx-4 text-sm text-foreground/45">
                 or continue with
               </Text>
-              <View className="h-px flex-1 bg-primary-muted/20" />
+              <View className="h-px flex-1 bg-foreground/15" />
             </View>
 
             <View className="flex-row justify-center gap-4">
@@ -314,7 +308,7 @@ export default function SignInScreen() {
             className="mb-8 mt-6 py-2"
             disabled={isLoading}
           >
-            <Text className="text-center text-sm text-primary-muted/60">
+            <Text className="text-center text-sm text-foreground/55">
               Don&apos;t have an account?{' '}
               <Text className="font-bold text-primary-pink">Sign Up</Text>
             </Text>

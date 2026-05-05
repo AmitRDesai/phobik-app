@@ -92,9 +92,7 @@ export default function ResetPasswordScreen() {
             onPress={() => router.replace('/auth/sign-in')}
             className="mt-4 py-2"
           >
-            <Text className="text-sm text-primary-muted/60">
-              Back to Sign In
-            </Text>
+            <Text className="text-sm text-foreground/55">Back to Sign In</Text>
           </Pressable>
         </View>
       </Screen>
@@ -128,8 +126,6 @@ export default function ResetPasswordScreen() {
             icon="lock-closed"
             secureTextEntry
             labelUppercase={false}
-            labelColor={`${colors.primary.muted}B3`}
-            iconColor={`${colors.primary.muted}80`}
             editable={!isLoading}
             returnKeyType="next"
             onSubmitEditing={() => confirmRef.current?.focus()}
@@ -143,8 +139,6 @@ export default function ResetPasswordScreen() {
             icon="lock-closed"
             secureTextEntry
             labelUppercase={false}
-            labelColor={`${colors.primary.muted}B3`}
-            iconColor={`${colors.primary.muted}80`}
             editable={!isLoading}
             returnKeyType="done"
             onSubmitEditing={() => {
@@ -180,7 +174,7 @@ export default function ResetPasswordScreen() {
           className="mt-6 py-2"
           disabled={isLoading}
         >
-          <Text className="text-center text-sm text-primary-muted/60">
+          <Text className="text-center text-sm text-foreground/55">
             Remember your password?{' '}
             <Text className="font-bold text-primary-pink">Sign In</Text>
           </Text>
