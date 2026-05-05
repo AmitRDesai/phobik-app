@@ -2,6 +2,7 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { FADE_HEIGHT } from '@/components/ui/ScrollFade';
 import { variantConfig, type Variant } from '@/components/variant-config';
 import { VariantProvider } from '@/components/variant-context';
+import { withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -176,7 +177,7 @@ export function Screen({
         {bodyWithKeyboard}
         {showFade && (
           <LinearGradient
-            colors={['transparent', v.bgHex]}
+            colors={[withAlpha(v.bgHex, 0), v.bgHex]}
             pointerEvents="none"
             style={fadeStyle}
           />

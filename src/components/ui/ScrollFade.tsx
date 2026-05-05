@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet, View } from 'react-native';
 
@@ -10,11 +10,16 @@ interface ScrollFadeProps {
 }
 
 export function ScrollFade({ children, fadeColor }: ScrollFadeProps) {
+  // Start with the bg color at 0 opacity (not 'transparent') so the
+  // gradient interpolation doesn't pass through middle gray. The
+  // "transparent" keyword is rgba(0,0,0,0), which interpolates RGB
+  // toward black mid-gradient — visible as a dark band on light bgs.
+  const end = fadeColor ?? colors.background.dark;
   return (
     <View className="relative flex-1">
       {children}
       <LinearGradient
-        colors={['transparent', fadeColor ?? colors.background.dark]}
+        colors={[withAlpha(end, 0), end]}
         style={styles.fade}
         pointerEvents="none"
       />
