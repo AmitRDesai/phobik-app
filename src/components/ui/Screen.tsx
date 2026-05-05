@@ -6,7 +6,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSegments } from 'expo-router';
-import { useState, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -107,11 +107,17 @@ export function Screen({
 
   const bodyPaddingClass = className ?? DEFAULT_BODY_PADDING;
 
+  // Stable reference — ScrollView re-checks contentContainerStyle by identity.
+  const scrollContentStyle = useMemo(
+    () => ({ paddingBottom: bottomReserve }),
+    [bottomReserve],
+  );
+
   const body = scroll ? (
     <ScrollView
       className="flex-1"
       contentContainerClassName={clsx(bodyPaddingClass, contentClassName)}
-      contentContainerStyle={{ paddingBottom: bottomReserve }}
+      contentContainerStyle={scrollContentStyle}
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
       {...scrollViewProps}

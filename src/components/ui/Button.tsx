@@ -105,53 +105,51 @@ export function Button({
     justifyContent: 'center' as const,
   };
 
-  const Body = () => {
-    if (variant === 'primary') {
-      return (
-        <LinearGradient
-          colors={[colors.primary.pink, colors.accent.yellow]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{
-            ...sharedStyle,
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: size === 'compact' ? 0.4 : 0.5,
-            shadowRadius: size === 'compact' ? 15 : 12,
-            elevation: size === 'compact' ? 4 : 8,
-          }}
-        >
-          {inner}
-        </LinearGradient>
-      );
-    }
-    if (variant === 'destructive') {
-      return (
-        <View
-          style={{ ...sharedStyle, backgroundColor: colors.status.danger }}
-          className="bg-status-danger"
-        >
-          {inner}
-        </View>
-      );
-    }
-    if (variant === 'secondary') {
-      return (
-        <View
-          style={sharedStyle}
-          className="border border-foreground/20 bg-transparent"
-        >
-          {inner}
-        </View>
-      );
-    }
+  let body: ReactNode;
+  if (variant === 'primary') {
+    body = (
+      <LinearGradient
+        colors={[colors.primary.pink, colors.accent.yellow]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={{
+          ...sharedStyle,
+          shadowColor: colors.primary.pink,
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: size === 'compact' ? 0.4 : 0.5,
+          shadowRadius: size === 'compact' ? 15 : 12,
+          elevation: size === 'compact' ? 4 : 8,
+        }}
+      >
+        {inner}
+      </LinearGradient>
+    );
+  } else if (variant === 'destructive') {
+    body = (
+      <View
+        style={{ ...sharedStyle, backgroundColor: colors.status.danger }}
+        className="bg-status-danger"
+      >
+        {inner}
+      </View>
+    );
+  } else if (variant === 'secondary') {
+    body = (
+      <View
+        style={sharedStyle}
+        className="border border-foreground/20 bg-transparent"
+      >
+        {inner}
+      </View>
+    );
+  } else {
     // ghost
-    return (
+    body = (
       <View style={sharedStyle} className="bg-transparent">
         {inner}
       </View>
     );
-  };
+  }
 
   return (
     <Pressable
@@ -168,7 +166,7 @@ export function Button({
         animate={{ scale: pressed ? 0.95 : 1, opacity: disabled ? 0.4 : 1 }}
         transition={{ type: 'spring', damping: 15, stiffness: 300 }}
       >
-        <Body />
+        {body}
       </EaseView>
     </Pressable>
   );
