@@ -2,10 +2,10 @@ import { authClient } from '@/lib/auth';
 import {
   persistReadings,
   type BiometricSample,
-} from '@/modules/home/utils/biometrics-storage';
-import { readHealthSamplesInWindow } from '@/modules/home/utils/health-reader';
-import { readSleepSessionsInWindow } from '@/modules/home/utils/sleep-reader';
-import { persistSleepSessions } from '@/modules/home/utils/sleep-storage';
+} from '@/lib/biometrics/biometrics-storage';
+import { readHealthSamplesInWindow } from '@/lib/biometrics/health-reader';
+import { readSleepSessionsInWindow } from '@/lib/biometrics/sleep-reader';
+import { persistSleepSessions } from '@/lib/biometrics/sleep-storage';
 import * as BackgroundTask from 'expo-background-task';
 import * as TaskManager from 'expo-task-manager';
 
