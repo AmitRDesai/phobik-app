@@ -1,4 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { IconChip } from '@/components/ui/IconChip';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
@@ -55,9 +56,9 @@ export default function BreatheList() {
           className="mb-6 active:scale-[0.98]"
         >
           <View className="flex-row items-center gap-4 rounded-3xl border border-primary-pink/30 bg-primary-pink/10 p-4">
-            <View className="h-12 w-12 items-center justify-center rounded-full bg-primary-pink/20">
+            <IconChip size="lg" shape="circle" tone="pink">
               <MaterialIcons name="play-arrow" size={24} color="white" />
-            </View>
+            </IconChip>
             <View className="flex-1">
               <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
                 Unfinished session

@@ -1,4 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import {
@@ -48,9 +49,9 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
       <View className="rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
         <View className="flex-row items-center justify-between">
           <View className="flex-1 flex-row items-center gap-3">
-            <View className="h-10 w-10 items-center justify-center rounded-xl bg-primary-pink/20">
+            <IconChip size="md" shape="rounded" tone="pink">
               <Ionicons name={iconName} size={22} color={colors.primary.pink} />
-            </View>
+            </IconChip>
             <View className="flex-1">
               <Text className="text-base font-semibold text-foreground">
                 {biometricType}
