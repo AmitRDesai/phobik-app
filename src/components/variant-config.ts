@@ -39,17 +39,18 @@ export const variantConfig: Record<
   default: {
     dark: {
       vars: vars({
-        '--variant-bg': '18 8 18',
-        '--variant-card': '26 19 24',
-        '--variant-fade': '18 8 18',
+        // Charcoal — matches the "body-based regulation" practice screen.
+        '--variant-bg': '18 18 18',
+        '--variant-card': '38 38 38',
+        '--variant-fade': '18 18 18',
         '--variant-accent': '255 77 148',
       }),
-      bgHex: '#120812',
+      bgHex: '#121212',
       glow: {
         centerX: 0.5,
         centerY: 0.25,
         intensity: 0.5,
-        radius: 0.5,
+        radius: 0.35,
         startColor: colors.primary.pink,
         endColor: colors.accent.yellow,
       },
