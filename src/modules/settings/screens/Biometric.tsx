@@ -79,15 +79,15 @@ export default function Biometric() {
             </View>
           </Card>
 
-          <Pressable
+          <Card
             onPress={handleLockApp}
-            className="flex-row items-center justify-center gap-2 rounded-2xl border border-foreground/10 bg-foreground/5 py-4 active:opacity-70"
+            className="flex-row items-center justify-center gap-2 py-4"
           >
             <MaterialIcons name="lock" size={20} color={colors.primary.pink} />
             <Text className="text-base font-semibold text-primary-pink">
               Lock App
             </Text>
-          </Pressable>
+          </Card>
           <Text className="px-2 text-center text-xs text-foreground/40">
             Locks the app and requires {biometricType} to re-enter. Your session
             stays active.
