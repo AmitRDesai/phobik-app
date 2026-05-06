@@ -11,17 +11,17 @@ export default function ColdExposure() {
       title="5. Cold Shower"
       duration="1-3 min cold water"
       intro={
-        <Text className="text-base leading-6 text-white/70">
+        <Text className="text-base leading-6 text-foreground/70">
           Brief cold exposure forces your biology to adapt. Focus on steady,
           deep breaths as you enter the water.
         </Text>
       }
     >
-      <View className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-        <Text className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">
+      <View className="rounded-3xl border border-foreground/10 bg-foreground/[0.04] p-5">
+        <Text className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-foreground/50">
           The Protocol
         </Text>
-        <Text className="text-[15px] leading-6 text-white/80">
+        <Text className="text-[15px] leading-6 text-foreground/80">
           Embrace the shock. Train the spirit. Stay calm and breathe through the
           first 30 seconds.
         </Text>

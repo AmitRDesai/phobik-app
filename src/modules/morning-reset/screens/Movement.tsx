@@ -1,9 +1,12 @@
+import { accentFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { Text } from 'react-native';
 
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
 
 export default function Movement() {
+  const scheme = useScheme();
   return (
     <StepShell
       step="movement"
@@ -11,10 +14,16 @@ export default function Movement() {
       title="4. Movement"
       duration="5-10 min target"
       intro={
-        <Text className="text-base leading-6 text-white/70">
+        <Text className="text-base leading-6 text-foreground/70">
           Dedicate{' '}
-          <Text className="font-bold text-accent-yellow">5-10 minutes</Text> to
-          body movement — a walk, stretch, or anything that gets you breathing.
+          <Text
+            className="font-bold"
+            style={{ color: accentFor(scheme, 'yellow') }}
+          >
+            5-10 minutes
+          </Text>{' '}
+          to body movement — a walk, stretch, or anything that gets you
+          breathing.
         </Text>
       }
     >

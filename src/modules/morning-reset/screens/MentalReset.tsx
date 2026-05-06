@@ -11,7 +11,7 @@ export default function MentalReset() {
       title="3. Journaling"
       duration="2-3 min target"
       intro={
-        <Text className="text-base leading-6 text-white/70">
+        <Text className="text-base leading-6 text-foreground/70">
           Reset your mind before the noise hits. A few honest sentences about
           what matters to you today.
         </Text>

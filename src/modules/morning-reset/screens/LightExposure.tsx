@@ -1,9 +1,12 @@
+import { accentFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { Text, View } from 'react-native';
 
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
 
 export default function LightExposure() {
+  const scheme = useScheme();
   return (
     <StepShell
       step="light_exposure"
@@ -11,10 +14,15 @@ export default function LightExposure() {
       title="1. Sunlight"
       duration="2-3 min target"
       intro={
-        <Text className="text-base leading-6 text-white/70">
+        <Text className="text-base leading-6 text-foreground/70">
           Step outside within{' '}
-          <Text className="font-bold text-accent-yellow">30 min</Text> of
-          waking. Even on cloudy days.
+          <Text
+            className="font-bold"
+            style={{ color: accentFor(scheme, 'yellow') }}
+          >
+            30 min
+          </Text>{' '}
+          of waking. Even on cloudy days.
         </Text>
       }
     >

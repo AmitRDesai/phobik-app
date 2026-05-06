@@ -1,31 +1,14 @@
-import { colors } from '@/constants/colors';
+import { accentFor, type AccentHue, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
 
 type Tone = 'pink' | 'yellow' | 'orange';
 
-const TONE: Record<
-  Tone,
-  { bg: string; text: string; iconBg: string; ring: string }
-> = {
-  pink: {
-    bg: 'bg-white/[0.04]',
-    text: colors.primary.pink,
-    iconBg: 'bg-primary-pink/10',
-    ring: 'border-primary-pink/15',
-  },
-  yellow: {
-    bg: 'bg-white/[0.04]',
-    text: colors.accent.yellow,
-    iconBg: 'bg-accent-yellow/10',
-    ring: 'border-accent-yellow/15',
-  },
-  orange: {
-    bg: 'bg-white/[0.04]',
-    text: colors.accent.orange,
-    iconBg: 'bg-accent-orange/10',
-    ring: 'border-accent-orange/15',
-  },
+const TONE_HUE: Record<Tone, AccentHue> = {
+  pink: 'pink',
+  yellow: 'yellow',
+  orange: 'orange',
 };
 
 type Props = {
@@ -41,17 +24,22 @@ export function BenefitCard({
   description,
   tone = 'pink',
 }: Props) {
-  const t = TONE[tone];
+  const scheme = useScheme();
+  const accent = accentFor(scheme, TONE_HUE[tone]);
   return (
-    <View className={`rounded-3xl border p-5 ${t.bg} ${t.ring}`}>
+    <View
+      className="rounded-3xl border bg-foreground/[0.04] p-5"
+      style={{ borderColor: withAlpha(accent, 0.2) }}
+    >
       <View
-        className={`mb-4 h-12 w-12 items-center justify-center rounded-2xl ${t.iconBg}`}
+        className="mb-4 h-12 w-12 items-center justify-center rounded-2xl"
+        style={{ backgroundColor: withAlpha(accent, 0.12) }}
       >
-        <MaterialIcons name={icon} size={22} color={t.text} />
+        <MaterialIcons name={icon} size={22} color={accent} />
       </View>
-      <Text className="text-lg font-bold text-white">{title}</Text>
+      <Text className="text-lg font-bold text-foreground">{title}</Text>
       {description ? (
-        <Text className="mt-1.5 text-[13px] leading-5 text-white/60">
+        <Text className="mt-1.5 text-[13px] leading-5 text-foreground/60">
           {description}
         </Text>
       ) : null}
