@@ -1,4 +1,5 @@
 import expressiveImg from '@/assets/images/sound-studio/expressive-writing.jpg';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
@@ -81,10 +82,7 @@ export default function ExpressiveWriting() {
           {/* Steps */}
           <View className="mt-6 gap-3">
             {STEPS.map((step) => (
-              <View
-                key={step.number}
-                className="rounded-3xl border border-foreground/10 bg-foreground/5 p-5"
-              >
+              <Card key={step.number} className="rounded-3xl p-5">
                 <Text className="text-2xl font-extrabold tracking-widest text-accent-yellow">
                   {step.number}
                 </Text>
@@ -94,7 +92,7 @@ export default function ExpressiveWriting() {
                 <Text className="mt-2 text-sm leading-relaxed text-foreground/70">
                   {step.description}
                 </Text>
-              </View>
+              </Card>
             ))}
           </View>
 

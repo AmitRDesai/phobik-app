@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { IconChip } from '@/components/ui/IconChip';
@@ -151,7 +152,7 @@ export default function SoundStudioCredits() {
           </View>
 
           {/* Why use credits */}
-          <View className="mt-6 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+          <Card className="mt-6 rounded-3xl p-5">
             <Text className="text-base font-bold text-foreground">
               Why use Credits?
             </Text>
@@ -170,7 +171,7 @@ export default function SoundStudioCredits() {
                 </View>
               ))}
             </View>
-          </View>
+          </Card>
         </ScrollView>
       </ScrollFade>
     </View>

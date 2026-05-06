@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
@@ -63,7 +64,7 @@ export default function AiStudioFeeling() {
           </Text>
 
           {/* Emotional tags */}
-          <View className="mt-6 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+          <Card className="mt-6 rounded-3xl p-5">
             <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
               Emotional Tags
             </Text>
@@ -106,10 +107,10 @@ export default function AiStudioFeeling() {
                 );
               })}
             </View>
-          </View>
+          </Card>
 
           {/* Custom mood */}
-          <View className="mt-4 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+          <Card className="mt-4 rounded-3xl p-5">
             <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
               Custom Mood or Genre
             </Text>
@@ -125,10 +126,10 @@ export default function AiStudioFeeling() {
             <Text className="mt-3 text-xs leading-relaxed text-foreground/40">
               "A midnight drive through a neon-soaked city under a purple haze."
             </Text>
-          </View>
+          </Card>
 
           {/* Music prompt */}
-          <View className="mt-4 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+          <Card className="mt-4 rounded-3xl p-5">
             <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
               Music Prompt
             </Text>
@@ -147,7 +148,7 @@ export default function AiStudioFeeling() {
               hybrid-electronic climax with deep sub-bass and shimmering synth
               pads."
             </Text>
-          </View>
+          </Card>
 
           {/* Credits row */}
           <View className="mt-5 flex-row items-center justify-between">
