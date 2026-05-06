@@ -138,9 +138,8 @@ export default function IntimacyIntro() {
               }}
             />
             <View
-              className="items-center justify-center rounded-full p-8"
+              className="items-center justify-center rounded-full bg-surface p-8"
               style={{
-                backgroundColor: colors.background.charcoal,
                 borderWidth: 1,
                 borderColor: withAlpha(colors.primary.pink, 0.3),
               }}

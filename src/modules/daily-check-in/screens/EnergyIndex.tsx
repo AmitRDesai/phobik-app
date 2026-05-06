@@ -2,7 +2,8 @@ import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { BackButton } from '@/components/ui/BackButton';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { GradientText } from '@/components/ui/GradientText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -155,11 +156,10 @@ export default function EnergyIndex() {
             }}
           >
             <View
-              className="items-center justify-center rounded-full border border-foreground/20"
+              className="items-center justify-center rounded-full border border-foreground/20 bg-surface"
               style={{
                 width: 96,
                 height: 96,
-                backgroundColor: alpha.black95,
                 boxShadow: `0px 0px 20px ${withAlpha(colors.primary.pink, 0.3)}`,
               }}
             >
@@ -216,6 +216,7 @@ function EnergyCircle({
   position,
   containerSize,
 }: EnergyCircleProps) {
+  const scheme = useScheme();
   const half = containerSize / 2;
   const circleHalf = circleSize / 2;
   const isVertical = position === 'left' || position === 'right';
@@ -264,7 +265,7 @@ function EnergyCircle({
           ...circlePositions[position],
           ...(value > 10
             ? {
-                borderColor: alpha.white20,
+                borderColor: foregroundFor(scheme, 0.2),
                 boxShadow: `0px 0px 20px ${withAlpha(colors.primary.pink, 0.15)}`,
               }
             : {}),
@@ -328,9 +329,8 @@ function EnergyCircle({
 function ScorePill({ value, rotation }: { value: number; rotation?: string }) {
   return (
     <View
-      className="rounded-md border px-1.5 py-0.5"
+      className="rounded-md border bg-foreground/10 px-1.5 py-0.5"
       style={{
-        backgroundColor: alpha.white10,
         borderColor: `${colors.primary.pink}30`,
         boxShadow: `0px 0px 4px ${withAlpha(colors.primary.pink, 0.3)}`,
         ...(rotation ? { transform: [{ rotate: rotation }] } : {}),

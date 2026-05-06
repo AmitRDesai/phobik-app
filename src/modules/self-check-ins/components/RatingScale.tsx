@@ -57,14 +57,7 @@ export function RatingScale({
                   <Text className="text-xl font-bold text-black">{option}</Text>
                 </LinearGradient>
               ) : (
-                <View
-                  className="h-14 w-14 items-center justify-center rounded-full"
-                  style={{
-                    backgroundColor: colors.background.charcoal,
-                    borderWidth: 1,
-                    borderColor: withAlpha('#ffffff', 0.1),
-                  }}
-                >
+                <View className="h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-surface">
                   <Text className="text-xl font-bold text-foreground/60">
                     {option}
                   </Text>

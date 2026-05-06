@@ -1,7 +1,8 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { CardAura } from '@/components/ui/CardAura';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -188,6 +189,7 @@ interface OrbitMapProps {
 }
 
 function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
+  const scheme = useScheme();
   const size = screenWidth;
   const cx = 100;
   const cy = 100;
@@ -368,7 +370,11 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
           </Text>
         </View>
         <LinearGradient
-          colors={[`${colors.primary.pink}30`, alpha.white10, `${CYAN}30`]}
+          colors={[
+            `${colors.primary.pink}30`,
+            foregroundFor(scheme, 0.1),
+            `${CYAN}30`,
+          ]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={{ flex: 1, height: 1, marginHorizontal: 16 }}
@@ -401,6 +407,7 @@ function StressNode({
   emoji: string;
   ring: 'inner' | 'middle' | 'outer';
 }) {
+  const scheme = useScheme();
   const config = {
     inner: {
       r: 7,
@@ -410,8 +417,8 @@ function StressNode({
     },
     middle: {
       r: 8,
-      fill: alpha.white05,
-      stroke: alpha.white20,
+      fill: foregroundFor(scheme, 0.05),
+      stroke: foregroundFor(scheme, 0.2),
       fontSize: 8,
     },
     outer: {
@@ -458,14 +465,7 @@ function StressorResultCard({
   subtitle,
 }: StressorResultCardProps) {
   return (
-    <View
-      className="overflow-hidden rounded-[28px] p-6"
-      style={{
-        backgroundColor: withAlpha(colors.background.charcoal, 0.6),
-        borderWidth: 1,
-        borderColor: alpha.white08,
-      }}
-    >
+    <View className="overflow-hidden rounded-[28px] border border-foreground/[0.08] bg-surface-elevated/60 p-6">
       <CardAura color={accentColor} />
       <View className="mb-4 flex-row items-start justify-between">
         <View className="flex-row items-center gap-4">

@@ -49,11 +49,8 @@ export default function PivotPointIntro() {
     <View className="flex-1 bg-surface">
       {/* Header */}
       <View
-        className="flex-row items-center justify-between px-6 pb-4"
-        style={{
-          paddingTop: insets.top + 8,
-          backgroundColor: withAlpha(colors.background.charcoal, 0.9),
-        }}
+        className="flex-row items-center justify-between bg-surface/90 px-6 pb-4"
+        style={{ paddingTop: insets.top + 8 }}
       >
         <BackButton />
         <Text className="text-lg font-bold tracking-tight text-foreground">
