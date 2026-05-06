@@ -1,4 +1,3 @@
-import { colors } from '@/constants/colors';
 import { Stack } from 'expo-router';
 
 export default function MorningResetStackLayout() {
@@ -6,7 +5,7 @@ export default function MorningResetStackLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: colors.background.dark },
+        contentStyle: { backgroundColor: 'transparent' },
       }}
     />
   );
