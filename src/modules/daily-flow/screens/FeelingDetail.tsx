@@ -1,4 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { IconChip } from '@/components/ui/IconChip';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { variantConfig } from '@/components/variant-config';
@@ -257,13 +258,13 @@ function CompactActionList({
             key={item.label}
             className="flex-row items-center gap-4 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-5"
           >
-            <View className="h-12 w-12 items-center justify-center rounded-full bg-foreground/[0.06]">
+            <IconChip size="lg" shape="circle">
               <MaterialIcons
                 name={item.icon as keyof typeof MaterialIcons.glyphMap}
                 size={22}
                 color={colors.primary.pink}
               />
-            </View>
+            </IconChip>
             <Text className="flex-1 text-base font-medium text-foreground">
               {item.label}
               {item.labelItalic ? (
@@ -289,13 +290,13 @@ function CompactActionRow({
 }) {
   return (
     <View className="flex-row items-center gap-4">
-      <View className="h-10 w-10 items-center justify-center rounded-full bg-foreground/[0.06]">
+      <IconChip size="md" shape="circle">
         <MaterialIcons
           name={item.icon as keyof typeof MaterialIcons.glyphMap}
           size={20}
           color={accent}
         />
-      </View>
+      </IconChip>
       <Text className="flex-1 text-base font-medium text-foreground">
         {item.label}
       </Text>
