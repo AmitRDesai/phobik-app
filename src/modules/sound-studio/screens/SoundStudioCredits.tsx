@@ -1,5 +1,6 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GlowBg } from '@/components/ui/GlowBg';
+import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
@@ -90,13 +91,13 @@ export default function SoundStudioCredits() {
                     </Text>
                   </View>
                 ) : null}
-                <View className="h-12 w-12 items-center justify-center rounded-2xl bg-primary-pink/10">
+                <IconChip size="lg" shape="rounded" tone="pink">
                   <MaterialIcons
                     name="auto-awesome"
                     size={20}
                     color={colors.primary.pink}
                   />
-                </View>
+                </IconChip>
                 <Text className="mt-4 text-2xl font-extrabold text-foreground">
                   {plan.name}
                 </Text>

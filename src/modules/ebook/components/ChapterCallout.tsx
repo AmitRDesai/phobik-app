@@ -1,3 +1,4 @@
+import { IconChip } from '@/components/ui/IconChip';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
@@ -21,12 +22,14 @@ export function ChapterCallout({
       style={{ borderTopWidth: 3, borderTopColor: accentColor }}
     >
       {icon && (
-        <View
-          className="mb-3 h-10 w-10 items-center justify-center rounded-full"
-          style={{ backgroundColor: `${accentColor}33` }}
+        <IconChip
+          size="md"
+          shape="circle"
+          bg={`${accentColor}33`}
+          className="mb-3"
         >
           <MaterialIcons name={icon} size={22} color={accentColor} />
-        </View>
+        </IconChip>
       )}
       {title && (
         <Text className="mb-2 text-lg font-bold text-foreground">{title}</Text>
