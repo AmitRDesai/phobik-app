@@ -4,7 +4,8 @@ import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { useImagePicker } from '@/hooks/useImagePicker';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -27,6 +28,7 @@ const CIRCLES: Circle[] = ['18-24', '25-34', '35-44', '45-54', '55+'];
 const MAX_CHARS = 500;
 
 export default function CreatePost() {
+  const scheme = useScheme();
   const router = useRouter();
   const createPost = useCreatePost();
   const { pickMultiple } = useImagePicker();
@@ -124,7 +126,7 @@ export default function CreatePost() {
                 )
               }
               placeholder="Start writing here..."
-              placeholderTextColor={alpha.white20}
+              placeholderTextColor={foregroundFor(scheme, 0.2)}
               multiline
               textAlignVertical="top"
               className="h-64 rounded-2xl border-2 border-foreground/10 bg-foreground/5 p-5 text-lg leading-relaxed text-foreground"
@@ -241,7 +243,7 @@ export default function CreatePost() {
               value={isAnonymous}
               onValueChange={setIsAnonymous}
               trackColor={{
-                false: alpha.white10,
+                false: foregroundFor(scheme, 0.1),
                 true: colors.primary.pink,
               }}
               thumbColor="white"

@@ -1,4 +1,5 @@
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TextInput, View } from 'react-native';
 
@@ -8,6 +9,7 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ value, onChangeText }: SearchBarProps) {
+  const scheme = useScheme();
   return (
     <View className="flex-row items-center rounded-full bg-surface-elevated/80 px-4">
       <MaterialIcons
@@ -20,9 +22,8 @@ export function SearchBar({ value, onChangeText }: SearchBarProps) {
         value={value}
         onChangeText={onChangeText}
         placeholder="Find inspiration..."
-        placeholderTextColor={alpha.white40}
-        style={{ color: 'white' }}
-        className="ml-3 h-12 flex-1 text-sm"
+        placeholderTextColor={foregroundFor(scheme, 0.4)}
+        className="ml-3 h-12 flex-1 text-sm text-foreground"
       />
     </View>
   );

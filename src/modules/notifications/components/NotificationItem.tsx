@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
@@ -38,6 +39,7 @@ function formatTimestamp(iso: string): string {
 
 export function NotificationItem({ notification }: NotificationItemProps) {
   const router = useRouter();
+  const scheme = useScheme();
   const { icon, color } = TYPE_CONFIG[notification.type] ?? TYPE_CONFIG.system;
   const isUnread = notification.readAt === null;
 
@@ -85,7 +87,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
         <MaterialIcons
           name="chevron-right"
           size={18}
-          color={alpha.white30}
+          color={foregroundFor(scheme, 0.3)}
           style={{ marginTop: 12 }}
         />
       )}

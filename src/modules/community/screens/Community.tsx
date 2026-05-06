@@ -1,7 +1,8 @@
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
@@ -90,6 +91,7 @@ function JoinCommunityView() {
 }
 
 function CommunityFeed() {
+  const scheme = useScheme();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [search, setSearch] = useAtom(communitySearchAtom);
@@ -211,7 +213,11 @@ function CommunityFeed() {
           }
           ListEmptyComponent={
             <View className="items-center py-16">
-              <MaterialIcons name="edit-note" size={48} color={alpha.white20} />
+              <MaterialIcons
+                name="edit-note"
+                size={48}
+                color={foregroundFor(scheme, 0.2)}
+              />
               <Text className="mt-4 text-sm text-foreground/30">
                 No posts yet. Be the first to share!
               </Text>

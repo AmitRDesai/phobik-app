@@ -1,6 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import {
@@ -60,6 +61,7 @@ function groupByDate(items: NotificationItemType[]): Section[] {
 }
 
 export default function Notifications() {
+  const scheme = useScheme();
   const insets = useSafeAreaInsets();
   const { data, isLoading } = useNotifications();
   const { mutate: markAllRead } = useMarkAllRead();
@@ -127,7 +129,7 @@ export default function Notifications() {
               <MaterialIcons
                 name="notifications-none"
                 size={48}
-                color={alpha.white20}
+                color={foregroundFor(scheme, 0.2)}
               />
               <Text className="mt-4 text-center text-sm text-foreground/30">
                 No notifications yet.{'\n'}You're all caught up.
