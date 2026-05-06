@@ -98,12 +98,7 @@ export default function FlightChecklistHub() {
         {/* Hero Section */}
         <Card
           className="mb-8 overflow-hidden p-0"
-          style={{
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.1,
-            shadowRadius: 15,
-          }}
+          shadow={{ color: colors.primary.pink, opacity: 0.1, blur: 15 }}
         >
           <View className="relative h-48">
             <Image

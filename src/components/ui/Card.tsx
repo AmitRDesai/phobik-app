@@ -16,6 +16,19 @@ export type CardVariant =
   | 'glass'
   | 'toned';
 
+/**
+ * Centered colored glow descriptor. Resolves to a RN 0.83+ `boxShadow`
+ * string via `withAlpha(color, opacity)`. Defaults give the soft "card glow"
+ * we use for hero cards (pink/yellow halo at 0.2 alpha, 24px blur).
+ */
+export interface CardShadow {
+  color: string;
+  opacity?: number;
+  blur?: number;
+  offsetX?: number;
+  offsetY?: number;
+}
+
 export interface CardProps extends Omit<ViewProps, 'style'> {
   /**
    * Visual variant.
@@ -38,6 +51,18 @@ export interface CardProps extends Omit<ViewProps, 'style'> {
   onPress?: PressableProps['onPress'];
   /** Forwarded to Pressable when onPress is set. */
   disabled?: boolean;
+  /** Optional colored glow (boxShadow). Defaults: opacity 0.2, blur 24, offsets 0. */
+  shadow?: CardShadow;
+}
+
+function buildBoxShadow({
+  color,
+  opacity = 0.2,
+  blur = 24,
+  offsetX = 0,
+  offsetY = 0,
+}: CardShadow): string {
+  return `${offsetX}px ${offsetY}px ${blur}px ${withAlpha(color, opacity)}`;
 }
 
 const VARIANT_CLASSES: Record<Exclude<CardVariant, 'toned'>, string> = {
@@ -56,10 +81,14 @@ export function Card({
   children,
   onPress,
   disabled,
+  shadow,
   ...rest
 }: CardProps) {
   const scheme = useScheme();
   const isPressable = onPress != null;
+  const shadowStyle: ViewStyle | undefined = shadow
+    ? { boxShadow: buildBoxShadow(shadow) }
+    : undefined;
 
   if (variant === 'toned') {
     const accent = accentFor(scheme, tone ?? 'pink');
@@ -77,14 +106,18 @@ export function Card({
           onPress={onPress}
           disabled={disabled}
           className={clsx('active:scale-[0.98]', className)}
-          style={[tonedStyle, style]}
+          style={[tonedStyle, shadowStyle, style]}
         >
           {children}
         </Pressable>
       );
     }
     return (
-      <View {...rest} className={className} style={[tonedStyle, style]}>
+      <View
+        {...rest}
+        className={className}
+        style={[tonedStyle, shadowStyle, style]}
+      >
         {children}
       </View>
     );
@@ -101,7 +134,7 @@ export function Card({
           'active:scale-[0.98]',
           className,
         )}
-        style={style}
+        style={[shadowStyle, style]}
       >
         {children}
       </Pressable>
@@ -112,7 +145,7 @@ export function Card({
     <View
       {...rest}
       className={clsx(VARIANT_CLASSES[variant], className)}
-      style={style}
+      style={[shadowStyle, style]}
     >
       {children}
     </View>

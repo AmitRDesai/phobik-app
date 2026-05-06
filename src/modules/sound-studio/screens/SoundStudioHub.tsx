@@ -52,12 +52,7 @@ export default function SoundStudioHub() {
       <Card
         onPress={() => router.push('/sound-studio/curated')}
         className="mt-5 p-7"
-        style={{
-          shadowColor: colors.primary.pink,
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.2,
-          shadowRadius: 24,
-        }}
+        shadow={{ color: colors.primary.pink }}
       >
         <Badge tone="pink" size="sm" className="self-center">
           Handpicked
@@ -83,12 +78,7 @@ export default function SoundStudioHub() {
       <Card
         onPress={() => router.push('/sound-studio/ai/write')}
         className="mt-5 p-7"
-        style={{
-          shadowColor: colors.accent.yellow,
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.2,
-          shadowRadius: 24,
-        }}
+        shadow={{ color: colors.accent.yellow }}
       >
         <Badge tone="yellow" size="sm" className="self-center">
           New Feature
