@@ -148,6 +148,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       ],
       'expo-background-task',
       'expo-image',
+      'expo-font',
+      'expo-web-browser',
     ],
     experiments: {
       typedRoutes: true,
