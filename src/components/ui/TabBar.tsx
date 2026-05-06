@@ -1,6 +1,6 @@
 import { BlurView } from '@/components/ui/BlurView';
 import { variantConfig } from '@/components/variant-config';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
@@ -32,14 +32,14 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
         const isFocused = state.index === index;
         const iconName = TAB_ICONS[route.name] ?? 'circle';
 
-        // Inactive: soft yellow accent reads fine on dark surfaces but loses
-        // contrast on white. Fall back to a muted foreground neutral in light
-        // so unfocused tabs stay legible without losing the warm accent on dark.
+        // Inactive uses the same scheme-aware yellow as the rest of the app
+        // (dark: brand yellow at 80%, light: amber-700) so the tab bar reads
+        // consistent with surfaces above it.
         const color = isFocused
           ? colors.primary.pink
           : scheme === 'dark'
             ? withAlpha(colors.accent.yellow, 0.8)
-            : foregroundFor('light', 0.55);
+            : accentFor('light', 'yellow');
 
         const onPress = () => {
           const event = navigation.emit({

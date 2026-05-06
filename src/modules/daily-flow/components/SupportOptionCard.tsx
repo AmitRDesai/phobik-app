@@ -61,7 +61,7 @@ export function SupportOptionCard({ option, selected, onPress }: Props) {
       >
         <Image
           source={option.image}
-          className="absolute h-full w-full opacity-60"
+          className="absolute h-full w-full"
           resizeMode="cover"
         />
         <LinearGradient
@@ -109,11 +109,7 @@ export function SupportOptionCard({ option, selected, onPress }: Props) {
                   : 'border-white/20 bg-white/10',
               )}
             >
-              <MaterialIcons
-                name="play-arrow"
-                size={22}
-                color={isBestMatch ? colors.background.charcoal : 'white'}
-              />
+              <MaterialIcons name="play-arrow" size={22} color="white" />
               {/* Card sits on a saturated photo overlay — white-on-image is
                   intentional and stays the same in light mode. */}
             </View>

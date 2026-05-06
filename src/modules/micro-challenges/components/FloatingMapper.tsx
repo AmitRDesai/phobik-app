@@ -1,4 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -89,6 +92,7 @@ export function FloatingMapper({
   promptText,
   confirmLabel,
 }: FloatingMapperProps) {
+  const scheme = useScheme();
   const { width, height } = useWindowDimensions();
   const [canvasLayout, setCanvasLayout] = useState<{
     width: number;
@@ -138,9 +142,8 @@ export function FloatingMapper({
 
   return (
     <View className="flex-1">
-      {/* Prompt */}
       <View className="items-center px-6 pt-2">
-        <Text className="text-center text-base leading-relaxed text-slate-300">
+        <Text className="text-center text-base leading-relaxed text-foreground/85">
           {promptText}
         </Text>
       </View>
@@ -209,7 +212,7 @@ export function FloatingMapper({
                 height: ORBITAL_RADIUS * 2,
                 borderRadius: ORBITAL_RADIUS,
                 borderWidth: 1,
-                borderColor: 'rgba(255,255,255,0.1)',
+                borderColor: foregroundFor(scheme, 0.15),
               },
               orbitalStyle,
             ]}
@@ -240,14 +243,14 @@ export function FloatingMapper({
                     transition={{ type: 'timing', duration: 200 }}
                   >
                     <View
-                      className={`mb-1 h-1.5 w-1.5 rounded-full ${isSubSelected ? 'bg-white' : 'bg-white/50'}`}
+                      className={clsx(
+                        'mb-1 h-1.5 w-1.5 rounded-full',
+                        isSubSelected ? 'bg-foreground' : 'bg-foreground/50',
+                      )}
                       style={
                         isSubSelected
                           ? {
-                              shadowColor: selected.shadowColor,
-                              shadowOffset: { width: 0, height: 0 },
-                              shadowOpacity: 0.8,
-                              shadowRadius: 8,
+                              boxShadow: `0 0 8px ${withAlpha(selected.shadowColor, 0.8)}`,
                             }
                           : undefined
                       }
@@ -255,7 +258,12 @@ export function FloatingMapper({
                   </EaseView>
                   <Animated.View style={counterRotateStyle}>
                     <Text
-                      className={`text-center text-[11px] ${isSubSelected ? 'font-bold text-white' : 'font-semibold text-white/70'}`}
+                      className={clsx(
+                        'text-center text-[11px]',
+                        isSubSelected
+                          ? 'font-bold text-foreground'
+                          : 'font-semibold text-foreground/70',
+                      )}
                       numberOfLines={1}
                     >
                       {sub}

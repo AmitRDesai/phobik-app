@@ -1,6 +1,8 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
+import { foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -122,6 +124,7 @@ function AddOnPill({
   on: boolean;
   onToggle: () => void;
 }) {
+  const scheme = useScheme();
   if (on) {
     return (
       <GradientButton
@@ -138,7 +141,11 @@ function AddOnPill({
       onPress={onToggle}
       className="flex-row items-center gap-2 rounded-full border border-foreground/15 bg-foreground/[0.04] px-5 py-2"
     >
-      <MaterialIcons name={icon} size={14} color="white" />
+      <MaterialIcons
+        name={icon}
+        size={14}
+        color={foregroundFor(scheme, 0.85)}
+      />
       <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/85">
         {label}
       </Text>

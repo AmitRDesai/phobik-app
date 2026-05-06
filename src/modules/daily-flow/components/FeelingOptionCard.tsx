@@ -25,7 +25,7 @@ export function FeelingOptionCard({ feeling, onPress }: Props) {
     >
       <Image
         source={feeling.image}
-        className="absolute h-full w-full opacity-70"
+        className="absolute h-full w-full"
         resizeMode="cover"
       />
       <LinearGradient

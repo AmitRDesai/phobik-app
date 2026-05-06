@@ -56,7 +56,11 @@ export default function DetailedFeeling() {
   };
 
   return (
-    <Screen variant="default" header={<DailyFlowHeader wordmark />}>
+    <Screen
+      variant="default"
+      header={<DailyFlowHeader wordmark />}
+      className=""
+    >
       <View className="px-6">
         <View className="flex-row items-end justify-between">
           <View className="flex-1">

@@ -115,6 +115,7 @@ export default function Intention() {
           </Text>
         </View>
       }
+      className=""
     >
       <View className="px-6">
         <View className="flex-row items-end justify-between">
@@ -149,7 +150,10 @@ export default function Intention() {
           showsHorizontalScrollIndicator={false}
           snapToInterval={cardWidth + CARD_SPACING}
           decelerationRate="fast"
-          contentContainerStyle={{ paddingHorizontal: 40 }}
+          // paddingVertical gives the active card's boxShadow room to render
+          // outside the card bounds without being clipped by the scroll view.
+          contentContainerStyle={{ paddingHorizontal: 40, paddingVertical: 32 }}
+          style={{ overflow: 'visible' }}
           ItemSeparatorComponent={ItemSeparator}
           onMomentumScrollEnd={onScroll}
           renderItem={renderItem}

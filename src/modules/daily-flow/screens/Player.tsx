@@ -74,7 +74,11 @@ export default function Player() {
   };
 
   return (
-    <Screen variant="default" header={<DailyFlowHeader wordmark />}>
+    <Screen
+      variant="default"
+      header={<DailyFlowHeader wordmark />}
+      className=""
+    >
       <View className="flex-1 items-center justify-center px-6">
         <PlayerOrb cue={BREATH_CUES[breathIndex] ?? 'Inhale'} />
 
@@ -98,6 +102,7 @@ export default function Player() {
           <Pressable
             onPress={() => setPlaying((p) => !p)}
             style={{
+              borderRadius: 32,
               boxShadow: `0 0 24px ${withAlpha(colors.primary.pink, 0.5)}`,
             }}
           >
