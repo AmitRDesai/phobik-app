@@ -98,7 +98,7 @@ export default function CreatePost() {
         <View className="w-12" />
       </View>
 
-      <ScrollFade fadeColor={colors.background.dashboard}>
+      <ScrollFade>
         <ScrollView
           className="flex-1"
           contentContainerClassName="px-6 py-4 gap-6"

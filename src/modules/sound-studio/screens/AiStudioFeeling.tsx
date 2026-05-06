@@ -42,7 +42,7 @@ export default function AiStudioFeeling() {
       />
       <PracticeStackHeader wordmark="Sound Studio" />
 
-      <ScrollFade fadeColor={colors.background.charcoal}>
+      <ScrollFade>
         <ScrollView
           className="flex-1"
           contentContainerClassName="px-6 pt-2"

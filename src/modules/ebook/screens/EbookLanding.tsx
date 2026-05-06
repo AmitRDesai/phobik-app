@@ -116,7 +116,7 @@ export default function EbookLanding() {
         <BackButton icon="close" />
       </View>
 
-      <ScrollFade fadeColor={colors.background.charcoal}>
+      <ScrollFade>
         <ScrollView
           contentContainerClassName="pb-8"
           showsVerticalScrollIndicator={false}

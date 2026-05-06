@@ -52,7 +52,7 @@ export default function EbookIntro() {
         <View className="h-10 w-10" />
       </View>
 
-      <ScrollFade fadeColor={colors.background.charcoal}>
+      <ScrollFade>
         <ScrollView
           contentContainerStyle={{
             paddingHorizontal: 24,

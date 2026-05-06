@@ -318,7 +318,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
       />
       <PracticeStackHeader wordmark="Meditation" />
 
-      <ScrollFade fadeColor={colors.background.dark}>
+      <ScrollFade>
         <ScrollView
           className="flex-1"
           contentContainerClassName="px-6"

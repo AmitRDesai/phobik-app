@@ -34,7 +34,7 @@ export function MovementSessionShell({
         bgClassName="bg-surface"
       />
       <PracticeStackHeader wordmark={wordmark} />
-      <ScrollFade fadeColor={colors.background.dark}>
+      <ScrollFade>
         <ScrollView
           className="flex-1"
           contentContainerClassName="px-6 pt-2"

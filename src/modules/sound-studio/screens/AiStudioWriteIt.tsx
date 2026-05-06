@@ -30,7 +30,7 @@ export default function AiStudioWriteIt() {
       />
       <PracticeStackHeader wordmark="Sonic Studio" />
 
-      <ScrollFade fadeColor={colors.background.charcoal}>
+      <ScrollFade>
         <ScrollView
           className="flex-1"
           contentContainerClassName="px-6 pt-2"

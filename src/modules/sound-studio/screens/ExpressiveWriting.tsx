@@ -58,7 +58,7 @@ export default function ExpressiveWriting() {
       />
       <PracticeStackHeader wordmark="Session Flow" />
 
-      <ScrollFade fadeColor={colors.background.charcoal}>
+      <ScrollFade>
         <ScrollView
           className="flex-1"
           contentContainerClassName="px-6 pt-2"
