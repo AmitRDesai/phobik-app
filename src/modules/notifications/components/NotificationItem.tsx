@@ -1,7 +1,9 @@
-import { alpha, colors } from '@/constants/colors';
+import { Card } from '@/components/ui/Card';
+import { IconChip } from '@/components/ui/IconChip';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import type { NotificationItem as NotificationItemType } from '../hooks/useNotifications';
 
 interface NotificationItemProps {
@@ -48,16 +50,13 @@ export function NotificationItem({ notification }: NotificationItemProps) {
   };
 
   return (
-    <Pressable
+    <Card
       onPress={handlePress}
-      className="flex-row items-start gap-3 rounded-2xl border border-foreground/10 bg-foreground/5 px-4 py-3.5 active:opacity-70"
+      className="flex-row items-start gap-3 px-4 py-3.5"
     >
-      <View
-        className="h-10 w-10 items-center justify-center rounded-xl"
-        style={{ backgroundColor: color + '20' }}
-      >
+      <IconChip size="md" shape="rounded" bg={withAlpha(color, 0.13)}>
         <MaterialIcons name={icon} size={20} color={color} />
-      </View>
+      </IconChip>
 
       <View className="flex-1 gap-0.5">
         <View className="flex-row items-center gap-2">
@@ -90,6 +89,6 @@ export function NotificationItem({ notification }: NotificationItemProps) {
           style={{ marginTop: 12 }}
         />
       )}
-    </Pressable>
+    </Card>
   );
 }

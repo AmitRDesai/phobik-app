@@ -1,8 +1,9 @@
+import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Pressable, Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 interface SettingsMenuItemProps {
   icon: keyof typeof MaterialIcons.glyphMap;
@@ -23,24 +24,21 @@ export function SettingsMenuItem({
 }: SettingsMenuItemProps) {
   const scheme = useScheme();
   return (
-    <Pressable
-      onPress={onPress}
-      className="flex-row items-center gap-3 rounded-2xl border border-foreground/10 bg-foreground/5 px-4 py-3.5 active:opacity-70"
-    >
+    <Card onPress={onPress} className="flex-row items-center gap-3 px-4 py-3.5">
       <IconChip size="md" shape="rounded" bg={iconBgColor}>
         <MaterialIcons name={icon} size={22} color={iconColor} />
       </IconChip>
-      <Pressable className="flex-1" onPress={onPress}>
+      <View className="flex-1">
         <Text className="text-base font-semibold text-foreground">{label}</Text>
         {subtitle && (
           <Text className="text-sm text-foreground/50">{subtitle}</Text>
         )}
-      </Pressable>
+      </View>
       <MaterialIcons
         name="chevron-right"
         size={22}
         color={foregroundFor(scheme, 0.3)}
       />
-    </Pressable>
+    </Card>
   );
 }
