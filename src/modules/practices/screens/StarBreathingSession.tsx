@@ -3,7 +3,9 @@ import holdAudio from '@/assets/audio/practices/hold.mp3';
 import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { useNow } from '@/hooks/useNow';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -35,6 +37,7 @@ const HOLD_END = 6;
 const CYCLE_DURATION = 10;
 
 function StatsCard() {
+  const scheme = useScheme();
   const { hrv, hasAccess, hrvAt } = useLatestBiometrics();
   const baseline = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], 'Month');
   const stress = useStressScore();
@@ -68,7 +71,7 @@ function StatsCard() {
               alignItems: 'center',
               justifyContent: 'center',
               borderWidth: 1,
-              borderColor: alpha.white05,
+              borderColor: foregroundFor(scheme, 0.05),
             }}
           >
             <MaterialIcons
@@ -198,6 +201,7 @@ function PlaybackControls({
   onRestart: () => void;
   sessionReady: boolean;
 }) {
+  const scheme = useScheme();
   return (
     <View className="mb-8 flex-row items-center justify-center gap-8">
       <Pressable
@@ -207,7 +211,7 @@ function PlaybackControls({
         <MaterialIcons
           name={isMuted ? 'volume-off' : 'volume-up'}
           size={24}
-          color={alpha.white70}
+          color={foregroundFor(scheme, 0.7)}
         />
       </Pressable>
       <Pressable
@@ -237,7 +241,7 @@ function PlaybackControls({
         <MaterialIcons
           name={sessionReady ? 'replay' : 'skip-next'}
           size={24}
-          color={alpha.white70}
+          color={foregroundFor(scheme, 0.7)}
         />
       </Pressable>
     </View>

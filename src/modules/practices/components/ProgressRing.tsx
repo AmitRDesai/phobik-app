@@ -1,4 +1,6 @@
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { useEffect } from 'react';
 import Animated, {
   Easing,
@@ -21,6 +23,7 @@ interface ProgressRingProps {
 }
 
 export function ProgressRing({ progress }: ProgressRingProps) {
+  const scheme = useScheme();
   const animatedProgress = useSharedValue(progress);
 
   useEffect(() => {
@@ -52,7 +55,7 @@ export function ProgressRing({ progress }: ProgressRingProps) {
         cy={SIZE / 2}
         r={RADIUS}
         fill="transparent"
-        stroke={alpha.white05}
+        stroke={foregroundFor(scheme, 0.05)}
         strokeWidth={STROKE_WIDTH}
       />
       {/* Animated progress arc */}

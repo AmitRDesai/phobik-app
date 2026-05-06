@@ -1,6 +1,8 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef } from 'react';
@@ -26,6 +28,7 @@ interface DailyDoseProps {
 }
 
 export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
+  const scheme = useScheme();
   const { challenge: activeChallenge } = useActiveChallenge();
   const emotionId = (activeChallenge?.emotionId as string) ?? 'afraid';
   const needId = (activeChallenge?.needId as string) ?? 'safety';
@@ -143,7 +146,11 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
 
             {showAsAI && (
               <View className="mt-3 flex-row items-center gap-1.5 self-end">
-                <Ionicons name="sparkles" size={12} color={alpha.white30} />
+                <Ionicons
+                  name="sparkles"
+                  size={12}
+                  color={foregroundFor(scheme, 0.3)}
+                />
                 <Text className="text-[10px] text-foreground/30">
                   Tailored by AI based on your history
                 </Text>

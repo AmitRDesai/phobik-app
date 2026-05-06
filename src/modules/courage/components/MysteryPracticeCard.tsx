@@ -1,4 +1,6 @@
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
@@ -18,6 +20,7 @@ interface MysteryPracticeCardProps {
 }
 
 function DoseGrid({ dose }: { dose: DoseReward }) {
+  const scheme = useScheme();
   const items = [
     { label: 'Dopamine', value: dose.dopamine, isPink: true },
     { label: 'Oxytocin', value: dose.oxytocin, isPink: false },
@@ -52,6 +55,7 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
 }
 
 function GradientTimer({ formatted }: { formatted: string }) {
+  const scheme = useScheme();
   return (
     <GradientText className="text-center font-mono text-4xl font-bold">
       {formatted}
@@ -64,6 +68,7 @@ export function MysteryPracticeCard({
   onStart,
   onComplete,
 }: MysteryPracticeCardProps) {
+  const scheme = useScheme();
   const { seconds, formatted, isRunning, start, stop } = usePracticeTimer();
   const recordChallenge = useRecordChallenge();
 
@@ -166,9 +171,9 @@ export function MysteryPracticeCard({
     <View
       className="overflow-hidden rounded-3xl"
       style={{
-        backgroundColor: alpha.white05,
+        backgroundColor: foregroundFor(scheme, 0.05),
         borderWidth: 1,
-        borderColor: alpha.white10,
+        borderColor: foregroundFor(scheme, 0.1),
       }}
     >
       {/* Top gradient accent bar */}

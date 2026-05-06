@@ -5,7 +5,9 @@ import restAudio from '@/assets/audio/practices/rest.mp3';
 import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { useNow } from '@/hooks/useNow';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -29,6 +31,7 @@ const CYCLE_DURATION = PHASE_DURATION * 4; // 16s
 const TOTAL_DURATION = CYCLE_DURATION * 5; // 5 cycles = 80 seconds
 
 export default function BoxBreathingSession() {
+  const scheme = useScheme();
   const savedState = useAtomValue(boxBreathingSessionAtom);
   const setSession = useSetAtom(boxBreathingSessionAtom);
 
@@ -331,7 +334,7 @@ export default function BoxBreathingSession() {
                 <MaterialIcons
                   name={isMuted ? 'volume-off' : 'volume-up'}
                   size={24}
-                  color={alpha.white60}
+                  color={foregroundFor(scheme, 0.6)}
                 />
               </Pressable>
 
@@ -369,7 +372,7 @@ export default function BoxBreathingSession() {
                 <MaterialIcons
                   name={sessionReady ? 'replay' : 'skip-next'}
                   size={24}
-                  color={alpha.white60}
+                  color={foregroundFor(scheme, 0.6)}
                 />
               </Pressable>
             </View>

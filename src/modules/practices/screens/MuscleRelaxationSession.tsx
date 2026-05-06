@@ -1,6 +1,8 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useKeepAwake } from 'expo-keep-awake';
@@ -173,6 +175,7 @@ function sessionReducer(
 // ── Body Silhouette Component ────────────────────────────────────────────────
 
 function BodySilhouette({ activeGlow }: { activeGlow: [number, number] }) {
+  const scheme = useScheme();
   const glowOpacity = usePulseAnimation({
     active: true,
     from: 0.08,
@@ -192,7 +195,7 @@ function BodySilhouette({ activeGlow }: { activeGlow: [number, number] }) {
         viewBox="0 0 200 400"
         fill="none"
         strokeWidth={1.5}
-        stroke={alpha.white20}
+        stroke={foregroundFor(scheme, 0.2)}
       >
         {/* Head */}
         <Circle cx={100} cy={40} r={25} />
@@ -279,6 +282,7 @@ function BiometricBadge({
   value: string;
   valueColor: string;
 }) {
+  const scheme = useScheme();
   return (
     <View className="items-center rounded-2xl border border-foreground/10 bg-foreground/5 p-3">
       <MaterialIcons name={icon} size={14} color={iconColor} />
@@ -299,6 +303,7 @@ function MuscleGroupStep({
   group: MuscleGroup;
   state: 'completed' | 'active' | 'upcoming';
 }) {
+  const scheme = useScheme();
   return (
     <View className="items-center gap-2" style={{ minWidth: 70 }}>
       {state === 'active' ? (
@@ -336,7 +341,7 @@ function MuscleGroupStep({
             color={
               state === 'completed'
                 ? withAlpha(colors.rose[500], 0.5)
-                : alpha.white20
+                : foregroundFor(scheme, 0.2)
             }
           />
         </View>

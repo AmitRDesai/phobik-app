@@ -3,7 +3,9 @@ import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
 import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -27,6 +29,7 @@ const TOTAL_DURATION = CYCLE_DURATION * 5; // 5 cycles = 40s
 const INHALE_END = 4;
 
 function StatsCard() {
+  const scheme = useScheme();
   return (
     <View className="w-full max-w-sm rounded-3xl border border-foreground/10 bg-foreground/5 p-4">
       <View className="flex-row items-center justify-between px-1">
@@ -106,6 +109,7 @@ function PlaybackControls({
   onRestart: () => void;
   sessionReady: boolean;
 }) {
+  const scheme = useScheme();
   return (
     <View className="mb-8 flex-row items-center justify-center gap-8">
       <Pressable
@@ -115,7 +119,7 @@ function PlaybackControls({
         <MaterialIcons
           name={isMuted ? 'volume-off' : 'volume-up'}
           size={24}
-          color={alpha.white70}
+          color={foregroundFor(scheme, 0.7)}
         />
       </Pressable>
       <Pressable
@@ -145,7 +149,7 @@ function PlaybackControls({
         <MaterialIcons
           name={sessionReady ? 'replay' : 'skip-next'}
           size={24}
-          color={alpha.white70}
+          color={foregroundFor(scheme, 0.7)}
         />
       </Pressable>
     </View>

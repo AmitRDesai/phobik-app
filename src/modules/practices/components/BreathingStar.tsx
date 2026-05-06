@@ -1,4 +1,6 @@
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect } from 'react';
 import { Text } from '@/components/themed/Text';
@@ -84,6 +86,7 @@ export function BreathingStar({
   onPhaseChange,
   initialElapsed = 0,
 }: BreathingStarProps) {
+  const scheme = useScheme();
   const elapsed = useSharedValue(initialElapsed);
   const orbPulse = useSharedValue(1);
 
@@ -162,7 +165,7 @@ export function BreathingStar({
         <Path
           d={STAR_PATH}
           fill="none"
-          stroke={alpha.white10}
+          stroke={foregroundFor(scheme, 0.1)}
           strokeWidth={2.5}
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -182,7 +185,7 @@ export function BreathingStar({
           cy={100}
           r={45}
           fill="none"
-          stroke={alpha.white05}
+          stroke={foregroundFor(scheme, 0.05)}
           strokeWidth={0.5}
         />
         <Circle
@@ -190,11 +193,15 @@ export function BreathingStar({
           cy={100}
           r={55}
           fill="none"
-          stroke={alpha.white03}
+          stroke={foregroundFor(scheme, 0.03)}
           strokeWidth={0.5}
         />
         {/* Orb outer glow */}
-        <AnimatedCircle r={14} fill={alpha.white08} animatedProps={glowProps} />
+        <AnimatedCircle
+          r={14}
+          fill={foregroundFor(scheme, 0.08)}
+          animatedProps={glowProps}
+        />
         {/* Orb inner glow */}
         <AnimatedCircle
           r={9}

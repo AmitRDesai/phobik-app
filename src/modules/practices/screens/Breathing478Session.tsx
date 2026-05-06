@@ -4,7 +4,9 @@ import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
 import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
 import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { useNow } from '@/hooks/useNow';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -41,6 +43,7 @@ const PHASE_SUBTEXTS = [
 ] as const;
 
 export default function Breathing478Session() {
+  const scheme = useScheme();
   const savedState = useAtomValue(breathing478SessionAtom);
   const setSession = useSetAtom(breathing478SessionAtom);
 
@@ -220,7 +223,7 @@ export default function Breathing478Session() {
               <MaterialIcons
                 name={isMuted ? 'volume-off' : 'volume-up'}
                 size={24}
-                color={alpha.white60}
+                color={foregroundFor(scheme, 0.6)}
               />
             </Pressable>
 
@@ -259,7 +262,7 @@ export default function Breathing478Session() {
               <MaterialIcons
                 name={sessionReady ? 'replay' : 'skip-next'}
                 size={24}
-                color={alpha.white60}
+                color={foregroundFor(scheme, 0.6)}
               />
             </Pressable>
           </View>

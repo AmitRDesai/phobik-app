@@ -1,4 +1,6 @@
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { useEffect } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import Animated, {
@@ -98,6 +100,7 @@ export function BreathingInfinity({
   onPhaseChange,
   initialElapsed = 0,
 }: BreathingInfinityProps) {
+  const scheme = useScheme();
   const { width: screenWidth } = useWindowDimensions();
   const svgWidth = Math.min(screenWidth - 48, 400);
   // Match viewBox aspect ratio (124:88) so the path is perfectly centered
@@ -213,7 +216,11 @@ export function BreathingInfinity({
         />
 
         {/* Orb outer glow */}
-        <AnimatedCircle r={14} fill={alpha.white08} animatedProps={glowProps} />
+        <AnimatedCircle
+          r={14}
+          fill={foregroundFor(scheme, 0.08)}
+          animatedProps={glowProps}
+        />
 
         {/* Orb inner glow */}
         <AnimatedCircle

@@ -3,7 +3,9 @@ import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { SelectionCard } from '@/components/ui/SelectionCard';
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import MaskedView from '@react-native-masked-view/masked-view';
@@ -61,6 +63,7 @@ interface CalendarSettingsProps {
 }
 
 export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
+  const scheme = useScheme();
   const [connected, setConnected] = useAtom(calendarConnectedAtom);
   const [selectedIds, setSelectedIds] = useAtom(selectedCalendarIdsAtom);
   const [checkInTiming, setCheckInTiming] = useAtom(checkInTimingAtom);
@@ -111,7 +114,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
           />
           <View
             className="items-center justify-center overflow-hidden rounded-2xl border border-foreground/30 p-4"
-            style={{ backgroundColor: alpha.white35 }}
+            style={{ backgroundColor: foregroundFor(scheme, 0.35) }}
           >
             <BlurView intensity={20} tint="dark" className="absolute inset-0" />
             <MaskedView

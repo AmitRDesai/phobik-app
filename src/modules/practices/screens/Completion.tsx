@@ -1,6 +1,8 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import {
   DOSE_REWARDS,
   getActiveDoseRewards,
@@ -202,6 +204,7 @@ function RewardCircle({
   label: string;
   labelColor: string;
 }) {
+  const scheme = useScheme();
   return (
     <View className="items-center gap-3">
       <View className="relative h-16 w-16 items-center justify-center">
@@ -243,6 +246,7 @@ function RewardCircle({
 }
 
 export default function Completion() {
+  const scheme = useScheme();
   const router = useRouter();
   const { practiceType, durationSeconds } = useLocalSearchParams<{
     practiceType?: string;
@@ -348,7 +352,11 @@ export default function Completion() {
             onPress={() => {}}
             className="w-full flex-row items-center justify-center gap-2 py-4 active:opacity-70"
           >
-            <MaterialIcons name="ios-share" size={20} color={alpha.white70} />
+            <MaterialIcons
+              name="ios-share"
+              size={20}
+              color={foregroundFor(scheme, 0.7)}
+            />
             <Text className="text-sm font-semibold text-foreground/70">
               Share Victory
             </Text>

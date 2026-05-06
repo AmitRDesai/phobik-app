@@ -1,7 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { useSession as useBetterAuthSession } from '@/lib/auth';
 import { warmServer } from '@/lib/server-warmup';
@@ -34,9 +34,9 @@ import { biometricEnabledAtom, isSignedOutAtom } from '@/store/auth';
 export default function SignInScreen() {
   const scheme = useScheme();
   const socialIconColor =
-    scheme === 'dark' ? alpha.white80 : 'rgba(0,0,0,0.78)';
+    scheme === 'dark' ? foregroundFor(scheme, 0.8) : 'rgba(0,0,0,0.78)';
   const avatarIconColor =
-    scheme === 'dark' ? alpha.white30 : 'rgba(0,0,0,0.32)';
+    scheme === 'dark' ? foregroundFor(scheme, 0.3) : 'rgba(0,0,0,0.32)';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

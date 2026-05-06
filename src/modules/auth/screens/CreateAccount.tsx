@@ -1,7 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { warmServer } from '@/lib/server-warmup';
 import { dialog } from '@/utils/dialog';
@@ -33,7 +33,7 @@ const GRADIENT_HEADER_STYLE = {
 export default function CreateAccountScreen() {
   const scheme = useScheme();
   const socialIconColor =
-    scheme === 'dark' ? alpha.white80 : 'rgba(0,0,0,0.78)';
+    scheme === 'dark' ? foregroundFor(scheme, 0.8) : 'rgba(0,0,0,0.78)';
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

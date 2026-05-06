@@ -1,5 +1,7 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { useEnergyCheckInHistory } from '@/modules/home/hooks/useEnergyCheckIn';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
@@ -39,6 +41,7 @@ function pickLabelIndices(length: number, max = 4): number[] {
 }
 
 export function EnergyIndexChart() {
+  const scheme = useScheme();
   const range = useAtomValue(timeRangeAtom);
   const days = RANGE_TO_DAYS[range];
   const { series, average, isLoading } = useEnergyCheckInHistory(days);
@@ -112,7 +115,7 @@ export function EnergyIndexChart() {
               y1="0"
               x2={VIEW_W}
               y2="0"
-              stroke={alpha.white05}
+              stroke={foregroundFor(scheme, 0.05)}
               strokeWidth="1"
             />
             <Line
@@ -120,7 +123,7 @@ export function EnergyIndexChart() {
               y1={VIEW_H / 2}
               x2={VIEW_W}
               y2={VIEW_H / 2}
-              stroke={alpha.white05}
+              stroke={foregroundFor(scheme, 0.05)}
               strokeWidth="1"
             />
             <Line
@@ -128,7 +131,7 @@ export function EnergyIndexChart() {
               y1={VIEW_H}
               x2={VIEW_W}
               y2={VIEW_H}
-              stroke={alpha.white05}
+              stroke={foregroundFor(scheme, 0.05)}
               strokeWidth="1"
             />
             {areaPath ? <Path d={areaPath} fill="url(#areaGrad)" /> : null}

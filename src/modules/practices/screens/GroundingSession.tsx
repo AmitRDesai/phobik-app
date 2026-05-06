@@ -1,6 +1,8 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { MaterialIcons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
@@ -85,6 +87,7 @@ function parseInstruction(text: string) {
 }
 
 export default function GroundingSession() {
+  const scheme = useScheme();
   useKeepAwake();
   const router = useRouter();
   const savedState = useAtomValue(groundingSessionAtom);
@@ -279,7 +282,7 @@ export default function GroundingSession() {
             <MaterialIcons
               name={isMuted ? 'volume-off' : 'volume-up'}
               size={24}
-              color={alpha.white70}
+              color={foregroundFor(scheme, 0.7)}
             />
           </Pressable>
           <Pressable
@@ -299,7 +302,11 @@ export default function GroundingSession() {
             onPress={handleRestart}
             className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
           >
-            <MaterialIcons name="replay" size={24} color={alpha.white70} />
+            <MaterialIcons
+              name="replay"
+              size={24}
+              color={foregroundFor(scheme, 0.7)}
+            />
           </Pressable>
         </View>
       </View>

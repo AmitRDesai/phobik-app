@@ -1,4 +1,6 @@
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { alpha, colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { Text } from '@/components/themed/Text';
 import { Pressable, View } from 'react-native';
 import Animated, {
@@ -77,6 +79,7 @@ function triggerTick() {
 
 export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
   'use no memo'; // Opt out of React Compiler — Reanimated shared value mutations are incompatible
+  const scheme = useScheme();
   const glowOpacity = useSharedValue(0.8);
   const glowScale = useSharedValue(1);
   const pressScale = useSharedValue(1);
@@ -334,7 +337,7 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
                 <Text
                   className="mt-0.5 px-1 text-center text-[7px] leading-tight"
                   style={{
-                    color: isDark ? alpha.black70 : alpha.white90,
+                    color: isDark ? alpha.black70 : foregroundFor(scheme, 0.9),
                   }}
                 >
                   {challenge.wheelSubtext}

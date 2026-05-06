@@ -1,4 +1,6 @@
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { useEffect, useRef } from 'react';
 import { Text } from '@/components/themed/Text';
 import { useWindowDimensions, View } from 'react-native';
@@ -55,6 +57,7 @@ export function BreathingCircle478({
   isActive = true,
   phaseIndex = 0,
 }: BreathingCircle478Props) {
+  const scheme = useScheme();
   const { height: screenHeight } = useWindowDimensions();
   const SIZE = screenHeight >= 800 ? 300 : 260;
 
@@ -190,7 +193,7 @@ export function BreathingCircle478({
           cy={CENTER}
           r={RADIUS}
           fill="transparent"
-          stroke={alpha.white10}
+          stroke={foregroundFor(scheme, 0.1)}
           strokeWidth={TRACK_STROKE_WIDTH}
         />
 

@@ -1,6 +1,8 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Text } from '@/components/themed/Text';
@@ -17,6 +19,7 @@ export function SelfLeadershipPlan({
   selectedStrengths,
   exercises,
 }: SelfLeadershipPlanProps) {
+  const scheme = useScheme();
   const router = useRouter();
 
   return (
@@ -136,7 +139,7 @@ export function SelfLeadershipPlan({
               style={{
                 backgroundColor: ex.highlighted
                   ? colors.primary['pink-soft']
-                  : (ex.iconColor ?? alpha.white40),
+                  : (ex.iconColor ?? foregroundFor(scheme, 0.4)),
               }}
             />
             <Text className="text-[9px] font-black uppercase tracking-widest text-foreground/55">
