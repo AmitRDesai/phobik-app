@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -63,11 +63,10 @@ export function GradientButton({
             paddingVertical: compact ? 8 : 16,
             minHeight: compact ? undefined : 56,
             justifyContent: 'center',
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: compact ? 0.4 : 0.5,
-            shadowRadius: compact ? 15 : 12,
-            elevation: compact ? 4 : 8,
+            boxShadow: `0 4px ${compact ? 15 : 12}px ${withAlpha(
+              colors.primary.pink,
+              compact ? 0.4 : 0.5,
+            )}`,
           }}
         >
           {loading ? (

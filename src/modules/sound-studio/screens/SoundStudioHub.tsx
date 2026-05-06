@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { dialog } from '@/utils/dialog';
@@ -129,10 +129,7 @@ export default function SoundStudioHub() {
         <View
           className="h-9 w-9 items-center justify-center rounded-full"
           style={{
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.5,
-            shadowRadius: 8,
+            boxShadow: `0 0 8px ${withAlpha(colors.primary.pink, 0.5)}`,
           }}
         >
           <View className="h-9 w-9 items-center justify-center rounded-full bg-primary-pink">

@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/Badge';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image, type ImageSource } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -86,10 +86,10 @@ export function PillarCard({
               <View
                 className="mb-4 h-12 w-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10"
                 style={{
-                  shadowColor: accentColor ?? colors.primary.pink,
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.5,
-                  shadowRadius: 12,
+                  boxShadow: `0 0 12px ${withAlpha(
+                    accentColor ?? colors.primary.pink,
+                    0.5,
+                  )}`,
                 }}
               >
                 <MaterialIcons
