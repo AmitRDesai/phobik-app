@@ -1,4 +1,5 @@
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useCallback, useState } from 'react';
@@ -13,7 +14,11 @@ type ChatInputProps = {
 };
 
 export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
+  const scheme = useScheme();
   const [text, setText] = useState('');
+  const placeholderColor = foregroundFor(scheme, 0.3);
+  const micIdleColor = foregroundFor(scheme, 0.4);
+  const sendDisabledIcon = foregroundFor(scheme, 0.3);
 
   const handleSend = useCallback(() => {
     if (!text.trim() || isLoading) return;
@@ -67,17 +72,11 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
         </Animated.View>
       )}
 
-      <View
-        className="flex-row items-center rounded-[28px] border px-3"
-        style={{
-          borderColor: alpha.white10,
-          backgroundColor: colors.background.input,
-        }}
-      >
+      <View className="flex-row items-center rounded-[28px] border border-foreground/10 bg-surface-input px-3">
         <TextInput
           className="max-h-[120px] flex-1 px-2 py-3 text-[15px] text-foreground"
           placeholder="Ask your coach anything..."
-          placeholderTextColor={alpha.white30}
+          placeholderTextColor={placeholderColor}
           value={text}
           onChangeText={setText}
           multiline
@@ -92,14 +91,14 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
             className="mr-1 h-9 w-9 items-center justify-center rounded-full"
             style={{
               backgroundColor: isListening
-                ? colors.accent.purple + '20'
+                ? withAlpha(colors.accent.purple, 0.2)
                 : 'transparent',
             }}
           >
             <Ionicons
               name={isListening ? 'mic' : 'mic-outline'}
               size={20}
-              color={isListening ? colors.accent.purple : alpha.white40}
+              color={isListening ? colors.accent.purple : micIdleColor}
             />
           </Pressable>
         )}
@@ -107,17 +106,9 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
         {isLoading ? (
           <Pressable
             onPress={handleStop}
-            className="h-9 w-9 items-center justify-center rounded-full"
-            style={{
-              backgroundColor: colors.card.elevated,
-              borderWidth: 1.5,
-              borderColor: alpha.white15,
-            }}
+            className="h-9 w-9 items-center justify-center rounded-full border-[1.5px] border-foreground/15 bg-surface-elevated"
           >
-            <View
-              className="h-3 w-3 rounded-sm"
-              style={{ backgroundColor: colors.white }}
-            />
+            <View className="h-3 w-3 rounded-sm bg-foreground" />
           </Pressable>
         ) : (
           <Pressable
@@ -127,7 +118,7 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
             style={{
               backgroundColor: canSend
                 ? colors.primary.pink
-                : colors.card.elevated,
+                : foregroundFor(scheme, 0.08),
               boxShadow: canSend
                 ? `0 2px 6px ${withAlpha(colors.primary.pink, 0.4)}`
                 : undefined,
@@ -136,7 +127,7 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
             <Ionicons
               name="arrow-up"
               size={18}
-              color={canSend ? '#fff' : alpha.white30}
+              color={canSend ? '#fff' : sendDisabledIcon}
             />
           </Pressable>
         )}

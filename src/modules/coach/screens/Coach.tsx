@@ -1,4 +1,6 @@
-import { alpha, colors } from '@/constants/colors';
+import { NetworkBanner } from '@/components/ui/NetworkBanner';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -14,7 +16,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChatBubble } from '../components/ChatBubble';
 import { ChatInput } from '../components/ChatInput';
 import { FollowUpSuggestions } from '../components/FollowUpSuggestions';
-import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { ScrollToBottomButton } from '../components/ScrollToBottomButton';
 import { SessionHistory } from '../components/SessionHistory';
 import { TypingIndicator } from '../components/TypingIndicator';
@@ -27,6 +28,7 @@ const FOLLOW_UP_SUGGESTIONS = [
 ];
 
 export default function Coach() {
+  const scheme = useScheme();
   const {
     messages,
     sendMessage,
@@ -114,26 +116,15 @@ export default function Coach() {
     [retry, isNewMessage, messages.length],
   );
 
+  const iconMuted = foregroundFor(scheme, 0.5);
+
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-surface">
       <SafeAreaView edges={['top']} className="flex-1">
         <KeyboardAvoidingView behavior="padding" className="flex-1">
           {/* Header */}
-          <View
-            className="flex-row items-center px-5 pb-3 pt-2"
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: alpha.white05,
-            }}
-          >
-            <View
-              className="h-9 w-9 items-center justify-center rounded-full"
-              style={{
-                backgroundColor: alpha.white08,
-                borderWidth: 1,
-                borderColor: alpha.white10,
-              }}
-            >
+          <View className="flex-row items-center border-b border-foreground/5 px-5 pb-3 pt-2">
+            <View className="h-9 w-9 items-center justify-center rounded-full border border-foreground/10 bg-foreground/[0.08]">
               <MaterialIcons
                 name="psychology"
                 size={20}
@@ -151,18 +142,16 @@ export default function Coach() {
             <View className="flex-row gap-2">
               <Pressable
                 onPress={() => setShowHistory(true)}
-                className="h-8 w-8 items-center justify-center rounded-full"
-                style={{ backgroundColor: alpha.white05 }}
+                className="h-8 w-8 items-center justify-center rounded-full bg-foreground/5"
               >
-                <Ionicons name="time-outline" size={16} color={alpha.white50} />
+                <Ionicons name="time-outline" size={16} color={iconMuted} />
               </Pressable>
               {messages.length > 0 && (
                 <Pressable
                   onPress={handleNewSession}
-                  className="h-8 w-8 items-center justify-center rounded-full"
-                  style={{ backgroundColor: alpha.white05 }}
+                  className="h-8 w-8 items-center justify-center rounded-full bg-foreground/5"
                 >
-                  <Ionicons name="add" size={18} color={alpha.white50} />
+                  <Ionicons name="add" size={18} color={iconMuted} />
                 </Pressable>
               )}
             </View>
@@ -208,15 +197,22 @@ export default function Coach() {
           {/* Error */}
           {error && (
             <View
-              className="mx-4 mb-2 flex-row items-center gap-2 rounded-2xl px-4 py-3"
+              className="mx-4 mb-2 flex-row items-center gap-2 rounded-2xl border border-status-danger/15 px-4 py-3"
               style={{
-                backgroundColor: 'rgba(239,68,68,0.08)',
-                borderWidth: 1,
-                borderColor: 'rgba(239,68,68,0.15)',
+                backgroundColor: withAlpha(colors.status.danger, 0.08),
               }}
             >
-              <Ionicons name="alert-circle" size={16} color="#ef4444" />
-              <Text className="flex-1 text-[13px] text-red-400">{error}</Text>
+              <Ionicons
+                name="alert-circle"
+                size={16}
+                color={colors.status.danger}
+              />
+              <Text
+                className="flex-1 text-[13px]"
+                style={{ color: colors.status.danger }}
+              >
+                {error}
+              </Text>
             </View>
           )}
 
@@ -260,14 +256,7 @@ function EmptyState({
   return (
     <View className="flex-1 justify-end px-5 pb-6">
       <View className="flex-1 items-center justify-center">
-        <View
-          className="mb-5 h-16 w-16 items-center justify-center rounded-full"
-          style={{
-            backgroundColor: alpha.white05,
-            borderWidth: 1,
-            borderColor: alpha.white08,
-          }}
-        >
+        <View className="mb-5 h-16 w-16 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/5">
           <MaterialIcons
             name="psychology"
             size={30}
@@ -296,11 +285,7 @@ function EmptyState({
           <Pressable
             key={text}
             onPress={() => onSuggestion(text)}
-            className="rounded-2xl border px-4 py-3"
-            style={{
-              borderColor: alpha.white10,
-              backgroundColor: alpha.white03,
-            }}
+            className="rounded-2xl border border-foreground/10 bg-foreground/[0.03] px-4 py-3"
           >
             <Text className="text-[14px] text-foreground/60">{text}</Text>
           </Pressable>

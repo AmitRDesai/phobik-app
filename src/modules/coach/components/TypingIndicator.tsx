@@ -1,4 +1,4 @@
-import { alpha, colors } from '@/constants/colors';
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect } from 'react';
 import { View } from 'react-native';
@@ -41,10 +41,7 @@ export function TypingIndicator() {
 
   return (
     <View className="mb-4 flex-row gap-3">
-      <View
-        className="mt-0.5 h-7 w-7 items-center justify-center rounded-full"
-        style={{ backgroundColor: alpha.white08 }}
-      >
+      <View className="mt-0.5 h-7 w-7 items-center justify-center rounded-full bg-foreground/[0.08]">
         <MaterialIcons
           name="psychology"
           size={16}

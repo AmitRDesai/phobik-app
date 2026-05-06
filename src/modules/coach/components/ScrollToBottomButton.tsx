@@ -1,4 +1,5 @@
-import { alpha, colors } from '@/constants/colors';
+import { foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
@@ -12,6 +13,7 @@ export function ScrollToBottomButton({
   visible,
   onPress,
 }: ScrollToBottomButtonProps) {
+  const scheme = useScheme();
   if (!visible) return null;
 
   return (
@@ -22,15 +24,14 @@ export function ScrollToBottomButton({
     >
       <Pressable
         onPress={onPress}
-        className="h-9 w-9 items-center justify-center rounded-full"
-        style={{
-          backgroundColor: colors.card.elevated,
-          borderWidth: 1,
-          borderColor: alpha.white10,
-          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
-        }}
+        className="h-9 w-9 items-center justify-center rounded-full border border-foreground/10 bg-surface-elevated"
+        style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)' }}
       >
-        <Ionicons name="chevron-down" size={18} color={alpha.white60} />
+        <Ionicons
+          name="chevron-down"
+          size={18}
+          color={foregroundFor(scheme, 0.6)}
+        />
       </Pressable>
     </Animated.View>
   );

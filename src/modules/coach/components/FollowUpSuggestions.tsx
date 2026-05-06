@@ -1,4 +1,3 @@
-import { alpha } from '@/constants/colors';
 import { Pressable, ScrollView, Text } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
@@ -26,11 +25,7 @@ export function FollowUpSuggestions({
           <Pressable
             key={text}
             onPress={() => onSelect(text)}
-            className="rounded-full border px-4 py-2"
-            style={{
-              borderColor: alpha.white10,
-              backgroundColor: alpha.white05,
-            }}
+            className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-2"
           >
             <Text className="text-[13px] text-foreground/60">{text}</Text>
           </Pressable>

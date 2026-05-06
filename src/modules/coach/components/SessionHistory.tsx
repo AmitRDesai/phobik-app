@@ -1,4 +1,7 @@
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+import { authClient } from '@/lib/auth';
+import { env } from '@/utils/env';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import {
@@ -10,8 +13,6 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { authClient } from '@/lib/auth';
-import { env } from '@/utils/env';
 
 type Thread = {
   id: string;
@@ -45,8 +46,13 @@ export function SessionHistory({
   onSelectThread,
   currentThreadId,
 }: SessionHistoryProps) {
+  const scheme = useScheme();
   const [threads, setThreads] = useState<Thread[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const iconMuted = foregroundFor(scheme, 0.5);
+  const iconDim = foregroundFor(scheme, 0.4);
+  const iconFaint = foregroundFor(scheme, 0.2);
 
   useEffect(() => {
     if (!visible) return;
@@ -87,22 +93,15 @@ export function SessionHistory({
       <View className="flex-1 bg-surface">
         <SafeAreaView edges={['top']} className="flex-1">
           {/* Header */}
-          <View
-            className="flex-row items-center px-5 pb-3 pt-6"
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: alpha.white05,
-            }}
-          >
+          <View className="flex-row items-center border-b border-foreground/5 px-5 pb-3 pt-6">
             <Text className="flex-1 text-lg font-semibold text-foreground">
               Past Sessions
             </Text>
             <Pressable
               onPress={onClose}
-              className="h-8 w-8 items-center justify-center rounded-full"
-              style={{ backgroundColor: alpha.white05 }}
+              className="h-8 w-8 items-center justify-center rounded-full bg-foreground/5"
             >
-              <Ionicons name="close" size={18} color={alpha.white50} />
+              <Ionicons name="close" size={18} color={iconMuted} />
             </Pressable>
           </View>
 
@@ -115,7 +114,7 @@ export function SessionHistory({
               <Ionicons
                 name="chatbubbles-outline"
                 size={40}
-                color={alpha.white20}
+                color={iconFaint}
               />
               <Text className="text-center text-[14px] text-foreground/30">
                 No past sessions yet. Start a conversation with your coach!
@@ -134,25 +133,21 @@ export function SessionHistory({
                       onSelectThread(item.id);
                       onClose();
                     }}
-                    className="mb-2 flex-row items-center gap-3 rounded-2xl px-4 py-3.5"
+                    className="mb-2 flex-row items-center gap-3 rounded-2xl border px-4 py-3.5"
                     style={{
                       backgroundColor: isCurrent
-                        ? colors.accent.purple + '15'
-                        : alpha.white03,
-                      borderWidth: 1,
+                        ? withAlpha(colors.accent.purple, 0.15)
+                        : foregroundFor(scheme, 0.03),
                       borderColor: isCurrent
-                        ? colors.accent.purple + '30'
-                        : alpha.white05,
+                        ? withAlpha(colors.accent.purple, 0.3)
+                        : foregroundFor(scheme, 0.05),
                     }}
                   >
-                    <View
-                      className="h-9 w-9 items-center justify-center rounded-full"
-                      style={{ backgroundColor: alpha.white08 }}
-                    >
+                    <View className="h-9 w-9 items-center justify-center rounded-full bg-foreground/[0.08]">
                       <MaterialIcons
                         name="psychology"
                         size={18}
-                        color={isCurrent ? colors.accent.purple : alpha.white40}
+                        color={isCurrent ? colors.accent.purple : iconDim}
                       />
                     </View>
                     <View className="flex-1">
@@ -167,8 +162,16 @@ export function SessionHistory({
                       </Text>
                     </View>
                     {isCurrent && (
-                      <View className="rounded-full bg-accent-purple/20 px-2 py-0.5">
-                        <Text className="text-[10px] font-medium text-accent-purple">
+                      <View
+                        className="rounded-full px-2 py-0.5"
+                        style={{
+                          backgroundColor: withAlpha(colors.accent.purple, 0.2),
+                        }}
+                      >
+                        <Text
+                          className="text-[10px] font-medium"
+                          style={{ color: colors.accent.purple }}
+                        >
                           Active
                         </Text>
                       </View>
@@ -176,7 +179,7 @@ export function SessionHistory({
                     <Ionicons
                       name="chevron-forward"
                       size={16}
-                      color={alpha.white20}
+                      color={iconFaint}
                     />
                   </Pressable>
                 );
