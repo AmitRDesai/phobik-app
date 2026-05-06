@@ -1,10 +1,22 @@
+import { Text } from '@/components/themed/Text';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import {
+  useAppleSignIn,
+  useGoogleSignIn,
+  useSignIn,
+} from '@/hooks/auth/useAuth';
+import {
+  useBiometricAuth,
+  useBiometricAvailability,
+} from '@/hooks/auth/useBiometric';
 import { useScheme } from '@/hooks/useTheme';
 import { useSession as useBetterAuthSession } from '@/lib/auth';
 import { warmServer } from '@/lib/server-warmup';
+import { biometricEnabledAtom, isSignedOutAtom } from '@/store/auth';
+import { questionnaireAtom } from '@/store/onboarding';
 import { isReturningUserAtom } from '@/store/user';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,20 +28,8 @@ import {
   Platform,
   Pressable,
   TextInput as RNTextInput,
-  Text,
   View,
 } from 'react-native';
-import { questionnaireAtom } from '@/store/onboarding';
-import {
-  useAppleSignIn,
-  useGoogleSignIn,
-  useSignIn,
-} from '@/hooks/auth/useAuth';
-import {
-  useBiometricAuth,
-  useBiometricAvailability,
-} from '@/hooks/auth/useBiometric';
-import { biometricEnabledAtom, isSignedOutAtom } from '@/store/auth';
 
 export default function SignInScreen() {
   const scheme = useScheme();
@@ -170,8 +170,8 @@ export default function SignInScreen() {
 
       {/* Welcome Text */}
       <View className="items-center px-4">
-        <Text className="text-3xl font-bold text-foreground">Welcome Back</Text>
-        <Text className="mt-2 text-lg text-foreground/60">
+        <Text variant="h1">Welcome Back</Text>
+        <Text variant="body-lg" muted className="mt-2">
           We missed your energy today.
         </Text>
       </View>
@@ -189,14 +189,14 @@ export default function SignInScreen() {
               color={colors.primary.pink}
             />
           </Pressable>
-          <Text className="mt-3 text-sm text-foreground/50">
+          <Text variant="body-sm" className="mt-3 text-foreground/50">
             Tap to sign in with {biometricType}
           </Text>
 
           {!isSignedOut && (
             <View className="mt-4 flex-row items-center">
               <View className="h-px flex-1 bg-foreground/15" />
-              <Text className="mx-4 text-sm text-foreground/45">
+              <Text variant="body-sm" className="mx-4 text-foreground/45">
                 or use credentials
               </Text>
               <View className="h-px flex-1 bg-foreground/15" />
@@ -244,7 +244,9 @@ export default function SignInScreen() {
             disabled={isLoading}
             onPress={() => router.push('/auth/forgot-password')}
           >
-            <Text className="text-sm text-foreground/60">Forgot Password?</Text>
+            <Text variant="body-sm" muted>
+              Forgot Password?
+            </Text>
           </Pressable>
 
           <View className="mt-6">
@@ -256,7 +258,7 @@ export default function SignInScreen() {
               Sign In
             </GradientButton>
             {showWarmingHint && (
-              <Text className="mt-3 text-center text-xs text-foreground/55">
+              <Text variant="body-sm" muted className="mt-3 text-center">
                 Hang tight — we&apos;re getting things ready for you.
               </Text>
             )}
@@ -266,7 +268,7 @@ export default function SignInScreen() {
           <View className="mt-6">
             <View className="mb-4 flex-row items-center">
               <View className="h-px flex-1 bg-foreground/15" />
-              <Text className="mx-4 text-sm text-foreground/45">
+              <Text variant="body-sm" className="mx-4 text-foreground/45">
                 or continue with
               </Text>
               <View className="h-px flex-1 bg-foreground/15" />
@@ -306,9 +308,11 @@ export default function SignInScreen() {
             className="mb-8 mt-6 py-2"
             disabled={isLoading}
           >
-            <Text className="text-center text-sm text-foreground/55">
+            <Text variant="body-sm" muted className="text-center">
               Don&apos;t have an account?{' '}
-              <Text className="font-bold text-primary-pink">Sign Up</Text>
+              <Text variant="body-sm" className="!font-bold text-primary-pink">
+                Sign Up
+              </Text>
             </Text>
           </Pressable>
         </View>

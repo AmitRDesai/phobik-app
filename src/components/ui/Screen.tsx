@@ -115,7 +115,7 @@ export function Screen({
     : resolvedInsetBottom
       ? insets.bottom
       : 0;
-  const bottomReserve = scroll ? baseReserve + FADE_HEIGHT : baseReserve;
+  const bottomReserve = scroll ? FADE_HEIGHT : baseReserve;
 
   const bodyPaddingClass = className ?? DEFAULT_BODY_PADDING;
 
