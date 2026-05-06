@@ -17,9 +17,13 @@ export type CardVariant =
   | 'toned';
 
 /**
- * Centered colored glow descriptor. Resolves to a RN 0.83+ `boxShadow`
- * string via `withAlpha(color, opacity)`. Defaults give the soft "card glow"
+ * Colored shadow descriptor. Resolves to a RN 0.83+ `boxShadow` value via
+ * `withAlpha(color, opacity)`. Defaults give the soft centered "card glow"
  * we use for hero cards (pink/yellow halo at 0.2 alpha, 24px blur).
+ *
+ * `spread` is opt-in — when set, the shadow is emitted as the array form
+ * (`[{ offsetX, offsetY, blurRadius, spreadDistance, color }]`) instead of
+ * the string form, which does not support spread.
  */
 export interface CardShadow {
   color: string;
@@ -27,6 +31,7 @@ export interface CardShadow {
   blur?: number;
   offsetX?: number;
   offsetY?: number;
+  spread?: number;
 }
 
 export interface CardProps extends Omit<ViewProps, 'style'> {
@@ -61,8 +66,21 @@ function buildBoxShadow({
   blur = 24,
   offsetX = 0,
   offsetY = 0,
-}: CardShadow): string {
-  return `${offsetX}px ${offsetY}px ${blur}px ${withAlpha(color, opacity)}`;
+  spread,
+}: CardShadow): ViewStyle['boxShadow'] {
+  const rgba = withAlpha(color, opacity);
+  if (spread != null) {
+    return [
+      {
+        offsetX,
+        offsetY,
+        blurRadius: blur,
+        spreadDistance: spread,
+        color: rgba,
+      },
+    ];
+  }
+  return `${offsetX}px ${offsetY}px ${blur}px ${rgba}`;
 }
 
 const VARIANT_CLASSES: Record<Exclude<CardVariant, 'toned'>, string> = {
