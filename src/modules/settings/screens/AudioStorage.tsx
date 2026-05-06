@@ -163,14 +163,13 @@ export default function AudioStorage() {
       </Text>
       <Card className="px-4 py-5">
         <View className="flex-row items-center gap-3">
-          <View
-            className="h-10 w-10 items-center justify-center rounded-xl"
-            style={{
-              backgroundColor: withAlpha(cyan, scheme === 'dark' ? 0.15 : 0.12),
-            }}
+          <IconChip
+            size="md"
+            shape="rounded"
+            bg={withAlpha(cyan, scheme === 'dark' ? 0.15 : 0.12)}
           >
             <MaterialIcons name="library-music" size={22} color={cyan} />
-          </View>
+          </IconChip>
           <View className="flex-1">
             <Text className="text-base font-semibold text-foreground">
               Cached audio
