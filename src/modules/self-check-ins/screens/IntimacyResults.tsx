@@ -73,7 +73,7 @@ function ScoreRing({
           />
         </Svg>
         <View className="absolute items-center">
-          <Text className="text-3xl font-bold text-white">{score}</Text>
+          <Text className="text-3xl font-bold text-foreground">{score}</Text>
           <Text className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
             / {max}
           </Text>
@@ -224,7 +224,7 @@ export default function IntimacyResults() {
         }}
       >
         <BackButton onPress={() => router.back()} />
-        <Text className="text-lg font-bold tracking-tight text-white">
+        <Text className="text-lg font-bold tracking-tight text-foreground">
           Quiz Results
         </Text>
         <View className="h-10 w-10" />
@@ -237,7 +237,7 @@ export default function IntimacyResults() {
       >
         {/* Title */}
         <View className="items-center pb-8 pt-4">
-          <Text className="mb-2 text-center text-3xl font-bold tracking-tight text-white">
+          <Text className="mb-2 text-center text-3xl font-bold tracking-tight text-foreground">
             Speaker vs Listener
           </Text>
           <Text className="text-center text-sm text-zinc-400">
@@ -264,14 +264,14 @@ export default function IntimacyResults() {
         </View>
 
         {/* Insight Card */}
-        <View className="mb-8 rounded-2xl border border-white/5 bg-neutral-900/50 p-5">
+        <View className="mb-8 rounded-2xl border border-foreground/5 bg-neutral-900/50 p-5">
           <View className="mb-3 flex-row items-center gap-2">
             <MaterialIcons
               name="balance"
               size={20}
               color={colors.primary.pink}
             />
-            <Text className="text-base font-bold text-white">
+            <Text className="text-base font-bold text-foreground">
               {insight.title}
             </Text>
           </View>
@@ -282,7 +282,7 @@ export default function IntimacyResults() {
 
         {/* Growth Zones */}
         <View className="mb-10">
-          <Text className="mb-4 text-lg font-bold text-white">
+          <Text className="mb-4 text-lg font-bold text-foreground">
             Growth Zones
           </Text>
           <View className="gap-4">
@@ -329,14 +329,14 @@ export default function IntimacyResults() {
 
         {/* Connection Challenges */}
         <View>
-          <Text className="mb-4 text-lg font-bold text-white">
+          <Text className="mb-4 text-lg font-bold text-foreground">
             Connection Challenges
           </Text>
           <View className="gap-3">
             {CHALLENGES.map((challenge) => (
               <View
                 key={challenge.title}
-                className="flex-row items-center gap-4 rounded-xl border border-white/5 bg-neutral-900/40 p-4"
+                className="flex-row items-center gap-4 rounded-xl border border-foreground/5 bg-neutral-900/40 p-4"
               >
                 <View
                   className="h-10 w-10 items-center justify-center rounded-full"
@@ -349,7 +349,7 @@ export default function IntimacyResults() {
                   />
                 </View>
                 <View className="flex-1">
-                  <Text className="text-sm font-bold text-white">
+                  <Text className="text-sm font-bold text-foreground">
                     {challenge.title}
                   </Text>
                   <Text className="text-[11px] text-zinc-400">

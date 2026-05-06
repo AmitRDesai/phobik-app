@@ -16,15 +16,15 @@ export default function AssessmentHub() {
   return (
     <PracticeScreenShell
       wordmark="Self Check-Ins"
-      bgClassName="bg-background-charcoal"
+      bgClassName="bg-surface"
       glowCenterY={0.25}
       glowIntensity={0.5}
     >
       <View className="mb-8 mt-2">
-        <Text className="text-3xl font-extrabold tracking-tight text-white">
+        <Text className="text-3xl font-extrabold tracking-tight text-foreground">
           Assessment Hub
         </Text>
-        <Text className="mt-1 text-sm font-medium text-white/60">
+        <Text className="mt-1 text-sm font-medium text-foreground/60">
           Deep insights for personal evolution.
         </Text>
       </View>

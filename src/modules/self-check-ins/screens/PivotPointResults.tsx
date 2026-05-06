@@ -20,7 +20,7 @@ export default function PivotPointResults() {
 
   if (!results) {
     return (
-      <View className="flex-1 items-center justify-center bg-background-charcoal">
+      <View className="flex-1 items-center justify-center bg-surface">
         <Text className="text-zinc-400">Assessment incomplete.</Text>
         <GradientButton onPress={() => router.back()} className="mt-4">
           Back to Assessments
@@ -33,7 +33,7 @@ export default function PivotPointResults() {
   const secondary = PATTERN_ARCHETYPES[results.secondaryPattern];
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       {/* Header */}
       <View
         className="flex-row items-center justify-between px-6 pb-4"
@@ -43,7 +43,7 @@ export default function PivotPointResults() {
         }}
       >
         <BackButton onPress={() => router.back()} />
-        <Text className="text-lg font-bold tracking-tight text-white">
+        <Text className="text-lg font-bold tracking-tight text-foreground">
           The Pivot Point
         </Text>
         <View className="h-10 w-10" />
@@ -55,7 +55,7 @@ export default function PivotPointResults() {
       >
         {/* Hero */}
         <View className="mb-8 pt-4">
-          <Text className="mb-3 text-3xl font-bold tracking-tight text-white">
+          <Text className="mb-3 text-3xl font-bold tracking-tight text-foreground">
             This is how you respond under pressure
           </Text>
           <Text className="text-base leading-relaxed text-zinc-400">
@@ -85,7 +85,7 @@ export default function PivotPointResults() {
         </View>
 
         {/* Personalization — Your Next Practices */}
-        <View className="mb-4 rounded-2xl border border-white/5 bg-white/[0.03] p-6">
+        <View className="mb-4 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-6">
           <View className="mb-4 flex-row items-center gap-2">
             <MaterialIcons
               name="auto-awesome"
@@ -103,13 +103,13 @@ export default function PivotPointResults() {
           {primary.recommendations.map((rec) => (
             <View key={rec} className="mb-3 flex-row items-start gap-3">
               <View className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary-pink" />
-              <Text className="flex-1 text-sm text-white">{rec}</Text>
+              <Text className="flex-1 text-sm text-foreground">{rec}</Text>
             </View>
           ))}
         </View>
 
         {/* Closing Message */}
-        <View className="mb-8 rounded-2xl border border-white/5 bg-white/[0.03] p-6">
+        <View className="mb-8 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-6">
           <Text className="text-sm italic leading-relaxed text-zinc-400">
             Your next step isn&apos;t to become someone new&hellip; It&apos;s to
             respond just 1% differently when it matters.

@@ -44,7 +44,7 @@ export function QuestionProgress({
       <View className="mb-4 flex-row items-end justify-between">
         {showPercentage ? (
           <>
-            <Text className="text-base font-bold text-white">
+            <Text className="text-base font-bold text-foreground">
               Question {current} of {total}
             </Text>
             <Text className="text-sm font-bold text-neutral-400">
@@ -53,7 +53,7 @@ export function QuestionProgress({
           </>
         ) : (
           <>
-            <Text className="text-4xl font-extrabold tracking-tight text-white">
+            <Text className="text-4xl font-extrabold tracking-tight text-foreground">
               {displayNumber}
               <Text className="text-xl font-medium text-neutral-600">
                 /{displayTotal}

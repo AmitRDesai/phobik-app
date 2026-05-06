@@ -45,7 +45,7 @@ export default function PivotPointIntro() {
   const isResume = !!inProgress;
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       {/* Header */}
       <View
         className="flex-row items-center justify-between px-6 pb-4"
@@ -55,7 +55,7 @@ export default function PivotPointIntro() {
         }}
       >
         <BackButton />
-        <Text className="text-lg font-bold tracking-tight text-white">
+        <Text className="text-lg font-bold tracking-tight text-foreground">
           The Pivot Point
         </Text>
         <View className="h-10 w-10" />
@@ -66,14 +66,14 @@ export default function PivotPointIntro() {
         showsVerticalScrollIndicator={false}
       >
         {/* Badge */}
-        <View className="mb-4 mt-2 self-start rounded-full bg-white/5 px-4 py-1.5">
+        <View className="mb-4 mt-2 self-start rounded-full bg-foreground/5 px-4 py-1.5">
           <Text className="text-xs font-bold uppercase tracking-widest text-primary-pink">
             Assessment
           </Text>
         </View>
 
         {/* Hero Title */}
-        <Text className="mb-2 text-3xl font-bold tracking-tight text-white">
+        <Text className="mb-2 text-3xl font-bold tracking-tight text-foreground">
           The Pivot Point
         </Text>
         <Text className="mb-8 text-lg font-medium text-zinc-400">
@@ -81,7 +81,7 @@ export default function PivotPointIntro() {
         </Text>
 
         {/* Description Card */}
-        <View className="mb-4 rounded-2xl border border-white/5 bg-white/[0.03] p-6">
+        <View className="mb-4 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-6">
           <Text className="text-[15px] leading-relaxed text-zinc-300">
             When life gets stressful, we don&apos;t rise to our
             intentions&mdash;we fall back on patterns. This quick assessment
@@ -92,7 +92,7 @@ export default function PivotPointIntro() {
 
         {/* Info Cards */}
         <View className="mb-6 flex-row gap-3">
-          <View className="flex-1 items-center rounded-2xl border border-white/5 bg-white/[0.03] p-4">
+          <View className="flex-1 items-center rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-4">
             <MaterialIcons
               name="schedule"
               size={24}
@@ -101,11 +101,11 @@ export default function PivotPointIntro() {
             <Text className="mt-2 text-xs font-bold uppercase tracking-wider text-zinc-400">
               Duration
             </Text>
-            <Text className="mt-1 text-base font-bold text-white">
+            <Text className="mt-1 text-base font-bold text-foreground">
               8-10 minutes
             </Text>
           </View>
-          <View className="flex-1 items-center rounded-2xl border border-white/5 bg-white/[0.03] p-4">
+          <View className="flex-1 items-center rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-4">
             <MaterialIcons
               name="psychology"
               size={24}
@@ -114,7 +114,7 @@ export default function PivotPointIntro() {
             <Text className="mt-2 text-xs font-bold uppercase tracking-wider text-zinc-400">
               Insights
             </Text>
-            <Text className="mt-1 text-center text-base font-bold text-white">
+            <Text className="mt-1 text-center text-base font-bold text-foreground">
               Personalized Pattern
             </Text>
           </View>

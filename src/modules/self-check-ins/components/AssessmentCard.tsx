@@ -50,12 +50,12 @@ export function AssessmentCard({
   return (
     <Pressable onPress={onPress} className="active:scale-[0.98]">
       <View
-        className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-6"
+        className="overflow-hidden rounded-[28px] border border-foreground/10 bg-foreground/5 p-6"
         style={cardShadow}
       >
         <View className="mb-5 flex-row items-center gap-4">
           <View
-            className="h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/10"
+            className="h-12 w-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10"
             style={{
               shadowColor: withAlpha(colors.primary.pink, 0.5),
               shadowOffset: { width: 0, height: 0 },
@@ -66,10 +66,10 @@ export function AssessmentCard({
             {renderIcon(assessment)}
           </View>
           <View className="flex-1">
-            <Text className="text-lg font-bold text-white">
+            <Text className="text-lg font-bold text-foreground">
               {assessment.title}
             </Text>
-            <Text className="mt-1 text-xs leading-relaxed text-white/60">
+            <Text className="mt-1 text-xs leading-relaxed text-foreground/60">
               {assessment.description}
             </Text>
           </View>

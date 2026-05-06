@@ -105,19 +105,19 @@ export default function PivotPointQuestion() {
       : '';
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       {/* Header */}
       <View
-        className="flex-row items-center justify-between bg-background-charcoal px-6 pb-4"
+        className="flex-row items-center justify-between bg-surface px-6 pb-4"
         style={{ paddingTop: insets.top + 8 }}
       >
         <BackButton onPress={handleBack} />
-        <Text className="text-lg font-bold tracking-tight text-white">
+        <Text className="text-lg font-bold tracking-tight text-foreground">
           The Pivot Point
         </Text>
         <Pressable
           onPress={handleClose}
-          className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
+          className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
         >
           <MaterialIcons name="close" size={20} color="white" />
         </Pressable>
@@ -158,7 +158,7 @@ export default function PivotPointQuestion() {
           )}
 
           {/* Question */}
-          <Text className="mb-10 text-2xl font-bold leading-tight tracking-tight text-white">
+          <Text className="mb-10 text-2xl font-bold leading-tight tracking-tight text-foreground">
             {question.text}
           </Text>
 
@@ -178,7 +178,7 @@ export default function PivotPointQuestion() {
           </Text>
 
           {/* Context Card */}
-          <View className="mt-12 rounded-2xl border border-white/5 bg-white/[0.03] p-6">
+          <View className="mt-12 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-6">
             <Text className="text-sm italic leading-relaxed text-zinc-500">
               &ldquo;The Pivot Point is that split second between a stimulus and
               your response where your freedom lies.&rdquo;

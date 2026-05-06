@@ -77,7 +77,7 @@ export default function IntimacyIntro() {
         }}
       >
         <BackButton />
-        <Text className="text-lg font-bold tracking-tight text-white">
+        <Text className="text-lg font-bold tracking-tight text-foreground">
           Assessment
         </Text>
         <View className="h-10 w-10" />
@@ -163,7 +163,7 @@ export default function IntimacyIntro() {
 
         {/* Title */}
         <View className="px-8 pb-10 text-center">
-          <Text className="pb-3 text-center text-3xl font-bold leading-tight tracking-tight text-white">
+          <Text className="pb-3 text-center text-3xl font-bold leading-tight tracking-tight text-foreground">
             Balanced Communication Quiz
           </Text>
           <Text className="text-center text-base leading-relaxed text-zinc-400">

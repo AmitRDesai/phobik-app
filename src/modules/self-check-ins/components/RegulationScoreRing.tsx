@@ -21,7 +21,7 @@ export function RegulationScoreRing({ percentage }: RegulationScoreRingProps) {
   };
 
   return (
-    <View className="items-center rounded-2xl border border-white/5 bg-white/[0.03] p-5">
+    <View className="items-center rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-5">
       <View className="relative mb-3 items-center justify-center">
         <Svg width={SIZE} height={SIZE}>
           <Defs>
@@ -55,7 +55,7 @@ export function RegulationScoreRing({ percentage }: RegulationScoreRingProps) {
           />
         </Svg>
         <View className="absolute items-center">
-          <Text className="text-3xl font-bold text-white">{percentage}%</Text>
+          <Text className="text-3xl font-bold text-foreground">{percentage}%</Text>
         </View>
       </View>
       <Text className="text-center text-xs text-zinc-400">{getLabel()}</Text>

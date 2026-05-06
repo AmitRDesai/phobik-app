@@ -103,11 +103,11 @@ export default function StressSignatureMap() {
       className="flex-1 bg-background"
     >
       {/* Header */}
-      <View className="border-b border-white/5">
+      <View className="border-b border-foreground/5">
         <View className="flex-row items-center justify-between p-4">
           <BackButton />
           <View className="items-center">
-            <Text className="text-[13px] font-bold uppercase tracking-[2px] text-white">
+            <Text className="text-[13px] font-bold uppercase tracking-[2px] text-foreground">
               Stress Signature
             </Text>
             <Text
@@ -138,7 +138,7 @@ export default function StressSignatureMap() {
         {/* Top 3 Stressors */}
         <View className="mt-8 px-5">
           <View className="mb-6 flex-row items-center justify-between">
-            <Text className="text-[11px] font-black uppercase tracking-[3px] text-white/80">
+            <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/80">
               Your Top 3 Stressors
             </Text>
             <Text
@@ -485,7 +485,7 @@ function StressorResultCard({
             <Text className="text-2xl">{stressor.emoji}</Text>
           </View>
           <View>
-            <Text className="text-lg font-black tracking-tight text-white">
+            <Text className="text-lg font-black tracking-tight text-foreground">
               {stressor.label}
             </Text>
             <Text
@@ -505,15 +505,15 @@ function StressorResultCard({
       </View>
 
       <View className="mb-5">
-        <Text className="mb-2 text-[9px] font-black uppercase tracking-[3px] text-slate-500">
+        <Text className="mb-2 text-[9px] font-black uppercase tracking-[3px] text-foreground/55">
           Biological Root
         </Text>
-        <Text className="text-sm leading-relaxed text-slate-200">
+        <Text className="text-sm leading-relaxed text-foreground/80">
           {stressor.biologicalRoot}
         </Text>
       </View>
 
-      <View className="rounded-2xl border border-white/5 bg-black/40 p-4">
+      <View className="rounded-2xl border border-foreground/5 bg-black/40 p-4">
         <View className="mb-2 flex-row items-center gap-2">
           <MaterialIcons
             name={stressor.practice.icon as keyof typeof MaterialIcons.glyphMap}
@@ -527,7 +527,7 @@ function StressorResultCard({
             Phobik Practice: {stressor.practice.name}
           </Text>
         </View>
-        <Text className="text-[12px] leading-snug text-slate-300">
+        <Text className="text-[12px] leading-snug text-foreground/70">
           {stressor.practice.description}
         </Text>
       </View>
