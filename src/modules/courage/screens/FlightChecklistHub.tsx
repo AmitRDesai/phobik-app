@@ -1,4 +1,6 @@
 import heroImage from '@/assets/images/flight-checklist-hero.png';
+import { Badge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/Card';
 import { alpha, colors } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -94,8 +96,8 @@ export default function FlightChecklistHub() {
         showsVerticalScrollIndicator={false}
       >
         {/* Hero Section */}
-        <View
-          className="mb-8 overflow-hidden rounded-2xl border border-foreground/10"
+        <Card
+          className="mb-8 overflow-hidden p-0"
           style={{
             shadowColor: colors.primary.pink,
             shadowOffset: { width: 0, height: 0 },
@@ -125,14 +127,17 @@ export default function FlightChecklistHub() {
                 padding: 24,
               }}
             >
-              <View className="self-start rounded-full bg-primary-pink px-3 py-1">
-                <Text className="text-[10px] font-black uppercase tracking-widest text-foreground">
-                  PHOBIK
-                </Text>
-              </View>
+              <Badge
+                variant="solid"
+                tone="pink"
+                size="sm"
+                className="self-start"
+              >
+                PHOBIK
+              </Badge>
             </LinearGradient>
           </View>
-        </View>
+        </Card>
 
         {/* Title */}
         <View className="mb-8 items-center">
