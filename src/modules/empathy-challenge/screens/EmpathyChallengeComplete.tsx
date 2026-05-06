@@ -3,8 +3,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
-import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 import { Screen } from '@/components/ui/Screen';
 import { variantConfig } from '@/components/variant-config';
@@ -21,16 +21,17 @@ export default function EmpathyChallengeComplete() {
       variant="default"
       scroll
       header={
-        <View className="flex-row items-center justify-between px-6 py-2">
-          <BackButton icon="close" />
-          <Text
-            className="text-xs font-semibold uppercase tracking-widest text-foreground/60"
-            numberOfLines={1}
-          >
-            Challenge Complete
-          </Text>
-          <View className="w-10" />
-        </View>
+        <Header
+          variant="close"
+          center={
+            <Text
+              className="text-xs font-semibold uppercase tracking-widest text-foreground/60"
+              numberOfLines={1}
+            >
+              Challenge Complete
+            </Text>
+          }
+        />
       }
       sticky={
         <View className="gap-3 self-stretch">

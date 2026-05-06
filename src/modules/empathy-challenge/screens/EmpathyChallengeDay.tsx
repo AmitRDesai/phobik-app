@@ -4,8 +4,8 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Keyboard, Text, TextInput, View } from 'react-native';
 
-import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -78,13 +78,14 @@ export default function EmpathyChallengeDay() {
       scroll
       keyboard
       header={
-        <View className="flex-row items-center justify-between px-4 py-2">
-          <BackButton icon="close" />
-          <Text className="flex-1 text-center text-xs font-bold uppercase tracking-[3px] text-foreground/55">
-            Phobik
-          </Text>
-          <View className="w-10" />
-        </View>
+        <Header
+          variant="close"
+          center={
+            <Text className="text-xs font-bold uppercase tracking-[3px] text-foreground/55">
+              Phobik
+            </Text>
+          }
+        />
       }
       sticky={
         <GradientButton

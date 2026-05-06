@@ -17,6 +17,8 @@ export interface HeaderProps {
   left?: ReactNode;
   /** Right-aligned slot (e.g. avatar, action button). */
   right?: ReactNode;
+  /** Override the center slot (default: title/subtitle stack, or "Phobik" wordmark for variant="wordmark"). */
+  center?: ReactNode;
   /** Step indicator. */
   progress?: { current: number; total: number };
   /** Show a confirmation dialog before close/back fires. Default: false. */
@@ -56,6 +58,7 @@ export function Header({
   subtitle,
   left,
   right,
+  center,
   progress,
   confirmClose,
   confirmCloseConfig,
@@ -81,14 +84,14 @@ export function Header({
   };
 
   const leftSlot = resolveLeftSlot({ left, variant, dismiss, canGoBack });
-  const center = renderCenter({ variant, title, subtitle });
+  const centerSlot = center ?? renderCenter({ variant, title, subtitle });
 
   return (
     <View className={clsx('px-screen-x pt-2 pb-3', className)}>
       <View className="flex-row items-center justify-between">
         <View className="min-w-[40px] flex-row items-center">{leftSlot}</View>
         <View className="flex-1 flex-row items-center justify-center">
-          {center}
+          {centerSlot}
         </View>
         <View className="min-w-[40px] flex-row items-center justify-end">
           {right}

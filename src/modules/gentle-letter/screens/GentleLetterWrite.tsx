@@ -7,6 +7,7 @@ import { Keyboard, Pressable, Text, TextInput, View } from 'react-native';
 
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
@@ -110,13 +111,15 @@ export default function GentleLetterWrite() {
       scroll
       keyboard
       header={
-        <View className="flex-row items-center justify-between border-b border-foreground/5 px-4 py-2">
-          <BackButton onPress={handleBack} />
-          <Text className="text-sm font-semibold text-foreground">
-            Gentle Letter Writing
-          </Text>
-          <View className="w-10" />
-        </View>
+        <Header
+          left={<BackButton onPress={handleBack} />}
+          center={
+            <Text className="text-sm font-semibold text-foreground">
+              Gentle Letter Writing
+            </Text>
+          }
+          className="border-b border-foreground/5"
+        />
       }
       sticky={
         <GradientButton

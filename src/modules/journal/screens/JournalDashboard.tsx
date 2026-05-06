@@ -1,8 +1,7 @@
-import { BackButton } from '@/components/ui/BackButton';
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { accentFor, colors } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtom, useAtomValue } from 'jotai';
@@ -57,7 +56,6 @@ function formatDateLabel(dateStr: string) {
 
 export default function JournalDashboard() {
   const router = useRouter();
-  const scheme = useScheme();
   const { lock } = useJournalLock();
   const isUnlocked = useAtomValue(journalUnlockedAtom);
 
@@ -104,30 +102,22 @@ export default function JournalDashboard() {
         variant="default"
         scroll
         header={
-          <View className="flex-row items-center justify-between px-4 py-2">
-            <BackButton />
-            <View className="items-center">
-              <Text className="text-xl font-bold tracking-tight text-foreground">
-                Private Journal
-              </Text>
-              <Text
-                className="text-[10px] font-bold uppercase tracking-widest"
-                style={{ color: accentFor(scheme, 'yellow') }}
+          <Header
+            title="Private Journal"
+            subtitle="Encrypted Reflections"
+            right={
+              <Pressable
+                onPress={handleLock}
+                className="h-10 w-10 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/20"
               >
-                Encrypted Reflections
-              </Text>
-            </View>
-            <Pressable
-              onPress={handleLock}
-              className="h-10 w-10 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/20"
-            >
-              <MaterialIcons
-                name="lock"
-                size={22}
-                color={colors.primary.pink}
-              />
-            </Pressable>
-          </View>
+                <MaterialIcons
+                  name="lock"
+                  size={22}
+                  color={colors.primary.pink}
+                />
+              </Pressable>
+            }
+          />
         }
         className="px-4"
       >

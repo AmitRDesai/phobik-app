@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 
-import { BackButton } from '@/components/ui/BackButton';
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -101,15 +101,7 @@ export default function CompassionArchive() {
     <Screen
       variant="default"
       scroll
-      header={
-        <View className="flex-row items-center justify-between px-4 py-2">
-          <BackButton />
-          <Text className="text-lg font-bold text-foreground">
-            My Compassion Archive
-          </Text>
-          <View className="w-10" />
-        </View>
-      }
+      header={<Header title="My Compassion Archive" />}
       className="px-4"
     >
       <View className="rounded-2xl border border-foreground/5 bg-surface-elevated p-4">

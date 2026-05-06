@@ -2,8 +2,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
-import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
@@ -19,13 +19,13 @@ export default function GentleLetterIntro() {
       variant="default"
       scroll
       header={
-        <View className="flex-row items-center justify-between px-4 py-2">
-          <BackButton />
-          <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
-            Practice
-          </Text>
-          <View className="w-10" />
-        </View>
+        <Header
+          center={
+            <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
+              Practice
+            </Text>
+          }
+        />
       }
       sticky={
         <View>

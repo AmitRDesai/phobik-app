@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator, Text, View } from 'react-native';
 
-import { BackButton } from '@/components/ui/BackButton';
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
 
@@ -51,12 +51,10 @@ export default function LetterDetail() {
       variant="default"
       scroll
       header={
-        <View className="flex-row items-center justify-between border-b border-foreground/5 px-4 py-2">
-          <BackButton />
-          <Text className="flex-1 pr-10 text-center text-sm font-semibold text-foreground">
-            Gentle Letter
-          </Text>
-        </View>
+        <Header
+          title="Gentle Letter"
+          className="border-b border-foreground/5"
+        />
       }
       className="px-6"
     >

@@ -1,8 +1,8 @@
 import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
 
-import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { dialog } from '@/utils/dialog';
 
@@ -29,11 +29,7 @@ export default function EmpathyChallengeIntro() {
     <Screen
       variant="default"
       scroll
-      header={
-        <View className="px-4 py-2">
-          <BackButton icon="close" />
-        </View>
-      }
+      header={<Header variant="close" />}
       sticky={
         <GradientButton onPress={handleJoin} loading={startChallenge.isPending}>
           Join Challenge

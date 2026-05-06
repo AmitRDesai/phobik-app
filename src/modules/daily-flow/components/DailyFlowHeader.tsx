@@ -1,10 +1,9 @@
+import { BackButton } from '@/components/ui/BackButton';
 import { GradientText } from '@/components/ui/GradientText';
-import { colors, foregroundFor } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
+import { Header } from '@/components/ui/Header';
 import { dialog } from '@/utils/dialog';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { exitDailyFlow, getPreviousStep } from '../data/flow-navigation';
 import {
@@ -33,8 +32,6 @@ export function DailyFlowHeader({
   onClose,
 }: Props) {
   const router = useRouter();
-  const scheme = useScheme();
-  const iconColor = foregroundFor(scheme, 1);
   const { session } = useActiveDailyFlowSession();
   const updateSession = useUpdateDailyFlowSession();
 
@@ -72,50 +69,36 @@ export function DailyFlowHeader({
     exitDailyFlow(router);
   };
 
+  const center = wordmark ? (
+    <GradientText className="text-lg font-black tracking-[0.1em]">
+      DAILY FLOW
+    </GradientText>
+  ) : title ? (
+    <Text
+      className="text-base font-bold tracking-tight text-foreground"
+      numberOfLines={1}
+    >
+      {title}
+    </Text>
+  ) : step ? (
+    <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
+      {step}
+    </Text>
+  ) : null;
+
   return (
-    <View className="px-4 pb-3 pt-2">
-      <View className="h-10 flex-row items-center justify-between">
-        <View className="w-10">
-          {showBack && canGoBack ? (
-            <Pressable
-              onPress={handleBack}
-              className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
-            >
-              <MaterialIcons name="arrow-back" size={22} color={iconColor} />
-            </Pressable>
-          ) : null}
-        </View>
-        <View className="flex-1 items-center">
-          {wordmark ? (
-            <GradientText className="text-lg font-black tracking-[0.1em]">
-              DAILY FLOW
-            </GradientText>
-          ) : title ? (
-            <Text
-              className="text-base font-bold tracking-tight text-foreground"
-              numberOfLines={1}
-            >
-              {title}
-            </Text>
-          ) : step ? (
-            <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
-              {step}
-            </Text>
-          ) : null}
-        </View>
-        <View className="w-10 items-end">
-          {showClose ? (
-            <Pressable
-              onPress={handleClose}
-              className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
-            >
-              <MaterialIcons name="close" size={20} color={iconColor} />
-            </Pressable>
-          ) : null}
-        </View>
-      </View>
+    <View>
+      <Header
+        left={
+          showBack && canGoBack ? <BackButton onPress={handleBack} /> : null
+        }
+        right={
+          showClose ? <BackButton icon="close" onPress={handleClose} /> : null
+        }
+        center={center}
+      />
       {progress !== undefined ? (
-        <View className="mt-4">
+        <View className="px-screen-x pb-1">
           <DailyFlowProgressBar progress={progress} />
         </View>
       ) : null}

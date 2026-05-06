@@ -3,8 +3,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Redirect, useRouter } from 'expo-router';
 import { ActivityIndicator, Text, View } from 'react-native';
 
-import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -39,14 +39,7 @@ export default function EmpathyChallengeCalendar() {
     <Screen
       variant="default"
       scroll
-      header={
-        <View className="flex-row items-center px-4 py-2">
-          <BackButton />
-          <Text className="flex-1 pr-10 text-center text-lg font-bold text-foreground">
-            Empathy Challenge
-          </Text>
-        </View>
-      }
+      header={<Header title="Empathy Challenge" />}
       className="px-4"
     >
       <View className="gap-3 py-4">

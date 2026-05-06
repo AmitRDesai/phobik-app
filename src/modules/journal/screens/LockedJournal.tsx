@@ -1,5 +1,5 @@
-import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -65,15 +65,13 @@ export default function LockedJournal() {
     <Screen
       variant="default"
       header={
-        <View className="flex-row items-center px-4 py-2">
-          <BackButton />
-          <View className="flex-1 items-center">
+        <Header
+          center={
             <Text className="text-sm font-bold uppercase tracking-wide text-foreground/40">
               Secure Journal
             </Text>
-          </View>
-          <View className="w-8" />
-        </View>
+          }
+        />
       }
       className="items-center justify-center px-8"
     >

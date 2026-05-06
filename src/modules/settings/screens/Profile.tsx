@@ -1,4 +1,4 @@
-import { BackButton } from '@/components/ui/BackButton';
+import { Header } from '@/components/ui/Header';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
@@ -103,14 +103,7 @@ export default function Profile() {
           Save Changes
         </GradientButton>
       }
-      header={
-        <View className="flex-row items-center gap-3 px-4 py-2">
-          <BackButton />
-          <Text className="text-lg font-bold text-foreground">
-            Edit Profile
-          </Text>
-        </View>
-      }
+      header={<Header title="Edit Profile" />}
       className="px-4"
       contentClassName="gap-6"
     >

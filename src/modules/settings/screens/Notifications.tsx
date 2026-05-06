@@ -1,4 +1,4 @@
-import { BackButton } from '@/components/ui/BackButton';
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -49,14 +49,7 @@ export default function Notifications() {
     <Screen
       variant="default"
       scroll
-      header={
-        <View className="flex-row items-center gap-3 px-4 py-2">
-          <BackButton />
-          <Text className="text-lg font-bold text-foreground">
-            Notifications
-          </Text>
-        </View>
-      }
+      header={<Header title="Notifications" />}
       className="px-4"
       contentClassName="gap-2"
     >

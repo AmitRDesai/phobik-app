@@ -1,5 +1,5 @@
-import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -158,23 +158,23 @@ export default function JournalEntry() {
       scroll
       keyboard
       header={
-        <View className="flex-row items-center justify-between px-4 py-2">
-          <BackButton icon="close" onPress={() => router.back()} />
-          <Text className="text-lg font-bold tracking-tight text-foreground">
-            Focus on what matters
-          </Text>
-          {isViewMode && !isEditing ? (
-            <Pressable onPress={() => setIsEditing(true)}>
+        <Header
+          variant="close"
+          title="Focus on what matters"
+          right={
+            isViewMode && !isEditing ? (
+              <Pressable onPress={() => setIsEditing(true)}>
+                <Text className="text-sm font-bold" style={{ color: yellow }}>
+                  Edit
+                </Text>
+              </Pressable>
+            ) : (
               <Text className="text-sm font-bold" style={{ color: yellow }}>
-                Edit
+                Drafts
               </Text>
-            </Pressable>
-          ) : (
-            <Text className="text-sm font-bold" style={{ color: yellow }}>
-              Drafts
-            </Text>
-          )}
-        </View>
+            )
+          }
+        />
       }
       sticky={
         !readOnly ? (
