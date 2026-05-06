@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -76,48 +77,48 @@ export default function PivotPointIntro() {
         <Text className="mb-2 text-3xl font-bold tracking-tight text-foreground">
           The Pivot Point
         </Text>
-        <Text className="mb-8 text-lg font-medium text-zinc-400">
+        <Text className="mb-8 text-lg font-medium text-foreground/60">
           How do you respond when life gets hard?
         </Text>
 
         {/* Description Card */}
-        <View className="mb-4 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-6">
-          <Text className="text-[15px] leading-relaxed text-zinc-300">
+        <Card variant="surface" className="mb-4 p-6">
+          <Text className="text-[15px] leading-relaxed text-foreground/80">
             When life gets stressful, we don&apos;t rise to our
             intentions&mdash;we fall back on patterns. This quick assessment
             helps you understand how you react under pressure and how you can
             respond with more clarity and confidence.
           </Text>
-        </View>
+        </Card>
 
         {/* Info Cards */}
         <View className="mb-6 flex-row gap-3">
-          <View className="flex-1 items-center rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-4">
+          <Card variant="surface" className="flex-1 items-center">
             <MaterialIcons
               name="schedule"
               size={24}
               color={colors.primary.pink}
             />
-            <Text className="mt-2 text-xs font-bold uppercase tracking-wider text-zinc-400">
+            <Text className="mt-2 text-xs font-bold uppercase tracking-wider text-foreground/60">
               Duration
             </Text>
             <Text className="mt-1 text-base font-bold text-foreground">
               8-10 minutes
             </Text>
-          </View>
-          <View className="flex-1 items-center rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-4">
+          </Card>
+          <Card variant="surface" className="flex-1 items-center">
             <MaterialIcons
               name="psychology"
               size={24}
               color={colors.primary.pink}
             />
-            <Text className="mt-2 text-xs font-bold uppercase tracking-wider text-zinc-400">
+            <Text className="mt-2 text-xs font-bold uppercase tracking-wider text-foreground/60">
               Insights
             </Text>
             <Text className="mt-1 text-center text-base font-bold text-foreground">
               Personalized Pattern
             </Text>
-          </View>
+          </Card>
         </View>
 
         {/* Privacy Notice */}

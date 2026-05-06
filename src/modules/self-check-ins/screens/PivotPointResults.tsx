@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -85,18 +86,18 @@ export default function PivotPointResults() {
         </View>
 
         {/* Personalization — Your Next Practices */}
-        <View className="mb-4 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-6">
+        <Card variant="surface" className="mb-4 p-6">
           <View className="mb-4 flex-row items-center gap-2">
             <MaterialIcons
               name="auto-awesome"
               size={18}
               color={colors.accent.yellow}
             />
-            <Text className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+            <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
               Your Next Practices
             </Text>
           </View>
-          <Text className="mb-4 text-sm leading-relaxed text-zinc-400">
+          <Text className="mb-4 text-sm leading-relaxed text-foreground/60">
             Based on your primary pattern, these are the practices that will
             help you most right now.
           </Text>
@@ -106,15 +107,15 @@ export default function PivotPointResults() {
               <Text className="flex-1 text-sm text-foreground">{rec}</Text>
             </View>
           ))}
-        </View>
+        </Card>
 
         {/* Closing Message */}
-        <View className="mb-8 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-6">
-          <Text className="text-sm italic leading-relaxed text-zinc-400">
+        <Card variant="surface" className="mb-8 p-6">
+          <Text className="text-sm italic leading-relaxed text-foreground/60">
             Your next step isn&apos;t to become someone new&hellip; It&apos;s to
             respond just 1% differently when it matters.
           </Text>
-        </View>
+        </Card>
 
         {/* CTA */}
         <GradientButton onPress={() => router.back()}>
