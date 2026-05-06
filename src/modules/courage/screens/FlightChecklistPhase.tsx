@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -188,7 +189,7 @@ function AnchorSelection() {
   const [selectedAnchor, setSelectedAnchor] = useState<string | null>(null);
 
   return (
-    <View className="rounded-2xl border border-foreground/10 bg-foreground/5 p-5">
+    <Card className="p-5">
       <View className="mb-4 flex-row items-center gap-2">
         <MaterialIcons name="anchor" size={18} color={colors.primary.pink} />
         <Text className="text-base font-bold text-foreground">
@@ -236,7 +237,7 @@ function AnchorSelection() {
           </Pressable>
         ))}
       </View>
-    </View>
+    </Card>
   );
 }
 

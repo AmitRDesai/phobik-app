@@ -1,5 +1,6 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { ProgressDots } from '@/components/ui/ProgressDots';
@@ -133,13 +134,13 @@ export default function TermsOfServiceScreen() {
           Phobik (PBK) App
         </Text>
       </View>
-      <View className="mb-4 rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
+      <Card className="mb-4 p-6">
         <Text className="text-center text-[16px] font-bold leading-relaxed text-foreground">
           Phobik is a wellness and self development app designed to provide
           educational tools and personal growth. It is not a healthcare provider
           and does not provide medical advice, diagnosis or therapy.
         </Text>
-      </View>
+      </Card>
       <View className="px-2">
         <Text className="text-center text-[15px] leading-relaxed text-foreground/55">
           By continuing, you agree to our full Terms of Service which govern
