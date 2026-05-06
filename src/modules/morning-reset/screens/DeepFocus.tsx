@@ -1,6 +1,7 @@
+import { Card } from '@/components/ui/Card';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
@@ -39,11 +40,11 @@ export default function DeepFocus() {
         description="Builds a habit of high-quality output and protects creative energy."
         tone="yellow"
       />
-      <View className="rounded-3xl border border-primary-pink/20 bg-primary-pink/[0.06] p-6">
+      <Card variant="toned" tone="pink">
         <Text className="text-center text-[11px] font-bold uppercase tracking-[0.3em] text-foreground/60">
           Press to sync your bio-rhythm
         </Text>
-      </View>
+      </Card>
     </StepShell>
   );
 }

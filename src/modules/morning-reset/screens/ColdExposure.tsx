@@ -1,5 +1,6 @@
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
+import { Card } from '@/components/ui/Card';
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
 
@@ -17,7 +18,7 @@ export default function ColdExposure() {
         </Text>
       }
     >
-      <View className="rounded-3xl border border-foreground/10 bg-foreground/[0.04] p-5">
+      <Card variant="glass" className="p-5">
         <Text className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-foreground/50">
           The Protocol
         </Text>
@@ -25,7 +26,7 @@ export default function ColdExposure() {
           Embrace the shock. Train the spirit. Stay calm and breathe through the
           first 30 seconds.
         </Text>
-      </View>
+      </Card>
       <BenefitCard
         icon="bolt"
         title="Peak Alertness"

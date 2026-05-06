@@ -1,5 +1,7 @@
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
+import { IconChip } from '@/components/ui/IconChip';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors } from '@/constants/colors';
@@ -67,20 +69,21 @@ export default function Landing() {
         </Text>
       </View>
 
-      <View className="mb-6 rounded-3xl border border-foreground/10 bg-foreground/[0.04] p-6">
+      <Card variant="glass" className="mb-6">
         <View className="mb-5 flex-row items-center gap-3">
-          <View className="h-11 w-11 items-center justify-center rounded-2xl border border-foreground/10 bg-foreground/5">
+          <IconChip size="md" shape="rounded">
             <MaterialIcons name="auto-awesome" size={20} color={yellow} />
-          </View>
+          </IconChip>
           <Text className="text-2xl font-bold text-foreground">
             Your Morning Flow
           </Text>
         </View>
         <View className="gap-3">
           {HABITS.map((habit, idx) => (
-            <View
+            <Card
               key={idx}
-              className="flex-row items-center gap-3 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-4"
+              variant="surface"
+              className="flex-row items-center gap-3"
             >
               <View
                 className="h-2 w-2 rounded-full"
@@ -92,10 +95,10 @@ export default function Landing() {
               <Text className="flex-1 text-[15px] font-medium text-foreground">
                 {habit.text}
               </Text>
-            </View>
+            </Card>
           ))}
         </View>
-      </View>
+      </Card>
     </Screen>
   );
 }

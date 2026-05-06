@@ -1,6 +1,7 @@
+import { Card } from '@/components/ui/Card';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
@@ -50,7 +51,7 @@ export default function Nourishment() {
         description="Cellular reset after a night of fluid loss."
         tone="pink"
       />
-      <View className="rounded-3xl border border-foreground/10 bg-foreground/[0.04] p-6">
+      <Card variant="glass">
         <Text className="mb-2 text-xl font-bold text-foreground">
           Scientific Benefits
         </Text>
@@ -58,7 +59,7 @@ export default function Nourishment() {
           Stabilizes blood sugar, prevents brain fog, supports dopamine and
           serotonin production, and improves sustained attention.
         </Text>
-      </View>
+      </Card>
     </StepShell>
   );
 }
