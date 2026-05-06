@@ -75,7 +75,7 @@ function ScoreRing({
         </Svg>
         <View className="absolute items-center">
           <Text className="text-3xl font-bold text-foreground">{score}</Text>
-          <Text className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
+          <Text className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-foreground/55">
             / {max}
           </Text>
         </View>
@@ -241,7 +241,7 @@ export default function IntimacyResults() {
           <Text className="mb-2 text-center text-3xl font-bold tracking-tight text-foreground">
             Speaker vs Listener
           </Text>
-          <Text className="text-center text-sm text-zinc-400">
+          <Text className="text-center text-sm text-foreground/60">
             Intimacy & Connection Assessment
           </Text>
         </View>
@@ -322,7 +322,7 @@ export default function IntimacyResults() {
                     </Text>
                   </View>
                 </View>
-                <Text className="text-xs text-zinc-400">{zone.body}</Text>
+                <Text className="text-xs text-foreground/60">{zone.body}</Text>
               </View>
             ))}
           </View>
@@ -337,7 +337,7 @@ export default function IntimacyResults() {
             {CHALLENGES.map((challenge) => (
               <View
                 key={challenge.title}
-                className="flex-row items-center gap-4 rounded-xl border border-foreground/5 bg-neutral-900/40 p-4"
+                className="flex-row items-center gap-4 rounded-xl border border-foreground/5 bg-surface-elevated p-4"
               >
                 <View
                   className="h-10 w-10 items-center justify-center rounded-full"
@@ -353,7 +353,7 @@ export default function IntimacyResults() {
                   <Text className="text-sm font-bold text-foreground">
                     {challenge.title}
                   </Text>
-                  <Text className="text-[11px] text-zinc-400">
+                  <Text className="text-[11px] text-foreground/60">
                     {challenge.body}
                   </Text>
                 </View>

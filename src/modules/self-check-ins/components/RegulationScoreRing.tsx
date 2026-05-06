@@ -60,7 +60,9 @@ export function RegulationScoreRing({ percentage }: RegulationScoreRingProps) {
           </Text>
         </View>
       </View>
-      <Text className="text-center text-xs text-zinc-400">{getLabel()}</Text>
+      <Text className="text-center text-xs text-foreground/60">
+        {getLabel()}
+      </Text>
     </View>
   );
 }

@@ -14,10 +14,10 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
         tintColor={colors.red[500]}
         resizeMode="scaleAspectFill"
       />
-      <Text className="text-center text-lg mt-4 text-neutral-700">
+      <Text className="text-center text-lg mt-4 text-foreground/30">
         Something broke, please reload the app!
       </Text>
-      <Text className="mt-2 mb-4 text-neutral-500">{error.message}</Text>
+      <Text className="mt-2 mb-4 text-foreground/55">{error.message}</Text>
       <Button onPress={retry}>
         <Text className="text-white">Try again</Text>
       </Button>

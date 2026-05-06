@@ -124,7 +124,7 @@ export default function PivotPointIntro() {
         {/* Privacy Notice */}
         <View className="mb-8 flex-row items-center justify-center gap-2">
           <MaterialIcons name="lock" size={14} color="rgba(255,255,255,0.3)" />
-          <Text className="text-xs text-zinc-500">
+          <Text className="text-xs text-foreground/55">
             Your responses are private and encrypted.
           </Text>
         </View>

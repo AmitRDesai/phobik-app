@@ -166,7 +166,7 @@ export default function IntimacyIntro() {
           <Text className="pb-3 text-center text-3xl font-bold leading-tight tracking-tight text-foreground">
             Balanced Communication Quiz
           </Text>
-          <Text className="text-center text-base leading-relaxed text-zinc-400">
+          <Text className="text-center text-base leading-relaxed text-foreground/60">
             A self-reflection tool for mindful listening and clear expression.
           </Text>
         </View>
@@ -183,7 +183,7 @@ export default function IntimacyIntro() {
                   {item.number}
                 </Text>
               </View>
-              <Text className="flex-1 pt-1 text-sm leading-snug text-zinc-300">
+              <Text className="flex-1 pt-1 text-sm leading-snug text-foreground/70">
                 {item.text}
               </Text>
             </View>

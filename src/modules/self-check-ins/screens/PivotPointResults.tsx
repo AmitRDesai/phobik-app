@@ -22,7 +22,7 @@ export default function PivotPointResults() {
   if (!results) {
     return (
       <View className="flex-1 items-center justify-center bg-surface">
-        <Text className="text-zinc-400">Assessment incomplete.</Text>
+        <Text className="text-foreground/60">Assessment incomplete.</Text>
         <GradientButton onPress={() => router.back()} className="mt-4">
           Back to Assessments
         </GradientButton>
@@ -59,7 +59,7 @@ export default function PivotPointResults() {
           <Text className="mb-3 text-3xl font-bold tracking-tight text-foreground">
             This is how you respond under pressure
           </Text>
-          <Text className="text-base leading-relaxed text-zinc-400">
+          <Text className="text-base leading-relaxed text-foreground/60">
             This isn&apos;t who you are&mdash;it&apos;s a pattern your brain has
             learned. And patterns can change.
           </Text>
@@ -78,7 +78,7 @@ export default function PivotPointResults() {
         {/* Secondary Pattern */}
         <View className="mb-4">
           <View className="mb-2">
-            <Text className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+            <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
               Secondary Pattern
             </Text>
           </View>

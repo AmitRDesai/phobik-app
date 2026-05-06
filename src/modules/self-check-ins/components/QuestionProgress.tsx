@@ -47,7 +47,7 @@ export function QuestionProgress({
             <Text className="text-base font-bold text-foreground">
               Question {current} of {total}
             </Text>
-            <Text className="text-sm font-bold text-neutral-400">
+            <Text className="text-sm font-bold text-foreground/60">
               {Math.round(progress)}%
             </Text>
           </>
@@ -55,19 +55,19 @@ export function QuestionProgress({
           <>
             <Text className="text-4xl font-extrabold tracking-tight text-foreground">
               {displayNumber}
-              <Text className="text-xl font-medium text-neutral-600">
+              <Text className="text-xl font-medium text-foreground/45">
                 /{displayTotal}
               </Text>
             </Text>
             {sectionLabel && (
-              <Text className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
+              <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
                 {sectionLabel}
               </Text>
             )}
           </>
         )}
       </View>
-      <View className="h-1 overflow-hidden rounded-full bg-neutral-800">
+      <View className="h-1 overflow-hidden rounded-full bg-foreground/10">
         <AnimatedLinearGradient
           colors={[colors.primary.pink, colors.accent.yellow]}
           start={{ x: 0, y: 0 }}

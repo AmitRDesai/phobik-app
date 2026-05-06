@@ -151,7 +151,7 @@ export default function PivotPointQuestion() {
               <Text className="text-xs font-bold uppercase tracking-widest text-primary-pink">
                 Section {section.id}: {section.title}
               </Text>
-              <Text className="mt-1 text-sm text-zinc-500">
+              <Text className="mt-1 text-sm text-foreground/55">
                 {section.subtitle}
               </Text>
             </View>
@@ -173,13 +173,13 @@ export default function PivotPointQuestion() {
           />
 
           {/* Rating Label — always rendered to keep layout stable */}
-          <Text className="mt-4 text-center text-sm font-medium text-zinc-400">
+          <Text className="mt-4 text-center text-sm font-medium text-foreground/60">
             {ratingLabel || ' '}
           </Text>
 
           {/* Context Card */}
           <View className="mt-12 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-6">
-            <Text className="text-sm italic leading-relaxed text-zinc-500">
+            <Text className="text-sm italic leading-relaxed text-foreground/55">
               &ldquo;The Pivot Point is that split second between a stimulus and
               your response where your freedom lies.&rdquo;
             </Text>

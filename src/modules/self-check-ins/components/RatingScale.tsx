@@ -69,19 +69,19 @@ export function RatingScale({
                     borderColor: withAlpha('#ffffff', 0.1),
                   }}
                 >
-                  <Text className="text-xl font-bold text-neutral-400">
+                  <Text className="text-xl font-bold text-foreground/60">
                     {option}
                   </Text>
                 </View>
               )}
             </Pressable>
             {isFirst && (
-              <Text className="text-[10px] font-bold uppercase tracking-wider text-neutral-600">
+              <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/45">
                 {startLabel}
               </Text>
             )}
             {isLast && (
-              <Text className="text-[10px] font-bold uppercase tracking-wider text-neutral-600">
+              <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/45">
                 {endLabel}
               </Text>
             )}
