@@ -82,13 +82,13 @@ export default function CreatePost() {
   return (
     <Container
       keyboardAvoiding
-      safeAreaClass="bg-background-dashboard"
-      className="bg-background-dashboard"
+      safeAreaClass="bg-surface"
+      className="bg-surface"
     >
       {/* Header */}
       <View className="flex-row items-center justify-between px-4 pb-2 pt-1">
         <BackButton icon="close" />
-        <Text className="text-lg font-bold tracking-tight text-white">
+        <Text className="text-lg font-bold tracking-tight text-foreground">
           Share Your Moment
         </Text>
         <View className="w-12" />
@@ -104,10 +104,10 @@ export default function CreatePost() {
         >
           {/* Heading */}
           <View className="gap-1">
-            <Text className="text-2xl font-bold tracking-tight text-white">
+            <Text className="text-2xl font-bold tracking-tight text-foreground">
               What&apos;s going on for you today?
             </Text>
-            <Text className="text-sm leading-relaxed text-gray-400">
+            <Text className="text-sm leading-relaxed text-foreground/60">
               Share with awareness, not self-judgment. Your experience is valid.
             </Text>
           </View>
@@ -125,9 +125,9 @@ export default function CreatePost() {
               placeholderTextColor={alpha.white20}
               multiline
               textAlignVertical="top"
-              className="h-64 rounded-2xl border-2 border-white/10 bg-white/5 p-5 text-lg leading-relaxed text-white"
+              className="h-64 rounded-2xl border-2 border-foreground/10 bg-foreground/5 p-5 text-lg leading-relaxed text-foreground"
             />
-            <Text className="mt-2 text-right text-xs text-gray-400">
+            <Text className="mt-2 text-right text-xs text-foreground/60">
               {content.length} / {MAX_CHARS}
             </Text>
           </View>
@@ -135,11 +135,11 @@ export default function CreatePost() {
           {/* Image Attachments */}
           <View className="gap-3">
             <View className="flex-row items-center justify-between">
-              <Text className="px-1 text-sm font-bold text-white">Photos</Text>
+              <Text className="px-1 text-sm font-bold text-foreground">Photos</Text>
               {imageUris.length < 5 && (
                 <Pressable
                   onPress={handleAddImages}
-                  className="flex-row items-center gap-1 rounded-full bg-white/5 px-3 py-1.5"
+                  className="flex-row items-center gap-1 rounded-full bg-foreground/5 px-3 py-1.5"
                 >
                   <MaterialIcons
                     name="add-photo-alternate"
@@ -182,7 +182,7 @@ export default function CreatePost() {
 
           {/* Your Circle */}
           <View className="gap-3">
-            <Text className="px-1 text-sm font-bold text-white">
+            <Text className="px-1 text-sm font-bold text-foreground">
               Your Circle
             </Text>
             <ScrollView
@@ -200,11 +200,11 @@ export default function CreatePost() {
                     className={`rounded-full px-4 py-2 ${
                       isActive
                         ? 'border border-primary-pink bg-primary-pink/10'
-                        : 'border border-white/10 bg-white/5'
+                        : 'border border-foreground/10 bg-foreground/5'
                     }`}
                   >
                     <Text
-                      className={`text-xs font-medium ${isActive ? 'font-bold text-white' : 'text-gray-400'}`}
+                      className={`text-xs font-medium ${isActive ? 'font-bold text-foreground' : 'text-foreground/60'}`}
                     >
                       {c}
                     </Text>
@@ -215,7 +215,7 @@ export default function CreatePost() {
           </View>
 
           {/* Post Anonymously */}
-          <View className="flex-row items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4 gap-2">
+          <View className="flex-row items-center justify-between rounded-2xl border border-foreground/10 bg-foreground/5 p-4 gap-2">
             <View className="flex-row items-center gap-3">
               <View className="h-10 w-10 items-center justify-center rounded-full bg-primary-pink/10">
                 <MaterialIcons
@@ -225,10 +225,10 @@ export default function CreatePost() {
                 />
               </View>
               <View>
-                <Text className="text-sm font-bold text-white">
+                <Text className="text-sm font-bold text-foreground">
                   Post Anonymously
                 </Text>
-                <Text className="text-[11px] text-gray-400">
+                <Text className="text-[11px] text-foreground/60">
                   Your identity will be hidden from the wall
                 </Text>
               </View>
@@ -252,7 +252,7 @@ export default function CreatePost() {
               color={colors.accent.yellow}
               style={{ marginTop: 2 }}
             />
-            <Text className="flex-1 text-xs leading-normal text-gray-400">
+            <Text className="flex-1 text-xs leading-normal text-foreground/60">
               Your words are a reflection of your journey. Take a deep breath
               before hitting post.
             </Text>

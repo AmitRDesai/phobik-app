@@ -70,12 +70,12 @@ export function EnergyIndexChart() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-white/40">
+        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
           Energy Index Trend
         </Text>
         <View className="flex-row items-center gap-1.5">
           <View className="h-2 w-2 rounded-full bg-primary-pink" />
-          <Text className="text-[10px] font-bold text-white">
+          <Text className="text-[10px] font-bold text-foreground">
             Avg. {average ?? '—'}
           </Text>
         </View>
@@ -151,19 +151,19 @@ export function EnergyIndexChart() {
             ) : null}
           </Svg>
           <View className="absolute inset-0 justify-between py-1">
-            <Text className="text-[8px] font-bold uppercase text-white/30">
+            <Text className="text-[8px] font-bold uppercase text-foreground/30">
               High
             </Text>
-            <Text className="text-[8px] font-bold uppercase text-white/30">
+            <Text className="text-[8px] font-bold uppercase text-foreground/30">
               Med
             </Text>
-            <Text className="text-[8px] font-bold uppercase text-white/30">
+            <Text className="text-[8px] font-bold uppercase text-foreground/30">
               Low
             </Text>
           </View>
           {!isLoading && series.length === 0 ? (
             <View className="absolute inset-0 items-center justify-center">
-              <Text className="text-[11px] font-semibold text-white/40">
+              <Text className="text-[11px] font-semibold text-foreground/40">
                 No energy check-ins yet
               </Text>
             </View>
@@ -174,7 +174,7 @@ export function EnergyIndexChart() {
             {labelIndices.map((i) => (
               <Text
                 key={series[i].date}
-                className="text-[9px] font-bold text-white/30"
+                className="text-[9px] font-bold text-foreground/30"
               >
                 {formatLabel(series[i].date)}
               </Text>

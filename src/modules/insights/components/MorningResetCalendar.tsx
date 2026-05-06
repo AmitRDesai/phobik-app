@@ -141,10 +141,10 @@ export function MorningResetCalendar() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-white/40">
+        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
           Morning Reset History
         </Text>
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-white/60">
+        <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
           {monthLabel}
         </Text>
       </View>
@@ -152,7 +152,7 @@ export function MorningResetCalendar() {
         <View className="mb-2 flex-row">
           {DAY_LABELS.map((day) => (
             <View key={day.key} className="flex-1 items-center">
-              <Text className="text-[8px] font-black uppercase text-white/30">
+              <Text className="text-[8px] font-black uppercase text-foreground/30">
                 {day.label}
               </Text>
             </View>
@@ -173,7 +173,7 @@ export function MorningResetCalendar() {
                           ? 'text-primary-pink'
                           : cell.weekend
                             ? 'text-accent-yellow'
-                            : 'text-white'
+                            : 'text-foreground'
                       }`}
                     >
                       {cell.day}
@@ -202,8 +202,8 @@ export function MorningResetCalendar() {
             ))}
           </View>
         ))}
-        <View className="flex-row items-center justify-between border-t border-white/5 pt-4">
-          <Text className="text-[9px] font-medium text-white/40">
+        <View className="flex-row items-center justify-between border-t border-foreground/5 pt-4">
+          <Text className="text-[9px] font-medium text-foreground/40">
             Build a Steady Morning
           </Text>
           <Text className="text-[9px] font-black uppercase tracking-widest text-primary-pink">

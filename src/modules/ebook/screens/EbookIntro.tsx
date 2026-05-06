@@ -48,7 +48,7 @@ export default function EbookIntro() {
   }, [updateProgress, router]);
 
   return (
-    <Container safeAreaClass="bg-background-charcoal">
+    <Container safeAreaClass="bg-surface">
       {/* Background blur orbs — SVG radial gradient */}
       <RadialGlow
         color={colors.primary.pink}
@@ -64,8 +64,8 @@ export default function EbookIntro() {
       {/* Top Navigation */}
       <View className="z-10 flex-row items-center justify-between px-6 pt-2">
         <BackButton />
-        <View className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
-          <Text className="text-xs font-medium uppercase tracking-widest text-white/70">
+        <View className="rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1">
+          <Text className="text-xs font-medium uppercase tracking-widest text-foreground/70">
             Introduction
           </Text>
         </View>
@@ -83,7 +83,7 @@ export default function EbookIntro() {
           {/* Hero Image */}
           <View className="mt-4">
             <View
-              className="relative overflow-hidden rounded-2xl border border-white/10"
+              className="relative overflow-hidden rounded-2xl border border-foreground/10"
               style={{ aspectRatio: 4 / 3 }}
             >
               <Image
@@ -109,7 +109,7 @@ export default function EbookIntro() {
                     paddingVertical: 4,
                   }}
                 >
-                  <Text className="text-[10px] font-bold uppercase tracking-tighter text-white">
+                  <Text className="text-[10px] font-bold uppercase tracking-tighter text-foreground">
                     Phobik Series
                   </Text>
                 </LinearGradient>
@@ -119,7 +119,7 @@ export default function EbookIntro() {
 
           {/* Title */}
           <View className="mt-8">
-            <Text className="text-4xl font-bold leading-tight tracking-tight text-white">
+            <Text className="text-4xl font-bold leading-tight tracking-tight text-foreground">
               A New Way to Understand and Work with the{' '}
             </Text>
             <GradientText text="Fear of Flying" />
@@ -133,10 +133,10 @@ export default function EbookIntro() {
 
           {/* Content */}
           <View className="mt-8 gap-6">
-            <Text className="text-xl font-semibold text-white/90">
+            <Text className="text-xl font-semibold text-foreground/90">
               Welcome to Calm Above the Clouds
             </Text>
-            <Text className="text-lg italic leading-relaxed text-white/60">
+            <Text className="text-lg italic leading-relaxed text-foreground/60">
               {
                 '"This package is designed to help you navigate the skies with confidence. My personal journey through flight anxiety led to the creation of this two-part approach."'
               }
@@ -144,7 +144,7 @@ export default function EbookIntro() {
 
             <View className="gap-4 pt-4">
               {/* Intellectual Reassurance */}
-              <View className="flex-row items-start gap-4 rounded-xl border border-white/10 bg-white/5 p-4">
+              <View className="flex-row items-start gap-4 rounded-xl border border-foreground/10 bg-foreground/5 p-4">
                 <View
                   className="h-10 w-10 items-center justify-center rounded-full"
                   style={{ backgroundColor: `${colors.primary.pink}33` }}
@@ -156,10 +156,10 @@ export default function EbookIntro() {
                   />
                 </View>
                 <View className="flex-1">
-                  <Text className="font-bold text-white">
+                  <Text className="font-bold text-foreground">
                     1. Intellectual Reassurance
                   </Text>
-                  <Text className="mt-1 text-sm text-white/50">
+                  <Text className="mt-1 text-sm text-foreground/50">
                     Gaining a logical understanding of how aviation works to
                     dispel common myths and technical fears.
                   </Text>
@@ -167,7 +167,7 @@ export default function EbookIntro() {
               </View>
 
               {/* Emotional Safety */}
-              <View className="flex-row items-start gap-4 rounded-xl border border-white/10 bg-white/5 p-4">
+              <View className="flex-row items-start gap-4 rounded-xl border border-foreground/10 bg-foreground/5 p-4">
                 <View
                   className="h-10 w-10 items-center justify-center rounded-full"
                   style={{ backgroundColor: `${colors.primary.pink}33` }}
@@ -179,10 +179,10 @@ export default function EbookIntro() {
                   />
                 </View>
                 <View className="flex-1">
-                  <Text className="font-bold text-white">
+                  <Text className="font-bold text-foreground">
                     2. Emotional Safety
                   </Text>
-                  <Text className="mt-1 text-sm text-white/50">
+                  <Text className="mt-1 text-sm text-foreground/50">
                     Nervous System Regulation via the Phobik app to manage the
                     physical symptoms of anxiety in real-time.
                   </Text>
@@ -191,7 +191,7 @@ export default function EbookIntro() {
             </View>
 
             <View className="pb-12 pt-6">
-              <Text className="text-base leading-normal text-white/50">
+              <Text className="text-base leading-normal text-foreground/50">
                 By combining logic with somatic tools, we address both the mind
                 and the body, ensuring you feel supported from takeoff to
                 landing.

@@ -30,7 +30,7 @@ export default function StressorDetail() {
         {/* Stressor icon + title */}
         <View className="items-center gap-3">
           <View
-            className="h-28 w-28 items-center justify-center rounded-full border border-white/10 bg-white/5"
+            className="h-28 w-28 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
             style={{
               shadowColor: colors.primary['pink-soft'],
               shadowOffset: { width: 0, height: 0 },
@@ -42,10 +42,10 @@ export default function StressorDetail() {
             <Text className="text-5xl">{data.emoji}</Text>
           </View>
           <View className="max-w-[320px] items-center gap-3">
-            <Text className="text-center text-2xl font-black uppercase italic leading-none tracking-tight text-white">
+            <Text className="text-center text-2xl font-black uppercase italic leading-none tracking-tight text-foreground">
               {data.title}
             </Text>
-            <Text className="text-center text-xs font-medium leading-relaxed text-slate-400">
+            <Text className="text-center text-xs font-medium leading-relaxed text-foreground/60">
               {data.description}
             </Text>
           </View>

@@ -45,19 +45,19 @@ export function BiometricIndexCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-white/40">
+        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
           Biometric Index
         </Text>
         <View className="flex-row gap-3">
           <View className="flex-row items-center gap-1">
             <View className="h-1.5 w-1.5 rounded-full bg-white" />
-            <Text className="text-[9px] font-bold uppercase tracking-tighter text-white">
+            <Text className="text-[9px] font-bold uppercase tracking-tighter text-foreground">
               HR
             </Text>
           </View>
           <View className="flex-row items-center gap-1">
             <View className="h-1.5 w-1.5 rounded-full bg-primary-pink" />
-            <Text className="text-[9px] font-bold uppercase tracking-tighter text-white">
+            <Text className="text-[9px] font-bold uppercase tracking-tighter text-foreground">
               HRV
             </Text>
           </View>
@@ -93,10 +93,10 @@ export function BiometricIndexCard() {
           </View>
         ) : hasConnectedHealth ? (
           <View className="h-24 w-full items-center justify-center">
-            <Text className="text-center text-xs font-semibold uppercase tracking-widest text-white/40">
+            <Text className="text-center text-xs font-semibold uppercase tracking-widest text-foreground/40">
               No data
             </Text>
-            <Text className="mt-1 text-[10px] leading-snug text-white/30">
+            <Text className="mt-1 text-[10px] leading-snug text-foreground/30">
               No HR or HRV samples in this window
             </Text>
           </View>
@@ -105,7 +105,7 @@ export function BiometricIndexCard() {
             onPress={() => router.push('/settings/health')}
             className="h-24 w-full items-center justify-center"
           >
-            <Text className="text-center text-xs leading-relaxed text-white/40">
+            <Text className="text-center text-xs leading-relaxed text-foreground/40">
               Connect Apple Health or Health Connect to see your HR & HRV
               trends.
             </Text>
@@ -114,27 +114,27 @@ export function BiometricIndexCard() {
             </Text>
           </Pressable>
         )}
-        <View className="mt-4 flex-row gap-4 border-t border-white/5 pt-4">
+        <View className="mt-4 flex-row gap-4 border-t border-foreground/5 pt-4">
           <View className="flex-1">
-            <Text className="text-[9px] font-black uppercase tracking-widest text-white/40">
+            <Text className="text-[9px] font-black uppercase tracking-widest text-foreground/40">
               {range === 'Day' ? 'Latest Heart Rate' : 'Avg Heart Rate'}
             </Text>
-            <Text className="text-xl font-black text-white">
+            <Text className="text-xl font-black text-foreground">
               {hr.avg != null
                 ? Math.round(range === 'Day' ? hr.latest!.value : hr.avg)
                 : '—'}{' '}
-              <Text className="text-xs text-white/30">BPM</Text>
+              <Text className="text-xs text-foreground/30">BPM</Text>
             </Text>
           </View>
           <View className="flex-1">
-            <Text className="text-[9px] font-black uppercase tracking-widest text-white/40">
+            <Text className="text-[9px] font-black uppercase tracking-widest text-foreground/40">
               {range === 'Day' ? 'Latest HRV' : 'Mean HRV'}
             </Text>
             <Text className="text-xl font-black text-primary-pink">
               {hrv.avg != null
                 ? (range === 'Day' ? hrv.latest!.value : hrv.avg).toFixed(1)
                 : '—'}{' '}
-              <Text className="text-xs text-white/30">ms</Text>
+              <Text className="text-xs text-foreground/30">ms</Text>
             </Text>
           </View>
         </View>

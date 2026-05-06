@@ -9,7 +9,7 @@ interface SearchBarProps {
 
 export function SearchBar({ value, onChangeText }: SearchBarProps) {
   return (
-    <View className="flex-row items-center rounded-full bg-card-plum/80 px-4">
+    <View className="flex-row items-center rounded-full bg-surface-elevated/80 px-4">
       <MaterialIcons
         name="search"
         size={22}

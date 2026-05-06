@@ -38,12 +38,12 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       showsVerticalScrollIndicator={false}
     >
       {/* Step label */}
-      <Text className="mb-2 mt-4 text-xs font-bold uppercase tracking-widest text-white/40">
+      <Text className="mb-2 mt-4 text-xs font-bold uppercase tracking-widest text-foreground/40">
         Step 1 of 6
       </Text>
 
       {/* Title */}
-      <Text className="mb-8 text-3xl font-bold tracking-tight text-white">
+      <Text className="mb-8 text-3xl font-bold tracking-tight text-foreground">
         Pause and Notice
       </Text>
 
@@ -73,19 +73,19 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       </View>
 
       {/* Instruction */}
-      <Text className="mb-8 text-center text-2xl font-bold text-white">
+      <Text className="mb-8 text-center text-2xl font-bold text-foreground">
         Take one slow breath.
       </Text>
 
       {/* Prompt card */}
-      <View className="mb-6 w-full rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-        <Text className="mb-3 text-center text-lg text-white/80">
+      <View className="mb-6 w-full rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-6">
+        <Text className="mb-3 text-center text-lg text-foreground/80">
           Say quietly:{' '}
-          <Text className="font-bold text-white">
+          <Text className="font-bold text-foreground">
             &ldquo;I notice...&rdquo;
           </Text>
         </Text>
-        <Text className="text-center text-sm leading-relaxed text-slate-400">
+        <Text className="text-center text-sm leading-relaxed text-foreground/60">
           Describe what is happening in your body like you&apos;re reporting
           facts. Simply noticing helps interrupt the stress loop.
         </Text>
@@ -96,14 +96,14 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
         {['My shoulders feel tense', 'My thoughts feel fast'].map((example) => (
           <View
             key={example}
-            className="flex-row items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] px-4 py-3"
+            className="flex-row items-center gap-3 rounded-xl border border-foreground/5 bg-foreground/[0.03] px-4 py-3"
           >
             <MaterialIcons
               name="info"
               size={16}
               color={withAlpha(colors.primary.pink, 0.6)}
             />
-            <Text className="text-sm italic text-slate-300">
+            <Text className="text-sm italic text-foreground/70">
               &ldquo;{example}&rdquo;
             </Text>
           </View>
@@ -116,7 +116,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       </View>
 
       {/* Footer */}
-      <Text className="mt-6 text-center text-xs text-slate-500">
+      <Text className="mt-6 text-center text-xs text-foreground/55">
         Take your time. There is no rush.
       </Text>
     </ScrollView>

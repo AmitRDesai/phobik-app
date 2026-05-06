@@ -29,14 +29,14 @@ export default function AiStudioFeeling() {
   };
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       <GlowBg
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
         centerY={0.25}
         radius={0.4}
         intensity={0.5}
-        bgClassName="bg-background-charcoal"
+        bgClassName="bg-surface"
       />
       <PracticeStackHeader wordmark="Sound Studio" />
 
@@ -55,17 +55,17 @@ export default function AiStudioFeeling() {
           </View>
 
           {/* Title */}
-          <Text className="mt-4 text-[36px] font-extrabold leading-tight tracking-tight text-white">
+          <Text className="mt-4 text-[36px] font-extrabold leading-tight tracking-tight text-foreground">
             What are you <Text className="text-accent-yellow">feeling?</Text>
           </Text>
-          <Text className="mt-3 text-base leading-relaxed text-white/60">
+          <Text className="mt-3 text-base leading-relaxed text-foreground/60">
             The vibe dictates the architecture. Select the emotional textures
             that define your sonic organism.
           </Text>
 
           {/* Emotional tags */}
-          <View className="mt-6 rounded-3xl border border-white/10 bg-white/5 p-5">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+          <View className="mt-6 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
               Emotional Tags
             </Text>
             <View className="mt-3 flex-row flex-wrap gap-2">
@@ -97,8 +97,8 @@ export default function AiStudioFeeling() {
                         </Text>
                       </LinearGradient>
                     ) : (
-                      <View className="rounded-full border border-white/15 bg-white/5 px-4 py-2">
-                        <Text className="text-xs font-semibold text-white/80">
+                      <View className="rounded-full border border-foreground/15 bg-foreground/5 px-4 py-2">
+                        <Text className="text-xs font-semibold text-foreground/80">
                           {tag}
                         </Text>
                       </View>
@@ -110,8 +110,8 @@ export default function AiStudioFeeling() {
           </View>
 
           {/* Custom mood */}
-          <View className="mt-4 rounded-3xl border border-white/10 bg-white/5 p-5">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+          <View className="mt-4 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
               Custom Mood or Genre
             </Text>
             <TextInput
@@ -120,17 +120,17 @@ export default function AiStudioFeeling() {
               multiline
               placeholder="Describe the mood..."
               placeholderTextColor="rgba(255,255,255,0.35)"
-              className="mt-3 min-h-[60px] text-base text-white"
+              className="mt-3 min-h-[60px] text-base text-foreground"
               textAlignVertical="top"
             />
-            <Text className="mt-3 text-xs leading-relaxed text-white/40">
+            <Text className="mt-3 text-xs leading-relaxed text-foreground/40">
               "A midnight drive through a neon-soaked city under a purple haze."
             </Text>
           </View>
 
           {/* Music prompt */}
-          <View className="mt-4 rounded-3xl border border-white/10 bg-white/5 p-5">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+          <View className="mt-4 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
               Music Prompt
             </Text>
             <TextInput
@@ -139,10 +139,10 @@ export default function AiStudioFeeling() {
               multiline
               placeholder="Describe the musical landscape, instruments, and progression in detail..."
               placeholderTextColor="rgba(255,255,255,0.35)"
-              className="mt-3 min-h-[80px] text-base text-white"
+              className="mt-3 min-h-[80px] text-base text-foreground"
               textAlignVertical="top"
             />
-            <Text className="mt-3 text-xs leading-relaxed text-white/40">
+            <Text className="mt-3 text-xs leading-relaxed text-foreground/40">
               Example: "An cinematic orchestral piece that begins with a
               haunting cello solo and gradually swells into a triumphant
               hybrid-electronic climax with deep sub-bass and shimmering synth
@@ -158,9 +158,9 @@ export default function AiStudioFeeling() {
                 size={14}
                 color={colors.accent.yellow}
               />
-              <Text className="text-xs text-white/60">
+              <Text className="text-xs text-foreground/60">
                 Existing Credits:{' '}
-                <Text className="font-bold text-white">{FAKE_CREDITS}</Text>
+                <Text className="font-bold text-foreground">{FAKE_CREDITS}</Text>
               </Text>
             </View>
             <Pressable onPress={() => router.push('/sound-studio/credits')}>
@@ -173,7 +173,7 @@ export default function AiStudioFeeling() {
       </ScrollFade>
 
       {/* Sticky bottom: Next */}
-      <View className="border-t border-white/5 bg-background-charcoal/80 px-6 pb-8 pt-5">
+      <View className="border-t border-foreground/5 bg-surface/80 px-6 pb-8 pt-5">
         <GradientButton
           onPress={() => router.push('/sound-studio/ai/express')}
           icon={<MaterialIcons name="arrow-forward" size={18} color="white" />}

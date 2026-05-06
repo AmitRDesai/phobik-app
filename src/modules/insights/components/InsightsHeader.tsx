@@ -9,11 +9,11 @@ export function InsightsHeader() {
 
   const content = (
     <View
-      className="flex-row items-center justify-between border-b border-white/5 px-4 pb-4"
+      className="flex-row items-center justify-between border-b border-foreground/5 px-4 pb-4"
       style={{ paddingTop: insets.top + 8 }}
     >
       <View>
-        <Text className="text-xl font-black tracking-tight text-white">
+        <Text className="text-xl font-black tracking-tight text-foreground">
           Insights
         </Text>
         <Text className="text-[10px] font-medium uppercase tracking-widest text-primary-pink">
@@ -21,7 +21,7 @@ export function InsightsHeader() {
         </Text>
       </View>
       <UserAvatar
-        className="h-10 w-10 border border-white/20 bg-white/10"
+        className="h-10 w-10 border border-foreground/20 bg-foreground/10"
         fallbackColor={colors.primary.muted}
       />
     </View>

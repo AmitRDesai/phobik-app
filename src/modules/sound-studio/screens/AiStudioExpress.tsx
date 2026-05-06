@@ -28,14 +28,14 @@ export default function AiStudioExpress() {
   }, [progress, router]);
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       <GlowBg
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
         centerY={0.4}
         radius={0.5}
         intensity={0.6}
-        bgClassName="bg-background-charcoal"
+        bgClassName="bg-surface"
       />
       <PracticeStackHeader wordmark="Sound Studio" />
 
@@ -49,19 +49,19 @@ export default function AiStudioExpress() {
 
         {/* Hero copy */}
         <View className="mt-4 items-center">
-          <Text className="text-[34px] font-extrabold leading-tight tracking-tight text-white">
+          <Text className="text-[34px] font-extrabold leading-tight tracking-tight text-foreground">
             Bringing
           </Text>
-          <Text className="text-[34px] font-extrabold leading-tight tracking-tight text-white">
+          <Text className="text-[34px] font-extrabold leading-tight tracking-tight text-foreground">
             <Text>your </Text>
             <GradientText className="text-[34px] font-extrabold leading-tight tracking-tight">
               sound
             </GradientText>
           </Text>
-          <Text className="text-[34px] font-extrabold leading-tight tracking-tight text-white">
+          <Text className="text-[34px] font-extrabold leading-tight tracking-tight text-foreground">
             to life.
           </Text>
-          <Text className="mt-4 max-w-[300px] text-center text-base leading-relaxed text-white/60">
+          <Text className="mt-4 max-w-[300px] text-center text-base leading-relaxed text-foreground/60">
             Giving your feelings a voice — so they can move, shift, and set you
             free.
           </Text>
@@ -84,7 +84,7 @@ export default function AiStudioExpress() {
               contentFit="cover"
             />
             <View className="absolute inset-0 items-center justify-center">
-              <View className="h-20 w-20 items-center justify-center rounded-full border border-white/20 bg-background-charcoal/60">
+              <View className="h-20 w-20 items-center justify-center rounded-full border border-foreground/20 bg-surface/60">
                 <MaterialIcons
                   name="settings"
                   size={32}
@@ -95,8 +95,8 @@ export default function AiStudioExpress() {
           </View>
 
           {/* Status pill */}
-          <View className="absolute right-2 top-4 rounded-full border border-white/15 bg-white/10 px-3 py-1">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-white/80">
+          <View className="absolute right-2 top-4 rounded-full border border-foreground/15 bg-foreground/10 px-3 py-1">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/80">
               Analyzing
             </Text>
           </View>
@@ -105,14 +105,14 @@ export default function AiStudioExpress() {
         {/* Progress */}
         <View className="mt-12">
           <View className="flex-row items-center justify-between">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
               Neural-Harmonic Mapping
             </Text>
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-white">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground">
               {Math.round(progress * 100)}%
             </Text>
           </View>
-          <View className="mt-2 h-[3px] w-full overflow-hidden rounded-full bg-white/10">
+          <View className="mt-2 h-[3px] w-full overflow-hidden rounded-full bg-foreground/10">
             <LinearGradient
               colors={[colors.primary.pink, colors.accent.yellow]}
               start={{ x: 0, y: 0 }}

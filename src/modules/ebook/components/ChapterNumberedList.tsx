@@ -16,7 +16,7 @@ export function ChapterNumberedList({ items }: ChapterNumberedListProps) {
       {items.map((item, i) => (
         <View
           key={item.title}
-          className="flex-row items-start gap-4 rounded-xl border border-white/10 bg-white/5 p-4"
+          className="flex-row items-start gap-4 rounded-xl border border-foreground/10 bg-foreground/5 p-4"
         >
           <View
             className="h-8 w-8 items-center justify-center rounded-full"
@@ -37,8 +37,8 @@ export function ChapterNumberedList({ items }: ChapterNumberedListProps) {
             </Text>
           </View>
           <View className="flex-1">
-            <Text className="font-bold text-white">{item.title}</Text>
-            <Text className="mt-1 text-sm leading-relaxed text-white/60">
+            <Text className="font-bold text-foreground">{item.title}</Text>
+            <Text className="mt-1 text-sm leading-relaxed text-foreground/60">
               {item.description}
             </Text>
           </View>

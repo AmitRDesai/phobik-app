@@ -56,7 +56,7 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
             className="h-2 w-2 rounded-full"
             style={{ backgroundColor: colors.accent.purple }}
           />
-          <Text className="flex-1 text-[13px] text-white/60">
+          <Text className="flex-1 text-[13px] text-foreground/60">
             {transcript || 'Listening...'}
           </Text>
           <Pressable onPress={stop}>
@@ -75,7 +75,7 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
         }}
       >
         <TextInput
-          className="max-h-[120px] flex-1 px-2 py-3 text-[15px] text-white"
+          className="max-h-[120px] flex-1 px-2 py-3 text-[15px] text-foreground"
           placeholder="Ask your coach anything..."
           placeholderTextColor={alpha.white30}
           value={text}

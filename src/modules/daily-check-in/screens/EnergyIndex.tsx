@@ -75,7 +75,7 @@ export default function EnergyIndex() {
       {/* Header */}
       <View className="flex-row items-center justify-between px-4 py-3">
         <BackButton />
-        <Text className="text-base font-bold tracking-tight text-white">
+        <Text className="text-base font-bold tracking-tight text-foreground">
           Check In
         </Text>
         <View className="size-10 items-center justify-center">
@@ -89,10 +89,10 @@ export default function EnergyIndex() {
 
       {/* Title */}
       <View className="items-center px-6 pt-8">
-        <Text className="mb-3 text-center text-2xl font-bold leading-tight tracking-tight text-white">
+        <Text className="mb-3 text-center text-2xl font-bold leading-tight tracking-tight text-foreground">
           Where does your energy need support today?
         </Text>
-        <Text className="max-w-[340px] text-center text-[13px] leading-relaxed text-slate-500">
+        <Text className="max-w-[340px] text-center text-[13px] leading-relaxed text-foreground/55">
           Adjust each slider (0-25) to see your real-time total score.
         </Text>
       </View>
@@ -155,7 +155,7 @@ export default function EnergyIndex() {
             }}
           >
             <View
-              className="items-center justify-center rounded-full border border-white/20"
+              className="items-center justify-center rounded-full border border-foreground/20"
               style={{
                 width: 96,
                 height: 96,
@@ -166,7 +166,7 @@ export default function EnergyIndex() {
                 shadowRadius: 20,
               }}
             >
-              <Text className="mb-0.5 text-[9px] font-bold uppercase tracking-[3px] text-white/50">
+              <Text className="mb-0.5 text-[9px] font-bold uppercase tracking-[3px] text-foreground/50">
                 Energy
               </Text>
               <MaskedView
@@ -186,7 +186,7 @@ export default function EnergyIndex() {
                   </Text>
                 </LinearGradient>
               </MaskedView>
-              <Text className="mt-1 text-[9px] font-bold uppercase tracking-[3px] text-white/50">
+              <Text className="mt-1 text-[9px] font-bold uppercase tracking-[3px] text-foreground/50">
                 Index
               </Text>
             </View>
@@ -196,7 +196,7 @@ export default function EnergyIndex() {
 
       {/* Bottom CTA */}
       <View className="px-6 pb-4">
-        <Text className="mb-6 text-center text-[11px] font-medium italic text-slate-400">
+        <Text className="mb-6 text-center text-[11px] font-medium italic text-foreground/60">
           {'"'}When your energy aligns, courage follows.{'"'}
         </Text>
         <GradientButton
@@ -271,7 +271,7 @@ function EnergyCircle({
     <>
       {/* Circle */}
       <View
-        className="absolute overflow-hidden rounded-full border border-white/10"
+        className="absolute overflow-hidden rounded-full border border-foreground/10"
         style={{
           width: circleSize,
           height: circleSize,
@@ -297,7 +297,7 @@ function EnergyCircle({
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
           <Text
-            className="text-[10px] font-bold uppercase tracking-[2px] text-white/60"
+            className="text-[10px] font-bold uppercase tracking-[2px] text-foreground/60"
             style={
               isVertical
                 ? { transform: [{ rotate: labelRotation }] }

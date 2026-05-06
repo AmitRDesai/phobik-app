@@ -25,7 +25,7 @@ export function DoseProgressBar({ chemical, index = 0 }: DoseProgressBarProps) {
           <Text className="font-medium" style={{ color: chemical.color }}>
             {chemical.label}
           </Text>
-          <Text className="text-[10px] uppercase tracking-widest text-white/50">
+          <Text className="text-[10px] uppercase tracking-widest text-foreground/50">
             {chemical.subtitle}
           </Text>
         </View>
@@ -33,7 +33,7 @@ export function DoseProgressBar({ chemical, index = 0 }: DoseProgressBarProps) {
           {chemical.coins} Coins
         </Text>
       </View>
-      <View className="h-12 w-full overflow-hidden rounded-2xl bg-white/5">
+      <View className="h-12 w-full overflow-hidden rounded-2xl bg-foreground/5">
         {/* Progress fill — solid color at 20% opacity */}
         <View
           className="absolute inset-y-0 left-0 rounded-2xl"

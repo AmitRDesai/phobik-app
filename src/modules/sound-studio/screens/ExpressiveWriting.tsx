@@ -46,14 +46,14 @@ export default function ExpressiveWriting() {
   const router = useRouter();
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       <GlowBg
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
         centerY={0.25}
         radius={0.45}
         intensity={0.5}
-        bgClassName="bg-background-charcoal"
+        bgClassName="bg-surface"
       />
       <PracticeStackHeader wordmark="Session Flow" />
 
@@ -73,7 +73,7 @@ export default function ExpressiveWriting() {
               Step-by-Step.
             </GradientText>
           </View>
-          <Text className="mt-4 text-base leading-relaxed text-white/70">
+          <Text className="mt-4 text-base leading-relaxed text-foreground/70">
             Expressive writing is an organic process. Follow the rhythm of these
             five steps to begin.
           </Text>
@@ -83,15 +83,15 @@ export default function ExpressiveWriting() {
             {STEPS.map((step) => (
               <View
                 key={step.number}
-                className="rounded-3xl border border-white/10 bg-white/5 p-5"
+                className="rounded-3xl border border-foreground/10 bg-foreground/5 p-5"
               >
                 <Text className="text-2xl font-extrabold tracking-widest text-accent-yellow">
                   {step.number}
                 </Text>
-                <Text className="mt-1 text-lg font-bold text-white">
+                <Text className="mt-1 text-lg font-bold text-foreground">
                   {step.title}
                 </Text>
-                <Text className="mt-2 text-sm leading-relaxed text-white/70">
+                <Text className="mt-2 text-sm leading-relaxed text-foreground/70">
                   {step.description}
                 </Text>
               </View>
@@ -110,11 +110,11 @@ export default function ExpressiveWriting() {
       </ScrollFade>
 
       {/* Sticky bottom: Start Session */}
-      <View className="border-t border-white/5 bg-background-charcoal/80 px-6 pb-8 pt-5">
+      <View className="border-t border-foreground/5 bg-surface/80 px-6 pb-8 pt-5">
         <GradientButton onPress={() => router.push('/sound-studio/ai/write')}>
           Start Session
         </GradientButton>
-        <Text className="mt-3 text-center text-[10px] uppercase tracking-widest text-white/50">
+        <Text className="mt-3 text-center text-[10px] uppercase tracking-widest text-foreground/50">
           Tap to begin the timer
         </Text>
       </View>

@@ -40,7 +40,7 @@ export default function KundaliniSession() {
       bottom={
         <View className="flex-row items-center justify-between">
           <View>
-            <Text className="text-xs uppercase tracking-widest text-white/50">
+            <Text className="text-xs uppercase tracking-widest text-foreground/50">
               Feel the energy in your body
             </Text>
           </View>
@@ -52,11 +52,11 @@ export default function KundaliniSession() {
         </View>
       }
     >
-      <View className="rounded-3xl border border-white/10 bg-white/5 p-5">
-        <Text className="text-xl font-extrabold text-white">
+      <View className="rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+        <Text className="text-xl font-extrabold text-foreground">
           Kundalini Spinal Flex
         </Text>
-        <Text className="mt-1 text-sm text-white/70">
+        <Text className="mt-1 text-sm text-foreground/70">
           Synchronize your movement with rhythmic exhales to unlock spinal
           energy.
         </Text>
@@ -64,8 +64,8 @@ export default function KundaliniSession() {
 
       {/* Duration / Pace */}
       <View className="mt-4 flex-row gap-3">
-        <View className="flex-1 rounded-3xl border border-white/10 bg-white/5 p-4">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+        <View className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 p-4">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
             Duration
           </Text>
           <View className="mt-3 flex-row gap-2">
@@ -78,11 +78,11 @@ export default function KundaliniSession() {
                   className={`rounded-full px-4 py-1.5 ${
                     active
                       ? 'bg-primary-pink'
-                      : 'border border-white/10 bg-white/5'
+                      : 'border border-foreground/10 bg-foreground/5'
                   }`}
                 >
                   <Text
-                    className={`text-xs font-bold ${active ? 'text-on-primary-fixed' : 'text-white/70'}`}
+                    className={`text-xs font-bold ${active ? 'text-on-primary-fixed' : 'text-foreground/70'}`}
                   >
                     {d}
                   </Text>
@@ -91,14 +91,14 @@ export default function KundaliniSession() {
             })}
           </View>
         </View>
-        <View className="flex-1 rounded-3xl border border-white/10 bg-white/5 p-4">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+        <View className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 p-4">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
             Pace
           </Text>
           <Text className="mt-2 text-3xl font-extrabold text-accent-yellow">
             {heartRate ?? '—'}
           </Text>
-          <Text className="text-[10px] uppercase tracking-widest text-white/50">
+          <Text className="text-[10px] uppercase tracking-widest text-foreground/50">
             BPM
           </Text>
         </View>
@@ -107,7 +107,7 @@ export default function KundaliniSession() {
       {/* Hero with INHALE/EXHALE labels */}
       <View className="mt-6">
         <View className="absolute left-1 top-1/2 -translate-y-1/2 z-10">
-          <Text className="rotate-[-90deg] text-[10px] font-bold uppercase tracking-[0.4em] text-white/50">
+          <Text className="rotate-[-90deg] text-[10px] font-bold uppercase tracking-[0.4em] text-foreground/50">
             Exhale
           </Text>
         </View>
@@ -117,7 +117,7 @@ export default function KundaliniSession() {
           </Text>
         </View>
         <View
-          className="overflow-hidden rounded-[28px] border border-white/10"
+          className="overflow-hidden rounded-[28px] border border-foreground/10"
           style={{
             shadowColor: colors.primary.pink,
             shadowOffset: { width: 0, height: 0 },
@@ -138,7 +138,7 @@ export default function KundaliniSession() {
         {STEPS.map((step) => (
           <View
             key={step.title}
-            className="flex-row items-start gap-3 rounded-3xl border border-white/10 bg-white/5 p-4"
+            className="flex-row items-start gap-3 rounded-3xl border border-foreground/10 bg-foreground/5 p-4"
           >
             <MaterialIcons
               name={step.icon}
@@ -146,10 +146,10 @@ export default function KundaliniSession() {
               color={colors.primary.pink}
             />
             <View className="flex-1">
-              <Text className="text-base font-bold text-white">
+              <Text className="text-base font-bold text-foreground">
                 {step.title}
               </Text>
-              <Text className="mt-1 text-sm leading-relaxed text-white/70">
+              <Text className="mt-1 text-sm leading-relaxed text-foreground/70">
                 {step.description}
               </Text>
             </View>

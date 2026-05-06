@@ -24,14 +24,14 @@ export default function EbookIndex() {
   );
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       {/* Header */}
       <View
-        className="flex-row items-center border-b border-white/5 px-4 pb-2"
+        className="flex-row items-center border-b border-foreground/5 px-4 pb-2"
         style={{ paddingTop: insets.top + 8 }}
       >
         <BackButton icon="close" />
-        <Text className="flex-1 pr-10 text-center text-lg font-bold text-white">
+        <Text className="flex-1 pr-10 text-center text-lg font-bold text-foreground">
           Table of Contents
         </Text>
       </View>
@@ -42,10 +42,10 @@ export default function EbookIndex() {
       >
         {/* Book Title */}
         <View className="mb-2 px-6 py-4 text-left">
-          <Text className="mb-1 text-sm font-semibold uppercase tracking-tight text-white/60">
+          <Text className="mb-1 text-sm font-semibold uppercase tracking-tight text-foreground/60">
             E-Book
           </Text>
-          <Text className="text-3xl font-bold leading-tight text-white">
+          <Text className="text-3xl font-bold leading-tight text-foreground">
             Calm Above the Clouds
           </Text>
         </View>
@@ -60,7 +60,7 @@ export default function EbookIndex() {
               <Pressable
                 key={chapter.id}
                 onPress={() => handleChapterPress(chapter.id)}
-                className="active:bg-white/5"
+                className="active:bg-foreground/5"
               >
                 {isCurrent ? (
                   <LinearGradient
@@ -89,21 +89,21 @@ export default function EbookIndex() {
                       >
                         {chapter.label}
                       </Text>
-                      <Text className="text-base font-bold text-white">
+                      <Text className="text-base font-bold text-foreground">
                         {chapter.title}
                       </Text>
                     </View>
-                    <Text className="text-xs font-medium text-white/50">
+                    <Text className="text-xs font-medium text-foreground/50">
                       Reading
                     </Text>
                   </LinearGradient>
                 ) : (
-                  <View className="flex-row items-center justify-between border-b border-white/5 px-6 py-4">
+                  <View className="flex-row items-center justify-between border-b border-foreground/5 px-6 py-4">
                     <View className="flex-1 pr-4">
-                      <Text className="mb-1 text-xs font-semibold uppercase tracking-wider text-white/50">
+                      <Text className="mb-1 text-xs font-semibold uppercase tracking-wider text-foreground/50">
                         {chapter.label}
                       </Text>
-                      <Text className="text-base font-medium text-white/80">
+                      <Text className="text-base font-medium text-foreground/80">
                         {chapter.title}
                       </Text>
                     </View>

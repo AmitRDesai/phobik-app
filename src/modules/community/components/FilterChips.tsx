@@ -32,7 +32,7 @@ export function FilterChips({ selected, onSelect }: FilterChipsProps) {
             className={`h-9 items-center justify-center rounded-full px-5 ${
               isActive
                 ? 'bg-primary-pink'
-                : 'border border-primary-pink/10 bg-card-plum'
+                : 'border border-primary-pink/10 bg-surface-elevated'
             }`}
             style={
               isActive
@@ -46,7 +46,7 @@ export function FilterChips({ selected, onSelect }: FilterChipsProps) {
             }
           >
             <Text
-              className={`text-sm font-semibold ${isActive ? 'text-white' : 'text-white/80'}`}
+              className={`text-sm font-semibold ${isActive ? 'text-foreground' : 'text-foreground/80'}`}
             >
               {circle.label}
             </Text>

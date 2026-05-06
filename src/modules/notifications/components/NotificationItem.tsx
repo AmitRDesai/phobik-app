@@ -50,7 +50,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
   return (
     <Pressable
       onPress={handlePress}
-      className="flex-row items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 active:opacity-70"
+      className="flex-row items-start gap-3 rounded-2xl border border-foreground/10 bg-foreground/5 px-4 py-3.5 active:opacity-70"
     >
       <View
         className="h-10 w-10 items-center justify-center rounded-xl"
@@ -62,7 +62,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
       <View className="flex-1 gap-0.5">
         <View className="flex-row items-center gap-2">
           <Text
-            className="flex-1 text-[14px] font-semibold text-white"
+            className="flex-1 text-[14px] font-semibold text-foreground"
             numberOfLines={1}
           >
             {notification.title}
@@ -72,12 +72,12 @@ export function NotificationItem({ notification }: NotificationItemProps) {
           )}
         </View>
         <Text
-          className="text-[13px] leading-relaxed text-white/60"
+          className="text-[13px] leading-relaxed text-foreground/60"
           numberOfLines={2}
         >
           {notification.body}
         </Text>
-        <Text className="mt-1 text-[11px] text-white/30">
+        <Text className="mt-1 text-[11px] text-foreground/30">
           {formatTimestamp(notification.createdAt)}
         </Text>
       </View>

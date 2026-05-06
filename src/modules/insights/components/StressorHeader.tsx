@@ -14,13 +14,13 @@ export function StressorHeader({ title, subtitle }: StressorHeaderProps) {
 
   const content = (
     <View
-      className="border-b border-white/5 px-4 pb-4"
+      className="border-b border-foreground/5 px-4 pb-4"
       style={{ paddingTop: insets.top + 8 }}
     >
       <View className="flex-row items-center">
         <BackButton className="mr-4" />
         <View>
-          <Text className="text-xl font-black uppercase leading-none tracking-tight text-white">
+          <Text className="text-xl font-black uppercase leading-none tracking-tight text-foreground">
             {title}
           </Text>
           <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">

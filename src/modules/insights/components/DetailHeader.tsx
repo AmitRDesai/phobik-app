@@ -14,12 +14,12 @@ export function DetailHeader({ title, rightAction }: DetailHeaderProps) {
 
   const content = (
     <View
-      className="flex-row items-center justify-between border-b border-white/5 px-4 pb-4"
+      className="flex-row items-center justify-between border-b border-foreground/5 px-4 pb-4"
       style={{ paddingTop: insets.top + 8 }}
     >
       <View className="flex-row items-center gap-2">
         <BackButton />
-        <Text className="text-lg font-bold tracking-tight text-white">
+        <Text className="text-lg font-bold tracking-tight text-foreground">
           {title}
         </Text>
       </View>

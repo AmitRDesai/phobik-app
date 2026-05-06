@@ -35,8 +35,8 @@ export default function MindfulWalkingSession() {
       bottom={<GradientButton onPress={() => {}}>End Grounding</GradientButton>}
     >
       <View className="items-center pt-2">
-        <View className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-white/70">
+        <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/70">
             Grounding Frequency Active
           </Text>
         </View>
@@ -63,10 +63,10 @@ export default function MindfulWalkingSession() {
             style={{ position: 'absolute', inset: 0 }}
           />
           <View className="absolute inset-x-0 bottom-0 p-6">
-            <Text className="text-2xl font-extrabold text-white">
+            <Text className="text-2xl font-extrabold text-foreground">
               Mindful Walking:
             </Text>
-            <Text className="text-2xl font-extrabold text-white">
+            <Text className="text-2xl font-extrabold text-foreground">
               Feel each step.
             </Text>
           </View>
@@ -78,15 +78,15 @@ export default function MindfulWalkingSession() {
         {PHASES.map((phase) => (
           <View
             key={phase.number}
-            className="rounded-3xl border border-white/10 bg-white/5 p-5"
+            className="rounded-3xl border border-foreground/10 bg-foreground/5 p-5"
           >
             <Text className="text-[11px] font-bold tracking-widest text-accent-yellow">
               {phase.number}
             </Text>
-            <Text className="mt-1 text-lg font-bold text-white">
+            <Text className="mt-1 text-lg font-bold text-foreground">
               {phase.title}
             </Text>
-            <Text className="mt-2 text-sm leading-relaxed text-white/70">
+            <Text className="mt-2 text-sm leading-relaxed text-foreground/70">
               {phase.description}
             </Text>
           </View>
@@ -95,7 +95,7 @@ export default function MindfulWalkingSession() {
 
       <View className="mt-8 items-center pb-4">
         <Text
-          className="text-center text-base text-white/60"
+          className="text-center text-base text-foreground/60"
           style={{ color: colors.accent.yellow }}
         >
           “You’re here. That’s enough.”

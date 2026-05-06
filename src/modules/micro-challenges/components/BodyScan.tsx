@@ -21,10 +21,10 @@ export function BodyScan({ onContinue }: BodyScanProps) {
       showsVerticalScrollIndicator={false}
     >
       {/* Title */}
-      <Text className="mb-2 mt-6 text-3xl font-bold tracking-tight text-white">
+      <Text className="mb-2 mt-6 text-3xl font-bold tracking-tight text-foreground">
         Where&apos;s the Sensation
       </Text>
-      <Text className="mb-6 text-sm leading-relaxed text-white/60">
+      <Text className="mb-6 text-sm leading-relaxed text-foreground/60">
         Scan your body and notice where you feel the strongest sensation.
       </Text>
 
@@ -35,7 +35,7 @@ export function BodyScan({ onContinue }: BodyScanProps) {
       />
 
       {/* Sensation attributes */}
-      <Text className="mb-4 mt-6 text-center text-2xl font-bold tracking-tight text-white">
+      <Text className="mb-4 mt-6 text-center text-2xl font-bold tracking-tight text-foreground">
         Ask yourself, is this sensation...
       </Text>
 
@@ -43,13 +43,13 @@ export function BodyScan({ onContinue }: BodyScanProps) {
         {SENSATION_ATTRIBUTES.map((attr) => (
           <View
             key={attr.id}
-            className="flex-1 rounded-xl border border-white/5 bg-white/[0.03] p-4"
+            className="flex-1 rounded-xl border border-foreground/5 bg-foreground/[0.03] p-4"
             style={{ minWidth: '45%' }}
           >
-            <Text className="mb-1 text-center text-[9px] font-black uppercase tracking-widest text-white/40">
+            <Text className="mb-1 text-center text-[9px] font-black uppercase tracking-widest text-foreground/40">
               {attr.category}
             </Text>
-            <Text className="text-center text-xs font-medium text-white/90">
+            <Text className="text-center text-xs font-medium text-foreground/90">
               {attr.question}
             </Text>
           </View>
@@ -57,9 +57,9 @@ export function BodyScan({ onContinue }: BodyScanProps) {
       </View>
 
       {/* Tip */}
-      <View className="mb-8 flex-row items-start gap-3 rounded-xl border border-white/5 bg-white/[0.03] p-5">
+      <View className="mb-8 flex-row items-start gap-3 rounded-xl border border-foreground/5 bg-foreground/[0.03] p-5">
         <MaterialIcons name="touch-app" size={20} color={colors.primary.pink} />
-        <Text className="flex-1 text-xs leading-relaxed text-white/70">
+        <Text className="flex-1 text-xs leading-relaxed text-foreground/70">
           Choose the strongest sensation and place your hand there. Take a few
           slow breaths into that area.
         </Text>

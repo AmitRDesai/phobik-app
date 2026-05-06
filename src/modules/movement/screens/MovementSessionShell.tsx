@@ -24,14 +24,14 @@ export function MovementSessionShell({
   bottom,
 }: MovementSessionShellProps) {
   return (
-    <View className="flex-1 bg-background-dark">
+    <View className="flex-1 bg-surface">
       <GlowBg
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
         centerY={0.3}
         radius={0.45}
         intensity={0.4}
-        bgClassName="bg-background-dark"
+        bgClassName="bg-surface"
       />
       <PracticeStackHeader wordmark={wordmark} />
       <ScrollFade fadeColor={colors.background.dark}>
@@ -45,7 +45,7 @@ export function MovementSessionShell({
         </ScrollView>
       </ScrollFade>
       {bottom ? (
-        <View className="border-t border-white/5 bg-background-dark/80 px-6 pb-8 pt-5">
+        <View className="border-t border-foreground/5 bg-surface/80 px-6 pb-8 pt-5">
           {bottom}
         </View>
       ) : null}

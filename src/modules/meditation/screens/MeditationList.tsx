@@ -31,7 +31,7 @@ export default function MeditationList() {
   return (
     <PracticeScreenShell
       wordmark="FLOW STUDIO"
-      bgClassName="bg-background-charcoal"
+      bgClassName="bg-surface"
       glowCenterY={0.25}
       glowIntensity={0.5}
     >
@@ -39,7 +39,7 @@ export default function MeditationList() {
         <GradientText className="text-[44px] font-extrabold leading-none tracking-tighter">
           Meditations
         </GradientText>
-        <Text className="mt-4 max-w-[340px] text-base leading-relaxed text-white/60">
+        <Text className="mt-4 max-w-[340px] text-base leading-relaxed text-foreground/60">
           Step into your biometric field. Choose a practice to align your
           physiological state with your mental intention.
         </Text>
@@ -58,7 +58,7 @@ export default function MeditationList() {
               <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
                 Unfinished session
               </Text>
-              <Text className="mt-0.5 text-base font-bold text-white">
+              <Text className="mt-0.5 text-base font-bold text-foreground">
                 {resumable.title}
               </Text>
             </View>

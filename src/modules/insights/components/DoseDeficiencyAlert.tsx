@@ -18,7 +18,7 @@ export function DoseDeficiencyAlert({ totals }: DoseDeficiencyAlertProps) {
   const tip = getDeficiencyTip(lowestKey);
 
   return (
-    <View className="overflow-hidden rounded-3xl border border-accent-info/30 bg-white/5 p-5">
+    <View className="overflow-hidden rounded-3xl border border-accent-info/30 bg-foreground/5 p-5">
       <View className="flex-row items-center gap-4">
         <View className="h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent-info/20">
           <MaterialIcons
@@ -28,10 +28,10 @@ export function DoseDeficiencyAlert({ totals }: DoseDeficiencyAlertProps) {
           />
         </View>
         <View className="flex-1">
-          <Text className="font-semibold text-white">
+          <Text className="font-semibold text-foreground">
             You&apos;re low on {display.label} today
           </Text>
-          <Text className="mt-1 text-sm text-white/60">Smart Tip: {tip}</Text>
+          <Text className="mt-1 text-sm text-foreground/60">Smart Tip: {tip}</Text>
         </View>
       </View>
     </View>

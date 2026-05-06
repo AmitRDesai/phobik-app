@@ -82,8 +82,8 @@ export function HrvRecoveryChart() {
     <View className="gap-4 px-4">
       <View className="flex-row items-end justify-between">
         <View>
-          <Text className="text-lg font-bold text-white">HRV Recovery</Text>
-          <Text className="text-sm text-white/40">
+          <Text className="text-lg font-bold text-foreground">HRV Recovery</Text>
+          <Text className="text-sm text-foreground/40">
             Heart Rate Variability trend
           </Text>
         </View>
@@ -114,7 +114,7 @@ export function HrvRecoveryChart() {
           ) : null}
         </View>
       </View>
-      <View className="overflow-hidden rounded-xl border border-white/10 bg-white/5 p-4">
+      <View className="overflow-hidden rounded-xl border border-foreground/10 bg-foreground/5 p-4">
         <View className="h-[160px] w-full">
           {line ? (
             <Svg
@@ -148,10 +148,10 @@ export function HrvRecoveryChart() {
             </Svg>
           ) : hasConnectedHealth ? (
             <View className="h-full w-full items-center justify-center">
-              <Text className="text-center text-xs font-semibold uppercase tracking-widest text-white/40">
+              <Text className="text-center text-xs font-semibold uppercase tracking-widest text-foreground/40">
                 No data
               </Text>
-              <Text className="mt-1 text-[10px] text-white/30">
+              <Text className="mt-1 text-[10px] text-foreground/30">
                 No HRV samples in this window
               </Text>
             </View>
@@ -160,7 +160,7 @@ export function HrvRecoveryChart() {
               onPress={() => router.push('/settings/health')}
               className="h-full w-full items-center justify-center"
             >
-              <Text className="text-center text-xs text-white/40">
+              <Text className="text-center text-xs text-foreground/40">
                 Connect Apple Health or Health Connect for HRV trends.
               </Text>
               <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
@@ -174,7 +174,7 @@ export function HrvRecoveryChart() {
             {labels.map((label) => (
               <Text
                 key={label.key}
-                className="text-[10px] font-bold uppercase text-white/30"
+                className="text-[10px] font-bold uppercase text-foreground/30"
               >
                 {label.text}
               </Text>

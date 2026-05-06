@@ -109,7 +109,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
             }}
           />
           <View
-            className="items-center justify-center overflow-hidden rounded-2xl border border-white/30 p-4"
+            className="items-center justify-center overflow-hidden rounded-2xl border border-foreground/30 p-4"
             style={{ backgroundColor: alpha.white35 }}
           >
             <BlurView intensity={20} tint="dark" className="absolute inset-0" />

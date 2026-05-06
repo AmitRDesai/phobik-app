@@ -141,10 +141,10 @@ export default function Coach() {
               />
             </View>
             <View className="ml-3 flex-1">
-              <Text className="text-[15px] font-semibold text-white">
+              <Text className="text-[15px] font-semibold text-foreground">
                 Coach
               </Text>
-              <Text className="text-[11px] text-white/35">Powered by AI</Text>
+              <Text className="text-[11px] text-foreground/35">Powered by AI</Text>
             </View>
             <View className="flex-row gap-2">
               <Pressable
@@ -171,7 +171,7 @@ export default function Coach() {
             <View className="flex-1 items-center justify-center gap-3">
               <View className="flex-row items-center gap-2">
                 <ActivityIndicator color={colors.accent.purple} size="small" />
-                <Text className="text-[13px] text-white/30">
+                <Text className="text-[13px] text-foreground/30">
                   Loading conversation...
                 </Text>
               </View>
@@ -273,15 +273,15 @@ function EmptyState({
           />
         </View>
         {greeting ? (
-          <Text className="max-w-[300px] text-center text-[15px] leading-6 text-white/70">
+          <Text className="max-w-[300px] text-center text-[15px] leading-6 text-foreground/70">
             {greeting}
           </Text>
         ) : (
           <>
-            <Text className="mb-2 text-center text-xl font-bold text-white">
+            <Text className="mb-2 text-center text-xl font-bold text-foreground">
               Hey, I&apos;m here for you
             </Text>
-            <Text className="max-w-[280px] text-center text-[14px] leading-5 text-white/40">
+            <Text className="max-w-[280px] text-center text-[14px] leading-5 text-foreground/40">
               I can help with anxiety, grounding exercises, breathing
               techniques, and building resilience.
             </Text>
@@ -300,7 +300,7 @@ function EmptyState({
               backgroundColor: alpha.white03,
             }}
           >
-            <Text className="text-[14px] text-white/60">{text}</Text>
+            <Text className="text-[14px] text-foreground/60">{text}</Text>
           </Pressable>
         ))}
       </View>

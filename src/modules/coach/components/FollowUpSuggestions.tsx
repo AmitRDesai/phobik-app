@@ -32,7 +32,7 @@ export function FollowUpSuggestions({
               backgroundColor: alpha.white05,
             }}
           >
-            <Text className="text-[13px] text-white/60">{text}</Text>
+            <Text className="text-[13px] text-foreground/60">{text}</Text>
           </Pressable>
         ))}
       </ScrollView>

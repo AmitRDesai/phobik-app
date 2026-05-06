@@ -6,7 +6,7 @@ import { Pressable, Text, View } from 'react-native';
 export function AnxietyImpactCard() {
   return (
     <View className="px-4">
-      <View className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+      <View className="overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-5">
         <CardAura color={colors.primary.pink} />
         <View className="mb-3 flex-row items-center gap-2">
           <MaterialIcons
@@ -14,19 +14,19 @@ export function AnxietyImpactCard() {
             size={20}
             color={colors.primary.pink}
           />
-          <Text className="font-bold tracking-tight text-white">
+          <Text className="font-bold tracking-tight text-foreground">
             Anxiety Impact
           </Text>
         </View>
         <View className="gap-3">
-          <Text className="text-sm leading-relaxed text-white/70">
+          <Text className="text-sm leading-relaxed text-foreground/70">
             Yesterday&apos;s elevated{' '}
             <Text className="font-bold text-primary-pink">cortisol levels</Text>{' '}
             from the afternoon stress spike delayed your REM entry by 42
             minutes.
           </Text>
-          <View className="h-px w-full bg-white/5" />
-          <Text className="text-xs italic text-white/60">
+          <View className="h-px w-full bg-foreground/5" />
+          <Text className="text-xs italic text-foreground/60">
             &ldquo;Your deep sleep was 15% lower than your baseline. Consider a
             10-minute breathwork session before tonight&apos;s rest.&rdquo;
           </Text>

@@ -42,7 +42,7 @@ export function SleepIntelligenceCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-white/40">
+        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
           Sleep Intelligence
         </Text>
         <Text className="text-[9px] font-bold uppercase tracking-widest text-accent-yellow">
@@ -55,7 +55,7 @@ export function SleepIntelligenceCard() {
             className="absolute -left-10 top-0 h-32 w-32 rounded-full"
             style={{ backgroundColor: withAlpha(colors.primary.pink, 0.1) }}
           />
-          <View className="relative z-10 h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+          <View className="relative z-10 h-16 w-16 items-center justify-center rounded-2xl border border-foreground/10 bg-foreground/5">
             <MaterialIcons
               name="dark-mode"
               size={36}
@@ -69,14 +69,14 @@ export function SleepIntelligenceCard() {
           </View>
           <View className="relative z-10 flex-1">
             <View className="mb-1 flex-row items-end justify-between">
-              <Text className="text-lg font-black text-white">
+              <Text className="text-lg font-black text-foreground">
                 Restorative Sleep
               </Text>
               <Text className="text-2xl font-black text-primary-pink">
                 {displayPct != null ? `${displayPct}%` : '—'}
               </Text>
             </View>
-            <View className="h-1.5 overflow-hidden rounded-full bg-white/5">
+            <View className="h-1.5 overflow-hidden rounded-full bg-foreground/5">
               {displayPct != null ? (
                 <LinearGradient
                   colors={[colors.primary.pink, colors.accent.yellow]}
@@ -94,7 +94,7 @@ export function SleepIntelligenceCard() {
                 />
               ) : null}
             </View>
-            <Text className="mt-3 text-[10px] font-medium text-white/40">
+            <Text className="mt-3 text-[10px] font-medium text-foreground/40">
               {summaryText(restorativePct, hasConnectedHealth)}
             </Text>
           </View>

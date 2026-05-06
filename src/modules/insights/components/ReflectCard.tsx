@@ -20,7 +20,7 @@ export function ReflectCard({ question }: ReflectCardProps) {
           Reflect
         </Text>
       </View>
-      <Text className="text-[15px] font-bold italic leading-snug text-white/90">
+      <Text className="text-[15px] font-bold italic leading-snug text-foreground/90">
         {question}
       </Text>
     </DashboardCard>

@@ -52,7 +52,7 @@ export function SleepScoreHeader() {
           }}
         >
           <View
-            className="absolute rounded-full bg-background-dashboard"
+            className="absolute rounded-full bg-surface"
             style={{
               width: 144,
               height: 144,
@@ -60,16 +60,16 @@ export function SleepScoreHeader() {
             }}
           />
           <View className="z-10 items-center">
-            <Text className="text-5xl font-extrabold text-white">
+            <Text className="text-5xl font-extrabold text-foreground">
               {lastNightScore != null ? lastNightScore : '—'}
             </Text>
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-white/80">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/80">
               Score
             </Text>
           </View>
         </LinearGradient>
       </View>
-      <Text className="text-2xl font-bold text-white">
+      <Text className="text-2xl font-bold text-foreground">
         {scoreLabel(lastNightScore)}
       </Text>
       <Text className="mt-1 font-medium text-primary-pink/80">

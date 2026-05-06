@@ -8,11 +8,11 @@ interface ChapterQuoteProps {
 export function ChapterQuote({ children }: ChapterQuoteProps) {
   return (
     <View
-      className="my-6 rounded-xl border border-white/10 bg-white/5 p-5"
+      className="my-6 rounded-xl border border-foreground/10 bg-foreground/5 p-5"
       style={{ borderLeftWidth: 4, borderLeftColor: colors.primary.pink }}
     >
       <Text
-        className="text-base italic leading-relaxed text-white/70"
+        className="text-base italic leading-relaxed text-foreground/70"
         style={{ fontFamily: 'serif' }}
       >
         {children}

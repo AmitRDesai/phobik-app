@@ -17,14 +17,14 @@ export default function AiStudioWriteIt() {
   const [text, setText] = useState('');
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       <GlowBg
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
         centerY={0.25}
         radius={0.4}
         intensity={0.5}
-        bgClassName="bg-background-charcoal"
+        bgClassName="bg-surface"
       />
       <PracticeStackHeader wordmark="Sonic Studio" />
 
@@ -43,26 +43,26 @@ export default function AiStudioWriteIt() {
           </View>
 
           {/* Title */}
-          <Text className="mt-4 text-[44px] font-extrabold leading-none tracking-tight text-white">
+          <Text className="mt-4 text-[44px] font-extrabold leading-none tracking-tight text-foreground">
             What
           </Text>
-          <Text className="text-[44px] font-extrabold leading-none tracking-tight text-white">
+          <Text className="text-[44px] font-extrabold leading-none tracking-tight text-foreground">
             happened?
           </Text>
-          <Text className="mt-4 text-base leading-relaxed text-white/60">
+          <Text className="mt-4 text-base leading-relaxed text-foreground/60">
             The algorithm listens to the sentiment of your story. Speak your
             truth, and let the sonics follow.
           </Text>
 
           {/* Textarea */}
-          <View className="mt-6 rounded-3xl border border-white/10 bg-white/5 p-5">
+          <View className="mt-6 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
             <TextInput
               value={text}
               onChangeText={setText}
               multiline
               placeholder="Describe your day, a specific memory, or your current mood here..."
               placeholderTextColor="rgba(255,255,255,0.35)"
-              className="min-h-[120px] text-base text-white"
+              className="min-h-[120px] text-base text-foreground"
               textAlignVertical="top"
             />
             <View className="mt-4 flex-row gap-3">
@@ -73,10 +73,10 @@ export default function AiStudioWriteIt() {
                     message: 'AI polishing will be available soon.',
                   })
                 }
-                className="flex-row items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2"
+                className="flex-row items-center gap-2 rounded-full border border-foreground/10 bg-foreground/10 px-4 py-2"
               >
                 <MaterialIcons name="auto-fix-high" size={14} color="white" />
-                <Text className="text-xs font-bold text-white">
+                <Text className="text-xs font-bold text-foreground">
                   Polish with AI
                 </Text>
               </Pressable>
@@ -87,10 +87,10 @@ export default function AiStudioWriteIt() {
                     message: 'Voice-to-text will be available soon.',
                   })
                 }
-                className="flex-row items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2"
+                className="flex-row items-center gap-2 rounded-full border border-foreground/10 bg-foreground/10 px-4 py-2"
               >
                 <MaterialIcons name="mic" size={14} color="white" />
-                <Text className="text-xs font-bold text-white">
+                <Text className="text-xs font-bold text-foreground">
                   Voice-to-Text
                 </Text>
               </Pressable>
@@ -98,7 +98,7 @@ export default function AiStudioWriteIt() {
           </View>
 
           {/* From Journal sync */}
-          <View className="mt-4 rounded-3xl border border-white/10 bg-white/5 p-5">
+          <View className="mt-4 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
             <View className="self-center h-12 w-12 items-center justify-center rounded-2xl bg-accent-yellow/15">
               <MaterialIcons
                 name="auto-stories"
@@ -106,10 +106,10 @@ export default function AiStudioWriteIt() {
                 color={colors.accent.yellow}
               />
             </View>
-            <Text className="mt-3 text-center text-base font-bold text-white">
+            <Text className="mt-3 text-center text-base font-bold text-foreground">
               From Journal
             </Text>
-            <Text className="mt-1 text-center text-sm text-white/60">
+            <Text className="mt-1 text-center text-sm text-foreground/60">
               Sync your morning thoughts or recent entries to jumpstart the
               sonic synthesis.
             </Text>
@@ -129,17 +129,17 @@ export default function AiStudioWriteIt() {
           </View>
 
           {/* Current Vibe card */}
-          <View className="mt-4 overflow-hidden rounded-3xl border border-white/10 bg-white/5">
+          <View className="mt-4 overflow-hidden rounded-3xl border border-foreground/10 bg-foreground/5">
             <Image
               source={writeVibeImg}
               style={{ width: '100%', height: 120 }}
               contentFit="cover"
             />
             <View className="p-5">
-              <Text className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+              <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
                 Current Vibe
               </Text>
-              <Text className="mt-1 text-base font-bold text-white">
+              <Text className="mt-1 text-base font-bold text-foreground">
                 Ethereal Melancholy
               </Text>
             </View>
@@ -152,7 +152,7 @@ export default function AiStudioWriteIt() {
       </ScrollFade>
 
       {/* Sticky bottom: Next */}
-      <View className="border-t border-white/5 bg-background-charcoal/80 px-6 pb-8 pt-5">
+      <View className="border-t border-foreground/5 bg-surface/80 px-6 pb-8 pt-5">
         <GradientButton
           onPress={() => router.push('/sound-studio/ai/feeling')}
           icon={<MaterialIcons name="arrow-forward" size={18} color="white" />}

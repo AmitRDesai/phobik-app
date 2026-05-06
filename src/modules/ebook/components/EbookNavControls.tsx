@@ -24,7 +24,7 @@ export function EbookNavControls({
 
   return (
     <View
-      className="z-10 flex-row items-center justify-between border-t border-white/10 bg-background-charcoal px-6 py-4"
+      className="z-10 flex-row items-center justify-between border-t border-foreground/10 bg-surface px-6 py-4"
       style={{ paddingBottom: insets.bottom + 8 }}
     >
       <Pressable
@@ -34,14 +34,14 @@ export function EbookNavControls({
         style={{ opacity: hasPrev ? 1 : 0.3 }}
       >
         <MaterialIcons name="chevron-left" size={28} color="white" />
-        <Text className="text-[10px] font-bold uppercase tracking-tighter text-gray-400">
+        <Text className="text-[10px] font-bold uppercase tracking-tighter text-foreground/60">
           Previous
         </Text>
       </Pressable>
 
       <Pressable
         onPress={onToc}
-        className="h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/10 active:scale-95"
+        className="h-12 w-12 items-center justify-center rounded-full border border-foreground/20 bg-foreground/10 active:scale-95"
       >
         <MaterialIcons name="menu-book" size={24} color="white" />
       </Pressable>
@@ -61,7 +61,7 @@ export function EbookNavControls({
           style={{ opacity: hasNext ? 1 : 0.3 }}
         >
           <MaterialIcons name="chevron-right" size={28} color="white" />
-          <Text className="text-[10px] font-bold uppercase tracking-tighter text-gray-400">
+          <Text className="text-[10px] font-bold uppercase tracking-tighter text-foreground/60">
             Next
           </Text>
         </Pressable>

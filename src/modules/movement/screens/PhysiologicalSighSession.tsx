@@ -33,19 +33,19 @@ export default function PhysiologicalSighSession() {
           </Text>
           <View className="mt-4 flex-row gap-2">
             <View className="h-1.5 w-1.5 rounded-full bg-accent-yellow" />
-            <View className="h-1.5 w-1.5 rounded-full bg-white/20" />
-            <View className="h-1.5 w-1.5 rounded-full bg-white/20" />
-            <View className="h-1.5 w-1.5 rounded-full bg-white/20" />
-            <View className="h-1.5 w-1.5 rounded-full bg-white/20" />
+            <View className="h-1.5 w-1.5 rounded-full bg-foreground/20" />
+            <View className="h-1.5 w-1.5 rounded-full bg-foreground/20" />
+            <View className="h-1.5 w-1.5 rounded-full bg-foreground/20" />
+            <View className="h-1.5 w-1.5 rounded-full bg-foreground/20" />
           </View>
         </View>
       }
     >
       <View className="items-center pt-6">
-        <Text className="text-2xl font-extrabold text-white">
+        <Text className="text-2xl font-extrabold text-foreground">
           Physiological Sigh + Arm Raise
         </Text>
-        <Text className="mt-2 text-xs uppercase tracking-widest text-white/60">
+        <Text className="mt-2 text-xs uppercase tracking-widest text-foreground/60">
           Phase: Expansion
         </Text>
       </View>
@@ -73,9 +73,9 @@ export default function PhysiologicalSighSession() {
               justifyContent: 'center',
             }}
           >
-            <View className="h-[200px] w-[200px] items-center justify-center rounded-full border border-white/20 bg-background-dark/40">
-              <Text className="text-3xl font-extrabold text-white">4s</Text>
-              <Text className="mt-1 text-[10px] uppercase tracking-widest text-white/70">
+            <View className="h-[200px] w-[200px] items-center justify-center rounded-full border border-foreground/20 bg-surface/40">
+              <Text className="text-3xl font-extrabold text-foreground">4s</Text>
+              <Text className="mt-1 text-[10px] uppercase tracking-widest text-foreground/70">
                 Inhale
               </Text>
             </View>
@@ -88,7 +88,7 @@ export default function PhysiologicalSighSession() {
         {STEPS.map((step) => (
           <View
             key={step.title}
-            className={`flex-row items-start gap-4 rounded-3xl border border-white/10 bg-white/5 p-5 ${
+            className={`flex-row items-start gap-4 rounded-3xl border border-foreground/10 bg-foreground/5 p-5 ${
               step.active ? '' : 'opacity-50'
             }`}
           >
@@ -100,10 +100,10 @@ export default function PhysiologicalSighSession() {
               />
             </View>
             <View className="flex-1">
-              <Text className="text-base font-bold text-white">
+              <Text className="text-base font-bold text-foreground">
                 {step.title}
               </Text>
-              <Text className="mt-1 text-sm leading-relaxed text-white/70">
+              <Text className="mt-1 text-sm leading-relaxed text-foreground/70">
                 {step.description}
               </Text>
             </View>

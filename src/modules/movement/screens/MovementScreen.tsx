@@ -45,14 +45,14 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
   };
 
   return (
-    <View className="flex-1 bg-background-dark">
+    <View className="flex-1 bg-surface">
       <GlowBg
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
         centerY={0.2}
         radius={0.4}
         intensity={0.4}
-        bgClassName="bg-background-dark"
+        bgClassName="bg-surface"
       />
       <PracticeStackHeader wordmark="Movement" />
 
@@ -66,7 +66,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
           {/* Circular hero image */}
           <View className="items-center">
             <View
-              className="h-[180px] w-[180px] overflow-hidden rounded-full border border-white/10"
+              className="h-[180px] w-[180px] overflow-hidden rounded-full border border-foreground/10"
               style={{
                 shadowColor: colors.primary.pink,
                 shadowOffset: { width: 0, height: 0 },
@@ -84,14 +84,14 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
 
           {/* Eyebrow */}
           {exercise.eyebrow ? (
-            <Text className="mt-6 text-center text-[11px] font-bold uppercase tracking-[0.3em] text-white/60">
+            <Text className="mt-6 text-center text-[11px] font-bold uppercase tracking-[0.3em] text-foreground/60">
               {exercise.eyebrow}
             </Text>
           ) : null}
 
           {/* Title (italic, centered, optional gradient accent line) */}
           <View className="mt-3 items-center">
-            <Text className="text-center text-[34px] font-extrabold leading-tight tracking-tight text-white">
+            <Text className="text-center text-[34px] font-extrabold leading-tight tracking-tight text-foreground">
               {exercise.title}
             </Text>
             {exercise.titleAccent ? (
@@ -112,7 +112,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
                 return (
                   <View
                     key={pill}
-                    className="flex-row items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5"
+                    className="flex-row items-center gap-1.5 rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1.5"
                   >
                     <MaterialIcons
                       name={i % 2 === 0 ? 'schedule' : 'favorite'}
@@ -131,9 +131,9 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
           ) : null}
 
           {/* Body paragraphs in a glass card */}
-          <View className="mt-6 gap-3 rounded-3xl border border-white/10 bg-white/5 p-5">
+          <View className="mt-6 gap-3 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
             {exercise.body.map((p) => (
-              <Text key={p} className="text-base leading-relaxed text-white/80">
+              <Text key={p} className="text-base leading-relaxed text-foreground/80">
                 {p}
               </Text>
             ))}
@@ -145,7 +145,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
               {exercise.benefits.map((b) => (
                 <View
                   key={b.title}
-                  className="rounded-3xl border border-white/10 bg-white/5 p-5"
+                  className="rounded-3xl border border-foreground/10 bg-foreground/5 p-5"
                 >
                   <View className="mb-2 flex-row items-center gap-2">
                     <MaterialIcons
@@ -153,11 +153,11 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
                       size={18}
                       color={colors.accent.yellow}
                     />
-                    <Text className="text-base font-bold text-white">
+                    <Text className="text-base font-bold text-foreground">
                       {b.title}
                     </Text>
                   </View>
-                  <Text className="text-sm leading-relaxed text-white/70">
+                  <Text className="text-sm leading-relaxed text-foreground/70">
                     {b.description}
                   </Text>
                 </View>
@@ -167,7 +167,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
 
           {/* Quote */}
           {exercise.quote ? (
-            <Text className="mt-6 text-center text-sm leading-relaxed text-white/50">
+            <Text className="mt-6 text-center text-sm leading-relaxed text-foreground/50">
               &ldquo;{exercise.quote}&rdquo;
             </Text>
           ) : null}
@@ -178,12 +178,12 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
               {exercise.stats.map((stat) => (
                 <View
                   key={stat.label}
-                  className="flex-1 rounded-3xl border border-white/10 bg-white/5 px-4 py-3"
+                  className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 px-4 py-3"
                 >
-                  <Text className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+                  <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
                     {stat.label}
                   </Text>
-                  <Text className="mt-1 text-base font-bold text-white">
+                  <Text className="mt-1 text-base font-bold text-foreground">
                     {stat.value}
                   </Text>
                 </View>
@@ -194,7 +194,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
       </ScrollFade>
 
       {/* Fixed bottom: CTA + optional footer note */}
-      <View className="border-t border-white/5 bg-background-dark/80 px-6 pb-8 pt-5">
+      <View className="border-t border-foreground/5 bg-surface/80 px-6 pb-8 pt-5">
         <GradientButton
           onPress={handleStart}
           icon={<MaterialIcons name="play-arrow" size={20} color="white" />}
@@ -202,7 +202,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
           Start Session
         </GradientButton>
         {exercise.footerNote ? (
-          <Text className="mt-3 text-center text-[11px] uppercase tracking-widest text-white/50">
+          <Text className="mt-3 text-center text-[11px] uppercase tracking-widest text-foreground/50">
             {exercise.footerNote}
           </Text>
         ) : null}

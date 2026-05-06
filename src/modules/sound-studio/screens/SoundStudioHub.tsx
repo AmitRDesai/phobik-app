@@ -18,7 +18,7 @@ export default function SoundStudioHub() {
   return (
     <PracticeScreenShell
       wordmark="Sound Studio"
-      bgClassName="bg-background-charcoal"
+      bgClassName="bg-surface"
       glowCenterY={0.25}
       glowIntensity={0.5}
       scrollContentClassName="px-6 pb-32"
@@ -26,16 +26,16 @@ export default function SoundStudioHub() {
       {/* Credits row */}
       <Pressable
         onPress={() => router.push('/sound-studio/credits')}
-        className="mt-2 flex-row items-center justify-between rounded-3xl border border-white/10 bg-white/5 p-5 active:scale-[0.98]"
+        className="mt-2 flex-row items-center justify-between rounded-3xl border border-foreground/10 bg-foreground/5 p-5 active:scale-[0.98]"
       >
         <View>
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
             AI Generation
           </Text>
-          <Text className="mt-1 text-2xl font-extrabold text-white">
+          <Text className="mt-1 text-2xl font-extrabold text-foreground">
             {FAKE_CREDITS} Credits
           </Text>
-          <Text className="mt-1 text-xs text-white/50">
+          <Text className="mt-1 text-xs text-foreground/50">
             Refills in 12 hours
           </Text>
         </View>
@@ -52,7 +52,7 @@ export default function SoundStudioHub() {
         className="mt-5 active:scale-[0.98]"
       >
         <View
-          className="rounded-3xl border border-white/10 bg-white/5 p-7"
+          className="rounded-3xl border border-foreground/10 bg-foreground/5 p-7"
           style={{
             shadowColor: colors.primary.pink,
             shadowOffset: { width: 0, height: 0 },
@@ -65,10 +65,10 @@ export default function SoundStudioHub() {
               Handpicked
             </Text>
           </View>
-          <Text className="mt-4 text-center text-3xl font-extrabold text-white">
+          <Text className="mt-4 text-center text-3xl font-extrabold text-foreground">
             Curated{'\n'}Soundscapes
           </Text>
-          <Text className="mt-3 text-center text-sm leading-relaxed text-white/70">
+          <Text className="mt-3 text-center text-sm leading-relaxed text-foreground/70">
             Immerse yourself in expertly crafted audio environments designed for
             peak relaxation and focus.
           </Text>
@@ -89,7 +89,7 @@ export default function SoundStudioHub() {
         className="mt-5 active:scale-[0.98]"
       >
         <View
-          className="rounded-3xl border border-white/10 bg-white/5 p-7"
+          className="rounded-3xl border border-foreground/10 bg-foreground/5 p-7"
           style={{
             shadowColor: colors.accent.yellow,
             shadowOffset: { width: 0, height: 0 },
@@ -102,10 +102,10 @@ export default function SoundStudioHub() {
               New Feature
             </Text>
           </View>
-          <Text className="mt-4 text-center text-3xl font-extrabold text-white">
+          <Text className="mt-4 text-center text-3xl font-extrabold text-foreground">
             AI Studio
           </Text>
-          <Text className="mt-3 text-center text-sm leading-relaxed text-white/70">
+          <Text className="mt-3 text-center text-sm leading-relaxed text-foreground/70">
             Generate personalized soundscapes tailored to your current brainwave
             patterns.
           </Text>
@@ -128,7 +128,7 @@ export default function SoundStudioHub() {
             message: 'Audio playback will be available soon.',
           })
         }
-        className="mt-6 flex-row items-center gap-3 rounded-3xl border border-white/10 bg-white/5 p-3 pr-5 active:scale-[0.98]"
+        className="mt-6 flex-row items-center gap-3 rounded-3xl border border-foreground/10 bg-foreground/5 p-3 pr-5 active:scale-[0.98]"
       >
         <Image
           source={NOW_PLAYING_IMAGE}
@@ -136,10 +136,10 @@ export default function SoundStudioHub() {
           contentFit="cover"
         />
         <View className="flex-1">
-          <Text className="text-sm font-bold text-white">Deep Focus Beta</Text>
-          <Text className="text-[11px] text-white/50">AI Generated • 4:20</Text>
+          <Text className="text-sm font-bold text-foreground">Deep Focus Beta</Text>
+          <Text className="text-[11px] text-foreground/50">AI Generated • 4:20</Text>
         </View>
-        <Pressable className="h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/10">
+        <Pressable className="h-9 w-9 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10">
           <MaterialIcons name="skip-next" size={18} color="white" />
         </Pressable>
         <View

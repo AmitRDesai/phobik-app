@@ -76,7 +76,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
           />
         </View>
         <View className="flex-1 gap-2">
-          <Text className="text-[14px] text-white/40">
+          <Text className="text-[14px] text-foreground/40">
             Failed to get a response
           </Text>
           <Pressable
@@ -89,7 +89,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
             }}
           >
             <Ionicons name="refresh" size={14} color={colors.accent.purple} />
-            <Text className="text-[13px] font-medium text-white/70">Retry</Text>
+            <Text className="text-[13px] font-medium text-foreground/70">Retry</Text>
           </Pressable>
         </View>
       </Animated.View>
@@ -113,12 +113,12 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
             shadowRadius: 8,
           }}
         >
-          <Text className="text-[15px] leading-[22px] text-white">
+          <Text className="text-[15px] leading-[22px] text-foreground">
             {message.content}
           </Text>
         </View>
         <View className="mt-1 flex-row items-center justify-end gap-2">
-          <Text className="text-[10px] text-white/20">
+          <Text className="text-[10px] text-foreground/20">
             {formatTime(message.timestamp)}
           </Text>
           <Pressable onPress={handleCopy} hitSlop={8}>
@@ -148,7 +148,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
       <View className="flex-1">
         <Markdown style={markdownStyles}>{message.content}</Markdown>
         <View className="mt-1 flex-row items-center justify-between">
-          <Text className="text-[10px] text-white/20">
+          <Text className="text-[10px] text-foreground/20">
             {formatTime(message.timestamp)}
           </Text>
           {message.status === 'sent' && message.content.length > 0 && (

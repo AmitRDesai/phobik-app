@@ -47,7 +47,7 @@ export function StepProgress({ currentStep, totalSteps }: StepProgressProps) {
       {Array.from({ length: remaining }, (_, i) => (
         <View
           key={`rem-${i}`}
-          className="h-[5px] flex-1 rounded-full bg-white/10"
+          className="h-[5px] flex-1 rounded-full bg-foreground/10"
         />
       ))}
     </View>

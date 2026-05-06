@@ -11,10 +11,10 @@ export function EbookHeader({ label, onBack }: EbookHeaderProps) {
     <View className="flex-row items-center px-4 pb-3">
       <BackButton onPress={onBack} />
       <View className="flex-1 items-center">
-        <Text className="mb-0.5 text-xs font-semibold uppercase tracking-wider text-white/60">
+        <Text className="mb-0.5 text-xs font-semibold uppercase tracking-wider text-foreground/60">
           Calm Above the Clouds
         </Text>
-        <Text className="text-sm font-bold leading-tight tracking-tight text-white">
+        <Text className="text-sm font-bold leading-tight tracking-tight text-foreground">
           {label}
         </Text>
       </View>

@@ -42,14 +42,14 @@ export default function AiStudioPlayback() {
     });
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       <GlowBg
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
         centerY={0.25}
         radius={0.45}
         intensity={0.5}
-        bgClassName="bg-background-charcoal"
+        bgClassName="bg-surface"
       />
       <PracticeStackHeader wordmark="Aura Ai" />
 
@@ -61,19 +61,19 @@ export default function AiStudioPlayback() {
           showsVerticalScrollIndicator={false}
         >
           {/* Hero copy */}
-          <Text className="text-[32px] font-extrabold leading-tight tracking-tight text-white">
+          <Text className="text-[32px] font-extrabold leading-tight tracking-tight text-foreground">
             Ready to hear{' '}
             <GradientText className="text-[32px] font-extrabold leading-tight tracking-tight">
               your song?
             </GradientText>
           </Text>
-          <Text className="mt-3 text-sm text-white/60">
+          <Text className="mt-3 text-sm text-foreground/60">
             AI-generated from your prompt: "A rhythmic neon pulse through a
             crystalline forest at midnight."
           </Text>
 
           {/* Visualizer card */}
-          <View className="mt-6 overflow-hidden rounded-3xl border border-white/10">
+          <View className="mt-6 overflow-hidden rounded-3xl border border-foreground/10">
             <LinearGradient
               colors={['#1a0a14', '#3a0e26']}
               start={{ x: 0, y: 0 }}
@@ -128,15 +128,15 @@ export default function AiStudioPlayback() {
 
           {/* Track meta */}
           <View className="mt-5">
-            <Text className="text-xl font-extrabold text-white">
+            <Text className="text-xl font-extrabold text-foreground">
               Neon Crystalline Pulse
             </Text>
-            <Text className="mt-1 text-xs text-white/50">
+            <Text className="mt-1 text-xs text-foreground/50">
               BPM: 124 • Key: F# Minor
             </Text>
 
             {/* Progress bar */}
-            <View className="mt-4 h-[3px] w-full overflow-hidden rounded-full bg-white/10">
+            <View className="mt-4 h-[3px] w-full overflow-hidden rounded-full bg-foreground/10">
               <LinearGradient
                 colors={[colors.primary.pink, colors.accent.yellow]}
                 start={{ x: 0, y: 0 }}
@@ -145,33 +145,33 @@ export default function AiStudioPlayback() {
               />
             </View>
             <View className="mt-2 flex-row justify-between">
-              <Text className="text-[10px] text-white/50">01:16</Text>
-              <Text className="text-[10px] text-white/50">05:44</Text>
+              <Text className="text-[10px] text-foreground/50">01:16</Text>
+              <Text className="text-[10px] text-foreground/50">05:44</Text>
             </View>
 
             {/* Controls + share */}
             <View className="mt-4 flex-row items-center gap-3">
               <Pressable
                 onPress={() => onAction('Shuffle')}
-                className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
+                className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
               >
                 <MaterialIcons name="shuffle" size={18} color="white" />
               </Pressable>
               <Pressable
                 onPress={() => onAction('Previous')}
-                className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
+                className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
               >
                 <MaterialIcons name="skip-previous" size={20} color="white" />
               </Pressable>
               <Pressable
                 onPress={() => onAction('Next')}
-                className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
+                className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
               >
                 <MaterialIcons name="skip-next" size={20} color="white" />
               </Pressable>
               <Pressable
                 onPress={() => onAction('Repeat')}
-                className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
+                className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
               >
                 <MaterialIcons name="repeat" size={18} color="white" />
               </Pressable>
@@ -194,7 +194,7 @@ export default function AiStudioPlayback() {
                   }}
                 >
                   <MaterialIcons name="ios-share" size={14} color="white" />
-                  <Text className="text-[11px] font-bold uppercase tracking-widest text-white">
+                  <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground">
                     Share
                   </Text>
                 </LinearGradient>
@@ -205,7 +205,7 @@ export default function AiStudioPlayback() {
           {/* Your Creations */}
           <View className="mt-8">
             <View className="mb-3 flex-row items-baseline justify-between">
-              <Text className="text-[10px] font-bold uppercase tracking-widest text-white/60">
+              <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
                 Your Creations
               </Text>
               <Pressable onPress={() => onAction('View All')}>
@@ -219,7 +219,7 @@ export default function AiStudioPlayback() {
                 <Pressable
                   key={c.id}
                   onPress={() => onAction(c.title)}
-                  className="flex-row items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3 active:scale-[0.98]"
+                  className="flex-row items-center gap-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-3 active:scale-[0.98]"
                 >
                   <View className="h-10 w-10 items-center justify-center rounded-lg bg-primary-pink/20">
                     <MaterialIcons
@@ -229,10 +229,10 @@ export default function AiStudioPlayback() {
                     />
                   </View>
                   <View className="flex-1">
-                    <Text className="text-sm font-bold text-white">
+                    <Text className="text-sm font-bold text-foreground">
                       {c.title}
                     </Text>
-                    <Text className="text-[11px] text-white/50">{c.meta}</Text>
+                    <Text className="text-[11px] text-foreground/50">{c.meta}</Text>
                   </View>
                 </Pressable>
               ))}
@@ -240,11 +240,11 @@ export default function AiStudioPlayback() {
           </View>
 
           {/* Want more magic? */}
-          <View className="mt-6 rounded-3xl border border-white/10 bg-white/5 p-5">
-            <Text className="text-base font-bold text-white">
+          <View className="mt-6 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+            <Text className="text-base font-bold text-foreground">
               Want more magic?
             </Text>
-            <Text className="mt-1 text-xs text-white/60">
+            <Text className="mt-1 text-xs text-foreground/60">
               Start a new session and create something unique today.
             </Text>
             <View className="mt-4">

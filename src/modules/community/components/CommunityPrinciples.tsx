@@ -54,7 +54,7 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
         <Text className="text-[10px] font-bold uppercase tracking-[3px] text-primary-pink">
           PHOBIK COMMUNITY
         </Text>
-        <Text className="mt-1 text-center text-2xl font-bold leading-tight text-white">
+        <Text className="mt-1 text-center text-2xl font-bold leading-tight text-foreground">
           Phobik Community Principles
         </Text>
         <Text className="mt-2 text-center text-[13px] leading-relaxed text-primary-muted">
@@ -68,7 +68,7 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
           {PRINCIPLES.map((principle) => (
             <View
               key={principle.title}
-              className="flex-row items-start gap-4 rounded-2xl border border-white/5 bg-white/[0.03] px-4 py-3"
+              className="flex-row items-start gap-4 rounded-2xl border border-foreground/5 bg-foreground/[0.03] px-4 py-3"
             >
               <LinearGradient
                 colors={[colors.primary.pink, colors.accent.yellow]}
@@ -89,10 +89,10 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
                 <MaterialIcons name={principle.icon} size={18} color="white" />
               </LinearGradient>
               <View className="flex-1">
-                <Text className="text-sm font-semibold text-white">
+                <Text className="text-sm font-semibold text-foreground">
                   {principle.title}
                 </Text>
-                <Text className="mt-0.5 text-xs leading-tight text-white/60">
+                <Text className="mt-0.5 text-xs leading-tight text-foreground/60">
                   {principle.description}
                 </Text>
               </View>

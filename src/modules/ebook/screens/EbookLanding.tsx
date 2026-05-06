@@ -105,7 +105,7 @@ export default function EbookLanding() {
   const isPurchasing = purchasePack.isPending;
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       {/* Header */}
       <View
         className="flex-row items-center justify-between px-4 pb-2"
@@ -159,14 +159,14 @@ export default function EbookLanding() {
 
           {/* Title */}
           <View className="px-4">
-            <Text className="pt-6 text-center text-[32px] font-bold leading-tight tracking-tight text-white">
+            <Text className="pt-6 text-center text-[32px] font-bold leading-tight tracking-tight text-foreground">
               Calm Above the Clouds
             </Text>
           </View>
 
           {/* Subtitle */}
           <View className="px-8">
-            <Text className="pb-6 pt-2 text-center text-lg leading-relaxed text-gray-400">
+            <Text className="pb-6 pt-2 text-center text-lg leading-relaxed text-foreground/60">
               The ultimate toolkit to transform flight anxiety into serenity.
             </Text>
           </View>
@@ -174,7 +174,7 @@ export default function EbookLanding() {
           {/* What's Included - only show before purchase */}
           {!purchased && (
             <View className="px-4">
-              <Text className="border-b border-white/10 pb-3 pt-4 text-lg font-bold leading-tight tracking-tight text-white">
+              <Text className="border-b border-foreground/10 pb-3 pt-4 text-lg font-bold leading-tight tracking-tight text-foreground">
                 {"What's included"}
               </Text>
             </View>
@@ -189,7 +189,7 @@ export default function EbookLanding() {
               className="active:scale-[0.98]"
             >
               <View
-                className="flex-row items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4"
+                className="flex-row items-center gap-4 rounded-xl border border-foreground/10 bg-foreground/5 p-4"
                 style={purchased ? undefined : { opacity: 0.6 }}
               >
                 <View
@@ -205,10 +205,10 @@ export default function EbookLanding() {
                   />
                 </View>
                 <View className="flex-1">
-                  <Text className="text-base font-semibold text-white">
+                  <Text className="text-base font-semibold text-foreground">
                     The Flight Mindfulness E-Book
                   </Text>
-                  <Text className="text-sm text-gray-400">
+                  <Text className="text-sm text-foreground/60">
                     Step-by-step techniques for grounding
                   </Text>
                 </View>
@@ -229,7 +229,7 @@ export default function EbookLanding() {
               className="active:scale-[0.98]"
             >
               <View
-                className="flex-row items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4"
+                className="flex-row items-center gap-4 rounded-xl border border-foreground/10 bg-foreground/5 p-4"
                 style={purchased ? undefined : { opacity: 0.6 }}
               >
                 <View
@@ -245,10 +245,10 @@ export default function EbookLanding() {
                   />
                 </View>
                 <View className="flex-1">
-                  <Text className="text-base font-semibold text-white">
+                  <Text className="text-base font-semibold text-foreground">
                     Quick Flight Checklist
                   </Text>
-                  <Text className="text-sm text-gray-400">
+                  <Text className="text-sm text-foreground/60">
                     Your companion for boarding and takeoff
                   </Text>
                 </View>
@@ -272,10 +272,10 @@ export default function EbookLanding() {
           style={{ paddingBottom: insets.bottom + 8 }}
         >
           <View className="flex-row items-center justify-between px-2">
-            <Text className="text-sm font-medium uppercase tracking-widest text-gray-400">
+            <Text className="text-sm font-medium uppercase tracking-widest text-foreground/60">
               Premium Access
             </Text>
-            <Text className="text-xl font-bold text-white">{priceLabel}</Text>
+            <Text className="text-xl font-bold text-foreground">{priceLabel}</Text>
           </View>
           <View className="mt-3">
             <GradientButton
@@ -294,14 +294,14 @@ export default function EbookLanding() {
           </View>
           <View className="flex-row items-center justify-center gap-1 px-8 pb-2 pt-2">
             <Pressable onPress={handleRestore}>
-              <Text className="text-[10px] text-gray-500 underline">
+              <Text className="text-[10px] text-foreground/55 underline">
                 Restore purchase
               </Text>
             </Pressable>
-            <Text className="text-[10px] text-gray-500">{'\u00b7'}</Text>
-            <Text className="text-[10px] text-gray-500">Terms of Service</Text>
-            <Text className="text-[10px] text-gray-500">{'\u00b7'}</Text>
-            <Text className="text-[10px] text-gray-500">Privacy Policy</Text>
+            <Text className="text-[10px] text-foreground/55">{'\u00b7'}</Text>
+            <Text className="text-[10px] text-foreground/55">Terms of Service</Text>
+            <Text className="text-[10px] text-foreground/55">{'\u00b7'}</Text>
+            <Text className="text-[10px] text-foreground/55">Privacy Policy</Text>
           </View>
         </View>
       )}

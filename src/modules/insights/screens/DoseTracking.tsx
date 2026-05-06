@@ -15,7 +15,7 @@ export default function DoseTracking() {
   return (
     <View className="flex-1">
       <GlowBg
-        bgClassName="bg-background-dashboard"
+        bgClassName="bg-surface"
         centerY={0.1}
         intensity={0.4}
         startColor={colors.primary.pink}
@@ -31,7 +31,7 @@ export default function DoseTracking() {
           <Text className="text-3xl font-bold tracking-tight text-primary-pink">
             Daily D.O.S.E.
           </Text>
-          <Text className="mt-1 text-sm text-white/60">
+          <Text className="mt-1 text-sm text-foreground/60">
             How well did you nourish your brain today?
           </Text>
         </View>

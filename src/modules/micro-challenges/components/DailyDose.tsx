@@ -92,10 +92,10 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
         showsVerticalScrollIndicator={false}
       >
         <View className="mb-8 items-center pt-4">
-          <Text className="text-2xl font-bold text-white">
+          <Text className="text-2xl font-bold text-foreground">
             Get your Daily Dose
           </Text>
-          <Text className="mt-1 text-xs font-bold uppercase tracking-widest text-white/40">
+          <Text className="mt-1 text-xs font-bold uppercase tracking-widest text-foreground/40">
             Regulation Complete
           </Text>
         </View>
@@ -122,10 +122,10 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
               </Text>
             </View>
 
-            <Text className="mb-3 text-xl font-semibold leading-tight text-white">
+            <Text className="mb-3 text-xl font-semibold leading-tight text-foreground">
               {displayChallenge.title}
             </Text>
-            <Text className="text-base leading-relaxed text-slate-300">
+            <Text className="text-base leading-relaxed text-foreground/70">
               Since you&apos;re feeling{' '}
               <Text className="font-medium text-accent-yellow">
                 {emotionLabel}
@@ -135,8 +135,8 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
               , try this:
             </Text>
 
-            <View className="mt-6 rounded-xl border border-white/10 bg-white/5 p-4">
-              <Text className="text-sm italic leading-relaxed text-white/90">
+            <View className="mt-6 rounded-xl border border-foreground/10 bg-foreground/5 p-4">
+              <Text className="text-sm italic leading-relaxed text-foreground/90">
                 &ldquo;{displayChallenge.challengeText}&rdquo;
               </Text>
             </View>
@@ -144,7 +144,7 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
             {showAsAI && (
               <View className="mt-3 flex-row items-center gap-1.5 self-end">
                 <Ionicons name="sparkles" size={12} color={alpha.white30} />
-                <Text className="text-[10px] text-white/30">
+                <Text className="text-[10px] text-foreground/30">
                   Tailored by AI based on your history
                 </Text>
               </View>

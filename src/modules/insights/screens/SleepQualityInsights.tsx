@@ -12,7 +12,7 @@ export default function SleepQualityInsights() {
   return (
     <View className="flex-1">
       <GlowBg
-        bgClassName="bg-background-dashboard"
+        bgClassName="bg-surface"
         centerY={0.15}
         intensity={0.4}
         startColor={colors.primary.pink}

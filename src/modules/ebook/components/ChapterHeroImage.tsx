@@ -12,7 +12,7 @@ export function ChapterHeroImage({ source, caption }: ChapterHeroImageProps) {
   return (
     <View className="mb-8">
       <View
-        className="relative overflow-hidden rounded-2xl border border-white/10"
+        className="relative overflow-hidden rounded-2xl border border-foreground/10"
         style={{ aspectRatio: 16 / 9 }}
       >
         <Image
@@ -28,7 +28,7 @@ export function ChapterHeroImage({ source, caption }: ChapterHeroImageProps) {
         />
       </View>
       {caption && (
-        <Text className="mt-2 text-center text-xs italic text-white/40">
+        <Text className="mt-2 text-center text-xs italic text-foreground/40">
           {caption}
         </Text>
       )}

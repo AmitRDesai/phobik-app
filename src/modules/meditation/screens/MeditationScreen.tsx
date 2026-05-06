@@ -305,14 +305,14 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
     isReady && status.duration > 0 ? status.currentTime / status.duration : 0;
 
   return (
-    <View className="flex-1 bg-background-dark">
+    <View className="flex-1 bg-surface">
       <GlowBg
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
         centerY={0.25}
         radius={0.4}
         intensity={0.4}
-        bgClassName="bg-background-dark"
+        bgClassName="bg-surface"
       />
       <PracticeStackHeader wordmark="Meditation" />
 
@@ -354,14 +354,14 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
           </GradientText>
 
           {meditation.meta ? (
-            <Text className="mt-1 text-sm text-white/60">
+            <Text className="mt-1 text-sm text-foreground/60">
               {meditation.meta}
             </Text>
           ) : null}
 
           <View className="mt-6 gap-3">
             {meditation.body.map((p) => (
-              <Text key={p} className="text-base leading-relaxed text-white/75">
+              <Text key={p} className="text-base leading-relaxed text-foreground/75">
                 {p}
               </Text>
             ))}
@@ -372,12 +372,12 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
               {meditation.stats.map((stat) => (
                 <View
                   key={stat.label}
-                  className="flex-1 rounded-3xl border border-white/10 bg-white/5 px-4 py-3"
+                  className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 px-4 py-3"
                 >
-                  <Text className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+                  <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
                     {stat.label}
                   </Text>
-                  <Text className="mt-1 text-base font-bold text-white">
+                  <Text className="mt-1 text-base font-bold text-foreground">
                     {renderStatValue(stat)}
                   </Text>
                 </View>
@@ -388,20 +388,20 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
       </ScrollFade>
 
       {/* Fixed bottom: voice toggle + progress + controls */}
-      <View className="gap-7 border-t border-white/5 bg-background-dark/80 px-6 pb-12 pt-6">
+      <View className="gap-7 border-t border-foreground/5 bg-surface/80 px-6 pb-12 pt-6">
         {/* Voice toggle (only once a voice is in effect) */}
         {meditation.audioBaseKey && effectiveVoice ? (
           <View className="items-center">
             <Pressable
               onPress={onToggleVoice}
-              className="flex-row items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 active:opacity-70"
+              className="flex-row items-center gap-2 rounded-full border border-foreground/10 bg-foreground/5 px-3.5 py-1.5 active:opacity-70"
             >
               <MaterialIcons
                 name={effectiveVoice === 'female' ? 'female' : 'male'}
                 size={14}
                 color="white"
               />
-              <Text className="text-[11px] font-semibold uppercase tracking-widest text-white/70">
+              <Text className="text-[11px] font-semibold uppercase tracking-widest text-foreground/70">
                 {effectiveVoice === 'female' ? 'Female' : 'Male'} voice
               </Text>
               <MaterialIcons name="swap-horiz" size={14} color="white" />
@@ -411,7 +411,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
 
         {/* Progress bar + times */}
         <View>
-          <View className="h-[3px] w-full overflow-hidden rounded-full bg-white/10">
+          <View className="h-[3px] w-full overflow-hidden rounded-full bg-foreground/10">
             <LinearGradient
               colors={[colors.primary.pink, colors.accent.yellow]}
               start={{ x: 0, y: 0 }}
@@ -420,8 +420,8 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
             />
           </View>
           <View className="mt-2 flex-row items-center justify-between">
-            <Text className="text-xs text-white/60">{elapsed}</Text>
-            <Text className="text-xs text-white/60">{total}</Text>
+            <Text className="text-xs text-foreground/60">{elapsed}</Text>
+            <Text className="text-xs text-foreground/60">{total}</Text>
           </View>
         </View>
 
@@ -429,7 +429,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
           <Pressable
             onPress={onReplay10}
             disabled={!isReady}
-            className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+            className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
             style={{ opacity: isReady ? 1 : 0.4 }}
           >
             <MaterialIcons name="replay-10" size={22} color="white" />
@@ -488,7 +488,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
           <Pressable
             onPress={onForward30}
             disabled={!isReady}
-            className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+            className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
             style={{ opacity: isReady ? 1 : 0.4 }}
           >
             <MaterialIcons name="forward-30" size={22} color="white" />

@@ -21,7 +21,7 @@ export function SelfLeadershipPlan({
   return (
     <View className="gap-6">
       {/* Self-Leadership Check */}
-      <DashboardCard className="border border-white/10 p-5">
+      <DashboardCard className="border border-foreground/10 p-5">
         <View className="mb-3 flex-row items-center gap-2">
           <MaterialIcons
             name="verified-user"
@@ -32,7 +32,7 @@ export function SelfLeadershipPlan({
             Self-Leadership Check
           </Text>
         </View>
-        <Text className="mb-4 text-[13px] font-bold text-white">
+        <Text className="mb-4 text-[13px] font-bold text-foreground">
           Which strength will help you handle this stressor?
         </Text>
         <View className="flex-row flex-wrap gap-2">
@@ -44,7 +44,7 @@ export function SelfLeadershipPlan({
                 className={`rounded-full px-3 py-1.5 ${
                   isSelected
                     ? 'bg-primary-pink'
-                    : 'border border-white/10 bg-white/5'
+                    : 'border border-foreground/10 bg-foreground/5'
                 }`}
                 style={
                   isSelected
@@ -60,7 +60,7 @@ export function SelfLeadershipPlan({
               >
                 <Text
                   className={`text-[10px] font-bold uppercase tracking-wider ${
-                    isSelected ? 'text-white' : 'text-slate-300'
+                    isSelected ? 'text-foreground' : 'text-foreground/70'
                   }`}
                 >
                   {strength}
@@ -73,7 +73,7 @@ export function SelfLeadershipPlan({
 
       {/* Self-Leadership Plan */}
       <View className="gap-4">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-slate-400">
+        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/60">
           Self-Leadership Plan
         </Text>
         <View className="flex-row items-center gap-2 rounded-lg border border-primary-pink/10 bg-primary-pink/5 p-2">
@@ -98,7 +98,7 @@ export function SelfLeadershipPlan({
             glow={ex.highlighted}
           >
             <View
-              className="shrink-0 items-center justify-center rounded-2xl bg-white/10"
+              className="shrink-0 items-center justify-center rounded-2xl bg-foreground/10"
               style={
                 ex.highlighted
                   ? {
@@ -120,8 +120,8 @@ export function SelfLeadershipPlan({
               />
             </View>
             <View className="flex-1">
-              <Text className="text-sm font-black text-white">{ex.title}</Text>
-              <Text className="text-[10px] text-slate-400">
+              <Text className="text-sm font-black text-foreground">{ex.title}</Text>
+              <Text className="text-[10px] text-foreground/60">
                 {ex.description}
               </Text>
             </View>
@@ -144,7 +144,7 @@ export function SelfLeadershipPlan({
                   : (ex.iconColor ?? alpha.white40),
               }}
             />
-            <Text className="text-[9px] font-black uppercase tracking-widest text-slate-500">
+            <Text className="text-[9px] font-black uppercase tracking-widest text-foreground/55">
               Supports: {ex.supports}
             </Text>
           </View>

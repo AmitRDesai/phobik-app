@@ -64,7 +64,7 @@ export function FeedCard({
   const validImages = images.filter(Boolean) as string[];
 
   return (
-    <View className="rounded-3xl border border-white/[0.08] bg-card-plum/80 p-5">
+    <View className="rounded-3xl border border-foreground/[0.08] bg-surface-elevated/80 p-5">
       {/* Author row */}
       <View className="flex-row items-center gap-3">
         <UserAvatar
@@ -73,15 +73,15 @@ export function FeedCard({
           iconSize={22}
         />
         <View>
-          <Text className="text-sm font-bold text-white/80">{author.name}</Text>
-          <Text className="text-[10px] font-bold uppercase tracking-wider text-white/50">
+          <Text className="text-sm font-bold text-foreground/80">{author.name}</Text>
+          <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/50">
             {getRelativeTime(createdAt)}
           </Text>
         </View>
       </View>
 
       {/* Content */}
-      <Text className="mt-4 text-lg font-bold leading-tight text-white">
+      <Text className="mt-4 text-lg font-bold leading-tight text-foreground">
         {content}
       </Text>
 
@@ -148,7 +148,7 @@ export function FeedCard({
               className={`flex-row items-center rounded-full px-4 py-2 ${
                 isActive
                   ? 'bg-primary-pink'
-                  : 'border border-primary-pink/10 bg-card-plum'
+                  : 'border border-primary-pink/10 bg-surface-elevated'
               }`}
               style={
                 isActive
@@ -162,7 +162,7 @@ export function FeedCard({
               }
             >
               <Text
-                className={`text-xs font-bold ${isActive ? 'text-white' : 'text-white/80'}`}
+                className={`text-xs font-bold ${isActive ? 'text-foreground' : 'text-foreground/80'}`}
               >
                 {reaction.emoji} {reaction.label}
                 {reactionCount > 0 ? ` ${formatCount(reactionCount)}` : ''}

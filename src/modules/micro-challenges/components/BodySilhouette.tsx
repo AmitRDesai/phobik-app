@@ -29,7 +29,7 @@ export function BodySilhouette({
 
   return (
     <View
-      className="relative items-center overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+      className="relative items-center overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/5"
       style={{ height: 360 }}
     >
       {/* Pink radial glow behind body */}

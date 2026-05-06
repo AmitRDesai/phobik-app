@@ -17,7 +17,7 @@ export function ChapterCallout({
 }: ChapterCalloutProps) {
   return (
     <View
-      className="my-6 rounded-xl border border-white/10 bg-white/5 p-5"
+      className="my-6 rounded-xl border border-foreground/10 bg-foreground/5 p-5"
       style={{ borderTopWidth: 3, borderTopColor: accentColor }}
     >
       {icon && (
@@ -29,10 +29,10 @@ export function ChapterCallout({
         </View>
       )}
       {title && (
-        <Text className="mb-2 text-lg font-bold text-white">{title}</Text>
+        <Text className="mb-2 text-lg font-bold text-foreground">{title}</Text>
       )}
       <Text
-        className="text-base leading-relaxed text-white/70"
+        className="text-base leading-relaxed text-foreground/70"
         style={{ fontFamily: 'serif' }}
       >
         {children}

@@ -32,7 +32,7 @@ export default function Community() {
 
   if (isMemberLoading) {
     return (
-      <View className="flex-1 items-center justify-center bg-background-dashboard">
+      <View className="flex-1 items-center justify-center bg-surface">
         <ActivityIndicator color={colors.primary.pink} size="large" />
       </View>
     );
@@ -55,7 +55,7 @@ function JoinCommunityView() {
   return (
     <View className="flex-1">
       <GlowBg
-        bgClassName="bg-background-dashboard"
+        bgClassName="bg-surface"
         intensity={0.3}
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
@@ -66,7 +66,7 @@ function JoinCommunityView() {
       >
         <MaterialIcons name="groups" size={64} color={colors.accent.yellow} />
         <View className="items-center gap-2">
-          <Text className="text-2xl font-bold text-white">Courage Wall</Text>
+          <Text className="text-2xl font-bold text-foreground">Courage Wall</Text>
           <Text className="text-center text-sm leading-relaxed text-primary-muted">
             A safe space to share your brave moments, support others, and grow
             together.
@@ -147,9 +147,9 @@ function CommunityFeed() {
   };
 
   return (
-    <View className="flex-1 bg-background-dashboard">
+    <View className="flex-1 bg-surface">
       <GlowBg
-        bgClassName="bg-background-dashboard"
+        bgClassName="bg-surface"
         intensity={0.2}
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
@@ -158,7 +158,7 @@ function CommunityFeed() {
 
       {/* Header */}
       <View className="gap-3 px-4 pb-6" style={{ paddingTop: insets.top + 8 }}>
-        <Text className="text-center text-xl font-bold tracking-tight text-white">
+        <Text className="text-center text-xl font-bold tracking-tight text-foreground">
           Courage Wall
         </Text>
 
@@ -210,7 +210,7 @@ function CommunityFeed() {
           ListEmptyComponent={
             <View className="items-center py-16">
               <MaterialIcons name="edit-note" size={48} color={alpha.white20} />
-              <Text className="mt-4 text-sm text-white/30">
+              <Text className="mt-4 text-sm text-foreground/30">
                 No posts yet. Be the first to share!
               </Text>
             </View>

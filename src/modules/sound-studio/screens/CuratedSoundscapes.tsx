@@ -10,19 +10,19 @@ export default function CuratedSoundscapes() {
   return (
     <PracticeScreenShell
       wordmark="Sound Studio"
-      bgClassName="bg-background-charcoal"
+      bgClassName="bg-surface"
       glowCenterY={0.25}
       glowIntensity={0.5}
     >
       {/* Smaller hero so "CURATED SOUNDSCAPES" fits on two lines cleanly */}
       <View className="mb-8 mt-6">
-        <Text className="text-[32px] font-extrabold uppercase leading-none tracking-tighter text-white">
+        <Text className="text-[32px] font-extrabold uppercase leading-none tracking-tighter text-foreground">
           CURATED
         </Text>
         <GradientText className="text-[32px] font-extrabold uppercase leading-none tracking-tighter">
           SOUNDSCAPES
         </GradientText>
-        <Text className="mt-3 max-w-[320px] text-sm leading-relaxed text-white/60">
+        <Text className="mt-3 max-w-[320px] text-sm leading-relaxed text-foreground/60">
           Curated soundscapes designed to help you reset your body, settle your
           thoughts, and feel safe — fast.
         </Text>

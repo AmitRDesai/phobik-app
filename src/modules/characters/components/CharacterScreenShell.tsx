@@ -13,7 +13,7 @@ export function CharacterScreenShell({ title, children }: Props) {
       <SafeAreaView className="flex-1">
         <View className="flex-row items-center px-4 py-2">
           <BackButton />
-          <Text className="ml-3 text-lg font-semibold text-white">{title}</Text>
+          <Text className="ml-3 text-lg font-semibold text-foreground">{title}</Text>
         </View>
 
         <View className="flex-1 items-center justify-center">{children}</View>

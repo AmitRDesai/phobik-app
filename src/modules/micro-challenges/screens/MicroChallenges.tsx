@@ -248,12 +248,12 @@ export default function MicroChallenges() {
         style={{ paddingTop: insets.top + 8 }}
       >
         <BackButton onPress={handleBack} />
-        <Text className="text-xs font-bold uppercase tracking-widest text-white/60">
+        <Text className="text-xs font-bold uppercase tracking-widest text-foreground/60">
           Quick Challenge
         </Text>
         <Pressable
           onPress={handleClose}
-          className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
+          className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
         >
           <MaterialIcons name="close" size={20} color="white" />
         </Pressable>

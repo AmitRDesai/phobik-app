@@ -166,10 +166,10 @@ export default function EbookChapter() {
   const Screen = CHAPTER_SCREENS[chapterId];
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       {/* Fixed header */}
       <View
-        className="z-50 border-b border-white/5 bg-background-charcoal"
+        className="z-50 border-b border-foreground/5 bg-surface"
         style={{ paddingTop: insets.top }}
       >
         <EbookHeader label={chapterInfo?.label ?? ''} onBack={handleBack} />
@@ -200,7 +200,7 @@ export default function EbookChapter() {
           </ScrollView>
         ) : (
           <View className="flex-1 items-center justify-center">
-            <Text className="text-white">Chapter not found</Text>
+            <Text className="text-foreground">Chapter not found</Text>
           </View>
         )}
       </EaseView>

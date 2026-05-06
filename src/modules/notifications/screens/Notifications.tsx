@@ -79,9 +79,9 @@ export default function Notifications() {
   }, []);
 
   return (
-    <View className="flex-1 bg-background-dashboard">
+    <View className="flex-1 bg-surface">
       <GlowBg
-        bgClassName="bg-background-dashboard"
+        bgClassName="bg-surface"
         intensity={0.2}
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
@@ -94,7 +94,7 @@ export default function Notifications() {
         style={{ paddingTop: insets.top + 8 }}
       >
         <BackButton />
-        <Text className="text-lg font-bold text-white">Notifications</Text>
+        <Text className="text-lg font-bold text-foreground">Notifications</Text>
         <View className="w-10" />
       </View>
 
@@ -108,7 +108,7 @@ export default function Notifications() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <NotificationItem notification={item} />}
           renderSectionHeader={({ section }) => (
-            <Text className="mb-2 mt-4 px-1 text-[11px] font-bold uppercase tracking-widest text-white/40">
+            <Text className="mb-2 mt-4 px-1 text-[11px] font-bold uppercase tracking-widest text-foreground/40">
               {section.title}
             </Text>
           )}
@@ -129,7 +129,7 @@ export default function Notifications() {
                 size={48}
                 color={alpha.white20}
               />
-              <Text className="mt-4 text-center text-sm text-white/30">
+              <Text className="mt-4 text-center text-sm text-foreground/30">
                 No notifications yet.{'\n'}You're all caught up.
               </Text>
             </View>

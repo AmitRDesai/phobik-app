@@ -84,7 +84,7 @@ export function SessionHistory({
       presentationStyle="pageSheet"
       onRequestClose={onClose}
     >
-      <View className="flex-1 bg-background-dark">
+      <View className="flex-1 bg-surface">
         <SafeAreaView edges={['top']} className="flex-1">
           {/* Header */}
           <View
@@ -94,7 +94,7 @@ export function SessionHistory({
               borderBottomColor: alpha.white05,
             }}
           >
-            <Text className="flex-1 text-lg font-semibold text-white">
+            <Text className="flex-1 text-lg font-semibold text-foreground">
               Past Sessions
             </Text>
             <Pressable
@@ -117,7 +117,7 @@ export function SessionHistory({
                 size={40}
                 color={alpha.white20}
               />
-              <Text className="text-center text-[14px] text-white/30">
+              <Text className="text-center text-[14px] text-foreground/30">
                 No past sessions yet. Start a conversation with your coach!
               </Text>
             </View>
@@ -157,12 +157,12 @@ export function SessionHistory({
                     </View>
                     <View className="flex-1">
                       <Text
-                        className="text-[14px] font-medium text-white/80"
+                        className="text-[14px] font-medium text-foreground/80"
                         numberOfLines={1}
                       >
                         {item.title || 'Untitled session'}
                       </Text>
-                      <Text className="text-[11px] text-white/30">
+                      <Text className="text-[11px] text-foreground/30">
                         {formatDate(item.createdAt)}
                       </Text>
                     </View>

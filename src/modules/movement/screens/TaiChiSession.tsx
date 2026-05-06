@@ -28,15 +28,15 @@ export default function TaiChiSession() {
       }
     >
       <View className="items-center pt-2">
-        <View className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-white/70">
+        <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/70">
             Active Flow: Tai Chi
           </Text>
         </View>
       </View>
 
       <View className="mt-6 items-center">
-        <Text className="text-2xl font-extrabold text-white">Move slowly.</Text>
+        <Text className="text-2xl font-extrabold text-foreground">Move slowly.</Text>
         <GradientText className="text-2xl font-extrabold">
           Stay with the flow.
         </GradientText>
@@ -45,7 +45,7 @@ export default function TaiChiSession() {
       {/* Hero with figure */}
       <View className="mt-8 items-center">
         <View
-          className="h-[280px] w-[280px] items-center justify-center overflow-hidden rounded-full border border-white/10"
+          className="h-[280px] w-[280px] items-center justify-center overflow-hidden rounded-full border border-foreground/10"
           style={{
             shadowColor: colors.primary.pink,
             shadowOffset: { width: 0, height: 0 },
@@ -66,7 +66,7 @@ export default function TaiChiSession() {
         {TIPS.map((tip) => (
           <View
             key={tip.text}
-            className="flex-row items-center gap-3 rounded-3xl border border-white/10 bg-white/5 p-4"
+            className="flex-row items-center gap-3 rounded-3xl border border-foreground/10 bg-foreground/5 p-4"
           >
             <View className="h-10 w-10 items-center justify-center rounded-full bg-primary-pink/10">
               <MaterialIcons
@@ -75,7 +75,7 @@ export default function TaiChiSession() {
                 color={colors.primary.pink}
               />
             </View>
-            <Text className="flex-1 text-base text-white/80">{tip.text}</Text>
+            <Text className="flex-1 text-base text-foreground/80">{tip.text}</Text>
           </View>
         ))}
       </View>

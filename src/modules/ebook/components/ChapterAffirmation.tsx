@@ -11,11 +11,11 @@ export function ChapterAffirmation() {
         end={{ x: 1, y: 1 }}
         style={{ borderRadius: 16, padding: 20 }}
       >
-        <Text className="text-center text-xs font-semibold uppercase tracking-widest text-white/50">
+        <Text className="text-center text-xs font-semibold uppercase tracking-widest text-foreground/50">
           Affirmation
         </Text>
         <Text
-          className="mt-3 text-center text-lg italic leading-relaxed text-white"
+          className="mt-3 text-center text-lg italic leading-relaxed text-foreground"
           style={{ fontFamily: 'serif' }}
         >
           I am safe in this moment.

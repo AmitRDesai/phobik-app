@@ -15,7 +15,7 @@ export default function InsightsDashboard() {
   return (
     <View className="flex-1">
       <GlowBg
-        bgClassName="bg-background-dashboard"
+        bgClassName="bg-surface"
         centerY={0.25}
         intensity={0.5}
         startColor={colors.primary.pink}

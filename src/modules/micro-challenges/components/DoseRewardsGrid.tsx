@@ -41,14 +41,14 @@ export function DoseRewardsGrid({ dose }: DoseRewardsGridProps) {
 
   return (
     <View>
-      <Text className="mb-4 text-sm font-bold uppercase tracking-widest text-slate-400">
+      <Text className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground/60">
         Daily D.O.S.E. Rewards
       </Text>
       <View className="flex-row flex-wrap gap-3">
         {active.map((item) => (
           <View
             key={item.key}
-            className="flex-1 flex-row items-center gap-3 rounded-2xl border border-white/5 bg-background-charcoal p-4"
+            className="flex-1 flex-row items-center gap-3 rounded-2xl border border-foreground/5 bg-surface p-4"
             style={{ minWidth: '45%' }}
           >
             <View
@@ -64,10 +64,10 @@ export function DoseRewardsGrid({ dose }: DoseRewardsGridProps) {
               </Text>
             </View>
             <View>
-              <Text className="text-[10px] font-bold uppercase tracking-tight text-slate-500">
+              <Text className="text-[10px] font-bold uppercase tracking-tight text-foreground/55">
                 {item.label}
               </Text>
-              <Text className="text-xs text-white/70">{item.sub}</Text>
+              <Text className="text-xs text-foreground/70">{item.sub}</Text>
             </View>
           </View>
         ))}

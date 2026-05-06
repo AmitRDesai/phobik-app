@@ -27,14 +27,14 @@ export default function SoundStudioCredits() {
     });
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       <GlowBg
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
         centerY={0.25}
         radius={0.45}
         intensity={0.5}
-        bgClassName="bg-background-charcoal"
+        bgClassName="bg-surface"
       />
       <PracticeStackHeader wordmark="Sound Studio" />
 
@@ -46,7 +46,7 @@ export default function SoundStudioCredits() {
           showsVerticalScrollIndicator={false}
         >
           {/* Hero */}
-          <Text className="text-[36px] font-extrabold leading-tight tracking-tight text-white">
+          <Text className="text-[36px] font-extrabold leading-tight tracking-tight text-foreground">
             Refill Your
           </Text>
           <GradientText className="text-[36px] font-extrabold leading-tight tracking-tight">
@@ -54,9 +54,9 @@ export default function SoundStudioCredits() {
           </GradientText>
           <View className="mt-3 flex-row items-center gap-2">
             <MaterialIcons name="bolt" size={14} color={colors.accent.yellow} />
-            <Text className="text-xs text-white/60">
+            <Text className="text-xs text-foreground/60">
               Current Balance:{' '}
-              <Text className="font-bold text-white">
+              <Text className="font-bold text-foreground">
                 {FAKE_BALANCE} Credits
               </Text>
             </Text>
@@ -70,7 +70,7 @@ export default function SoundStudioCredits() {
                 className={`rounded-3xl border p-6 ${
                   plan.popular
                     ? 'border-primary-pink/40 bg-primary-pink/5'
-                    : 'border-white/10 bg-white/5'
+                    : 'border-foreground/10 bg-foreground/5'
                 }`}
                 style={
                   plan.popular
@@ -97,21 +97,21 @@ export default function SoundStudioCredits() {
                     color={colors.primary.pink}
                   />
                 </View>
-                <Text className="mt-4 text-2xl font-extrabold text-white">
+                <Text className="mt-4 text-2xl font-extrabold text-foreground">
                   {plan.name}
                 </Text>
-                <Text className="mt-1 text-xs text-white/60">
+                <Text className="mt-1 text-xs text-foreground/60">
                   {plan.tagline}
                 </Text>
                 <View className="mt-4 flex-row items-baseline gap-2">
-                  <Text className="text-4xl font-extrabold text-white">
+                  <Text className="text-4xl font-extrabold text-foreground">
                     {plan.credits}
                   </Text>
-                  <Text className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+                  <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
                     Credits
                   </Text>
                 </View>
-                <Text className="mt-1 text-xl font-bold text-white">
+                <Text className="mt-1 text-xl font-bold text-foreground">
                   {plan.price}
                 </Text>
                 <View className="mt-5">
@@ -150,8 +150,8 @@ export default function SoundStudioCredits() {
           </View>
 
           {/* Why use credits */}
-          <View className="mt-6 rounded-3xl border border-white/10 bg-white/5 p-5">
-            <Text className="text-base font-bold text-white">
+          <View className="mt-6 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+            <Text className="text-base font-bold text-foreground">
               Why use Credits?
             </Text>
             <View className="mt-3 gap-2">
@@ -163,7 +163,7 @@ export default function SoundStudioCredits() {
                     color={colors.accent.yellow}
                     style={{ marginTop: 2 }}
                   />
-                  <Text className="flex-1 text-xs leading-relaxed text-white/70">
+                  <Text className="flex-1 text-xs leading-relaxed text-foreground/70">
                     {r}
                   </Text>
                 </View>
