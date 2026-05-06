@@ -11,7 +11,7 @@ export function ChapterAffirmation() {
         end={{ x: 1, y: 1 }}
         style={{ borderRadius: 16, padding: 20 }}
       >
-        <Text className="text-center text-xs font-semibold uppercase tracking-widest text-foreground/50">
+        <Text variant="caption" className="text-center text-foreground/50">
           Affirmation
         </Text>
         <Text

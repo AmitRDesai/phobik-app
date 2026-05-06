@@ -126,7 +126,7 @@ export default function CompassionArchive() {
         <View className="mb-2 flex-row">
           {DAY_LABELS.map((label, i) => (
             <View key={`day-${i}`} className="flex-1 items-center">
-              <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground/55">
+              <Text variant="caption" className="text-foreground/55">
                 {label}
               </Text>
             </View>

@@ -385,7 +385,7 @@ function InstructionDisplay({
             ],
           }}
         />
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+        <Text variant="caption" className="text-primary-pink">
           Active Focus: {groupLabel}
         </Text>
       </View>

@@ -42,7 +42,7 @@ export function DashboardHeader() {
             }}
           />
           <View>
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+            <Text variant="caption" className="text-primary-pink">
               Welcome back
             </Text>
             <Text className="text-lg font-bold leading-tight text-foreground">

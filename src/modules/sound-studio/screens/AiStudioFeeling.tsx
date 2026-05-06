@@ -65,7 +65,7 @@ export default function AiStudioFeeling() {
 
           {/* Emotional tags */}
           <Card className="mt-6 rounded-3xl p-5">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+            <Text variant="caption" className="text-foreground/50">
               Emotional Tags
             </Text>
             <View className="mt-3 flex-row flex-wrap gap-2">
@@ -111,7 +111,7 @@ export default function AiStudioFeeling() {
 
           {/* Custom mood */}
           <Card className="mt-4 rounded-3xl p-5">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+            <Text variant="caption" className="text-foreground/50">
               Custom Mood or Genre
             </Text>
             <TextInput
@@ -130,7 +130,7 @@ export default function AiStudioFeeling() {
 
           {/* Music prompt */}
           <Card className="mt-4 rounded-3xl p-5">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+            <Text variant="caption" className="text-foreground/50">
               Music Prompt
             </Text>
             <TextInput
@@ -166,7 +166,7 @@ export default function AiStudioFeeling() {
               </Text>
             </View>
             <Pressable onPress={() => router.push('/sound-studio/credits')}>
-              <Text className="text-xs font-bold uppercase tracking-widest text-primary-pink">
+              <Text variant="caption" className="text-primary-pink">
                 Add credits
               </Text>
             </Pressable>

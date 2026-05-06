@@ -58,7 +58,7 @@ export default function MeditationList() {
             <MaterialIcons name="play-arrow" size={24} color="white" />
           </IconChip>
           <View className="flex-1">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+            <Text variant="caption" className="text-primary-pink">
               Unfinished session
             </Text>
             <Text className="mt-0.5 text-base font-bold text-foreground">

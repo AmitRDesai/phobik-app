@@ -61,7 +61,7 @@ export function QuestionProgress({
               </Text>
             </Text>
             {sectionLabel && (
-              <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
+              <Text variant="caption" className="text-foreground/60">
                 {sectionLabel}
               </Text>
             )}

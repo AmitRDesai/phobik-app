@@ -23,7 +23,7 @@ export default function SpecializedPacks() {
         showsVerticalScrollIndicator={false}
       >
         <View className="px-2 pb-2 pt-4">
-          <Text className="mb-1 text-xs font-semibold uppercase tracking-widest text-foreground/60">
+          <Text variant="caption" className="mb-1 text-foreground/60">
             Premium Journeys
           </Text>
           <Text className="text-3xl font-bold text-foreground">

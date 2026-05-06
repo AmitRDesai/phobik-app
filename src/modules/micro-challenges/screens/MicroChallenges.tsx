@@ -249,7 +249,7 @@ export default function MicroChallenges() {
         style={{ paddingTop: insets.top + 8 }}
       >
         <BackButton onPress={handleBack} />
-        <Text className="text-xs font-bold uppercase tracking-widest text-foreground/60">
+        <Text variant="caption" className="text-foreground/60">
           Quick Challenge
         </Text>
         <Pressable

@@ -145,7 +145,7 @@ export default function AudioStorage() {
             onPress={() => setVoice(null)}
             className="mt-3 self-start rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1.5 active:opacity-70"
           >
-            <Text className="text-[11px] font-semibold uppercase tracking-widest text-foreground/60">
+            <Text variant="caption" className="text-foreground/60">
               Clear preference
             </Text>
           </Pressable>

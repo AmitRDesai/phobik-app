@@ -122,7 +122,7 @@ export function StepShell({
               size={14}
               color={accentFor(scheme, 'yellow')}
             />
-            <Text className="text-[11px] font-semibold uppercase tracking-widest text-foreground/70">
+            <Text variant="caption" className="text-foreground/70">
               {duration}
             </Text>
           </View>

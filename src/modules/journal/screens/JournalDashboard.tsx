@@ -140,7 +140,7 @@ export default function JournalDashboard() {
         <DailyInsightCard onStart={() => router.push('/journal/new')} />
 
         <View className="mb-4 flex-row items-center justify-between">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
+          <Text variant="caption" className="text-foreground/60">
             {formatDateLabel(selectedDate)}
           </Text>
         </View>

@@ -66,10 +66,10 @@ export function TopStressorsRow() {
   return (
     <View className="-mx-5 gap-4">
       <View className="flex-row items-center justify-between px-5">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
+        <Text variant="caption" className="text-foreground/40">
           Top Stressors
         </Text>
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+        <Text variant="caption" className="text-primary-pink">
           Compass Link
         </Text>
       </View>
@@ -89,7 +89,7 @@ export function TopStressorsRow() {
               <Text className="text-center text-[10px] font-bold uppercase tracking-tighter text-foreground/60">
                 Take the Stress{'\n'}Compass
               </Text>
-              <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+              <Text variant="caption" className="mt-1 text-primary-pink">
                 Start
               </Text>
             </DashboardCard>

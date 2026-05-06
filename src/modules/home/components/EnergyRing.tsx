@@ -86,7 +86,7 @@ export function EnergyRing({
         >
           {value !== null ? value : 'N/A'}
         </Text>
-        <Text className="mt-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
+        <Text variant="caption" className="mt-1 text-foreground/60">
           Energy
         </Text>
       </View>

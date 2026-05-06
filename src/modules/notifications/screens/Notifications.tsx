@@ -1,5 +1,6 @@
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
+import { Text } from '@/components/themed/Text';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -8,7 +9,6 @@ import {
   ActivityIndicator,
   RefreshControl,
   SectionList,
-  Text,
   View,
 } from 'react-native';
 import { NotificationItem } from '../components/NotificationItem';
@@ -90,7 +90,10 @@ export default function Notifications() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <NotificationItem notification={item} />}
           renderSectionHeader={({ section }) => (
-            <Text className="mb-2 mt-4 px-1 text-[11px] font-bold uppercase tracking-widest text-foreground/40">
+            <Text
+              variant="caption"
+              className="mb-2 mt-4 px-1 text-foreground/40"
+            >
               {section.title}
             </Text>
           )}

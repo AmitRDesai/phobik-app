@@ -83,7 +83,7 @@ export default function EmpathyChallengeDay() {
         <Header
           variant="close"
           center={
-            <Text className="text-xs font-bold uppercase tracking-[3px] text-foreground/55">
+            <Text variant="caption" className="text-foreground/55">
               Phobik
             </Text>
           }

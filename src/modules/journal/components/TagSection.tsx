@@ -69,7 +69,7 @@ export function TagSection({
     <View className="mb-6">
       {hasChips && (
         <>
-          <Text className="mb-3 px-1 text-[10px] font-bold uppercase tracking-widest text-foreground/40">
+          <Text variant="caption" className="mb-3 px-1 text-foreground/40">
             Selected Tags
           </Text>
           <ScrollView

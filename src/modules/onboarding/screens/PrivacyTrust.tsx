@@ -132,7 +132,7 @@ export default function PrivacyTrust() {
         </Pressable>
         <View className="flex-row items-center gap-1.5">
           <MaterialIcons name="lock" size={12} color={lockIconColor} />
-          <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground/30">
+          <Text variant="caption" className="text-foreground/30">
             End-to-End Encrypted
           </Text>
         </View>

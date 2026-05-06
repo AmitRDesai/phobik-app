@@ -259,7 +259,7 @@ export default function GroundingSession() {
 
         {/* Timer */}
         <View className="z-10 items-center gap-2 px-6 py-4">
-          <Text className="text-xs font-semibold uppercase tracking-widest text-foreground/40">
+          <Text variant="caption" className="text-foreground/40">
             Time Remaining
           </Text>
           <Text

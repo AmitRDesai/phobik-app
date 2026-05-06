@@ -149,7 +149,7 @@ export default function PivotPointQuestion() {
           {/* Section Label */}
           {section && (
             <View className="mb-4">
-              <Text className="text-xs font-bold uppercase tracking-widest text-primary-pink">
+              <Text variant="caption" className="text-primary-pink">
                 Section {section.id}: {section.title}
               </Text>
               <Text className="mt-1 text-sm text-foreground/55">

@@ -40,7 +40,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       showsVerticalScrollIndicator={false}
     >
       {/* Step label */}
-      <Text className="mb-2 mt-4 text-xs font-bold uppercase tracking-widest text-foreground/40">
+      <Text variant="caption" className="mb-2 mt-4 text-foreground/40">
         Step 1 of 6
       </Text>
 

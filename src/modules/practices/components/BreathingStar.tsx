@@ -220,7 +220,7 @@ export function BreathingStar({
             72
           </Text>
         </View>
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/30">
+        <Text variant="caption" className="text-foreground/30">
           BPM
         </Text>
       </View>

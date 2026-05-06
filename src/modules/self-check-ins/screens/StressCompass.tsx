@@ -257,7 +257,7 @@ function StressorCard({
 
         {/* Labels */}
         <View className="flex-row items-center justify-between">
-          <Text className="text-[10px] font-bold uppercase tracking-[2px] text-foreground/55">
+          <Text variant="caption" className="text-foreground/55">
             Draining
           </Text>
           <Text
@@ -266,7 +266,7 @@ function StressorCard({
           >
             Rating: {value}
           </Text>
-          <Text className="text-[10px] font-bold uppercase tracking-[2px] text-foreground/55">
+          <Text variant="caption" className="text-foreground/55">
             Balanced
           </Text>
         </View>

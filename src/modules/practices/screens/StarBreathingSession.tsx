@@ -78,7 +78,7 @@ function StatsCard() {
             />
           </LinearGradient>
           <View>
-            <Text className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-foreground/30">
+            <Text variant="caption" className="mb-0.5 text-foreground/30">
               Heart Rate Variability
             </Text>
             <View className="flex-row items-baseline gap-2">
@@ -131,7 +131,7 @@ function StatsCard() {
       {/* Stats grid */}
       <View className="flex-row gap-4">
         <View className="flex-1 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-4">
-          <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-accent-yellow/50">
+          <Text variant="caption" className="mb-1.5 text-accent-yellow/50">
             Stress Level
           </Text>
           <View className="flex-row items-center gap-2">
@@ -150,7 +150,7 @@ function StatsCard() {
           </View>
         </View>
         <View className="flex-1 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-4">
-          <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-primary-pink/50">
+          <Text variant="caption" className="mb-1.5 text-primary-pink/50">
             Sync Status
           </Text>
           <View className="flex-row items-center gap-2">

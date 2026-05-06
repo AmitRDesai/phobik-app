@@ -15,14 +15,14 @@ export function DoseSummaryCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
+        <Text variant="caption" className="text-foreground/40">
           Daily D.O.S.E.
         </Text>
         <Pressable
           onPress={() => router.push('/insights/dose-tracking')}
           className="flex-row items-center gap-1"
         >
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+          <Text variant="caption" className="text-primary-pink">
             View Full Report
           </Text>
           <MaterialIcons

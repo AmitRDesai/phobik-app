@@ -286,7 +286,7 @@ export default function BoxBreathingSession() {
                     }}
                   />
                 </View>
-                <Text className="text-[10px] font-semibold uppercase tracking-widest text-foreground/30">
+                <Text variant="caption" className="text-foreground/30">
                   Variability
                 </Text>
               </View>
@@ -315,7 +315,7 @@ export default function BoxBreathingSession() {
                     />
                   </View>
                 </View>
-                <Text className="text-[10px] font-semibold uppercase tracking-widest text-foreground/30">
+                <Text variant="caption" className="text-foreground/30">
                   Heart Rate
                 </Text>
               </View>

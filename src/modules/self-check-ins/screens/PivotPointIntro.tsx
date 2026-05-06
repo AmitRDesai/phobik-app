@@ -66,7 +66,7 @@ export default function PivotPointIntro() {
       >
         {/* Badge */}
         <View className="mb-4 mt-2 self-start rounded-full bg-foreground/5 px-4 py-1.5">
-          <Text className="text-xs font-bold uppercase tracking-widest text-primary-pink">
+          <Text variant="caption" className="text-primary-pink">
             Assessment
           </Text>
         </View>

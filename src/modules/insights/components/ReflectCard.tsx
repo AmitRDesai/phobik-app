@@ -16,7 +16,7 @@ export function ReflectCard({ question }: ReflectCardProps) {
           size={14}
           color={colors.primary['pink-soft']}
         />
-        <Text className="text-[10px] font-black uppercase tracking-[3px] text-primary-pink">
+        <Text variant="caption" className="text-primary-pink">
           Reflect
         </Text>
       </View>

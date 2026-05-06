@@ -79,7 +79,7 @@ export default function PivotPointResults() {
         {/* Secondary Pattern */}
         <View className="mb-4">
           <View className="mb-2">
-            <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
+            <Text variant="caption" className="text-foreground/55">
               Secondary Pattern
             </Text>
           </View>
@@ -94,7 +94,7 @@ export default function PivotPointResults() {
               size={18}
               color={colors.accent.yellow}
             />
-            <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
+            <Text variant="caption" className="text-foreground/55">
               Your Next Practices
             </Text>
           </View>

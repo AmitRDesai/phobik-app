@@ -95,7 +95,7 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
           <Text className="text-2xl font-bold text-foreground">
             Get your Daily Dose
           </Text>
-          <Text className="mt-1 text-xs font-bold uppercase tracking-widest text-foreground/40">
+          <Text variant="caption" className="mt-1 text-foreground/40">
             Regulation Complete
           </Text>
         </View>

@@ -290,7 +290,7 @@ export default function Breathing478Session() {
                 >
                   {liveHr != null ? liveHr : '—'}
                 </Text>
-                <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/55">
+                <Text variant="caption" className="text-foreground/55">
                   BPM
                 </Text>
               </View>
@@ -320,7 +320,7 @@ export default function Breathing478Session() {
                 >
                   {liveHrv != null ? Math.round(liveHrv) : '—'}
                 </Text>
-                <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/55">
+                <Text variant="caption" className="text-foreground/55">
                   MS
                 </Text>
               </View>

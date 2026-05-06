@@ -136,7 +136,7 @@ export default function AiStudioWriteIt() {
               contentFit="cover"
             />
             <View className="p-5">
-              <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+              <Text variant="caption" className="text-foreground/50">
                 Current Vibe
               </Text>
               <Text className="mt-1 text-base font-bold text-foreground">

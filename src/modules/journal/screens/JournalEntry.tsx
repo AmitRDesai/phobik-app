@@ -222,7 +222,7 @@ export default function JournalEntry() {
       />
 
       <View className="mb-4 flex-row items-center justify-between px-1">
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+        <Text variant="caption" className="text-primary-pink">
           Private Entry
         </Text>
         {!readOnly && isSavingDraft && (

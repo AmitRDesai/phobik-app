@@ -371,7 +371,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
             <View className="mt-6 flex-row gap-3">
               {meditation.stats.map((stat) => (
                 <Card key={stat.label} className="flex-1 px-4 py-3">
-                  <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+                  <Text variant="caption" className="text-foreground/50">
                     {stat.label}
                   </Text>
                   <Text className="mt-1 text-base font-bold text-foreground">
@@ -398,7 +398,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
                 size={14}
                 color="white"
               />
-              <Text className="text-[11px] font-semibold uppercase tracking-widest text-foreground/70">
+              <Text variant="caption" className="text-foreground/70">
                 {effectiveVoice === 'female' ? 'Female' : 'Male'} voice
               </Text>
               <MaterialIcons name="swap-horiz" size={14} color="white" />

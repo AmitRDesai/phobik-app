@@ -81,7 +81,7 @@ export function DailyFlowHeader({
       {title}
     </Text>
   ) : step ? (
-    <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
+    <Text variant="caption" className="text-foreground/50">
       {step}
     </Text>
   ) : null;

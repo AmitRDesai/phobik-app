@@ -180,7 +180,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
                   key={stat.label}
                   className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 px-4 py-3"
                 >
-                  <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+                  <Text variant="caption" className="text-foreground/50">
                     {stat.label}
                   </Text>
                   <Text className="mt-1 text-base font-bold text-foreground">

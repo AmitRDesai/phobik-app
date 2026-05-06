@@ -33,7 +33,7 @@ export function AnxietyImpactCard() {
           </Text>
         </View>
         <Pressable className="mt-4 flex-row items-center justify-center gap-2 rounded-lg bg-primary-pink/20 py-3">
-          <Text className="text-xs font-bold uppercase tracking-widest text-primary-pink">
+          <Text variant="caption" className="text-primary-pink">
             Open Guided Relief
           </Text>
           <MaterialIcons

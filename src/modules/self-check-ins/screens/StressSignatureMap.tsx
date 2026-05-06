@@ -140,7 +140,7 @@ export default function StressSignatureMap() {
         {/* Top 3 Stressors */}
         <View className="mt-8 px-5">
           <View className="mb-6 flex-row items-center justify-between">
-            <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/80">
+            <Text variant="caption" className="text-foreground/80">
               Your Top 3 Stressors
             </Text>
             <Text

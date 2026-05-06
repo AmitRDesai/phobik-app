@@ -23,7 +23,7 @@ export function MoodTabs({
       {label ? (
         <View className="mb-3 flex-row items-center gap-2">
           <View className="h-1.5 w-1.5 rounded-full bg-primary-pink" />
-          <Text className="text-xs font-semibold uppercase tracking-widest text-foreground/60">
+          <Text variant="caption" className="text-foreground/60">
             {label}
           </Text>
         </View>

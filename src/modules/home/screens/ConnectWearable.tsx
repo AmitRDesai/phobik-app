@@ -65,7 +65,7 @@ function HealthHero({ pulsing }: { pulsing: boolean }) {
         </View>
       </View>
 
-      <Text className="mb-2 text-xs font-bold uppercase tracking-widest text-primary-pink">
+      <Text variant="caption" className="mb-2 text-primary-pink">
         {pulsing ? `Connect to ${PROVIDER_LABEL}` : 'Connected'}
       </Text>
       <Text className="mb-3 text-3xl font-bold tracking-tight text-foreground">
@@ -93,7 +93,7 @@ function MetricRow({
 }) {
   return (
     <Card className="flex-1 p-5">
-      <Text className="mb-2 text-[10px] font-bold uppercase tracking-widest text-foreground/60">
+      <Text variant="caption" className="mb-2 text-foreground/60">
         {label}
       </Text>
       <View className="flex-row items-baseline gap-1.5">
@@ -194,7 +194,7 @@ export default function ConnectWearable() {
             onPress={openHealthSettings}
             className="mt-2 items-center py-3"
           >
-            <Text className="text-xs font-semibold uppercase tracking-widest text-foreground/60">
+            <Text variant="caption" className="text-foreground/60">
               Open {PROVIDER_LABEL} settings
             </Text>
           </Pressable>

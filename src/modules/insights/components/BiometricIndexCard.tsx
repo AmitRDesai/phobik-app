@@ -46,7 +46,7 @@ export function BiometricIndexCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
+        <Text variant="caption" className="text-foreground/40">
           Biometric Index
         </Text>
         <View className="flex-row gap-3">
@@ -94,7 +94,7 @@ export function BiometricIndexCard() {
           </View>
         ) : hasConnectedHealth ? (
           <View className="h-24 w-full items-center justify-center">
-            <Text className="text-center text-xs font-semibold uppercase tracking-widest text-foreground/40">
+            <Text variant="caption" className="text-center text-foreground/40">
               No data
             </Text>
             <Text className="mt-1 text-[10px] leading-snug text-foreground/30">
@@ -110,7 +110,7 @@ export function BiometricIndexCard() {
               Connect Apple Health or Health Connect to see your HR & HRV
               trends.
             </Text>
-            <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+            <Text variant="caption" className="mt-1 text-primary-pink">
               Set up →
             </Text>
           </Pressable>

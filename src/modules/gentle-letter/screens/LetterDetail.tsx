@@ -87,7 +87,7 @@ export default function LetterDetail() {
                   size={18}
                   color={colors.primary.pink}
                 />
-                <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
+                <Text variant="caption" className="text-foreground/55">
                   Step {step.step}: {step.label}
                 </Text>
               </View>

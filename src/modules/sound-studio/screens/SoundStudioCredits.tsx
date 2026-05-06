@@ -84,7 +84,7 @@ export default function SoundStudioCredits() {
               >
                 {plan.popular ? (
                   <View className="absolute right-5 top-5 rounded-full bg-accent-yellow px-3 py-1">
-                    <Text className="text-[10px] font-bold uppercase tracking-widest text-on-primary-fixed">
+                    <Text variant="caption" className="text-on-primary-fixed">
                       Most Popular
                     </Text>
                   </View>
@@ -106,7 +106,7 @@ export default function SoundStudioCredits() {
                   <Text className="text-4xl font-extrabold text-foreground">
                     {plan.credits}
                   </Text>
-                  <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+                  <Text variant="caption" className="text-foreground/50">
                     Credits
                   </Text>
                 </View>
@@ -136,7 +136,8 @@ export default function SoundStudioCredits() {
                       }}
                     >
                       <Text
-                        className="text-xs font-bold uppercase tracking-widest text-on-primary-fixed"
+                        variant="caption"
+                        className="text-on-primary-fixed"
                         onPress={() => onPurchase(plan.name)}
                       >
                         Purchase Now

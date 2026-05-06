@@ -15,7 +15,7 @@ export function CharacterDevLinks() {
 
   return (
     <Card>
-      <Text className="mb-3 text-[10px] font-bold uppercase tracking-widest text-foreground/40">
+      <Text variant="caption" className="mb-3 text-foreground/40">
         Characters (dev)
       </Text>
       <View className="flex-row flex-wrap gap-2">

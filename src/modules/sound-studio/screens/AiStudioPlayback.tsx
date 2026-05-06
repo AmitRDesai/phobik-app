@@ -196,7 +196,7 @@ export default function AiStudioPlayback() {
                   }}
                 >
                   <MaterialIcons name="ios-share" size={14} color="white" />
-                  <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground">
+                  <Text variant="caption" className="text-foreground">
                     Share
                   </Text>
                 </LinearGradient>
@@ -207,11 +207,11 @@ export default function AiStudioPlayback() {
           {/* Your Creations */}
           <View className="mt-8">
             <View className="mb-3 flex-row items-baseline justify-between">
-              <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
+              <Text variant="caption" className="text-foreground/60">
                 Your Creations
               </Text>
               <Pressable onPress={() => onAction('View All')}>
-                <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+                <Text variant="caption" className="text-primary-pink">
                   View All
                 </Text>
               </Pressable>

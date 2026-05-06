@@ -84,7 +84,7 @@ export function MysteryComplete({
           />
         </LinearGradient>
 
-        <Text className="text-[10px] font-bold uppercase tracking-[3px] text-primary-pink">
+        <Text variant="caption" className="text-primary-pink">
           Practice Complete
         </Text>
         <Text className="mt-1 text-center text-2xl font-bold leading-tight text-foreground">

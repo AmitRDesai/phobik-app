@@ -81,7 +81,7 @@ function GlassCard({
         style={{ backgroundColor: bgColor, borderWidth: 1, borderColor }}
       >
         {item.category && (
-          <Text className="mb-1.5 text-xs font-bold uppercase tracking-widest text-foreground/55">
+          <Text variant="caption" className="mb-1.5 text-foreground/55">
             {item.category}
           </Text>
         )}
@@ -332,7 +332,7 @@ export default function FlightChecklistPhase() {
         {/* Phase badge */}
         {phase.phaseBadge && (
           <View className="mb-4 self-start rounded-full bg-primary-pink/10 px-3 py-1">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+            <Text variant="caption" className="text-primary-pink">
               {phase.phaseBadge}
             </Text>
           </View>

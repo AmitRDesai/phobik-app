@@ -45,7 +45,7 @@ export function SleepIntelligenceCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
+        <Text variant="caption" className="text-foreground/40">
           Sleep Intelligence
         </Text>
         <Text className="text-[9px] font-bold uppercase tracking-widest text-accent-yellow">

@@ -173,7 +173,7 @@ export default function GentleLetterWrite() {
 
       {isLastStep && (
         <View className="mt-6 gap-3">
-          <Text className="text-center text-xs font-bold uppercase tracking-widest text-foreground/55">
+          <Text variant="caption" className="text-center text-foreground/55">
             What core act does this letter honor?
           </Text>
           <View className="flex-row flex-wrap justify-center gap-2">

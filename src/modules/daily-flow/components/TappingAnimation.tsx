@@ -95,14 +95,14 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
       </View>
 
       <Card className="mt-4">
-        <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
+        <Text variant="caption" className="text-foreground/50">
           Instruction
         </Text>
         <Text className="mt-1 text-base font-bold text-foreground">
           {point.description}
         </Text>
         <View className="my-3 h-px w-full bg-foreground/10" />
-        <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
+        <Text variant="caption" className="text-foreground/50">
           Benefit
         </Text>
         <Text className="mt-1 text-sm italic text-primary-pink">

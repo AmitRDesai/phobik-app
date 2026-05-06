@@ -93,7 +93,7 @@ export default function AiStudioExpress() {
 
           {/* Status pill */}
           <View className="absolute right-2 top-4 rounded-full border border-foreground/15 bg-foreground/10 px-3 py-1">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/80">
+            <Text variant="caption" className="text-foreground/80">
               Analyzing
             </Text>
           </View>
@@ -102,10 +102,10 @@ export default function AiStudioExpress() {
         {/* Progress */}
         <View className="mt-12">
           <View className="flex-row items-center justify-between">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+            <Text variant="caption" className="text-foreground/50">
               Neural-Harmonic Mapping
             </Text>
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground">
+            <Text variant="caption" className="text-foreground">
               {Math.round(progress * 100)}%
             </Text>
           </View>

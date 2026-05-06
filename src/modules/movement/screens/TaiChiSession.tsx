@@ -29,7 +29,7 @@ export default function TaiChiSession() {
     >
       <View className="items-center pt-2">
         <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/70">
+          <Text variant="caption" className="text-foreground/70">
             Active Flow: Tai Chi
           </Text>
         </View>

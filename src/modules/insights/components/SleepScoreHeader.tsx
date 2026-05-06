@@ -59,7 +59,7 @@ export function SleepScoreHeader() {
             <Text className="text-5xl font-extrabold text-foreground">
               {lastNightScore != null ? lastNightScore : '—'}
             </Text>
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/80">
+            <Text variant="caption" className="text-foreground/80">
               Score
             </Text>
           </View>

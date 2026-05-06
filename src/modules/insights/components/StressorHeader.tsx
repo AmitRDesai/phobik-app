@@ -30,7 +30,7 @@ export function StressorHeader({ title, subtitle }: StressorHeaderProps) {
             <Text className="text-xl font-black uppercase leading-none tracking-tight text-foreground">
               {title}
             </Text>
-            <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+            <Text variant="caption" className="mt-1 text-primary-pink">
               {subtitle}
             </Text>
           </View>

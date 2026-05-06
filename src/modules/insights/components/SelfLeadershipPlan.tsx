@@ -29,7 +29,7 @@ export function SelfLeadershipPlan({
             size={14}
             color={colors.accent.gold}
           />
-          <Text className="text-[10px] font-black uppercase tracking-[3px] text-accent-yellow">
+          <Text variant="caption" className="text-accent-yellow">
             Self-Leadership Check
           </Text>
         </View>
@@ -70,7 +70,7 @@ export function SelfLeadershipPlan({
 
       {/* Self-Leadership Plan */}
       <View className="gap-4">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/60">
+        <Text variant="caption" className="text-foreground/60">
           Self-Leadership Plan
         </Text>
         <View className="flex-row items-center gap-2 rounded-lg border border-primary-pink/10 bg-primary-pink/5 p-2">

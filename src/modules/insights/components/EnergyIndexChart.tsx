@@ -71,7 +71,7 @@ export function EnergyIndexChart() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
+        <Text variant="caption" className="text-foreground/40">
           Energy Index Trend
         </Text>
         <View className="flex-row items-center gap-1.5">
