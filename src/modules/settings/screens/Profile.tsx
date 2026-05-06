@@ -1,6 +1,6 @@
 import { BackButton } from '@/components/ui/BackButton';
-import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { useImagePicker } from '@/hooks/useImagePicker';
@@ -12,12 +12,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { File as ExpoFile } from 'expo-file-system';
 import { useState } from 'react';
-import { Image, Pressable, ScrollView, Text, View } from 'react-native';
-import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Image, Pressable, Text, View } from 'react-native';
 
 export default function Profile() {
-  const insets = useSafeAreaInsets();
   const { data: session } = useSession();
   const queryClient = useQueryClient();
 
@@ -93,76 +90,65 @@ export default function Profile() {
   const hasChanges = name.trim() !== (session?.user?.name ?? '');
 
   return (
-    <View className="flex-1">
-      <GlowBg
-        bgClassName="bg-background-dashboard"
-        centerY={0.15}
-        intensity={0.5}
-      />
-
-      {/* Header */}
-      <View
-        className="flex-row items-center gap-3 px-4 pb-4"
-        style={{ paddingTop: insets.top + 8 }}
-      >
-        <BackButton />
-        <Text className="text-lg font-bold text-white">Edit Profile</Text>
-      </View>
-
-      <KeyboardAvoidingView behavior="padding" className="flex-1">
-        <ScrollView contentContainerClassName="gap-6 px-4 py-4 pb-8">
-          {/* Avatar */}
-          <Pressable onPress={handleChangePhoto} className="items-center py-4">
-            <View className="relative">
-              {imageUri ? (
-                <View className="h-24 w-24 overflow-hidden rounded-full border-2 border-primary-pink/40 bg-white/10">
-                  <Image source={{ uri: imageUri }} className="h-full w-full" />
-                </View>
-              ) : (
-                <UserAvatar
-                  className="h-24 w-24 border-2 border-primary-pink/40 bg-white/10"
-                  iconSize={40}
-                />
-              )}
-              <View className="absolute bottom-0 right-0 h-8 w-8 items-center justify-center rounded-full border-2 border-background-dark bg-primary-pink">
-                <MaterialIcons name="camera-alt" size={16} color="white" />
-              </View>
+    <Screen
+      variant="default"
+      scroll
+      keyboard
+      sticky={
+        <GradientButton
+          onPress={() => updateProfile.mutate()}
+          disabled={!hasChanges || !name.trim()}
+          loading={updateProfile.isPending}
+        >
+          Save Changes
+        </GradientButton>
+      }
+      header={
+        <View className="flex-row items-center gap-3 px-4 py-2">
+          <BackButton />
+          <Text className="text-lg font-bold text-foreground">
+            Edit Profile
+          </Text>
+        </View>
+      }
+      className="px-4"
+      contentClassName="gap-6"
+    >
+      <Pressable onPress={handleChangePhoto} className="items-center py-4">
+        <View className="relative">
+          {imageUri ? (
+            <View className="h-24 w-24 overflow-hidden rounded-full border-2 border-primary-pink/40 bg-foreground/10">
+              <Image source={{ uri: imageUri }} className="h-full w-full" />
             </View>
-            {uploadMutation.isPending && (
-              <Text className="mt-2 text-xs text-white/50">Uploading...</Text>
-            )}
-            <Text className="mt-2 text-sm font-medium text-primary-pink">
-              Change Photo
-            </Text>
-          </Pressable>
-
-          {/* Form */}
-          <View className="gap-4">
-            <TextInput
-              label="Name"
-              placeholder="Your name"
-              value={name}
-              onChangeText={setName}
-              icon="person-outline"
-              autoCapitalize="words"
-              labelUppercase={false}
+          ) : (
+            <UserAvatar
+              className="h-24 w-24 border-2 border-primary-pink/40 bg-foreground/10"
+              iconSize={40}
             />
+          )}
+          <View className="absolute bottom-0 right-0 h-8 w-8 items-center justify-center rounded-full border-2 border-surface bg-primary-pink">
+            <MaterialIcons name="camera-alt" size={16} color="white" />
           </View>
+        </View>
+        {uploadMutation.isPending && (
+          <Text className="mt-2 text-xs text-foreground/50">Uploading...</Text>
+        )}
+        <Text className="mt-2 text-sm font-medium text-primary-pink">
+          Change Photo
+        </Text>
+      </Pressable>
 
-          {/* Save */}
-          <View className="mt-4">
-            <GradientButton
-              onPress={() => updateProfile.mutate()}
-              disabled={!hasChanges || !name.trim()}
-              loading={updateProfile.isPending}
-            >
-              Save Changes
-            </GradientButton>
-          </View>
-
-          <View className="h-4" />
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </View>
+      <View className="gap-4">
+        <TextInput
+          label="Name"
+          placeholder="Your name"
+          value={name}
+          onChangeText={setName}
+          icon="person-outline"
+          autoCapitalize="words"
+          labelUppercase={false}
+        />
+      </View>
+    </Screen>
   );
 }
