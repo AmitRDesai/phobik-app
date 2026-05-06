@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 
+import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -242,11 +243,9 @@ export default function CompassionArchive() {
                     {letter.title}
                   </Text>
                   {letter.coreAct && (
-                    <View className="self-start rounded-full border border-primary-pink/30 bg-primary-pink/20 px-2.5 py-1">
-                      <Text className="text-[10px] font-bold uppercase tracking-tight text-primary-pink">
-                        {formatCoreAct(letter.coreAct)}
-                      </Text>
-                    </View>
+                    <Badge tone="pink" size="sm" className="self-start">
+                      {formatCoreAct(letter.coreAct)}
+                    </Badge>
                   )}
                   <View className="mt-1 flex-row items-center gap-1">
                     <Text className="text-sm font-medium text-foreground/80">

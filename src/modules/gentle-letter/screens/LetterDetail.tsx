@@ -2,6 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator, Text, View } from 'react-native';
 
+import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -67,11 +68,9 @@ export default function LetterDetail() {
           {formatDate(letter.entryDate)}
         </Text>
         {letter.coreAct && (
-          <View className="self-start rounded-full border border-primary-pink/30 bg-primary-pink/20 px-3 py-1">
-            <Text className="text-xs font-bold uppercase tracking-tight text-primary-pink">
-              Core Act: {formatCoreAct(letter.coreAct)}
-            </Text>
-          </View>
+          <Badge tone="pink" size="md" className="self-start">
+            {`Core Act: ${formatCoreAct(letter.coreAct)}`}
+          </Badge>
         )}
       </View>
 
