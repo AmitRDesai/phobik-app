@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { withAlpha } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
@@ -13,7 +14,7 @@ export function CharacterDevLinks() {
   const router = useRouter();
 
   return (
-    <View className="rounded-3xl border border-foreground/10 bg-foreground/5 p-4">
+    <Card>
       <Text className="mb-3 text-[10px] font-bold uppercase tracking-widest text-foreground/40">
         Characters (dev)
       </Text>
@@ -34,6 +35,6 @@ export function CharacterDevLinks() {
           </Pressable>
         ))}
       </View>
-    </View>
+    </Card>
   );
 }
