@@ -1,7 +1,8 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { authClient } from '@/lib/auth';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
@@ -67,13 +68,19 @@ export default function ResetPasswordScreen() {
         className="flex-1 items-center justify-center px-8"
       >
         <View className="w-full items-center">
-          <View className="mb-8 h-28 w-28 items-center justify-center rounded-full border border-status-danger/30 bg-status-danger/10">
+          <IconChip
+            size={112}
+            shape="circle"
+            bg={withAlpha(colors.status.danger, 0.1)}
+            border={withAlpha(colors.status.danger, 0.3)}
+            className="mb-8"
+          >
             <Ionicons
               name="alert-circle"
               size={48}
               color={colors.status.danger}
             />
-          </View>
+          </IconChip>
 
           <Text className="text-3xl font-bold text-foreground">
             Invalid Link

@@ -1,7 +1,8 @@
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
 import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtom, useAtomValue } from 'jotai';
@@ -106,15 +107,19 @@ export default function JournalDashboard() {
             title="Private Journal"
             subtitle="Encrypted Reflections"
             right={
-              <Pressable
-                onPress={handleLock}
-                className="h-10 w-10 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/20"
-              >
-                <MaterialIcons
-                  name="lock"
-                  size={22}
-                  color={colors.primary.pink}
-                />
+              <Pressable onPress={handleLock}>
+                <IconChip
+                  size="md"
+                  shape="circle"
+                  tone="pink"
+                  border={withAlpha(colors.primary.pink, 0.3)}
+                >
+                  <MaterialIcons
+                    name="lock"
+                    size={22}
+                    color={colors.primary.pink}
+                  />
+                </IconChip>
               </Pressable>
             }
           />

@@ -32,6 +32,8 @@ export interface IconChipProps {
   tone?: AccentHue;
   /** Override the bg color (takes precedence over tone). */
   bg?: string;
+  /** Optional border color. Width is 1px when set. */
+  border?: string;
   /** Outer container className for spacing/margins. */
   className?: string;
   /** Inner icon. Pass a function to receive the resolved tone color. */
@@ -43,6 +45,7 @@ export function IconChip({
   shape = 'rounded',
   tone,
   bg,
+  border,
   className,
   children,
 }: IconChipProps) {
@@ -59,6 +62,7 @@ export function IconChip({
     backgroundColor,
     alignItems: 'center',
     justifyContent: 'center',
+    ...(border ? { borderWidth: 1, borderColor: border } : null),
   };
 
   return (

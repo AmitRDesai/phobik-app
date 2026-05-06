@@ -1,5 +1,7 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { colors, withAlpha } from '@/constants/colors';
+import { IconChip } from '@/components/ui/IconChip';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
 import { useSleepHistory } from '@/modules/insights/hooks/useSleepHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
@@ -29,6 +31,7 @@ function summaryText(
 
 export function SleepIntelligenceCard() {
   const router = useRouter();
+  const scheme = useScheme();
   const range = useAtomValue(timeRangeAtom);
   const hasConnectedHealth = useAtomValue(hasConnectedHealthAtom);
   const { lastNight } = useSleepHistory(range);
@@ -55,7 +58,13 @@ export function SleepIntelligenceCard() {
             className="absolute -left-10 top-0 h-32 w-32 rounded-full"
             style={{ backgroundColor: withAlpha(colors.primary.pink, 0.1) }}
           />
-          <View className="relative z-10 h-16 w-16 items-center justify-center rounded-2xl border border-foreground/10 bg-foreground/5">
+          <IconChip
+            size={64}
+            shape="rounded"
+            bg={foregroundFor(scheme, 0.05)}
+            border={foregroundFor(scheme, 0.1)}
+            className="relative z-10"
+          >
             <MaterialIcons
               name="dark-mode"
               size={36}
@@ -66,7 +75,7 @@ export function SleepIntelligenceCard() {
                 textShadowRadius: 8,
               }}
             />
-          </View>
+          </IconChip>
           <View className="relative z-10 flex-1">
             <View className="mb-1 flex-row items-end justify-between">
               <Text className="text-lg font-black text-foreground">
