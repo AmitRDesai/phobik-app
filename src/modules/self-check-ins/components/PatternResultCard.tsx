@@ -1,3 +1,5 @@
+import { Badge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/Card';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -16,12 +18,12 @@ export function PatternResultCard({
 }: PatternResultCardProps) {
   if (!isPrimary) {
     return (
-      <View className="rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-5">
+      <Card variant="surface" className="p-5">
         <Text className="mb-2 text-lg font-bold text-foreground">
           {archetype.emoji} {archetype.label}
         </Text>
-        <Text className="text-sm text-zinc-400">{archetype.tagline}</Text>
-      </View>
+        <Text className="text-sm text-foreground/60">{archetype.tagline}</Text>
+      </Card>
     );
   }
 
@@ -33,24 +35,23 @@ export function PatternResultCard({
       style={{ borderRadius: 16, padding: 1.5 }}
     >
       <View className="rounded-2xl bg-surface p-6">
-        {/* Badge */}
-        <View className="mb-3 self-start rounded-full bg-primary-pink/10 px-3 py-1">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-            Primary Pattern
-          </Text>
-        </View>
+        <Badge tone="pink" size="sm" className="mb-3 self-start">
+          Primary Pattern
+        </Badge>
 
         {/* Emoji + Title */}
         <Text className="mb-2 text-4xl">{archetype.emoji}</Text>
         <Text className="mb-3 text-2xl font-bold text-foreground">
           {archetype.label}
         </Text>
-        <Text className="mb-5 text-sm text-zinc-400">{archetype.tagline}</Text>
+        <Text className="mb-5 text-sm text-foreground/60">
+          {archetype.tagline}
+        </Text>
 
         {/* Strength */}
         <View className="mb-3 flex-row items-center gap-2">
           <MaterialIcons name="bolt" size={18} color={colors.accent.yellow} />
-          <Text className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+          <Text className="text-xs font-bold uppercase tracking-wider text-foreground/60">
             Strength
           </Text>
         </View>
@@ -65,7 +66,7 @@ export function PatternResultCard({
             size={18}
             color={colors.primary.pink}
           />
-          <Text className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+          <Text className="text-xs font-bold uppercase tracking-wider text-foreground/60">
             Growth Edge
           </Text>
         </View>
