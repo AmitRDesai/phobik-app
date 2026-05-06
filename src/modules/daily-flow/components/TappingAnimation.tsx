@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { useEffect, useState } from 'react';
 import { Image, Text, View, type ImageSourcePropType } from 'react-native';
 import Animated, {
@@ -92,7 +93,7 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
           : null}
       </View>
 
-      <View className="mt-4 rounded-2xl border border-foreground/10 bg-foreground/5 p-4">
+      <Card className="mt-4">
         <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
           Instruction
         </Text>
@@ -106,7 +107,7 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
         <Text className="mt-1 text-sm italic text-primary-pink">
           → {point.benefit}
         </Text>
-      </View>
+      </Card>
     </View>
   );
 }

@@ -1,3 +1,5 @@
+import { Card } from '@/components/ui/Card';
+import { IconChip } from '@/components/ui/IconChip';
 import { colors } from '@/constants/colors';
 import { Text, View } from 'react-native';
 
@@ -9,19 +11,19 @@ interface SenseCardProps {
 
 export function SenseCard({ count, title, subtitle }: SenseCardProps) {
   return (
-    <View className="flex-row items-start gap-4 rounded-2xl border border-foreground/10 bg-foreground/5 p-4">
-      <View className="h-8 w-8 items-center justify-center rounded-full bg-primary-pink/20">
+    <Card className="flex-row items-start gap-4">
+      <IconChip size="sm" shape="circle" tone="pink">
         <Text
           className="text-sm font-bold"
           style={{ color: colors.primary.pink }}
         >
           {count}
         </Text>
-      </View>
+      </IconChip>
       <View className="flex-1">
         <Text className="text-sm font-semibold text-foreground">{title}</Text>
         <Text className="mt-0.5 text-xs text-foreground/50">{subtitle}</Text>
       </View>
-    </View>
+    </Card>
   );
 }

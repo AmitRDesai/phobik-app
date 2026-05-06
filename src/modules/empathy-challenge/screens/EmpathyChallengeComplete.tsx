@@ -3,6 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';
@@ -131,7 +132,7 @@ export default function EmpathyChallengeComplete() {
           Daily D.O.S.E. Reward
         </Text>
         <View className="flex-row gap-4">
-          <View className="flex-1 flex-row items-center justify-center gap-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4">
+          <Card className="flex-1 flex-row items-center justify-center gap-3">
             <View className="h-8 w-8 items-center justify-center rounded-full bg-primary-pink/15">
               <MaterialIcons
                 name="favorite"
@@ -145,8 +146,8 @@ export default function EmpathyChallengeComplete() {
               </Text>
               <Text className="text-lg font-bold text-foreground">+10</Text>
             </View>
-          </View>
-          <View className="flex-1 flex-row items-center justify-center gap-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4">
+          </Card>
+          <Card className="flex-1 flex-row items-center justify-center gap-3">
             <View className="h-8 w-8 items-center justify-center rounded-full bg-accent-info/15">
               <MaterialIcons
                 name="psychology"
@@ -160,7 +161,7 @@ export default function EmpathyChallengeComplete() {
               </Text>
               <Text className="text-lg font-bold text-foreground">+5</Text>
             </View>
-          </View>
+          </Card>
         </View>
       </View>
     </Screen>
