@@ -1,13 +1,12 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
-import { accentFor, colors } from '@/constants/colors';
+import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dismissToRoot } from '@/utils/navigation';
 import { MaterialIcons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { ReactNode } from 'react';
 import { Text, View } from 'react-native';
@@ -110,23 +109,9 @@ export function StepShell({
       </View>
 
       <View className="mb-6">
-        <MaskedView
-          maskElement={
-            <Text className="text-5xl font-black leading-tight tracking-tight">
-              {title}
-            </Text>
-          }
-        >
-          <LinearGradient
-            colors={[colors.primary.pink, colors.accent.yellow]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <Text className="text-5xl font-black leading-tight tracking-tight opacity-0">
-              {title}
-            </Text>
-          </LinearGradient>
-        </MaskedView>
+        <GradientText className="text-5xl font-black leading-tight tracking-tight">
+          {title}
+        </GradientText>
       </View>
 
       {duration ? (

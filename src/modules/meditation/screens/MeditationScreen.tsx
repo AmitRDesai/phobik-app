@@ -3,7 +3,7 @@ import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
-import { GradientText } from '@/modules/practices/components/GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';

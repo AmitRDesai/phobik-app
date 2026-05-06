@@ -2,7 +2,7 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
-import { GradientText } from '@/modules/practices/components/GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';

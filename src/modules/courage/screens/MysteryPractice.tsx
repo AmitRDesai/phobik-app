@@ -1,9 +1,8 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useRef } from 'react';
 import { Text, View } from 'react-native';
@@ -48,23 +47,9 @@ export default function MysteryPractice() {
         <View className="px-6 py-2">
           <BackButton onPress={handleBack} />
           <View className="pb-6 pt-4">
-            <MaskedView
-              maskElement={
-                <Text className="text-center text-5xl font-extrabold uppercase tracking-tight">
-                  {challenge.title}
-                </Text>
-              }
-            >
-              <LinearGradient
-                colors={[colors.primary.pink, colors.accent.yellow]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-              >
-                <Text className="text-center text-5xl font-extrabold uppercase tracking-tight opacity-0">
-                  {challenge.title}
-                </Text>
-              </LinearGradient>
-            </MaskedView>
+            <GradientText className="text-center text-5xl font-extrabold uppercase tracking-tight">
+              {challenge.title}
+            </GradientText>
           </View>
         </View>
       }

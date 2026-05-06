@@ -1,10 +1,8 @@
+import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
-import { colors } from '@/constants/colors';
 import { FloatingMapper } from '@/modules/micro-challenges/components/FloatingMapper';
 import { EMOTIONS } from '@/modules/micro-challenges/data/emotions';
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
@@ -15,28 +13,6 @@ import {
   useActiveDailyFlowSession,
   useUpdateDailyFlowSession,
 } from '../hooks/useDailyFlowSession';
-
-function GradientWord({ text }: { text: string }) {
-  return (
-    <MaskedView
-      maskElement={
-        <Text className="text-3xl font-black leading-tight tracking-tight">
-          {text}
-        </Text>
-      }
-    >
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-      >
-        <Text className="text-3xl font-black leading-tight tracking-tight opacity-0">
-          {text}
-        </Text>
-      </LinearGradient>
-    </MaskedView>
-  );
-}
 
 export default function DetailedFeeling() {
   const router = useRouter();
@@ -74,7 +50,9 @@ export default function DetailedFeeling() {
               <Text className="text-3xl font-black leading-tight tracking-tight text-foreground">
                 want to{' '}
               </Text>
-              <GradientWord text="feel" />
+              <GradientText className="text-3xl font-black leading-tight tracking-tight">
+                feel
+              </GradientText>
             </View>
           </View>
           <Text className="pb-1 text-xs text-foreground/55">25% Complete</Text>

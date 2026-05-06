@@ -1,9 +1,9 @@
 import CHARACTER_IMAGE from '@/assets/images/daily-flow/eft-toh-head.png';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
-import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Image, Text, View } from 'react-native';
@@ -17,28 +17,6 @@ import {
   useActiveDailyFlowSession,
   useUpdateDailyFlowSession,
 } from '../hooks/useDailyFlowSession';
-
-function GradientInline({ text }: { text: string }) {
-  return (
-    <MaskedView
-      maskElement={
-        <Text className="text-[34px] font-black leading-tight tracking-tight">
-          {text}
-        </Text>
-      }
-    >
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-      >
-        <Text className="text-[34px] font-black leading-tight tracking-tight opacity-0">
-          {text}
-        </Text>
-      </LinearGradient>
-    </MaskedView>
-  );
-}
 
 export default function EFTTOHFocus() {
   const router = useRouter();
@@ -80,7 +58,9 @@ export default function EFTTOHFocus() {
         <Text className="text-[34px] font-black leading-tight tracking-tight text-foreground">
           EFT Tapping
         </Text>
-        <GradientInline text="Points Quick Tutorial" />
+        <GradientText className="text-[34px] font-black leading-tight tracking-tight">
+          Points Quick Tutorial
+        </GradientText>
         <Text className="mt-3 text-sm leading-5 text-foreground/60">
           Follow the sequence below to release emotional blocks and restore
           balance.

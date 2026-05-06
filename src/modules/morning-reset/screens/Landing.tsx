@@ -1,11 +1,10 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
 
@@ -59,23 +58,9 @@ export default function Landing() {
         <Text className="mb-2 text-center text-3xl font-black leading-tight tracking-tight text-foreground">
           Your
         </Text>
-        <MaskedView
-          maskElement={
-            <Text className="text-center text-5xl font-black leading-[1.05] tracking-tight">
-              Morning Reset
-            </Text>
-          }
-        >
-          <LinearGradient
-            colors={[colors.primary.pink, colors.accent.yellow]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <Text className="text-center text-5xl font-black leading-[1.05] tracking-tight opacity-0">
-              Morning Reset
-            </Text>
-          </LinearGradient>
-        </MaskedView>
+        <GradientText className="text-center text-5xl font-black leading-[1.05] tracking-tight">
+          Morning Reset
+        </GradientText>
         <Text className="mt-6 px-2 text-center text-base leading-6 text-foreground/60">
           Your brain is both at its most sensitive and its most powerful in the
           first hours of your day.

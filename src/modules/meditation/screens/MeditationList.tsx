@@ -1,5 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
-import { GradientText } from '@/modules/practices/components/GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 import { PracticeListRow } from '@/modules/practices/components/PracticeListRow';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { MaterialIcons } from '@expo/vector-icons';

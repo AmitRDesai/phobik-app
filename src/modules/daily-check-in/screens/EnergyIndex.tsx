@@ -3,7 +3,7 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { BackButton } from '@/components/ui/BackButton';
 import { alpha, colors, withAlpha } from '@/constants/colors';
-import MaskedView from '@react-native-masked-view/masked-view';
+import { GradientText } from '@/components/ui/GradientText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -169,23 +169,12 @@ export default function EnergyIndex() {
               <Text className="mb-0.5 text-[9px] font-bold uppercase tracking-[3px] text-foreground/50">
                 Energy
               </Text>
-              <MaskedView
-                maskElement={
-                  <Text className="text-3xl font-black leading-none">
-                    {energyIndex}
-                  </Text>
-                }
+              <GradientText
+                className="text-3xl font-black leading-none"
+                end={{ x: 1, y: 1 }}
               >
-                <LinearGradient
-                  colors={[colors.primary.pink, colors.accent.yellow]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                >
-                  <Text className="text-3xl font-black leading-none opacity-0">
-                    {energyIndex}
-                  </Text>
-                </LinearGradient>
-              </MaskedView>
+                {String(energyIndex)}
+              </GradientText>
               <Text className="mt-1 text-[9px] font-bold uppercase tracking-[3px] text-foreground/50">
                 Index
               </Text>

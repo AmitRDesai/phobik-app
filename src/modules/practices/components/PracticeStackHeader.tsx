@@ -2,7 +2,7 @@ import { BackButton } from '@/components/ui/BackButton';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { GradientText } from './GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 
 type PracticeStackHeaderProps = {
   /** Brand wordmark or screen title shown center/right of the back button */

@@ -1,7 +1,7 @@
 import { alpha, colors } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
+import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { Pressable, Text, View } from 'react-native';
@@ -53,23 +53,9 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
 
 function GradientTimer({ formatted }: { formatted: string }) {
   return (
-    <MaskedView
-      maskElement={
-        <Text className="text-center font-mono text-4xl font-bold">
-          {formatted}
-        </Text>
-      }
-    >
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-      >
-        <Text className="text-center font-mono text-4xl font-bold opacity-0">
-          {formatted}
-        </Text>
-      </LinearGradient>
-    </MaskedView>
+    <GradientText className="text-center font-mono text-4xl font-bold">
+      {formatted}
+    </GradientText>
   );
 }
 

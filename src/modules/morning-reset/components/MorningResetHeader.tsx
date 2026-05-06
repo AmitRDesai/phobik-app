@@ -1,9 +1,8 @@
+import { GradientText } from '@/components/ui/GradientText';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
@@ -14,28 +13,6 @@ type Props = {
   showBack?: boolean;
   onClose?: () => void;
 };
-
-function WordmarkText() {
-  return (
-    <MaskedView
-      maskElement={
-        <Text className="text-lg font-black tracking-[0.1em]">
-          MORNING FLOW
-        </Text>
-      }
-    >
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-      >
-        <Text className="text-lg font-black tracking-[0.1em] opacity-0">
-          MORNING FLOW
-        </Text>
-      </LinearGradient>
-    </MaskedView>
-  );
-}
 
 export function MorningResetHeader({
   showClose = true,
@@ -76,7 +53,9 @@ export function MorningResetHeader({
           ) : null}
         </View>
         <View className="flex-1 items-center">
-          <WordmarkText />
+          <GradientText className="text-lg font-black tracking-[0.1em]">
+            MORNING FLOW
+          </GradientText>
         </View>
         <View className="w-10 items-end">
           {showClose ? (

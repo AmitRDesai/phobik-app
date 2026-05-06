@@ -1,8 +1,6 @@
+import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
-import { colors } from '@/constants/colors';
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
 
@@ -14,28 +12,6 @@ import {
   useActiveDailyFlowSession,
   useUpdateDailyFlowSession,
 } from '../hooks/useDailyFlowSession';
-
-function GradientHeadline({ text }: { text: string }) {
-  return (
-    <MaskedView
-      maskElement={
-        <Text className="text-[42px] font-black leading-[1.05] tracking-tight">
-          {text}
-        </Text>
-      }
-    >
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-      >
-        <Text className="text-[42px] font-black leading-[1.05] tracking-tight opacity-0">
-          {text}
-        </Text>
-      </LinearGradient>
-    </MaskedView>
-  );
-}
 
 export default function FeelingSelection() {
   const router = useRouter();
@@ -67,7 +43,9 @@ export default function FeelingSelection() {
         <Text className="text-[42px] font-black leading-[1.05] tracking-tight text-foreground">
           How are you
         </Text>
-        <GradientHeadline text="feeling right now?" />
+        <GradientText className="text-[42px] font-black leading-[1.05] tracking-tight">
+          feeling right now?
+        </GradientText>
         <Text className="mt-4 text-lg leading-7 text-foreground/60">
           Different states need different tools.
         </Text>

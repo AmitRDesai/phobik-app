@@ -1,6 +1,6 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
-import { GradientText } from '@/modules/practices/components/GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';

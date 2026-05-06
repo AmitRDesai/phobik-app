@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
-import { GradientText } from '../components/GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 import { MoodTabs } from '../components/MoodTabs';
 import { PracticeListRow } from '../components/PracticeListRow';
 import { PracticeScreenShell } from '../components/PracticeScreenShell';

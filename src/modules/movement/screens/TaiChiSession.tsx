@@ -1,7 +1,7 @@
 import taiChiImg from '@/assets/images/four-pillars/movement-tai-chi.jpg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
-import { GradientText } from '@/modules/practices/components/GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { Text, View } from 'react-native';

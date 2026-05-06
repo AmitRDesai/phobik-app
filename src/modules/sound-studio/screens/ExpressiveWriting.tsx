@@ -3,7 +3,7 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
-import { GradientText } from '@/modules/practices/components/GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';

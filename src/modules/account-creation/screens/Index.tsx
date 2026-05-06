@@ -5,8 +5,7 @@ import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
 import { warmServer } from '@/lib/server-warmup';
 import { Ionicons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
+import { GradientText } from '@/components/ui/GradientText';
 import { Link, router } from 'expo-router';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
@@ -49,21 +48,9 @@ export default function WelcomeScreen() {
             <Text className="text-center text-4xl font-extrabold tracking-tight text-foreground">
               Welcome to{' '}
             </Text>
-            <MaskedView
-              maskElement={
-                <Text className="text-4xl font-extrabold">PHOBIK</Text>
-              }
-            >
-              <LinearGradient
-                colors={[colors.primary.pink, colors.accent.yellow]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-              >
-                <Text className="text-4xl font-extrabold opacity-0">
-                  PHOBIK
-                </Text>
-              </LinearGradient>
-            </MaskedView>
+            <GradientText className="text-4xl font-extrabold">
+              PHOBIK
+            </GradientText>
           </View>
           <Text className="text-center text-lg font-semibold text-foreground">
             Create the life you want.

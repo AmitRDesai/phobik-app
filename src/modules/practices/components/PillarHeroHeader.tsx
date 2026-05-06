@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native';
 
-import { GradientText } from './GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 
 type PillarHeroHeaderProps = {
   title: string;

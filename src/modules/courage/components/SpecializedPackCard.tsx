@@ -1,24 +1,10 @@
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
+import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 
 import { SpecializedPack } from '../data/specialized-packs';
-
-function GradientText({ text }: { text: string }) {
-  return (
-    <MaskedView maskElement={<Text className="text-sm font-bold">{text}</Text>}>
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-      >
-        <Text className="text-sm font-bold opacity-0">{text}</Text>
-      </LinearGradient>
-    </MaskedView>
-  );
-}
 
 function HeroSection({ pack }: { pack: SpecializedPack }) {
   const isActive = pack.status === 'active';
@@ -114,7 +100,9 @@ function ActiveCard({
             <Text className="text-xs font-medium uppercase tracking-tight text-foreground/55">
               Transformation Goal:
             </Text>
-            <GradientText text={pack.transformationGoal} />
+            <GradientText className="text-sm font-bold">
+              {pack.transformationGoal}
+            </GradientText>
           </View>
 
           {/* CTA button */}

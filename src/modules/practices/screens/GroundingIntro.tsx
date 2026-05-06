@@ -2,7 +2,7 @@ import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
-import MaskedView from '@react-native-masked-view/masked-view';
+import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
@@ -47,21 +47,9 @@ export default function GroundingIntro() {
               <Text className="text-4xl font-extrabold leading-tight text-foreground">
                 {'The '}
               </Text>
-              <MaskedView
-                maskElement={
-                  <Text className="text-4xl font-extrabold">5-4-3-2-1</Text>
-                }
-              >
-                <LinearGradient
-                  colors={[colors.primary.pink, colors.accent.yellow]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                >
-                  <Text className="text-4xl font-extrabold opacity-0">
-                    5-4-3-2-1
-                  </Text>
-                </LinearGradient>
-              </MaskedView>
+              <GradientText className="text-4xl font-extrabold">
+                5-4-3-2-1
+              </GradientText>
               <Text className="text-4xl font-extrabold leading-tight text-foreground">
                 {' technique'}
               </Text>

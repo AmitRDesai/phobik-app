@@ -1,9 +1,9 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -30,28 +30,6 @@ import {
 } from '../hooks/useDailyFlowSession';
 
 const CARD_SPACING = 16;
-
-function GradientWord({ text }: { text: string }) {
-  return (
-    <MaskedView
-      maskElement={
-        <Text className="text-3xl font-black leading-tight tracking-tight">
-          {text}
-        </Text>
-      }
-    >
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-      >
-        <Text className="text-3xl font-black leading-tight tracking-tight opacity-0">
-          {text}
-        </Text>
-      </LinearGradient>
-    </MaskedView>
-  );
-}
 
 export default function Intention() {
   const router = useRouter();
@@ -127,7 +105,9 @@ export default function Intention() {
               <Text className="text-3xl font-black leading-tight tracking-tight text-foreground">
                 Start with your{' '}
               </Text>
-              <GradientWord text="intention" />
+              <GradientText className="text-3xl font-black leading-tight tracking-tight">
+                intention
+              </GradientText>
             </View>
           </View>
           <Text className="pb-1 text-xs text-foreground/55">0% Complete</Text>

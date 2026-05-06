@@ -1,12 +1,11 @@
 import BL_IMAGE from '@/assets/images/daily-flow/bilateral-tutorial.png';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Image, Text, View } from 'react-native';
 
@@ -17,26 +16,6 @@ import {
   useActiveDailyFlowSession,
   useUpdateDailyFlowSession,
 } from '../hooks/useDailyFlowSession';
-
-function GradientHeadline({ text }: { text: string }) {
-  return (
-    <MaskedView
-      maskElement={
-        <Text className="text-[34px] font-black tracking-tight">{text}</Text>
-      }
-    >
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <Text className="text-[34px] font-black tracking-tight opacity-0">
-          {text}
-        </Text>
-      </LinearGradient>
-    </MaskedView>
-  );
-}
 
 export default function BiLateralTutorial() {
   const router = useRouter();
@@ -104,7 +83,12 @@ export default function BiLateralTutorial() {
           </View>
         </View>
         <View className="mt-7 items-center">
-          <GradientHeadline text="Find Your Rhythm" />
+          <GradientText
+            className="text-[34px] font-black tracking-tight"
+            end={{ x: 1, y: 1 }}
+          >
+            Find Your Rhythm
+          </GradientText>
           <Text className="mt-2 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/55">
             Phase 1 · Regulating the Nervous System
           </Text>

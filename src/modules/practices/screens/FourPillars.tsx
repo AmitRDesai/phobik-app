@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { GradientText } from '../components/GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 import { PillarCard } from '../components/PillarCard';
 import { PILLAR_HUB } from '../data/four-pillars';
 

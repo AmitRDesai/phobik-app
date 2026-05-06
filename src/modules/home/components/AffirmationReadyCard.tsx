@@ -2,7 +2,7 @@ import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { variantConfig } from '@/components/variant-config';
 import { MaterialIcons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
+import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 
@@ -69,23 +69,9 @@ export function AffirmationReadyCard({
               {before}
             </Text>
             {word ? (
-              <MaskedView
-                maskElement={
-                  <Text className="text-xl leading-relaxed font-medium">
-                    {word}
-                  </Text>
-                }
-              >
-                <LinearGradient
-                  colors={[colors.primary.pink, colors.accent.yellow]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                >
-                  <Text className="text-xl leading-relaxed font-medium opacity-0">
-                    {word}
-                  </Text>
-                </LinearGradient>
-              </MaskedView>
+              <GradientText className="text-xl leading-relaxed font-medium">
+                {word}
+              </GradientText>
             ) : null}
             <Text className="text-center text-xl font-light leading-relaxed text-foreground">
               {after}

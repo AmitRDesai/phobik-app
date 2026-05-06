@@ -6,8 +6,8 @@ import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
+import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
-import MaskedView from '@react-native-masked-view/masked-view';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
 import { ScrollView, Text, View } from 'react-native';
@@ -15,28 +15,6 @@ import { ScrollView, Text, View } from 'react-native';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 
 import { useUpdateEbookProgress } from '../hooks/useEbookProgress';
-
-function GradientText({ text }: { text: string }) {
-  return (
-    <MaskedView
-      maskElement={
-        <Text className="text-4xl font-bold leading-tight tracking-tight">
-          {text}
-        </Text>
-      }
-    >
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <Text className="text-4xl font-bold leading-tight tracking-tight opacity-0">
-          {text}
-        </Text>
-      </LinearGradient>
-    </MaskedView>
-  );
-}
 
 export default function EbookIntro() {
   const router = useRouter();
@@ -122,7 +100,12 @@ export default function EbookIntro() {
             <Text className="text-4xl font-bold leading-tight tracking-tight text-foreground">
               A New Way to Understand and Work with the{' '}
             </Text>
-            <GradientText text="Fear of Flying" />
+            <GradientText
+              className="text-4xl font-bold leading-tight tracking-tight"
+              end={{ x: 1, y: 1 }}
+            >
+              Fear of Flying
+            </GradientText>
             <View
               className="mt-4 h-1 w-12 rounded-full"
               style={{

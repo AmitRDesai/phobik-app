@@ -4,7 +4,7 @@ import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
+import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
@@ -82,23 +82,9 @@ export default function DataSecurityPromiseScreen() {
         <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight text-foreground">
           Your Privacy is
         </Text>
-        <MaskedView
-          maskElement={
-            <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight">
-              Our Priority
-            </Text>
-          }
-        >
-          <LinearGradient
-            colors={[colors.primary.pink, colors.accent.yellow]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight opacity-0">
-              Our Priority
-            </Text>
-          </LinearGradient>
-        </MaskedView>
+        <GradientText className="text-center text-3xl font-extrabold leading-tight tracking-tight">
+          Our Priority
+        </GradientText>
       </View>
       <View className="mb-14 items-center justify-center py-8">
         <View className="absolute h-56 w-56 rounded-full border border-foreground/10" />

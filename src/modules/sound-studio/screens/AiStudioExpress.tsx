@@ -1,7 +1,7 @@
 import expressImg from '@/assets/images/sound-studio/express-analyzing.jpg';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
-import { GradientText } from '@/modules/practices/components/GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';

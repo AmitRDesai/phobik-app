@@ -1,12 +1,11 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { variantConfig } from '@/components/variant-config';
 import { colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
 
@@ -56,28 +55,6 @@ const PILLARS: Pillar[] = [
   },
 ];
 
-function GradientHeadline({ text }: { text: string }) {
-  return (
-    <MaskedView
-      maskElement={
-        <Text className="text-4xl font-black leading-[1.1] tracking-tight">
-          {text}
-        </Text>
-      }
-    >
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-      >
-        <Text className="text-4xl font-black leading-[1.1] tracking-tight opacity-0">
-          {text}
-        </Text>
-      </LinearGradient>
-    </MaskedView>
-  );
-}
-
 export default function Intro() {
   const router = useRouter();
   const scheme = useScheme();
@@ -119,7 +96,9 @@ export default function Intro() {
         <Text className="text-center text-4xl font-black leading-[1.1] tracking-tight text-foreground">
           Why you
         </Text>
-        <GradientHeadline text="Feel the way you do." />
+        <GradientText className="text-4xl font-black leading-[1.1] tracking-tight">
+          Feel the way you do.
+        </GradientText>
       </View>
 
       <View className="relative">

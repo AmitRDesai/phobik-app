@@ -1,9 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
-import { colors } from '@/constants/colors';
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
 
@@ -35,28 +33,6 @@ const STEPS: { title: string; description: string }[] = [
       'We recommend EFT tapping if your nervous system is above your threshold of stress tolerance. EFT tapping helps lock in your new state — calming your body while reinforcing the thoughts and feelings you want to carry forward.',
   },
 ];
-
-function GradientItalicFlow() {
-  return (
-    <MaskedView
-      maskElement={
-        <Text className="text-4xl font-black italic leading-tight tracking-tight">
-          {' Flow'}
-        </Text>
-      }
-    >
-      <LinearGradient
-        colors={[colors.primary.pink, colors.accent.yellow]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <Text className="text-4xl font-black italic leading-tight tracking-tight opacity-0">
-          {' Flow'}
-        </Text>
-      </LinearGradient>
-    </MaskedView>
-  );
-}
 
 export default function ChecklistGuide() {
   const router = useRouter();
@@ -93,7 +69,12 @@ export default function ChecklistGuide() {
           <Text className="text-4xl font-black leading-tight tracking-tight text-foreground">
             The Daily
           </Text>
-          <GradientItalicFlow />
+          <GradientText
+            className="text-4xl font-black italic leading-tight tracking-tight"
+            end={{ x: 1, y: 1 }}
+          >
+            {' Flow'}
+          </GradientText>
         </View>
         <Text className="text-4xl font-black leading-tight tracking-tight text-foreground">
           Journey

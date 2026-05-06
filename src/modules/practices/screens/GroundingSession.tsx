@@ -4,7 +4,7 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors } from '@/constants/colors';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { MaterialIcons } from '@expo/vector-icons';
-import MaskedView from '@react-native-masked-view/masked-view';
+import { GradientText } from '@/components/ui/GradientText';
 import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -215,23 +215,9 @@ export default function GroundingSession() {
           <View className="relative mb-12 items-center justify-center">
             <ProgressRing progress={progress} />
             <View className="absolute items-center justify-center">
-              <MaskedView
-                maskElement={
-                  <Text className="text-8xl font-bold leading-none tracking-tighter">
-                    {currentStep.count}
-                  </Text>
-                }
-              >
-                <LinearGradient
-                  colors={[colors.primary.pink, colors.accent.yellow]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                >
-                  <Text className="text-8xl font-bold leading-none tracking-tighter opacity-0">
-                    {currentStep.count}
-                  </Text>
-                </LinearGradient>
-              </MaskedView>
+              <GradientText className="text-8xl font-bold leading-none tracking-tighter">
+                {String(currentStep.count)}
+              </GradientText>
               <View className="mt-4">
                 <AudioVisualizer
                   levels={audioLevels}
@@ -249,24 +235,12 @@ export default function GroundingSession() {
             <View className="flex-row flex-wrap items-center justify-center">
               {instructionParts.map((part, i) =>
                 part.gradient ? (
-                  <MaskedView
+                  <GradientText
                     key={i}
-                    maskElement={
-                      <Text className="text-2xl font-bold leading-tight">
-                        {part.text}
-                      </Text>
-                    }
+                    className="text-2xl font-bold leading-tight"
                   >
-                    <LinearGradient
-                      colors={[colors.primary.pink, colors.accent.yellow]}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }}
-                    >
-                      <Text className="text-2xl font-bold leading-tight opacity-0">
-                        {part.text}
-                      </Text>
-                    </LinearGradient>
-                  </MaskedView>
+                    {part.text}
+                  </GradientText>
                 ) : (
                   <Text
                     key={i}

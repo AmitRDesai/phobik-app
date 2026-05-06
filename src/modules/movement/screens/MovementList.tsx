@@ -1,4 +1,4 @@
-import { GradientText } from '@/modules/practices/components/GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 import { MoodTabs } from '@/modules/practices/components/MoodTabs';
 import { PracticeListRow } from '@/modules/practices/components/PracticeListRow';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';

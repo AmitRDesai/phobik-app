@@ -1,4 +1,4 @@
-import { GradientText } from '@/modules/practices/components/GradientText';
+import { GradientText } from '@/components/ui/GradientText';
 import { PillarCard } from '@/modules/practices/components/PillarCard';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { dialog } from '@/utils/dialog';
