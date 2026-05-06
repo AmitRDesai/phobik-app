@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
@@ -41,17 +41,17 @@ export function PlayerOrb({ cue }: Props) {
     <View className="h-[320px] w-[320px] items-center justify-center">
       <Ring
         size={320}
-        borderColor={`${colors.primary.pink}26`}
+        borderColor={withAlpha(colors.primary.pink, 0.15)}
         duration={3600}
       />
       <Ring
         size={260}
-        borderColor={`${colors.accent.yellow}26`}
+        borderColor={withAlpha(colors.accent.yellow, 0.15)}
         duration={3800}
       />
       <Ring
         size={200}
-        borderColor={`${colors.accent.purple}26`}
+        borderColor={withAlpha(colors.accent.purple, 0.15)}
         duration={4000}
       />
       <EaseView
@@ -65,10 +65,7 @@ export function PlayerOrb({ cue }: Props) {
         }}
         className="h-[140px] w-[140px] overflow-hidden rounded-full"
         style={{
-          shadowColor: colors.primary.pink,
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.6,
-          shadowRadius: 30,
+          boxShadow: `0 0 30px ${withAlpha(colors.primary.pink, 0.6)}`,
         }}
       >
         <LinearGradient

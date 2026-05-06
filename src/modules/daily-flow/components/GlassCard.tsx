@@ -11,7 +11,7 @@ export function GlassCard({ children, className }: Props) {
   return (
     <View
       className={clsx(
-        'rounded-3xl border border-white/10 bg-white/[0.04] p-6',
+        'rounded-3xl border border-foreground/10 bg-foreground/[0.04] p-6',
         className,
       )}
     >

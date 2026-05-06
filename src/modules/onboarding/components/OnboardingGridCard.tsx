@@ -1,6 +1,7 @@
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 
@@ -24,9 +25,10 @@ export function OnboardingGridCard({
 
   const cardInner = (
     <View
-      className={`justify-center rounded-xl p-3.5 ${
-        selected ? 'bg-surface' : 'bg-foreground/5'
-      }`}
+      className={clsx(
+        'justify-center rounded-xl p-3.5',
+        selected ? 'bg-surface' : 'bg-foreground/5',
+      )}
       style={{ minHeight: height }}
     >
       <MaterialIcons

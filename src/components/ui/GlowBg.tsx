@@ -1,4 +1,5 @@
 import { colors } from '@/constants/colors';
+import { clsx } from 'clsx';
 import { memo } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import Svg, {
@@ -43,7 +44,7 @@ export const GlowBg = memo(function GlowBg({
   const cy = height * centerYFraction;
 
   return (
-    <View className={`absolute inset-0 ${bgClassName}`}>
+    <View className={clsx('absolute inset-0', bgClassName)}>
       {intensity > 0 && (
         <Svg width={width} height={height} style={StyleSheet.absoluteFill}>
           <Defs>

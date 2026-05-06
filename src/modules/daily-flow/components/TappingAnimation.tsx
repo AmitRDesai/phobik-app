@@ -48,7 +48,7 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
         <Text className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-pink">
           {point.phaseLabel}
         </Text>
-        <Text className="mt-1 text-3xl font-black tracking-tight text-white">
+        <Text className="mt-1 text-3xl font-black tracking-tight text-foreground">
           {point.name}
         </Text>
       </View>
@@ -59,7 +59,7 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
             h: e.nativeEvent.layout.height,
           })
         }
-        className="overflow-hidden rounded-3xl border border-white/10 bg-card-dark"
+        className="overflow-hidden rounded-3xl border border-foreground/10 bg-surface-elevated"
         style={{ aspectRatio: 4 / 5 }}
       >
         <Animated.View
@@ -92,15 +92,15 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
           : null}
       </View>
 
-      <View className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
-        <Text className="text-xs font-bold uppercase tracking-widest text-white/50">
+      <View className="mt-4 rounded-2xl border border-foreground/10 bg-foreground/5 p-4">
+        <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
           Instruction
         </Text>
-        <Text className="mt-1 text-base font-bold text-white">
+        <Text className="mt-1 text-base font-bold text-foreground">
           {point.description}
         </Text>
-        <View className="my-3 h-px w-full bg-white/10" />
-        <Text className="text-xs font-bold uppercase tracking-widest text-white/50">
+        <View className="my-3 h-px w-full bg-foreground/10" />
+        <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
           Benefit
         </Text>
         <Text className="mt-1 text-sm italic text-primary-pink">

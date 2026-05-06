@@ -142,9 +142,7 @@ export default function SignInScreen() {
       scrollViewProps={{ keyboardDismissMode: 'interactive' }}
     >
       {/* Avatar / Aura Section */}
-      <View
-        className={`relative items-center pb-8 ${Platform.OS === 'android' ? 'pt-10' : 'pt-16'}`}
-      >
+      <View className="android:pt-10 ios:pt-16 relative items-center pb-8">
         {/* Pink glow behind avatar */}
         <View
           className="absolute top-[30px] h-[280px] w-[280px] rounded-[140px] bg-primary-pink opacity-[0.08]"

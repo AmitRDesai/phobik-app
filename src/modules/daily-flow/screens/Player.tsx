@@ -1,6 +1,7 @@
-import { GlowBg } from '@/components/ui/GlowBg';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
-import { colors } from '@/constants/colors';
+import { Screen } from '@/components/ui/Screen';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -29,6 +30,8 @@ function formatTime(seconds: number) {
 
 export default function Player() {
   const router = useRouter();
+  const scheme = useScheme();
+  const transportIcon = foregroundFor(scheme, 0.5);
   const { session, isLoading } = useActiveDailyFlowSession();
   const updateSession = useUpdateDailyFlowSession();
   const [playing, setPlaying] = useState(true);
@@ -71,48 +74,31 @@ export default function Player() {
   };
 
   return (
-    <View className="flex-1">
-      <GlowBg
-        bgClassName="bg-background-charcoal"
-        centerY={0.38}
-        intensity={0.6}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.purple}
-      />
-      <DailyFlowHeader wordmark />
-
+    <Screen variant="default" header={<DailyFlowHeader wordmark />}>
       <View className="flex-1 items-center justify-center px-6">
         <PlayerOrb cue={BREATH_CUES[breathIndex] ?? 'Inhale'} />
 
         {session.intention ? (
-          <Text className="mt-10 px-2 text-center text-2xl font-light italic leading-9 tracking-tight text-white/60">
+          <Text className="mt-10 px-2 text-center text-2xl font-light italic leading-9 tracking-tight text-foreground/60">
             &ldquo;{session.intention}&rdquo;
           </Text>
         ) : null}
       </View>
 
       <View className="gap-8 px-8 pb-10">
-        <View className="h-[2px] w-full overflow-hidden rounded-full bg-white/10">
+        <View className="h-[2px] w-full overflow-hidden rounded-full bg-foreground/10">
           <DailyFlowProgressBar progress={progress} />
         </View>
 
         <View className="flex-row items-center justify-between px-2">
           <Pressable className="p-2">
-            <MaterialIcons
-              name="fast-rewind"
-              size={28}
-              color="rgba(255,255,255,0.5)"
-            />
+            <MaterialIcons name="fast-rewind" size={28} color={transportIcon} />
           </Pressable>
 
           <Pressable
             onPress={() => setPlaying((p) => !p)}
             style={{
-              shadowColor: colors.primary.pink,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.5,
-              shadowRadius: 24,
-              elevation: 10,
+              boxShadow: `0 0 24px ${withAlpha(colors.primary.pink, 0.5)}`,
             }}
           >
             <LinearGradient
@@ -139,15 +125,15 @@ export default function Player() {
             <MaterialIcons
               name="fast-forward"
               size={28}
-              color="rgba(255,255,255,0.5)"
+              color={transportIcon}
             />
           </Pressable>
         </View>
 
-        <Text className="text-center text-[10px] font-bold uppercase tracking-[0.3em] text-white/45">
+        <Text className="text-center text-[10px] font-bold uppercase tracking-[0.3em] text-foreground/45">
           Ritual: {option?.title ?? 'Session'} · {formatTime(elapsed)} left
         </Text>
       </View>
-    </View>
+    </Screen>
   );
 }

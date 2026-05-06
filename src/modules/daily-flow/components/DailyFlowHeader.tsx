@@ -1,4 +1,5 @@
-import { colors } from '@/constants/colors';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
@@ -53,6 +54,8 @@ export function DailyFlowHeader({
   onClose,
 }: Props) {
   const router = useRouter();
+  const scheme = useScheme();
+  const iconColor = foregroundFor(scheme, 1);
   const { session } = useActiveDailyFlowSession();
   const updateSession = useUpdateDailyFlowSession();
 
@@ -91,15 +94,15 @@ export function DailyFlowHeader({
   };
 
   return (
-    <View className="ios:pt-16 android:pt-10 px-4 pb-3">
+    <View className="px-4 pb-3 pt-2">
       <View className="h-10 flex-row items-center justify-between">
         <View className="w-10">
           {showBack && canGoBack ? (
             <Pressable
               onPress={handleBack}
-              className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
+              className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
             >
-              <MaterialIcons name="arrow-back" size={22} color="white" />
+              <MaterialIcons name="arrow-back" size={22} color={iconColor} />
             </Pressable>
           ) : null}
         </View>
@@ -108,13 +111,13 @@ export function DailyFlowHeader({
             <WordmarkText />
           ) : title ? (
             <Text
-              className="text-base font-bold tracking-tight text-white"
+              className="text-base font-bold tracking-tight text-foreground"
               numberOfLines={1}
             >
               {title}
             </Text>
           ) : step ? (
-            <Text className="text-xs font-bold uppercase tracking-widest text-white/50">
+            <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
               {step}
             </Text>
           ) : null}
@@ -123,9 +126,9 @@ export function DailyFlowHeader({
           {showClose ? (
             <Pressable
               onPress={handleClose}
-              className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5"
+              className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
             >
-              <MaterialIcons name="close" size={20} color="white" />
+              <MaterialIcons name="close" size={20} color={iconColor} />
             </Pressable>
           ) : null}
         </View>

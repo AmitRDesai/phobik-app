@@ -97,5 +97,5 @@ export default function ResumeDispatcher() {
     })();
   }, [userId, router]);
 
-  return <View className="flex-1 bg-background-charcoal" />;
+  return <View className="flex-1 bg-surface" />;
 }

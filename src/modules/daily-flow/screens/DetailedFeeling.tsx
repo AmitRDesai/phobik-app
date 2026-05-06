@@ -1,5 +1,5 @@
-import { GlowBg } from '@/components/ui/GlowBg';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
+import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
 import { FloatingMapper } from '@/modules/micro-challenges/components/FloatingMapper';
 import { EMOTIONS } from '@/modules/micro-challenges/data/emotions';
@@ -56,33 +56,24 @@ export default function DetailedFeeling() {
   };
 
   return (
-    <View className="flex-1">
-      <GlowBg
-        bgClassName="bg-background-charcoal"
-        centerY={0.3}
-        intensity={0.4}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-      />
-      <DailyFlowHeader wordmark />
-
+    <Screen variant="default" header={<DailyFlowHeader wordmark />}>
       <View className="px-6">
         <View className="flex-row items-end justify-between">
           <View className="flex-1">
             <Text className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary-pink">
               Step 02
             </Text>
-            <Text className="mt-2 text-3xl font-black leading-tight tracking-tight text-white">
+            <Text className="mt-2 text-3xl font-black leading-tight tracking-tight text-foreground">
               Choose how you
             </Text>
             <View className="flex-row flex-wrap items-baseline">
-              <Text className="text-3xl font-black leading-tight tracking-tight text-white">
+              <Text className="text-3xl font-black leading-tight tracking-tight text-foreground">
                 want to{' '}
               </Text>
               <GradientWord text="feel" />
             </View>
           </View>
-          <Text className="pb-1 text-xs text-white/55">25% Complete</Text>
+          <Text className="pb-1 text-xs text-foreground/55">25% Complete</Text>
         </View>
 
         <View className="mt-4">
@@ -106,6 +97,6 @@ export default function DetailedFeeling() {
         promptText="We will guide your body there."
         confirmLabel="Confirm Feeling"
       />
-    </View>
+    </Screen>
   );
 }

@@ -1,7 +1,7 @@
-import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
-import { colors } from '@/constants/colors';
+import { Screen } from '@/components/ui/Screen';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { clsx } from 'clsx';
@@ -99,16 +99,23 @@ export default function Intention() {
   };
 
   return (
-    <View className="flex-1">
-      <GlowBg
-        bgClassName="bg-background-charcoal"
-        centerY={0.25}
-        intensity={0.4}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-      />
-      <DailyFlowHeader wordmark />
-
+    <Screen
+      variant="default"
+      header={<DailyFlowHeader wordmark />}
+      sticky={
+        <View className="items-center">
+          <GradientButton
+            onPress={handleContinue}
+            loading={updateSession.isPending}
+          >
+            Next
+          </GradientButton>
+          <Text className="mt-4 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/45">
+            Swipe to choose your anchor
+          </Text>
+        </View>
+      }
+    >
       <View className="px-6">
         <View className="flex-row items-end justify-between">
           <View className="flex-1">
@@ -116,20 +123,20 @@ export default function Intention() {
               Step 01
             </Text>
             <View className="mt-2 flex-row flex-wrap items-baseline">
-              <Text className="text-3xl font-black leading-tight tracking-tight text-white">
+              <Text className="text-3xl font-black leading-tight tracking-tight text-foreground">
                 Start with your{' '}
               </Text>
               <GradientWord text="intention" />
             </View>
           </View>
-          <Text className="pb-1 text-xs text-white/55">0% Complete</Text>
+          <Text className="pb-1 text-xs text-foreground/55">0% Complete</Text>
         </View>
 
         <View className="mt-4">
           <DailyFlowProgressBar progress={0.02} />
         </View>
 
-        <Text className="mt-5 text-base leading-6 text-white/65">
+        <Text className="mt-5 text-base leading-6 text-foreground/65">
           Hold this in your mind as you begin your shift.
         </Text>
       </View>
@@ -148,19 +155,7 @@ export default function Intention() {
           renderItem={renderItem}
         />
       </View>
-
-      <View className="items-center px-6 pb-8">
-        <GradientButton
-          onPress={handleContinue}
-          loading={updateSession.isPending}
-        >
-          Next
-        </GradientButton>
-        <Text className="mt-4 text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">
-          Swipe to choose your anchor
-        </Text>
-      </View>
-    </View>
+    </Screen>
   );
 }
 
@@ -187,16 +182,15 @@ function IntentionCard({
       style={{
         width,
         height,
-        shadowColor: active ? colors.primary.pink : 'transparent',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: active ? 0.4 : 0,
-        shadowRadius: 30,
+        boxShadow: active
+          ? `0 0 30px ${withAlpha(colors.primary.pink, 0.4)}`
+          : undefined,
       }}
       className={clsx(
         'relative justify-end overflow-hidden rounded-3xl p-10',
         active
-          ? 'border-2 border-primary-pink/60 bg-white/[0.06]'
-          : 'border border-white/10 bg-white/[0.02]',
+          ? 'border-2 border-primary-pink/60 bg-foreground/[0.06]'
+          : 'border border-foreground/10 bg-foreground/[0.02]',
       )}
     >
       <View className="absolute right-6 top-6" pointerEvents="none">
@@ -209,7 +203,7 @@ function IntentionCard({
       </View>
 
       {active ? (
-        <Pressable className="absolute right-6 top-6 h-10 w-10 items-center justify-center rounded-full bg-white/[0.08]">
+        <Pressable className="absolute right-6 top-6 h-10 w-10 items-center justify-center rounded-full bg-foreground/[0.08]">
           <MaterialIcons name="refresh" size={18} color={colors.primary.pink} />
         </Pressable>
       ) : null}
@@ -217,7 +211,7 @@ function IntentionCard({
       <Text
         className={clsx(
           'text-3xl font-bold leading-tight tracking-tight',
-          active ? 'text-white' : 'text-white/50',
+          active ? 'text-foreground' : 'text-foreground/50',
         )}
       >
         {item.text}
@@ -232,7 +226,7 @@ function IntentionCard({
             style={{ flex: 1 }}
           />
         ) : (
-          <View className="h-full w-full bg-white/15" />
+          <View className="h-full w-full bg-foreground/15" />
         )}
       </View>
     </Pressable>

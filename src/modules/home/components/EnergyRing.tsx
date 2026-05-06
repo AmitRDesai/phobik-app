@@ -1,5 +1,6 @@
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
+import { clsx } from 'clsx';
 import { Text, View } from 'react-native';
 import Svg, {
   Circle,
@@ -72,7 +73,10 @@ export function EnergyRing({
       </Svg>
       <View className="absolute items-center">
         <Text
-          className={`${value !== null ? 'text-5xl' : 'text-3xl'} font-black text-foreground`}
+          className={clsx(
+            value !== null ? 'text-5xl' : 'text-3xl',
+            'font-black text-foreground',
+          )}
           style={{
             textShadowColor: withAlpha(colors.primary.pink, 0.5),
             textShadowOffset: { width: 0, height: 0 },

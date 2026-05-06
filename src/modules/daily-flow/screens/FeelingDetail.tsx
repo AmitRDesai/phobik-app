@@ -1,11 +1,14 @@
-import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
-import { colors } from '@/constants/colors';
+import { Screen } from '@/components/ui/Screen';
+import { variantConfig } from '@/components/variant-config';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import {
@@ -25,14 +28,19 @@ import {
   useUpdateDailyFlowSession,
 } from '../hooks/useDailyFlowSession';
 
-const ACCENT_COLORS: Record<AccentToken, string> = {
-  primary: colors.primary.pink,
-  secondary: colors.accent.yellow,
-  tertiary: colors.accent.purple,
-};
+function useAccentColors(): Record<AccentToken, string> {
+  const scheme = useScheme();
+  return {
+    primary: colors.primary.pink,
+    secondary: accentFor(scheme, 'yellow'),
+    tertiary: colors.accent.purple,
+  };
+}
 
 export default function FeelingDetail() {
   const router = useRouter();
+  const scheme = useScheme();
+  const accents = useAccentColors();
   const params = useLocalSearchParams<{ feelingId?: string }>();
   const { session, isLoading } = useActiveDailyFlowSession();
   const updateSession = useUpdateDailyFlowSession();
@@ -44,8 +52,6 @@ export default function FeelingDetail() {
 
   if (isLoading || !session || !feeling) return <LoadingScreen />;
 
-  const accent = ACCENT_COLORS[feeling.accentToken];
-
   const handleContinue = async () => {
     await updateSession.mutateAsync({
       id: session.id,
@@ -55,84 +61,86 @@ export default function FeelingDetail() {
   };
 
   return (
-    <View className="flex-1">
-      <GlowBg
-        bgClassName="bg-background-charcoal"
-        centerY={0.18}
-        intensity={0.5}
-        startColor={accent}
-        endColor={colors.accent.yellow}
-      />
-      <DailyFlowHeader wordmark />
-      <ScrollView
-        contentContainerClassName="px-6 pb-10"
-        showsVerticalScrollIndicator={false}
-      >
-        <Hero feeling={feeling} />
+    <Screen
+      variant="default"
+      scroll
+      header={<DailyFlowHeader wordmark />}
+      className="px-6"
+    >
+      <Hero feeling={feeling} accents={accents} />
 
-        {feeling.actionItemStyle === 'bento' ? (
-          <BigQuoteCard feeling={feeling} />
-        ) : (
-          <InsightCard feeling={feeling} />
-        )}
+      {feeling.actionItemStyle === 'bento' ? (
+        <BigQuoteCard feeling={feeling} />
+      ) : (
+        <InsightCard feeling={feeling} accents={accents} />
+      )}
 
-        {feeling.actionItemStyle === 'bento' ? (
-          <BentoGrid items={feeling.actionItems} />
+      {feeling.actionItemStyle === 'bento' ? (
+        <BentoGrid items={feeling.actionItems} accents={accents} />
+      ) : null}
+
+      {feeling.actionItemStyle === 'bento-tall' ? (
+        <BentoTallGrid items={feeling.actionItems} accents={accents} />
+      ) : null}
+
+      {feeling.actionItemStyle === 'compact' &&
+      feeling.actionItems.length > 0 &&
+      feeling.insightLabel ? (
+        <CompactActionList
+          items={feeling.actionItems}
+          label={feeling.actionsLabel}
+        />
+      ) : null}
+
+      {feeling.visualAnchor ? (
+        <VisualAnchorCard
+          anchor={feeling.visualAnchor}
+          yellow={accents.secondary}
+        />
+      ) : null}
+
+      {feeling.visualFocus ? (
+        <VisualFocusCard focus={feeling.visualFocus} />
+      ) : null}
+
+      {feeling.visualCloud ? (
+        <VisualCloudCard cloud={feeling.visualCloud} />
+      ) : null}
+
+      {feeling.visualEthereal ? (
+        <VisualEtherealCard
+          ethereal={feeling.visualEthereal}
+          variantBg={variantConfig.default[scheme].bgHex}
+        />
+      ) : null}
+
+      <View className="mt-8 items-center">
+        <GradientButton
+          onPress={handleContinue}
+          loading={updateSession.isPending}
+        >
+          Continue
+        </GradientButton>
+        {feeling.ctaSubtitle ? (
+          <Text className="mt-4 text-sm font-medium text-foreground/50">
+            {feeling.ctaSubtitle}
+          </Text>
         ) : null}
+      </View>
 
-        {feeling.actionItemStyle === 'bento-tall' ? (
-          <BentoTallGrid items={feeling.actionItems} />
-        ) : null}
-
-        {feeling.actionItemStyle === 'compact' &&
-        feeling.actionItems.length > 0 &&
-        feeling.insightLabel ? (
-          <CompactActionList
-            items={feeling.actionItems}
-            label={feeling.actionsLabel}
-          />
-        ) : null}
-
-        {feeling.visualAnchor ? (
-          <VisualAnchorCard anchor={feeling.visualAnchor} />
-        ) : null}
-
-        {feeling.visualFocus ? (
-          <VisualFocusCard focus={feeling.visualFocus} />
-        ) : null}
-
-        {feeling.visualCloud ? (
-          <VisualCloudCard cloud={feeling.visualCloud} />
-        ) : null}
-
-        {feeling.visualEthereal ? (
-          <VisualEtherealCard ethereal={feeling.visualEthereal} />
-        ) : null}
-
-        <View className="mt-8 items-center">
-          <GradientButton
-            onPress={handleContinue}
-            loading={updateSession.isPending}
-          >
-            Continue
-          </GradientButton>
-          {feeling.ctaSubtitle ? (
-            <Text className="mt-4 text-sm font-medium text-white/50">
-              {feeling.ctaSubtitle}
-            </Text>
-          ) : null}
-        </View>
-
-        {feeling.mindfulCard ? (
-          <MindfulCard card={feeling.mindfulCard} />
-        ) : null}
-      </ScrollView>
-    </View>
+      {feeling.mindfulCard ? <MindfulCard card={feeling.mindfulCard} /> : null}
+    </Screen>
   );
 }
 
-function Hero({ feeling }: { feeling: FeelingContent }) {
-  const subtitleColor = ACCENT_COLORS[feeling.subtitleColor];
+function Hero({
+  feeling,
+  accents,
+}: {
+  feeling: FeelingContent;
+  accents: Record<AccentToken, string>;
+}) {
+  const subtitleColor = accents[feeling.subtitleColor];
   const showCategory = feeling.showCategoryLabel !== false;
   return (
     <View className="mb-6 mt-2">
@@ -151,7 +159,10 @@ function Hero({ feeling }: { feeling: FeelingContent }) {
         </View>
       ) : null}
       <Text
-        className={`${showCategory ? 'mt-4' : ''} text-[64px] font-black leading-[0.95] tracking-tight text-white`}
+        className={clsx(
+          'text-[64px] font-black leading-[0.95] tracking-tight text-foreground',
+          showCategory && 'mt-4',
+        )}
         adjustsFontSizeToFit
         numberOfLines={1}
       >
@@ -170,32 +181,38 @@ function Hero({ feeling }: { feeling: FeelingContent }) {
   );
 }
 
-function InsightCard({ feeling }: { feeling: FeelingContent }) {
-  const accent = ACCENT_COLORS[feeling.accentToken];
+function InsightCard({
+  feeling,
+  accents,
+}: {
+  feeling: FeelingContent;
+  accents: Record<AccentToken, string>;
+}) {
+  const accent = accents[feeling.accentToken];
   const style = feeling.emphasisStyle ?? 'split-muted';
   return (
-    <View className="overflow-hidden rounded-3xl border border-white/5 bg-white/[0.04] p-7">
+    <View className="overflow-hidden rounded-3xl border border-foreground/5 bg-foreground/[0.04] p-7">
       {feeling.insightLabel ? (
-        <Text className="mb-4 text-[11px] font-bold uppercase tracking-[0.25em] text-white/55">
+        <Text className="mb-4 text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/55">
           {feeling.insightLabel}
         </Text>
       ) : null}
 
       {style === 'continuous-bold' ? (
-        <Text className="text-2xl font-bold leading-[1.3] text-white">
+        <Text className="text-2xl font-bold leading-[1.3] text-foreground">
           {feeling.descriptionLead}
           {feeling.descriptionEmphasis}
         </Text>
       ) : style === 'plain' ? (
-        <Text className="text-xl leading-relaxed text-white/70">
+        <Text className="text-xl leading-relaxed text-foreground/70">
           {feeling.descriptionLead}
           {feeling.descriptionEmphasis}
         </Text>
       ) : (
         <>
-          <Text className="text-lg leading-7 text-white/70">
+          <Text className="text-lg leading-7 text-foreground/70">
             {feeling.descriptionLead}
-            <Text className="font-semibold text-white">
+            <Text className="font-semibold text-foreground">
               {feeling.descriptionEmphasis}
             </Text>
           </Text>
@@ -230,7 +247,7 @@ function CompactActionList({
   return (
     <View className="mt-8">
       {label ? (
-        <Text className="mb-3 ml-1 text-[11px] font-bold uppercase tracking-[0.25em] text-white/55">
+        <Text className="mb-3 ml-1 text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/55">
           {label}
         </Text>
       ) : null}
@@ -238,16 +255,16 @@ function CompactActionList({
         {items.map((item) => (
           <View
             key={item.label}
-            className="flex-row items-center gap-4 rounded-2xl border border-white/5 bg-white/[0.04] p-5"
+            className="flex-row items-center gap-4 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-5"
           >
-            <View className="h-12 w-12 items-center justify-center rounded-full bg-white/[0.06]">
+            <View className="h-12 w-12 items-center justify-center rounded-full bg-foreground/[0.06]">
               <MaterialIcons
                 name={item.icon as keyof typeof MaterialIcons.glyphMap}
                 size={22}
                 color={colors.primary.pink}
               />
             </View>
-            <Text className="flex-1 text-base font-medium text-white">
+            <Text className="flex-1 text-base font-medium text-foreground">
               {item.label}
               {item.labelItalic ? (
                 <Text className="italic" style={{ color: colors.primary.pink }}>
@@ -272,14 +289,14 @@ function CompactActionRow({
 }) {
   return (
     <View className="flex-row items-center gap-4">
-      <View className="h-10 w-10 items-center justify-center rounded-full bg-white/[0.06]">
+      <View className="h-10 w-10 items-center justify-center rounded-full bg-foreground/[0.06]">
         <MaterialIcons
           name={item.icon as keyof typeof MaterialIcons.glyphMap}
           size={20}
           color={accent}
         />
       </View>
-      <Text className="flex-1 text-base font-medium text-white">
+      <Text className="flex-1 text-base font-medium text-foreground">
         {item.label}
       </Text>
     </View>
@@ -288,9 +305,9 @@ function CompactActionRow({
 
 function BigQuoteCard({ feeling }: { feeling: FeelingContent }) {
   return (
-    <View className="overflow-hidden rounded-3xl border border-white/5 bg-white/[0.04] p-8">
+    <View className="overflow-hidden rounded-3xl border border-foreground/5 bg-foreground/[0.04] p-8">
       <LinearGradient
-        colors={['rgba(255,215,9,0.08)', 'transparent']}
+        colors={[withAlpha(colors.accent.yellow, 0.08), 'transparent']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={{
@@ -301,10 +318,10 @@ function BigQuoteCard({ feeling }: { feeling: FeelingContent }) {
           bottom: 0,
         }}
       />
-      <Text className="text-[26px] font-bold leading-[1.25] text-white">
+      <Text className="text-[26px] font-bold leading-[1.25] text-foreground">
         {feeling.descriptionLead}
         {'\n'}
-        <Text className="font-normal text-white/60">
+        <Text className="font-normal text-foreground/60">
           {feeling.descriptionEmphasis}
         </Text>
       </Text>
@@ -312,32 +329,44 @@ function BigQuoteCard({ feeling }: { feeling: FeelingContent }) {
   );
 }
 
-function BentoGrid({ items }: { items: FeelingActionItem[] }) {
+function BentoGrid({
+  items,
+  accents,
+}: {
+  items: FeelingActionItem[];
+  accents: Record<AccentToken, string>;
+}) {
   return (
     <View className="mt-4 gap-3">
       {items.map((item) => (
-        <BentoCard key={item.label} item={item} />
+        <BentoCard key={item.label} item={item} accents={accents} />
       ))}
     </View>
   );
 }
 
-function BentoTallGrid({ items }: { items: FeelingActionItem[] }) {
+function BentoTallGrid({
+  items,
+  accents,
+}: {
+  items: FeelingActionItem[];
+  accents: Record<AccentToken, string>;
+}) {
   return (
     <View className="mt-4 gap-3">
       {items.map((item) => {
-        const accent = ACCENT_COLORS[item.accent ?? 'primary'];
+        const accent = accents[item.accent ?? 'primary'];
         return (
           <View
             key={item.label}
-            className="h-40 justify-between rounded-2xl bg-white/[0.04] p-6"
+            className="h-40 justify-between rounded-2xl bg-foreground/[0.04] p-6"
           >
             <MaterialIcons
               name={item.icon as keyof typeof MaterialIcons.glyphMap}
               size={28}
               color={accent}
             />
-            <Text className="text-lg font-bold leading-tight text-white">
+            <Text className="text-lg font-bold leading-tight text-foreground">
               {item.label}
             </Text>
           </View>
@@ -347,10 +376,16 @@ function BentoTallGrid({ items }: { items: FeelingActionItem[] }) {
   );
 }
 
-function VisualEtherealCard({ ethereal }: { ethereal: VisualEthereal }) {
+function VisualEtherealCard({
+  ethereal,
+  variantBg,
+}: {
+  ethereal: VisualEthereal;
+  variantBg: string;
+}) {
   return (
     <View
-      className="mt-8 w-full overflow-hidden rounded-3xl border border-white/5 bg-white/[0.03]"
+      className="mt-8 w-full overflow-hidden rounded-3xl border border-foreground/5 bg-foreground/[0.03]"
       style={{ aspectRatio: 4 / 5 }}
     >
       <Image
@@ -386,7 +421,10 @@ function VisualEtherealCard({ ethereal }: { ethereal: VisualEthereal }) {
             padding: 2,
           }}
         >
-          <View className="h-full w-full items-center justify-center rounded-full bg-background-charcoal">
+          <View
+            className="h-full w-full items-center justify-center rounded-full"
+            style={{ backgroundColor: variantBg }}
+          >
             <MaterialIcons
               name={ethereal.icon as keyof typeof MaterialIcons.glyphMap}
               size={36}
@@ -394,7 +432,7 @@ function VisualEtherealCard({ ethereal }: { ethereal: VisualEthereal }) {
             />
           </View>
         </LinearGradient>
-        <Text className="mt-8 text-center text-lg italic leading-7 text-white/90">
+        <Text className="mt-8 text-center text-lg italic leading-7 text-foreground/90">
           &ldquo;{ethereal.quote}&rdquo;
         </Text>
       </View>
@@ -428,13 +466,19 @@ function VisualCloudCard({ cloud }: { cloud: VisualCloud }) {
   );
 }
 
-function BentoCard({ item }: { item: FeelingActionItem }) {
-  const accent = ACCENT_COLORS[item.accent ?? 'primary'];
+function BentoCard({
+  item,
+  accents,
+}: {
+  item: FeelingActionItem;
+  accents: Record<AccentToken, string>;
+}) {
+  const accent = accents[item.accent ?? 'primary'];
   if (item.fullWidth) {
     return (
       <View
-        className="overflow-hidden rounded-2xl border-l-4 bg-white/[0.04] p-6"
-        style={{ borderLeftColor: `${accent}66` }}
+        className="overflow-hidden rounded-2xl border-l-4 bg-foreground/[0.04] p-6"
+        style={{ borderLeftColor: withAlpha(accent, 0.4) }}
       >
         <View className="flex-row items-center gap-4">
           <MaterialIcons
@@ -443,11 +487,11 @@ function BentoCard({ item }: { item: FeelingActionItem }) {
             color={accent}
           />
           <View className="flex-1">
-            <Text className="text-lg font-bold text-white">
+            <Text className="text-lg font-bold text-foreground">
               {item.title ?? item.label}
             </Text>
             {item.description ? (
-              <Text className="mt-1 text-sm text-white/60">
+              <Text className="mt-1 text-sm text-foreground/60">
                 {item.description}
               </Text>
             ) : null}
@@ -457,23 +501,31 @@ function BentoCard({ item }: { item: FeelingActionItem }) {
     );
   }
   return (
-    <View className="rounded-2xl bg-white/[0.04] p-6">
+    <View className="rounded-2xl bg-foreground/[0.04] p-6">
       <MaterialIcons
         name={item.icon as keyof typeof MaterialIcons.glyphMap}
         size={26}
         color={accent}
       />
-      <Text className="mt-4 text-lg font-bold leading-tight text-white">
+      <Text className="mt-4 text-lg font-bold leading-tight text-foreground">
         {item.title ?? item.label}
       </Text>
       {item.description ? (
-        <Text className="mt-2 text-sm text-white/60">{item.description}</Text>
+        <Text className="mt-2 text-sm text-foreground/60">
+          {item.description}
+        </Text>
       ) : null}
     </View>
   );
 }
 
-function VisualAnchorCard({ anchor }: { anchor: VisualAnchor }) {
+function VisualAnchorCard({
+  anchor,
+  yellow,
+}: {
+  anchor: VisualAnchor;
+  yellow: string;
+}) {
   return (
     <View
       className="mt-8 w-full overflow-hidden rounded-3xl shadow-2xl"
@@ -497,7 +549,7 @@ function VisualAnchorCard({ anchor }: { anchor: VisualAnchor }) {
       <View className="absolute bottom-5 left-6">
         <Text
           className="text-[10px] font-black uppercase tracking-[0.25em]"
-          style={{ color: colors.accent.yellow }}
+          style={{ color: yellow }}
         >
           {anchor.label}
         </Text>
@@ -511,7 +563,7 @@ function VisualAnchorCard({ anchor }: { anchor: VisualAnchor }) {
 
 function VisualFocusCard({ focus }: { focus: VisualFocus }) {
   return (
-    <View className="mt-8 w-full overflow-hidden rounded-3xl border border-white/5 bg-white/[0.03] p-4">
+    <View className="mt-8 w-full overflow-hidden rounded-3xl border border-foreground/5 bg-foreground/[0.03] p-4">
       <View className="aspect-square w-full overflow-hidden rounded-2xl bg-black/50">
         <Image
           source={focus.image}
@@ -519,7 +571,7 @@ function VisualFocusCard({ focus }: { focus: VisualFocus }) {
           resizeMode="contain"
         />
       </View>
-      <Text className="mt-4 text-center text-sm leading-6 text-white/55">
+      <Text className="mt-4 text-center text-sm leading-6 text-foreground/55">
         {focus.caption}
       </Text>
     </View>
@@ -528,7 +580,7 @@ function VisualFocusCard({ focus }: { focus: VisualFocus }) {
 
 function MindfulCard({ card }: { card: MindfulCardContent }) {
   return (
-    <View className="mt-10 rounded-3xl border border-white/10 bg-white/[0.03] p-5">
+    <View className="mt-10 rounded-3xl border border-foreground/10 bg-foreground/[0.03] p-5">
       <View className="aspect-square w-full overflow-hidden rounded-2xl bg-black/40">
         <Image
           source={card.image}
@@ -536,7 +588,7 @@ function MindfulCard({ card }: { card: MindfulCardContent }) {
           resizeMode="contain"
         />
       </View>
-      <Text className="mt-4 text-center text-sm italic leading-6 text-white/65">
+      <Text className="mt-4 text-center text-sm italic leading-6 text-foreground/65">
         &ldquo;{card.quote}&rdquo;
       </Text>
     </View>

@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -49,15 +49,12 @@ export function SupportOptionCard({ option, selected, onPress }: Props) {
             ? 'border-primary-pink'
             : isBestMatch
               ? 'border-primary-pink/20'
-              : 'border-white/5',
+              : 'border-foreground/5',
         )}
         style={
           selected
             ? {
-                shadowColor: colors.primary.pink,
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.45,
-                shadowRadius: 20,
+                boxShadow: `0 0 20px ${withAlpha(colors.primary.pink, 0.45)}`,
               }
             : undefined
         }
@@ -117,6 +114,8 @@ export function SupportOptionCard({ option, selected, onPress }: Props) {
                 size={22}
                 color={isBestMatch ? colors.background.charcoal : 'white'}
               />
+              {/* Card sits on a saturated photo overlay — white-on-image is
+                  intentional and stays the same in light mode. */}
             </View>
           </View>
         </View>

@@ -76,7 +76,10 @@ export function GradientButton({
             <View className="flex-row items-center justify-center gap-2">
               {prefixIcon}
               <Text
-                className={`text-center font-bold text-white ${compact ? 'text-[10px] uppercase tracking-wider' : 'text-lg'}`}
+                className={clsx(
+                  'text-center font-bold text-white',
+                  compact ? 'text-[10px] uppercase tracking-wider' : 'text-lg',
+                )}
               >
                 {children}
               </Text>

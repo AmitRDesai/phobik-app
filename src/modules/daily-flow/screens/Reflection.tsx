@@ -1,13 +1,20 @@
-import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
-import { colors } from '@/constants/colors';
+import { Screen } from '@/components/ui/Screen';
+import { variantConfig } from '@/components/variant-config';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
@@ -22,7 +29,7 @@ type Option = {
   id: ReflectionAnswer;
   icon: keyof typeof MaterialIcons.glyphMap;
   label: string;
-  color: string;
+  accent: 'pink' | 'yellow' | 'neutral' | 'danger';
 };
 
 const OPTIONS: Option[] = [
@@ -30,35 +37,39 @@ const OPTIONS: Option[] = [
     id: 'more_steady',
     icon: 'water-drop',
     label: 'More steady',
-    color: colors.primary.pink,
+    accent: 'pink',
   },
   {
     id: 'a_little_better',
     icon: 'wb-sunny',
     label: 'A little better',
-    color: colors.accent.yellow,
+    accent: 'yellow',
   },
-  {
-    id: 'same',
-    icon: 'drag-handle',
-    label: 'Same',
-    color: 'rgba(255,255,255,0.55)',
-  },
+  { id: 'same', icon: 'drag-handle', label: 'Same', accent: 'neutral' },
   {
     id: 'need_reset',
     icon: 'replay',
     label: 'Need another reset',
-    color: colors.status.danger,
+    accent: 'danger',
   },
 ];
 
 export default function Reflection() {
   const router = useRouter();
+  const scheme = useScheme();
+  const variantBg = variantConfig.default[scheme].bgHex;
   const { session, isLoading } = useActiveDailyFlowSession();
   const complete = useCompleteDailyFlowSession();
   const [selected, setSelected] = useState<ReflectionAnswer | null>(null);
 
   if (isLoading || !session) return <LoadingScreen />;
+
+  const optionColor = (a: Option['accent']): string => {
+    if (a === 'pink') return colors.primary.pink;
+    if (a === 'yellow') return accentFor(scheme, 'yellow');
+    if (a === 'danger') return colors.status.danger;
+    return foregroundFor(scheme, 0.55);
+  };
 
   const handleFinish = async () => {
     if (!selected) return;
@@ -67,114 +78,17 @@ export default function Reflection() {
   };
 
   return (
-    <View className="flex-1">
-      <GlowBg
-        bgClassName="bg-background-charcoal"
-        centerY={0.18}
-        intensity={0.5}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-      />
-      <DailyFlowHeader
-        wordmark
-        showBack={false}
-        onClose={() => exitDailyFlow(router)}
-      />
-
-      <ScrollView
-        contentContainerClassName="px-6 pb-8"
-        showsVerticalScrollIndicator={false}
-      >
-        <View className="mt-4 items-center">
-          <View
-            className="h-24 w-24 rounded-full p-[2px]"
-            style={{
-              shadowColor: colors.primary.pink,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.45,
-              shadowRadius: 25,
-            }}
-          >
-            <LinearGradient
-              colors={[colors.primary.pink, colors.accent.yellow]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: 999,
-                padding: 2,
-              }}
-            >
-              <View className="h-full w-full items-center justify-center rounded-full bg-background-charcoal">
-                <MaterialIcons
-                  name="auto-awesome"
-                  size={32}
-                  color={colors.accent.yellow}
-                />
-              </View>
-            </LinearGradient>
-          </View>
-
-          <Text className="mt-7 text-4xl font-black tracking-tight text-white">
-            Session Complete
-          </Text>
-          <Text className="mt-3 max-w-xs text-center text-sm leading-5 text-white/60">
-            You&rsquo;ve dedicated 10 minutes to your internal landscape. Notice
-            the stillness.
-          </Text>
-        </View>
-
-        <View className="mt-10">
-          <DailyFlowProgressBar progress={1} />
-        </View>
-
-        <View className="mt-12">
-          <Text className="text-2xl font-bold tracking-tight text-white">
-            How do you feel now?
-          </Text>
-          <View className="mt-2 h-1 w-12 rounded-full bg-primary-pink" />
-        </View>
-
-        <View className="mt-6 gap-3">
-          {OPTIONS.map((option) => {
-            const active = selected === option.id;
-            return (
-              <Pressable
-                key={option.id}
-                onPress={() => setSelected(option.id)}
-                className={clsx(
-                  'flex-row items-center gap-4 rounded-2xl border p-5',
-                  active
-                    ? 'border-white/30 bg-white/[0.08]'
-                    : 'border-white/5 bg-white/[0.04]',
-                )}
-                style={
-                  active
-                    ? {
-                        shadowColor: option.color,
-                        shadowOffset: { width: 0, height: 0 },
-                        shadowOpacity: 0.4,
-                        shadowRadius: 14,
-                      }
-                    : undefined
-                }
-              >
-                <MaterialIcons
-                  name={option.icon}
-                  size={24}
-                  color={option.color}
-                />
-                <Text className="text-lg font-bold text-white">
-                  {option.label}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
-      </ScrollView>
-
-      <View className="px-6 pb-8">
+    <Screen
+      variant="default"
+      scroll
+      header={
+        <DailyFlowHeader
+          wordmark
+          showBack={false}
+          onClose={() => exitDailyFlow(router)}
+        />
+      }
+      sticky={
         <GradientButton
           onPress={handleFinish}
           disabled={!selected}
@@ -182,7 +96,88 @@ export default function Reflection() {
         >
           Back to Today
         </GradientButton>
+      }
+      className="px-6"
+    >
+      <View className="mt-4 items-center">
+        <View
+          className="h-24 w-24 rounded-full p-[2px]"
+          style={{
+            boxShadow: `0 0 25px ${withAlpha(colors.primary.pink, 0.45)}`,
+          }}
+        >
+          <LinearGradient
+            colors={[colors.primary.pink, colors.accent.yellow]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{
+              width: '100%',
+              height: '100%',
+              borderRadius: 999,
+              padding: 2,
+            }}
+          >
+            <View
+              className="h-full w-full items-center justify-center rounded-full"
+              style={{ backgroundColor: variantBg }}
+            >
+              <MaterialIcons
+                name="auto-awesome"
+                size={32}
+                color={accentFor(scheme, 'yellow')}
+              />
+            </View>
+          </LinearGradient>
+        </View>
+
+        <Text className="mt-7 text-4xl font-black tracking-tight text-foreground">
+          Session Complete
+        </Text>
+        <Text className="mt-3 max-w-xs text-center text-sm leading-5 text-foreground/60">
+          You&rsquo;ve dedicated 10 minutes to your internal landscape. Notice
+          the stillness.
+        </Text>
       </View>
-    </View>
+
+      <View className="mt-10">
+        <DailyFlowProgressBar progress={1} />
+      </View>
+
+      <View className="mt-12">
+        <Text className="text-2xl font-bold tracking-tight text-foreground">
+          How do you feel now?
+        </Text>
+        <View className="mt-2 h-1 w-12 rounded-full bg-primary-pink" />
+      </View>
+
+      <View className="mt-6 gap-3">
+        {OPTIONS.map((option) => {
+          const active = selected === option.id;
+          const color = optionColor(option.accent);
+          return (
+            <Pressable
+              key={option.id}
+              onPress={() => setSelected(option.id)}
+              className={clsx(
+                'flex-row items-center gap-4 rounded-2xl border p-5',
+                active
+                  ? 'border-foreground/30 bg-foreground/[0.08]'
+                  : 'border-foreground/5 bg-foreground/[0.04]',
+              )}
+              style={
+                active
+                  ? { boxShadow: `0 0 14px ${withAlpha(color, 0.4)}` }
+                  : undefined
+              }
+            >
+              <MaterialIcons name={option.icon} size={24} color={color} />
+              <Text className="text-lg font-bold text-foreground">
+                {option.label}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+    </Screen>
   );
 }

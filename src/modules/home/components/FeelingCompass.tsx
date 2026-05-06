@@ -1,6 +1,7 @@
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -141,7 +142,10 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
         }}
       >
         <Text
-          className={`text-[10px] font-bold uppercase tracking-widest ${selected ? 'text-primary-pink' : 'text-foreground/50'}`}
+          className={clsx(
+            'text-[10px] font-bold uppercase tracking-widest',
+            selected ? 'text-primary-pink' : 'text-foreground/50',
+          )}
         >
           Core
         </Text>
@@ -220,9 +224,10 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
               )}
             </Pressable>
             <Text
-              className={`mt-1 text-center text-[8px] font-semibold uppercase tracking-wider ${
-                isSelected ? 'text-foreground' : 'text-foreground/40'
-              }`}
+              className={clsx(
+                'mt-1 text-center text-[8px] font-semibold uppercase tracking-wider',
+                isSelected ? 'text-foreground' : 'text-foreground/40',
+              )}
             >
               {feeling.label}
             </Text>

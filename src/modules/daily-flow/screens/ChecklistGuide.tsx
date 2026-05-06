@@ -1,11 +1,11 @@
-import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
+import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { ScrollView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import {
@@ -74,67 +74,59 @@ export default function ChecklistGuide() {
   };
 
   return (
-    <View className="flex-1">
-      <GlowBg
-        bgClassName="bg-background-charcoal"
-        centerY={0.15}
-        intensity={0.35}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-      />
-      <DailyFlowHeader wordmark />
-      <ScrollView
-        contentContainerClassName="px-6 pb-10"
-        showsVerticalScrollIndicator={false}
-      >
-        <View className="mb-8 mt-2">
-          <View className="flex-row flex-wrap items-baseline">
-            <Text className="text-4xl font-black leading-tight tracking-tight text-white">
-              The Daily
-            </Text>
-            <GradientItalicFlow />
-          </View>
-          <Text className="text-4xl font-black leading-tight tracking-tight text-white">
-            Journey
-          </Text>
-          <Text className="mt-3 text-base leading-6 text-white/60">
-            Small daily shifts that realign your energy, focus, and direction.
-          </Text>
-        </View>
-
-        <View className="gap-4">
-          {STEPS.map((s, i) => (
-            <View
-              key={s.title}
-              className="rounded-2xl border border-white/5 bg-white/[0.04] p-6"
-            >
-              <View className="flex-row gap-5">
-                <View className="h-8 w-8 items-center justify-center rounded-full border-2 border-white/15">
-                  <Text className="text-sm font-bold text-white/60">
-                    {i + 1}
-                  </Text>
-                </View>
-                <View className="flex-1">
-                  <Text className="text-lg font-bold leading-tight text-white">
-                    {s.title}
-                  </Text>
-                  <Text className="mt-2 text-sm leading-5 text-white/60">
-                    {s.description}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          ))}
-        </View>
-      </ScrollView>
-      <View className="px-6 pb-8">
+    <Screen
+      variant="default"
+      scroll
+      header={<DailyFlowHeader wordmark />}
+      sticky={
         <GradientButton
           onPress={handleContinue}
           loading={updateSession.isPending}
         >
           Get Started
         </GradientButton>
+      }
+      className="px-6"
+    >
+      <View className="mb-8 mt-2">
+        <View className="flex-row flex-wrap items-baseline">
+          <Text className="text-4xl font-black leading-tight tracking-tight text-foreground">
+            The Daily
+          </Text>
+          <GradientItalicFlow />
+        </View>
+        <Text className="text-4xl font-black leading-tight tracking-tight text-foreground">
+          Journey
+        </Text>
+        <Text className="mt-3 text-base leading-6 text-foreground/60">
+          Small daily shifts that realign your energy, focus, and direction.
+        </Text>
       </View>
-    </View>
+
+      <View className="gap-4">
+        {STEPS.map((s, i) => (
+          <View
+            key={s.title}
+            className="rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-6"
+          >
+            <View className="flex-row gap-5">
+              <View className="h-8 w-8 items-center justify-center rounded-full border-2 border-foreground/15">
+                <Text className="text-sm font-bold text-foreground/60">
+                  {i + 1}
+                </Text>
+              </View>
+              <View className="flex-1">
+                <Text className="text-lg font-bold leading-tight text-foreground">
+                  {s.title}
+                </Text>
+                <Text className="mt-2 text-sm leading-5 text-foreground/60">
+                  {s.description}
+                </Text>
+              </View>
+            </View>
+          </View>
+        ))}
+      </View>
+    </Screen>
   );
 }

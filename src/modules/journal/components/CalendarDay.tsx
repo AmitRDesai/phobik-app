@@ -1,6 +1,7 @@
-import { colors, withAlpha } from '@/constants/colors';
 import { variantConfig } from '@/components/variant-config';
+import { colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
+import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 
@@ -59,13 +60,14 @@ export function CalendarDay({
           </LinearGradient>
         ) : (
           <Text
-            className={`text-xs font-medium ${
+            className={clsx(
+              'text-xs font-medium',
               isFuture
                 ? 'text-foreground/30'
                 : isToday
                   ? 'text-primary-pink'
-                  : 'text-foreground/60'
-            }`}
+                  : 'text-foreground/60',
+            )}
           >
             {day}
           </Text>

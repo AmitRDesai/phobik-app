@@ -5,6 +5,7 @@ import { colors } from '@/constants/colors';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
@@ -76,7 +77,10 @@ export default function Health() {
       <View className="rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
         <View className="flex-row items-center gap-3">
           <View
-            className={`h-10 w-10 items-center justify-center rounded-xl ${hasAccess ? 'bg-status-success/20' : 'bg-foreground/10'}`}
+            className={clsx(
+              'h-10 w-10 items-center justify-center rounded-xl',
+              hasAccess ? 'bg-status-success/20' : 'bg-foreground/10',
+            )}
           >
             <MaterialIcons
               name={hasAccess ? 'check-circle' : 'favorite-border'}

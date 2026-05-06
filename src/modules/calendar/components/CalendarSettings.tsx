@@ -4,6 +4,7 @@ import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { SelectionCard } from '@/components/ui/SelectionCard';
 import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { PermissionStatus } from 'expo-calendar';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -246,11 +247,12 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                           </View>
                         </View>
                         <View
-                          className={`h-6 w-6 items-center justify-center rounded-full ${
+                          className={clsx(
+                            'h-6 w-6 items-center justify-center rounded-full',
                             isSelected
                               ? 'bg-primary-pink'
-                              : 'border-2 border-foreground/25'
-                          }`}
+                              : 'border-2 border-foreground/25',
+                          )}
                         >
                           {isSelected && (
                             <MaterialIcons

@@ -1,4 +1,5 @@
 import { colors, withAlpha } from '@/constants/colors';
+import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 
@@ -16,7 +17,10 @@ export function SelectableChip({
   const inner = (
     <View className="h-11 flex-row items-center px-5">
       <Text
-        className={`text-sm font-bold ${selected ? 'text-white' : 'text-foreground/80'}`}
+        className={clsx(
+          'text-sm font-bold',
+          selected ? 'text-white' : 'text-foreground/80',
+        )}
       >
         {label}
       </Text>

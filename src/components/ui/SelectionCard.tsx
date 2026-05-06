@@ -1,5 +1,6 @@
 import { colors, withAlpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 
@@ -46,9 +47,10 @@ export function SelectionCard({
   if (variant === 'checkbox') {
     const cardInner = (
       <View
-        className={`flex-row items-center gap-4 rounded-2xl px-4 py-4 ${
-          selected ? 'bg-surface-elevated' : 'bg-foreground/5'
-        }`}
+        className={clsx(
+          'flex-row items-center gap-4 rounded-2xl px-4 py-4',
+          selected ? 'bg-surface-elevated' : 'bg-foreground/5',
+        )}
       >
         {cardContent}
       </View>
@@ -75,11 +77,12 @@ export function SelectionCard({
   return (
     <Pressable onPress={onPress}>
       <View
-        className={`flex-row items-center gap-4 rounded-2xl border px-4 py-4 ${
+        className={clsx(
+          'flex-row items-center gap-4 rounded-2xl border px-4 py-4',
           selected
             ? 'border-primary-pink'
-            : 'border-foreground/10 bg-foreground/5'
-        }`}
+            : 'border-foreground/10 bg-foreground/5',
+        )}
         style={
           selected
             ? {
@@ -97,9 +100,10 @@ export function SelectionCard({
 function RadioIndicator({ selected }: { selected: boolean }) {
   return (
     <View
-      className={`h-6 w-6 items-center justify-center rounded-full border-2 ${
-        selected ? 'border-primary-pink' : 'border-foreground/25'
-      }`}
+      className={clsx(
+        'h-6 w-6 items-center justify-center rounded-full border-2',
+        selected ? 'border-primary-pink' : 'border-foreground/25',
+      )}
     >
       {selected && <View className="h-3 w-3 rounded-full bg-primary-pink" />}
     </View>
@@ -109,9 +113,10 @@ function RadioIndicator({ selected }: { selected: boolean }) {
 function CheckboxIndicator({ selected }: { selected: boolean }) {
   return (
     <View
-      className={`h-6 w-6 items-center justify-center rounded-full ${
-        selected ? 'bg-accent-yellow' : 'bg-foreground/15'
-      }`}
+      className={clsx(
+        'h-6 w-6 items-center justify-center rounded-full',
+        selected ? 'bg-accent-yellow' : 'bg-foreground/15',
+      )}
     >
       {selected && <Ionicons name="checkmark-sharp" size={14} color="black" />}
     </View>

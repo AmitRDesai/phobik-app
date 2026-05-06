@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image, Pressable, Text, View } from 'react-native';
@@ -21,7 +21,7 @@ export function FeelingOptionCard({ feeling, onPress }: Props) {
   return (
     <Pressable
       onPress={onPress}
-      className="h-[340px] overflow-hidden rounded-[32px] border border-white/5 bg-card-dark"
+      className="h-[340px] overflow-hidden rounded-[32px] border border-foreground/5 bg-surface-elevated"
     >
       <Image
         source={feeling.image}
@@ -42,7 +42,7 @@ export function FeelingOptionCard({ feeling, onPress }: Props) {
       <View className="flex-1 p-7">
         <View
           className="h-14 w-14 items-center justify-center rounded-full"
-          style={{ backgroundColor: `${accent}33` }}
+          style={{ backgroundColor: withAlpha(accent, 0.2) }}
         >
           <MaterialIcons
             name={feeling.icon as keyof typeof MaterialIcons.glyphMap}

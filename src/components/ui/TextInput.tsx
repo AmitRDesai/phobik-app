@@ -1,5 +1,6 @@
 import { colors, withAlpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { useState, type Ref } from 'react';
 import {
   Pressable,
@@ -62,7 +63,11 @@ export function TextInput({
   return (
     <View className="gap-2">
       <Text
-        className={`font-semibold ${labelUppercase ? 'text-xs uppercase tracking-wider' : 'px-1 text-sm'} ${labelColor ? '' : 'text-foreground/55'}`}
+        className={clsx(
+          'font-semibold',
+          labelUppercase ? 'text-xs uppercase tracking-wider' : 'px-1 text-sm',
+          !labelColor && 'text-foreground/55',
+        )}
         style={labelColor ? { color: labelColor } : undefined}
       >
         {label}

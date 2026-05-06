@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { clsx } from 'clsx';
 import { View } from 'react-native';
 
 interface AffirmationHeaderProps {
@@ -14,13 +15,14 @@ export function AffirmationHeader({ currentStep }: AffirmationHeaderProps) {
         {[1, 2].map((step) => (
           <View
             key={step}
-            className={`h-1 w-6 rounded-full ${
+            className={clsx(
+              'h-1 w-6 rounded-full',
               step === currentStep
                 ? 'bg-primary-pink'
                 : step < currentStep
                   ? 'bg-primary-pink/40'
-                  : 'bg-foreground/10'
-            }`}
+                  : 'bg-foreground/10',
+            )}
           />
         ))}
       </View>

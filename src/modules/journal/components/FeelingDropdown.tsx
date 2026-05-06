@@ -1,6 +1,7 @@
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { useCallback, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
@@ -83,11 +84,12 @@ export function FeelingDropdown({
               style={{ width: '48%' }}
             >
               <Text
-                className={`text-xs font-medium ${
+                className={clsx(
+                  'text-xs font-medium',
                   value === option.value
                     ? 'text-primary-pink'
-                    : 'text-foreground/70'
-                }`}
+                    : 'text-foreground/70',
+                )}
               >
                 {option.label}
               </Text>
