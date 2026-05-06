@@ -1,23 +1,24 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Redirect, useRouter } from 'expo-router';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ActivityIndicator, Text, View } from 'react-native';
 
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, withAlpha } from '@/constants/colors';
+import { Screen } from '@/components/ui/Screen';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 
 import { EMPATHY_DAYS } from '../data/empathy-days';
 import { useActiveChallenge } from '../hooks/useEmpathyChallenge';
 
 export default function EmpathyChallengeCalendar() {
   const { data: challenge, isLoading } = useActiveChallenge();
-  const insets = useSafeAreaInsets();
+  const scheme = useScheme();
 
   if (isLoading) {
     return (
-      <View className="flex-1 items-center justify-center bg-background-charcoal">
+      <View className="flex-1 items-center justify-center bg-surface">
         <ActivityIndicator size="large" color={colors.primary.pink} />
       </View>
     );
@@ -32,175 +33,169 @@ export default function EmpathyChallengeCalendar() {
   const completedCount = days.filter((d) => d.status === 'completed').length;
 
   const progressPercent = Math.max((completedCount / 7) * 100, 5);
+  const lockIconColor = foregroundFor(scheme, 1);
 
   return (
-    <View className="flex-1 bg-background-charcoal">
-      {/* Header */}
-      <View
-        className="z-10 flex-row items-center px-4 py-4"
-        style={{ paddingTop: insets.top + 8 }}
-      >
-        <BackButton />
-        <Text className="flex-1 pr-10 text-center text-lg font-bold text-white">
-          Empathy Challenge
-        </Text>
+    <Screen
+      variant="default"
+      scroll
+      header={
+        <View className="flex-row items-center px-4 py-2">
+          <BackButton />
+          <Text className="flex-1 pr-10 text-center text-lg font-bold text-foreground">
+            Empathy Challenge
+          </Text>
+        </View>
+      }
+      className="px-4"
+    >
+      <View className="gap-3 py-4">
+        <View className="flex-row items-end justify-between">
+          <Text className="text-base font-medium text-foreground">
+            Overall Progress
+          </Text>
+          <Text className="text-sm font-bold text-primary-pink">
+            {completedCount}/7 Days
+          </Text>
+        </View>
+        <View className="h-2 overflow-hidden rounded-full bg-foreground/10">
+          <LinearGradient
+            colors={[colors.primary.pink, colors.accent.yellow]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{
+              height: 8,
+              borderRadius: 9999,
+              width: `${progressPercent}%`,
+            }}
+          />
+        </View>
       </View>
 
-      <ScrollView
-        contentContainerClassName="px-4 pb-8"
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Progress Header */}
-        <View className="gap-3 py-4">
-          <View className="flex-row items-end justify-between">
-            <Text className="text-base font-medium text-white">
-              Overall Progress
-            </Text>
-            <Text className="text-sm font-bold text-primary-pink">
-              {completedCount}/7 Days
-            </Text>
-          </View>
-          <View className="h-2 overflow-hidden rounded-full bg-white/10">
-            <LinearGradient
-              colors={[colors.primary.pink, colors.accent.yellow]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
+      <View className="mt-2">
+        {EMPATHY_DAYS.map((empathyDay, index) => {
+          const challengeDay = days.find((d) => d.dayNumber === empathyDay.day);
+          const status = challengeDay?.status ?? 'locked';
+          const isCompleted = status === 'completed';
+          const isLocked = status === 'locked';
+          const isLast = index === EMPATHY_DAYS.length - 1;
+
+          // Available to start only if unlocked/in_progress AND either day 1
+          // or the previous day was completed before today.
+          const isActive = (() => {
+            if (status === 'in_progress') return true;
+            if (status !== 'unlocked') return false;
+            if (empathyDay.day === 1) return true;
+
+            const prevDay = days.find(
+              (d) => d.dayNumber === empathyDay.day - 1,
+            );
+            if (!prevDay?.completedAt) return false;
+            const completedDate = String(prevDay.completedAt).slice(0, 10);
+            const today = new Date().toISOString().slice(0, 10);
+            return completedDate < today;
+          })();
+
+          // Unlocked in DB but gated until tomorrow
+          const isWaiting = status === 'unlocked' && !isActive;
+
+          return (
+            <View
+              key={empathyDay.day}
+              className="flex-row"
               style={{
-                height: 8,
-                borderRadius: 9999,
-                width: `${progressPercent}%`,
+                opacity: isLocked || isWaiting ? 0.4 : 1,
               }}
-            />
-          </View>
-        </View>
-
-        {/* Timeline */}
-        <View className="mt-2">
-          {EMPATHY_DAYS.map((empathyDay, index) => {
-            const challengeDay = days.find(
-              (d) => d.dayNumber === empathyDay.day,
-            );
-            const status = challengeDay?.status ?? 'locked';
-            const isCompleted = status === 'completed';
-            const isLocked = status === 'locked';
-            const isLast = index === EMPATHY_DAYS.length - 1;
-
-            // A day is available to start only if unlocked/in_progress AND
-            // either it's day 1 or the previous day was completed before today
-            const isActive = (() => {
-              if (status === 'in_progress') return true;
-              if (status !== 'unlocked') return false;
-              if (empathyDay.day === 1) return true;
-
-              const prevDay = days.find(
-                (d) => d.dayNumber === empathyDay.day - 1,
-              );
-              if (!prevDay?.completedAt) return false;
-              const completedDate = String(prevDay.completedAt).slice(0, 10);
-              const today = new Date().toISOString().slice(0, 10);
-              return completedDate < today;
-            })();
-
-            // Unlocked in DB but gated until tomorrow
-            const isWaiting = status === 'unlocked' && !isActive;
-
-            return (
-              <View
-                key={empathyDay.day}
-                className="flex-row"
-                style={{
-                  opacity: isLocked || isWaiting ? 0.4 : 1,
-                }}
-              >
-                {/* Timeline column */}
-                <View className="w-10 items-center">
-                  {isActive || isCompleted ? (
-                    <LinearGradient
-                      colors={[colors.primary.pink, colors.accent.yellow]}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 1 }}
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 20,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      {isCompleted ? (
-                        <MaterialIcons name="check" size={18} color="white" />
-                      ) : (
-                        <Text className="text-sm font-bold text-white">
-                          {empathyDay.day}
-                        </Text>
-                      )}
-                    </LinearGradient>
-                  ) : (
-                    <View className="h-10 w-10 items-center justify-center rounded-full border-2 border-white/20">
-                      {isWaiting ? (
-                        <MaterialIcons
-                          name="schedule"
-                          size={18}
-                          color="white"
-                        />
-                      ) : empathyDay.icon ? (
-                        <MaterialIcons
-                          name={empathyDay.icon}
-                          size={18}
-                          color="white"
-                        />
-                      ) : (
-                        <MaterialIcons name="lock" size={18} color="white" />
-                      )}
-                    </View>
-                  )}
-
-                  {/* Connector line */}
-                  {!isLast && (
-                    <View className="w-[2px] flex-1 bg-white/10">
-                      {isActive && (
-                        <LinearGradient
-                          colors={[
-                            colors.accent.yellow,
-                            'rgba(255,255,255,0.1)',
-                          ]}
-                          start={{ x: 0, y: 0 }}
-                          end={{ x: 0, y: 1 }}
-                          style={{ flex: 1, width: 2 }}
-                        />
-                      )}
-                    </View>
-                  )}
-                </View>
-
-                {/* Content column */}
-                <View className="ml-4 flex-1 pb-12">
-                  {isActive ? (
-                    <ActiveDayCard
-                      empathyDay={empathyDay}
-                      dayId={String(challengeDay?.id ?? '')}
-                    />
-                  ) : (
-                    <View className="justify-center pt-2">
-                      <Text className="text-lg font-semibold text-white">
-                        Day {empathyDay.day}: {empathyDay.title}
+            >
+              <View className="w-10 items-center">
+                {isActive || isCompleted ? (
+                  <LinearGradient
+                    colors={[colors.primary.pink, colors.accent.yellow]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 20,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {isCompleted ? (
+                      <MaterialIcons name="check" size={18} color="white" />
+                    ) : (
+                      <Text className="text-sm font-bold text-white">
+                        {empathyDay.day}
                       </Text>
-                      <Text className="text-sm text-slate-400">
-                        {isCompleted
-                          ? 'Completed'
-                          : isWaiting
-                            ? 'Come back tomorrow'
-                            : 'Locked'}
-                      </Text>
-                    </View>
-                  )}
-                </View>
+                    )}
+                  </LinearGradient>
+                ) : (
+                  <View className="h-10 w-10 items-center justify-center rounded-full border-2 border-foreground/20">
+                    {isWaiting ? (
+                      <MaterialIcons
+                        name="schedule"
+                        size={18}
+                        color={lockIconColor}
+                      />
+                    ) : empathyDay.icon ? (
+                      <MaterialIcons
+                        name={empathyDay.icon}
+                        size={18}
+                        color={lockIconColor}
+                      />
+                    ) : (
+                      <MaterialIcons
+                        name="lock"
+                        size={18}
+                        color={lockIconColor}
+                      />
+                    )}
+                  </View>
+                )}
+
+                {!isLast && (
+                  <View className="w-[2px] flex-1 bg-foreground/10">
+                    {isActive && (
+                      <LinearGradient
+                        colors={[
+                          colors.accent.yellow,
+                          withAlpha(colors.accent.yellow, 0),
+                        ]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 0, y: 1 }}
+                        style={{ flex: 1, width: 2 }}
+                      />
+                    )}
+                  </View>
+                )}
               </View>
-            );
-          })}
-        </View>
-      </ScrollView>
-    </View>
+
+              <View className="ml-4 flex-1 pb-12">
+                {isActive ? (
+                  <ActiveDayCard
+                    empathyDay={empathyDay}
+                    dayId={String(challengeDay?.id ?? '')}
+                  />
+                ) : (
+                  <View className="justify-center pt-2">
+                    <Text className="text-lg font-semibold text-foreground">
+                      Day {empathyDay.day}: {empathyDay.title}
+                    </Text>
+                    <Text className="text-sm text-foreground/60">
+                      {isCompleted
+                        ? 'Completed'
+                        : isWaiting
+                          ? 'Come back tomorrow'
+                          : 'Locked'}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            </View>
+          );
+        })}
+      </View>
+    </Screen>
   );
 }
 
@@ -214,8 +209,7 @@ function ActiveDayCard({
   const router = useRouter();
 
   return (
-    <View className="overflow-hidden rounded-xl bg-card-elevated">
-      {/* Gradient hero image */}
+    <View className="overflow-hidden rounded-xl bg-surface-elevated">
       <LinearGradient
         colors={[
           withAlpha(colors.primary.pink, 0.3),
@@ -227,10 +221,10 @@ function ActiveDayCard({
       />
 
       <View className="gap-1 p-4">
-        <Text className="text-xl font-bold text-white">
+        <Text className="text-xl font-bold text-foreground">
           Day {empathyDay.day}: {empathyDay.title}
         </Text>
-        <Text className="mb-4 text-sm leading-relaxed text-slate-300">
+        <Text className="mb-4 text-sm leading-relaxed text-foreground/70">
           {empathyDay.calendarDescription}
         </Text>
         <GradientButton
