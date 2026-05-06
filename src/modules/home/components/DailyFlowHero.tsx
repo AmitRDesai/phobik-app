@@ -13,10 +13,10 @@ export function DailyFlowHero() {
 
   return (
     <View className="items-center px-2 pb-2 pt-6">
-      <Text className="mb-2 text-center text-3xl font-black leading-tight tracking-tight text-white">
+      <Text className="mb-2 text-center text-3xl font-black leading-tight tracking-tight text-foreground">
         How do you want to feel right now?
       </Text>
-      <Text className="mb-6 text-center text-sm font-medium text-white/60">
+      <Text className="mb-6 text-center text-sm font-medium text-foreground/60">
         {canResume ? 'Pick up where you left off' : 'Start your Daily Flow'}
       </Text>
       <View className="w-full px-6">

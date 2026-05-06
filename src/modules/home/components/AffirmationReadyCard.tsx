@@ -1,4 +1,6 @@
-import { colors, alpha, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+import { variantConfig } from '@/components/variant-config';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,6 +17,8 @@ export function AffirmationReadyCard({
   affirmation,
   onSync,
 }: AffirmationReadyCardProps) {
+  const scheme = useScheme();
+  const cardBg = withAlpha(variantConfig.default[scheme].bgHex, 0.9);
   const index = affirmation.toLowerCase().indexOf(feeling.toLowerCase());
   const before = index >= 0 ? affirmation.slice(0, index) : affirmation;
   const word =
@@ -22,25 +26,12 @@ export function AffirmationReadyCard({
   const after = index >= 0 ? affirmation.slice(index + feeling.length) : '';
 
   return (
-    <View className="relative">
-      {/* Pink glow behind card */}
-      <View
-        style={{
-          position: 'absolute',
-          top: '10%',
-          left: '10%',
-          right: '10%',
-          bottom: '10%',
-          shadowColor: colors.primary.pink,
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.15,
-          shadowRadius: 60,
-          elevation: 0,
-          backgroundColor: 'transparent',
-        }}
-      />
-
-      {/* Gradient border */}
+    <View
+      className="relative"
+      style={{
+        boxShadow: `0 0 60px ${withAlpha(colors.primary.pink, 0.15)}`,
+      }}
+    >
       <LinearGradient
         colors={[colors.primary.pink, colors.accent.yellow]}
         start={{ x: 0, y: 0 }}
@@ -48,34 +39,32 @@ export function AffirmationReadyCard({
         style={{ borderRadius: 24, padding: 1.5 }}
       >
         <View
-          style={{
-            backgroundColor: withAlpha(colors.background.dark, 0.9),
-            borderRadius: 22,
-          }}
+          style={{ backgroundColor: cardBg, borderRadius: 22 }}
           className="px-8 py-10"
         >
-          {/* Sync button */}
           {onSync && (
             <Pressable
               onPress={onSync}
               className="absolute right-4 top-4 active:opacity-70"
             >
-              <MaterialIcons name="sync" size={20} color={alpha.white40} />
+              <MaterialIcons
+                name="sync"
+                size={20}
+                color={foregroundFor(scheme, 0.4)}
+              />
             </Pressable>
           )}
 
-          {/* Sparkle icon */}
           <View className="mb-4 items-center">
             <MaterialIcons
               name="auto-awesome"
               size={28}
-              color={`${colors.primary.pink}66`}
+              color={withAlpha(colors.primary.pink, 0.4)}
             />
           </View>
 
-          {/* Affirmation text */}
           <View className="flex-row flex-wrap justify-center">
-            <Text className="text-center text-xl font-light leading-relaxed text-white">
+            <Text className="text-center text-xl font-light leading-relaxed text-foreground">
               {'"'}
               {before}
             </Text>
@@ -98,7 +87,7 @@ export function AffirmationReadyCard({
                 </LinearGradient>
               </MaskedView>
             ) : null}
-            <Text className="text-center text-xl font-light leading-relaxed text-white">
+            <Text className="text-center text-xl font-light leading-relaxed text-foreground">
               {after}
               {'"'}
             </Text>

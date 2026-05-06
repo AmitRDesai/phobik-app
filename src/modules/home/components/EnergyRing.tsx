@@ -1,4 +1,5 @@
-import { colors, alpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { Text, View } from 'react-native';
 import Svg, {
   Circle,
@@ -20,6 +21,7 @@ export function EnergyRing({
   size = 160,
   strokeWidth = 12,
 }: EnergyRingProps) {
+  const scheme = useScheme();
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const progress = value !== null ? Math.min(value / maxValue, 1) : 0;
@@ -41,7 +43,7 @@ export function EnergyRing({
           cy={center}
           r={radius}
           fill="none"
-          stroke={alpha.white05}
+          stroke={foregroundFor(scheme, 0.05)}
           strokeWidth={strokeWidth}
         />
         <Defs>
@@ -70,16 +72,16 @@ export function EnergyRing({
       </Svg>
       <View className="absolute items-center">
         <Text
-          className={`${value !== null ? 'text-5xl' : 'text-3xl'} font-black text-white`}
+          className={`${value !== null ? 'text-5xl' : 'text-3xl'} font-black text-foreground`}
           style={{
-            textShadowColor: `${colors.primary.pink}80`,
+            textShadowColor: withAlpha(colors.primary.pink, 0.5),
             textShadowOffset: { width: 0, height: 0 },
             textShadowRadius: 10,
           }}
         >
           {value !== null ? value : 'N/A'}
         </Text>
-        <Text className="mt-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+        <Text className="mt-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
           Energy
         </Text>
       </View>

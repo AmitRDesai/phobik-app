@@ -39,17 +39,17 @@ export const variantConfig: Record<
   default: {
     dark: {
       vars: vars({
-        '--variant-bg': '5 5 5',
+        '--variant-bg': '18 8 18',
         '--variant-card': '26 19 24',
-        '--variant-fade': '5 5 5',
+        '--variant-fade': '18 8 18',
         '--variant-accent': '255 77 148',
       }),
-      bgHex: '#050505',
+      bgHex: '#120812',
       glow: {
         centerX: 0.5,
-        centerY: 0.3,
-        intensity: 0.3,
-        radius: 0.45,
+        centerY: 0.25,
+        intensity: 0.5,
+        radius: 0.5,
         startColor: colors.primary.pink,
         endColor: colors.accent.yellow,
       },

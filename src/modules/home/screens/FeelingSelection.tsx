@@ -1,6 +1,5 @@
-import Container from '@/components/ui/Container';
-import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Screen } from '@/components/ui/Screen';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
@@ -12,23 +11,10 @@ export default function FeelingSelection() {
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
-    <Container>
-      <GlowBg centerY={0.55} />
-
-      <AffirmationHeader currentStep={1} />
-
-      <View className="flex-1 items-center justify-center px-6">
-        <View className="mb-10">
-          <Text className="text-center text-2xl font-light leading-tight text-white">
-            What do you want to feel{'\n'}
-            <Text className="italic">more of</Text> today?
-          </Text>
-        </View>
-
-        <FeelingCompass selected={selected} onSelect={setSelected} />
-      </View>
-
-      <View className="px-6 pb-10">
+    <Screen
+      variant="default"
+      header={<AffirmationHeader currentStep={1} />}
+      sticky={
         <GradientButton
           onPress={() =>
             router.push({
@@ -40,7 +26,16 @@ export default function FeelingSelection() {
         >
           Continue
         </GradientButton>
+      }
+      className="items-center justify-center px-6"
+    >
+      <View className="mb-10">
+        <Text className="text-center text-2xl font-light leading-tight text-foreground">
+          What do you want to feel{'\n'}
+          <Text className="italic">more of</Text> today?
+        </Text>
       </View>
-    </Container>
+      <FeelingCompass selected={selected} onSelect={setSelected} />
+    </Screen>
   );
 }

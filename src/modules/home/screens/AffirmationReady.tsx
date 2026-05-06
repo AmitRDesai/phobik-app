@@ -1,6 +1,5 @@
-import Container from '@/components/ui/Container';
-import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Screen } from '@/components/ui/Screen';
 import { dismissToRoot } from '@/utils/navigation';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -40,35 +39,30 @@ export default function AffirmationReady() {
   };
 
   return (
-    <Container>
-      <GlowBg centerY={0.3} />
-
-      <AffirmationHeader currentStep={2} />
-
-      <View className="flex-1 px-6 pt-4">
-        <AffirmationReadyCard
-          feeling={feeling}
-          affirmation={text}
-          onSync={handleSync}
-        />
-
-        <View className="mt-6 px-4">
-          <Text className="text-center text-base leading-relaxed text-white/70">
-            Your affirmation works best when you practice it regularly. Repeat
-            it during challenging moments to help guide your thoughts and
-            reactions.
-          </Text>
-        </View>
-      </View>
-
-      <View className="px-6 pb-10">
+    <Screen
+      variant="default"
+      header={<AffirmationHeader currentStep={2} />}
+      sticky={
         <GradientButton
           onPress={handleSave}
           loading={saveAffirmation.isPending}
         >
           Save to Today Dashboard
         </GradientButton>
+      }
+      className="px-6 pt-4"
+    >
+      <AffirmationReadyCard
+        feeling={feeling}
+        affirmation={text}
+        onSync={handleSync}
+      />
+      <View className="mt-6 px-4">
+        <Text className="text-center text-base leading-relaxed text-foreground/70">
+          Your affirmation works best when you practice it regularly. Repeat it
+          during challenging moments to help guide your thoughts and reactions.
+        </Text>
       </View>
-    </Container>
+    </Screen>
   );
 }

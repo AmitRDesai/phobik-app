@@ -1,4 +1,5 @@
-import { colors, alpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
@@ -68,6 +69,7 @@ interface FeelingCompassProps {
 }
 
 export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
+  const scheme = useScheme();
   const handleSelect = (id: string) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     onSelect(id);
@@ -122,7 +124,6 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
         </Svg>
       )}
 
-      {/* Core hub */}
       <View
         style={{
           position: 'absolute',
@@ -131,16 +132,16 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
           width: HUB_SIZE,
           height: HUB_SIZE,
           borderRadius: HUB_SIZE / 2,
-          backgroundColor: alpha.white05,
+          backgroundColor: foregroundFor(scheme, 0.05),
           borderWidth: 1,
-          borderColor: alpha.white20,
+          borderColor: foregroundFor(scheme, 0.2),
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 10,
         }}
       >
         <Text
-          className={`text-[10px] font-bold uppercase tracking-widest ${selected ? 'text-primary-pink' : 'text-white/50'}`}
+          className={`text-[10px] font-bold uppercase tracking-widest ${selected ? 'text-primary-pink' : 'text-foreground/50'}`}
         >
           Core
         </Text>
@@ -176,11 +177,7 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
                     borderRadius: (NODE_SIZE + 4) / 2,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    shadowColor: colors.primary.pink,
-                    shadowOffset: { width: 0, height: 0 },
-                    shadowOpacity: 0.6,
-                    shadowRadius: 20,
-                    elevation: 10,
+                    boxShadow: `0 0 20px ${withAlpha(colors.primary.pink, 0.6)}`,
                   }}
                 >
                   <View
@@ -188,7 +185,7 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
                       width: NODE_SIZE,
                       height: NODE_SIZE,
                       borderRadius: NODE_SIZE / 2,
-                      backgroundColor: alpha.white10,
+                      backgroundColor: foregroundFor(scheme, 0.1),
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}
@@ -206,9 +203,9 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
                     width: NODE_SIZE,
                     height: NODE_SIZE,
                     borderRadius: NODE_SIZE / 2,
-                    backgroundColor: alpha.white03,
+                    backgroundColor: foregroundFor(scheme, 0.03),
                     borderWidth: 1,
-                    borderColor: alpha.white10,
+                    borderColor: foregroundFor(scheme, 0.1),
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginHorizontal: 2,
@@ -217,14 +214,14 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
                   <MaterialIcons
                     name={feeling.icon}
                     size={22}
-                    color={alpha.white40}
+                    color={foregroundFor(scheme, 0.4)}
                   />
                 </View>
               )}
             </Pressable>
             <Text
               className={`mt-1 text-center text-[8px] font-semibold uppercase tracking-wider ${
-                isSelected ? 'text-white' : 'text-white/40'
+                isSelected ? 'text-foreground' : 'text-foreground/40'
               }`}
             >
               {feeling.label}

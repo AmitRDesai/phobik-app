@@ -1,20 +1,13 @@
 import { BackButton } from '@/components/ui/BackButton';
-import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import {
-  Linking,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import { Linking, Platform, Pressable, Text, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { openHealthConnectSettings } from 'react-native-health-connect';
 
@@ -74,10 +67,10 @@ function HealthHero({ pulsing }: { pulsing: boolean }) {
       <Text className="mb-2 text-xs font-bold uppercase tracking-widest text-primary-pink">
         {pulsing ? `Connect to ${PROVIDER_LABEL}` : 'Connected'}
       </Text>
-      <Text className="mb-3 text-3xl font-bold tracking-tight text-white">
+      <Text className="mb-3 text-3xl font-bold tracking-tight text-foreground">
         {pulsing ? 'Sync Your Wearable' : "You're synced"}
       </Text>
-      <Text className="max-w-[300px] text-center text-sm leading-relaxed text-slate-400">
+      <Text className="max-w-[300px] text-center text-sm leading-relaxed text-foreground/60">
         {pulsing
           ? `Phobik reads heart rate and HRV from ${PROVIDER_LABEL} — read-only, never written. Any wearable that syncs there (Apple Watch, Whoop, Oura, Garmin, Fitbit, Polar) works automatically.`
           : `Phobik is now reading your heart rate and HRV from ${PROVIDER_LABEL}.`}
@@ -98,12 +91,12 @@ function MetricRow({
   unitColorClass: string;
 }) {
   return (
-    <View className="flex-1 rounded-3xl border border-white/10 bg-white/5 p-5">
-      <Text className="mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+    <View className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+      <Text className="mb-2 text-[10px] font-bold uppercase tracking-widest text-foreground/60">
         {label}
       </Text>
       <View className="flex-row items-baseline gap-1.5">
-        <Text className="text-4xl font-black leading-none text-white">
+        <Text className="text-4xl font-black leading-none text-foreground">
           {value}
         </Text>
         <Text
@@ -153,90 +146,80 @@ export default function ConnectWearable() {
   };
 
   return (
-    <Container safeAreaClass="bg-background-dashboard">
-      <GlowBg
-        bgClassName="bg-background-dashboard"
-        centerY={0.2}
-        intensity={0.6}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-      />
+    <Screen
+      variant="default"
+      scroll
+      header={
+        <View className="flex-row items-center justify-between px-4 pb-4 pt-2">
+          <BackButton />
+          <Text
+            className="text-sm font-bold uppercase tracking-[4px] text-foreground/60"
+            numberOfLines={1}
+          >
+            Connect Wearable
+          </Text>
+          <View className="h-10 w-10" />
+        </View>
+      }
+      className="px-6"
+    >
+      <HealthHero pulsing={!hasAccess} />
 
-      <View className="flex-row items-center justify-between px-4 pb-4 pt-2">
-        <BackButton />
-        <Text
-          className="text-sm font-bold uppercase tracking-[4px] text-white/60"
-          numberOfLines={1}
-        >
-          Connect Wearable
-        </Text>
-        <View className="h-10 w-10" />
-      </View>
-
-      <ScrollView
-        contentContainerClassName="px-6 pb-12"
-        showsVerticalScrollIndicator={false}
-      >
-        <HealthHero pulsing={!hasAccess} />
-
-        {hasAccess ? (
-          <View className="gap-4">
-            <View className="flex-row gap-4">
-              <MetricRow
-                label="Heart Rate"
-                value={heartRate != null ? String(heartRate) : '—'}
-                unit="Bpm"
-                unitColorClass="text-primary-pink"
-              />
-              <MetricRow
-                label="HRV"
-                value={hrv != null ? hrv.toFixed(1) : '—'}
-                unit="Ms"
-                unitColorClass="text-accent-yellow"
-              />
-            </View>
-            {heartRate == null && hrv == null ? (
-              <Text className="text-center text-xs leading-relaxed text-slate-400">
-                No recent samples yet. Wear your device and sync it to{' '}
-                {PROVIDER_LABEL}, then return here.
-              </Text>
-            ) : null}
-            <Pressable
-              onPress={openHealthSettings}
-              className="mt-2 items-center py-3"
-            >
-              <Text className="text-xs font-semibold uppercase tracking-widest text-white/60">
-                Open {PROVIDER_LABEL} settings
-              </Text>
-            </Pressable>
+      {hasAccess ? (
+        <View className="gap-4">
+          <View className="flex-row gap-4">
+            <MetricRow
+              label="Heart Rate"
+              value={heartRate != null ? String(heartRate) : '—'}
+              unit="Bpm"
+              unitColorClass="text-primary-pink"
+            />
+            <MetricRow
+              label="HRV"
+              value={hrv != null ? hrv.toFixed(1) : '—'}
+              unit="Ms"
+              unitColorClass="text-accent-yellow"
+            />
           </View>
-        ) : isAndroidUnavailable ? (
-          <View className="gap-3">
-            <Text className="text-center text-sm leading-relaxed text-white/70">
-              Health Connect isn&apos;t installed on this device. Install it
-              from the Play Store, then return here to connect.
+          {heartRate == null && hrv == null ? (
+            <Text className="text-center text-xs leading-relaxed text-foreground/60">
+              No recent samples yet. Wear your device and sync it to{' '}
+              {PROVIDER_LABEL}, then return here.
             </Text>
-            <GradientButton
-              onPress={handleConnect}
-              prefixIcon={
-                <MaterialIcons name="cloud-download" size={18} color="white" />
-              }
-            >
-              <Text>Install Health Connect</Text>
-            </GradientButton>
-          </View>
-        ) : (
+          ) : null}
+          <Pressable
+            onPress={openHealthSettings}
+            className="mt-2 items-center py-3"
+          >
+            <Text className="text-xs font-semibold uppercase tracking-widest text-foreground/60">
+              Open {PROVIDER_LABEL} settings
+            </Text>
+          </Pressable>
+        </View>
+      ) : isAndroidUnavailable ? (
+        <View className="gap-3">
+          <Text className="text-center text-sm leading-relaxed text-foreground/70">
+            Health Connect isn&apos;t installed on this device. Install it from
+            the Play Store, then return here to connect.
+          </Text>
           <GradientButton
             onPress={handleConnect}
-            loading={requesting}
             prefixIcon={
-              <MaterialIcons name="favorite" size={18} color="white" />
+              <MaterialIcons name="cloud-download" size={18} color="white" />
             }
           >
-            <Text>Connect to {PROVIDER_LABEL}</Text>
+            Install Health Connect
           </GradientButton>
-        )}
-      </ScrollView>
-    </Container>
+        </View>
+      ) : (
+        <GradientButton
+          onPress={handleConnect}
+          loading={requesting}
+          prefixIcon={<MaterialIcons name="favorite" size={18} color="white" />}
+        >
+          Connect to {PROVIDER_LABEL}
+        </GradientButton>
+      )}
+    </Screen>
   );
 }

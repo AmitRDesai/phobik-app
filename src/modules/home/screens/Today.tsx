@@ -1,6 +1,4 @@
-import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
-import { ScrollView, View } from 'react-native';
+import { Screen } from '@/components/ui/Screen';
 
 import { ActionButtons } from '../components/ActionButtons';
 import { AffirmationCard } from '../components/AffirmationCard';
@@ -13,29 +11,21 @@ import { RealTimeAnalysisCard } from '../components/RealTimeAnalysisCard';
 
 export default function Today() {
   return (
-    <View className="flex-1">
-      <GlowBg
-        bgClassName="bg-background-dashboard"
-        centerY={0.25}
-        intensity={0.5}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-      />
-      <DashboardHeader />
-      <ScrollView
-        contentContainerClassName="gap-4 px-4"
-        showsVerticalScrollIndicator={false}
-      >
-        <DailyFlowHero />
-        <RealTimeAnalysisCard />
-        <ActionButtons />
-        <ChallengesCard />
-        <QuickAccessGrid />
-        <AffirmationCard />
-        <CharacterDevLinks />
-        {/* Extra bottom padding for tab bar clearance */}
-        <View className="h-4" />
-      </ScrollView>
-    </View>
+    <Screen
+      variant="default"
+      scroll
+      insetTop={false}
+      header={<DashboardHeader />}
+      className="px-4"
+      contentClassName="gap-4"
+    >
+      <DailyFlowHero />
+      <RealTimeAnalysisCard />
+      <ActionButtons />
+      <ChallengesCard />
+      <QuickAccessGrid />
+      <AffirmationCard />
+      <CharacterDevLinks />
+    </Screen>
   );
 }

@@ -1,4 +1,5 @@
-import { alpha, colors } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import { ScrollView, Text, View } from 'react-native';
@@ -44,6 +45,7 @@ function getCurrentWeekDays(completedDates?: Set<string>): StreakDay[] {
 }
 
 export function StreakGrid({ completedDates }: StreakGridProps) {
+  const scheme = useScheme();
   const weekDays = useMemo(
     () => getCurrentWeekDays(completedDates),
     [completedDates],
@@ -55,9 +57,9 @@ export function StreakGrid({ completedDates }: StreakGridProps) {
       showsHorizontalScrollIndicator={false}
       contentContainerClassName="gap-2 px-4"
     >
-      {weekDays.map((day, index) => (
-        <View key={index} className="items-center gap-1.5">
-          <Text className="text-[9px] font-bold text-white/40">
+      {weekDays.map((day) => (
+        <View key={day.dateStr} className="items-center gap-1.5">
+          <Text className="text-[9px] font-bold text-foreground/40">
             {day.label}
           </Text>
           <View
@@ -65,20 +67,20 @@ export function StreakGrid({ completedDates }: StreakGridProps) {
             style={
               day.completed
                 ? {
-                    backgroundColor: `${colors.primary.pink}33`,
+                    backgroundColor: withAlpha(colors.primary.pink, 0.2),
                     borderWidth: 1,
-                    borderColor: `${colors.primary.pink}80`,
+                    borderColor: withAlpha(colors.primary.pink, 0.5),
                   }
                 : day.isToday
                   ? {
-                      backgroundColor: `${colors.accent.yellow}1A`,
+                      backgroundColor: withAlpha(colors.accent.yellow, 0.1),
                       borderWidth: 1.5,
-                      borderColor: `${colors.accent.yellow}80`,
+                      borderColor: withAlpha(colors.accent.yellow, 0.5),
                     }
                   : {
-                      backgroundColor: alpha.white05,
+                      backgroundColor: foregroundFor(scheme, 0.05),
                       borderWidth: 1,
-                      borderColor: alpha.white10,
+                      borderColor: foregroundFor(scheme, 0.1),
                     }
             }
           >
@@ -90,7 +92,7 @@ export function StreakGrid({ completedDates }: StreakGridProps) {
               />
             ) : (
               <Text
-                className={`font-semibold ${day.isToday ? 'text-accent-yellow' : 'text-white/30'}`}
+                className={`font-semibold ${day.isToday ? 'text-accent-yellow' : 'text-foreground/30'}`}
               >
                 {day.dateNum}
               </Text>

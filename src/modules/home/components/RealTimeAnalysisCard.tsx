@@ -89,22 +89,22 @@ export function RealTimeAnalysisCard() {
               Real-time Analysis
             </Text>
             {hasAccess && ageLabel && (isStale || !isLive) ? (
-              <Text className="text-[10px] font-medium tracking-wider text-white/40">
+              <Text className="text-[10px] font-medium tracking-wider text-foreground/40">
                 · {ageLabel}
               </Text>
             ) : null}
           </View>
-          <Text className="text-2xl font-bold tracking-tight text-white">
+          <Text className="text-2xl font-bold tracking-tight text-foreground">
             {hasAccess && !hasData
               ? 'Waiting for sync'
               : (stress.label ?? 'Peaceful')}
           </Text>
           {hasAccess && !hasData ? (
-            <Text className="mt-1 text-[11px] leading-snug text-white/50">
+            <Text className="mt-1 text-[11px] leading-snug text-foreground/50">
               Wear your device for a few minutes
             </Text>
           ) : stress.score != null ? (
-            <Text className="mt-1 text-[11px] font-semibold tracking-wider text-white/40">
+            <Text className="mt-1 text-[11px] font-semibold tracking-wider text-foreground/40">
               Stress {stress.score}/100
             </Text>
           ) : null}
@@ -130,11 +130,11 @@ export function RealTimeAnalysisCard() {
 
         <View className="flex-1 justify-center gap-8">
           <View>
-            <Text className="mb-1 text-[12px] font-bold uppercase tracking-widest text-slate-400">
+            <Text className="mb-1 text-[12px] font-bold uppercase tracking-widest text-foreground/60">
               Heart Rate
             </Text>
             <View className="flex-row items-baseline gap-1.5">
-              <Text className="text-4xl font-black leading-none text-white">
+              <Text className="text-4xl font-black leading-none text-foreground">
                 {heartRate != null ? heartRate : '—'}
               </Text>
               <Text className="text-[14px] font-bold uppercase tracking-tighter text-primary-pink">
@@ -143,11 +143,11 @@ export function RealTimeAnalysisCard() {
             </View>
           </View>
           <View>
-            <Text className="mb-1 text-[12px] font-bold uppercase tracking-widest text-slate-400">
+            <Text className="mb-1 text-[12px] font-bold uppercase tracking-widest text-foreground/60">
               HRV Balance
             </Text>
             <View className="flex-row items-baseline gap-1.5">
-              <Text className="text-4xl font-black leading-none text-white">
+              <Text className="text-4xl font-black leading-none text-foreground">
                 {hrv != null ? hrv.toFixed(1) : '—'}
               </Text>
               <Text className="text-[14px] font-bold uppercase tracking-tighter text-accent-yellow">

@@ -19,7 +19,7 @@ export function AffirmationHeader({ currentStep }: AffirmationHeaderProps) {
                 ? 'bg-primary-pink'
                 : step < currentStep
                   ? 'bg-primary-pink/40'
-                  : 'bg-white/10'
+                  : 'bg-foreground/10'
             }`}
           />
         ))}

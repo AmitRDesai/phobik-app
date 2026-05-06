@@ -1,5 +1,5 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -41,9 +41,9 @@ export function AffirmationCard() {
           <MaterialIcons
             name="format-quote"
             size={32}
-            color={`${colors.primary.pink}66`}
+            color={withAlpha(colors.primary.pink, 0.4)}
           />
-          <Text className="text-center text-base font-light leading-relaxed text-white/40">
+          <Text className="text-center text-base font-light leading-relaxed text-foreground/40">
             Tap below to set your affirmation for today
           </Text>
         </View>
@@ -56,7 +56,7 @@ export function AffirmationCard() {
 
     if (index < 0) {
       return (
-        <Text className="text-center text-3xl font-light italic leading-relaxed text-white/95">
+        <Text className="text-center text-3xl font-light italic leading-relaxed text-foreground/95">
           {'"'}
           {text}.{'"'}
         </Text>
@@ -68,7 +68,7 @@ export function AffirmationCard() {
     const after = text.slice(index + feeling.length);
 
     return (
-      <Text className="text-center text-3xl font-light italic leading-relaxed text-white/95">
+      <Text className="text-center text-3xl font-light italic leading-relaxed text-foreground/95">
         {'"'}
         {before}
         <Text className="font-bold text-primary-pink">{word}</Text>
@@ -78,10 +78,15 @@ export function AffirmationCard() {
   };
 
   return (
-    <DashboardCard className="min-h-[200px] items-center justify-between p-8 shadow-2xl shadow-primary-pink/15">
+    <DashboardCard
+      className="min-h-[200px] items-center justify-between p-8"
+      style={{
+        boxShadow: `0 12px 32px ${withAlpha(colors.primary.pink, 0.15)}`,
+      }}
+    >
       <View className="mb-2 w-full flex-row items-start justify-between">
         <View className="w-6" />
-        <Text className="max-w-[180px] text-center text-[10px] font-medium italic leading-tight tracking-wide text-white/50">
+        <Text className="max-w-[180px] text-center text-[10px] font-medium italic leading-tight tracking-wide text-foreground/50">
           Set the intention for the day
         </Text>
         {affirmation ? (
@@ -89,7 +94,7 @@ export function AffirmationCard() {
             <MaterialIcons
               name="sync"
               size={22}
-              color={`${colors.primary.pink}B3`}
+              color={withAlpha(colors.primary.pink, 0.7)}
             />
           </Pressable>
         ) : (
@@ -103,7 +108,10 @@ export function AffirmationCard() {
 
       <Pressable
         onPress={() => router.push('/affirmation/feeling-selection')}
-        className="mt-4 rounded-full border border-accent-yellow/30 bg-white/5 px-4 py-2 active:scale-95 ios:shadow-lg ios:shadow-accent-yellow/20 android:elevation-2"
+        className="mt-4 rounded-full border border-accent-yellow/30 bg-foreground/5 px-4 py-2 active:scale-95"
+        style={{
+          boxShadow: `0 4px 8px ${withAlpha(colors.accent.yellow, 0.2)}`,
+        }}
       >
         <Text className="text-[10px] font-bold uppercase tracking-widest text-accent-yellow">
           {affirmation ? 'Change affirmation' : 'Set affirmation'}
