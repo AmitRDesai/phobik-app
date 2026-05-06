@@ -1,8 +1,10 @@
 import landingHero from '@/assets/images/ebook/landing-hero.jpg';
 import { BackButton } from '@/components/ui/BackButton';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { usePackOffering } from '@/modules/purchases/hooks/usePackOffering';
 import { usePackPurchased } from '@/modules/purchases/hooks/usePackPurchased';
 import { usePurchasePack } from '@/modules/purchases/hooks/usePurchasePack';
@@ -183,84 +185,74 @@ export default function EbookLanding() {
           {/* Items */}
           <View className="gap-3 p-4">
             {/* E-Book Item */}
-            <Pressable
-              onPress={handleEbookPress}
+            <Card
+              onPress={purchased ? handleEbookPress : undefined}
               disabled={!purchased}
-              className="active:scale-[0.98]"
+              className="flex-row items-center gap-4"
+              style={purchased ? undefined : { opacity: 0.6 }}
             >
-              <View
-                className="flex-row items-center gap-4 rounded-xl border border-foreground/10 bg-foreground/5 p-4"
-                style={purchased ? undefined : { opacity: 0.6 }}
+              <IconChip
+                size="lg"
+                shape="rounded"
+                bg={withAlpha(colors.primary.pink, 0.2)}
               >
-                <View
-                  className="h-12 w-12 items-center justify-center rounded-lg"
-                  style={{
-                    backgroundColor: `${colors.primary.pink}33`,
-                  }}
-                >
-                  <MaterialIcons
-                    name="menu-book"
-                    size={28}
-                    color={colors.primary.pink}
-                  />
-                </View>
-                <View className="flex-1">
-                  <Text className="text-base font-semibold text-foreground">
-                    The Flight Mindfulness E-Book
-                  </Text>
-                  <Text className="text-sm text-foreground/60">
-                    Step-by-step techniques for grounding
-                  </Text>
-                </View>
-                {purchased && (
-                  <MaterialIcons
-                    name="chevron-right"
-                    size={24}
-                    color={colors.gray[600]}
-                  />
-                )}
+                <MaterialIcons
+                  name="menu-book"
+                  size={28}
+                  color={colors.primary.pink}
+                />
+              </IconChip>
+              <View className="flex-1">
+                <Text className="text-base font-semibold text-foreground">
+                  The Flight Mindfulness E-Book
+                </Text>
+                <Text className="text-sm text-foreground/60">
+                  Step-by-step techniques for grounding
+                </Text>
               </View>
-            </Pressable>
+              {purchased && (
+                <MaterialIcons
+                  name="chevron-right"
+                  size={24}
+                  color={colors.gray[600]}
+                />
+              )}
+            </Card>
 
             {/* Checklist Item */}
-            <Pressable
-              onPress={handleChecklistPress}
+            <Card
+              onPress={purchased ? handleChecklistPress : undefined}
               disabled={!purchased}
-              className="active:scale-[0.98]"
+              className="flex-row items-center gap-4"
+              style={purchased ? undefined : { opacity: 0.6 }}
             >
-              <View
-                className="flex-row items-center gap-4 rounded-xl border border-foreground/10 bg-foreground/5 p-4"
-                style={purchased ? undefined : { opacity: 0.6 }}
+              <IconChip
+                size="lg"
+                shape="rounded"
+                bg={withAlpha(colors.primary.pink, 0.2)}
               >
-                <View
-                  className="h-12 w-12 items-center justify-center rounded-lg"
-                  style={{
-                    backgroundColor: `${colors.primary.pink}33`,
-                  }}
-                >
-                  <MaterialIcons
-                    name="checklist"
-                    size={28}
-                    color={colors.primary.pink}
-                  />
-                </View>
-                <View className="flex-1">
-                  <Text className="text-base font-semibold text-foreground">
-                    Quick Flight Checklist
-                  </Text>
-                  <Text className="text-sm text-foreground/60">
-                    Your companion for boarding and takeoff
-                  </Text>
-                </View>
-                {purchased && (
-                  <MaterialIcons
-                    name="chevron-right"
-                    size={24}
-                    color={colors.gray[600]}
-                  />
-                )}
+                <MaterialIcons
+                  name="checklist"
+                  size={28}
+                  color={colors.primary.pink}
+                />
+              </IconChip>
+              <View className="flex-1">
+                <Text className="text-base font-semibold text-foreground">
+                  Quick Flight Checklist
+                </Text>
+                <Text className="text-sm text-foreground/60">
+                  Your companion for boarding and takeoff
+                </Text>
               </View>
-            </Pressable>
+              {purchased && (
+                <MaterialIcons
+                  name="chevron-right"
+                  size={24}
+                  color={colors.gray[600]}
+                />
+              )}
+            </Card>
           </View>
         </ScrollView>
       </ScrollFade>

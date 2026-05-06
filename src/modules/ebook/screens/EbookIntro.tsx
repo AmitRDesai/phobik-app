@@ -1,9 +1,11 @@
 import introHero from '@/assets/images/ebook/introduction-hero.jpg';
 import { BackButton } from '@/components/ui/BackButton';
+import { Card } from '@/components/ui/Card';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { GradientText } from '@/components/ui/GradientText';
@@ -127,17 +129,18 @@ export default function EbookIntro() {
 
             <View className="gap-4 pt-4">
               {/* Intellectual Reassurance */}
-              <View className="flex-row items-start gap-4 rounded-xl border border-foreground/10 bg-foreground/5 p-4">
-                <View
-                  className="h-10 w-10 items-center justify-center rounded-full"
-                  style={{ backgroundColor: `${colors.primary.pink}33` }}
+              <Card className="flex-row items-start gap-4">
+                <IconChip
+                  size="md"
+                  shape="circle"
+                  bg={withAlpha(colors.primary.pink, 0.2)}
                 >
                   <MaterialIcons
                     name="psychology"
                     size={22}
                     color={colors.primary.pink}
                   />
-                </View>
+                </IconChip>
                 <View className="flex-1">
                   <Text className="font-bold text-foreground">
                     1. Intellectual Reassurance
@@ -147,20 +150,21 @@ export default function EbookIntro() {
                     dispel common myths and technical fears.
                   </Text>
                 </View>
-              </View>
+              </Card>
 
               {/* Emotional Safety */}
-              <View className="flex-row items-start gap-4 rounded-xl border border-foreground/10 bg-foreground/5 p-4">
-                <View
-                  className="h-10 w-10 items-center justify-center rounded-full"
-                  style={{ backgroundColor: `${colors.primary.pink}33` }}
+              <Card className="flex-row items-start gap-4">
+                <IconChip
+                  size="md"
+                  shape="circle"
+                  bg={withAlpha(colors.primary.pink, 0.2)}
                 >
                   <MaterialIcons
                     name="favorite"
                     size={22}
                     color={colors.primary.pink}
                   />
-                </View>
+                </IconChip>
                 <View className="flex-1">
                   <Text className="font-bold text-foreground">
                     2. Emotional Safety
@@ -170,7 +174,7 @@ export default function EbookIntro() {
                     physical symptoms of anxiety in real-time.
                   </Text>
                 </View>
-              </View>
+              </Card>
             </View>
 
             <View className="pb-12 pt-6">
