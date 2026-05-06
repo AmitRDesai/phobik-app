@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
@@ -117,7 +118,7 @@ export default function Intro() {
               >
                 <MaterialIcons name={p.icon} size={20} color={accent} />
               </View>
-              <View className="mt-1 flex-1 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-5">
+              <Card className="mt-1 flex-1 p-5">
                 <Text className="text-2xl font-bold tracking-tight text-foreground">
                   {p.title}
                 </Text>
@@ -129,7 +130,7 @@ export default function Intro() {
                 <Text className="mt-2 text-[15px] leading-6 text-foreground/60">
                   {p.body}
                 </Text>
-              </View>
+              </Card>
             </View>
           );
         })}

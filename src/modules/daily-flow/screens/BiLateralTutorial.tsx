@@ -1,4 +1,5 @@
 import BL_IMAGE from '@/assets/images/daily-flow/bilateral-tutorial.png';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
@@ -143,7 +144,7 @@ function SmallStepCard({
   description: string;
 }) {
   return (
-    <View className="rounded-2xl border border-foreground/10 bg-foreground/[0.04] p-5">
+    <Card className="p-5">
       <View className="flex-row items-start gap-4">
         <Text
           className="text-2xl font-black tracking-tight"
@@ -158,7 +159,7 @@ function SmallStepCard({
           </Text>
         </View>
       </View>
-    </View>
+    </Card>
   );
 }
 
@@ -211,7 +212,7 @@ function MiniStepCard({
   description: string;
 }) {
   return (
-    <View className="rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-5">
+    <Card variant="surface" className="p-5">
       <Text className="text-[10px] font-black uppercase tracking-[0.25em] text-foreground/50">
         {step}
       </Text>
@@ -221,6 +222,6 @@ function MiniStepCard({
       <Text className="mt-1 text-xs leading-5 text-foreground/55">
         {description}
       </Text>
-    </View>
+    </Card>
   );
 }

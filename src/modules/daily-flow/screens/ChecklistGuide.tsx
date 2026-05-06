@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
@@ -86,10 +87,7 @@ export default function ChecklistGuide() {
 
       <View className="gap-4">
         {STEPS.map((s, i) => (
-          <View
-            key={s.title}
-            className="rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-6"
-          >
+          <Card key={s.title} className="p-6">
             <View className="flex-row gap-5">
               <View className="h-8 w-8 items-center justify-center rounded-full border-2 border-foreground/15">
                 <Text className="text-sm font-bold text-foreground/60">
@@ -105,7 +103,7 @@ export default function ChecklistGuide() {
                 </Text>
               </View>
             </View>
-          </View>
+          </Card>
         ))}
       </View>
     </Screen>

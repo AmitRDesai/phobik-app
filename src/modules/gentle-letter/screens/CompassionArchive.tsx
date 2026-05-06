@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 
+import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
@@ -104,7 +105,7 @@ export default function CompassionArchive() {
       header={<Header title="My Compassion Archive" />}
       className="px-4"
     >
-      <View className="rounded-2xl border border-foreground/5 bg-surface-elevated p-4">
+      <Card variant="surface">
         <View className="mb-4 flex-row items-center justify-between">
           <Pressable onPress={prevMonth} className="rounded-full p-2">
             <MaterialIcons name="chevron-left" size={24} color={chevronColor} />
@@ -187,7 +188,7 @@ export default function CompassionArchive() {
             );
           })}
         </View>
-      </View>
+      </Card>
 
       <View className="mt-8">
         <View className="mb-4 flex-row items-center justify-between">
@@ -208,7 +209,7 @@ export default function CompassionArchive() {
         {isLoading ? (
           <ActivityIndicator size="small" color={colors.primary.pink} />
         ) : !letters?.length ? (
-          <View className="items-center rounded-2xl border border-foreground/5 bg-surface-elevated p-8">
+          <Card variant="surface" className="items-center p-8">
             <MaterialIcons
               name="edit-note"
               size={40}
@@ -219,7 +220,7 @@ export default function CompassionArchive() {
                 ? 'No letters on this date.'
                 : 'No letters yet. Start your first gentle letter practice.'}
             </Text>
-          </View>
+          </Card>
         ) : (
           <View className="gap-4">
             {letters.map((letter) => (

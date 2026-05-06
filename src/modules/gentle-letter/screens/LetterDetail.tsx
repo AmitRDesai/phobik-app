@@ -2,6 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator, Text, View } from 'react-native';
 
+import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
@@ -91,11 +92,11 @@ export default function LetterDetail() {
                   Step {step.step}: {step.label}
                 </Text>
               </View>
-              <View className="rounded-2xl border border-foreground/5 bg-surface-elevated p-5">
+              <Card variant="surface" className="p-5">
                 <Text className="text-base leading-relaxed text-foreground/80">
                   {text}
                 </Text>
-              </View>
+              </Card>
             </View>
           );
         })}
