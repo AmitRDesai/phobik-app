@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { useScheme } from '@/hooks/useTheme';
 import { useSaveCalendarPrefs } from '@/modules/calendar/hooks/useSaveCalendarPrefs';
 import {
@@ -99,9 +100,9 @@ export default function PrivacyTrust() {
       {/* Privacy feature cards */}
       <View className="gap-4">
         {PRIVACY_FEATURES.map((feature) => (
-          <View
+          <Card
             key={feature.title}
-            className="flex-row items-center gap-4 rounded-2xl border border-foreground/10 bg-foreground/5 px-4 py-3"
+            className="flex-row items-center gap-4 px-4 py-3"
           >
             <View
               className="h-12 w-12 shrink-0 items-center justify-center rounded-xl"
@@ -123,7 +124,7 @@ export default function PrivacyTrust() {
                 {feature.description}
               </Text>
             </View>
-          </View>
+          </Card>
         ))}
       </View>
 

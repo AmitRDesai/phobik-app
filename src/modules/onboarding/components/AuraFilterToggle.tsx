@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import * as Haptics from 'expo-haptics';
@@ -45,7 +46,7 @@ export function AuraFilterToggle({ enabled, onToggle }: AuraFilterToggleProps) {
   }));
 
   return (
-    <View className="rounded-2xl border border-foreground/10 bg-surface-elevated p-5">
+    <Card variant="surface" className="p-5">
       <View className="flex-row items-center justify-between">
         <View className="flex-1 gap-1">
           <Text className="text-base font-bold text-foreground">
@@ -82,6 +83,6 @@ export function AuraFilterToggle({ enabled, onToggle }: AuraFilterToggleProps) {
           </Animated.View>
         </Pressable>
       </View>
-    </View>
+    </Card>
   );
 }
