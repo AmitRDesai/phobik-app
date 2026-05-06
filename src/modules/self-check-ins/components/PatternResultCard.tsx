@@ -54,7 +54,9 @@ export function PatternResultCard({
             Strength
           </Text>
         </View>
-        <Text className="mb-4 text-sm text-foreground">{archetype.strength}</Text>
+        <Text className="mb-4 text-sm text-foreground">
+          {archetype.strength}
+        </Text>
 
         {/* Growth Edge */}
         <View className="mb-3 flex-row items-center gap-2">

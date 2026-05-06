@@ -73,7 +73,9 @@ export function FeedCard({
           iconSize={22}
         />
         <View>
-          <Text className="text-sm font-bold text-foreground/80">{author.name}</Text>
+          <Text className="text-sm font-bold text-foreground/80">
+            {author.name}
+          </Text>
           <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/50">
             {getRelativeTime(createdAt)}
           </Text>

@@ -36,7 +36,9 @@ export default function TaiChiSession() {
       </View>
 
       <View className="mt-6 items-center">
-        <Text className="text-2xl font-extrabold text-foreground">Move slowly.</Text>
+        <Text className="text-2xl font-extrabold text-foreground">
+          Move slowly.
+        </Text>
         <GradientText className="text-2xl font-extrabold">
           Stay with the flow.
         </GradientText>
@@ -75,7 +77,9 @@ export default function TaiChiSession() {
                 color={colors.primary.pink}
               />
             </View>
-            <Text className="flex-1 text-base text-foreground/80">{tip.text}</Text>
+            <Text className="flex-1 text-base text-foreground/80">
+              {tip.text}
+            </Text>
           </View>
         ))}
       </View>

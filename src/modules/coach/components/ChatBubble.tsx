@@ -89,7 +89,9 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
             }}
           >
             <Ionicons name="refresh" size={14} color={colors.accent.purple} />
-            <Text className="text-[13px] font-medium text-foreground/70">Retry</Text>
+            <Text className="text-[13px] font-medium text-foreground/70">
+              Retry
+            </Text>
           </Pressable>
         </View>
       </Animated.View>

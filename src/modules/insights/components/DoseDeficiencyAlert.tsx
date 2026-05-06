@@ -31,7 +31,9 @@ export function DoseDeficiencyAlert({ totals }: DoseDeficiencyAlertProps) {
           <Text className="font-semibold text-foreground">
             You&apos;re low on {display.label} today
           </Text>
-          <Text className="mt-1 text-sm text-foreground/60">Smart Tip: {tip}</Text>
+          <Text className="mt-1 text-sm text-foreground/60">
+            Smart Tip: {tip}
+          </Text>
         </View>
       </View>
     </View>

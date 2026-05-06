@@ -82,7 +82,9 @@ export function HrvRecoveryChart() {
     <View className="gap-4 px-4">
       <View className="flex-row items-end justify-between">
         <View>
-          <Text className="text-lg font-bold text-foreground">HRV Recovery</Text>
+          <Text className="text-lg font-bold text-foreground">
+            HRV Recovery
+          </Text>
           <Text className="text-sm text-foreground/40">
             Heart Rate Variability trend
           </Text>

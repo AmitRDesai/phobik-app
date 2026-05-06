@@ -66,7 +66,9 @@ function JoinCommunityView() {
       >
         <MaterialIcons name="groups" size={64} color={colors.accent.yellow} />
         <View className="items-center gap-2">
-          <Text className="text-2xl font-bold text-foreground">Courage Wall</Text>
+          <Text className="text-2xl font-bold text-foreground">
+            Courage Wall
+          </Text>
           <Text className="text-center text-sm leading-relaxed text-primary-muted">
             A safe space to share your brave moments, support others, and grow
             together.

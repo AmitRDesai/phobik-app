@@ -120,7 +120,9 @@ export function SelfLeadershipPlan({
               />
             </View>
             <View className="flex-1">
-              <Text className="text-sm font-black text-foreground">{ex.title}</Text>
+              <Text className="text-sm font-black text-foreground">
+                {ex.title}
+              </Text>
               <Text className="text-[10px] text-foreground/60">
                 {ex.description}
               </Text>

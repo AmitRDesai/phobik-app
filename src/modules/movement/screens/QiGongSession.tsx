@@ -108,7 +108,9 @@ export default function QiGongSession() {
           />
         </View>
         <View className="flex-1">
-          <Text className="text-base font-bold text-foreground">{PRIMER.title}</Text>
+          <Text className="text-base font-bold text-foreground">
+            {PRIMER.title}
+          </Text>
           <Text className="mt-1 text-sm text-foreground/70">
             {PRIMER.description}
           </Text>
@@ -177,7 +179,9 @@ export default function QiGongSession() {
                 size={20}
                 color="rgba(255,255,255,0.25)"
               />
-              <Text className="flex-1 text-sm text-foreground/40">{step.title}</Text>
+              <Text className="flex-1 text-sm text-foreground/40">
+                {step.title}
+              </Text>
             </View>
           );
         })}

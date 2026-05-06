@@ -74,7 +74,9 @@ export default function PhysiologicalSighSession() {
             }}
           >
             <View className="h-[200px] w-[200px] items-center justify-center rounded-full border border-foreground/20 bg-surface/40">
-              <Text className="text-3xl font-extrabold text-foreground">4s</Text>
+              <Text className="text-3xl font-extrabold text-foreground">
+                4s
+              </Text>
               <Text className="mt-1 text-[10px] uppercase tracking-widest text-foreground/70">
                 Inhale
               </Text>

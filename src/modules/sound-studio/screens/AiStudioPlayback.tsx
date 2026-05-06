@@ -232,7 +232,9 @@ export default function AiStudioPlayback() {
                     <Text className="text-sm font-bold text-foreground">
                       {c.title}
                     </Text>
-                    <Text className="text-[11px] text-foreground/50">{c.meta}</Text>
+                    <Text className="text-[11px] text-foreground/50">
+                      {c.meta}
+                    </Text>
                   </View>
                 </Pressable>
               ))}

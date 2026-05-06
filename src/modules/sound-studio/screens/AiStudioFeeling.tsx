@@ -160,7 +160,9 @@ export default function AiStudioFeeling() {
               />
               <Text className="text-xs text-foreground/60">
                 Existing Credits:{' '}
-                <Text className="font-bold text-foreground">{FAKE_CREDITS}</Text>
+                <Text className="font-bold text-foreground">
+                  {FAKE_CREDITS}
+                </Text>
               </Text>
             </View>
             <Pressable onPress={() => router.push('/sound-studio/credits')}>

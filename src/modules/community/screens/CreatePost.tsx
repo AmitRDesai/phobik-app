@@ -135,7 +135,9 @@ export default function CreatePost() {
           {/* Image Attachments */}
           <View className="gap-3">
             <View className="flex-row items-center justify-between">
-              <Text className="px-1 text-sm font-bold text-foreground">Photos</Text>
+              <Text className="px-1 text-sm font-bold text-foreground">
+                Photos
+              </Text>
               {imageUris.length < 5 && (
                 <Pressable
                   onPress={handleAddImages}

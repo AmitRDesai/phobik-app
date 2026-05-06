@@ -144,7 +144,9 @@ export default function Coach() {
               <Text className="text-[15px] font-semibold text-foreground">
                 Coach
               </Text>
-              <Text className="text-[11px] text-foreground/35">Powered by AI</Text>
+              <Text className="text-[11px] text-foreground/35">
+                Powered by AI
+              </Text>
             </View>
             <View className="flex-row gap-2">
               <Pressable

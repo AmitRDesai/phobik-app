@@ -136,8 +136,12 @@ export default function SoundStudioHub() {
           contentFit="cover"
         />
         <View className="flex-1">
-          <Text className="text-sm font-bold text-foreground">Deep Focus Beta</Text>
-          <Text className="text-[11px] text-foreground/50">AI Generated • 4:20</Text>
+          <Text className="text-sm font-bold text-foreground">
+            Deep Focus Beta
+          </Text>
+          <Text className="text-[11px] text-foreground/50">
+            AI Generated • 4:20
+          </Text>
         </View>
         <Pressable className="h-9 w-9 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10">
           <MaterialIcons name="skip-next" size={18} color="white" />

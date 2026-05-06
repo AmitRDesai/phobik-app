@@ -55,7 +55,9 @@ export function RegulationScoreRing({ percentage }: RegulationScoreRingProps) {
           />
         </Svg>
         <View className="absolute items-center">
-          <Text className="text-3xl font-bold text-foreground">{percentage}%</Text>
+          <Text className="text-3xl font-bold text-foreground">
+            {percentage}%
+          </Text>
         </View>
       </View>
       <Text className="text-center text-xs text-zinc-400">{getLabel()}</Text>

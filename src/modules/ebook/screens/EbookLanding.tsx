@@ -275,7 +275,9 @@ export default function EbookLanding() {
             <Text className="text-sm font-medium uppercase tracking-widest text-foreground/60">
               Premium Access
             </Text>
-            <Text className="text-xl font-bold text-foreground">{priceLabel}</Text>
+            <Text className="text-xl font-bold text-foreground">
+              {priceLabel}
+            </Text>
           </View>
           <View className="mt-3">
             <GradientButton
@@ -299,9 +301,13 @@ export default function EbookLanding() {
               </Text>
             </Pressable>
             <Text className="text-[10px] text-foreground/55">{'\u00b7'}</Text>
-            <Text className="text-[10px] text-foreground/55">Terms of Service</Text>
+            <Text className="text-[10px] text-foreground/55">
+              Terms of Service
+            </Text>
             <Text className="text-[10px] text-foreground/55">{'\u00b7'}</Text>
-            <Text className="text-[10px] text-foreground/55">Privacy Policy</Text>
+            <Text className="text-[10px] text-foreground/55">
+              Privacy Policy
+            </Text>
           </View>
         </View>
       )}

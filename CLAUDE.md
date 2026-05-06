@@ -140,18 +140,24 @@ Jotai is used only for **local UI state** — not for server/synced data:
 - Global CSS: `global.css` imported in `_layout.tsx`
 - Metro configured with NativeWind transformer
 - **Do not hardcode colors** — Always use `tailwind.config.js` for Tailwind classes and `src/constants/colors.ts` for programmatic color access
-- **Prefer `className` over inline `style`** — convert static styles to NativeWind classes:
-  - Layout/spacing/sizing: `flex-1`, `items-center`, `px-8`, `h-14 w-14`, etc.
-  - Colors/backgrounds: `bg-primary-pink`, `text-white/50`, `border-white/10`
-  - Opacity with color: `bg-primary-pink/[0.15]`, `text-primary-muted/80`
-  - Arbitrary values: `rounded-[140px]`, `top-[30px]`, `h-[280px]`
-  - Platform modifiers: `android:p-0`, `ios:pt-16`
-  - ScrollView layout: use `contentContainerClassName` for static layout classes, keep `contentContainerStyle` only for dynamic values (e.g., `paddingBottom: FADE_HEIGHT`)
-- **Keep inline `style` only when required:**
+- **Theme-aware tokens (use these)** — Phase 3 of the design-system migration is complete; the app supports light + dark mode via NativeWind `vars()` and the `Screen` primitive's variant context.
+  - Foreground: `text-foreground`, `text-foreground/N`, `bg-foreground/N`, `border-foreground/N`
+  - Surfaces: `bg-surface` (screen bg), `bg-surface-elevated` (cards), `bg-surface-input` (form fields)
+  - Brand accents: `text-primary-pink` is fine in both modes (saturated). Brand `accent-yellow / cyan / purple / orange / gold` lose contrast on light surfaces — use the `accentFor(scheme, hue)` helper from `@/constants/colors` instead of the Tailwind class when the accent is text/icon on a non-saturated surface.
+  - JS-string color props (Ionicons, SVG strokes, `placeholderTextColor`) where NativeWind can't reach: `foregroundFor(scheme, opacity)` returns the right rgba string for the current theme.
+- **Don't use these legacy patterns** (Phase 3 swept them out):
+  - `text-white`, `bg-white/N`, `border-white/N` (except on saturated/gradient bgs where white-on-color is intentional)
+  - `text-slate-*` / `text-gray-*` (use `text-foreground/N` instead)
+  - `bg-card-dark` / `bg-card-elevated` / `bg-card-plum` (use `bg-surface-elevated`)
+  - `bg-background-charcoal` / `bg-background-dark` / `bg-background-dashboard` (use `bg-surface` or let `Screen` variant drive it)
+  - Legacy shadow props (`shadowColor`/`shadowOffset`/`shadowOpacity`/`shadowRadius`/`elevation`) — use RN 0.83+ `boxShadow` instead, with `withAlpha(color, opacity)` for the rgba portion
+- **Conditional / composed `className`** — always use `clsx` (named import: `import { clsx } from 'clsx'`). Never template literals or string concatenation.
+- **Prefer `className` over inline `style`** — convert static styles to NativeWind classes. Keep inline `style` only when required:
   - `LinearGradient` styles (NativeWind doesn't apply to gradient containers)
-  - Shadow props (`shadowColor`, `shadowOffset`, `shadowOpacity`, `shadowRadius`) — limited NativeWind support on native
+  - `boxShadow` (NativeWind passes string but compound shadow arrays go via style)
   - Dynamic computed values (e.g., `width: \`${percent}%\``)
   - SVG component props (no className support)
+- **The `Screen` primitive** at `src/components/ui/Screen.tsx` is the keystone — every screen routes through it. Pass `variant="default" | "auth" | "onboarding"`, optional `header`/`sticky` slots, and `scroll` for scrollable bodies. Default body padding is `px-screen-x pt-screen-y`; pass `className=""` to opt out (e.g., when an inner FlatList manages its own horizontal padding).
 
 ### Animations
 
@@ -245,15 +251,14 @@ src/modules/<feature>/
 
 Empty subfolders are not created — only added when needed. Service-only modules (`calendar`, `purchases`) have no `screens/`.
 
-### Design system overhaul (in progress)
+### Design system
 
-A multi-phase design-system + navigation refactor is underway. **Source of truth: `app/docs/design-system-spec.md`**. Future code changes should adhere to:
+The design-system + navigation refactor is **complete through Phase 3** (per-module migration). Source of truth: `app/docs/design-system-spec.md`.
 
-- 3 background variants (`default`, `auth`, `onboarding`) defined as token bundles
-- Theme-aware (light + dark) — light is P1
-- New primitives `Screen`, `Header`, `Button`, `TextField`, `Card`, etc. (Phase 2)
-- Per-module migration order in spec sec 18
-- Phase 0 (folder + route restructure) is complete
+- 3 background variants (`default`, `auth`, `onboarding`) defined as token bundles in `src/components/variant-config.ts` — `default` matches the body-based-regulation chrome (charcoal `#121212` + pink/yellow glow at top)
+- Theme-aware (light + dark); switching is global via `themeModeAtom` and propagates through NativeWind `vars()` in `ThemeProvider`
+- Primitives in `src/components/ui/`: `Screen`, `BackButton`, `GradientButton`, `Button`, `TextInput`, `SelectionCard`, `ProgressDots`, `SegmentedControl`, `DialogContainer`, `GlowBg`, `ScrollFade`, `FloatingAddButton`, `UserAvatar`, `DashboardCard`, `Container`, `RadialGlow`, `BlurView`, `LoadingScreen`, `NotificationBadge`
+- Helpers in `src/constants/colors.ts`: `withAlpha(hex, opacity)`, `foregroundFor(scheme, opacity | { dark, light })`, `accentFor(scheme, hue)` for `'yellow' | 'cyan' | 'purple' | 'orange' | 'gold' | 'pink'`
 
 **Re-export Pattern**: Route files in `src/app/` are one-liners that re-export from modules:
 
