@@ -1,6 +1,7 @@
 import { BlurView } from '@/components/ui/BlurView';
 import { NotificationBadge } from '@/components/ui/NotificationBadge';
 import { UserAvatar } from '@/components/ui/UserAvatar';
+import { variantConfig } from '@/components/variant-config';
 import { colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { useSession } from '@/hooks/auth/useAuth';
@@ -18,10 +19,9 @@ export function DashboardHeader() {
   const userName = session?.user?.name ?? 'Friend';
   const unreadCount = useUnreadCount();
 
-  const blurBg =
-    scheme === 'dark'
-      ? withAlpha(colors.background.dashboard, 0.7)
-      : 'rgba(250,250,250,0.7)';
+  // Tint the blur with the active variant bg so the header reads as the
+  // same surface as the screen behind it.
+  const blurBg = withAlpha(variantConfig.default[scheme].bgHex, 0.7);
 
   return (
     <BlurView intensity={25} tint={scheme} style={{ backgroundColor: blurBg }}>
