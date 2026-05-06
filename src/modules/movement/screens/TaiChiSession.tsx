@@ -4,8 +4,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { MovementSessionShell } from './MovementSessionShell';
 
 const TIPS = [

@@ -1,6 +1,6 @@
 import { SelectableChip } from '@/modules/onboarding/components/SelectableChip';
-import { ScrollView, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { ScrollView, View } from 'react-native';
 type MoodTabsProps = {
   label?: string;
   options: string[];

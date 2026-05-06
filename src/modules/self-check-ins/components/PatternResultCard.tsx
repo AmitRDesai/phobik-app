@@ -3,8 +3,8 @@ import { Card } from '@/components/ui/Card';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import type { PatternArchetype } from '../data/pivot-point-patterns';
 
 interface PatternResultCardProps {

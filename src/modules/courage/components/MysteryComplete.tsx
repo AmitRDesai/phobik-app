@@ -3,8 +3,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import type { CustomDialogProps } from '@/store/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import type { DoseReward, MysteryChallenge } from '../data/mystery-challenges';
 
 interface MysteryCompleteProps extends CustomDialogProps {

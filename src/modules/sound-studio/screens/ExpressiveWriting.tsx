@@ -8,8 +8,8 @@ import { GradientText } from '@/components/ui/GradientText';
 import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { ScrollView, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { ScrollView, View } from 'react-native';
 const STEPS = [
   {
     number: '01',

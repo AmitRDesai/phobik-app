@@ -9,8 +9,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Image, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Image, View } from 'react-native';
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import {
   getFeeling,

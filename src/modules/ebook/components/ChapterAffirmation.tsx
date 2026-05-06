@@ -1,7 +1,7 @@
 import { colors } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 export function ChapterAffirmation() {
   return (
     <View className="my-8">

@@ -1,7 +1,8 @@
 import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import Animated, {
   cancelAnimation,
   Easing,

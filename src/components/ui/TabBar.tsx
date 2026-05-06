@@ -4,7 +4,8 @@ import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { Pressable, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const TAB_ICONS: Record<string, keyof typeof MaterialIcons.glyphMap> = {

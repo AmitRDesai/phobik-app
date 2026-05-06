@@ -3,7 +3,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import type { CustomDialogProps } from '@/store/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ScrollView, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { ScrollView, View } from 'react-native';
 import { useJoinCommunity } from '../hooks/useCommunity';
 
 const PRINCIPLES = [

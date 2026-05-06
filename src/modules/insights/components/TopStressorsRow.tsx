@@ -7,8 +7,8 @@ import {
 import { useAssessmentList } from '@/modules/self-check-ins/hooks/useSelfCheckIn';
 import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, ScrollView, View } from 'react-native';
 const ACCENT_COLORS = [
   colors.primary['pink-soft'],
   colors.accent.gold,

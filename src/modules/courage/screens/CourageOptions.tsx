@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
-import { ScrollView, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { ScrollView, View } from 'react-native';
 import { CourageHeader } from '../components/CourageHeader';
 import { CourageOptionCard } from '../components/CourageOptionCard';
 import { COURAGE_OPTIONS } from '../data/courage-options';

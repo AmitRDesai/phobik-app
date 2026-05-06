@@ -12,7 +12,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { Text, useWindowDimensions, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { useWindowDimensions, View } from 'react-native';
 import { Slider } from '../components/Slider';
 
 interface Pillars {

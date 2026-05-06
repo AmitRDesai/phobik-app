@@ -8,7 +8,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 
 export default function AiStudioExpress() {

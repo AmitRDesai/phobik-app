@@ -2,8 +2,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { MovementSessionShell } from './MovementSessionShell';
 
 const STEPS = [

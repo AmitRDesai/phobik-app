@@ -4,7 +4,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, StyleSheet, View } from 'react-native';
 import Svg, {
   Defs,
   Line,

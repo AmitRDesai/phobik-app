@@ -12,8 +12,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, ScrollView, TextInput, View } from 'react-native';
 export default function AiStudioWriteIt() {
   const router = useRouter();
   const [text, setText] = useState('');

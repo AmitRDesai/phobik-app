@@ -8,8 +8,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
 import { useMemo } from 'react';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import { MEDITATIONS } from '../data/meditations';
 import { meditationSessionsAtom } from '../store/sessions';
 

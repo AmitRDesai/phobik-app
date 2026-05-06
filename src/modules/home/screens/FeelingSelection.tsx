@@ -2,8 +2,8 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { AffirmationHeader } from '../components/AffirmationHeader';
 import { FeelingCompass } from '../components/FeelingCompass';
 

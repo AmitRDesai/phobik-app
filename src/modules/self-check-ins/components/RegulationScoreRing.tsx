@@ -1,5 +1,6 @@
 import { colors } from '@/constants/colors';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 interface RegulationScoreRingProps {

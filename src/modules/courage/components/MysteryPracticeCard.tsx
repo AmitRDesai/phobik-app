@@ -4,8 +4,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import type { DoseReward, MysteryChallenge } from '../data/mystery-challenges';
 import { useRecordChallenge } from '../hooks/useMysteryChallenge';
 import { usePracticeTimer } from '../hooks/usePracticeTimer';

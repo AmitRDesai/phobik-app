@@ -1,8 +1,8 @@
 import { Card } from '@/components/ui/Card';
 import { withAlpha } from '@/constants/colors';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 const LINKS = [
   { label: 'Sunny', href: '/characters/sunny' as const, tint: '#FACC15' },
   { label: 'Olive', href: '/characters/olive' as const, tint: '#FFB7D5' },

@@ -4,8 +4,8 @@ import { PracticeListRow } from '@/modules/practices/components/PracticeListRow'
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import {
   MOVEMENT_EXERCISES,
   MOVEMENT_MOODS,

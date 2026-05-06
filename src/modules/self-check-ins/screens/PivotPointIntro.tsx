@@ -5,7 +5,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
-import { ScrollView, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {

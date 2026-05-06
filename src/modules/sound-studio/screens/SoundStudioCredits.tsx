@@ -9,8 +9,8 @@ import { PracticeStackHeader } from '@/modules/practices/components/PracticeStac
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ScrollView, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { ScrollView, View } from 'react-native';
 import { CREDIT_PLANS } from '../data/sound-studio';
 
 const FAKE_BALANCE = 12;

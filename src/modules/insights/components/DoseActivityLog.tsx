@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/Card';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { getChemicalDisplay } from '../data/dose-config';
 import { useDoseActivityLog } from '../hooks/useDoseActivityLog';
 import type { DoseTotals } from '../hooks/useDailyDose';

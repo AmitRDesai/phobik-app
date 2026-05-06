@@ -1,6 +1,7 @@
 import { alpha, colors } from '@/constants/colors';
 import { useEffect, useRef } from 'react';
-import { Text, useWindowDimensions, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { useWindowDimensions, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedProps,

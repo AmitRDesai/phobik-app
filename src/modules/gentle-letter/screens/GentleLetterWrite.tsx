@@ -3,8 +3,8 @@ import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
 import { useRef, useState } from 'react';
-import { Keyboard, Pressable, Text, TextInput, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Keyboard, Pressable, TextInput, View } from 'react-native';
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';

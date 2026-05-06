@@ -10,7 +10,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, ScrollView, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
 import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
 

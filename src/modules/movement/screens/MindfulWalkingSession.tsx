@@ -3,8 +3,8 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { MovementSessionShell } from './MovementSessionShell';
 
 const PHASES = [

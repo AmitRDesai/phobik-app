@@ -4,7 +4,8 @@ import { useEnergyCheckInHistory } from '@/modules/home/hooks/useEnergyCheckIn';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
 import { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import Svg, {
   Circle,
   Defs,

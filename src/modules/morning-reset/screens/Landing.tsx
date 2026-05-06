@@ -8,8 +8,8 @@ import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { MorningResetHeader } from '../components/MorningResetHeader';
 import {
   useActiveMorningResetSession,

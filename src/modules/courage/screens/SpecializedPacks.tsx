@@ -1,8 +1,8 @@
 import { usePackPurchases } from '@/modules/purchases/hooks/usePackPurchased';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
-import { ScrollView, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { ScrollView, View } from 'react-native';
 import { CourageHeader } from '../components/CourageHeader';
 import { SpecializedPackCard } from '../components/SpecializedPackCard';
 import { SPECIALIZED_PACKS } from '../data/specialized-packs';

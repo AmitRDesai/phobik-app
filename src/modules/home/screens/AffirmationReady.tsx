@@ -3,8 +3,8 @@ import { Screen } from '@/components/ui/Screen';
 import { dismissToRoot } from '@/utils/navigation';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { AffirmationHeader } from '../components/AffirmationHeader';
 import { AffirmationReadyCard } from '../components/AffirmationReadyCard';
 import { useSaveAffirmation } from '../hooks/useAffirmation';

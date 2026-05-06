@@ -8,7 +8,8 @@ import {
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

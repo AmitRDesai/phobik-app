@@ -5,8 +5,8 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { useQuery } from '@powersync/tanstack-react-query';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 const DAY_LABELS = [
   { key: 'mon', label: 'M' },
   { key: 'tue', label: 'T' },

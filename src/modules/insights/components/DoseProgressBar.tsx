@@ -1,4 +1,5 @@
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import type { DoseChemical } from '../data/dose-config';
 

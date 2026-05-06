@@ -1,10 +1,10 @@
 import { Card } from '@/components/ui/Card';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text } from 'react-native';
 
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
+import { Text } from '@/components/themed/Text';
 
 export default function Nourishment() {
   const scheme = useScheme();

@@ -1,7 +1,8 @@
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import Svg, {
   Circle,
   Defs,

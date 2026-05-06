@@ -8,7 +8,8 @@ import {
   useRef,
   useState,
 } from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 

@@ -16,8 +16,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 function formatBytes(bytes: number): string {
   if (bytes === 0) return '0 B';
   const units = ['B', 'KB', 'MB', 'GB'] as const;

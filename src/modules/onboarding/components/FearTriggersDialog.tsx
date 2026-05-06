@@ -4,7 +4,8 @@ import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtom } from 'jotai';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import {
   onboardingReminderPrefAtom,
   type ReminderPreference,

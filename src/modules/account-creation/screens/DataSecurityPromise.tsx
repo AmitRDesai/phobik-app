@@ -9,8 +9,8 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 const SECURITY_POINTS = [
   {
     title: 'Biometric data never leaves your device',

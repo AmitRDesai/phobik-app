@@ -9,8 +9,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, ScrollView, View } from 'react-native';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 
 import { CourageHeader } from '../components/CourageHeader';

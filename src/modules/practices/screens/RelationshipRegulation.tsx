@@ -1,7 +1,7 @@
 import { useActiveChallenge } from '@/modules/empathy-challenge/hooks/useEmpathyChallenge';
 import { useAssessmentList } from '@/modules/self-check-ins/hooks/useSelfCheckIn';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { RELATIONSHIP_SUBMENU } from '../data/four-pillars';
 import { PillarSubMenuScreen } from './PillarSubMenuScreen';
 

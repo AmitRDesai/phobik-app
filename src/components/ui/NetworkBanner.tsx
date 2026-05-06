@@ -1,7 +1,8 @@
 import { colors, withAlpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { useNetInfo } from '@react-native-community/netinfo';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 
 interface NetworkBannerProps {

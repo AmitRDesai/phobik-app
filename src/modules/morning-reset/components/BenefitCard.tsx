@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import type { AccentHue } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text } from 'react-native';
+import { Text } from '@/components/themed/Text';
 
 type Tone = 'pink' | 'yellow' | 'orange';
 

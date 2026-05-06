@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/Card';
 import * as Haptics from 'expo-haptics';
-import { Pressable, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import Svg, {
   Defs,
   Ellipse,

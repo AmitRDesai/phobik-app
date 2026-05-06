@@ -1,8 +1,8 @@
 import { Card } from '@/components/ui/Card';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 interface InsightCardProps {
   title: string;
   body: string;

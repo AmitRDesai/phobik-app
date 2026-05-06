@@ -1,6 +1,7 @@
 import { withAlpha } from '@/constants/colors';
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { EaseView } from 'react-native-ease';
 import Svg, {

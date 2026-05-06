@@ -3,7 +3,8 @@ import { useScheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useCallback, useState } from 'react';
-import { Keyboard, Pressable, Text, TextInput, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Keyboard, Pressable, TextInput, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useVoiceInput } from '../hooks/useVoiceInput';
 

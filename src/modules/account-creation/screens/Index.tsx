@@ -8,8 +8,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
 import { Link, router } from 'expo-router';
 import { useEffect } from 'react';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 export default function WelcomeScreen() {
   useEffect(() => {
     warmServer();

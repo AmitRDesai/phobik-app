@@ -10,8 +10,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import { Platform, Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Platform, Pressable, View } from 'react-native';
 const PROVIDER_LABEL =
   Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect';
 

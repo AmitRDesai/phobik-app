@@ -12,8 +12,8 @@ import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSetAtom } from 'jotai';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 interface BiometricSetupProps {
   mode: 'initial-setup' | 'settings';
 }

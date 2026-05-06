@@ -1,7 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { isTodayLocal } from '@/modules/daily-flow/data/flow-navigation';
 import { useActiveDailyFlowSession } from '@/modules/daily-flow/hooks/useDailyFlowSession';
 import { useEnterDailyFlow } from '@/modules/daily-flow/hooks/useEnterDailyFlow';

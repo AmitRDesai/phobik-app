@@ -1,6 +1,6 @@
 import { colors, withAlpha } from '@/constants/colors';
-import { Pressable, ScrollView, Text } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, ScrollView } from 'react-native';
 const CIRCLES = [
   { label: 'All Stories', value: undefined },
   { label: '18-24', value: '18-24' },

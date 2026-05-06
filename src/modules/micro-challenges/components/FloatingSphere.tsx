@@ -1,5 +1,6 @@
 import * as Haptics from 'expo-haptics';
-import { Pressable, Text } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable } from 'react-native';
 import Animated from 'react-native-reanimated';
 import Svg, { Circle, Defs, RadialGradient, Stop } from 'react-native-svg';
 

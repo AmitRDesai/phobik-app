@@ -5,8 +5,8 @@ import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { TappingAnimation } from '../components/TappingAnimation';
 import { getFeeling } from '../data/feelings';

@@ -11,8 +11,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, ScrollView, View } from 'react-native';
 const CREATIONS = [
   {
     id: 'cyberpunk-rain',

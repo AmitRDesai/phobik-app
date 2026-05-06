@@ -9,8 +9,8 @@ import { dismissToRoot } from '@/utils/navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { ReactNode } from 'react';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import {
   STEP_ROUTES,
   getNextStep,

@@ -9,8 +9,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, ScrollView, TextInput, View } from 'react-native';
 import { EMOTIONAL_TAGS, type EmotionalTag } from '../data/sound-studio';
 
 const FAKE_CREDITS = 12;

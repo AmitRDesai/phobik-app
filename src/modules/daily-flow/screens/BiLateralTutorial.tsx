@@ -8,8 +8,8 @@ import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Image, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Image, View } from 'react-native';
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { getFeeling } from '../data/feelings';
 import type { FlowStep } from '../data/types';

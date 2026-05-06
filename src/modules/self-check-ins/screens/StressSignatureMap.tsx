@@ -8,7 +8,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useMemo } from 'react';
-import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { ScrollView, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, {
   Circle,

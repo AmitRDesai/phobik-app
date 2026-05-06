@@ -12,8 +12,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { File as ExpoFile } from 'expo-file-system';
 import { useState } from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Image, Pressable, View } from 'react-native';
 export default function Profile() {
   const { data: session } = useSession();
   const queryClient = useQueryClient();

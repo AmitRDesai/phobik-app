@@ -2,8 +2,8 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { colors, withAlpha } from '@/constants/colors';
 import type { StressorKey } from '@/modules/self-check-ins/data/stressors';
 import { useLocalSearchParams } from 'expo-router';
-import { ScrollView, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { ScrollView, View } from 'react-native';
 import { ReflectCard } from '../components/ReflectCard';
 import { SelfLeadershipPlan } from '../components/SelfLeadershipPlan';
 import { StressorHeader } from '../components/StressorHeader';

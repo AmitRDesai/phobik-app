@@ -1,6 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { PropsWithChildren } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type Props = PropsWithChildren<{

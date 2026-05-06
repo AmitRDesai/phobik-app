@@ -4,7 +4,8 @@ import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { ChakraFigure } from '../components/ChakraFigure';
 
 const principles = [

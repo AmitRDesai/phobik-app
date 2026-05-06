@@ -9,8 +9,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import { AudioVisualizer } from '../components/AudioVisualizer';
 import { HeartRateBadge } from '../components/HeartRateBadge';
 import { ProgressRing } from '../components/ProgressRing';

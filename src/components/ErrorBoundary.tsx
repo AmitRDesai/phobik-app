@@ -1,9 +1,10 @@
 import { colors } from '@/constants/colors';
 import { type ErrorBoundaryProps } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
-import { Text } from 'react-native';
+
 import { Button } from './ui/Button';
 import { Screen } from './ui/Screen';
+import { Text } from '@/components/themed/Text';
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   return (

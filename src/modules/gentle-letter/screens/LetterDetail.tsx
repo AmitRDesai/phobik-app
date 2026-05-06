@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
-import { ActivityIndicator, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { ActivityIndicator, View } from 'react-native';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';

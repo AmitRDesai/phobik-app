@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';

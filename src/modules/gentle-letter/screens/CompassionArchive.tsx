@@ -3,8 +3,8 @@ import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { ActivityIndicator, Pressable, View } from 'react-native';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';

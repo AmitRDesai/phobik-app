@@ -2,8 +2,8 @@ import { Card } from '@/components/ui/Card';
 import { CardAura } from '@/components/ui/CardAura';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 export function AnxietyImpactCard() {
   return (
     <View className="px-4">

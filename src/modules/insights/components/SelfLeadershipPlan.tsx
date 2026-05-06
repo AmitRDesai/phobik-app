@@ -3,7 +3,8 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import type { StressorExercise } from '../data/stressor-details';
 import { STRENGTHS } from '../data/stressor-details';
 

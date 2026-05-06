@@ -8,8 +8,8 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import { NOW_PLAYING_IMAGE } from '../data/sound-studio';
 
 const FAKE_CREDITS = 42;

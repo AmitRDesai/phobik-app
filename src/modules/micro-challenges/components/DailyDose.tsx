@@ -4,8 +4,8 @@ import { alpha, colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef } from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { EMOTIONS } from '../data/emotions';
 import { NEEDS } from '../data/needs';
 import { useAIChallenge } from '../hooks/useAIChallenge';

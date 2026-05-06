@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/Card';
 import { useEffect, useState } from 'react';
-import { Image, Text, View, type ImageSourcePropType } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Image, View, type ImageSourcePropType } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

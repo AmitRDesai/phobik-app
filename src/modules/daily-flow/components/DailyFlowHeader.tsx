@@ -3,8 +3,8 @@ import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { dialog } from '@/utils/dialog';
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { exitDailyFlow, getPreviousStep } from '../data/flow-navigation';
 import {
   useActiveDailyFlowSession,

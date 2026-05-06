@@ -17,8 +17,8 @@ import { audioVoiceAtom, type AudioVoice } from '@/lib/audio/voice';
 import { useSaveOnLeave } from '@/modules/practices/hooks/useSaveOnLeave';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, ScrollView, View } from 'react-native';
 import { getMeditation } from '../data/meditations';
 import { meditationSessionsAtom } from '../store/sessions';
 

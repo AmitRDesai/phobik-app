@@ -4,8 +4,8 @@ import { IconChip } from '@/components/ui/IconChip';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import { GradientText } from '@/components/ui/GradientText';
 import { MoodTabs } from '../components/MoodTabs';
 import { PracticeListRow } from '../components/PracticeListRow';

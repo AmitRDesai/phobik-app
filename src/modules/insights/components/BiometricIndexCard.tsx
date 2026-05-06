@@ -7,7 +7,8 @@ import {
 } from '@/modules/insights/hooks/useBiometricHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
 import { useAtomValue } from 'jotai';
-import { Pressable, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 import Svg, { Path } from 'react-native-svg';
 

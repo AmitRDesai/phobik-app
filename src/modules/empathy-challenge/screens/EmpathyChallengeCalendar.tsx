@@ -1,8 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Redirect, useRouter } from 'expo-router';
-import { ActivityIndicator, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { ActivityIndicator, View } from 'react-native';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';

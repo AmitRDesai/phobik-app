@@ -2,8 +2,8 @@ import { GradientText } from '@/components/ui/GradientText';
 import { PillarCard } from '@/modules/practices/components/PillarCard';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { dialog } from '@/utils/dialog';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { SOUNDSCAPE_CATEGORIES } from '../data/sound-studio';
 
 export default function CuratedSoundscapes() {

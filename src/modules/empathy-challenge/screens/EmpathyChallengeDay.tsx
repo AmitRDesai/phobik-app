@@ -2,8 +2,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Keyboard, Text, TextInput, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Keyboard, TextInput, View } from 'react-native';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';

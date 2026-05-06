@@ -2,8 +2,8 @@ import { BackButton } from '@/components/ui/BackButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { MysteryWheel } from '../components/MysteryWheel';
 import type { MysteryType } from '../data/mystery-challenges';
 

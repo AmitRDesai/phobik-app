@@ -6,8 +6,8 @@ import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { Image, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Image, View } from 'react-native';
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { EFTPointCard } from '../components/EFTPointCard';
 import { EFT_POINTS } from '../data/eftPoints';

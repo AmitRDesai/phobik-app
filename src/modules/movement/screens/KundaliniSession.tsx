@@ -6,8 +6,8 @@ import { GradientText } from '@/components/ui/GradientText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import { MovementSessionShell } from './MovementSessionShell';
 
 const DURATIONS = ['1 min', '3 min'];

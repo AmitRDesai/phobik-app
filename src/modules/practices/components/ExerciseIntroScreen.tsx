@@ -6,8 +6,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { type ReactNode } from 'react';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import { EXERCISES } from '../data/exercises';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

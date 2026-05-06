@@ -3,8 +3,8 @@ import { IconChip } from '@/components/ui/IconChip';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 interface SettingsMenuItemProps {
   icon: keyof typeof MaterialIcons.glyphMap;
   iconColor?: string;

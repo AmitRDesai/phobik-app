@@ -9,7 +9,8 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import { Linking, Platform, Pressable, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Linking, Platform, Pressable, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { openHealthConnectSettings } from 'react-native-health-connect';
 

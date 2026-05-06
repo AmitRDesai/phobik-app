@@ -7,8 +7,8 @@ import { type AgeRange, questionnaireAgeAtom } from '@/store/onboarding';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 const AGE_OPTIONS: { value: AgeRange; label: string }[] = [
   { value: '18-24', label: '18–24' },
   { value: '25-34', label: '25–34' },

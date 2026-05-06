@@ -1,7 +1,8 @@
 import { BlurView } from '@/components/ui/BlurView';
 import { colors, withAlpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import Svg, {
   Circle,
   Defs,

@@ -1,7 +1,7 @@
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { AssessmentCard } from '../components/AssessmentCard';
 import { ASSESSMENTS } from '../data/assessments';
 import { useAssessmentList } from '../hooks/useSelfCheckIn';

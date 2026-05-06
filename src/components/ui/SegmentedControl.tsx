@@ -1,7 +1,7 @@
 import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 interface SegmentedControlProps<T extends string> {
   options: { label: string; value: T }[];
   selected: T | null;

@@ -6,8 +6,8 @@ import {
   useMicroChallengeStats,
 } from '@/modules/micro-challenges/hooks/useMicroChallenge';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { StreakGrid } from './StreakGrid';
 

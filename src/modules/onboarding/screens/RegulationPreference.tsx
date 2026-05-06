@@ -3,7 +3,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
-import { Text, TextInput, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { TextInput, View } from 'react-native';
 import { OnboardingLayout } from '../components/OnboardingLayout';
 import { SelectableChip } from '../components/SelectableChip';
 import {

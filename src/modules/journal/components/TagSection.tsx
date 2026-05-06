@@ -7,7 +7,8 @@ import {
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, ScrollView, TextInput, View } from 'react-native';
 import { FEELING_OPTIONS, NEED_OPTIONS } from '../data/options';
 import { getTagColor, getTagColorFromHex } from '../data/tag-colors';
 import { useCreateTag, useJournalTags } from '../hooks/useJournalTags';

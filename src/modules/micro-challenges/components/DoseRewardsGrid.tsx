@@ -1,8 +1,8 @@
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors } from '@/constants/colors';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import type { DoseReward } from '@/modules/courage/data/mystery-challenges';
 
 interface DoseRewardsGridProps {

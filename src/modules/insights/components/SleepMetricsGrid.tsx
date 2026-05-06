@@ -6,8 +6,8 @@ import {
 import { timeRangeAtom } from '@/modules/insights/store/insights';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtomValue } from 'jotai';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 function formatDuration(minutes: number | null): string {
   if (minutes == null || minutes <= 0) return '—';
   const h = Math.floor(minutes / 60);

@@ -8,7 +8,8 @@ import { useSession } from '@/hooks/auth/useAuth';
 import { useUnreadCount } from '@/modules/notifications/hooks/useNotifications';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function DashboardHeader() {

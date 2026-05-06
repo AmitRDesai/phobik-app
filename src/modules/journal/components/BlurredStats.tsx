@@ -1,7 +1,8 @@
 import { BlurView } from '@/components/ui/BlurView';
 import { Card } from '@/components/ui/Card';
 import { useBiometricHistory } from '@/modules/insights/hooks/useBiometricHistory';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { useJournalStats } from '../hooks/useJournalStats';
 
 function StatBox({ label, value }: { label: string; value: string | number }) {

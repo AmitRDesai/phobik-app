@@ -1,5 +1,6 @@
 import { alpha, colors, withAlpha } from '@/constants/colors';
-import { Pressable, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useAnimatedProps,

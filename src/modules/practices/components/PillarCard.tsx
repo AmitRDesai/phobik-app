@@ -4,8 +4,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image, type ImageSource } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 const cardShadow = {
   borderRadius: 32,
   boxShadow: [

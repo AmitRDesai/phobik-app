@@ -1,6 +1,6 @@
 import { BackButton } from '@/components/ui/BackButton';
-import { Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 interface EbookHeaderProps {
   label: string;
   onBack?: () => void;

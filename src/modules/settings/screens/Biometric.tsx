@@ -10,8 +10,8 @@ import { useBiometricAvailability } from '@/hooks/auth/useBiometric';
 import { biometricEnabledAtom } from '@/store/auth';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtom } from 'jotai';
-import { Pressable, Switch, Text, View } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
+import { Pressable, Switch, View } from 'react-native';
 export default function Biometric() {
   const { biometricType, isAvailable } = useBiometricAvailability();
   const [biometricEnabled, setBiometricEnabled] = useAtom(biometricEnabledAtom);

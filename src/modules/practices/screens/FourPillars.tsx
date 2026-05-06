@@ -1,7 +1,8 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
-import { ScrollView, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GradientText } from '@/components/ui/GradientText';
