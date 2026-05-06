@@ -16,8 +16,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 function formatBytes(bytes: number): string {
   if (bytes === 0) return '0 B';
   const units = ['B', 'KB', 'MB', 'GB'] as const;
@@ -145,7 +145,7 @@ export default function AudioStorage() {
             onPress={() => setVoice(null)}
             className="mt-3 self-start rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1.5 active:opacity-70"
           >
-            <Text variant="caption" className="text-foreground/60">
+            <Text className="text-[11px] font-semibold uppercase tracking-widest text-foreground/60">
               Clear preference
             </Text>
           </Pressable>

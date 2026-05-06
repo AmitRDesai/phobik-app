@@ -1,7 +1,6 @@
 import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 
 function Ring({

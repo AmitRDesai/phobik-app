@@ -12,8 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
 import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
 
@@ -81,11 +80,11 @@ function StatsCard() {
             />
           </LinearGradient>
           <View>
-            <Text variant="caption" className="mb-0.5 text-foreground/30">
+            <Text className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-foreground/30">
               Heart Rate Variability
             </Text>
             <View className="flex-row items-baseline gap-2">
-              <Text variant="h3" className="text-foreground">
+              <Text className="text-lg font-semibold text-foreground">
                 {liveHrv != null ? `${Math.round(liveHrv)}ms` : '—'}
               </Text>
               {deltaPct != null ? (
@@ -134,7 +133,7 @@ function StatsCard() {
       {/* Stats grid */}
       <View className="flex-row gap-4">
         <View className="flex-1 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-4">
-          <Text variant="caption" className="mb-1.5 text-accent-yellow/50">
+          <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-accent-yellow/50">
             Stress Level
           </Text>
           <View className="flex-row items-center gap-2">
@@ -153,7 +152,7 @@ function StatsCard() {
           </View>
         </View>
         <View className="flex-1 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-4">
-          <Text variant="caption" className="mb-1.5 text-primary-pink/50">
+          <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-primary-pink/50">
             Sync Status
           </Text>
           <View className="flex-row items-center gap-2">

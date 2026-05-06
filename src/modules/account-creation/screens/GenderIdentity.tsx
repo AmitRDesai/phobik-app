@@ -11,8 +11,8 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 const GENDER_OPTIONS: {
   value: GenderIdentity;
   label: string;

@@ -7,8 +7,8 @@ import {
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+
 const DAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
 export interface StreakDay {

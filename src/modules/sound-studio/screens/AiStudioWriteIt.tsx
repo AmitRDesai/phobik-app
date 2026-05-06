@@ -12,8 +12,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, ScrollView, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+
 export default function AiStudioWriteIt() {
   const router = useRouter();
   const [text, setText] = useState('');
@@ -136,7 +136,7 @@ export default function AiStudioWriteIt() {
               contentFit="cover"
             />
             <View className="p-5">
-              <Text variant="caption" className="text-foreground/50">
+              <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
                 Current Vibe
               </Text>
               <Text className="mt-1 text-base font-bold text-foreground">

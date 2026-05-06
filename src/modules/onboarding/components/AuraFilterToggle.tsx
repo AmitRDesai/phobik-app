@@ -2,8 +2,7 @@ import { Card } from '@/components/ui/Card';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import * as Haptics from 'expo-haptics';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,

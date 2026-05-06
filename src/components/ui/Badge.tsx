@@ -2,8 +2,8 @@ import { accentFor, withAlpha, type AccentHue } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
-import { Text } from '@/components/themed/Text';
-import { View, type ViewProps } from 'react-native';
+import { Text, View, type ViewProps } from 'react-native';
+
 export type BadgeVariant = 'tinted' | 'outline' | 'solid';
 export type BadgeSize = 'sm' | 'md';
 

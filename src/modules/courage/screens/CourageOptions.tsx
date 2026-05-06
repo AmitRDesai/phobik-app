@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+
 import { CourageHeader } from '../components/CourageHeader';
 import { CourageOptionCard } from '../components/CourageOptionCard';
 import { COURAGE_OPTIONS } from '../data/courage-options';
@@ -28,7 +28,7 @@ export default function CourageOptions() {
         showsVerticalScrollIndicator={false}
       >
         <View className="px-2 pt-2 pb-2">
-          <Text variant="caption" className="mb-1 text-primary-pink">
+          <Text className="mb-1 text-xs font-semibold uppercase tracking-widest text-primary-pink">
             Growth Hub
           </Text>
           <Text className="text-2xl font-bold text-foreground">

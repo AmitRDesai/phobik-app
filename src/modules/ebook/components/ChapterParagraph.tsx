@@ -1,4 +1,4 @@
-import { Text } from '@/components/themed/Text';
+import { Text } from 'react-native';
 
 interface ChapterParagraphProps {
   children: string;

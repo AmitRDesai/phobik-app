@@ -2,8 +2,8 @@ import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { accentFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 import type { EFTPointEntry } from '../data/eftPoints';
 
 export function EFTPointCard({ point }: { point: EFTPointEntry }) {

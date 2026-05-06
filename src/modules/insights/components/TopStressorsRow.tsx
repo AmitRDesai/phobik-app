@@ -7,8 +7,8 @@ import {
 import { useAssessmentList } from '@/modules/self-check-ins/hooks/useSelfCheckIn';
 import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
+
 const ACCENT_COLORS = [
   colors.primary['pink-soft'],
   colors.accent.gold,
@@ -66,10 +66,10 @@ export function TopStressorsRow() {
   return (
     <View className="-mx-5 gap-4">
       <View className="flex-row items-center justify-between px-5">
-        <Text variant="caption" className="text-foreground/40">
+        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
           Top Stressors
         </Text>
-        <Text variant="caption" className="text-primary-pink">
+        <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
           Compass Link
         </Text>
       </View>
@@ -89,7 +89,7 @@ export function TopStressorsRow() {
               <Text className="text-center text-[10px] font-bold uppercase tracking-tighter text-foreground/60">
                 Take the Stress{'\n'}Compass
               </Text>
-              <Text variant="caption" className="mt-1 text-primary-pink">
+              <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
                 Start
               </Text>
             </DashboardCard>

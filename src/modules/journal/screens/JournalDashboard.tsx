@@ -7,8 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useEffect } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { DailyInsightCard } from '../components/DailyInsightCard';
 import { EntryCard } from '../components/EntryCard';
 import { JournalCalendar } from '../components/JournalCalendar';
@@ -140,7 +139,7 @@ export default function JournalDashboard() {
         <DailyInsightCard onStart={() => router.push('/journal/new')} />
 
         <View className="mb-4 flex-row items-center justify-between">
-          <Text variant="caption" className="text-foreground/60">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
             {formatDateLabel(selectedDate)}
           </Text>
         </View>

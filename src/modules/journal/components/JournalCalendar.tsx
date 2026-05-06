@@ -1,8 +1,7 @@
 import { foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { CalendarDay } from './CalendarDay';
 
 const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];

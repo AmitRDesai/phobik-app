@@ -3,8 +3,7 @@ import { colors, withAlpha } from '@/constants/colors';
 import type { CustomDialogProps } from '@/store/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { useJoinCommunity } from '../hooks/useCommunity';
 
 const PRINCIPLES = [
@@ -52,7 +51,7 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
     <View>
       {/* Header */}
       <View className="items-center pb-2">
-        <Text variant="caption" className="text-primary-pink">
+        <Text className="text-[10px] font-bold uppercase tracking-[3px] text-primary-pink">
           PHOBIK COMMUNITY
         </Text>
         <Text className="mt-1 text-center text-2xl font-bold leading-tight text-foreground">

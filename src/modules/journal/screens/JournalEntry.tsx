@@ -8,8 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import { FeelingDropdown } from '../components/FeelingDropdown';
 import { NeedDropdown } from '../components/NeedDropdown';
 import { TagSection } from '../components/TagSection';
@@ -222,7 +221,7 @@ export default function JournalEntry() {
       />
 
       <View className="mb-4 flex-row items-center justify-between px-1">
-        <Text variant="caption" className="text-primary-pink">
+        <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
           Private Entry
         </Text>
         {!readOnly && isSavingDraft && (

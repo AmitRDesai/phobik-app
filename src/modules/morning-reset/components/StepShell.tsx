@@ -9,8 +9,8 @@ import { dismissToRoot } from '@/utils/navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { ReactNode } from 'react';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 import {
   STEP_ROUTES,
   getNextStep,
@@ -122,7 +122,7 @@ export function StepShell({
               size={14}
               color={accentFor(scheme, 'yellow')}
             />
-            <Text variant="caption" className="text-foreground/70">
+            <Text className="text-[11px] font-semibold uppercase tracking-widest text-foreground/70">
               {duration}
             </Text>
           </View>

@@ -3,8 +3,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import type { CustomDialogProps } from '@/store/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 import type { DoseReward, MysteryChallenge } from '../data/mystery-challenges';
 
 interface MysteryCompleteProps extends CustomDialogProps {
@@ -84,7 +84,7 @@ export function MysteryComplete({
           />
         </LinearGradient>
 
-        <Text variant="caption" className="text-primary-pink">
+        <Text className="text-[10px] font-bold uppercase tracking-[3px] text-primary-pink">
           Practice Complete
         </Text>
         <Text className="mt-1 text-center text-2xl font-bold leading-tight text-foreground">

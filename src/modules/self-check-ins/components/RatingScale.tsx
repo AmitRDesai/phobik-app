@@ -1,8 +1,8 @@
 import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 interface RatingScaleProps {
   min: number;
   max: number;

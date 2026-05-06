@@ -2,8 +2,8 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtom } from 'jotai';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+
 import { BodySilhouette } from './BodySilhouette';
 import { SENSATION_ATTRIBUTES } from '../data/sensation-attributes';
 import { selectedBodyAreaAtom } from '../store/micro-challenges';

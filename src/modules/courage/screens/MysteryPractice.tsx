@@ -5,8 +5,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useRef } from 'react';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 import { MysteryPracticeCard } from '../components/MysteryPracticeCard';
 import {
   getMysteryChallenge,

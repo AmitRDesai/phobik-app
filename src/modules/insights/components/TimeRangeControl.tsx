@@ -1,8 +1,8 @@
 import { withAlpha } from '@/constants/colors';
 import { type TimeRange, timeRangeAtom } from '../store/insights';
 import { useAtom } from 'jotai';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 const RANGES: TimeRange[] = ['Day', 'Week', '2 Weeks', 'Month'];
 
 export function TimeRangeControl() {

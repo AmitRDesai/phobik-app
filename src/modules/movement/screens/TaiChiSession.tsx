@@ -4,8 +4,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 import { MovementSessionShell } from './MovementSessionShell';
 
 const TIPS = [
@@ -29,7 +29,7 @@ export default function TaiChiSession() {
     >
       <View className="items-center pt-2">
         <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
-          <Text variant="caption" className="text-foreground/70">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/70">
             Active Flow: Tai Chi
           </Text>
         </View>

@@ -8,8 +8,8 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+
 import { getMovementExercise } from '../data/movement-exercises';
 
 type MovementScreenProps = {
@@ -180,7 +180,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
                   key={stat.label}
                   className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 px-4 py-3"
                 >
-                  <Text variant="caption" className="text-foreground/50">
+                  <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
                     {stat.label}
                   </Text>
                   <Text className="mt-1 text-base font-bold text-foreground">

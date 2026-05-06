@@ -4,8 +4,7 @@ import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -40,7 +39,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       showsVerticalScrollIndicator={false}
     >
       {/* Step label */}
-      <Text variant="caption" className="mb-2 mt-4 text-foreground/40">
+      <Text className="mb-2 mt-4 text-xs font-bold uppercase tracking-widest text-foreground/40">
         Step 1 of 6
       </Text>
 

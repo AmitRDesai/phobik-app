@@ -6,8 +6,8 @@ import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { Image, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
+
 import { CircularTappingPoint } from '../components/CircularTappingPoint';
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { EFTPointCard } from '../components/EFTPointCard';

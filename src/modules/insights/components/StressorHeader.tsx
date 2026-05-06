@@ -1,8 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { BlurView } from '@/components/ui/BlurView';
 import { useScheme } from '@/hooks/useTheme';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface StressorHeaderProps {
@@ -30,7 +29,7 @@ export function StressorHeader({ title, subtitle }: StressorHeaderProps) {
             <Text className="text-xl font-black uppercase leading-none tracking-tight text-foreground">
               {title}
             </Text>
-            <Text variant="caption" className="mt-1 text-primary-pink">
+            <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
               {subtitle}
             </Text>
           </View>

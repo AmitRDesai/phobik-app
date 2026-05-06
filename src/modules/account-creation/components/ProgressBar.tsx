@@ -1,6 +1,6 @@
 import { colors } from '@/constants/colors';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 interface ProgressBarProps {
   current: number;
   total: number;

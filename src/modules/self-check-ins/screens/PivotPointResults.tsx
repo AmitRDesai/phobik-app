@@ -4,8 +4,7 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PatternResultCard } from '../components/PatternResultCard';
@@ -79,7 +78,7 @@ export default function PivotPointResults() {
         {/* Secondary Pattern */}
         <View className="mb-4">
           <View className="mb-2">
-            <Text variant="caption" className="text-foreground/55">
+            <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
               Secondary Pattern
             </Text>
           </View>
@@ -94,7 +93,7 @@ export default function PivotPointResults() {
               size={18}
               color={colors.accent.yellow}
             />
-            <Text variant="caption" className="text-foreground/55">
+            <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
               Your Next Practices
             </Text>
           </View>

@@ -7,8 +7,7 @@ import {
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, ScrollView, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { FEELING_OPTIONS, NEED_OPTIONS } from '../data/options';
 import { getTagColor, getTagColorFromHex } from '../data/tag-colors';
 import { useCreateTag, useJournalTags } from '../hooks/useJournalTags';
@@ -69,7 +68,7 @@ export function TagSection({
     <View className="mb-6">
       {hasChips && (
         <>
-          <Text variant="caption" className="mb-3 px-1 text-foreground/40">
+          <Text className="mb-3 px-1 text-[10px] font-bold uppercase tracking-widest text-foreground/40">
             Selected Tags
           </Text>
           <ScrollView

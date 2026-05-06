@@ -9,8 +9,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 function summaryText(
   restorativePct: number | null,
   hasConnected: boolean,
@@ -45,7 +45,7 @@ export function SleepIntelligenceCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text variant="caption" className="text-foreground/40">
+        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
           Sleep Intelligence
         </Text>
         <Text className="text-[9px] font-bold uppercase tracking-widest text-accent-yellow">

@@ -1,6 +1,5 @@
 import { Card } from '@/components/ui/Card';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { getChemicalDisplay } from '../data/dose-config';
 import { useDoseActivityLog } from '../hooks/useDoseActivityLog';
 import type { DoseTotals } from '../hooks/useDailyDose';
@@ -28,7 +27,7 @@ export function DoseActivityLog() {
   if (!activities.length) {
     return (
       <View className="gap-4">
-        <Text variant="h3" className="px-1 text-foreground">
+        <Text className="px-1 text-lg font-semibold text-foreground">
           Activity Log
         </Text>
         <Card className="items-center p-6">
@@ -42,7 +41,7 @@ export function DoseActivityLog() {
 
   return (
     <View className="gap-4">
-      <Text variant="h3" className="px-1 text-foreground">
+      <Text className="px-1 text-lg font-semibold text-foreground">
         Activity Log
       </Text>
       <View className="flex-row flex-wrap gap-3">

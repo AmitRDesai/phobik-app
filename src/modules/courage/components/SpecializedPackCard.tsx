@@ -2,8 +2,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 import { SpecializedPack } from '../data/specialized-packs';
 
 function HeroSection({ pack }: { pack: SpecializedPack }) {

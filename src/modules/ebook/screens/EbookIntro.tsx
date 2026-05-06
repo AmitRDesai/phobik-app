@@ -11,8 +11,8 @@ import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+
 import { RadialGlow } from '@/components/ui/RadialGlow';
 
 import { useUpdateEbookProgress } from '../hooks/useEbookProgress';

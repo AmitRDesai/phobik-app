@@ -1,8 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Redirect, useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
+
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -171,7 +171,7 @@ export default function EmpathyChallengeCalendar() {
                   />
                 ) : (
                   <View className="justify-center pt-2">
-                    <Text variant="h3" className="text-foreground">
+                    <Text className="text-lg font-semibold text-foreground">
                       Day {empathyDay.day}: {empathyDay.title}
                     </Text>
                     <Text className="text-sm text-foreground/60">

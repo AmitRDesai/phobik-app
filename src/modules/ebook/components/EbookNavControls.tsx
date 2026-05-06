@@ -1,6 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface EbookNavControlsProps {

@@ -5,8 +5,8 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { useQuery } from '@powersync/tanstack-react-query';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 const DAY_LABELS = [
   { key: 'mon', label: 'M' },
   { key: 'tue', label: 'T' },
@@ -141,10 +141,10 @@ export function MorningResetCalendar() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text variant="caption" className="text-foreground/40">
+        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
           Morning Reset History
         </Text>
-        <Text variant="caption" className="text-foreground/60">
+        <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
           {monthLabel}
         </Text>
       </View>

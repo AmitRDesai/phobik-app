@@ -11,8 +11,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 import { AudioVisualizer } from '../components/AudioVisualizer';
 import { HeartRateBadge } from '../components/HeartRateBadge';
 import { ProgressRing } from '../components/ProgressRing';
@@ -262,7 +262,7 @@ export default function GroundingSession() {
 
         {/* Timer */}
         <View className="z-10 items-center gap-2 px-6 py-4">
-          <Text variant="caption" className="text-foreground/40">
+          <Text className="text-xs font-semibold uppercase tracking-widest text-foreground/40">
             Time Remaining
           </Text>
           <Text

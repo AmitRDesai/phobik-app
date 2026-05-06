@@ -4,8 +4,7 @@ import { UserAvatar } from '@/components/ui/UserAvatar';
 import { variantConfig } from '@/components/variant-config';
 import { withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function CourageHeader({

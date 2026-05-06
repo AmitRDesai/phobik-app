@@ -8,8 +8,8 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 import { NOW_PLAYING_IMAGE } from '../data/sound-studio';
 
 const FAKE_CREDITS = 42;
@@ -31,7 +31,7 @@ export default function SoundStudioHub() {
         className="mt-2 flex-row items-center justify-between p-5"
       >
         <View>
-          <Text variant="caption" className="text-foreground/50">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
             AI Generation
           </Text>
           <Text className="mt-1 text-2xl font-extrabold text-foreground">
@@ -42,7 +42,7 @@ export default function SoundStudioHub() {
           </Text>
         </View>
         <View className="rounded-full bg-primary-pink px-5 py-2">
-          <Text variant="caption" className="text-on-primary-fixed">
+          <Text className="text-xs font-bold uppercase tracking-widest text-on-primary-fixed">
             Refill
           </Text>
         </View>
@@ -143,7 +143,7 @@ export default function SoundStudioHub() {
         onPress={() => router.push('/sound-studio/expressive-writing')}
         className="mt-3 self-center"
       >
-        <Text variant="caption" className="text-accent-yellow">
+        <Text className="text-xs font-semibold uppercase tracking-widest text-accent-yellow">
           Try expressive writing →
         </Text>
       </Pressable>

@@ -5,8 +5,8 @@ import { FloatingMapper } from '@/modules/micro-challenges/components/FloatingMa
 import { EMOTIONS } from '@/modules/micro-challenges/data/emotions';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
 import {

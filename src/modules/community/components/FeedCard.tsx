@@ -5,8 +5,7 @@ import { UserAvatar } from '@/components/ui/UserAvatar';
 import { colors, withAlpha } from '@/constants/colors';
 import { formatCount } from '@/modules/practices/lib/format';
 import { useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Image, Pressable, ScrollView, View } from 'react-native';
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { useToggleReaction } from '../hooks/useCommunityFeed';
 
 const REACTIONS = [

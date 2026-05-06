@@ -3,8 +3,7 @@ import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text } from '@/components/themed/Text';
-import { Switch, View } from 'react-native';
+import { Switch, Text, View } from 'react-native';
 import {
   useNotificationSettings,
   useUpdateNotificationSettings,

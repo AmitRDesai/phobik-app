@@ -3,8 +3,8 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 import { MovementSessionShell } from './MovementSessionShell';
 
 const PHASES = [
@@ -36,7 +36,7 @@ export default function MindfulWalkingSession() {
     >
       <View className="items-center pt-2">
         <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
-          <Text variant="caption" className="text-foreground/70">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/70">
             Grounding Frequency Active
           </Text>
         </View>

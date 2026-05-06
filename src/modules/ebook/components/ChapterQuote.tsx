@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/Card';
 import { colors } from '@/constants/colors';
-import { Text } from '@/components/themed/Text';
+import { Text } from 'react-native';
 
 interface ChapterQuoteProps {
   children: string;

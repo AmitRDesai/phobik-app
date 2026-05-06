@@ -3,8 +3,7 @@ import { useScheme } from '@/hooks/useTheme';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect } from 'react';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import Animated, {
   cancelAnimation,
   Easing,
@@ -227,7 +226,7 @@ export function BreathingStar({
             72
           </Text>
         </View>
-        <Text variant="caption" className="text-foreground/30">
+        <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/30">
           BPM
         </Text>
       </View>

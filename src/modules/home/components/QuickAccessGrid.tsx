@@ -3,8 +3,8 @@ import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter, type Href } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 interface QuickAccessItem {
   icon: keyof typeof MaterialIcons.glyphMap;
   label: string;

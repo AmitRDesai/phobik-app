@@ -4,8 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { dialog } from '@/utils/dialog';
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -249,7 +248,7 @@ export default function MicroChallenges() {
         style={{ paddingTop: insets.top + 8 }}
       >
         <BackButton onPress={handleBack} />
-        <Text variant="caption" className="text-foreground/60">
+        <Text className="text-xs font-bold uppercase tracking-widest text-foreground/60">
           Quick Challenge
         </Text>
         <Pressable

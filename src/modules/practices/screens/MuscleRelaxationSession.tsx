@@ -10,8 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useReducer, useRef, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
 import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
 import { usePulseAnimation } from '@/hooks/usePulseAnimation';
@@ -390,7 +389,7 @@ function InstructionDisplay({
             ],
           }}
         />
-        <Text variant="caption" className="text-primary-pink">
+        <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
           Active Focus: {groupLabel}
         </Text>
       </View>

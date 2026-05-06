@@ -1,8 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { BlurView } from '@/components/ui/BlurView';
 import { useScheme } from '@/hooks/useTheme';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface DetailHeaderProps {

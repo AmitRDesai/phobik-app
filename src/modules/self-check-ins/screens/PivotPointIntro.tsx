@@ -5,8 +5,7 @@ import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -66,7 +65,7 @@ export default function PivotPointIntro() {
       >
         {/* Badge */}
         <View className="mb-4 mt-2 self-start rounded-full bg-foreground/5 px-4 py-1.5">
-          <Text variant="caption" className="text-primary-pink">
+          <Text className="text-xs font-bold uppercase tracking-widest text-primary-pink">
             Assessment
           </Text>
         </View>

@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';
@@ -21,7 +21,7 @@ export default function GentleLetterIntro() {
       header={
         <Header
           center={
-            <Text variant="caption" className="text-foreground/55">
+            <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
               Practice
             </Text>
           }

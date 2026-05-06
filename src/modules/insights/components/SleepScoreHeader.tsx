@@ -4,8 +4,8 @@ import { useSleepHistory } from '@/modules/insights/hooks/useSleepHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue } from 'jotai';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 function scoreLabel(score: number | null): string {
   if (score == null) return 'No data';
   if (score >= 80) return 'Restorative Sleep';
@@ -59,7 +59,7 @@ export function SleepScoreHeader() {
             <Text className="text-5xl font-extrabold text-foreground">
               {lastNightScore != null ? lastNightScore : '—'}
             </Text>
-            <Text variant="caption" className="text-foreground/80">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/80">
               Score
             </Text>
           </View>

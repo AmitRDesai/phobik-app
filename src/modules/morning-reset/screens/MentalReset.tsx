@@ -1,6 +1,7 @@
+import { Text } from 'react-native';
+
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
-import { Text } from '@/components/themed/Text';
 
 export default function MentalReset() {
   return (

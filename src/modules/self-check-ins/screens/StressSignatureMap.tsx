@@ -8,8 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useMemo } from 'react';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, useWindowDimensions, View } from 'react-native';
+import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, {
   Circle,
@@ -140,7 +139,7 @@ export default function StressSignatureMap() {
         {/* Top 3 Stressors */}
         <View className="mt-8 px-5">
           <View className="mb-6 flex-row items-center justify-between">
-            <Text variant="caption" className="text-foreground/80">
+            <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/80">
               Your Top 3 Stressors
             </Text>
             <Text

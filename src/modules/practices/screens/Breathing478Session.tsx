@@ -13,8 +13,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 
 import { BreathingCircle478 } from '../components/BreathingCircle478';
@@ -293,7 +293,7 @@ export default function Breathing478Session() {
                 >
                   {liveHr != null ? liveHr : '—'}
                 </Text>
-                <Text variant="caption" className="text-foreground/55">
+                <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/55">
                   BPM
                 </Text>
               </View>
@@ -323,7 +323,7 @@ export default function Breathing478Session() {
                 >
                   {liveHrv != null ? Math.round(liveHrv) : '—'}
                 </Text>
-                <Text variant="caption" className="text-foreground/55">
+                <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/55">
                   MS
                 </Text>
               </View>

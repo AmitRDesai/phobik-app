@@ -3,8 +3,7 @@ import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 
 interface GradientButtonProps {

@@ -1,8 +1,8 @@
 import { colors } from '@/constants/colors';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 export function HeartRateBadge() {
   const { heartRate } = useLatestBiometrics();
   const display = heartRate != null ? `${heartRate} BPM` : '— BPM';

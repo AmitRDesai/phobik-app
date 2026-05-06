@@ -3,8 +3,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 interface CalendarDayProps {
   day: number;
   isSelected: boolean;

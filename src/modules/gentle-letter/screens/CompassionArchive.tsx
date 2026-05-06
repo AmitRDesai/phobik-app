@@ -3,8 +3,8 @@ import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
@@ -126,7 +126,7 @@ export default function CompassionArchive() {
         <View className="mb-2 flex-row">
           {DAY_LABELS.map((label, i) => (
             <View key={`day-${i}`} className="flex-1 items-center">
-              <Text variant="caption" className="text-foreground/55">
+              <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground/55">
                 {label}
               </Text>
             </View>

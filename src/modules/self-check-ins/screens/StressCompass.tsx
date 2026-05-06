@@ -8,8 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, useWindowDimensions, View } from 'react-native';
+import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Slider } from '../components/Slider';
 import { STRESSOR_CATEGORIES, type StressorKey } from '../data/stressors';
@@ -257,7 +256,7 @@ function StressorCard({
 
         {/* Labels */}
         <View className="flex-row items-center justify-between">
-          <Text variant="caption" className="text-foreground/55">
+          <Text className="text-[10px] font-bold uppercase tracking-[2px] text-foreground/55">
             Draining
           </Text>
           <Text
@@ -266,7 +265,7 @@ function StressorCard({
           >
             Rating: {value}
           </Text>
-          <Text variant="caption" className="text-foreground/55">
+          <Text className="text-[10px] font-bold uppercase tracking-[2px] text-foreground/55">
             Balanced
           </Text>
         </View>

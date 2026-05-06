@@ -10,8 +10,8 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
 import type { ReactNode } from 'react';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 type IconRenderProps = { size: number; color: string };
 
 type GoalOption = {

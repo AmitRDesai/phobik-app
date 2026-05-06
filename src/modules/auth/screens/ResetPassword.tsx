@@ -8,8 +8,8 @@ import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useRef, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, TextInput as RNTextInput, View } from 'react-native';
+import { Pressable, Text, TextInput as RNTextInput, View } from 'react-native';
+
 export default function ResetPasswordScreen() {
   const { token, error: urlError } = useLocalSearchParams<{
     token?: string;

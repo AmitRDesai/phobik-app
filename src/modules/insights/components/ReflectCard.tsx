@@ -1,8 +1,8 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 interface ReflectCardProps {
   question: string;
 }
@@ -16,7 +16,7 @@ export function ReflectCard({ question }: ReflectCardProps) {
           size={14}
           color={colors.primary['pink-soft']}
         />
-        <Text variant="caption" className="text-primary-pink">
+        <Text className="text-[10px] font-black uppercase tracking-[3px] text-primary-pink">
           Reflect
         </Text>
       </View>

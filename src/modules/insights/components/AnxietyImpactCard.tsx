@@ -2,8 +2,8 @@ import { Card } from '@/components/ui/Card';
 import { CardAura } from '@/components/ui/CardAura';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 export function AnxietyImpactCard() {
   return (
     <View className="px-4">
@@ -33,7 +33,7 @@ export function AnxietyImpactCard() {
           </Text>
         </View>
         <Pressable className="mt-4 flex-row items-center justify-center gap-2 rounded-lg bg-primary-pink/20 py-3">
-          <Text variant="caption" className="text-primary-pink">
+          <Text className="text-xs font-bold uppercase tracking-widest text-primary-pink">
             Open Guided Relief
           </Text>
           <MaterialIcons

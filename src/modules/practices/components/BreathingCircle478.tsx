@@ -2,8 +2,7 @@ import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 
 import { useEffect, useRef } from 'react';
-import { Text } from '@/components/themed/Text';
-import { useWindowDimensions, View } from 'react-native';
+import { Text, useWindowDimensions, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedProps,

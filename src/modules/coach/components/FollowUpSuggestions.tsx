@@ -1,5 +1,4 @@
-import { Text } from '@/components/themed/Text';
-import { Pressable, ScrollView } from 'react-native';
+import { Pressable, ScrollView, Text } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
 type FollowUpSuggestionsProps = {

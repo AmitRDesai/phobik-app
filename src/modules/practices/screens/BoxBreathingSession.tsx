@@ -14,8 +14,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 
 import { BreathingBox } from '../components/BreathingBox';
@@ -289,7 +289,7 @@ export default function BoxBreathingSession() {
                     }}
                   />
                 </View>
-                <Text variant="caption" className="text-foreground/30">
+                <Text className="text-[10px] font-semibold uppercase tracking-widest text-foreground/30">
                   Variability
                 </Text>
               </View>
@@ -318,7 +318,7 @@ export default function BoxBreathingSession() {
                     />
                   </View>
                 </View>
-                <Text variant="caption" className="text-foreground/30">
+                <Text className="text-[10px] font-semibold uppercase tracking-widest text-foreground/30">
                   Heart Rate
                 </Text>
               </View>

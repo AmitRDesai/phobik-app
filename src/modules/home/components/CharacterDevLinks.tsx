@@ -1,8 +1,8 @@
 import { Card } from '@/components/ui/Card';
 import { withAlpha } from '@/constants/colors';
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 const LINKS = [
   { label: 'Sunny', href: '/characters/sunny' as const, tint: '#FACC15' },
   { label: 'Olive', href: '/characters/olive' as const, tint: '#FFB7D5' },
@@ -15,7 +15,7 @@ export function CharacterDevLinks() {
 
   return (
     <Card>
-      <Text variant="caption" className="mb-3 text-foreground/40">
+      <Text className="mb-3 text-[10px] font-bold uppercase tracking-widest text-foreground/40">
         Characters (dev)
       </Text>
       <View className="flex-row flex-wrap gap-2">

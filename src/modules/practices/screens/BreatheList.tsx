@@ -4,8 +4,8 @@ import { IconChip } from '@/components/ui/IconChip';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 import { GradientText } from '@/components/ui/GradientText';
 import { MoodTabs } from '../components/MoodTabs';
 import { PracticeListRow } from '../components/PracticeListRow';
@@ -62,7 +62,7 @@ export default function BreatheList() {
             <MaterialIcons name="play-arrow" size={24} color="white" />
           </IconChip>
           <View className="flex-1">
-            <Text variant="caption" className="text-primary-pink">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
               Unfinished session
             </Text>
             <Text className="mt-0.5 text-base font-bold text-foreground">

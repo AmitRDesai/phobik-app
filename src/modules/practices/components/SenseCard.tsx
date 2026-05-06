@@ -1,8 +1,8 @@
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors } from '@/constants/colors';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 interface SenseCardProps {
   count: number;
   title: string;

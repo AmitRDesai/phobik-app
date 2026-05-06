@@ -1,7 +1,7 @@
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
 

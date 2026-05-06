@@ -9,8 +9,8 @@ import { PracticeStackHeader } from '@/modules/practices/components/PracticeStac
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+
 import { CREDIT_PLANS } from '../data/sound-studio';
 
 const FAKE_BALANCE = 12;
@@ -84,7 +84,7 @@ export default function SoundStudioCredits() {
               >
                 {plan.popular ? (
                   <View className="absolute right-5 top-5 rounded-full bg-accent-yellow px-3 py-1">
-                    <Text variant="caption" className="text-on-primary-fixed">
+                    <Text className="text-[10px] font-bold uppercase tracking-widest text-on-primary-fixed">
                       Most Popular
                     </Text>
                   </View>
@@ -106,7 +106,7 @@ export default function SoundStudioCredits() {
                   <Text className="text-4xl font-extrabold text-foreground">
                     {plan.credits}
                   </Text>
-                  <Text variant="caption" className="text-foreground/50">
+                  <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
                     Credits
                   </Text>
                 </View>
@@ -136,8 +136,7 @@ export default function SoundStudioCredits() {
                       }}
                     >
                       <Text
-                        variant="caption"
-                        className="text-on-primary-fixed"
+                        className="text-xs font-bold uppercase tracking-widest text-on-primary-fixed"
                         onPress={() => onPurchase(plan.name)}
                       >
                         Purchase Now

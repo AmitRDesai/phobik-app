@@ -11,8 +11,7 @@ import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtomValue } from 'jotai';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { OnboardingLayout } from '../components/OnboardingLayout';
 
 const PRIVACY_FEATURES: {
@@ -132,7 +131,7 @@ export default function PrivacyTrust() {
         </Pressable>
         <View className="flex-row items-center gap-1.5">
           <MaterialIcons name="lock" size={12} color={lockIconColor} />
-          <Text variant="caption" className="text-foreground/30">
+          <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground/30">
             End-to-End Encrypted
           </Text>
         </View>

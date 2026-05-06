@@ -8,8 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, ScrollView, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -81,7 +80,7 @@ function GlassCard({
         style={{ backgroundColor: bgColor, borderWidth: 1, borderColor }}
       >
         {item.category && (
-          <Text variant="caption" className="mb-1.5 text-foreground/55">
+          <Text className="mb-1.5 text-xs font-bold uppercase tracking-widest text-foreground/55">
             {item.category}
           </Text>
         )}
@@ -332,7 +331,7 @@ export default function FlightChecklistPhase() {
         {/* Phase badge */}
         {phase.phaseBadge && (
           <View className="mb-4 self-start rounded-full bg-primary-pink/10 px-3 py-1">
-            <Text variant="caption" className="text-primary-pink">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
               {phase.phaseBadge}
             </Text>
           </View>

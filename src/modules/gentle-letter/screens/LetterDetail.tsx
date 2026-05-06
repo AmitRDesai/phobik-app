@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
+
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
@@ -87,7 +87,7 @@ export default function LetterDetail() {
                   size={18}
                   color={colors.primary.pink}
                 />
-                <Text variant="caption" className="text-foreground/55">
+                <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
                   Step {step.step}: {step.label}
                 </Text>
               </View>

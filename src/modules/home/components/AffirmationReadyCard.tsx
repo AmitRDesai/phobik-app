@@ -4,8 +4,8 @@ import { variantConfig } from '@/components/variant-config';
 import { MaterialIcons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 interface AffirmationReadyCardProps {
   feeling: string;
   affirmation: string;

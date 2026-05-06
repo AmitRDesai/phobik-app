@@ -8,8 +8,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
 import { Link, router } from 'expo-router';
 import { useEffect } from 'react';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 export default function WelcomeScreen() {
   useEffect(() => {
     warmServer();
@@ -52,10 +52,10 @@ export default function WelcomeScreen() {
               PHOBIK
             </GradientText>
           </View>
-          <Text variant="h3" className="text-center text-foreground">
+          <Text className="text-center text-lg font-semibold text-foreground">
             Create the life you want.
           </Text>
-          <Text variant="h3" className="text-center text-foreground">
+          <Text className="text-center text-lg font-semibold text-foreground">
             Overcome your challenges and face your fears.
           </Text>
         </View>

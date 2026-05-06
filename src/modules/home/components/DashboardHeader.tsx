@@ -8,8 +8,7 @@ import { useSession } from '@/hooks/auth/useAuth';
 import { useUnreadCount } from '@/modules/notifications/hooks/useNotifications';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function DashboardHeader() {
@@ -42,7 +41,7 @@ export function DashboardHeader() {
             }}
           />
           <View>
-            <Text variant="caption" className="text-primary-pink">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
               Welcome back
             </Text>
             <Text className="text-lg font-bold leading-tight text-foreground">

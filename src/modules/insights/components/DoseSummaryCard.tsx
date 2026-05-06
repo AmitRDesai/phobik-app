@@ -2,8 +2,7 @@ import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { buildDoseChemicals } from '../data/dose-config';
 import { useDailyDose } from '../hooks/useDailyDose';
 
@@ -15,14 +14,14 @@ export function DoseSummaryCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text variant="caption" className="text-foreground/40">
+        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
           Daily D.O.S.E.
         </Text>
         <Pressable
           onPress={() => router.push('/insights/dose-tracking')}
           className="flex-row items-center gap-1"
         >
-          <Text variant="caption" className="text-primary-pink">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
             View Full Report
           </Text>
           <MaterialIcons

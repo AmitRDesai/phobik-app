@@ -1,8 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
@@ -26,8 +26,7 @@ export default function EmpathyChallengeComplete() {
           variant="close"
           center={
             <Text
-              variant="caption"
-              className="text-foreground/60"
+              className="text-xs font-semibold uppercase tracking-widest text-foreground/60"
               numberOfLines={1}
             >
               Challenge Complete
@@ -122,14 +121,14 @@ export default function EmpathyChallengeComplete() {
           size={24}
           color={colors.primary.pink}
         />
-        <Text variant="caption" className="text-foreground/55">
+        <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground/55">
           Sessions Done
         </Text>
         <Text className="text-2xl font-bold text-foreground">7/7</Text>
       </Card>
 
       <View className="mt-8 w-full gap-3 pb-8">
-        <Text variant="caption" className="mb-1 text-center text-foreground/45">
+        <Text className="mb-1 text-center text-[10px] font-bold uppercase tracking-[3px] text-foreground/45">
           Daily D.O.S.E. Reward
         </Text>
         <View className="flex-row gap-4">

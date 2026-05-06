@@ -6,8 +6,8 @@ import { GradientText } from '@/components/ui/GradientText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 import { MovementSessionShell } from './MovementSessionShell';
 
 const DURATIONS = ['1 min', '3 min'];
@@ -65,7 +65,7 @@ export default function KundaliniSession() {
       {/* Duration / Pace */}
       <View className="mt-4 flex-row gap-3">
         <View className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 p-4">
-          <Text variant="caption" className="text-foreground/50">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
             Duration
           </Text>
           <View className="mt-3 flex-row gap-2">
@@ -92,7 +92,7 @@ export default function KundaliniSession() {
           </View>
         </View>
         <View className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 p-4">
-          <Text variant="caption" className="text-foreground/50">
+          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
             Pace
           </Text>
           <Text className="mt-2 text-3xl font-extrabold text-accent-yellow">

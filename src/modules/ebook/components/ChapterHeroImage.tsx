@@ -1,8 +1,8 @@
 import { colors } from '@/constants/colors';
 import { Image, ImageSource } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 interface ChapterHeroImageProps {
   source: ImageSource;
   caption?: string;

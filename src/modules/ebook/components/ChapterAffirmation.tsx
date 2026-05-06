@@ -1,7 +1,7 @@
 import { colors } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 export function ChapterAffirmation() {
   return (
     <View className="my-8">
@@ -11,7 +11,7 @@ export function ChapterAffirmation() {
         end={{ x: 1, y: 1 }}
         style={{ borderRadius: 16, padding: 20 }}
       >
-        <Text variant="caption" className="text-center text-foreground/50">
+        <Text className="text-center text-xs font-semibold uppercase tracking-widest text-foreground/50">
           Affirmation
         </Text>
         <Text

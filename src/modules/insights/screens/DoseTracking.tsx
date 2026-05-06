@@ -1,7 +1,7 @@
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+
 import { DetailHeader } from '../components/DetailHeader';
 import { DoseActivityLog } from '../components/DoseActivityLog';
 import { DoseDeficiencyAlert } from '../components/DoseDeficiencyAlert';

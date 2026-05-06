@@ -2,8 +2,8 @@ import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { FeelingOptionCard } from '../components/FeelingOptionCard';
 import { FEELINGS } from '../data/feelings';

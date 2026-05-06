@@ -4,8 +4,7 @@ import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import type { NotificationItem as NotificationItemType } from '../hooks/useNotifications';
 
 interface NotificationItemProps {

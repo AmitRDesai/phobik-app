@@ -3,8 +3,8 @@ import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
 import { useRef, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Keyboard, Pressable, TextInput, View } from 'react-native';
+import { Keyboard, Pressable, Text, TextInput, View } from 'react-native';
+
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
@@ -173,7 +173,7 @@ export default function GentleLetterWrite() {
 
       {isLastStep && (
         <View className="mt-6 gap-3">
-          <Text variant="caption" className="text-center text-foreground/55">
+          <Text className="text-center text-xs font-bold uppercase tracking-widest text-foreground/55">
             What core act does this letter honor?
           </Text>
           <View className="flex-row flex-wrap justify-center gap-2">

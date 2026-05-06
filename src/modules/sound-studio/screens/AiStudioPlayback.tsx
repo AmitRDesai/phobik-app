@@ -11,8 +11,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
+
 const CREATIONS = [
   {
     id: 'cyberpunk-rain',
@@ -196,7 +196,7 @@ export default function AiStudioPlayback() {
                   }}
                 >
                   <MaterialIcons name="ios-share" size={14} color="white" />
-                  <Text variant="caption" className="text-foreground">
+                  <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground">
                     Share
                   </Text>
                 </LinearGradient>
@@ -207,11 +207,11 @@ export default function AiStudioPlayback() {
           {/* Your Creations */}
           <View className="mt-8">
             <View className="mb-3 flex-row items-baseline justify-between">
-              <Text variant="caption" className="text-foreground/60">
+              <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
                 Your Creations
               </Text>
               <Pressable onPress={() => onAction('View All')}>
-                <Text variant="caption" className="text-primary-pink">
+                <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
                   View All
                 </Text>
               </Pressable>

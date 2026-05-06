@@ -1,8 +1,8 @@
 import { colors } from '@/constants/colors';
 import { Image, type ImageSource } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+
 const rowShadow = {
   borderRadius: 32,
   boxShadow: [

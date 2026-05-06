@@ -6,8 +6,8 @@ import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
-import { Text } from '@/components/themed/Text';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
+
 import { SenseCard } from '../components/SenseCard';
 import { EXERCISES } from '../data/exercises';
 import { groundingSessionAtom } from '../store/grounding';

@@ -1,8 +1,8 @@
 import { usePackPurchases } from '@/modules/purchases/hooks/usePackPurchased';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
-import { Text } from '@/components/themed/Text';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+
 import { CourageHeader } from '../components/CourageHeader';
 import { SpecializedPackCard } from '../components/SpecializedPackCard';
 import { SPECIALIZED_PACKS } from '../data/specialized-packs';
@@ -23,7 +23,7 @@ export default function SpecializedPacks() {
         showsVerticalScrollIndicator={false}
       >
         <View className="px-2 pb-2 pt-4">
-          <Text variant="caption" className="mb-1 text-foreground/60">
+          <Text className="mb-1 text-xs font-semibold uppercase tracking-widest text-foreground/60">
             Premium Journeys
           </Text>
           <Text className="text-3xl font-bold text-foreground">

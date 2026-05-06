@@ -1,8 +1,7 @@
 import { colors } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
-import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -61,7 +60,7 @@ export function QuestionProgress({
               </Text>
             </Text>
             {sectionLabel && (
-              <Text variant="caption" className="text-foreground/60">
+              <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
                 {sectionLabel}
               </Text>
             )}

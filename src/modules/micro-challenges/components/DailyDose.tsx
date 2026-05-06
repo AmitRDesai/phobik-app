@@ -6,8 +6,8 @@ import { useScheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef } from 'react';
-import { Text } from '@/components/themed/Text';
-import { ActivityIndicator, ScrollView, View } from 'react-native';
+import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
+
 import { EMOTIONS } from '../data/emotions';
 import { NEEDS } from '../data/needs';
 import { useAIChallenge } from '../hooks/useAIChallenge';
@@ -98,7 +98,7 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
           <Text className="text-2xl font-bold text-foreground">
             Get your Daily Dose
           </Text>
-          <Text variant="caption" className="mt-1 text-foreground/40">
+          <Text className="mt-1 text-xs font-bold uppercase tracking-widest text-foreground/40">
             Regulation Complete
           </Text>
         </View>

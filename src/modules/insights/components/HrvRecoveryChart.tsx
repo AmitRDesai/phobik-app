@@ -6,8 +6,7 @@ import {
 } from '@/modules/insights/hooks/useBiometricHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
 import { useAtomValue } from 'jotai';
-import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg';
 
@@ -151,10 +150,7 @@ export function HrvRecoveryChart() {
             </Svg>
           ) : hasConnectedHealth ? (
             <View className="h-full w-full items-center justify-center">
-              <Text
-                variant="caption"
-                className="text-center text-foreground/40"
-              >
+              <Text className="text-center text-xs font-semibold uppercase tracking-widest text-foreground/40">
                 No data
               </Text>
               <Text className="mt-1 text-[10px] text-foreground/30">
@@ -169,7 +165,7 @@ export function HrvRecoveryChart() {
               <Text className="text-center text-xs text-foreground/40">
                 Connect Apple Health or Health Connect for HRV trends.
               </Text>
-              <Text variant="caption" className="mt-1 text-primary-pink">
+              <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
                 Set up →
               </Text>
             </Pressable>
