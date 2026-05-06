@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/Badge';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -77,11 +78,9 @@ export function PillarCard({
           />
           <View className="flex-1 justify-end p-6">
             {badge ? (
-              <View className="mb-3 self-start rounded-full border border-primary-pink/30 bg-primary-pink/15 px-3 py-1">
-                <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-                  {badge}
-                </Text>
-              </View>
+              <Badge tone="pink" size="sm" className="mb-3 self-start">
+                {badge}
+              </Badge>
             ) : null}
             {icon && !eyebrow ? (
               <View

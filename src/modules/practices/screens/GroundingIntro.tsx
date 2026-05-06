@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { Badge } from '@/components/ui/Badge';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
@@ -37,11 +38,9 @@ export default function GroundingIntro() {
         >
           {/* Badge + Title + Description */}
           <View className="items-center px-6 pb-8 pt-4">
-            <View className="mb-4 rounded-full border border-primary-pink/20 bg-primary-pink/10 px-3 py-1">
-              <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-                Grounding Exercise
-              </Text>
-            </View>
+            <Badge tone="pink" size="sm" className="mb-4">
+              Grounding Exercise
+            </Badge>
 
             <View className="mb-4 flex-row flex-wrap items-center justify-center">
               <Text className="text-4xl font-extrabold leading-tight text-foreground">

@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/Badge';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
@@ -340,11 +341,9 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
           </View>
 
           {meditation.eyebrow ? (
-            <View className="mt-6 self-start rounded-full border border-primary-pink/30 bg-primary-pink/10 px-3 py-1.5">
-              <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-                {meditation.eyebrow}
-              </Text>
-            </View>
+            <Badge tone="pink" size="sm" className="mt-6 self-start">
+              {meditation.eyebrow}
+            </Badge>
           ) : (
             <View className="mt-6" />
           )}
