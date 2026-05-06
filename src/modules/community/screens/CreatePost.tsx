@@ -1,6 +1,8 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { Card } from '@/components/ui/Card';
 import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { alpha, colors } from '@/constants/colors';
 import { useImagePicker } from '@/hooks/useImagePicker';
@@ -217,15 +219,15 @@ export default function CreatePost() {
           </View>
 
           {/* Post Anonymously */}
-          <View className="flex-row items-center justify-between rounded-2xl border border-foreground/10 bg-foreground/5 p-4 gap-2">
+          <Card className="flex-row items-center justify-between gap-2">
             <View className="flex-row items-center gap-3">
-              <View className="h-10 w-10 items-center justify-center rounded-full bg-primary-pink/10">
+              <IconChip size="md" shape="circle" tone="pink">
                 <MaterialIcons
                   name="shield"
                   size={20}
                   color={colors.primary.pink}
                 />
-              </View>
+              </IconChip>
               <View>
                 <Text className="text-sm font-bold text-foreground">
                   Post Anonymously
@@ -244,7 +246,7 @@ export default function CreatePost() {
               }}
               thumbColor="white"
             />
-          </View>
+          </Card>
 
           {/* Guidance */}
           <View className="flex-row items-start gap-3 px-2">

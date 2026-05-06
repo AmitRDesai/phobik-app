@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { Text, View } from 'react-native';
 import { getChemicalDisplay } from '../data/dose-config';
 import { useDoseActivityLog } from '../hooks/useDoseActivityLog';
@@ -29,11 +30,11 @@ export function DoseActivityLog() {
         <Text className="px-1 text-lg font-semibold text-foreground">
           Activity Log
         </Text>
-        <View className="items-center rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
+        <Card className="items-center p-6">
           <Text className="text-sm text-foreground/40">
             Complete a practice to see your activity here
           </Text>
-        </View>
+        </Card>
       </View>
     );
   }
@@ -48,9 +49,9 @@ export function DoseActivityLog() {
           const dominant = getDominantChemical(activity);
           const display = getChemicalDisplay(dominant.key);
           return (
-            <View
+            <Card
               key={`${activity.source}-${activity.completedAt}`}
-              className="w-[47%] rounded-2xl border border-foreground/10 bg-foreground/5 p-4"
+              className="w-[47%]"
             >
               <View
                 className="mb-2 h-2 w-2 rounded-full"
@@ -62,7 +63,7 @@ export function DoseActivityLog() {
               <Text className="text-sm font-medium text-foreground">
                 +{dominant.value} {display.label}
               </Text>
-            </View>
+            </Card>
           );
         })}
       </View>

@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
@@ -46,7 +47,7 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
 
   if (mode === 'settings') {
     return (
-      <View className="rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
+      <Card className="p-6">
         <View className="flex-row items-center justify-between">
           <View className="flex-1 flex-row items-center gap-3">
             <IconChip size="md" shape="rounded" tone="pink">
@@ -70,7 +71,7 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
             </Text>
           </Pressable>
         </View>
-      </View>
+      </Card>
     );
   }
 
