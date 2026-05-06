@@ -1,7 +1,7 @@
 import expressImg from '@/assets/images/sound-studio/express-analyzing.jpg';
 import { Badge } from '@/components/ui/Badge';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
 import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -71,10 +71,7 @@ export default function AiStudioExpress() {
           <View
             className="h-[260px] w-[260px] items-center justify-center overflow-hidden rounded-full"
             style={{
-              shadowColor: colors.accent.yellow,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.5,
-              shadowRadius: 40,
+              boxShadow: `0 0 40px ${withAlpha(colors.accent.yellow, 0.5)}`,
             }}
           >
             <Image

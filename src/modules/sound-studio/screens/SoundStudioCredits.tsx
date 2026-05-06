@@ -3,7 +3,7 @@ import { GradientButton } from '@/components/ui/GradientButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
 import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
 import { dialog } from '@/utils/dialog';
@@ -77,10 +77,7 @@ export default function SoundStudioCredits() {
                 style={
                   plan.popular
                     ? {
-                        shadowColor: colors.primary.pink,
-                        shadowOffset: { width: 0, height: 0 },
-                        shadowOpacity: 0.3,
-                        shadowRadius: 24,
+                        boxShadow: `0 0 24px ${withAlpha(colors.primary.pink, 0.3)}`,
                       }
                     : undefined
                 }

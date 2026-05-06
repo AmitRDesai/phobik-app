@@ -1,4 +1,4 @@
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
@@ -109,10 +109,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
           className="rounded-2xl rounded-br-sm px-4 py-3"
           style={{
             backgroundColor: colors.primary.pink,
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.25,
-            shadowRadius: 8,
+            boxShadow: `0 2px 8px ${withAlpha(colors.primary.pink, 0.25)}`,
           }}
         >
           <Text className="text-[15px] leading-[22px] text-foreground">

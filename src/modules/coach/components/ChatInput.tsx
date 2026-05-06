@@ -1,4 +1,4 @@
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useCallback, useState } from 'react';
@@ -128,10 +128,9 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
               backgroundColor: canSend
                 ? colors.primary.pink
                 : colors.card.elevated,
-              shadowColor: canSend ? colors.primary.pink : 'transparent',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: canSend ? 0.4 : 0,
-              shadowRadius: 6,
+              boxShadow: canSend
+                ? `0 2px 6px ${withAlpha(colors.primary.pink, 0.4)}`
+                : undefined,
             }}
           >
             <Ionicons
