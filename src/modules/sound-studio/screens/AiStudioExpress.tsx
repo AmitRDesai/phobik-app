@@ -1,4 +1,5 @@
 import expressImg from '@/assets/images/sound-studio/express-analyzing.jpg';
+import { Badge } from '@/components/ui/Badge';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
@@ -41,11 +42,9 @@ export default function AiStudioExpress() {
 
       <View className="flex-1 px-6 pt-2">
         {/* Step indicator */}
-        <View className="self-start rounded-full border border-primary-pink/30 bg-primary-pink/10 px-3 py-1">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-            Step 03 / 06
-          </Text>
-        </View>
+        <Badge tone="pink" size="sm" className="self-start">
+          Step 03 / 06
+        </Badge>
 
         {/* Hero copy */}
         <View className="mt-4 items-center">

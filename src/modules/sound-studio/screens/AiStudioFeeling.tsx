@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/Badge';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
@@ -48,11 +49,9 @@ export default function AiStudioFeeling() {
           showsVerticalScrollIndicator={false}
         >
           {/* Step indicator */}
-          <View className="self-start rounded-full border border-primary-pink/30 bg-primary-pink/10 px-3 py-1">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-              Step 02 / 06
-            </Text>
-          </View>
+          <Badge tone="pink" size="sm" className="self-start">
+            Step 02 / 06
+          </Badge>
 
           {/* Title */}
           <Text className="mt-4 text-[36px] font-extrabold leading-tight tracking-tight text-foreground">

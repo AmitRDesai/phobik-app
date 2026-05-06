@@ -1,4 +1,5 @@
 import writeVibeImg from '@/assets/images/sound-studio/write-vibe.jpg';
+import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
@@ -37,11 +38,9 @@ export default function AiStudioWriteIt() {
           showsVerticalScrollIndicator={false}
         >
           {/* Step indicator */}
-          <View className="self-start rounded-full border border-primary-pink/30 bg-primary-pink/10 px-3 py-1">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-              Step 01 / 06
-            </Text>
-          </View>
+          <Badge tone="pink" size="sm" className="self-start">
+            Step 01 / 06
+          </Badge>
 
           {/* Title */}
           <Text className="mt-4 text-[44px] font-extrabold leading-none tracking-tight text-foreground">
