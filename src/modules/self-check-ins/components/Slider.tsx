@@ -1,4 +1,5 @@
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { useCallback, useEffect } from 'react';
 import { View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -31,11 +32,15 @@ export function Slider({
   max,
   onValueChange,
   trackWidth,
-  thumbColor = 'white',
+  thumbColor,
   thumbBorderColor = colors.primary.pink,
   minimumTrackColor,
-  maximumTrackColor = alpha.white10,
+  maximumTrackColor,
 }: SliderProps) {
+  const scheme = useScheme();
+  const resolvedThumbColor =
+    thumbColor ?? (scheme === 'dark' ? 'white' : '#ffffff');
+  const resolvedMaxTrack = maximumTrackColor ?? foregroundFor(scheme, 0.1);
   const usableWidth = trackWidth - THUMB_SIZE;
   const initialX = ((value - min) / (max - min)) * usableWidth;
   const thumbX = useSharedValue(initialX);
@@ -112,7 +117,7 @@ export function Slider({
             right: THUMB_SIZE / 2,
             height: TRACK_HEIGHT,
             borderRadius: TRACK_HEIGHT / 2,
-            backgroundColor: maximumTrackColor,
+            backgroundColor: resolvedMaxTrack,
           }}
         />
         {/* Filled track */}
@@ -137,7 +142,7 @@ export function Slider({
               width: THUMB_SIZE,
               height: THUMB_SIZE,
               borderRadius: THUMB_SIZE / 2,
-              backgroundColor: thumbColor,
+              backgroundColor: resolvedThumbColor,
               borderWidth: 2,
               borderColor: thumbBorderColor,
               boxShadow: `0px 0px 8px ${withAlpha(thumbBorderColor, 0.4)}`,

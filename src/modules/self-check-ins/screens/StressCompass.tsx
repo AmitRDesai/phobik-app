@@ -1,7 +1,8 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors } from '@/constants/colors';
+import { accentFor, colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -15,6 +16,8 @@ import { useSaveAnswer, useStartAssessment } from '../hooks/useSelfCheckIn';
 import { stressorRatingsAtom } from '../store/self-check-ins';
 
 export default function StressCompass() {
+  const scheme = useScheme();
+  const yellowAccent = accentFor(scheme, 'yellow');
   const [ratings, setRatings] = useAtom(stressorRatingsAtom);
   const { width: screenWidth } = useWindowDimensions();
   const sliderWidth = screenWidth - 96;
@@ -73,7 +76,7 @@ export default function StressCompass() {
   return (
     <SafeAreaView
       edges={['top', 'left', 'right']}
-      className="flex-1 bg-background"
+      className="flex-1 bg-surface"
     >
       {/* Header */}
       <View className="border-b border-foreground/5">
@@ -110,7 +113,7 @@ export default function StressCompass() {
           <Card className="rounded-3xl p-5">
             <Text
               className="mb-2 text-[11px] font-black uppercase tracking-[3px]"
-              style={{ color: colors.accent.yellow }}
+              style={{ color: yellowAccent }}
             >
               How it works
             </Text>
@@ -139,6 +142,7 @@ export default function StressCompass() {
               value={ratings[stressor.key]}
               onValueChange={(v) => updateRating(stressor.key, v)}
               sliderWidth={sliderWidth}
+              yellowAccent={yellowAccent}
             />
           ))}
         </View>
@@ -151,7 +155,11 @@ export default function StressCompass() {
           </Text>
           <View className="mt-8">
             <LinearGradient
-              colors={['transparent', alpha.white20, 'transparent']}
+              colors={[
+                'transparent',
+                foregroundFor(scheme, 0.2),
+                'transparent',
+              ]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={{ width: 48, height: 1 }}
@@ -182,6 +190,7 @@ interface StressorCardProps {
   value: number;
   onValueChange: (v: number) => void;
   sliderWidth: number;
+  yellowAccent: string;
 }
 
 function StressorCard({
@@ -190,9 +199,10 @@ function StressorCard({
   value,
   onValueChange,
   sliderWidth,
+  yellowAccent,
 }: StressorCardProps) {
   return (
-    <View className="rounded-[28px] border border-foreground/10 bg-surface p-6">
+    <View className="rounded-[28px] border border-foreground/10 bg-surface-elevated p-6">
       {/* Header */}
       <View className="mb-5 flex-row items-center gap-4">
         <View className="size-10 items-center justify-center rounded-xl border border-foreground/5 bg-foreground/5">
@@ -217,7 +227,7 @@ function StressorCard({
             style={{ left: 8, right: 8, height: 6 }}
           >
             <LinearGradient
-              colors={[colors.primary.pink, colors.accent.yellow]}
+              colors={[colors.primary.pink, yellowAccent]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={{
@@ -238,7 +248,7 @@ function StressorCard({
               max={10}
               onValueChange={onValueChange}
               trackWidth={sliderWidth}
-              thumbBorderColor={colors.accent.yellow}
+              thumbBorderColor={yellowAccent}
               maximumTrackColor="transparent"
             />
           </View>
@@ -251,7 +261,7 @@ function StressorCard({
           </Text>
           <Text
             className="text-[10px] font-bold"
-            style={{ color: colors.accent.yellow }}
+            style={{ color: yellowAccent }}
           >
             Rating: {value}
           </Text>
