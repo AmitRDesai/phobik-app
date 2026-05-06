@@ -1,5 +1,5 @@
 import { BlurView } from '@/components/ui/BlurView';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
 import Svg, {
@@ -91,10 +91,7 @@ export function ChakraFigure() {
                   height: index === 0 || index === 6 ? 10 : 8,
                   backgroundColor: color,
                   marginTop: index === 0 ? -48 : 4,
-                  shadowColor: color,
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.8,
-                  shadowRadius: 12,
+                  boxShadow: `0px 0px 12px ${withAlpha(color, 0.8)}`,
                 }}
               />
             ))}

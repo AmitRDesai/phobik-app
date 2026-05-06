@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -116,11 +116,7 @@ function ActiveCard({
               end={{ x: 1, y: 0 }}
               style={{
                 borderRadius: 12,
-                shadowColor: colors.primary.pink,
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.2,
-                shadowRadius: 8,
-                elevation: 4,
+                boxShadow: `0px 4px 8px ${withAlpha(colors.primary.pink, 0.2)}`,
               }}
             >
               <View className="flex-row items-center justify-center gap-2 py-4">

@@ -350,10 +350,7 @@ export default function BoxBreathingSession() {
                     borderRadius: 32,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    shadowColor: colors.primary.pink,
-                    shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.3,
-                    shadowRadius: 12,
+                    boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.3)}`,
                   }}
                 >
                   <MaterialIcons

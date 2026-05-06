@@ -1,6 +1,6 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
@@ -49,11 +49,7 @@ export function SelfLeadershipPlan({
                 style={
                   isSelected
                     ? {
-                        shadowColor: colors.primary['pink-soft'],
-                        shadowOffset: { width: 0, height: 4 },
-                        shadowOpacity: 0.3,
-                        shadowRadius: 12,
-                        elevation: 4,
+                        boxShadow: `0px 4px 12px ${withAlpha(colors.primary['pink-soft'], 0.3)}`,
                       }
                     : undefined
                 }
@@ -102,11 +98,7 @@ export function SelfLeadershipPlan({
               style={
                 ex.highlighted
                   ? {
-                      shadowColor: colors.primary['pink-soft'],
-                      shadowOffset: { width: 0, height: 0 },
-                      shadowOpacity: 0.3,
-                      shadowRadius: 15,
-                      elevation: 4,
+                      boxShadow: `0px 0px 15px ${withAlpha(colors.primary['pink-soft'], 0.3)}`,
                       width: 56,
                       height: 56,
                     }

@@ -2,7 +2,7 @@ import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -107,10 +107,7 @@ export function GradientIcon({
         borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: colors.primary.pink,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.4,
-        shadowRadius: 20,
+        boxShadow: `0px 4px 20px ${withAlpha(colors.primary.pink, 0.4)}`,
       }}
     >
       <MaterialIcons name={name} size={size} color="white" />

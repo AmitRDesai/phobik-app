@@ -238,10 +238,7 @@ export default function Breathing478Session() {
                   height: 80,
                   borderRadius: 40,
                   padding: 2,
-                  shadowColor: colors.primary.pink,
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.4,
-                  shadowRadius: 30,
+                  boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.4)}`,
                 }}
               >
                 <View className="flex-1 items-center justify-center rounded-full bg-black/40">

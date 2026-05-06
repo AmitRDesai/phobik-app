@@ -1,5 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -85,10 +85,7 @@ export default function QiGongSession() {
         <View
           className="h-[220px] w-[180px] items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 px-6"
           style={{
-            shadowColor: colors.accent.yellow,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.4,
-            shadowRadius: 30,
+            boxShadow: `0px 0px 30px ${withAlpha(colors.accent.yellow, 0.4)}`,
           }}
         >
           <MaterialIcons name="air" size={56} color={colors.accent.yellow} />
@@ -148,10 +145,7 @@ export default function QiGongSession() {
                 key={step.id}
                 className="flex-row items-center gap-3 rounded-3xl border border-primary-pink/40 bg-primary-pink/10 p-5"
                 style={{
-                  shadowColor: colors.primary.pink,
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 16,
+                  boxShadow: `0px 0px 16px ${withAlpha(colors.primary.pink, 0.3)}`,
                 }}
               >
                 <View className="h-7 w-7 items-center justify-center rounded-full">

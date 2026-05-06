@@ -1,4 +1,4 @@
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { useCallback, useEffect } from 'react';
 import { View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -140,11 +140,7 @@ export function Slider({
               backgroundColor: thumbColor,
               borderWidth: 2,
               borderColor: thumbBorderColor,
-              shadowColor: thumbBorderColor,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.4,
-              shadowRadius: 8,
-              elevation: 4,
+              boxShadow: `0px 0px 8px ${withAlpha(thumbBorderColor, 0.4)}`,
             },
             thumbStyle,
           ]}

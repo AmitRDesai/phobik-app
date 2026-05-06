@@ -51,11 +51,7 @@ export function RatingScale({
                     borderRadius: 28,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    shadowColor: colors.primary.pink,
-                    shadowOffset: { width: 0, height: 0 },
-                    shadowOpacity: 0.4,
-                    shadowRadius: 20,
-                    elevation: 8,
+                    boxShadow: `0px 0px 20px ${withAlpha(colors.primary.pink, 0.4)}`,
                   }}
                 >
                   <Text className="text-xl font-bold text-black">{option}</Text>

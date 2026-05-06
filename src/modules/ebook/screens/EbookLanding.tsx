@@ -130,11 +130,7 @@ export default function EbookLanding() {
               className="relative overflow-hidden rounded-xl"
               style={{
                 aspectRatio: 4 / 5,
-                shadowColor: colors.gradient['hot-pink'],
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.15,
-                shadowRadius: 60,
-                elevation: 10,
+                boxShadow: `0px 0px 60px ${withAlpha(colors.gradient['hot-pink'], 0.15)}`,
               }}
             >
               <Image

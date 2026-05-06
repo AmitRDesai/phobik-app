@@ -13,10 +13,7 @@ function StarIcon() {
         className="absolute h-16 w-16 rounded-full"
         style={{
           backgroundColor: withAlpha(colors.pink[400], 0.15),
-          shadowColor: colors.primary.pink,
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.5,
-          shadowRadius: 30,
+          boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.5)}`,
         }}
       />
       <MaterialIcons name="auto-awesome" size={36} color={colors.pink[400]} />

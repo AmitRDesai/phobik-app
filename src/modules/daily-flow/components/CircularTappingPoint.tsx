@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 
@@ -39,10 +39,7 @@ export function CircularTappingPoint({ accent }: Props) {
       <View
         className="h-2.5 w-2.5 rounded-full bg-white"
         style={{
-          shadowColor: 'white',
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 1,
-          shadowRadius: 8,
+          boxShadow: `0px 0px 8px ${withAlpha('white', 1)}`,
         }}
       />
     </View>

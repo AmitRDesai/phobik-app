@@ -1,6 +1,6 @@
 import kundaliniImg from '@/assets/images/four-pillars/movement-kundalini.jpg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { GradientText } from '@/components/ui/GradientText';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -119,10 +119,7 @@ export default function KundaliniSession() {
         <View
           className="overflow-hidden rounded-[28px] border border-foreground/10"
           style={{
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.4,
-            shadowRadius: 24,
+            boxShadow: `0px 0px 24px ${withAlpha(colors.primary.pink, 0.4)}`,
           }}
         >
           <Image

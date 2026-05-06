@@ -1,5 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import type { CustomDialogProps } from '@/store/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -74,10 +74,7 @@ export function MysteryComplete({
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: 16,
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.4,
-            shadowRadius: 12,
+            boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.4)}`,
           }}
         >
           <MaterialIcons

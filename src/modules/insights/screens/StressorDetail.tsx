@@ -1,5 +1,5 @@
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import type { StressorKey } from '@/modules/self-check-ins/data/stressors';
 import { useLocalSearchParams } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
@@ -32,11 +32,7 @@ export default function StressorDetail() {
           <View
             className="h-28 w-28 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
             style={{
-              shadowColor: colors.primary['pink-soft'],
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.2,
-              shadowRadius: 15,
-              elevation: 4,
+              boxShadow: `0px 0px 15px ${withAlpha(colors.primary['pink-soft'], 0.2)}`,
             }}
           >
             <Text className="text-5xl">{data.emoji}</Text>

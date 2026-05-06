@@ -261,10 +261,7 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
             height: 110,
             borderRadius: 55,
             backgroundColor: `${CYAN}08`,
-            shadowColor: CYAN,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.6,
-            shadowRadius: 40,
+            boxShadow: `0px 0px 40px ${withAlpha(CYAN, 0.6)}`,
           }}
         />
         <View
@@ -272,10 +269,7 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
           style={{
             backgroundColor: `${CYAN}20`,
             borderColor: `${CYAN}30`,
-            shadowColor: CYAN,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.5,
-            shadowRadius: 30,
+            boxShadow: `0px 0px 30px ${withAlpha(CYAN, 0.5)}`,
           }}
         >
           <MaterialIcons name="spa" size={18} color={CYAN} />

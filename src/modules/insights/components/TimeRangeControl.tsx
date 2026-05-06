@@ -1,3 +1,4 @@
+import { withAlpha } from '@/constants/colors';
 import { type TimeRange, timeRangeAtom } from '../store/insights';
 import { useAtom } from 'jotai';
 import { Pressable, Text, View } from 'react-native';
@@ -19,11 +20,7 @@ export function TimeRangeControl() {
           style={
             selected === range
               ? {
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: 0.5,
-                  shadowRadius: 10,
-                  elevation: 4,
+                  boxShadow: `0px 2px 10px ${withAlpha('#000', 0.5)}`,
                 }
               : undefined
           }

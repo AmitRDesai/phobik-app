@@ -1,3 +1,4 @@
+import { withAlpha } from '@/constants/colors';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -128,10 +129,7 @@ function DashIdle() {
                 marginTop: 40,
                 width: BODY_W,
                 height: BODY_H,
-                shadowColor: '#00F2FF',
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.4,
-                shadowRadius: 20,
+                boxShadow: `0px 0px 20px ${withAlpha('#00F2FF', 0.4)}`,
               },
               jiggleStyle,
             ]}
@@ -274,10 +272,7 @@ function DashCelebrating({ fading }: { fading: boolean }) {
             marginTop: 40,
             width: BODY_W,
             height: BODY_H,
-            shadowColor: '#00F2FF',
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.6,
-            shadowRadius: 30,
+            boxShadow: `0px 0px 30px ${withAlpha('#00F2FF', 0.6)}`,
           }}
         >
           <DashBody>

@@ -1,6 +1,6 @@
 import taiChiImg from '@/assets/images/four-pillars/movement-tai-chi.jpg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
@@ -49,10 +49,7 @@ export default function TaiChiSession() {
         <View
           className="h-[280px] w-[280px] items-center justify-center overflow-hidden rounded-full border border-foreground/10"
           style={{
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.4,
-            shadowRadius: 30,
+            boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.4)}`,
           }}
         >
           <Image

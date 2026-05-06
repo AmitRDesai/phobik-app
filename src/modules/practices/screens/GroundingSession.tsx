@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { MaterialIcons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
@@ -286,10 +286,7 @@ export default function GroundingSession() {
             onPress={() => setIsPaused((p) => !p)}
             className="h-14 w-14 items-center justify-center rounded-full bg-white active:scale-95"
             style={{
-              shadowColor: '#fff',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.3,
-              shadowRadius: 8,
+              boxShadow: `0px 2px 8px ${withAlpha('#fff', 0.3)}`,
             }}
           >
             <MaterialIcons

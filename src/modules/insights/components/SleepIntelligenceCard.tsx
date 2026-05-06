@@ -95,10 +95,7 @@ export function SleepIntelligenceCard() {
                     width: `${Math.min(100, displayPct)}%`,
                     height: '100%',
                     borderRadius: 9999,
-                    shadowColor: colors.primary['pink-soft'],
-                    shadowOffset: { width: 0, height: 0 },
-                    shadowOpacity: 0.5,
-                    shadowRadius: 10,
+                    boxShadow: `0px 0px 10px ${withAlpha(colors.primary['pink-soft'], 0.5)}`,
                   }}
                 />
               ) : null}

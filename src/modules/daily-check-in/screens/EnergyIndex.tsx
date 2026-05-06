@@ -160,10 +160,7 @@ export default function EnergyIndex() {
                 width: 96,
                 height: 96,
                 backgroundColor: alpha.black95,
-                shadowColor: colors.primary.pink,
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.3,
-                shadowRadius: 20,
+                boxShadow: `0px 0px 20px ${withAlpha(colors.primary.pink, 0.3)}`,
               }}
             >
               <Text className="mb-0.5 text-[9px] font-bold uppercase tracking-[3px] text-foreground/50">
@@ -268,10 +265,7 @@ function EnergyCircle({
           ...(value > 10
             ? {
                 borderColor: alpha.white20,
-                shadowColor: colors.primary.pink,
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.15,
-                shadowRadius: 20,
+                boxShadow: `0px 0px 20px ${withAlpha(colors.primary.pink, 0.15)}`,
               }
             : {}),
         }}
@@ -338,10 +332,7 @@ function ScorePill({ value, rotation }: { value: number; rotation?: string }) {
       style={{
         backgroundColor: alpha.white10,
         borderColor: `${colors.primary.pink}30`,
-        shadowColor: colors.primary.pink,
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
+        boxShadow: `0px 0px 4px ${withAlpha(colors.primary.pink, 0.3)}`,
         ...(rotation ? { transform: [{ rotate: rotation }] } : {}),
       }}
     >

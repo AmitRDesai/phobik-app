@@ -61,11 +61,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
               borderRadius: 48,
               alignItems: 'center',
               justifyContent: 'center',
-              shadowColor: colors.primary.pink,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.5,
-              shadowRadius: 30,
-              elevation: 10,
+              boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.5)}`,
             }}
           >
             <MaterialIcons name="pause-circle-filled" size={56} color="white" />

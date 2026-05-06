@@ -82,10 +82,7 @@ export default function PrivacyTrust() {
               backgroundColor: withAlpha(colors.status.danger, 0.1),
               borderWidth: 1,
               borderColor: withAlpha(colors.status.danger, 0.3),
-              shadowColor: colors.status.danger,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.4,
-              shadowRadius: 20,
+              boxShadow: `0px 0px 20px ${withAlpha(colors.status.danger, 0.4)}`,
             }}
           >
             <MaterialIcons
@@ -108,10 +105,7 @@ export default function PrivacyTrust() {
               className="h-12 w-12 shrink-0 items-center justify-center rounded-xl"
               style={{
                 backgroundColor: feature.iconBg,
-                shadowColor: feature.iconBg,
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.4,
-                shadowRadius: 12,
+                boxShadow: `0px 0px 12px ${withAlpha(feature.iconBg, 0.4)}`,
               }}
             >
               <MaterialIcons name={feature.icon} size={24} color="white" />

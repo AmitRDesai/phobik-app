@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -55,10 +55,7 @@ export default function PhysiologicalSighSession() {
         <View
           className="h-[220px] w-[220px] items-center justify-center rounded-full"
           style={{
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.5,
-            shadowRadius: 30,
+            boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.5)}`,
           }}
         >
           <LinearGradient

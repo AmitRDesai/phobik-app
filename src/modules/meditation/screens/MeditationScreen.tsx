@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { GradientText } from '@/components/ui/GradientText';
@@ -328,10 +328,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
           <View
             className="overflow-hidden rounded-[28px]"
             style={{
-              shadowColor: colors.primary.pink,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.4,
-              shadowRadius: 30,
+              boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.4)}`,
             }}
           >
             <Image
@@ -445,10 +442,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
             disabled={!!meditation.audioBaseKey && !!effectiveVoice && !isReady}
             className="h-20 w-20 items-center justify-center rounded-full active:scale-95"
             style={{
-              shadowColor: colors.primary.pink,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.6,
-              shadowRadius: 20,
+              boxShadow: `0px 0px 20px ${withAlpha(colors.primary.pink, 0.6)}`,
               opacity:
                 meditation.audioBaseKey && effectiveVoice && !isReady ? 0.7 : 1,
             }}

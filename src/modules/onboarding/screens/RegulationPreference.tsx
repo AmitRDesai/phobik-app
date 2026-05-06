@@ -1,4 +1,4 @@
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -87,10 +87,7 @@ export default function RegulationPreference() {
       <View
         className="mt-4 rounded-xl border border-accent-yellow/20 bg-foreground/5 p-5"
         style={{
-          shadowColor: colors.accent.orange,
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.15,
-          shadowRadius: 25,
+          boxShadow: `0px 0px 25px ${withAlpha(colors.accent.orange, 0.15)}`,
         }}
       >
         <View className="flex-row items-start gap-4">

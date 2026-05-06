@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
 import { useSleepHistory } from '@/modules/insights/hooks/useSleepHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
@@ -44,11 +44,7 @@ export function SleepScoreHeader() {
             borderRadius: 80,
             alignItems: 'center',
             justifyContent: 'center',
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.4,
-            shadowRadius: 25,
-            elevation: 8,
+            boxShadow: `0px 0px 25px ${withAlpha(colors.primary.pink, 0.4)}`,
           }}
         >
           <View

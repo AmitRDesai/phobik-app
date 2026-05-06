@@ -1,4 +1,4 @@
-import { alpha, colors } from '@/constants/colors';
+import { alpha, colors, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
@@ -192,10 +192,7 @@ export function MysteryPracticeCard({
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: 24,
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.2,
-            shadowRadius: 12,
+            boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
         >
           <MaterialIcons
@@ -235,10 +232,7 @@ export function MysteryPracticeCard({
                 paddingVertical: 16,
                 paddingHorizontal: 24,
                 alignItems: 'center',
-                shadowColor: colors.primary.pink,
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.2,
-                shadowRadius: 12,
+                boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
               }}
             >
               <Text

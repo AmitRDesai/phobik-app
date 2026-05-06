@@ -1,5 +1,5 @@
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import type { CustomDialogProps } from '@/store/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -80,10 +80,7 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
                   borderRadius: 18,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  shadowColor: colors.primary.pink,
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 8,
+                  boxShadow: `0px 2px 8px ${withAlpha(colors.primary.pink, 0.3)}`,
                 }}
               >
                 <MaterialIcons name={principle.icon} size={18} color="white" />

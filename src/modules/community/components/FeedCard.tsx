@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { ImageViewer } from '@/components/ui/ImageViewer';
 import { UserAvatar } from '@/components/ui/UserAvatar';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { formatCount } from '@/modules/practices/lib/format';
 import { useState } from 'react';
 import { Image, Pressable, ScrollView, Text, View } from 'react-native';
@@ -155,10 +155,7 @@ export function FeedCard({
               style={
                 isActive
                   ? {
-                      shadowColor: colors.gradient.magenta,
-                      shadowOffset: { width: 0, height: 2 },
-                      shadowOpacity: 0.3,
-                      shadowRadius: 8,
+                      boxShadow: `0px 2px 8px ${withAlpha(colors.gradient.magenta, 0.3)}`,
                     }
                   : undefined
               }
