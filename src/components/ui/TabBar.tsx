@@ -1,5 +1,7 @@
 import { BlurView } from '@/components/ui/BlurView';
+import { variantConfig } from '@/components/variant-config';
 import { colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Pressable, Text, View } from 'react-native';
@@ -15,11 +17,13 @@ const TAB_ICONS: Record<string, keyof typeof MaterialIcons.glyphMap> = {
 
 export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
+  const scheme = useScheme();
   const paddingBottom = Math.max(insets.bottom, 8);
+  const blurBg = withAlpha(variantConfig.default[scheme].bgHex, 0.7);
 
   const content = (
     <View
-      className="flex-row items-center justify-around border-t border-white/10 px-4 pt-3"
+      className="flex-row items-center justify-around border-t border-foreground/10 px-4 pt-3"
       style={{ paddingBottom }}
     >
       {state.routes.map((route, index) => {
@@ -30,7 +34,7 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 
         const color = isFocused
           ? colors.primary.pink
-          : `${colors.accent.yellow}CC`; // 80% opacity
+          : withAlpha(colors.accent.yellow, 0.8);
 
         const onPress = () => {
           const event = navigation.emit({
@@ -76,11 +80,7 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   );
 
   return (
-    <BlurView
-      intensity={25}
-      tint="dark"
-      style={{ backgroundColor: withAlpha(colors.background.dashboard, 0.7) }}
-    >
+    <BlurView intensity={25} tint={scheme} style={{ backgroundColor: blurBg }}>
       {content}
     </BlurView>
   );
