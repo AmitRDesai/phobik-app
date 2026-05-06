@@ -1,6 +1,5 @@
-import { clsx } from 'clsx';
+import { Card } from '@/components/ui/Card';
 import type { ReactNode } from 'react';
-import { View } from 'react-native';
 
 type Props = {
   children: ReactNode;
@@ -9,13 +8,8 @@ type Props = {
 
 export function GlassCard({ children, className }: Props) {
   return (
-    <View
-      className={clsx(
-        'rounded-3xl border border-foreground/10 bg-foreground/[0.04] p-6',
-        className,
-      )}
-    >
+    <Card variant="glass" className={className}>
       {children}
-    </View>
+    </Card>
   );
 }

@@ -1,4 +1,4 @@
-import { BackButton } from '@/components/ui/BackButton';
+import { Header } from '@/components/ui/Header';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
@@ -30,13 +30,7 @@ export default function PhilosophyScreen() {
   return (
     <Screen
       variant="auth"
-      header={
-        <View className="flex-row items-center justify-between px-6 pb-4 pt-2">
-          <BackButton />
-          <ProgressDots total={7} current={2} />
-          <View className="w-10" />
-        </View>
-      }
+      header={<Header center={<ProgressDots total={7} current={2} />} />}
       sticky={
         <View className="items-center">
           <GradientButton

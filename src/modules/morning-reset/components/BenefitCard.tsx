@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { accentFor, type AccentHue, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -27,10 +28,7 @@ export function BenefitCard({
   const scheme = useScheme();
   const accent = accentFor(scheme, TONE_HUE[tone]);
   return (
-    <View
-      className="rounded-3xl border bg-foreground/[0.04] p-5"
-      style={{ borderColor: withAlpha(accent, 0.2) }}
-    >
+    <Card variant="toned" tone={TONE_HUE[tone]}>
       <View
         className="mb-4 h-12 w-12 items-center justify-center rounded-2xl"
         style={{ backgroundColor: withAlpha(accent, 0.12) }}
@@ -43,6 +41,6 @@ export function BenefitCard({
           {description}
         </Text>
       ) : null}
-    </View>
+    </Card>
   );
 }

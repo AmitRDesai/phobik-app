@@ -1,10 +1,9 @@
+import { Card, type CardProps } from '@/components/ui/Card';
 import { colors, withAlpha } from '@/constants/colors';
-import { clsx } from 'clsx';
-import { View, type ViewProps } from 'react-native';
 
-interface DashboardCardProps extends ViewProps {
+interface DashboardCardProps extends Omit<CardProps, 'variant' | 'tone'> {
+  /** Soft pink drop-shadow (used on the home dashboard's glow cards). */
   glow?: boolean;
-  className?: string;
 }
 
 const GLOW_SHADOW = {
@@ -19,15 +18,13 @@ export function DashboardCard({
   ...rest
 }: DashboardCardProps) {
   return (
-    <View
-      className={clsx(
-        'overflow-hidden rounded-3xl border border-foreground/[0.08] bg-surface-elevated p-6',
-        className,
-      )}
-      style={glow ? [GLOW_SHADOW, style] : style}
+    <Card
+      variant="elevated"
+      className={className ? `overflow-hidden ${className}` : 'overflow-hidden'}
+      style={glow ? [GLOW_SHADOW, style as object] : style}
       {...rest}
     >
       {children}
-    </View>
+    </Card>
   );
 }

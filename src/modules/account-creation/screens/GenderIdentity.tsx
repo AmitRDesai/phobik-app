@@ -1,4 +1,4 @@
-import { BackButton } from '@/components/ui/BackButton';
+import { Header } from '@/components/ui/Header';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
@@ -44,11 +44,9 @@ export default function GenderIdentityScreen() {
       variant="auth"
       scroll
       header={
-        <View className="flex-row items-center justify-between px-6 pb-4 pt-2">
-          <BackButton />
-          <ProgressDots total={totalSteps} current={currentStep} />
-          <View className="w-10" />
-        </View>
+        <Header
+          center={<ProgressDots total={totalSteps} current={currentStep} />}
+        />
       }
       sticky={
         <View className="items-center">
