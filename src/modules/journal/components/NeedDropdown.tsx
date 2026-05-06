@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import {
   accentFor,
   colors,
@@ -46,11 +47,11 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
 
   return (
     <View className="mb-6">
-      <Pressable
+      <Card
+        variant="surface"
         onPress={toggle}
-        className="flex-row items-center justify-between rounded-2xl bg-surface-elevated p-4"
+        className="flex-row items-center justify-between"
         style={{
-          borderWidth: 1,
           borderColor: withAlpha(accentFor(scheme, 'yellow'), 0.4),
           boxShadow: `0 0 8px ${withAlpha(colors.accent.yellow, 0.2)}`,
         }}
@@ -70,7 +71,7 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
           size={24}
           color={foregroundFor(scheme, 1)}
         />
-      </Pressable>
+      </Card>
 
       <Animated.View style={animatedStyle}>
         <View className="mt-4 flex-row flex-wrap gap-2 px-1">

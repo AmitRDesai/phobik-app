@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -46,9 +47,10 @@ export function FeelingDropdown({
 
   return (
     <View className="mb-4">
-      <Pressable
+      <Card
+        variant="surface"
         onPress={toggle}
-        className="flex-row items-center justify-between rounded-2xl border border-primary-pink/40 bg-surface-elevated p-4"
+        className="flex-row items-center justify-between border-primary-pink/40"
         style={{
           boxShadow: `0 0 8px ${withAlpha(colors.primary['pink-soft'], 0.2)}`,
         }}
@@ -68,7 +70,7 @@ export function FeelingDropdown({
           size={24}
           color={foregroundFor(scheme, 1)}
         />
-      </Pressable>
+      </Card>
 
       <Animated.View style={animatedStyle}>
         <View className="mt-4 flex-row flex-wrap gap-2 px-1">
