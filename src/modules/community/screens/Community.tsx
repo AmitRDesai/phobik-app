@@ -1,6 +1,6 @@
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
-import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
@@ -15,7 +15,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CommunityPrinciples } from '../components/CommunityPrinciples';
 import { FeedCard } from '../components/FeedCard';
 import { FilterChips } from '../components/FilterChips';
@@ -47,52 +46,34 @@ export default function Community() {
 }
 
 function JoinCommunityView() {
-  const insets = useSafeAreaInsets();
-
   const handleJoin = () => {
     dialog.open({ component: CommunityPrinciples });
   };
 
   return (
-    <View className="flex-1">
-      <GlowBg
-        bgClassName="bg-surface"
-        intensity={0.3}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-      />
-      <View
-        className="flex-1 items-center justify-center gap-6 px-8"
-        style={{ paddingTop: insets.top }}
-      >
-        <MaterialIcons name="groups" size={64} color={colors.accent.yellow} />
-        <View className="items-center gap-2">
-          <Text className="text-2xl font-bold text-foreground">
-            Courage Wall
-          </Text>
-          <Text className="text-center text-sm leading-relaxed text-primary-muted">
-            A safe space to share your brave moments, support others, and grow
-            together.
-          </Text>
-        </View>
-        <View className="w-full">
-          <GradientButton
-            onPress={handleJoin}
-            icon={
-              <MaterialIcons name="arrow-forward" size={20} color="white" />
-            }
-          >
-            Join Community
-          </GradientButton>
-        </View>
+    <Screen className="flex-1 items-center justify-center gap-6 px-8">
+      <MaterialIcons name="groups" size={64} color={colors.accent.yellow} />
+      <View className="items-center gap-2">
+        <Text className="text-2xl font-bold text-foreground">Courage Wall</Text>
+        <Text className="text-center text-sm leading-relaxed text-primary-muted">
+          A safe space to share your brave moments, support others, and grow
+          together.
+        </Text>
       </View>
-    </View>
+      <View className="w-full">
+        <GradientButton
+          onPress={handleJoin}
+          icon={<MaterialIcons name="arrow-forward" size={20} color="white" />}
+        >
+          Join Community
+        </GradientButton>
+      </View>
+    </Screen>
   );
 }
 
 function CommunityFeed() {
   const scheme = useScheme();
-  const insets = useSafeAreaInsets();
   const router = useRouter();
   const [search, setSearch] = useAtom(communitySearchAtom);
   const [circle, setCircle] = useAtom(communityCircleFilterAtom);
@@ -151,28 +132,19 @@ function CommunityFeed() {
   };
 
   return (
-    <View className="flex-1 bg-surface">
-      <GlowBg
-        bgClassName="bg-surface"
-        intensity={0.2}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-        centerY={0.1}
-      />
-
-      {/* Header */}
-      <View className="gap-3 px-4 pb-6" style={{ paddingTop: insets.top + 8 }}>
-        <Text className="text-center text-xl font-bold tracking-tight text-foreground">
-          Courage Wall
-        </Text>
-
-        <SearchBar value={search} onChangeText={handleSearchChange} />
-        <FilterChips selected={circle} onSelect={setCircle} />
-      </View>
-
-      <NetworkBanner message="You're offline. Posts will load when you reconnect." />
-
-      {/* Feed */}
+    <Screen
+      header={
+        <View className="gap-3 px-4 pb-6 pt-2">
+          <Text className="text-center text-xl font-bold tracking-tight text-foreground">
+            Courage Wall
+          </Text>
+          <SearchBar value={search} onChangeText={handleSearchChange} />
+          <FilterChips selected={circle} onSelect={setCircle} />
+          <NetworkBanner message="You're offline. Posts will load when you reconnect." />
+        </View>
+      }
+      className="flex-1"
+    >
       {isLoading ? (
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator color={colors.primary.pink} size="large" />
@@ -228,6 +200,6 @@ function CommunityFeed() {
 
       {/* FAB */}
       <FloatingAddButton onPress={() => router.push('/community/create')} />
-    </View>
+    </Screen>
   );
 }

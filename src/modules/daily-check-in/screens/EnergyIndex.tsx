@@ -1,20 +1,19 @@
-import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { BackButton } from '@/components/ui/BackButton';
+import { GradientText } from '@/components/ui/GradientText';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { GradientText } from '@/components/ui/GradientText';
+import {
+  useSaveEnergyCheckIn,
+  useTodayEnergyCheckIn,
+} from '@/modules/home/hooks/useEnergyCheckIn';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Text, useWindowDimensions, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Slider } from '../components/Slider';
-import {
-  useSaveEnergyCheckIn,
-  useTodayEnergyCheckIn,
-} from '@/modules/home/hooks/useEnergyCheckIn';
 
 interface Pillars {
   purpose: number;
@@ -70,24 +69,37 @@ export default function EnergyIndex() {
   };
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
-      <GlowBg centerY={0.45} intensity={0.6} />
-
-      {/* Header */}
-      <View className="flex-row items-center justify-between px-4 py-3">
-        <BackButton />
-        <Text className="text-base font-bold tracking-tight text-foreground">
-          Check In
-        </Text>
-        <View className="size-10 items-center justify-center">
-          <MaterialIcons
-            name="analytics"
-            size={24}
-            color={colors.primary.pink}
-          />
+    <Screen
+      header={
+        <Header
+          title="Check In"
+          right={
+            <View className="size-10 items-center justify-center">
+              <MaterialIcons
+                name="analytics"
+                size={24}
+                color={colors.primary.pink}
+              />
+            </View>
+          }
+        />
+      }
+      sticky={
+        <View className="px-screen-x pb-4">
+          <Text className="mb-6 text-center text-[11px] font-medium italic text-foreground/60">
+            {'"'}When your energy aligns, courage follows.{'"'}
+          </Text>
+          <GradientButton
+            onPress={handleSave}
+            disabled={saveEnergyCheckIn.isPending}
+            icon={<MaterialIcons name="check" size={20} color="white" />}
+          >
+            {saveEnergyCheckIn.isPending ? 'Saving...' : 'Save'}
+          </GradientButton>
         </View>
-      </View>
-
+      }
+      className="flex-1"
+    >
       {/* Title */}
       <View className="items-center px-6 pt-8">
         <Text className="mb-3 text-center text-2xl font-bold leading-tight tracking-tight text-foreground">
@@ -179,21 +191,7 @@ export default function EnergyIndex() {
           </View>
         </View>
       </View>
-
-      {/* Bottom CTA */}
-      <View className="px-6 pb-4">
-        <Text className="mb-6 text-center text-[11px] font-medium italic text-foreground/60">
-          {'"'}When your energy aligns, courage follows.{'"'}
-        </Text>
-        <GradientButton
-          onPress={handleSave}
-          disabled={saveEnergyCheckIn.isPending}
-          icon={<MaterialIcons name="check" size={20} color="white" />}
-        >
-          {saveEnergyCheckIn.isPending ? 'Saving...' : 'Save'}
-        </GradientButton>
-      </View>
-    </SafeAreaView>
+    </Screen>
   );
 }
 

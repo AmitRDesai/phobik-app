@@ -1,9 +1,9 @@
-import { BackButton } from '@/components/ui/BackButton';
-import { GlowBg } from '@/components/ui/GlowBg';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useEffect, useMemo, useState, useCallback } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   RefreshControl,
@@ -11,7 +11,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NotificationItem } from '../components/NotificationItem';
 import {
   type NotificationItem as NotificationItemType,
@@ -62,7 +61,6 @@ function groupByDate(items: NotificationItemType[]): Section[] {
 
 export default function Notifications() {
   const scheme = useScheme();
-  const insets = useSafeAreaInsets();
   const { data, isLoading } = useNotifications();
   const { mutate: markAllRead } = useMarkAllRead();
   const [refreshing, setRefreshing] = useState(false);
@@ -81,25 +79,7 @@ export default function Notifications() {
   }, []);
 
   return (
-    <View className="flex-1 bg-surface">
-      <GlowBg
-        bgClassName="bg-surface"
-        intensity={0.2}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-        centerY={0.1}
-      />
-
-      {/* Header */}
-      <View
-        className="z-10 flex-row items-center justify-between px-4 pb-4"
-        style={{ paddingTop: insets.top + 8 }}
-      >
-        <BackButton />
-        <Text className="text-lg font-bold text-foreground">Notifications</Text>
-        <View className="w-10" />
-      </View>
-
+    <Screen header={<Header title="Notifications" />} className="flex-1">
       {isLoading ? (
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator color={colors.primary.pink} size="large" />
@@ -138,6 +118,6 @@ export default function Notifications() {
           }
         />
       )}
-    </View>
+    </Screen>
   );
 }

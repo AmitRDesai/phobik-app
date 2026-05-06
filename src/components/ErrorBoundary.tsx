@@ -2,12 +2,12 @@ import { colors } from '@/constants/colors';
 import { type ErrorBoundaryProps } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from './ui/Button';
+import { Screen } from './ui/Screen';
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-surface">
+    <Screen className="flex-1 items-center justify-center px-screen-x">
       <SymbolView
         name="exclamationmark.triangle"
         size={44}
@@ -21,6 +21,6 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
       <Button onPress={retry}>
         <Text className="text-white">Try again</Text>
       </Button>
-    </SafeAreaView>
+    </Screen>
   );
 }
