@@ -1,6 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
@@ -65,15 +66,14 @@ export default function TermsOfServiceScreen() {
       variant="auth"
       scroll
       header={
-        <View className="flex-row items-center justify-between px-6 pb-4 pt-2">
-          <BackButton icon={isModal ? 'close' : 'arrow-back'} />
-          {!isModal ? (
-            <ProgressDots total={totalSteps} current={currentStep} />
-          ) : (
-            <View />
-          )}
-          <View className="w-10" />
-        </View>
+        <Header
+          left={<BackButton icon={isModal ? 'close' : 'arrow-back'} />}
+          center={
+            !isModal ? (
+              <ProgressDots total={totalSteps} current={currentStep} />
+            ) : null
+          }
+        />
       }
       sticky={
         <View className="items-center">

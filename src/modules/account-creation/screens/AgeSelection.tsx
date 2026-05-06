@@ -1,5 +1,5 @@
-import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { SelectionCard } from '@/components/ui/SelectionCard';
@@ -33,11 +33,10 @@ export default function AgeSelectionScreen() {
       variant="auth"
       scroll
       header={
-        <View className="flex-row items-center justify-between px-6 pb-4 pt-2">
-          {isProfileSetup ? <View className="w-10" /> : <BackButton />}
-          <ProgressDots total={totalSteps} current={currentStep} />
-          <View className="w-10" />
-        </View>
+        <Header
+          left={isProfileSetup ? null : undefined}
+          center={<ProgressDots total={totalSteps} current={currentStep} />}
+        />
       }
       sticky={
         <View className="items-center">
