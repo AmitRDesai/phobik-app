@@ -1,4 +1,6 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
+import { variantConfig } from '@/components/variant-config';
+import { useScheme } from '@/hooks/useTheme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 
@@ -22,6 +24,8 @@ export function CalendarDay({
   isFuture,
   onPress,
 }: CalendarDayProps) {
+  const scheme = useScheme();
+  const innerBg = variantConfig.default[scheme].bgHex;
   return (
     <View className="items-center">
       <Pressable
@@ -46,18 +50,21 @@ export function CalendarDay({
               padding: BORDER_WIDTH,
             }}
           >
-            <View className="flex-1 items-center justify-center rounded-full bg-black">
-              <Text className="text-xs font-bold text-white">{day}</Text>
+            <View
+              className="flex-1 items-center justify-center rounded-full"
+              style={{ backgroundColor: innerBg }}
+            >
+              <Text className="text-xs font-bold text-foreground">{day}</Text>
             </View>
           </LinearGradient>
         ) : (
           <Text
             className={`text-xs font-medium ${
               isFuture
-                ? 'text-white/30'
+                ? 'text-foreground/30'
                 : isToday
                   ? 'text-primary-pink'
-                  : 'text-white/60'
+                  : 'text-foreground/60'
             }`}
           >
             {day}
@@ -68,10 +75,7 @@ export function CalendarDay({
         <View
           className="mt-0.5 h-1 w-1 rounded-full bg-primary-pink"
           style={{
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.8,
-            shadowRadius: 4,
+            boxShadow: `0 0 4px ${withAlpha(colors.primary.pink, 0.8)}`,
           }}
         />
       ) : (

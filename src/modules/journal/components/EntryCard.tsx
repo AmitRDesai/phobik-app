@@ -62,10 +62,9 @@ export function EntryCard({
         end={{ x: 1, y: 1 }}
         style={{ borderRadius: 16, padding: 1 }}
       >
-        <View className="rounded-2xl bg-card-dark p-4">
-          {/* Top row: time + icon */}
+        <View className="rounded-2xl bg-surface-elevated p-4">
           <View className="mb-2 flex-row items-center justify-between">
-            <Text className="text-[10px] font-bold uppercase tracking-wider text-white/30">
+            <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/30">
               {timeStr}
             </Text>
             <MaterialIcons
@@ -75,12 +74,12 @@ export function EntryCard({
             />
           </View>
 
-          {/* Title */}
-          <Text className="text-sm font-bold text-white">{displayTitle}</Text>
+          <Text className="text-sm font-bold text-foreground">
+            {displayTitle}
+          </Text>
 
-          {/* Preview */}
           <Text
-            className="mt-1 text-[11px] leading-relaxed text-white/40"
+            className="mt-1 text-[11px] leading-relaxed text-foreground/40"
             numberOfLines={1}
           >
             {content}
@@ -116,8 +115,8 @@ export function EntryCard({
                 );
               })}
               {tags && tags.length > 3 && (
-                <View className="rounded-full bg-white/5 px-2.5 py-0.5">
-                  <Text className="text-[9px] font-semibold text-white/30">
+                <View className="rounded-full bg-foreground/5 px-2.5 py-0.5">
+                  <Text className="text-[9px] font-semibold text-foreground/30">
                     +{tags.length - 3}
                   </Text>
                 </View>

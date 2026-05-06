@@ -19,7 +19,7 @@ export function DailyInsightCard({ onStart }: DailyInsightCardProps) {
         end={{ x: 1, y: 1 }}
         style={{ borderRadius: 16, padding: 1 }}
       >
-        <View className="relative overflow-hidden rounded-2xl bg-card-dark p-3">
+        <View className="relative overflow-hidden rounded-2xl bg-surface-elevated p-3">
           <View className="flex-row items-center justify-between gap-3">
             <View className="flex-1">
               <View className="mb-0.5 flex-row items-center gap-1">
@@ -32,7 +32,7 @@ export function DailyInsightCard({ onStart }: DailyInsightCardProps) {
                   Daily Insight Prompt
                 </Text>
               </View>
-              <Text className="text-xs font-semibold leading-tight text-white">
+              <Text className="text-xs font-semibold leading-tight text-foreground">
                 How did your morning walk feel today?
               </Text>
             </View>
@@ -45,10 +45,7 @@ export function DailyInsightCard({ onStart }: DailyInsightCardProps) {
                   borderRadius: 8,
                   paddingHorizontal: 12,
                   paddingVertical: 6,
-                  shadowColor: colors.primary.pink,
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: 0.2,
-                  shadowRadius: 4,
+                  boxShadow: `0 2px 4px ${withAlpha(colors.primary.pink, 0.2)}`,
                 }}
               >
                 <Text className="text-[10px] font-bold text-white">Start</Text>

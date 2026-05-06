@@ -1,4 +1,5 @@
-import { alpha } from '@/constants/colors';
+import { foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
 import { CalendarDay } from './CalendarDay';
@@ -55,6 +56,8 @@ export function JournalCalendar({
   onPrevMonth,
   onNextMonth,
 }: JournalCalendarProps) {
+  const scheme = useScheme();
+  const chevronColor = foregroundFor(scheme, 0.4);
   const daysInMonth = getDaysInMonth(year, month);
   const firstDayOfWeek = getFirstDayOfWeek(year, month);
   const entryDateSet = new Set(entryDates);
@@ -90,41 +93,34 @@ export function JournalCalendar({
 
   return (
     <View className="mb-4 mt-4">
-      {/* Month header */}
       <View className="mb-3 flex-row items-center justify-between px-2">
-        <Text className="text-lg font-bold text-white">
+        <Text className="text-lg font-bold text-foreground">
           {MONTH_NAMES[month - 1]} {year}
         </Text>
         <View className="flex-row gap-4">
           <Pressable onPress={onPrevMonth} hitSlop={8}>
-            <MaterialIcons
-              name="chevron-left"
-              size={24}
-              color={alpha.white40}
-            />
+            <MaterialIcons name="chevron-left" size={24} color={chevronColor} />
           </Pressable>
           <Pressable onPress={onNextMonth} hitSlop={8}>
             <MaterialIcons
               name="chevron-right"
               size={24}
-              color={alpha.white40}
+              color={chevronColor}
             />
           </Pressable>
         </View>
       </View>
 
-      {/* Day labels */}
       <View className="mb-1 flex-row">
         {DAY_LABELS.map((label) => (
           <View key={label} className="flex-1 items-center">
-            <Text className="text-[9px] font-bold uppercase text-white/30">
+            <Text className="text-[9px] font-bold uppercase text-foreground/30">
               {label}
             </Text>
           </View>
         ))}
       </View>
 
-      {/* Day grid */}
       <View className="flex-row flex-wrap">
         {cells.map((cell, idx) => (
           <View

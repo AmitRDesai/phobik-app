@@ -1,4 +1,5 @@
-import { colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -18,6 +19,7 @@ interface NeedDropdownProps {
 const EXPANDED_HEIGHT = 110;
 
 export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
+  const scheme = useScheme();
   const [isOpen, setIsOpen] = useState(false);
   const height = useSharedValue(0);
 
@@ -41,19 +43,9 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
     <View className="mb-6">
       <Pressable
         onPress={toggle}
-        className="flex-row items-center justify-between rounded-2xl p-4"
+        className="flex-row items-center justify-between rounded-2xl border border-accent-yellow/40 bg-surface-elevated p-4"
         style={{
-          backgroundColor: withAlpha(colors.card.plum, 0.4),
-          borderWidth: 1,
-          borderColor: withAlpha(colors.accent.yellow, 0.4),
-          boxShadow: [
-            {
-              offsetX: 0,
-              offsetY: 0,
-              blurRadius: 8,
-              color: withAlpha(colors.accent.yellow, 0.2),
-            },
-          ],
+          boxShadow: `0 0 8px ${withAlpha(colors.accent.yellow, 0.2)}`,
         }}
       >
         <View className="flex-row items-center gap-3">
@@ -62,14 +54,14 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
             size={20}
             color={colors.accent.yellow}
           />
-          <Text className="text-base font-semibold text-white">
+          <Text className="text-base font-semibold text-foreground">
             {selectedLabel || 'What are you needing?'}
           </Text>
         </View>
         <MaterialIcons
           name={isOpen ? 'expand-less' : 'expand-more'}
           size={24}
-          color="white"
+          color={foregroundFor(scheme, 1)}
         />
       </Pressable>
 
@@ -83,14 +75,14 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
                 setIsOpen(false);
                 height.value = withTiming(0, { duration: 300 });
               }}
-              className="rounded-xl border border-white/10 bg-white/5 p-3"
+              className="rounded-xl border border-foreground/10 bg-foreground/5 p-3"
               style={{ width: '48%' }}
             >
               <Text
                 className={`text-xs font-medium ${
                   value === option.value
                     ? 'text-accent-yellow'
-                    : 'text-white/70'
+                    : 'text-foreground/70'
                 }`}
               >
                 {option.label}

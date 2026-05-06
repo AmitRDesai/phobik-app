@@ -1,4 +1,4 @@
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
@@ -23,11 +23,7 @@ export function FloatingAddButton({ onPress }: FloatingAddButtonProps) {
           borderRadius: 28,
           alignItems: 'center',
           justifyContent: 'center',
-          shadowColor: colors.primary.pink,
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.4,
-          shadowRadius: 12,
-          elevation: 8,
+          boxShadow: `0 4px 12px ${withAlpha(colors.primary.pink, 0.4)}`,
         }}
       >
         <MaterialIcons name="add" size={28} color="white" />

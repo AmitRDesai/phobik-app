@@ -1,4 +1,5 @@
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
@@ -27,6 +28,7 @@ export function TagSection({
   onRemoveTag,
   readOnly,
 }: TagSectionProps) {
+  const scheme = useScheme();
   const [newTag, setNewTag] = useState('');
   const { data: savedTags } = useJournalTags();
   const createTag = useCreateTag();
@@ -60,7 +62,7 @@ export function TagSection({
     <View className="mb-6">
       {hasChips && (
         <>
-          <Text className="mb-3 px-1 text-[10px] font-bold uppercase tracking-widest text-white/40">
+          <Text className="mb-3 px-1 text-[10px] font-bold uppercase tracking-widest text-foreground/40">
             Selected Tags
           </Text>
           <ScrollView
@@ -156,16 +158,20 @@ export function TagSection({
               value={newTag}
               onChangeText={setNewTag}
               placeholder="Add tag..."
-              placeholderTextColor={alpha.white30}
+              placeholderTextColor={foregroundFor(scheme, 0.3)}
               onSubmitEditing={handleAddTag}
               returnKeyType="done"
-              className="flex-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-[14px] text-white"
+              className="flex-1 rounded-xl border border-foreground/10 bg-foreground/5 px-3 py-2 text-[14px] text-foreground"
             />
             <Pressable
               onPress={handleAddTag}
-              className="rounded-xl bg-white/10 px-3 py-2"
+              className="rounded-xl bg-foreground/10 px-3 py-2"
             >
-              <MaterialIcons name="add" size={18} color="white" />
+              <MaterialIcons
+                name="add"
+                size={18}
+                color={foregroundFor(scheme, 1)}
+              />
             </Pressable>
           </View>
 
@@ -180,9 +186,11 @@ export function TagSection({
                 <Pressable
                   key={tag.id}
                   onPress={() => onAddTag(tag.name)}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1"
+                  className="rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1"
                 >
-                  <Text className="text-[10px] text-white/50">{tag.name}</Text>
+                  <Text className="text-[10px] text-foreground/50">
+                    {tag.name}
+                  </Text>
                 </Pressable>
               ))}
             </ScrollView>
