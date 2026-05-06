@@ -1,6 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { IconChip } from '@/components/ui/IconChip';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -128,14 +129,7 @@ function GlassCard({
 
 function BreathingCard() {
   return (
-    <View
-      className="rounded-2xl p-5"
-      style={{
-        backgroundColor: `${colors.primary.pink}0D`,
-        borderWidth: 1,
-        borderColor: `${colors.primary.pink}33`,
-      }}
-    >
+    <Card variant="toned" tone="pink">
       <View className="flex-row items-center gap-3">
         <LinearGradient
           colors={[colors.primary.pink, colors.accent.yellow]}
@@ -160,20 +154,13 @@ function BreathingCard() {
           </Text>
         </View>
       </View>
-    </View>
+    </Card>
   );
 }
 
 function RealityCheck() {
   return (
-    <View
-      className="flex-row items-center gap-3 rounded-2xl p-4"
-      style={{
-        backgroundColor: `${colors.accent.yellow}0D`,
-        borderWidth: 1,
-        borderColor: `${colors.accent.yellow}33`,
-      }}
-    >
+    <Card variant="toned" tone="yellow" className="flex-row items-center gap-3">
       <MaterialIcons name="verified" size={20} color={colors.accent.yellow} />
       <Text className="flex-1 text-sm font-semibold text-foreground">
         Reality check:{' '}
@@ -181,7 +168,7 @@ function RealityCheck() {
           Right now, nothing is required of me
         </Text>
       </Text>
-    </View>
+    </Card>
   );
 }
 
@@ -399,39 +386,33 @@ export default function FlightChecklistPhase() {
         )}
 
         {phaseId === 'during-turbulence' && (
-          <Pressable
+          <Card
+            variant="toned"
+            tone="pink"
             onPress={() => router.push('/practices/turbulence-tools')}
-            className="mt-6 active:scale-[0.98]"
+            className="mt-6 flex-row items-center gap-4"
           >
-            <View
-              className="flex-row items-center gap-4 rounded-2xl border border-foreground/10 p-4"
-              style={{ backgroundColor: `${colors.primary.pink}0D` }}
-            >
-              <View
-                className="h-10 w-10 items-center justify-center rounded-xl"
-                style={{ backgroundColor: `${colors.primary.pink}1A` }}
-              >
-                <MaterialIcons
-                  name="psychology"
-                  size={22}
-                  color={colors.primary.pink}
-                />
-              </View>
-              <View className="flex-1">
-                <Text className="text-base font-bold text-foreground">
-                  Turbulence Tools
-                </Text>
-                <Text className="mt-0.5 text-sm text-foreground/50">
-                  Practical grounding techniques
-                </Text>
-              </View>
+            <IconChip size="md" shape="rounded" tone="pink">
               <MaterialIcons
-                name="chevron-right"
-                size={24}
-                color={colors.gray[600]}
+                name="psychology"
+                size={22}
+                color={colors.primary.pink}
               />
+            </IconChip>
+            <View className="flex-1">
+              <Text className="text-base font-bold text-foreground">
+                Turbulence Tools
+              </Text>
+              <Text className="mt-0.5 text-sm text-foreground/50">
+                Practical grounding techniques
+              </Text>
             </View>
-          </Pressable>
+            <MaterialIcons
+              name="chevron-right"
+              size={24}
+              color={colors.gray[600]}
+            />
+          </Card>
         )}
 
         {/* Journal prompt (before airport only) */}
