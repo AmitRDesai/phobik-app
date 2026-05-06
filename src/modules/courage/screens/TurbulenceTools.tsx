@@ -1,5 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { IconChip } from '@/components/ui/IconChip';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,21 +21,16 @@ function ToolCard({
   helpText?: string;
 }) {
   return (
-    <View
-      className="rounded-2xl border border-foreground/10 p-5"
-      style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
-    >
+    <Card className="p-5">
       <View className="mb-3 flex-row items-center gap-3">
-        <View
-          className="h-12 w-12 items-center justify-center rounded-xl"
-          style={{
-            backgroundColor: `${colors.primary.pink}1A`,
-            borderWidth: 1,
-            borderColor: `${colors.primary.pink}33`,
-          }}
+        <IconChip
+          size="lg"
+          shape="rounded"
+          tone="pink"
+          border={`${colors.primary.pink}33`}
         >
           <MaterialIcons name={icon} size={24} color={colors.primary.pink} />
-        </View>
+        </IconChip>
         <Text className="text-lg font-black uppercase tracking-tight text-foreground">
           {title}
         </Text>
@@ -55,7 +52,7 @@ function ToolCard({
           </Text>
         </View>
       )}
-    </View>
+    </Card>
   );
 }
 
