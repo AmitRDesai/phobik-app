@@ -40,6 +40,7 @@ type CustomColors = {
   status: {
     success: string;
     danger: string;
+    warning: string;
   };
   gradient: {
     'warm-orange': string;

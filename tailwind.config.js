@@ -57,6 +57,7 @@ module.exports = {
         status: {
           success: '#0bda8e',
           danger: '#ff5d5d',
+          warning: '#f59e0b',
         },
         gradient: {
           'warm-orange': '#FF8D5C',

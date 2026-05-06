@@ -14,7 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChatBubble } from '../components/ChatBubble';
 import { ChatInput } from '../components/ChatInput';
 import { FollowUpSuggestions } from '../components/FollowUpSuggestions';
-import { NetworkBanner } from '../components/NetworkBanner';
+import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { ScrollToBottomButton } from '../components/ScrollToBottomButton';
 import { SessionHistory } from '../components/SessionHistory';
 import { TypingIndicator } from '../components/TypingIndicator';
@@ -203,7 +203,7 @@ export default function Coach() {
           )}
 
           {/* Network banner */}
-          <NetworkBanner />
+          <NetworkBanner message="You're offline. Messages will be sent when you reconnect." />
 
           {/* Error */}
           {error && (

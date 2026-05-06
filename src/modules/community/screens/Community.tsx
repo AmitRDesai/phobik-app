@@ -18,7 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CommunityPrinciples } from '../components/CommunityPrinciples';
 import { FeedCard } from '../components/FeedCard';
 import { FilterChips } from '../components/FilterChips';
-import { NetworkBanner } from '../components/NetworkBanner';
+import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { SearchBar } from '../components/SearchBar';
 import { useCommunityMember } from '../hooks/useCommunity';
 import { useCommunityPosts } from '../hooks/useCommunityFeed';
@@ -168,7 +168,7 @@ function CommunityFeed() {
         <FilterChips selected={circle} onSelect={setCircle} />
       </View>
 
-      <NetworkBanner />
+      <NetworkBanner message="You're offline. Posts will load when you reconnect." />
 
       {/* Feed */}
       {isLoading ? (
