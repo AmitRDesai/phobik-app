@@ -1,5 +1,7 @@
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { IconChip } from '@/components/ui/IconChip';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
@@ -12,6 +14,7 @@ interface ReflectWithCuriosityProps {
 
 export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
   const [reflection, setReflection] = useState('');
+  const scheme = useScheme();
 
   return (
     <KeyboardAwareScrollView
@@ -34,9 +37,17 @@ export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
 
       {/* Prompt card */}
       <View className="mb-6 mt-4 flex-row items-center gap-4 rounded-xl border border-foreground/5 bg-foreground/[0.03] p-4">
-        <View className="h-10 w-10 items-center justify-center rounded-lg bg-emerald-400/10">
-          <MaterialIcons name="psychology" size={24} color="#34D399" />
-        </View>
+        <IconChip
+          size="md"
+          shape="square"
+          bg={withAlpha(colors.status.success, 0.1)}
+        >
+          <MaterialIcons
+            name="psychology"
+            size={24}
+            color={colors.status.success}
+          />
+        </IconChip>
         <View className="flex-1">
           <Text className="text-sm font-semibold text-foreground">
             Next time, what could I do sooner to care for that need?
@@ -52,7 +63,7 @@ export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
         value={reflection}
         onChangeText={setReflection}
         placeholder="Next time..."
-        placeholderTextColor="rgba(255,255,255,0.15)"
+        placeholderTextColor={foregroundFor(scheme, 0.15)}
         multiline
         textAlignVertical="top"
         className="mb-8 min-h-[140px] rounded-xl border border-foreground/10 bg-foreground/[0.03] p-4 text-sm text-foreground/90"
