@@ -1,6 +1,6 @@
-import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -151,16 +151,16 @@ export default function ConnectWearable() {
       variant="default"
       scroll
       header={
-        <View className="flex-row items-center justify-between px-4 pb-4 pt-2">
-          <BackButton />
-          <Text
-            className="text-sm font-bold uppercase tracking-[4px] text-foreground/60"
-            numberOfLines={1}
-          >
-            Connect Wearable
-          </Text>
-          <View className="h-10 w-10" />
-        </View>
+        <Header
+          center={
+            <Text
+              className="text-sm font-bold uppercase tracking-[4px] text-foreground/60"
+              numberOfLines={1}
+            >
+              Connect Wearable
+            </Text>
+          }
+        />
       }
       className="px-6"
     >
