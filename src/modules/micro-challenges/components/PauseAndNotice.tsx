@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -78,7 +79,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       </Text>
 
       {/* Prompt card */}
-      <View className="mb-6 w-full rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-6">
+      <Card className="mb-6 w-full p-6">
         <Text className="mb-3 text-center text-lg text-foreground/80">
           Say quietly:{' '}
           <Text className="font-bold text-foreground">
@@ -89,7 +90,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
           Describe what is happening in your body like you&apos;re reporting
           facts. Simply noticing helps interrupt the stress loop.
         </Text>
-      </View>
+      </Card>
 
       {/* Example chips */}
       <View className="mb-8 w-full gap-3">

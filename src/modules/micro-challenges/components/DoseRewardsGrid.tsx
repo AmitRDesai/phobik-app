@@ -1,3 +1,5 @@
+import { Card } from '@/components/ui/Card';
+import { IconChip } from '@/components/ui/IconChip';
 import { colors } from '@/constants/colors';
 import { Text, View } from 'react-native';
 
@@ -46,30 +48,29 @@ export function DoseRewardsGrid({ dose }: DoseRewardsGridProps) {
       </Text>
       <View className="flex-row flex-wrap gap-3">
         {active.map((item) => (
-          <View
+          <Card
             key={item.key}
-            className="flex-1 flex-row items-center gap-3 rounded-2xl border border-foreground/5 bg-surface p-4"
+            variant="surface"
+            className="flex-1 flex-row items-center gap-3"
             style={{ minWidth: '45%' }}
           >
-            <View
-              className="h-10 w-10 items-center justify-center rounded-full"
-              style={{
-                backgroundColor: `${item.color}15`,
-                borderWidth: 1,
-                borderColor: `${item.color}30`,
-              }}
+            <IconChip
+              size="md"
+              shape="circle"
+              bg={`${item.color}15`}
+              border={`${item.color}30`}
             >
               <Text className="text-xs font-bold" style={{ color: item.color }}>
                 +{dose[item.key]}
               </Text>
-            </View>
+            </IconChip>
             <View>
               <Text className="text-[10px] font-bold uppercase tracking-tight text-foreground/55">
                 {item.label}
               </Text>
               <Text className="text-xs text-foreground/70">{item.sub}</Text>
             </View>
-          </View>
+          </Card>
         ))}
       </View>
     </View>
