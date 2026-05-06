@@ -29,8 +29,8 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
   ];
 
   return (
-    <View className="mt-2 w-full border-t border-white/10 pt-5">
-      <Text className="mb-4 text-center text-[10px] uppercase tracking-[3px] text-slate-400">
+    <View className="mt-2 w-full border-t border-foreground/10 pt-5">
+      <Text className="mb-4 text-center text-[10px] uppercase tracking-[3px] text-foreground/60">
         D.O.S.E. Earned
       </Text>
       <View className="flex-row justify-between">
@@ -44,7 +44,7 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
             >
               +{item.value}
             </Text>
-            <Text className="mt-0.5 text-[8px] uppercase text-slate-500">
+            <Text className="mt-0.5 text-[8px] uppercase text-foreground/55">
               {item.label}
             </Text>
           </View>
@@ -90,7 +90,7 @@ export function MysteryComplete({
         <Text className="text-[10px] font-bold uppercase tracking-[3px] text-primary-pink">
           Practice Complete
         </Text>
-        <Text className="mt-1 text-center text-2xl font-bold leading-tight text-white">
+        <Text className="mt-1 text-center text-2xl font-bold leading-tight text-foreground">
           {challenge.title}
         </Text>
         <Text className="mt-2 text-center text-[13px] leading-relaxed text-primary-muted">

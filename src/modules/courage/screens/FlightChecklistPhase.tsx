@@ -78,7 +78,7 @@ function GlassCard({
         style={{ backgroundColor: bgColor, borderWidth: 1, borderColor }}
       >
         {item.category && (
-          <Text className="mb-1.5 text-xs font-bold uppercase tracking-widest text-gray-500">
+          <Text className="mb-1.5 text-xs font-bold uppercase tracking-widest text-foreground/55">
             {item.category}
           </Text>
         )}
@@ -111,7 +111,7 @@ function GlassCard({
               {item.text}
             </Text>
             {item.description && (
-              <Text className="mt-1 text-sm leading-5 text-white/50">
+              <Text className="mt-1 text-sm leading-5 text-foreground/50">
                 {item.description}
               </Text>
             )}
@@ -151,10 +151,10 @@ function BreathingCard() {
           <MaterialIcons name="air" size={20} color="white" />
         </LinearGradient>
         <View className="flex-1">
-          <Text className="text-base font-bold text-white">
+          <Text className="text-base font-bold text-foreground">
             60-90 seconds of slow breathing
           </Text>
-          <Text className="mt-0.5 text-sm text-white/50">
+          <Text className="mt-0.5 text-sm text-foreground/50">
             Regulate your nervous system before taxi.
           </Text>
         </View>
@@ -174,7 +174,7 @@ function RealityCheck() {
       }}
     >
       <MaterialIcons name="verified" size={20} color={colors.accent.yellow} />
-      <Text className="flex-1 text-sm font-semibold text-white">
+      <Text className="flex-1 text-sm font-semibold text-foreground">
         Reality check:{' '}
         <Text className="italic text-accent-yellow">
           Right now, nothing is required of me
@@ -188,10 +188,12 @@ function AnchorSelection() {
   const [selectedAnchor, setSelectedAnchor] = useState<string | null>(null);
 
   return (
-    <View className="rounded-2xl border border-white/10 bg-white/5 p-5">
+    <View className="rounded-2xl border border-foreground/10 bg-foreground/5 p-5">
       <View className="mb-4 flex-row items-center gap-2">
         <MaterialIcons name="anchor" size={18} color={colors.primary.pink} />
-        <Text className="text-base font-bold text-white">Choose an anchor</Text>
+        <Text className="text-base font-bold text-foreground">
+          Choose an anchor
+        </Text>
       </View>
       <View className="flex-row flex-wrap gap-3">
         {ANCHOR_OPTIONS.map((opt) => (
@@ -225,7 +227,7 @@ function AnchorSelection() {
                 }
               />
               <Text
-                className="text-[10px] font-semibold text-white/70"
+                className="text-[10px] font-semibold text-foreground/70"
                 numberOfLines={1}
               >
                 {opt.label}
@@ -254,10 +256,10 @@ function ExhaleCard() {
           size={48}
           color={`${colors.primary.pink}33`}
         />
-        <Text className="mt-2 text-lg font-bold text-white">
+        <Text className="mt-2 text-lg font-bold text-foreground">
           Focus on your <Text className="text-primary-pink">Exhale</Text>
         </Text>
-        <Text className="mt-1 text-xs text-gray-400">
+        <Text className="mt-1 text-xs text-foreground/60">
           Current altitude: Increasing
         </Text>
       </View>
@@ -272,10 +274,10 @@ function JournalPrompt() {
 
   return (
     <View className="mt-6">
-      <Text className="mb-2 text-base font-bold text-white">
+      <Text className="mb-2 text-base font-bold text-foreground">
         Journal Prompt
       </Text>
-      <Text className="mb-3 text-sm italic text-white/60">
+      <Text className="mb-3 text-sm italic text-foreground/60">
         {'"What am I worried about? Fact or fiction?"'}
       </Text>
       <TextInput
@@ -284,7 +286,7 @@ function JournalPrompt() {
         placeholder="Type your reflections here..."
         placeholderTextColor={colors.gray[600]}
         multiline
-        className="min-h-[120px] rounded-xl border border-gray-800 bg-black/40 p-4 text-sm text-white"
+        className="min-h-[120px] rounded-xl border border-foreground/15 bg-black/40 p-4 text-sm text-foreground"
         textAlignVertical="top"
       />
     </View>
@@ -328,7 +330,7 @@ export default function FlightChecklistPhase() {
   if (!phase) return null;
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       {/* Header — just back button */}
       <View className="px-4 pb-2" style={{ paddingTop: insets.top + 8 }}>
         <BackButton />
@@ -348,7 +350,7 @@ export default function FlightChecklistPhase() {
         )}
 
         {/* Title */}
-        <Text className="mb-2 text-3xl font-black uppercase tracking-tighter text-white">
+        <Text className="mb-2 text-3xl font-black uppercase tracking-tighter text-foreground">
           {phase.title}
           {'\n'}Checklist
         </Text>
@@ -363,7 +365,7 @@ export default function FlightChecklistPhase() {
 
         {/* Subtitle */}
         {phase.subtitle && (
-          <Text className="mb-6 text-sm leading-5 text-gray-400">
+          <Text className="mb-6 text-sm leading-5 text-foreground/60">
             {phase.subtitle}
           </Text>
         )}
@@ -401,7 +403,7 @@ export default function FlightChecklistPhase() {
             className="mt-6 active:scale-[0.98]"
           >
             <View
-              className="flex-row items-center gap-4 rounded-2xl border border-white/10 p-4"
+              className="flex-row items-center gap-4 rounded-2xl border border-foreground/10 p-4"
               style={{ backgroundColor: `${colors.primary.pink}0D` }}
             >
               <View
@@ -415,10 +417,10 @@ export default function FlightChecklistPhase() {
                 />
               </View>
               <View className="flex-1">
-                <Text className="text-base font-bold text-white">
+                <Text className="text-base font-bold text-foreground">
                   Turbulence Tools
                 </Text>
-                <Text className="mt-0.5 text-sm text-white/50">
+                <Text className="mt-0.5 text-sm text-foreground/50">
                   Practical grounding techniques
                 </Text>
               </View>
@@ -436,7 +438,7 @@ export default function FlightChecklistPhase() {
 
         {/* Status text */}
         {phase.statusText && (
-          <Text className="mt-6 text-center text-xs uppercase tracking-widest text-gray-500">
+          <Text className="mt-6 text-center text-xs uppercase tracking-widest text-foreground/55">
             {phase.statusText}
           </Text>
         )}

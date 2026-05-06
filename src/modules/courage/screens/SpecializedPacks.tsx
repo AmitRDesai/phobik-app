@@ -16,17 +16,17 @@ export default function SpecializedPacks() {
   }, [router]);
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       <CourageHeader title="Specialized Packs" />
       <ScrollView
         contentContainerClassName="px-4 pb-8"
         showsVerticalScrollIndicator={false}
       >
         <View className="px-2 pb-2 pt-4">
-          <Text className="mb-1 text-xs font-semibold uppercase tracking-widest text-gray-400">
+          <Text className="mb-1 text-xs font-semibold uppercase tracking-widest text-foreground/60">
             Premium Journeys
           </Text>
-          <Text className="text-3xl font-bold text-white">
+          <Text className="text-3xl font-bold text-foreground">
             Enhance Your Mind
           </Text>
         </View>

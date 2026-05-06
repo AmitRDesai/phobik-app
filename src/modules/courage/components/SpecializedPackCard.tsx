@@ -88,13 +88,15 @@ function ActiveCard({
       end={{ x: 1, y: 0 }}
       style={{ borderRadius: 12, padding: 2 }}
     >
-      <View className="overflow-hidden rounded-[10px] bg-card-elevated">
+      <View className="overflow-hidden rounded-[10px] bg-surface-elevated">
         <HeroSection pack={pack} />
 
         <View className="p-6">
           {/* Title + badge */}
           <View className="mb-2 flex-row items-start justify-between">
-            <Text className="text-2xl font-bold text-white">{pack.title}</Text>
+            <Text className="text-2xl font-bold text-foreground">
+              {pack.title}
+            </Text>
             <View className="rounded-full bg-primary-pink/20 px-3 py-1">
               <Text className="text-xs font-semibold uppercase tracking-wider text-primary-pink">
                 {pack.badge}
@@ -103,13 +105,13 @@ function ActiveCard({
           </View>
 
           {/* Subtitle */}
-          <Text className="mb-6 text-base italic text-gray-400">
+          <Text className="mb-6 text-base italic text-foreground/60">
             {pack.subtitle}
           </Text>
 
           {/* Transformation goal */}
           <View className="mb-4 flex-row items-center gap-2">
-            <Text className="text-xs font-medium uppercase tracking-tight text-gray-500">
+            <Text className="text-xs font-medium uppercase tracking-tight text-foreground/55">
               Transformation Goal:
             </Text>
             <GradientText text={pack.transformationGoal} />
@@ -139,7 +141,7 @@ function ActiveCard({
                   size={20}
                   color="white"
                 />
-                <Text className="text-base font-bold text-white">
+                <Text className="text-base font-bold text-foreground">
                   {unlocked ? 'View Journey' : pack.ctaLabel}
                 </Text>
               </View>
@@ -147,7 +149,7 @@ function ActiveCard({
           </Pressable>
 
           {/* Support text */}
-          <Text className="mt-3 text-center text-[10px] text-gray-500">
+          <Text className="mt-3 text-center text-[10px] text-foreground/55">
             {pack.supportText}
           </Text>
         </View>
@@ -158,31 +160,33 @@ function ActiveCard({
 
 function LockedCard({ pack }: { pack: SpecializedPack }) {
   return (
-    <View className="overflow-hidden rounded-xl border border-gray-800 bg-card-elevated/50">
+    <View className="overflow-hidden rounded-xl border border-foreground/15 bg-surface-elevated/50">
       <HeroSection pack={pack} />
 
       <View className="p-6 opacity-80">
         {/* Title + badge */}
         <View className="mb-2 flex-row items-start justify-between">
-          <Text className="text-2xl font-bold text-gray-300">{pack.title}</Text>
+          <Text className="text-2xl font-bold text-foreground/70">
+            {pack.title}
+          </Text>
           <View className="rounded-full bg-gray-800 px-3 py-1">
-            <Text className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+            <Text className="text-xs font-semibold uppercase tracking-wider text-foreground/60">
               {pack.badge}
             </Text>
           </View>
         </View>
 
         {/* Subtitle */}
-        <Text className="mb-6 text-base italic text-gray-500">
+        <Text className="mb-6 text-base italic text-foreground/55">
           {pack.subtitle}
         </Text>
 
         {/* Transformation goal */}
         <View className="mb-4 flex-row items-center gap-2">
-          <Text className="text-xs font-medium uppercase tracking-tight text-gray-600">
+          <Text className="text-xs font-medium uppercase tracking-tight text-foreground/45">
             Transformation Goal:
           </Text>
-          <Text className="text-sm font-bold text-gray-400">
+          <Text className="text-sm font-bold text-foreground/60">
             {pack.transformationGoal}
           </Text>
         </View>
@@ -190,13 +194,13 @@ function LockedCard({ pack }: { pack: SpecializedPack }) {
         {/* Disabled button */}
         <View className="flex-row items-center justify-center gap-2 rounded-xl bg-gray-800 py-4">
           <MaterialIcons name="lock" size={20} color={colors.gray[500]} />
-          <Text className="text-base font-bold text-gray-500">
+          <Text className="text-base font-bold text-foreground/55">
             {pack.ctaLabel}
           </Text>
         </View>
 
         {/* Support text */}
-        <Text className="mt-3 text-center text-[10px] italic text-gray-600">
+        <Text className="mt-3 text-center text-[10px] italic text-foreground/45">
           {pack.supportText}
         </Text>
       </View>

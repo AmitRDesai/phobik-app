@@ -21,7 +21,7 @@ export default function CourageOptions() {
   };
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       <CourageHeader />
       <ScrollView
         contentContainerClassName="px-4 pb-8"
@@ -31,10 +31,10 @@ export default function CourageOptions() {
           <Text className="mb-1 text-xs font-semibold uppercase tracking-widest text-primary-pink">
             Growth Hub
           </Text>
-          <Text className="text-2xl font-bold text-white">
+          <Text className="text-2xl font-bold text-foreground">
             Choose your path
           </Text>
-          <Text className="text-sm text-slate-400">
+          <Text className="text-sm text-foreground/60">
             Every small action builds a stronger you.
           </Text>
         </View>

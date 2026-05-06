@@ -26,8 +26,8 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
   ];
 
   return (
-    <View className="mt-8 w-full border-t border-white/10 pt-6">
-      <Text className="mb-4 text-center text-[10px] uppercase tracking-[3px] text-slate-400">
+    <View className="mt-8 w-full border-t border-foreground/10 pt-6">
+      <Text className="mb-4 text-center text-[10px] uppercase tracking-[3px] text-foreground/60">
         Daily D.O.S.E. Reward
       </Text>
       <View className="flex-row justify-between">
@@ -41,7 +41,7 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
             >
               +{item.value}
             </Text>
-            <Text className="text-[8px] uppercase text-slate-500">
+            <Text className="text-[8px] uppercase text-foreground/55">
               {item.label}
             </Text>
           </View>
@@ -134,7 +134,7 @@ export function MysteryPracticeCard({
         const quoteText = practiceText.slice(newlineIdx + 1);
         return (
           <>
-            <Text className="text-center text-lg leading-snug text-white/90">
+            <Text className="text-center text-lg leading-snug text-foreground/90">
               {mainText}
             </Text>
             <Text
@@ -147,7 +147,7 @@ export function MysteryPracticeCard({
         );
       }
       return (
-        <Text className="text-center text-lg leading-snug text-white/90">
+        <Text className="text-center text-lg leading-snug text-foreground/90">
           {practiceText}
         </Text>
       );
@@ -156,7 +156,7 @@ export function MysteryPracticeCard({
     const parts = practiceText.split(highlightText);
     return (
       <>
-        <Text className="text-center text-lg leading-snug text-white/90">
+        <Text className="text-center text-lg leading-snug text-foreground/90">
           {parts[0]}
           <Text className="font-bold" style={{ color: colors.accent.yellow }}>
             {highlightText}
@@ -220,7 +220,7 @@ export function MysteryPracticeCard({
         </LinearGradient>
 
         {/* Practice label */}
-        <Text className="mb-4 text-xl font-bold text-white">
+        <Text className="mb-4 text-xl font-bold text-foreground">
           {challenge.practiceLabel}
         </Text>
 
@@ -266,9 +266,9 @@ export function MysteryPracticeCard({
 
           <Pressable
             onPress={handleDone}
-            className="flex-1 items-center justify-center rounded-2xl border-2 border-white/20 px-6 py-4 active:scale-95"
+            className="flex-1 items-center justify-center rounded-2xl border-2 border-foreground/20 px-6 py-4 active:scale-95"
           >
-            <Text className="text-sm font-bold uppercase tracking-wider text-white">
+            <Text className="text-sm font-bold uppercase tracking-wider text-foreground">
               Done
             </Text>
           </Pressable>

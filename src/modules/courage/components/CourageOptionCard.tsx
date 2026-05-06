@@ -52,7 +52,7 @@ function CardButton({
         style={{ borderRadius: 8, alignSelf: 'flex-start' }}
       >
         <View className="flex-row items-center gap-2 px-4 py-2">
-          <Text className="text-xs font-bold text-white">{label}</Text>
+          <Text className="text-xs font-bold text-foreground">{label}</Text>
           <MaterialIcons name={icon} size={12} color="white" />
         </View>
       </LinearGradient>
@@ -62,7 +62,7 @@ function CardButton({
   const variantClasses = {
     pink: 'bg-primary-pink',
     yellow: 'bg-accent-yellow',
-    ghost: 'border border-white/20 bg-white/10',
+    ghost: 'border border-foreground/20 bg-foreground/10',
   } as const;
 
   const textColor = variant === 'yellow' ? colors.background.charcoal : 'white';
@@ -89,18 +89,18 @@ export function CourageOptionCard({ option, onPress }: CourageOptionCardProps) {
     >
       <Pressable
         onPress={onPress}
-        className="flex-row items-stretch gap-4 rounded-[10px] bg-card-elevated p-4 active:opacity-95"
+        className="flex-row items-stretch gap-4 rounded-[10px] bg-surface-elevated p-4 active:opacity-95"
       >
         {/* Left column: text + button */}
         <View className="flex-1 justify-between gap-4">
           <View>
             <View className="mb-1 flex-row items-center gap-2">
               <CardIcon icon={option.icon} size={20} color={option.iconColor} />
-              <Text className="text-lg font-bold text-white">
+              <Text className="text-lg font-bold text-foreground">
                 {option.title}
               </Text>
             </View>
-            <Text className="text-xs leading-snug text-slate-400">
+            <Text className="text-xs leading-snug text-foreground/60">
               {option.description}
             </Text>
           </View>

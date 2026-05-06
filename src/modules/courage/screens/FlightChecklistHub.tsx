@@ -31,7 +31,7 @@ function PhaseButton({
 
   return (
     <Pressable onPress={onPress} className="active:scale-[0.98]">
-      <View className="flex-row items-center justify-between rounded-xl border border-white/10 bg-white/5 p-5">
+      <View className="flex-row items-center justify-between rounded-xl border border-foreground/10 bg-foreground/5 p-5">
         <View className="flex-row items-center gap-4">
           <View
             className="h-10 w-10 items-center justify-center rounded-full"
@@ -39,7 +39,9 @@ function PhaseButton({
           >
             <MaterialIcons name={phase.icon} size={22} color={accent.icon} />
           </View>
-          <Text className="text-lg font-bold text-white">{phase.label}</Text>
+          <Text className="text-lg font-bold text-foreground">
+            {phase.label}
+          </Text>
         </View>
         <MaterialIcons
           name="chevron-right"
@@ -78,7 +80,7 @@ export default function FlightChecklistHub() {
   }, [setCheckedItems]);
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       {/* Decorative radial glows */}
       <RadialGlow
         color={colors.primary.pink}
@@ -93,7 +95,7 @@ export default function FlightChecklistHub() {
       >
         {/* Hero Section */}
         <View
-          className="mb-8 overflow-hidden rounded-2xl border border-white/10"
+          className="mb-8 overflow-hidden rounded-2xl border border-foreground/10"
           style={{
             shadowColor: colors.primary.pink,
             shadowOffset: { width: 0, height: 0 },
@@ -124,7 +126,7 @@ export default function FlightChecklistHub() {
               }}
             >
               <View className="self-start rounded-full bg-primary-pink px-3 py-1">
-                <Text className="text-[10px] font-black uppercase tracking-widest text-white">
+                <Text className="text-[10px] font-black uppercase tracking-widest text-foreground">
                   PHOBIK
                 </Text>
               </View>
@@ -134,10 +136,10 @@ export default function FlightChecklistHub() {
 
         {/* Title */}
         <View className="mb-8 items-center">
-          <Text className="mb-2 text-center text-3xl font-black uppercase tracking-tighter text-white">
+          <Text className="mb-2 text-center text-3xl font-black uppercase tracking-tighter text-foreground">
             Quick Flight{'\n'}Checklist
           </Text>
-          <Text className="text-sm text-gray-400">
+          <Text className="text-sm text-foreground/60">
             Prepare your mind for a peaceful journey.
           </Text>
         </View>

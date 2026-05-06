@@ -20,7 +20,7 @@ function ToolCard({
 }) {
   return (
     <View
-      className="rounded-2xl border border-white/10 p-5"
+      className="rounded-2xl border border-foreground/10 p-5"
       style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
     >
       <View className="mb-3 flex-row items-center gap-3">
@@ -34,11 +34,13 @@ function ToolCard({
         >
           <MaterialIcons name={icon} size={24} color={colors.primary.pink} />
         </View>
-        <Text className="text-lg font-black uppercase tracking-tight text-white">
+        <Text className="text-lg font-black uppercase tracking-tight text-foreground">
           {title}
         </Text>
       </View>
-      <Text className="text-sm leading-5 text-white/60">{description}</Text>
+      <Text className="text-sm leading-5 text-foreground/60">
+        {description}
+      </Text>
       {helpText && (
         <View
           className="mt-3 rounded-xl p-3"
@@ -62,7 +64,7 @@ export default function TurbulenceTools() {
   const insets = useSafeAreaInsets();
 
   return (
-    <View className="flex-1 bg-background-charcoal">
+    <View className="flex-1 bg-surface">
       <View className="px-4 pb-2" style={{ paddingTop: insets.top + 8 }}>
         <BackButton />
       </View>
@@ -71,7 +73,7 @@ export default function TurbulenceTools() {
         contentContainerClassName="px-6 pb-8 pt-2"
         showsVerticalScrollIndicator={false}
       >
-        <Text className="mb-2 text-3xl font-black uppercase tracking-tighter text-white">
+        <Text className="mb-2 text-3xl font-black uppercase tracking-tighter text-foreground">
           Turbulence Tools
         </Text>
 
@@ -122,10 +124,10 @@ export default function TurbulenceTools() {
               borderColor: `${colors.primary.pink}33`,
             }}
           >
-            <Text className="mb-3 text-lg font-black uppercase tracking-tight text-white">
+            <Text className="mb-3 text-lg font-black uppercase tracking-tight text-foreground">
               Animated Reality
             </Text>
-            <Text className="text-sm leading-6 text-white/70">
+            <Text className="text-sm leading-6 text-foreground/70">
               {
                 "Next time fear pops up, immediately turn it into a ridiculous cartoon character. If you're on a plane and feel anxious, picture a tiny animated version of yourself sitting in the cockpit, pushing buttons randomly, with the plane flying just fine anyway! The more you practice, the easier it becomes to see fear as something lighthearted instead of overwhelming."
               }
