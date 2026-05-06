@@ -52,10 +52,10 @@ export default function WelcomeScreen() {
               PHOBIK
             </GradientText>
           </View>
-          <Text className="text-center text-lg font-semibold text-foreground">
+          <Text variant="h3" className="text-center text-foreground">
             Create the life you want.
           </Text>
-          <Text className="text-center text-lg font-semibold text-foreground">
+          <Text variant="h3" className="text-center text-foreground">
             Overcome your challenges and face your fears.
           </Text>
         </View>

@@ -28,7 +28,7 @@ export function DoseActivityLog() {
   if (!activities.length) {
     return (
       <View className="gap-4">
-        <Text className="px-1 text-lg font-semibold text-foreground">
+        <Text variant="h3" className="px-1 text-foreground">
           Activity Log
         </Text>
         <Card className="items-center p-6">
@@ -42,7 +42,7 @@ export function DoseActivityLog() {
 
   return (
     <View className="gap-4">
-      <Text className="px-1 text-lg font-semibold text-foreground">
+      <Text variant="h3" className="px-1 text-foreground">
         Activity Log
       </Text>
       <View className="flex-row flex-wrap gap-3">

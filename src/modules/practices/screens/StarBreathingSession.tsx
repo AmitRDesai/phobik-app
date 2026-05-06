@@ -82,7 +82,7 @@ function StatsCard() {
               Heart Rate Variability
             </Text>
             <View className="flex-row items-baseline gap-2">
-              <Text className="text-lg font-semibold text-foreground">
+              <Text variant="h3" className="text-foreground">
                 {liveHrv != null ? `${Math.round(liveHrv)}ms` : '—'}
               </Text>
               {deltaPct != null ? (

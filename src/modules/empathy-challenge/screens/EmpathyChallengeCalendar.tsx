@@ -171,7 +171,7 @@ export default function EmpathyChallengeCalendar() {
                   />
                 ) : (
                   <View className="justify-center pt-2">
-                    <Text className="text-lg font-semibold text-foreground">
+                    <Text variant="h3" className="text-foreground">
                       Day {empathyDay.day}: {empathyDay.title}
                     </Text>
                     <Text className="text-sm text-foreground/60">

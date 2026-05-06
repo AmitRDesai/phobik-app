@@ -1,3 +1,4 @@
+import { Text } from '@/components/themed/Text';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { authClient } from '@/lib/auth';
@@ -9,7 +10,6 @@ import {
   FlatList,
   Modal,
   Pressable,
-  Text,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -94,7 +94,7 @@ export function SessionHistory({
         <SafeAreaView edges={['top']} className="flex-1">
           {/* Header */}
           <View className="flex-row items-center border-b border-foreground/5 px-5 pb-3 pt-6">
-            <Text className="flex-1 text-lg font-semibold text-foreground">
+            <Text variant="h3" className="flex-1 text-foreground">
               Past Sessions
             </Text>
             <Pressable
