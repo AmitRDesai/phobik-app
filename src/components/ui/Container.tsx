@@ -25,7 +25,7 @@ const Container: React.FC<ContainerProps> = (props) => {
   );
 
   const content = safeArea ? (
-    <SafeAreaView className={clsx('flex-1 bg-background', props.safeAreaClass)}>
+    <SafeAreaView className={clsx('flex-1 bg-surface', props.safeAreaClass)}>
       {view}
     </SafeAreaView>
   ) : (
