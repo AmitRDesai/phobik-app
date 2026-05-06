@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
@@ -372,17 +373,14 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
           {meditation.stats && meditation.stats.length > 0 ? (
             <View className="mt-6 flex-row gap-3">
               {meditation.stats.map((stat) => (
-                <View
-                  key={stat.label}
-                  className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 px-4 py-3"
-                >
+                <Card key={stat.label} className="flex-1 px-4 py-3">
                   <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
                     {stat.label}
                   </Text>
                   <Text className="mt-1 text-base font-bold text-foreground">
                     {renderStatValue(stat)}
                   </Text>
-                </View>
+                </Card>
               ))}
             </View>
           ) : null}

@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
@@ -47,32 +48,32 @@ export default function MeditationList() {
       </View>
 
       {resumable ? (
-        <Pressable
+        <Card
+          variant="toned"
+          tone="pink"
           onPress={() => router.push(resumable.route)}
-          className="mb-6 active:scale-[0.98]"
+          className="mb-6 flex-row items-center gap-4"
         >
-          <View className="flex-row items-center gap-4 rounded-3xl border border-primary-pink/30 bg-primary-pink/10 p-4">
-            <IconChip size="lg" shape="circle" tone="pink">
-              <MaterialIcons name="play-arrow" size={24} color="white" />
-            </IconChip>
-            <View className="flex-1">
-              <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-                Unfinished session
-              </Text>
-              <Text className="mt-0.5 text-base font-bold text-foreground">
-                {resumable.title}
-              </Text>
-            </View>
-            <View>
-              <GradientButton
-                compact
-                onPress={() => router.push(resumable.route)}
-              >
-                Resume
-              </GradientButton>
-            </View>
+          <IconChip size="lg" shape="circle" tone="pink">
+            <MaterialIcons name="play-arrow" size={24} color="white" />
+          </IconChip>
+          <View className="flex-1">
+            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+              Unfinished session
+            </Text>
+            <Text className="mt-0.5 text-base font-bold text-foreground">
+              {resumable.title}
+            </Text>
           </View>
-        </Pressable>
+          <View>
+            <GradientButton
+              compact
+              onPress={() => router.push(resumable.route)}
+            >
+              Resume
+            </GradientButton>
+          </View>
+        </Card>
       ) : null}
 
       <View className="gap-5">
