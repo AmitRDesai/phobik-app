@@ -1,6 +1,8 @@
-import { colors } from '@/constants/colors';
+import { Badge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/Card';
 import { ImageViewer } from '@/components/ui/ImageViewer';
 import { UserAvatar } from '@/components/ui/UserAvatar';
+import { colors } from '@/constants/colors';
 import { formatCount } from '@/modules/practices/lib/format';
 import { useState } from 'react';
 import { Image, Pressable, ScrollView, Text, View } from 'react-native';
@@ -64,7 +66,7 @@ export function FeedCard({
   const validImages = images.filter(Boolean) as string[];
 
   return (
-    <View className="rounded-3xl border border-foreground/[0.08] bg-surface-elevated/80 p-5">
+    <Card variant="elevated" className="bg-surface-elevated/80 p-5">
       {/* Author row */}
       <View className="flex-row items-center gap-3">
         <UserAvatar
@@ -124,11 +126,9 @@ export function FeedCard({
       {/* Circle tag */}
       {circle && (
         <View className="mt-3 flex-row">
-          <View className="rounded-full bg-primary-pink/20 px-3 py-1">
-            <Text className="text-[10px] font-bold uppercase tracking-wider text-primary-pink">
-              {circle}
-            </Text>
-          </View>
+          <Badge tone="pink" size="sm">
+            {circle}
+          </Badge>
         </View>
       )}
 
@@ -173,6 +173,6 @@ export function FeedCard({
           );
         })}
       </ScrollView>
-    </View>
+    </Card>
   );
 }
