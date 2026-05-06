@@ -115,7 +115,7 @@ export default function EmpathyChallengeComplete() {
         your connections are stronger.
       </Text>
 
-      <View className="mt-10 w-full max-w-[180px] items-center gap-2 rounded-2xl border border-foreground/10 bg-foreground/5 p-5">
+      <Card className="mt-10 w-full max-w-[180px] items-center gap-2 p-5">
         <MaterialIcons
           name="calendar-today"
           size={24}
@@ -125,7 +125,7 @@ export default function EmpathyChallengeComplete() {
           Sessions Done
         </Text>
         <Text className="text-2xl font-bold text-foreground">7/7</Text>
-      </View>
+      </Card>
 
       <View className="mt-8 w-full gap-3 pb-8">
         <Text className="mb-1 text-center text-[10px] font-bold uppercase tracking-[3px] text-foreground/45">

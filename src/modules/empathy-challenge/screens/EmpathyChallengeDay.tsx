@@ -190,11 +190,11 @@ export default function EmpathyChallengeDay() {
             </Text>
 
             {empathyDay.challengeHighlight && (
-              <View className="rounded-2xl border border-primary-pink/20 bg-primary-pink/[0.06] px-5 py-4">
+              <Card variant="toned" tone="pink" className="px-5 py-4">
                 <Text className="text-base font-medium italic leading-relaxed text-foreground">
                   {empathyDay.challengeHighlight}
                 </Text>
-              </View>
+              </Card>
             )}
 
             {empathyDay.challengeBullets && (
