@@ -1,6 +1,8 @@
+import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { BiometricSetup } from '@/modules/auth/components/BiometricSetup';
 import { useSignOut } from '@/hooks/auth/useAuth';
@@ -33,23 +35,27 @@ export default function Biometric() {
       contentClassName="gap-4"
     >
       {!isAvailable ? (
-        <View className="rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
+        <Card className="p-6">
           <Text className="text-center text-base text-foreground/50">
             Biometric authentication is not available on this device.
           </Text>
-        </View>
+        </Card>
       ) : biometricEnabled ? (
         <>
-          <View className="rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
+          <Card className="p-6">
             <View className="flex-row items-center justify-between">
               <View className="flex-1 flex-row items-center gap-3">
-                <View className="h-10 w-10 items-center justify-center rounded-xl bg-status-success/20">
+                <IconChip
+                  size="md"
+                  shape="rounded"
+                  bg={withAlpha(colors.status.success, 0.2)}
+                >
                   <MaterialIcons
                     name="check-circle"
                     size={22}
                     color={colors.status.success}
                   />
-                </View>
+                </IconChip>
                 <View className="flex-1">
                   <Text className="text-base font-semibold text-foreground">
                     {biometricType} Enabled
@@ -71,7 +77,7 @@ export default function Biometric() {
                 thumbColor="white"
               />
             </View>
-          </View>
+          </Card>
 
           <Pressable
             onPress={handleLockApp}

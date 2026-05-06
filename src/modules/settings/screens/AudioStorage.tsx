@@ -1,4 +1,6 @@
+import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import {
   accentFor,
@@ -85,18 +87,15 @@ export default function AudioStorage() {
       <Text className="px-2 text-[11px] uppercase tracking-widest text-foreground/30">
         Voice
       </Text>
-      <View className="rounded-2xl border border-foreground/10 bg-foreground/5 px-4 py-4">
+      <Card className="px-4 py-4">
         <View className="flex-row items-center gap-3">
-          <View
-            className="h-10 w-10 items-center justify-center rounded-xl"
-            style={{ backgroundColor: withAlpha(colors.primary.pink, 0.15) }}
-          >
+          <IconChip size="md" shape="rounded" tone="pink">
             <MaterialIcons
               name="record-voice-over"
               size={22}
               color={colors.primary.pink}
             />
-          </View>
+          </IconChip>
           <View className="flex-1">
             <Text className="text-base font-semibold text-foreground">
               Narrator voice
@@ -156,13 +155,13 @@ export default function AudioStorage() {
             guided audio.
           </Text>
         )}
-      </View>
+      </Card>
 
       <View className="h-2" />
       <Text className="px-2 text-[11px] uppercase tracking-widest text-foreground/30">
         Storage
       </Text>
-      <View className="rounded-2xl border border-foreground/10 bg-foreground/5 px-4 py-5">
+      <Card className="px-4 py-5">
         <View className="flex-row items-center gap-3">
           <View
             className="h-10 w-10 items-center justify-center rounded-xl"
@@ -188,7 +187,7 @@ export default function AudioStorage() {
           </Text>
           <Text className="text-sm text-foreground/50">on this device</Text>
         </View>
-      </View>
+      </Card>
 
       <Pressable
         onPress={handleClear}
@@ -210,7 +209,7 @@ export default function AudioStorage() {
       <Text className="px-2 text-[11px] uppercase tracking-widest text-foreground/30">
         About
       </Text>
-      <View className="rounded-2xl border border-foreground/10 bg-foreground/5 px-4 py-4">
+      <Card className="px-4 py-4">
         <View className="flex-row items-start gap-3">
           <MaterialIcons
             name="info"
@@ -224,7 +223,7 @@ export default function AudioStorage() {
             limit is reached.
           </Text>
         </View>
-      </View>
+      </Card>
     </Screen>
   );
 }

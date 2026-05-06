@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
@@ -23,7 +24,7 @@ function ToggleRow({
 }: ToggleRowProps) {
   const scheme = useScheme();
   return (
-    <View className="flex-row items-center gap-3 rounded-2xl border border-foreground/10 bg-foreground/5 px-4 py-3.5">
+    <Card className="flex-row items-center gap-3 px-4 py-3.5">
       <View className="flex-1">
         <Text className="text-base font-semibold text-foreground">{label}</Text>
         <Text className="text-sm text-foreground/50">{description}</Text>
@@ -37,7 +38,7 @@ function ToggleRow({
         }}
         thumbColor="white"
       />
-    </View>
+    </Card>
   );
 }
 

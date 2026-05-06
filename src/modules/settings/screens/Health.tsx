@@ -1,7 +1,9 @@
-import { Header } from '@/components/ui/Header';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -69,20 +71,19 @@ export default function Health() {
       className="px-4"
       contentClassName="gap-4"
     >
-      <View className="rounded-2xl border border-foreground/10 bg-foreground/5 p-6">
+      <Card className="p-6">
         <View className="flex-row items-center gap-3">
-          <View
-            className={clsx(
-              'h-10 w-10 items-center justify-center rounded-xl',
-              hasAccess ? 'bg-status-success/20' : 'bg-foreground/10',
-            )}
+          <IconChip
+            size="md"
+            shape="rounded"
+            bg={hasAccess ? withAlpha(colors.status.success, 0.2) : undefined}
           >
             <MaterialIcons
               name={hasAccess ? 'check-circle' : 'favorite-border'}
               size={22}
               color={hasAccess ? colors.status.success : colors.primary.pink}
             />
-          </View>
+          </IconChip>
           <View className="flex-1">
             <Text className="text-base font-semibold text-foreground">
               {hasAccess ? 'Connected' : 'Not connected'}
@@ -119,7 +120,7 @@ export default function Health() {
             ) : null}
           </View>
         ) : null}
-      </View>
+      </Card>
 
       {isAndroidUnavailable ? (
         <Text className="px-2 text-center text-xs leading-relaxed text-foreground/50">
