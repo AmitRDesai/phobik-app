@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
@@ -90,7 +91,7 @@ function MetricRow({
   unitColor: string;
 }) {
   return (
-    <View className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+    <Card className="flex-1 p-5">
       <Text className="mb-2 text-[10px] font-bold uppercase tracking-widest text-foreground/60">
         {label}
       </Text>
@@ -105,7 +106,7 @@ function MetricRow({
           {unit}
         </Text>
       </View>
-    </View>
+    </Card>
   );
 }
 
