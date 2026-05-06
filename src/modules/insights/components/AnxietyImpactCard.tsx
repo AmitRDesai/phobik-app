@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { CardAura } from '@/components/ui/CardAura';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -6,7 +7,7 @@ import { Pressable, Text, View } from 'react-native';
 export function AnxietyImpactCard() {
   return (
     <View className="px-4">
-      <View className="overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-5">
+      <Card className="overflow-hidden p-5">
         <CardAura color={colors.primary.pink} />
         <View className="mb-3 flex-row items-center gap-2">
           <MaterialIcons
@@ -41,7 +42,7 @@ export function AnxietyImpactCard() {
             color={colors.primary.pink}
           />
         </Pressable>
-      </View>
+      </Card>
     </View>
   );
 }

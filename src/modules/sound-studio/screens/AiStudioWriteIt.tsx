@@ -1,4 +1,5 @@
 import writeVibeImg from '@/assets/images/sound-studio/write-vibe.jpg';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { GlowBg } from '@/components/ui/GlowBg';
@@ -55,7 +56,7 @@ export default function AiStudioWriteIt() {
           </Text>
 
           {/* Textarea */}
-          <View className="mt-6 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+          <Card className="mt-6 rounded-3xl p-5">
             <TextInput
               value={text}
               onChangeText={setText}
@@ -95,10 +96,10 @@ export default function AiStudioWriteIt() {
                 </Text>
               </Pressable>
             </View>
-          </View>
+          </Card>
 
           {/* From Journal sync */}
-          <View className="mt-4 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+          <Card className="mt-4 rounded-3xl p-5">
             <View className="self-center h-12 w-12 items-center justify-center rounded-2xl bg-accent-yellow/15">
               <MaterialIcons
                 name="auto-stories"
@@ -126,10 +127,10 @@ export default function AiStudioWriteIt() {
                 Connect Accounts
               </Text>
             </Pressable>
-          </View>
+          </Card>
 
           {/* Current Vibe card */}
-          <View className="mt-4 overflow-hidden rounded-3xl border border-foreground/10 bg-foreground/5">
+          <Card className="mt-4 overflow-hidden rounded-3xl p-0">
             <Image
               source={writeVibeImg}
               style={{ width: '100%', height: 120 }}
@@ -143,7 +144,7 @@ export default function AiStudioWriteIt() {
                 Ethereal Melancholy
               </Text>
             </View>
-          </View>
+          </Card>
 
           <GradientText className="mt-6 self-center text-xs uppercase tracking-[0.3em]">
             Sonic Studio

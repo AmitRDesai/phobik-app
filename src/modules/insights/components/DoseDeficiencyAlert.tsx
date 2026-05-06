@@ -1,4 +1,6 @@
-import { colors } from '@/constants/colors';
+import { Card } from '@/components/ui/Card';
+import { IconChip } from '@/components/ui/IconChip';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
 import {
@@ -18,15 +20,22 @@ export function DoseDeficiencyAlert({ totals }: DoseDeficiencyAlertProps) {
   const tip = getDeficiencyTip(lowestKey);
 
   return (
-    <View className="overflow-hidden rounded-3xl border border-accent-info/30 bg-foreground/5 p-5">
+    <Card
+      className="overflow-hidden p-5"
+      style={{ borderColor: withAlpha(colors.accent.info, 0.3) }}
+    >
       <View className="flex-row items-center gap-4">
-        <View className="h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent-info/20">
+        <IconChip
+          size="lg"
+          shape="circle"
+          bg={withAlpha(colors.accent.info, 0.2)}
+        >
           <MaterialIcons
             name="info-outline"
             size={24}
             color={colors.accent.info}
           />
-        </View>
+        </IconChip>
         <View className="flex-1">
           <Text className="font-semibold text-foreground">
             You&apos;re low on {display.label} today
@@ -36,6 +45,6 @@ export function DoseDeficiencyAlert({ totals }: DoseDeficiencyAlertProps) {
           </Text>
         </View>
       </View>
-    </View>
+    </Card>
   );
 }
