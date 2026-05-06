@@ -4,8 +4,10 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Keyboard, Text, TextInput, View } from 'react-native';
 
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -168,11 +170,11 @@ export default function EmpathyChallengeDay() {
             iconColor={colors.primary.pink}
             title="Intention"
           />
-          <View className="rounded-2xl border border-foreground/5 bg-surface-elevated p-6">
+          <Card variant="surface" className="p-6">
             <Text className="text-lg italic leading-relaxed text-foreground/85">
               {empathyDay.intention}
             </Text>
-          </View>
+          </Card>
         </View>
 
         <View>
@@ -198,21 +200,22 @@ export default function EmpathyChallengeDay() {
             {empathyDay.challengeBullets && (
               <View className="gap-3">
                 {empathyDay.challengeBullets.map((bullet) => (
-                  <View
+                  <Card
                     key={bullet.text}
-                    className="flex-row items-center gap-3 rounded-2xl border border-foreground/5 bg-surface-elevated px-4 py-3.5"
+                    variant="surface"
+                    className="flex-row items-center gap-3 px-4 py-3.5"
                   >
-                    <View className="h-9 w-9 items-center justify-center rounded-full bg-foreground/5">
+                    <IconChip size="md" shape="circle">
                       <MaterialIcons
                         name={bullet.icon}
                         size={18}
                         color={bullet.iconColor}
                       />
-                    </View>
+                    </IconChip>
                     <Text className="flex-1 text-[15px] leading-relaxed text-foreground">
                       {bullet.text}
                     </Text>
-                  </View>
+                  </Card>
                 ))}
               </View>
             )}
@@ -220,9 +223,10 @@ export default function EmpathyChallengeDay() {
             {empathyDay.challengeCards && (
               <View className="gap-3">
                 {empathyDay.challengeCards.map((card, i) => (
-                  <View
+                  <Card
                     key={card.title}
-                    className="gap-3 rounded-2xl border border-foreground/5 bg-surface-elevated p-5"
+                    variant="surface"
+                    className="gap-3 p-5"
                   >
                     <View className="flex-row items-center gap-3">
                       <LinearGradient
@@ -255,7 +259,7 @@ export default function EmpathyChallengeDay() {
                     <Text className="text-sm leading-relaxed text-foreground/65">
                       {card.description}
                     </Text>
-                  </View>
+                  </Card>
                 ))}
               </View>
             )}
@@ -343,19 +347,16 @@ function DoseCard({
   label: string;
 }) {
   return (
-    <View className="flex-1 flex-row items-center gap-3 rounded-2xl border border-foreground/5 bg-surface-elevated p-4">
-      <View
-        className="h-10 w-10 items-center justify-center rounded-full"
-        style={{ backgroundColor: iconBgColor }}
-      >
+    <Card variant="surface" className="flex-1 flex-row items-center gap-3">
+      <IconChip size="md" shape="circle" bg={iconBgColor}>
         <MaterialIcons name={icon} size={20} color={iconColor} />
-      </View>
+      </IconChip>
       <View>
         <Text className="text-sm font-black text-foreground">{value}</Text>
         <Text className="text-[10px] font-bold uppercase text-foreground/55">
           {label}
         </Text>
       </View>
-    </View>
+    </Card>
   );
 }
