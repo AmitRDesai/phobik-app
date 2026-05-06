@@ -1,4 +1,5 @@
 import { BlurView } from '@/components/ui/BlurView';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { SelectionCard } from '@/components/ui/SelectionCard';
@@ -95,7 +96,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
   return (
     <View className="gap-6">
       {/* Calendar feature card */}
-      <View className="overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/5">
+      <Card className="overflow-hidden p-0">
         {/* Hero gradient */}
         <View className="h-36 items-center justify-center">
           <LinearGradient
@@ -192,7 +193,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
             </View>
           )}
         </View>
-      </View>
+      </Card>
 
       {/* Post-connect sections */}
       {connected && (
@@ -210,60 +211,55 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
               </Text>
             </View>
             {calendars.length === 0 ? (
-              <View className="items-center rounded-xl border border-foreground/10 bg-foreground/5 p-6">
+              <Card className="items-center p-6">
                 <ActivityIndicator color={colors.primary.pink} />
                 <Text className="mt-2 text-sm text-foreground/55">
                   Loading calendars...
                 </Text>
-              </View>
+              </Card>
             ) : (
               <View className="gap-2">
                 {calendars.map((cal) => {
                   const isSelected = selectedIds.includes(cal.stableId);
                   return (
-                    <Pressable
+                    <Card
                       key={cal.stableId}
                       onPress={() => toggleCalendar(cal.stableId)}
+                      className="flex-row items-center justify-between"
                     >
-                      <View className="flex-row items-center justify-between rounded-xl border border-foreground/10 bg-foreground/5 p-4">
-                        <View className="flex-1 flex-row items-center gap-3">
-                          <View
-                            className="h-3 w-3 rounded-full"
-                            style={{ backgroundColor: cal.color }}
-                          />
-                          <View className="flex-1">
-                            <Text
-                              className="font-medium text-foreground"
-                              numberOfLines={1}
-                            >
-                              {cal.title}
-                            </Text>
-                            <Text
-                              className="text-xs text-foreground/55"
-                              numberOfLines={1}
-                            >
-                              {cal.sourceName}
-                            </Text>
-                          </View>
-                        </View>
+                      <View className="flex-1 flex-row items-center gap-3">
                         <View
-                          className={clsx(
-                            'h-6 w-6 items-center justify-center rounded-full',
-                            isSelected
-                              ? 'bg-primary-pink'
-                              : 'border-2 border-foreground/25',
-                          )}
-                        >
-                          {isSelected && (
-                            <MaterialIcons
-                              name="check"
-                              size={16}
-                              color="white"
-                            />
-                          )}
+                          className="h-3 w-3 rounded-full"
+                          style={{ backgroundColor: cal.color }}
+                        />
+                        <View className="flex-1">
+                          <Text
+                            className="font-medium text-foreground"
+                            numberOfLines={1}
+                          >
+                            {cal.title}
+                          </Text>
+                          <Text
+                            className="text-xs text-foreground/55"
+                            numberOfLines={1}
+                          >
+                            {cal.sourceName}
+                          </Text>
                         </View>
                       </View>
-                    </Pressable>
+                      <View
+                        className={clsx(
+                          'h-6 w-6 items-center justify-center rounded-full',
+                          isSelected
+                            ? 'bg-primary-pink'
+                            : 'border-2 border-foreground/25',
+                        )}
+                      >
+                        {isSelected && (
+                          <MaterialIcons name="check" size={16} color="white" />
+                        )}
+                      </View>
+                    </Card>
                   );
                 })}
               </View>
