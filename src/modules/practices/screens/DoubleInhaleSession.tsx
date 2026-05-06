@@ -38,7 +38,7 @@ import { formatTime } from '../lib/format';
 function InstructionCard() {
   return (
     <View className="z-20 px-6 pb-6">
-      <View className="rounded-3xl border border-white/10 bg-[#0a0a0a]/80 p-5">
+      <View className="rounded-3xl border border-foreground/10 bg-[#0a0a0a]/80 p-5">
         <View className="flex-row items-start gap-4">
           <View className="h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-pink/10">
             <MaterialIcons
@@ -47,7 +47,7 @@ function InstructionCard() {
               color={colors.primary.pink}
             />
           </View>
-          <Text className="flex-1 text-base font-medium leading-relaxed text-white/80">
+          <Text className="flex-1 text-base font-medium leading-relaxed text-foreground/80">
             Take two quick inhales through your nose, then one long exhale
             through your mouth.
           </Text>
@@ -77,7 +77,7 @@ function PlaybackControls({
       {/* Mute button */}
       <Pressable
         onPress={onMuteToggle}
-        className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
+        className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
       >
         <MaterialIcons
           name={isMuted ? 'volume-off' : 'volume-up'}
@@ -111,7 +111,7 @@ function PlaybackControls({
       {/* Restart button */}
       <Pressable
         onPress={onRestart}
-        className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
+        className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
       >
         <MaterialIcons
           name={sessionReady ? 'replay' : 'skip-next'}
@@ -256,11 +256,11 @@ function PhaseProgress({
 }) {
   return (
     <View className="mt-4 items-center gap-3 px-6" style={{ minHeight: 140 }}>
-      <Text className="text-center text-5xl font-bold tracking-tight text-white">
+      <Text className="text-center text-5xl font-bold tracking-tight text-foreground">
         {currentPhase}
       </Text>
       <View style={{ height: 36 }} className="items-center justify-center">
-        <Text className="mx-auto max-w-[280px] text-center text-sm leading-relaxed text-slate-400">
+        <Text className="mx-auto max-w-[280px] text-center text-sm leading-relaxed text-foreground/60">
           {currentSubtext}
         </Text>
       </View>
@@ -273,7 +273,7 @@ function PhaseProgress({
               className={`h-1.5 rounded-full ${
                 sessionReady && i === phaseIndex
                   ? 'bg-primary-pink'
-                  : 'bg-white/10'
+                  : 'bg-foreground/10'
               }`}
               style={[
                 { width: duration === 6 ? 56 : duration === 2 ? 40 : 24 },
@@ -537,10 +537,10 @@ export default function DoubleInhaleSession() {
   }));
 
   return (
-    <Container safeAreaClass="bg-background-dark">
-      <View className="flex-1 bg-background-dark">
+    <Container safeAreaClass="bg-surface">
+      <View className="flex-1 bg-surface">
         <GlowBg
-          bgClassName="bg-background-dark"
+          bgClassName="bg-surface"
           centerX={0.5}
           centerY={0.35}
           intensity={0.6}
@@ -554,7 +554,7 @@ export default function DoubleInhaleSession() {
           <BackButton icon="close" />
 
           {/* Timer pill */}
-          <View className="rounded-full border border-white/10 bg-white/5 px-4 py-1">
+          <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1">
             <Text
               className="text-sm font-bold text-accent-yellow"
               style={{ fontVariant: ['tabular-nums'] }}

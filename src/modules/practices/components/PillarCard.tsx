@@ -85,7 +85,7 @@ export function PillarCard({
             ) : null}
             {icon && !eyebrow ? (
               <View
-                className="mb-4 h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/10"
+                className="mb-4 h-12 w-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10"
                 style={{
                   shadowColor: accentColor ?? colors.primary.pink,
                   shadowOffset: { width: 0, height: 0 },
@@ -117,11 +117,11 @@ export function PillarCard({
                 </Text>
               </View>
             ) : null}
-            <Text className="text-2xl font-extrabold uppercase leading-tight tracking-tight text-white">
+            <Text className="text-2xl font-extrabold uppercase leading-tight tracking-tight text-foreground">
               {title}
             </Text>
             {subtitle ? (
-              <Text className="mt-2 text-sm leading-snug text-white/70">
+              <Text className="mt-2 text-sm leading-snug text-foreground/70">
                 {subtitle}
               </Text>
             ) : null}

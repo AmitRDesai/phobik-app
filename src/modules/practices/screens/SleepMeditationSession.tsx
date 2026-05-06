@@ -101,7 +101,7 @@ function PulsingAura({ isPlaying }: { isPlaying: boolean }) {
         {/* Center circle with image */}
         <Image
           source={sleepMeditationImage}
-          className="h-[190px] w-[190px] rounded-full border border-white/10"
+          className="h-[190px] w-[190px] rounded-full border border-foreground/10"
           resizeMode="cover"
         />
       </View>
@@ -219,10 +219,10 @@ export default function SleepMeditationSession() {
   const progress = duration > 0 ? elapsed / duration : 0;
 
   return (
-    <Container safeAreaClass="bg-background-dark">
-      <View className="flex-1 bg-background-dark">
+    <Container safeAreaClass="bg-surface">
+      <View className="flex-1 bg-surface">
         <GlowBg
-          bgClassName="bg-background-dark"
+          bgClassName="bg-surface"
           centerX={0.2}
           centerY={0.3}
           intensity={0.12}
@@ -243,7 +243,7 @@ export default function SleepMeditationSession() {
         {/* Header */}
         <View className="z-20 flex-row items-center justify-between px-4 py-3">
           <BackButton />
-          <Text className="text-[13px] font-semibold uppercase tracking-widest text-white/60">
+          <Text className="text-[13px] font-semibold uppercase tracking-widest text-foreground/60">
             Sleep & Soundscape
           </Text>
           <View className="h-10 w-10" />
@@ -256,7 +256,7 @@ export default function SleepMeditationSession() {
 
           {/* Title */}
           <View className="mt-8 items-center">
-            <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight text-white">
+            <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight text-foreground">
               Guided Sleep Meditation
             </Text>
             <Text className="mt-2 text-sm font-semibold uppercase tracking-widest text-primary-pink/90">
@@ -273,15 +273,15 @@ export default function SleepMeditationSession() {
                 disabled={status.playing}
                 className={`rounded-full px-5 py-2.5 ${
                   selectedDuration === key
-                    ? 'border border-accent-yellow/30 bg-white/10'
-                    : 'border border-white/10 bg-white/5'
+                    ? 'border border-accent-yellow/30 bg-foreground/10'
+                    : 'border border-foreground/10 bg-foreground/5'
                 } ${status.playing ? 'opacity-40' : ''}`}
               >
                 <Text
                   className={`text-xs font-semibold uppercase tracking-widest ${
                     selectedDuration === key
                       ? 'text-accent-yellow'
-                      : 'text-white/60'
+                      : 'text-foreground/60'
                   }`}
                 >
                   {label}
@@ -296,7 +296,7 @@ export default function SleepMeditationSession() {
           {/* Time labels */}
           <View className="mb-3 flex-row items-center justify-between">
             <Text
-              className="text-[11px] font-bold text-white/30"
+              className="text-[11px] font-bold text-foreground/30"
               style={{ fontVariant: ['tabular-nums'] }}
             >
               {formatTime(elapsed)}
@@ -315,7 +315,7 @@ export default function SleepMeditationSession() {
               </Text>
             </View>
             <Text
-              className="text-[11px] font-bold text-white/30"
+              className="text-[11px] font-bold text-foreground/30"
               style={{ fontVariant: ['tabular-nums'] }}
             >
               {formatTime(duration)}
@@ -323,7 +323,7 @@ export default function SleepMeditationSession() {
           </View>
 
           {/* Progress bar */}
-          <View className="h-1 w-full overflow-hidden rounded-full bg-white/5">
+          <View className="h-1 w-full overflow-hidden rounded-full bg-foreground/5">
             <View
               className="h-full rounded-full"
               style={{

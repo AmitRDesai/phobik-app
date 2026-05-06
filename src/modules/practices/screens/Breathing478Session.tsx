@@ -159,10 +159,10 @@ export default function Breathing478Session() {
   const liveHrv = isFresh(hrvAt) ? hrv : null;
 
   return (
-    <Container safeAreaClass="bg-background-dark">
-      <View className="flex-1 bg-background-dark">
+    <Container safeAreaClass="bg-surface">
+      <View className="flex-1 bg-surface">
         <GlowBg
-          bgClassName="bg-background-dark"
+          bgClassName="bg-surface"
           centerX={0.5}
           centerY={0.35}
           intensity={0.6}
@@ -174,7 +174,7 @@ export default function Breathing478Session() {
         {/* Header */}
         <View className="z-10 flex-row items-center justify-between px-6 py-4">
           <BackButton />
-          <Text className="text-lg font-bold tracking-tight text-white">
+          <Text className="text-lg font-bold tracking-tight text-foreground">
             4-7-8 Breathing
           </Text>
           <View className="h-11 w-11" />
@@ -182,10 +182,10 @@ export default function Breathing478Session() {
 
         {/* Breathing instruction text — fixed height to prevent layout shifts */}
         <View className="z-10 mt-2 items-center px-8" style={{ height: 100 }}>
-          <Text className="mb-2 text-center text-4xl font-light tracking-tight text-white">
+          <Text className="mb-2 text-center text-4xl font-light tracking-tight text-foreground">
             {currentPhase}
           </Text>
-          <Text className="mx-auto max-w-[280px] text-center text-sm leading-relaxed text-slate-400">
+          <Text className="mx-auto max-w-[280px] text-center text-sm leading-relaxed text-foreground/60">
             {currentSubtext}
           </Text>
         </View>
@@ -203,8 +203,8 @@ export default function Breathing478Session() {
         {/* Bottom section */}
         <View className="z-20 px-6">
           {/* Instruction card */}
-          <View className="mb-6 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4">
-            <Text className="text-center text-[13px] font-medium leading-relaxed text-slate-200">
+          <View className="mb-6 rounded-2xl border border-foreground/[0.08] bg-foreground/[0.04] p-4">
+            <Text className="text-center text-[13px] font-medium leading-relaxed text-foreground/80">
               Inhale for 4 seconds, hold your breath for 7 seconds, and exhale
               for 8 seconds. Repeat this cycle 4 times.
             </Text>
@@ -215,7 +215,7 @@ export default function Breathing478Session() {
             {/* Mute button */}
             <Pressable
               onPress={() => setIsMuted((m) => !m)}
-              className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
+              className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
             >
               <MaterialIcons
                 name={isMuted ? 'volume-off' : 'volume-up'}
@@ -257,7 +257,7 @@ export default function Breathing478Session() {
             {/* Restart button */}
             <Pressable
               onPress={handleRestart}
-              className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
+              className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
             >
               <MaterialIcons
                 name={sessionReady ? 'replay' : 'skip-next'}
@@ -270,7 +270,7 @@ export default function Breathing478Session() {
           {/* Stats cards row */}
           <View className="mb-4 flex-row gap-4">
             {/* Heart Rate card */}
-            <View className="flex-1 rounded-[32px] border border-white/[0.08] bg-white/[0.04] p-5">
+            <View className="flex-1 rounded-[32px] border border-foreground/[0.08] bg-foreground/[0.04] p-5">
               <View className="flex-row items-center gap-2">
                 <MaterialIcons
                   name="favorite"
@@ -282,25 +282,25 @@ export default function Breathing478Session() {
                     textShadowRadius: 10,
                   }}
                 />
-                <Text className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/50">
+                <Text className="text-[9px] font-bold uppercase tracking-[0.2em] text-foreground/50">
                   Heart Rate
                 </Text>
               </View>
               <View className="mt-1 flex-row items-baseline gap-1">
                 <Text
-                  className="text-2xl font-semibold text-white"
+                  className="text-2xl font-semibold text-foreground"
                   style={{ fontVariant: ['tabular-nums'] }}
                 >
                   {liveHr != null ? liveHr : '—'}
                 </Text>
-                <Text className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/55">
                   BPM
                 </Text>
               </View>
             </View>
 
             {/* HRV card */}
-            <View className="flex-1 rounded-[32px] border border-white/[0.08] bg-white/[0.04] p-5">
+            <View className="flex-1 rounded-[32px] border border-foreground/[0.08] bg-foreground/[0.04] p-5">
               <View className="flex-row items-center gap-2">
                 <MaterialIcons
                   name="monitor-heart"
@@ -312,18 +312,18 @@ export default function Breathing478Session() {
                     textShadowRadius: 10,
                   }}
                 />
-                <Text className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/50">
+                <Text className="text-[9px] font-bold uppercase tracking-[0.2em] text-foreground/50">
                   HRV
                 </Text>
               </View>
               <View className="mt-1 flex-row items-baseline gap-1">
                 <Text
-                  className="text-2xl font-semibold text-white"
+                  className="text-2xl font-semibold text-foreground"
                   style={{ fontVariant: ['tabular-nums'] }}
                 >
                   {liveHrv != null ? Math.round(liveHrv) : '—'}
                 </Text>
-                <Text className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/55">
                   MS
                 </Text>
               </View>

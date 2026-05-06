@@ -12,7 +12,7 @@ export function CompletionBadge() {
       <View className="h-[200px] w-[200px] items-center justify-center">
         {/* Dashed orbit ring */}
         <View
-          className="absolute rounded-full border-2 border-dashed border-white/20"
+          className="absolute rounded-full border-2 border-dashed border-foreground/20"
           style={{ width: 180, height: 180 }}
         />
 

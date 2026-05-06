@@ -12,7 +12,7 @@ type PracticeScreenShellProps = {
   children: React.ReactNode;
   scrollContentClassName?: string;
   scrollProps?: ScrollViewProps;
-  /** Background color class. Defaults to bg-background-dark. */
+  /** Background color class. Defaults to bg-surface. */
   bgClassName?: string;
   /** Vertical position of the glow center (0–1). Defaults to 0.2. */
   glowCenterY?: number;
@@ -27,7 +27,7 @@ export function PracticeScreenShell({
   children,
   scrollContentClassName = 'px-6 pb-8',
   scrollProps,
-  bgClassName = 'bg-background-dark',
+  bgClassName = 'bg-surface',
   glowCenterY = 0.2,
   glowIntensity = 0.4,
 }: PracticeScreenShellProps) {

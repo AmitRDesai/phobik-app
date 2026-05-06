@@ -30,10 +30,10 @@ export function ExerciseIntroScreen({
   const exercise = EXERCISES.find((e) => e.id === exerciseId)!;
 
   return (
-    <Container safeAreaClass="bg-background-charcoal">
-      <View className="flex-1 bg-background-charcoal">
+    <Container safeAreaClass="bg-surface">
+      <View className="flex-1 bg-surface">
         <GlowBg
-          bgClassName="bg-background-charcoal"
+          bgClassName="bg-surface"
           centerX={0.8}
           centerY={0.2}
           intensity={0.4}
@@ -54,12 +54,12 @@ export function ExerciseIntroScreen({
             <View className="relative mb-6">{icon}</View>
 
             {/* Title */}
-            <Text className="mb-4 text-center text-3xl font-bold tracking-tight text-white">
+            <Text className="mb-4 text-center text-3xl font-bold tracking-tight text-foreground">
               {exercise.name}
             </Text>
 
             {/* Description */}
-            <Text className="mx-auto mb-10 max-w-sm text-center text-[13px] leading-relaxed text-white/60">
+            <Text className="mx-auto mb-10 max-w-sm text-center text-[13px] leading-relaxed text-foreground/60">
               {exercise.description}
             </Text>
 
@@ -73,9 +73,9 @@ export function ExerciseIntroScreen({
               {hasSavedSession && (
                 <Pressable
                   onPress={onClearSession}
-                  className="w-full items-center rounded-full border border-white/5 bg-white/5 py-4 active:opacity-70"
+                  className="w-full items-center rounded-full border border-foreground/5 bg-foreground/5 py-4 active:opacity-70"
                 >
-                  <Text className="text-sm font-medium text-white/60">
+                  <Text className="text-sm font-medium text-foreground/60">
                     Restart Progress
                   </Text>
                 </Pressable>

@@ -253,7 +253,7 @@ export function BreathingBox({
         <View className="z-10 items-center gap-2" style={{ width: 200 }}>
           <Animated.View style={textAnimStyle}>
             <Text
-              className="text-center text-3xl font-bold text-white"
+              className="text-center text-3xl font-bold text-foreground"
               style={{ fontVariant: ['tabular-nums'] }}
             >
               {isActive
@@ -271,7 +271,7 @@ export function BreathingBox({
                 <View
                   key={phase}
                   className={`h-2 w-2 rounded-full ${
-                    i === phaseIndex ? 'bg-primary-pink' : 'bg-white/20'
+                    i === phaseIndex ? 'bg-primary-pink' : 'bg-foreground/20'
                   }`}
                   style={
                     i === phaseIndex

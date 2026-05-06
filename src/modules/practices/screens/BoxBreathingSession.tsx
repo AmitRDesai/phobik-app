@@ -144,10 +144,10 @@ export default function BoxBreathingSession() {
   const hasLiveData = hasAccess && (hrvMs != null || heartRateBpm != null);
 
   return (
-    <Container safeAreaClass="bg-background-dark">
-      <View className="flex-1 bg-background-dark">
+    <Container safeAreaClass="bg-surface">
+      <View className="flex-1 bg-surface">
         <GlowBg
-          bgClassName="bg-background-dark"
+          bgClassName="bg-surface"
           centerX={0.5}
           centerY={0.35}
           intensity={0.5}
@@ -159,7 +159,7 @@ export default function BoxBreathingSession() {
         {/* Header */}
         <View className="z-10 flex-row items-center justify-between px-6 py-4">
           <BackButton />
-          <Text className="text-lg font-bold tracking-tight text-white">
+          <Text className="text-lg font-bold tracking-tight text-foreground">
             Box Breathing
           </Text>
           <View className="h-11 w-11" />
@@ -176,29 +176,29 @@ export default function BoxBreathingSession() {
 
           {/* Instruction text */}
           <View className="mt-8 items-center">
-            <Text className="mb-4 text-xs font-medium tracking-wide text-white/40">
+            <Text className="mb-4 text-xs font-medium tracking-wide text-foreground/40">
               MATCH YOUR BREATH TO THE SQUARE
             </Text>
 
             {/* Time cards */}
             <View className="flex-row gap-4">
-              <View className="items-center rounded-2xl border border-white/5 bg-background-charcoal px-6 py-3">
+              <View className="items-center rounded-2xl border border-foreground/5 bg-surface px-6 py-3">
                 <Text className="mb-1 text-[10px] font-bold uppercase tracking-wider text-primary-pink">
                   Completed
                 </Text>
                 <Text
-                  className="text-xl font-bold text-white/90"
+                  className="text-xl font-bold text-foreground/90"
                   style={{ fontVariant: ['tabular-nums'] }}
                 >
                   {formatTime(elapsed)}
                 </Text>
               </View>
-              <View className="items-center rounded-2xl border border-white/5 bg-background-charcoal px-6 py-3">
+              <View className="items-center rounded-2xl border border-foreground/5 bg-surface px-6 py-3">
                 <Text className="mb-1 text-[10px] font-bold uppercase tracking-wider text-accent-yellow">
                   Goal
                 </Text>
                 <Text
-                  className="text-xl font-bold text-white/90"
+                  className="text-xl font-bold text-foreground/90"
                   style={{ fontVariant: ['tabular-nums'] }}
                 >
                   {formatTime(TOTAL_DURATION)}
@@ -211,7 +211,7 @@ export default function BoxBreathingSession() {
         {/* Bottom HRV Card + Controls */}
         <View className="z-20 px-6 pb-6">
           <View
-            className="rounded-[32px] border border-white/10 p-6"
+            className="rounded-[32px] border border-foreground/10 p-6"
             style={{ backgroundColor: colors.background.dark }}
           >
             {/* HRV Header */}
@@ -228,10 +228,10 @@ export default function BoxBreathingSession() {
                   />
                 </View>
                 <View>
-                  <Text className="text-xs font-bold text-white">
+                  <Text className="text-xs font-bold text-foreground">
                     HRV Tracking
                   </Text>
-                  <Text className="text-[10px] leading-none text-white/40">
+                  <Text className="text-[10px] leading-none text-foreground/40">
                     {hasLiveData
                       ? 'Wearable Streaming'
                       : hasAccess
@@ -244,17 +244,17 @@ export default function BoxBreathingSession() {
                 className={`flex-row items-center gap-2 rounded-full border px-2.5 py-1 ${
                   hasLiveData
                     ? 'border-green-500/20 bg-green-500/10'
-                    : 'border-white/10 bg-white/5'
+                    : 'border-foreground/10 bg-foreground/5'
                 }`}
               >
                 <View
                   className={`h-1.5 w-1.5 rounded-full ${
-                    hasLiveData ? 'bg-green-500' : 'bg-white/30'
+                    hasLiveData ? 'bg-green-500' : 'bg-foreground/30'
                   }`}
                 />
                 <Text
                   className={`text-[10px] font-bold uppercase ${
-                    hasLiveData ? 'text-green-500' : 'text-white/40'
+                    hasLiveData ? 'text-green-500' : 'text-foreground/40'
                   }`}
                 >
                   {hasLiveData ? 'Synced' : 'Idle'}
@@ -267,14 +267,14 @@ export default function BoxBreathingSession() {
               {/* Variability */}
               <View className="flex-1 gap-2">
                 <View className="flex-row items-baseline gap-1.5">
-                  <Text className="text-3xl font-bold text-white">
+                  <Text className="text-3xl font-bold text-foreground">
                     {hrvMs != null ? hrvMs : '—'}
                   </Text>
                   <Text className="text-xs font-medium uppercase tracking-tighter text-primary-pink">
                     ms
                   </Text>
                 </View>
-                <View className="h-1.5 overflow-hidden rounded-full bg-white/5">
+                <View className="h-1.5 overflow-hidden rounded-full bg-foreground/5">
                   <LinearGradient
                     colors={[colors.primary.pink, colors.accent.yellow]}
                     start={{ x: 0, y: 0 }}
@@ -286,7 +286,7 @@ export default function BoxBreathingSession() {
                     }}
                   />
                 </View>
-                <Text className="text-[10px] font-semibold uppercase tracking-widest text-white/30">
+                <Text className="text-[10px] font-semibold uppercase tracking-widest text-foreground/30">
                   Variability
                 </Text>
               </View>
@@ -294,14 +294,14 @@ export default function BoxBreathingSession() {
               {/* Heart Rate */}
               <View className="flex-1 items-end gap-2">
                 <View className="flex-row items-baseline gap-1.5">
-                  <Text className="text-3xl font-bold text-white">
+                  <Text className="text-3xl font-bold text-foreground">
                     {heartRateBpm != null ? heartRateBpm : '—'}
                   </Text>
                   <Text className="text-xs font-medium uppercase tracking-tighter text-accent-yellow">
                     bpm
                   </Text>
                 </View>
-                <View className="h-1.5 w-full overflow-hidden rounded-full bg-white/5">
+                <View className="h-1.5 w-full overflow-hidden rounded-full bg-foreground/5">
                   <View className="flex-1 flex-row justify-end">
                     <LinearGradient
                       colors={[colors.primary.pink, colors.accent.yellow]}
@@ -315,18 +315,18 @@ export default function BoxBreathingSession() {
                     />
                   </View>
                 </View>
-                <Text className="text-[10px] font-semibold uppercase tracking-widest text-white/30">
+                <Text className="text-[10px] font-semibold uppercase tracking-widest text-foreground/30">
                   Heart Rate
                 </Text>
               </View>
             </View>
 
             {/* Playback Controls */}
-            <View className="mt-8 flex-row items-center justify-between border-t border-white/5 px-6 pt-6">
+            <View className="mt-8 flex-row items-center justify-between border-t border-foreground/5 px-6 pt-6">
               {/* Mute button */}
               <Pressable
                 onPress={() => setIsMuted((m) => !m)}
-                className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
+                className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
               >
                 <MaterialIcons
                   name={isMuted ? 'volume-off' : 'volume-up'}
@@ -367,7 +367,7 @@ export default function BoxBreathingSession() {
               {/* Restart button */}
               <Pressable
                 onPress={handleRestart}
-                className="h-14 w-14 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] active:scale-90"
+                className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
               >
                 <MaterialIcons
                   name={sessionReady ? 'replay' : 'skip-next'}

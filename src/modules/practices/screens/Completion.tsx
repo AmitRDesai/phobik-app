@@ -230,7 +230,7 @@ function RewardCircle({
         </LinearGradient>
       </View>
       <View className="items-center">
-        <Text className="text-xl font-black text-white">{amount}</Text>
+        <Text className="text-xl font-black text-foreground">{amount}</Text>
         <Text
           className="text-[10px] font-bold uppercase tracking-widest"
           style={{ color: labelColor }}
@@ -310,17 +310,17 @@ export default function Completion() {
 
           {/* Title */}
           <View className="mb-8 items-center gap-3">
-            <Text className="text-center text-3xl font-black uppercase leading-tight tracking-tighter text-white">
+            <Text className="text-center text-3xl font-black uppercase leading-tight tracking-tighter text-foreground">
               {'PRACTICE\nCOMPLETED!'}
             </Text>
-            <Text className="max-w-[280px] text-center text-sm font-medium text-white/60">
+            <Text className="max-w-[280px] text-center text-sm font-medium text-foreground/60">
               You&apos;ve successfully completed a mindfulness session.
             </Text>
           </View>
 
           {/* Daily D.O.S.E. Rewards */}
           <View className="mb-12 w-full items-center gap-6">
-            <Text className="text-xs font-bold uppercase tracking-[0.2em] text-white/60">
+            <Text className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/60">
               Daily D.O.S.E. Rewards
             </Text>
             <View className="flex-row justify-center gap-6">
@@ -349,7 +349,7 @@ export default function Completion() {
             className="w-full flex-row items-center justify-center gap-2 py-4 active:opacity-70"
           >
             <MaterialIcons name="ios-share" size={20} color={alpha.white70} />
-            <Text className="text-sm font-semibold text-white/70">
+            <Text className="text-sm font-semibold text-foreground/70">
               Share Victory
             </Text>
           </Pressable>

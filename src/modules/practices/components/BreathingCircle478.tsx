@@ -212,12 +212,12 @@ export function BreathingCircle478({
       {/* Center countdown */}
       <View className="absolute items-center justify-center">
         <Text
-          className="text-7xl font-light tracking-tighter text-white"
+          className="text-7xl font-light tracking-tighter text-foreground"
           style={{ fontVariant: ['tabular-nums'] }}
         >
           {phaseCountdown.toString().padStart(2, '0')}
         </Text>
-        <Text className="mt-1 text-[10px] font-black uppercase tracking-[0.4em] text-white/40">
+        <Text className="mt-1 text-[10px] font-black uppercase tracking-[0.4em] text-foreground/40">
           Seconds
         </Text>
       </View>

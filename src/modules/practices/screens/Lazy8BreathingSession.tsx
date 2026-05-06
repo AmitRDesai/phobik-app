@@ -27,7 +27,7 @@ const INHALE_END = 4;
 
 function StatsCard() {
   return (
-    <View className="w-full max-w-sm rounded-3xl border border-white/10 bg-white/5 p-4">
+    <View className="w-full max-w-sm rounded-3xl border border-foreground/10 bg-foreground/5 p-4">
       <View className="flex-row items-center justify-between px-1">
         {/* Heart Rate */}
         <View className="flex-row items-center gap-3">
@@ -42,11 +42,11 @@ function StatsCard() {
             <MaterialIcons name="favorite" size={20} color={colors.rose[400]} />
           </View>
           <View>
-            <Text className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+            <Text className="text-[9px] font-bold uppercase tracking-wider text-foreground/60">
               Heart Rate
             </Text>
             <View className="flex-row items-baseline gap-1">
-              <Text className="text-xl font-bold tracking-tighter text-white">
+              <Text className="text-xl font-bold tracking-tighter text-foreground">
                 72
               </Text>
               <Text className="text-[9px] font-bold uppercase text-pink-400">
@@ -57,7 +57,7 @@ function StatsCard() {
         </View>
 
         {/* Divider */}
-        <View className="h-8 w-px bg-white/10" />
+        <View className="h-8 w-px bg-foreground/10" />
 
         {/* HRV */}
         <View className="flex-row items-center gap-3">
@@ -72,11 +72,11 @@ function StatsCard() {
             <MaterialIcons name="waves" size={20} color={colors.yellow[400]} />
           </View>
           <View>
-            <Text className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+            <Text className="text-[9px] font-bold uppercase tracking-wider text-foreground/60">
               HRV
             </Text>
             <View className="flex-row items-baseline gap-1">
-              <Text className="text-xl font-bold tracking-tighter text-white">
+              <Text className="text-xl font-bold tracking-tighter text-foreground">
                 74
               </Text>
               <Text className="text-[9px] font-bold uppercase text-yellow-400">
@@ -109,7 +109,7 @@ function PlaybackControls({
     <View className="mb-8 flex-row items-center justify-center gap-8">
       <Pressable
         onPress={onMuteToggle}
-        className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+        className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
       >
         <MaterialIcons
           name={isMuted ? 'volume-off' : 'volume-up'}
@@ -139,7 +139,7 @@ function PlaybackControls({
       </Pressable>
       <Pressable
         onPress={onRestart}
-        className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+        className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
       >
         <MaterialIcons
           name={sessionReady ? 'replay' : 'skip-next'}
@@ -260,10 +260,10 @@ export default function Lazy8BreathingSession() {
   };
 
   return (
-    <Container safeAreaClass="bg-background-dark">
-      <View className="flex-1 bg-background-dark">
+    <Container safeAreaClass="bg-surface">
+      <View className="flex-1 bg-surface">
         <GlowBg
-          bgClassName="bg-background-dark"
+          bgClassName="bg-surface"
           centerX={0.5}
           centerY={0.35}
           intensity={0.7}
@@ -275,7 +275,7 @@ export default function Lazy8BreathingSession() {
         {/* Header */}
         <View className="z-50 flex-row items-center justify-between px-4 pb-2 pt-4">
           <BackButton icon="close" />
-          <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-white">
+          <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-foreground">
             Lazy 8 Breathing
           </Text>
           <View className="h-12 w-12" />
@@ -289,10 +289,10 @@ export default function Lazy8BreathingSession() {
         >
           {/* Breathing instruction — fixed height to prevent scroll jumps */}
           <View className="mb-6 mt-8 items-center" style={{ height: 90 }}>
-            <Text className="text-5xl font-semibold tracking-wider text-white">
+            <Text className="text-5xl font-semibold tracking-wider text-foreground">
               {currentPhase}
             </Text>
-            <Text className="mt-3 text-sm font-medium uppercase tracking-widest text-slate-400">
+            <Text className="mt-3 text-sm font-medium uppercase tracking-widest text-foreground/60">
               Focus on the light
             </Text>
           </View>
@@ -312,7 +312,7 @@ export default function Lazy8BreathingSession() {
 
           {/* Progress bar — star breathing gradient style */}
           <View
-            className="mb-0 w-full max-w-xs overflow-hidden rounded-full bg-white/[0.08]"
+            className="mb-0 w-full max-w-xs overflow-hidden rounded-full bg-foreground/[0.08]"
             style={{ height: 4 }}
           >
             <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
@@ -331,15 +331,15 @@ export default function Lazy8BreathingSession() {
 
           {/* Timer */}
           <Text
-            className="mb-6 mt-3 text-[10px] font-bold uppercase tracking-widest text-slate-500"
+            className="mb-6 mt-3 text-[10px] font-bold uppercase tracking-widest text-foreground/55"
             style={{ fontVariant: ['tabular-nums'] }}
           >
             {formatTime(elapsed)} / {formatTime(TOTAL_DURATION)}
           </Text>
 
           {/* Instruction card */}
-          <View className="mb-6 w-full max-w-sm rounded-2xl border border-white/10 bg-white/5 p-5">
-            <Text className="text-center text-sm font-medium leading-relaxed text-white/90">
+          <View className="mb-6 w-full max-w-sm rounded-2xl border border-foreground/10 bg-foreground/5 p-5">
+            <Text className="text-center text-sm font-medium leading-relaxed text-foreground/90">
               Follow the path with your eyes, inhale as it moves right, exhale
               as it moves left. Relax, breathe slowly, and repeat the loop.
             </Text>

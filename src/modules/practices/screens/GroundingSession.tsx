@@ -201,7 +201,7 @@ export default function GroundingSession() {
         {/* Header */}
         <View className="z-10 flex-row items-center justify-between p-4 pb-2">
           <BackButton icon="close" />
-          <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-white">
+          <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-foreground">
             5-4-3-2-1 Session
           </Text>
           <View className="w-12 items-end">
@@ -270,14 +270,14 @@ export default function GroundingSession() {
                 ) : (
                   <Text
                     key={i}
-                    className="text-center text-2xl font-bold leading-tight text-white"
+                    className="text-center text-2xl font-bold leading-tight text-foreground"
                   >
                     {part.text}
                   </Text>
                 ),
               )}
             </View>
-            <Text className="text-center text-base leading-relaxed text-white/60">
+            <Text className="text-center text-base leading-relaxed text-foreground/60">
               {currentStep.subInstruction}
             </Text>
           </View>
@@ -285,11 +285,11 @@ export default function GroundingSession() {
 
         {/* Timer */}
         <View className="z-10 items-center gap-2 px-6 py-4">
-          <Text className="text-xs font-semibold uppercase tracking-widest text-white/40">
+          <Text className="text-xs font-semibold uppercase tracking-widest text-foreground/40">
             Time Remaining
           </Text>
           <Text
-            className="text-xl font-medium text-white"
+            className="text-xl font-medium text-foreground"
             style={{ fontVariant: ['tabular-nums'] }}
           >
             {formatTime(timeRemaining)}
@@ -300,7 +300,7 @@ export default function GroundingSession() {
         <View className="z-10 mb-8 flex-row items-center justify-center gap-8">
           <Pressable
             onPress={() => setIsMuted((m) => !m)}
-            className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+            className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
           >
             <MaterialIcons
               name={isMuted ? 'volume-off' : 'volume-up'}
@@ -326,7 +326,7 @@ export default function GroundingSession() {
           </Pressable>
           <Pressable
             onPress={handleRestart}
-            className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+            className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
           >
             <MaterialIcons name="replay" size={24} color={alpha.white70} />
           </Pressable>

@@ -32,7 +32,7 @@ export function PillarSubMenuScreen({
   return (
     <PracticeScreenShell
       wordmark="FOUR PILLARS"
-      bgClassName="bg-background-charcoal"
+      bgClassName="bg-surface"
       glowCenterY={0.25}
       glowIntensity={0.5}
     >

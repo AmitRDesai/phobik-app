@@ -77,11 +77,11 @@ export function PracticeListRow({
                 })}
               </View>
             ) : null}
-            <Text className="text-2xl font-bold leading-tight text-white">
+            <Text className="text-2xl font-bold leading-tight text-foreground">
               {title}
             </Text>
             {meta ? (
-              <Text className="mt-1.5 text-sm text-white/70">{meta}</Text>
+              <Text className="mt-1.5 text-sm text-foreground/70">{meta}</Text>
             ) : null}
           </View>
         </View>

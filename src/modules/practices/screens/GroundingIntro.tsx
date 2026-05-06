@@ -20,12 +20,12 @@ export default function GroundingIntro() {
   const hasSavedSession = groundingSession !== null;
 
   return (
-    <Container safeAreaClass="bg-background-dashboard">
-      <View className="flex-1 bg-background-dashboard">
+    <Container safeAreaClass="bg-surface">
+      <View className="flex-1 bg-surface">
         {/* Header */}
         <View className="flex-row items-center justify-between p-4">
           <BackButton />
-          <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-white">
+          <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-foreground">
             Technique Intro
           </Text>
           <View className="h-10 w-10" />
@@ -44,7 +44,7 @@ export default function GroundingIntro() {
             </View>
 
             <View className="mb-4 flex-row flex-wrap items-center justify-center">
-              <Text className="text-4xl font-extrabold leading-tight text-white">
+              <Text className="text-4xl font-extrabold leading-tight text-foreground">
                 {'The '}
               </Text>
               <MaskedView
@@ -62,12 +62,12 @@ export default function GroundingIntro() {
                   </Text>
                 </LinearGradient>
               </MaskedView>
-              <Text className="text-4xl font-extrabold leading-tight text-white">
+              <Text className="text-4xl font-extrabold leading-tight text-foreground">
                 {' technique'}
               </Text>
             </View>
 
-            <Text className="max-w-[90%] text-center text-sm leading-relaxed text-white/70">
+            <Text className="max-w-[90%] text-center text-sm leading-relaxed text-foreground/70">
               {exercise.description}
             </Text>
           </View>
@@ -87,10 +87,10 @@ export default function GroundingIntro() {
           {/* Ready to begin */}
           <View className="mb-8 mt-10 px-6">
             <View className="mb-6 items-center">
-              <Text className="text-xl font-bold text-white">
+              <Text className="text-xl font-bold text-foreground">
                 Ready to begin?
               </Text>
-              <Text className="mt-1 text-xs text-white/40">
+              <Text className="mt-1 text-xs text-foreground/40">
                 Estimated duration: 3-5 minutes
               </Text>
             </View>
@@ -103,9 +103,9 @@ export default function GroundingIntro() {
               {hasSavedSession && (
                 <Pressable
                   onPress={() => setGroundingSession(null)}
-                  className="w-full items-center rounded-full border border-white/5 bg-white/5 py-4 active:opacity-70"
+                  className="w-full items-center rounded-full border border-foreground/5 bg-foreground/5 py-4 active:opacity-70"
                 >
-                  <Text className="text-sm font-medium text-white/60">
+                  <Text className="text-sm font-medium text-foreground/60">
                     Restart Progress
                   </Text>
                 </Pressable>

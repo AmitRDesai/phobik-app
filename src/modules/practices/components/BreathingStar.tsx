@@ -213,13 +213,13 @@ export function BreathingStar({
             color={colors.primary.pink}
           />
           <Text
-            className="text-3xl font-bold tracking-tight text-white"
+            className="text-3xl font-bold tracking-tight text-foreground"
             style={{ fontVariant: ['tabular-nums'] }}
           >
             72
           </Text>
         </View>
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-white/30">
+        <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/30">
           BPM
         </Text>
       </View>

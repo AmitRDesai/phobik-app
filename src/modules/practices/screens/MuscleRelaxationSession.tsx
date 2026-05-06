@@ -279,9 +279,9 @@ function BiometricBadge({
   valueColor: string;
 }) {
   return (
-    <View className="items-center rounded-2xl border border-white/10 bg-white/5 p-3">
+    <View className="items-center rounded-2xl border border-foreground/10 bg-foreground/5 p-3">
       <MaterialIcons name={icon} size={14} color={iconColor} />
-      <Text className="mt-1 text-[10px] text-white/40">{label}</Text>
+      <Text className="mt-1 text-[10px] text-foreground/40">{label}</Text>
       <Text className="text-xs font-bold" style={{ color: valueColor }}>
         {value}
       </Text>
@@ -328,7 +328,7 @@ function MuscleGroupStep({
           />
         </LinearGradient>
       ) : (
-        <View className="h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+        <View className="h-14 w-14 items-center justify-center rounded-2xl border border-foreground/10 bg-foreground/5">
           <MaterialIcons
             name={state === 'completed' ? 'check-circle' : group.icon}
             size={24}
@@ -344,7 +344,7 @@ function MuscleGroupStep({
         className={`text-[10px] ${
           state === 'active'
             ? 'font-bold text-primary-pink'
-            : 'font-medium text-white/30'
+            : 'font-medium text-foreground/30'
         }`}
       >
         {group.label}
@@ -390,13 +390,13 @@ function InstructionDisplay({
       </View>
 
       {/* Phase title */}
-      <Text className="mb-2 text-center text-2xl font-bold leading-tight text-white">
+      <Text className="mb-2 text-center text-2xl font-bold leading-tight text-foreground">
         {phaseLabel}
       </Text>
 
       {/* Phase instruction */}
       <Text
-        className="px-10 text-center text-sm leading-relaxed text-white/50"
+        className="px-10 text-center text-sm leading-relaxed text-foreground/50"
         style={{ fontVariant: ['tabular-nums'] }}
       >
         {instructionText}
@@ -423,7 +423,7 @@ function SessionControls({
       <View className="flex-row items-center gap-4">
         <Pressable
           onPress={onPauseToggle}
-          className="h-14 w-14 items-center justify-center rounded-2xl bg-white/5 active:scale-95"
+          className="h-14 w-14 items-center justify-center rounded-2xl bg-foreground/5 active:scale-95"
         >
           <MaterialIcons
             name={isPaused ? 'play-arrow' : 'pause'}
@@ -431,7 +431,7 @@ function SessionControls({
             color="white"
           />
         </Pressable>
-        <View className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
+        <View className="h-1.5 flex-1 overflow-hidden rounded-full bg-foreground/10">
           <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
             <LinearGradient
               colors={[colors.primary.pink, colors.accent.yellow]}
@@ -454,7 +454,7 @@ function SessionControls({
           </Animated.View>
         </View>
         <Text
-          className="text-xs text-white/40"
+          className="text-xs text-foreground/40"
           style={{ fontVariant: ['tabular-nums'] }}
         >
           {timeLabel}
@@ -647,10 +647,10 @@ export default function MuscleRelaxationSession() {
     stepPhase === 'audio' ? 'Listen to the instructions...' : 'Hold and relax';
 
   return (
-    <Container safeAreaClass="bg-background-dark">
-      <View className="flex-1 bg-background-dark">
+    <Container safeAreaClass="bg-surface">
+      <View className="flex-1 bg-surface">
         <GlowBg
-          bgClassName="bg-background-dark"
+          bgClassName="bg-surface"
           centerX={0.5}
           centerY={0.35}
           intensity={stepPhase === 'audio' ? 0.15 : 0.25}
@@ -665,7 +665,7 @@ export default function MuscleRelaxationSession() {
 
           {/* Center title + HRV badge */}
           <View className="items-center">
-            <Text className="text-sm font-bold tracking-tight text-white/90">
+            <Text className="text-sm font-bold tracking-tight text-foreground/90">
               Muscle Relaxation
             </Text>
             <View className="mt-0.5 flex-row items-center gap-1.5">

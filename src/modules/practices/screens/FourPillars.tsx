@@ -13,14 +13,14 @@ export default function FourPillars() {
   const insets = useSafeAreaInsets();
 
   return (
-    <View className="flex-1 bg-background-dashboard">
+    <View className="flex-1 bg-surface">
       <GlowBg
         startColor={colors.primary.pink}
         endColor={colors.accent.yellow}
         centerY={0.18}
         radius={0.35}
         intensity={0.45}
-        bgClassName="bg-background-dashboard"
+        bgClassName="bg-surface"
       />
       <View
         className="flex-row items-center justify-between px-6 pb-4"
@@ -35,13 +35,13 @@ export default function FourPillars() {
         showsVerticalScrollIndicator={false}
       >
         <View className="mb-8 mt-4">
-          <Text className="text-[44px] font-extrabold uppercase leading-none tracking-tighter text-white">
+          <Text className="text-[44px] font-extrabold uppercase leading-none tracking-tighter text-foreground">
             {PILLAR_HUB.hero.title}
           </Text>
           <GradientText className="text-[44px] font-extrabold uppercase leading-none tracking-tighter">
             {PILLAR_HUB.hero.accent}
           </GradientText>
-          <Text className="mt-4 text-base uppercase tracking-[0.2em] text-white/60">
+          <Text className="mt-4 text-base uppercase tracking-[0.2em] text-foreground/60">
             {PILLAR_HUB.hero.subtitle}
           </Text>
         </View>

@@ -31,20 +31,20 @@ export default function BreatheList() {
   return (
     <PracticeScreenShell
       wordmark="FLOW STUDIO"
-      bgClassName="bg-background-charcoal"
+      bgClassName="bg-surface"
       glowCenterY={0.25}
       glowIntensity={0.5}
     >
       <View className="mb-8 mt-4">
         <View className="flex-row flex-wrap items-baseline">
-          <Text className="text-[44px] font-extrabold uppercase leading-none tracking-tighter text-white">
+          <Text className="text-[44px] font-extrabold uppercase leading-none tracking-tighter text-foreground">
             BREATHE &{' '}
           </Text>
           <GradientText className="text-[44px] font-extrabold uppercase leading-none tracking-tighter">
             REGULATE
           </GradientText>
         </View>
-        <Text className="mt-3 max-w-[320px] text-base leading-relaxed text-white/60">
+        <Text className="mt-3 max-w-[320px] text-base leading-relaxed text-foreground/60">
           Steady your breath to settle your body in seconds.
         </Text>
       </View>
@@ -62,7 +62,7 @@ export default function BreatheList() {
               <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
                 Unfinished session
               </Text>
-              <Text className="mt-0.5 text-base font-bold text-white">
+              <Text className="mt-0.5 text-base font-bold text-foreground">
                 {resumable.title}
               </Text>
             </View>
@@ -87,7 +87,7 @@ export default function BreatheList() {
 
       <View className="gap-5">
         {filteredExercises.length === 0 ? (
-          <Text className="py-12 text-center text-sm text-white/50">
+          <Text className="py-12 text-center text-sm text-foreground/50">
             No practices match this level.
           </Text>
         ) : (

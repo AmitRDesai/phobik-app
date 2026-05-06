@@ -49,7 +49,7 @@ function StatsCard() {
   const isLive = hasAccess && liveHrv != null;
 
   return (
-    <View className="mb-6 w-full rounded-[32px] border border-white/[0.08] bg-white/[0.03] p-6">
+    <View className="mb-6 w-full rounded-[32px] border border-foreground/[0.08] bg-foreground/[0.03] p-6">
       {/* HRV header */}
       <View className="mb-6 flex-row items-center justify-between">
         <View className="flex-row items-center gap-4">
@@ -77,11 +77,11 @@ function StatsCard() {
             />
           </LinearGradient>
           <View>
-            <Text className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-white/30">
+            <Text className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-foreground/30">
               Heart Rate Variability
             </Text>
             <View className="flex-row items-baseline gap-2">
-              <Text className="text-lg font-semibold text-white">
+              <Text className="text-lg font-semibold text-foreground">
                 {liveHrv != null ? `${Math.round(liveHrv)}ms` : '—'}
               </Text>
               {deltaPct != null ? (
@@ -129,7 +129,7 @@ function StatsCard() {
 
       {/* Stats grid */}
       <View className="flex-row gap-4">
-        <View className="flex-1 rounded-2xl border border-white/5 bg-white/[0.04] p-4">
+        <View className="flex-1 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-4">
           <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-accent-yellow/50">
             Stress Level
           </Text>
@@ -143,19 +143,19 @@ function StatsCard() {
                     : 'bg-emerald-400'
               }`}
             />
-            <Text className="text-sm font-semibold text-white">
+            <Text className="text-sm font-semibold text-foreground">
               {stress.label ?? '—'}
             </Text>
           </View>
         </View>
-        <View className="flex-1 rounded-2xl border border-white/5 bg-white/[0.04] p-4">
+        <View className="flex-1 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-4">
           <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-primary-pink/50">
             Sync Status
           </Text>
           <View className="flex-row items-center gap-2">
             <View
               className={`h-2 w-2 rounded-full ${
-                isLive ? 'bg-emerald-400' : 'bg-white/30'
+                isLive ? 'bg-emerald-400' : 'bg-foreground/30'
               }`}
               style={
                 isLive
@@ -172,7 +172,7 @@ function StatsCard() {
                   : undefined
               }
             />
-            <Text className="text-sm font-semibold text-white">
+            <Text className="text-sm font-semibold text-foreground">
               {isLive ? 'Live Tracking' : hasAccess ? 'Idle' : 'Not Connected'}
             </Text>
           </View>
@@ -201,7 +201,7 @@ function PlaybackControls({
     <View className="mb-8 flex-row items-center justify-center gap-8">
       <Pressable
         onPress={onMuteToggle}
-        className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+        className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
       >
         <MaterialIcons
           name={isMuted ? 'volume-off' : 'volume-up'}
@@ -231,7 +231,7 @@ function PlaybackControls({
       </Pressable>
       <Pressable
         onPress={onRestart}
-        className="h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 active:scale-95"
+        className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
       >
         <MaterialIcons
           name={sessionReady ? 'replay' : 'skip-next'}
@@ -369,11 +369,11 @@ export default function StarBreathingSession() {
           <View className="mb-4 flex-row items-center justify-between">
             <BackButton icon="close" />
             <View className="items-center">
-              <Text className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
+              <Text className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/40">
                 Star Breathing
               </Text>
               <Text
-                className="text-xl font-medium text-white"
+                className="text-xl font-medium text-foreground"
                 style={{ fontVariant: ['tabular-nums'] }}
               >
                 {formatTime(timeRemaining)}
@@ -391,10 +391,10 @@ export default function StarBreathingSession() {
         >
           {/* Breathing instruction — fixed height to prevent layout shifts */}
           <View className="items-center px-2 pt-4" style={{ height: 100 }}>
-            <Text className="mb-3 text-center text-5xl font-semibold tracking-tight text-white">
+            <Text className="mb-3 text-center text-5xl font-semibold tracking-tight text-foreground">
               {currentPhase}
             </Text>
-            <Text className="text-center text-sm font-medium text-white/40">
+            <Text className="text-center text-sm font-medium text-foreground/40">
               {subText}
             </Text>
           </View>
@@ -414,7 +414,7 @@ export default function StarBreathingSession() {
 
           {/* Progress bar */}
           <View
-            className="mb-0 w-full max-w-xs overflow-hidden rounded-full bg-white/[0.08]"
+            className="mb-0 w-full max-w-xs overflow-hidden rounded-full bg-foreground/[0.08]"
             style={{ height: 4 }}
           >
             <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
@@ -433,15 +433,15 @@ export default function StarBreathingSession() {
 
           {/* Timer */}
           <Text
-            className="mb-6 mt-3 text-[10px] font-bold uppercase tracking-widest text-slate-500"
+            className="mb-6 mt-3 text-[10px] font-bold uppercase tracking-widest text-foreground/55"
             style={{ fontVariant: ['tabular-nums'] }}
           >
             {formatTime(elapsed)} / {formatTime(TOTAL_DURATION)}
           </Text>
 
           {/* Instruction card */}
-          <View className="mb-6 w-full max-w-sm rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-            <Text className="text-center text-[15px] font-medium leading-relaxed text-white/90">
+          <View className="mb-6 w-full max-w-sm rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-4">
+            <Text className="text-center text-[15px] font-medium leading-relaxed text-foreground/90">
               Trace the star&#39;s edges with your breath. Inhale and exhale
               along the lines, hold at each point.
             </Text>
