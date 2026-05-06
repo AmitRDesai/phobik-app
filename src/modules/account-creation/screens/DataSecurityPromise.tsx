@@ -1,9 +1,10 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -107,15 +108,18 @@ export default function DataSecurityPromiseScreen() {
       <View className="mb-8 gap-8">
         {SECURITY_POINTS.map((point) => (
           <View key={point.title} className="flex-row gap-4">
-            <View className="mt-1">
-              <View className="h-9 w-9 items-center justify-center rounded-full bg-green-500/15">
-                <Ionicons
-                  name="checkmark"
-                  size={20}
-                  color={colors.green[500]}
-                />
-              </View>
-            </View>
+            <IconChip
+              size={36}
+              shape="circle"
+              bg={withAlpha(colors.status.success, 0.15)}
+              className="mt-1"
+            >
+              <Ionicons
+                name="checkmark"
+                size={20}
+                color={colors.status.success}
+              />
+            </IconChip>
             <View className="flex-1">
               <Text className="text-base font-bold leading-tight text-foreground">
                 {point.title}
