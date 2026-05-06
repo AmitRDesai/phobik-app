@@ -1,16 +1,17 @@
 import { BlurView } from '@/components/ui/BlurView';
+import { Card } from '@/components/ui/Card';
 import { useBiometricHistory } from '@/modules/insights/hooks/useBiometricHistory';
 import { Text, View } from 'react-native';
 import { useJournalStats } from '../hooks/useJournalStats';
 
 function StatBox({ label, value }: { label: string; value: string | number }) {
   return (
-    <View className="flex-1 items-center rounded-xl border border-foreground/10 bg-foreground/5 p-3">
+    <Card className="flex-1 items-center p-3">
       <Text className="mb-1 text-[10px] font-bold uppercase text-foreground/30">
         {label}
       </Text>
       <Text className="text-lg font-bold text-foreground">{value}</Text>
-    </View>
+    </Card>
   );
 }
 

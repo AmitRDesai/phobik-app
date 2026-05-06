@@ -1,5 +1,6 @@
+import { Card } from '@/components/ui/Card';
 import { colors } from '@/constants/colors';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
 interface ChapterQuoteProps {
   children: string;
@@ -7,8 +8,8 @@ interface ChapterQuoteProps {
 
 export function ChapterQuote({ children }: ChapterQuoteProps) {
   return (
-    <View
-      className="my-6 rounded-xl border border-foreground/10 bg-foreground/5 p-5"
+    <Card
+      className="my-6 p-5"
       style={{ borderLeftWidth: 4, borderLeftColor: colors.primary.pink }}
     >
       <Text
@@ -17,6 +18,6 @@ export function ChapterQuote({ children }: ChapterQuoteProps) {
       >
         {children}
       </Text>
-    </View>
+    </Card>
   );
 }
