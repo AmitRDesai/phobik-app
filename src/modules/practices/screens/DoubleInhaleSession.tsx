@@ -2,7 +2,6 @@ import exhaleAudio from '@/assets/audio/practices/exhale.mp3';
 import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
 import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
 import { BackButton } from '@/components/ui/BackButton';
-import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors, withAlpha } from '@/constants/colors';
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
@@ -32,6 +31,7 @@ import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
 import { doubleInhaleSessionAtom } from '../store/session-atoms';
 import { formatTime } from '../lib/format';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // ── Extracted Presentational Components ─────────────────────────────────────
 
@@ -537,7 +537,7 @@ export default function DoubleInhaleSession() {
   }));
 
   return (
-    <Container safeAreaClass="bg-surface">
+    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
       <View className="flex-1 bg-surface">
         <GlowBg
           bgClassName="bg-surface"
@@ -604,6 +604,6 @@ export default function DoubleInhaleSession() {
           sessionReady={sessionReady}
         />
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }

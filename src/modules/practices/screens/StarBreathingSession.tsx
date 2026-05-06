@@ -2,7 +2,6 @@ import exhaleAudio from '@/assets/audio/practices/exhale.mp3';
 import holdAudio from '@/assets/audio/practices/hold.mp3';
 import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
 import { BackButton } from '@/components/ui/BackButton';
-import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors, withAlpha } from '@/constants/colors';
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
@@ -25,6 +24,7 @@ import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
 import { starBreathingSessionAtom } from '../store/session-atoms';
 import { formatTime } from '../lib/format';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TOTAL_DURATION = 50; // one full star orbit (5 breathing cycles)
 
@@ -352,7 +352,7 @@ export default function StarBreathingSession() {
   };
 
   return (
-    <Container safeAreaClass="bg-black">
+    <SafeAreaView edges={['top']} className="flex-1 bg-black">
       <View className="flex-1 bg-black">
         <GlowBg
           bgClassName="bg-black"
@@ -470,6 +470,6 @@ export default function StarBreathingSession() {
           <StatsCard />
         </ScrollView>
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }

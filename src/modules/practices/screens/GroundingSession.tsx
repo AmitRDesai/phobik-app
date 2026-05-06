@@ -1,5 +1,4 @@
 import { BackButton } from '@/components/ui/BackButton';
-import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors, withAlpha } from '@/constants/colors';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
@@ -18,6 +17,7 @@ import { ProgressRing } from '../components/ProgressRing';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { groundingSessionAtom } from '../store/grounding';
 import { formatTime } from '../lib/format';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface SessionStep {
   count: number;
@@ -186,7 +186,7 @@ export default function GroundingSession() {
   const instructionParts = parseInstruction(currentStep.instruction);
 
   return (
-    <Container safeAreaClass="bg-black">
+    <SafeAreaView edges={['top']} className="flex-1 bg-black">
       <View className="flex-1 bg-black">
         <GlowBg
           bgClassName="bg-black"
@@ -303,6 +303,6 @@ export default function GroundingSession() {
           </Pressable>
         </View>
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }

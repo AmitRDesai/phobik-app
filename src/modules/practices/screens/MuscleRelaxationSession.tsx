@@ -1,5 +1,4 @@
 import { BackButton } from '@/components/ui/BackButton';
-import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors, withAlpha } from '@/constants/colors';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
@@ -22,6 +21,7 @@ import { useStressScore } from '@/modules/home/hooks/useStressScore';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { muscleRelaxationSessionAtom } from '../store/muscle-relaxation';
 import { formatTime } from '../lib/format';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -647,7 +647,7 @@ export default function MuscleRelaxationSession() {
     stepPhase === 'audio' ? 'Listen to the instructions...' : 'Hold and relax';
 
   return (
-    <Container safeAreaClass="bg-surface">
+    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
       <View className="flex-1 bg-surface">
         <GlowBg
           bgClassName="bg-surface"
@@ -758,6 +758,6 @@ export default function MuscleRelaxationSession() {
           progressBarStyle={progressBarStyle}
         />
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }

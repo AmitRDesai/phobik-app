@@ -1,6 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { Badge } from '@/components/ui/Badge';
-import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
@@ -12,6 +11,7 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SenseCard } from '../components/SenseCard';
 import { EXERCISES } from '../data/exercises';
 import { groundingSessionAtom } from '../store/grounding';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const exercise = EXERCISES.find((e) => e.id === 'grounding-54321')!;
 
@@ -21,7 +21,7 @@ export default function GroundingIntro() {
   const hasSavedSession = groundingSession !== null;
 
   return (
-    <Container safeAreaClass="bg-surface">
+    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
       <View className="flex-1 bg-surface">
         {/* Header */}
         <View className="flex-row items-center justify-between p-4">
@@ -101,6 +101,6 @@ export default function GroundingIntro() {
           </View>
         </ScrollView>
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }

@@ -1,5 +1,4 @@
 import { BackButton } from '@/components/ui/BackButton';
-import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, withAlpha } from '@/constants/colors';
@@ -10,6 +9,7 @@ import { type ReactNode } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { EXERCISES } from '../data/exercises';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface ExerciseIntroScreenProps {
   exerciseId: string;
@@ -30,7 +30,7 @@ export function ExerciseIntroScreen({
   const exercise = EXERCISES.find((e) => e.id === exerciseId)!;
 
   return (
-    <Container safeAreaClass="bg-surface">
+    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
       <View className="flex-1 bg-surface">
         <GlowBg
           bgClassName="bg-surface"
@@ -84,7 +84,7 @@ export function ExerciseIntroScreen({
           </View>
         </View>
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }
 

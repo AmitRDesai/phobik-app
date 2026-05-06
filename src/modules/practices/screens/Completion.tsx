@@ -1,4 +1,3 @@
-import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { alpha, colors, withAlpha } from '@/constants/colors';
@@ -32,6 +31,7 @@ import { BackButton } from '@/components/ui/BackButton';
 import { CompletionBadge } from '../components/CompletionBadge';
 import { useRecordPracticeCompletion } from '../hooks/usePracticeCompletion';
 import { groundingSessionAtom } from '../store/grounding';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CONFETTI_COLORS = [colors.primary.pink, colors.accent.yellow, 'white'];
 const CONFETTI_COUNT = 24;
@@ -280,7 +280,7 @@ export default function Completion() {
   };
 
   return (
-    <Container safeAreaClass="bg-black">
+    <SafeAreaView edges={['top']} className="flex-1 bg-black">
       <View className="flex-1 bg-black">
         <GlowBg
           bgClassName="bg-black"
@@ -355,6 +355,6 @@ export default function Completion() {
           </Pressable>
         </View>
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }

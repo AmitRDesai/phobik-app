@@ -1,4 +1,3 @@
-import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { BackButton } from '@/components/ui/BackButton';
@@ -10,6 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Text, useWindowDimensions, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Slider } from '../components/Slider';
 import {
   useSaveEnergyCheckIn,
@@ -70,7 +70,7 @@ export default function EnergyIndex() {
   };
 
   return (
-    <Container>
+    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
       <GlowBg centerY={0.45} intensity={0.6} />
 
       {/* Header */}
@@ -193,7 +193,7 @@ export default function EnergyIndex() {
           {saveEnergyCheckIn.isPending ? 'Saving...' : 'Save'}
         </GradientButton>
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }
 

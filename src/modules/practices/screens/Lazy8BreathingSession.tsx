@@ -2,7 +2,6 @@ import exhaleAudio from '@/assets/audio/practices/exhale.mp3';
 import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
 import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
 import { BackButton } from '@/components/ui/BackButton';
-import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors, withAlpha } from '@/constants/colors';
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
@@ -20,6 +19,7 @@ import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
 import { lazy8BreathingSessionAtom } from '../store/session-atoms';
 import { formatTime } from '../lib/format';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CYCLE_DURATION = 8; // 4s inhale + 4s exhale
 const TOTAL_DURATION = CYCLE_DURATION * 5; // 5 cycles = 40s
@@ -260,7 +260,7 @@ export default function Lazy8BreathingSession() {
   };
 
   return (
-    <Container safeAreaClass="bg-surface">
+    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
       <View className="flex-1 bg-surface">
         <GlowBg
           bgClassName="bg-surface"
@@ -368,6 +368,6 @@ export default function Lazy8BreathingSession() {
           <StatsCard />
         </ScrollView>
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }

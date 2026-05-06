@@ -4,7 +4,6 @@ import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
 import restAudio from '@/assets/audio/practices/rest.mp3';
 import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
 import { BackButton } from '@/components/ui/BackButton';
-import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { alpha, colors, withAlpha } from '@/constants/colors';
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
@@ -23,6 +22,7 @@ import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
 import { boxBreathingSessionAtom } from '../store/session-atoms';
 import { formatTime } from '../lib/format';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const PHASE_DURATION = 4;
 const CYCLE_DURATION = PHASE_DURATION * 4; // 16s
@@ -144,7 +144,7 @@ export default function BoxBreathingSession() {
   const hasLiveData = hasAccess && (hrvMs != null || heartRateBpm != null);
 
   return (
-    <Container safeAreaClass="bg-surface">
+    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
       <View className="flex-1 bg-surface">
         <GlowBg
           bgClassName="bg-surface"
@@ -376,6 +376,6 @@ export default function BoxBreathingSession() {
           </View>
         </View>
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }

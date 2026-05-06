@@ -1,7 +1,6 @@
 import sleepMeditationImage from '@/assets/images/practices/sleep-meditation.jpg';
 import { BackButton } from '@/components/ui/BackButton';
 import { Badge } from '@/components/ui/Badge';
-import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors, withAlpha } from '@/constants/colors';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
@@ -21,6 +20,7 @@ import {
   sleepMeditationSessionAtom,
 } from '../store/sleep-meditation';
 import { formatTime } from '../lib/format';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // ── Audio keys (resolved from backend manifest at runtime) ───────────────────
 
@@ -220,7 +220,7 @@ export default function SleepMeditationSession() {
   const progress = duration > 0 ? elapsed / duration : 0;
 
   return (
-    <Container safeAreaClass="bg-surface">
+    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
       <View className="flex-1 bg-surface">
         <GlowBg
           bgClassName="bg-surface"
@@ -420,6 +420,6 @@ export default function SleepMeditationSession() {
           </View>
         </View>
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }

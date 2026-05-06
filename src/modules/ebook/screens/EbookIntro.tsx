@@ -1,7 +1,6 @@
 import introHero from '@/assets/images/ebook/introduction-hero.jpg';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
-import Container from '@/components/ui/Container';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
@@ -17,6 +16,7 @@ import { ScrollView, Text, View } from 'react-native';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 
 import { useUpdateEbookProgress } from '../hooks/useEbookProgress';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function EbookIntro() {
   const router = useRouter();
@@ -28,7 +28,7 @@ export default function EbookIntro() {
   }, [updateProgress, router]);
 
   return (
-    <Container safeAreaClass="bg-surface">
+    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
       {/* Background blur orbs — SVG radial gradient */}
       <RadialGlow
         color={colors.primary.pink}
@@ -197,6 +197,6 @@ export default function EbookIntro() {
           Start Reading
         </GradientButton>
       </View>
-    </Container>
+    </SafeAreaView>
   );
 }
