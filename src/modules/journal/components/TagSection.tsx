@@ -1,4 +1,9 @@
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
@@ -29,6 +34,7 @@ export function TagSection({
   readOnly,
 }: TagSectionProps) {
   const scheme = useScheme();
+  const yellowAccent = accentFor(scheme, 'yellow');
   const [newTag, setNewTag] = useState('');
   const { data: savedTags } = useJournalTags();
   const createTag = useCreateTag();
@@ -98,20 +104,19 @@ export function TagSection({
                 onPress={readOnly ? undefined : onRemoveNeed}
                 className="flex-row items-center gap-1 rounded-full px-4 py-1.5"
                 style={{
-                  backgroundColor: withAlpha(colors.accent.yellow, 0.15),
+                  backgroundColor: withAlpha(yellowAccent, 0.15),
                   borderWidth: 1,
-                  borderColor: withAlpha(colors.accent.yellow, 0.5),
+                  borderColor: withAlpha(yellowAccent, 0.5),
                 }}
               >
-                <Text className="text-xs font-bold text-accent-yellow">
+                <Text
+                  className="text-xs font-bold"
+                  style={{ color: yellowAccent }}
+                >
                   {needLabel}
                 </Text>
                 {!readOnly && (
-                  <MaterialIcons
-                    name="close"
-                    size={12}
-                    color={colors.accent.yellow}
-                  />
+                  <MaterialIcons name="close" size={12} color={yellowAccent} />
                 )}
               </Pressable>
             )}

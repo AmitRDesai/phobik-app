@@ -1,7 +1,8 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { Screen } from '@/components/ui/Screen';
 import { UserAvatar } from '@/components/ui/UserAvatar';
-import { colors, withAlpha } from '@/constants/colors';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { useSession, useSignOut } from '@/hooks/auth/useAuth';
 import { biometricEnabledAtom } from '@/store/auth';
 import { dialog } from '@/utils/dialog';
@@ -13,9 +14,15 @@ import { SettingsMenuItem } from '../components/SettingsMenuItem';
 
 export default function Settings() {
   const router = useRouter();
+  const scheme = useScheme();
   const { data: session } = useSession();
   const signOut = useSignOut();
   const biometricEnabled = useAtomValue(biometricEnabledAtom);
+
+  const yellow = accentFor(scheme, 'yellow');
+  const purple = accentFor(scheme, 'purple');
+  const cyan = accentFor(scheme, 'cyan');
+  const pink = accentFor(scheme, 'pink');
 
   const userName = session?.user?.name ?? 'Friend';
   const userEmail = session?.user?.email ?? '';
@@ -70,40 +77,40 @@ export default function Settings() {
         />
         <SettingsMenuItem
           icon="notifications"
-          iconColor={colors.accent.yellow}
-          iconBgColor={withAlpha(colors.accent.yellow, 0.15)}
+          iconColor={yellow}
+          iconBgColor={withAlpha(yellow, scheme === 'dark' ? 0.15 : 0.12)}
           label="Notifications"
           subtitle="Manage reminders"
           onPress={() => router.push('/settings/notifications')}
         />
         <SettingsMenuItem
           icon="fingerprint"
-          iconColor={colors.accent.purple}
-          iconBgColor={withAlpha(colors.purple[400], 0.15)}
+          iconColor={purple}
+          iconBgColor={withAlpha(purple, scheme === 'dark' ? 0.15 : 0.12)}
           label="Biometric Login"
           subtitle="Quick sign-in settings"
           onPress={() => router.push('/settings/biometric')}
         />
         <SettingsMenuItem
           icon="calendar-today"
-          iconColor={colors.accent.cyan}
-          iconBgColor={withAlpha(colors.cyan[300], 0.15)}
+          iconColor={cyan}
+          iconBgColor={withAlpha(cyan, scheme === 'dark' ? 0.15 : 0.12)}
           label="Calendar"
           subtitle="Connected calendars and check-ins"
           onPress={() => router.push('/settings/calendar')}
         />
         <SettingsMenuItem
           icon="favorite"
-          iconColor={colors.primary.pink}
-          iconBgColor={withAlpha(colors.primary.pink, 0.15)}
+          iconColor={pink}
+          iconBgColor={withAlpha(pink, scheme === 'dark' ? 0.15 : 0.12)}
           label="Health"
           subtitle="Connect Apple Health or Health Connect"
           onPress={() => router.push('/settings/health')}
         />
         <SettingsMenuItem
           icon="library-music"
-          iconColor={colors.accent.cyan}
-          iconBgColor={withAlpha(colors.accent.cyan, 0.15)}
+          iconColor={cyan}
+          iconBgColor={withAlpha(cyan, scheme === 'dark' ? 0.15 : 0.12)}
           label="Audio & Storage"
           subtitle="Voice preference and cached audio"
           onPress={() => router.push('/settings/audio-storage')}

@@ -1,7 +1,8 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
 import { Screen } from '@/components/ui/Screen';
-import { colors } from '@/constants/colors';
+import { accentFor, colors } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtom, useAtomValue } from 'jotai';
@@ -56,6 +57,7 @@ function formatDateLabel(dateStr: string) {
 
 export default function JournalDashboard() {
   const router = useRouter();
+  const scheme = useScheme();
   const { lock } = useJournalLock();
   const isUnlocked = useAtomValue(journalUnlockedAtom);
 
@@ -108,7 +110,10 @@ export default function JournalDashboard() {
               <Text className="text-xl font-bold tracking-tight text-foreground">
                 Private Journal
               </Text>
-              <Text className="text-[10px] font-bold uppercase tracking-widest text-accent-yellow">
+              <Text
+                className="text-[10px] font-bold uppercase tracking-widest"
+                style={{ color: accentFor(scheme, 'yellow') }}
+              >
                 Encrypted Reflections
               </Text>
             </View>

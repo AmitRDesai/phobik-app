@@ -2,7 +2,7 @@ import { BlurView } from '@/components/ui/BlurView';
 import { NotificationBadge } from '@/components/ui/NotificationBadge';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { variantConfig } from '@/components/variant-config';
-import { colors, withAlpha } from '@/constants/colors';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { useSession } from '@/hooks/auth/useAuth';
 import { useUnreadCount } from '@/modules/notifications/hooks/useNotifications';
@@ -57,7 +57,7 @@ export function DashboardHeader() {
             <MaterialIcons
               name="notifications"
               size={22}
-              color={colors.accent.yellow}
+              color={accentFor(scheme, 'yellow')}
             />
           </Pressable>
           <NotificationBadge count={unreadCount} />

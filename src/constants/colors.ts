@@ -90,6 +90,36 @@ export function foregroundFor(
   return scheme === 'dark' ? `rgba(255,255,255,${o})` : `rgba(0,0,0,${o})`;
 }
 
+/**
+ * Brand accent colors lose contrast on light surfaces — saturated yellow / cyan
+ * / purple-light all wash out on near-white. This helper returns the dark-mode
+ * brand color as-is and a darker, contrast-safe sibling in light mode so the
+ * surface still reads as the same warm/cool brand cue without being illegible.
+ */
+export type AccentHue =
+  | 'yellow'
+  | 'cyan'
+  | 'purple'
+  | 'orange'
+  | 'gold'
+  | 'pink';
+
+const ACCENT_LIGHT: Record<AccentHue, string> = {
+  yellow: '#a16207', // yellow-700
+  cyan: '#0e7490', // cyan-700
+  purple: '#7c3aed', // violet-600
+  orange: '#c2410c', // orange-700
+  gold: '#a16207', // pair with yellow
+  pink: '#be185d', // pink-700
+};
+
+export function accentFor(scheme: 'dark' | 'light', hue: AccentHue): string {
+  if (scheme === 'dark') {
+    return hue === 'pink' ? colors.primary.pink : colors.accent[hue];
+  }
+  return ACCENT_LIGHT[hue];
+}
+
 /** Opacity variants for icon/SVG props where className isn't supported */
 export const alpha = {
   white03: 'rgba(255,255,255,0.03)',

@@ -1,4 +1,5 @@
-import { colors, withAlpha } from '@/constants/colors';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import {
   formatCount,
   useActiveChallenge,
@@ -11,6 +12,7 @@ import { DashboardCard } from '@/components/ui/DashboardCard';
 import { StreakGrid } from './StreakGrid';
 
 export function ChallengesCard() {
+  const scheme = useScheme();
   const router = useRouter();
   const { challenge: activeChallenge } = useActiveChallenge();
   const { totalCompleted, completedToday, completedDates } =
@@ -61,7 +63,10 @@ export function ChallengesCard() {
           onPress={handlePress}
           className="w-full items-center justify-center rounded-full border border-foreground/20 bg-foreground/10 px-6 py-3.5 active:scale-[0.98]"
         >
-          <Text className="text-sm font-bold uppercase tracking-wide text-accent-yellow">
+          <Text
+            className="text-sm font-bold uppercase tracking-wide"
+            style={{ color: accentFor(scheme, 'yellow') }}
+          >
             {hasActive
               ? 'Resume Challenge'
               : completedToday

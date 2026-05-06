@@ -1,4 +1,5 @@
-import { colors } from '@/constants/colors';
+import { accentFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter, type Href } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
@@ -25,6 +26,8 @@ const ITEMS: QuickAccessItem[] = [
 ];
 
 export function QuickAccessGrid() {
+  const scheme = useScheme();
+  const iconColor = accentFor(scheme, 'yellow');
   const router = useRouter();
 
   return (
@@ -36,11 +39,7 @@ export function QuickAccessGrid() {
           className="flex-row items-center gap-3 rounded-3xl border border-foreground/10 bg-foreground/5 p-4"
           style={{ width: '48%' }}
         >
-          <MaterialIcons
-            name={item.icon}
-            size={22}
-            color={colors.accent.yellow}
-          />
+          <MaterialIcons name={item.icon} size={22} color={iconColor} />
           <Text className="text-[11px] font-bold uppercase tracking-wider text-foreground/70">
             {item.label}
           </Text>

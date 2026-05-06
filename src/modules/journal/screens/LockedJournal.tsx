@@ -1,7 +1,8 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
-import { colors } from '@/constants/colors';
+import { accentFor, colors } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
@@ -13,6 +14,8 @@ import { journalUnlockedAtom } from '../store/journal';
 
 export default function LockedJournal() {
   const router = useRouter();
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
   const { autoUnlock } = useLocalSearchParams<{ autoUnlock?: string }>();
   const { biometricIcon, unlock } = useJournalLock();
   const isUnlocked = useAtomValue(journalUnlockedAtom);
@@ -112,8 +115,14 @@ export default function LockedJournal() {
       </View>
 
       <View className="mt-6 flex-row items-center gap-2">
-        <View className="h-1.5 w-1.5 rounded-full bg-accent-yellow" />
-        <Text className="text-[11px] font-bold uppercase tracking-widest text-accent-yellow">
+        <View
+          className="h-1.5 w-1.5 rounded-full"
+          style={{ backgroundColor: yellow }}
+        />
+        <Text
+          className="text-[11px] font-bold uppercase tracking-widest"
+          style={{ color: yellow }}
+        >
           Secure Biometric Access
         </Text>
       </View>

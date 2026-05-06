@@ -1,5 +1,6 @@
 import { GlowBg } from '@/components/ui/GlowBg';
-import { colors } from '@/constants/colors';
+import { accentFor, colors } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -13,6 +14,8 @@ import { useLatestBiometrics } from '../hooks/useLatestBiometrics';
 import { useStressScore } from '../hooks/useStressScore';
 
 function PingDot({ animated }: { animated: boolean }) {
+  const scheme = useScheme();
+  const dotColor = accentFor(scheme, 'yellow');
   return (
     <View className="relative h-2 w-2">
       {animated ? (
@@ -20,15 +23,21 @@ function PingDot({ animated }: { animated: boolean }) {
           initialAnimate={{ opacity: 0.75, scale: 1 }}
           animate={{ opacity: 0, scale: 2 }}
           transition={{ type: 'timing', duration: 1000, loop: 'repeat' }}
-          className="absolute h-full w-full rounded-full bg-accent-yellow"
+          className="absolute h-full w-full rounded-full"
+          style={{ backgroundColor: dotColor }}
         />
       ) : null}
-      <View className="h-2 w-2 rounded-full bg-accent-yellow" />
+      <View
+        className="h-2 w-2 rounded-full"
+        style={{ backgroundColor: dotColor }}
+      />
     </View>
   );
 }
 
 export function RealTimeAnalysisCard() {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
   const { data: energyCheckIn } = useTodayEnergyCheckIn();
   const energyValue =
     energyCheckIn?.energyIndex != null
@@ -85,7 +94,10 @@ export function RealTimeAnalysisCard() {
         <View>
           <View className="mb-1 flex-row items-center gap-1.5">
             <PingDot animated={isLive} />
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-accent-yellow">
+            <Text
+              className="text-[10px] font-bold uppercase tracking-widest"
+              style={{ color: yellow }}
+            >
               Real-time Analysis
             </Text>
             {hasAccess && ageLabel && (isStale || !isLive) ? (
@@ -150,7 +162,10 @@ export function RealTimeAnalysisCard() {
               <Text className="text-4xl font-black leading-none text-foreground">
                 {hrv != null ? hrv.toFixed(1) : '—'}
               </Text>
-              <Text className="text-[14px] font-bold uppercase tracking-tighter text-accent-yellow">
+              <Text
+                className="text-[14px] font-bold uppercase tracking-tighter"
+                style={{ color: yellow }}
+              >
                 Ms
               </Text>
             </View>

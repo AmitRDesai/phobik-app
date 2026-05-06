@@ -2,7 +2,8 @@ import { BackButton } from '@/components/ui/BackButton';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
-import { colors } from '@/constants/colors';
+import { accentFor, colors } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -19,6 +20,8 @@ const HEALTH_CONNECT_PLAY_STORE_URL =
   'https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata';
 
 function HealthHero({ pulsing }: { pulsing: boolean }) {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
   return (
     <View className="mb-10 mt-6 items-center">
       <View className="relative mb-6 items-center justify-center">
@@ -44,21 +47,17 @@ function HealthHero({ pulsing }: { pulsing: boolean }) {
                 easing: [0.455, 0.03, 0.515, 0.955],
                 loop: 'reverse',
               }}
-              className="h-16 w-16 items-center justify-center rounded-full border-2 border-accent-yellow"
+              className="h-16 w-16 items-center justify-center rounded-full"
+              style={{ borderWidth: 2, borderColor: yellow }}
             >
-              <MaterialIcons
-                name="favorite"
-                size={28}
-                color={colors.accent.yellow}
-              />
+              <MaterialIcons name="favorite" size={28} color={yellow} />
             </EaseView>
           ) : (
-            <View className="h-16 w-16 items-center justify-center rounded-full border-2 border-accent-yellow">
-              <MaterialIcons
-                name="check"
-                size={32}
-                color={colors.accent.yellow}
-              />
+            <View
+              className="h-16 w-16 items-center justify-center rounded-full"
+              style={{ borderWidth: 2, borderColor: yellow }}
+            >
+              <MaterialIcons name="check" size={32} color={yellow} />
             </View>
           )}
         </View>
@@ -83,12 +82,12 @@ function MetricRow({
   label,
   value,
   unit,
-  unitColorClass,
+  unitColor,
 }: {
   label: string;
   value: string;
   unit: string;
-  unitColorClass: string;
+  unitColor: string;
 }) {
   return (
     <View className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
@@ -100,7 +99,8 @@ function MetricRow({
           {value}
         </Text>
         <Text
-          className={`text-[14px] font-bold uppercase tracking-tighter ${unitColorClass}`}
+          className="text-[14px] font-bold uppercase tracking-tighter"
+          style={{ color: unitColor }}
         >
           {unit}
         </Text>
@@ -110,6 +110,7 @@ function MetricRow({
 }
 
 export default function ConnectWearable() {
+  const scheme = useScheme();
   const { heartRate, hrv, hasAccess, sdkAvailable, requestAccess } =
     useLatestBiometrics();
   const [requesting, setRequesting] = useState(false);
@@ -172,13 +173,13 @@ export default function ConnectWearable() {
               label="Heart Rate"
               value={heartRate != null ? String(heartRate) : '—'}
               unit="Bpm"
-              unitColorClass="text-primary-pink"
+              unitColor={accentFor(scheme, 'pink')}
             />
             <MetricRow
               label="HRV"
               value={hrv != null ? hrv.toFixed(1) : '—'}
               unit="Ms"
-              unitColorClass="text-accent-yellow"
+              unitColor={accentFor(scheme, 'yellow')}
             />
           </View>
           {heartRate == null && hrv == null ? (

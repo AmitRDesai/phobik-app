@@ -1,4 +1,9 @@
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
@@ -92,7 +97,12 @@ export function StreakGrid({ completedDates }: StreakGridProps) {
               />
             ) : (
               <Text
-                className={`font-semibold ${day.isToday ? 'text-accent-yellow' : 'text-foreground/30'}`}
+                className="font-semibold"
+                style={{
+                  color: day.isToday
+                    ? accentFor(scheme, 'yellow')
+                    : foregroundFor(scheme, 0.3),
+                }}
               >
                 {day.dateNum}
               </Text>

@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor } from '@/constants/colors';
+import { accentFor, colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -61,6 +61,7 @@ export default function JournalEntry() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const router = useRouter();
   const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
 
   const isViewMode = !!id;
   const [isEditing, setIsEditing] = useState(false);
@@ -164,10 +165,14 @@ export default function JournalEntry() {
           </Text>
           {isViewMode && !isEditing ? (
             <Pressable onPress={() => setIsEditing(true)}>
-              <Text className="text-sm font-bold text-accent-yellow">Edit</Text>
+              <Text className="text-sm font-bold" style={{ color: yellow }}>
+                Edit
+              </Text>
             </Pressable>
           ) : (
-            <Text className="text-sm font-bold text-accent-yellow">Drafts</Text>
+            <Text className="text-sm font-bold" style={{ color: yellow }}>
+              Drafts
+            </Text>
           )}
         </View>
       }

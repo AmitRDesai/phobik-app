@@ -1,4 +1,9 @@
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useState } from 'react';
@@ -43,8 +48,10 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
     <View className="mb-6">
       <Pressable
         onPress={toggle}
-        className="flex-row items-center justify-between rounded-2xl border border-accent-yellow/40 bg-surface-elevated p-4"
+        className="flex-row items-center justify-between rounded-2xl bg-surface-elevated p-4"
         style={{
+          borderWidth: 1,
+          borderColor: withAlpha(accentFor(scheme, 'yellow'), 0.4),
           boxShadow: `0 0 8px ${withAlpha(colors.accent.yellow, 0.2)}`,
         }}
       >
@@ -52,7 +59,7 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
           <MaterialIcons
             name="auto-awesome"
             size={20}
-            color={colors.accent.yellow}
+            color={accentFor(scheme, 'yellow')}
           />
           <Text className="text-base font-semibold text-foreground">
             {selectedLabel || 'What are you needing?'}
@@ -79,11 +86,13 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
               style={{ width: '48%' }}
             >
               <Text
-                className={`text-xs font-medium ${
-                  value === option.value
-                    ? 'text-accent-yellow'
-                    : 'text-foreground/70'
-                }`}
+                className="text-xs font-medium"
+                style={{
+                  color:
+                    value === option.value
+                      ? accentFor(scheme, 'yellow')
+                      : foregroundFor(scheme, 0.7),
+                }}
               >
                 {option.label}
               </Text>

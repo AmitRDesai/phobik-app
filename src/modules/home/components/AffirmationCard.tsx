@@ -1,5 +1,6 @@
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { colors, withAlpha } from '@/constants/colors';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -12,6 +13,8 @@ import {
 import { AFFIRMATIONS, FEELINGS, getTimeOfDay } from '../store/affirmation';
 
 export function AffirmationCard() {
+  const scheme = useScheme();
+  const yellowText = accentFor(scheme, 'yellow');
   const { data: affirmation } = useTodayAffirmation();
   const saveAffirmation = useSaveAffirmation();
 
@@ -108,12 +111,17 @@ export function AffirmationCard() {
 
       <Pressable
         onPress={() => router.push('/affirmation/feeling-selection')}
-        className="mt-4 rounded-full border border-accent-yellow/30 bg-foreground/5 px-4 py-2 active:scale-95"
+        className="mt-4 rounded-full bg-foreground/5 px-4 py-2 active:scale-95"
         style={{
+          borderWidth: 1,
+          borderColor: withAlpha(yellowText, 0.3),
           boxShadow: `0 4px 8px ${withAlpha(colors.accent.yellow, 0.2)}`,
         }}
       >
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-accent-yellow">
+        <Text
+          className="text-[10px] font-bold uppercase tracking-widest"
+          style={{ color: yellowText }}
+        >
           {affirmation ? 'Change affirmation' : 'Set affirmation'}
         </Text>
       </Pressable>

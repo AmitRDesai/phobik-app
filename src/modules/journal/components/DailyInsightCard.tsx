@@ -1,4 +1,5 @@
-import { colors, withAlpha } from '@/constants/colors';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
@@ -8,6 +9,8 @@ interface DailyInsightCardProps {
 }
 
 export function DailyInsightCard({ onStart }: DailyInsightCardProps) {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
   return (
     <View className="mb-6">
       <LinearGradient
@@ -23,12 +26,11 @@ export function DailyInsightCard({ onStart }: DailyInsightCardProps) {
           <View className="flex-row items-center justify-between gap-3">
             <View className="flex-1">
               <View className="mb-0.5 flex-row items-center gap-1">
-                <MaterialIcons
-                  name="auto-awesome"
-                  size={12}
-                  color={colors.accent.yellow}
-                />
-                <Text className="text-[8px] font-bold uppercase tracking-widest text-accent-yellow/80">
+                <MaterialIcons name="auto-awesome" size={12} color={yellow} />
+                <Text
+                  className="text-[8px] font-bold uppercase tracking-widest"
+                  style={{ color: withAlpha(yellow, 0.8) }}
+                >
                   Daily Insight Prompt
                 </Text>
               </View>

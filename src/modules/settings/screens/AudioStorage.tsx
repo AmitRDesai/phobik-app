@@ -1,6 +1,11 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clearAudioCache, getCacheSizeBytes } from '@/lib/audio/cache';
 import { audioVoiceAtom, type AudioVoice } from '@/lib/audio/voice';
@@ -37,6 +42,7 @@ export default function AudioStorage() {
   const [cacheBytes, setCacheBytes] = useState(0);
   const [voice, setVoice] = useAtom(audioVoiceAtom);
   const scheme = useScheme();
+  const cyan = accentFor(scheme, 'cyan');
 
   const refresh = useCallback(() => {
     setCacheBytes(getCacheSizeBytes());
@@ -167,13 +173,11 @@ export default function AudioStorage() {
         <View className="flex-row items-center gap-3">
           <View
             className="h-10 w-10 items-center justify-center rounded-xl"
-            style={{ backgroundColor: withAlpha(colors.accent.cyan, 0.15) }}
+            style={{
+              backgroundColor: withAlpha(cyan, scheme === 'dark' ? 0.15 : 0.12),
+            }}
           >
-            <MaterialIcons
-              name="library-music"
-              size={22}
-              color={colors.accent.cyan}
-            />
+            <MaterialIcons name="library-music" size={22} color={cyan} />
           </View>
           <View className="flex-1">
             <Text className="text-base font-semibold text-foreground">
