@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/Badge';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
@@ -60,11 +61,9 @@ export default function SoundStudioHub() {
             shadowRadius: 24,
           }}
         >
-          <View className="self-center rounded-full border border-primary-pink/30 bg-primary-pink/10 px-3 py-1">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-              Handpicked
-            </Text>
-          </View>
+          <Badge tone="pink" size="sm" className="self-center">
+            Handpicked
+          </Badge>
           <Text className="mt-4 text-center text-3xl font-extrabold text-foreground">
             Curated{'\n'}Soundscapes
           </Text>
@@ -97,11 +96,9 @@ export default function SoundStudioHub() {
             shadowRadius: 24,
           }}
         >
-          <View className="self-center rounded-full border border-accent-yellow/30 bg-accent-yellow/10 px-3 py-1">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-accent-yellow">
-              New Feature
-            </Text>
-          </View>
+          <Badge tone="yellow" size="sm" className="self-center">
+            New Feature
+          </Badge>
           <Text className="mt-4 text-center text-3xl font-extrabold text-foreground">
             AI Studio
           </Text>
