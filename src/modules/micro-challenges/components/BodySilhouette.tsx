@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import * as Haptics from 'expo-haptics';
 import { Pressable, Text, View } from 'react-native';
 import Svg, {
@@ -28,8 +29,8 @@ export function BodySilhouette({
   };
 
   return (
-    <View
-      className="relative items-center overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/5"
+    <Card
+      className="relative items-center overflow-hidden p-0"
       style={{ height: 360 }}
     >
       {/* Pink radial glow behind body */}
@@ -86,6 +87,6 @@ export function BodySilhouette({
           </Pressable>
         );
       })}
-    </View>
+    </Card>
   );
 }

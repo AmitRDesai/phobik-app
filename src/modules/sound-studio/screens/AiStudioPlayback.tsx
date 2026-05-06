@@ -1,5 +1,7 @@
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GlowBg } from '@/components/ui/GlowBg';
+import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
@@ -216,18 +218,18 @@ export default function AiStudioPlayback() {
             </View>
             <View className="gap-2">
               {CREATIONS.map((c) => (
-                <Pressable
+                <Card
                   key={c.id}
                   onPress={() => onAction(c.title)}
-                  className="flex-row items-center gap-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-3 active:scale-[0.98]"
+                  className="flex-row items-center gap-3 p-3"
                 >
-                  <View className="h-10 w-10 items-center justify-center rounded-lg bg-primary-pink/20">
+                  <IconChip size="md" shape="rounded" tone="pink">
                     <MaterialIcons
                       name="graphic-eq"
                       size={18}
                       color={colors.primary.pink}
                     />
-                  </View>
+                  </IconChip>
                   <View className="flex-1">
                     <Text className="text-sm font-bold text-foreground">
                       {c.title}
@@ -236,13 +238,13 @@ export default function AiStudioPlayback() {
                       {c.meta}
                     </Text>
                   </View>
-                </Pressable>
+                </Card>
               ))}
             </View>
           </View>
 
           {/* Want more magic? */}
-          <View className="mt-6 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+          <Card className="mt-6 p-5">
             <Text className="text-base font-bold text-foreground">
               Want more magic?
             </Text>
@@ -260,7 +262,7 @@ export default function AiStudioPlayback() {
                 New Studio Session
               </GradientButton>
             </View>
-          </View>
+          </Card>
         </ScrollView>
       </ScrollFade>
     </View>
