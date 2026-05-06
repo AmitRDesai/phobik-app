@@ -1,7 +1,8 @@
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { IconChip } from '@/components/ui/IconChip';
+import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text } from 'react-native';
 
 interface SettingsMenuItemProps {
   icon: keyof typeof MaterialIcons.glyphMap;
@@ -15,7 +16,7 @@ interface SettingsMenuItemProps {
 export function SettingsMenuItem({
   icon,
   iconColor = colors.primary.pink,
-  iconBgColor = withAlpha(colors.primary.pink, 0.15),
+  iconBgColor,
   label,
   subtitle,
   onPress,
@@ -26,18 +27,15 @@ export function SettingsMenuItem({
       onPress={onPress}
       className="flex-row items-center gap-3 rounded-2xl border border-foreground/10 bg-foreground/5 px-4 py-3.5 active:opacity-70"
     >
-      <View
-        className="h-10 w-10 items-center justify-center rounded-xl"
-        style={{ backgroundColor: iconBgColor }}
-      >
+      <IconChip size="md" shape="rounded" bg={iconBgColor}>
         <MaterialIcons name={icon} size={22} color={iconColor} />
-      </View>
-      <View className="flex-1">
+      </IconChip>
+      <Pressable className="flex-1" onPress={onPress}>
         <Text className="text-base font-semibold text-foreground">{label}</Text>
         {subtitle && (
           <Text className="text-sm text-foreground/50">{subtitle}</Text>
         )}
-      </View>
+      </Pressable>
       <MaterialIcons
         name="chevron-right"
         size={22}

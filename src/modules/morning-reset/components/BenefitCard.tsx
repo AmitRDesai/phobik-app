@@ -1,8 +1,8 @@
 import { Card } from '@/components/ui/Card';
-import { accentFor, type AccentHue, withAlpha } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
+import { IconChip } from '@/components/ui/IconChip';
+import type { AccentHue } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
 type Tone = 'pink' | 'yellow' | 'orange';
 
@@ -25,16 +25,12 @@ export function BenefitCard({
   description,
   tone = 'pink',
 }: Props) {
-  const scheme = useScheme();
-  const accent = accentFor(scheme, TONE_HUE[tone]);
+  const hue = TONE_HUE[tone];
   return (
-    <Card variant="toned" tone={TONE_HUE[tone]}>
-      <View
-        className="mb-4 h-12 w-12 items-center justify-center rounded-2xl"
-        style={{ backgroundColor: withAlpha(accent, 0.12) }}
-      >
-        <MaterialIcons name={icon} size={22} color={accent} />
-      </View>
+    <Card variant="toned" tone={hue}>
+      <IconChip size="lg" shape="rounded" tone={hue} className="mb-4">
+        {(color) => <MaterialIcons name={icon} size={22} color={color} />}
+      </IconChip>
       <Text className="text-lg font-bold text-foreground">{title}</Text>
       {description ? (
         <Text className="mt-1.5 text-[13px] leading-5 text-foreground/60">

@@ -1,4 +1,6 @@
-import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { Card } from '@/components/ui/Card';
+import { IconChip } from '@/components/ui/IconChip';
+import { accentFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { Text, View } from 'react-native';
 
@@ -6,31 +8,21 @@ import type { EFTPointEntry } from '../data/eftPoints';
 
 export function EFTPointCard({ point }: { point: EFTPointEntry }) {
   const scheme = useScheme();
-  const base =
-    point.accent === 'primary'
-      ? accentFor(scheme, 'pink')
-      : accentFor(scheme, 'yellow');
-  const bgOpacity = point.strong ? 0.16 : 0.08;
-  const borderOpacity = point.strong ? 0.35 : 0.12;
+  const tone = point.accent === 'primary' ? 'pink' : 'yellow';
+  const base = accentFor(scheme, tone);
   const textOpacity = point.strong ? 1 : 0.7;
 
   return (
-    <View className="rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-5">
+    <Card variant="default">
       <View className="flex-row items-start gap-4">
-        <View
-          className="h-10 w-10 items-center justify-center rounded-full border"
-          style={{
-            backgroundColor: withAlpha(base, bgOpacity),
-            borderColor: withAlpha(base, borderOpacity),
-          }}
-        >
+        <IconChip size="md" shape="circle" tone={tone}>
           <Text
             className="text-sm font-bold"
             style={{ color: base, opacity: textOpacity }}
           >
             {point.number}
           </Text>
-        </View>
+        </IconChip>
         <View className="flex-1">
           <Text className="text-base font-bold leading-tight text-foreground">
             {point.title}
@@ -46,6 +38,6 @@ export function EFTPointCard({ point }: { point: EFTPointEntry }) {
           </Text>
         </View>
       </View>
-    </View>
+    </Card>
   );
 }
