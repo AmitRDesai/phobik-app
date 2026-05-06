@@ -1,7 +1,13 @@
 import { accentFor, withAlpha, type AccentHue } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
-import { View, type ViewProps, type ViewStyle } from 'react-native';
+import {
+  Pressable,
+  View,
+  type PressableProps,
+  type ViewProps,
+  type ViewStyle,
+} from 'react-native';
 
 export type CardVariant =
   | 'default'
@@ -28,6 +34,10 @@ export interface CardProps extends Omit<ViewProps, 'style'> {
   className?: string;
   /** Inline style. Accepts compound shadow arrays / per-screen overrides. */
   style?: ViewStyle | ViewStyle[] | (ViewStyle | undefined | false)[];
+  /** When set, the card renders as a Pressable with active:scale-[0.98]. */
+  onPress?: PressableProps['onPress'];
+  /** Forwarded to Pressable when onPress is set. */
+  disabled?: boolean;
 }
 
 const VARIANT_CLASSES: Record<Exclude<CardVariant, 'toned'>, string> = {
@@ -44,28 +54,57 @@ export function Card({
   className,
   style,
   children,
+  onPress,
+  disabled,
   ...rest
 }: CardProps) {
   const scheme = useScheme();
+  const isPressable = onPress != null;
 
   if (variant === 'toned') {
     const accent = accentFor(scheme, tone ?? 'pink');
+    const tonedStyle: ViewStyle = {
+      borderRadius: 24,
+      borderWidth: 1,
+      borderColor: withAlpha(accent, 0.2),
+      backgroundColor: withAlpha(accent, scheme === 'dark' ? 0.08 : 0.06),
+      padding: 20,
+    };
+    if (isPressable) {
+      return (
+        <Pressable
+          {...rest}
+          onPress={onPress}
+          disabled={disabled}
+          className={clsx('active:scale-[0.98]', className)}
+          style={[tonedStyle, style]}
+        >
+          {children}
+        </Pressable>
+      );
+    }
     return (
-      <View
-        {...rest}
-        style={[
-          {
-            borderRadius: 24,
-            borderWidth: 1,
-            borderColor: withAlpha(accent, 0.2),
-            backgroundColor: withAlpha(accent, scheme === 'dark' ? 0.08 : 0.06),
-            padding: 20,
-          },
-          style,
-        ]}
-      >
+      <View {...rest} className={className} style={[tonedStyle, style]}>
         {children}
       </View>
+    );
+  }
+
+  if (isPressable) {
+    return (
+      <Pressable
+        {...rest}
+        onPress={onPress}
+        disabled={disabled}
+        className={clsx(
+          VARIANT_CLASSES[variant],
+          'active:scale-[0.98]',
+          className,
+        )}
+        style={style}
+      >
+        {children}
+      </Pressable>
     );
   }
 

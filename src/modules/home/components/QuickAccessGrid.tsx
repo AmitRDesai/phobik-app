@@ -1,8 +1,9 @@
+import { Card } from '@/components/ui/Card';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter, type Href } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 interface QuickAccessItem {
   icon: keyof typeof MaterialIcons.glyphMap;
@@ -33,17 +34,17 @@ export function QuickAccessGrid() {
   return (
     <View className="flex-row flex-wrap gap-3">
       {ITEMS.map((item) => (
-        <Pressable
+        <Card
           key={item.label}
           onPress={() => router.push(item.href)}
-          className="flex-row items-center gap-3 rounded-3xl border border-foreground/10 bg-foreground/5 p-4"
+          className="flex-row items-center gap-3"
           style={{ width: '48%' }}
         >
           <MaterialIcons name={item.icon} size={22} color={iconColor} />
           <Text className="text-[11px] font-bold uppercase tracking-wider text-foreground/70">
             {item.label}
           </Text>
-        </Pressable>
+        </Card>
       ))}
     </View>
   );

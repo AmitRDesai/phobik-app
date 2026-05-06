@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
@@ -25,9 +26,9 @@ export default function SoundStudioHub() {
       scrollContentClassName="px-6 pb-32"
     >
       {/* Credits row */}
-      <Pressable
+      <Card
         onPress={() => router.push('/sound-studio/credits')}
-        className="mt-2 flex-row items-center justify-between rounded-3xl border border-foreground/10 bg-foreground/5 p-5 active:scale-[0.98]"
+        className="mt-2 flex-row items-center justify-between p-5"
       >
         <View>
           <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
@@ -45,77 +46,69 @@ export default function SoundStudioHub() {
             Refill
           </Text>
         </View>
-      </Pressable>
+      </Card>
 
       {/* Curated Soundscapes card */}
-      <Pressable
+      <Card
         onPress={() => router.push('/sound-studio/curated')}
-        className="mt-5 active:scale-[0.98]"
+        className="mt-5 p-7"
+        style={{
+          shadowColor: colors.primary.pink,
+          shadowOffset: { width: 0, height: 0 },
+          shadowOpacity: 0.2,
+          shadowRadius: 24,
+        }}
       >
-        <View
-          className="rounded-3xl border border-foreground/10 bg-foreground/5 p-7"
-          style={{
-            shadowColor: colors.primary.pink,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.2,
-            shadowRadius: 24,
-          }}
-        >
-          <Badge tone="pink" size="sm" className="self-center">
-            Handpicked
-          </Badge>
-          <Text className="mt-4 text-center text-3xl font-extrabold text-foreground">
-            Curated{'\n'}Soundscapes
-          </Text>
-          <Text className="mt-3 text-center text-sm leading-relaxed text-foreground/70">
-            Immerse yourself in expertly crafted audio environments designed for
-            peak relaxation and focus.
-          </Text>
-          <View className="mt-5">
-            <GradientButton
-              onPress={() => router.push('/sound-studio/curated')}
-              icon={<MaterialIcons name="play-arrow" size={18} color="white" />}
-            >
-              Start Listening
-            </GradientButton>
-          </View>
+        <Badge tone="pink" size="sm" className="self-center">
+          Handpicked
+        </Badge>
+        <Text className="mt-4 text-center text-3xl font-extrabold text-foreground">
+          Curated{'\n'}Soundscapes
+        </Text>
+        <Text className="mt-3 text-center text-sm leading-relaxed text-foreground/70">
+          Immerse yourself in expertly crafted audio environments designed for
+          peak relaxation and focus.
+        </Text>
+        <View className="mt-5">
+          <GradientButton
+            onPress={() => router.push('/sound-studio/curated')}
+            icon={<MaterialIcons name="play-arrow" size={18} color="white" />}
+          >
+            Start Listening
+          </GradientButton>
         </View>
-      </Pressable>
+      </Card>
 
       {/* AI Studio card */}
-      <Pressable
+      <Card
         onPress={() => router.push('/sound-studio/ai/write')}
-        className="mt-5 active:scale-[0.98]"
+        className="mt-5 p-7"
+        style={{
+          shadowColor: colors.accent.yellow,
+          shadowOffset: { width: 0, height: 0 },
+          shadowOpacity: 0.2,
+          shadowRadius: 24,
+        }}
       >
-        <View
-          className="rounded-3xl border border-foreground/10 bg-foreground/5 p-7"
-          style={{
-            shadowColor: colors.accent.yellow,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.2,
-            shadowRadius: 24,
-          }}
-        >
-          <Badge tone="yellow" size="sm" className="self-center">
-            New Feature
-          </Badge>
-          <Text className="mt-4 text-center text-3xl font-extrabold text-foreground">
-            AI Studio
-          </Text>
-          <Text className="mt-3 text-center text-sm leading-relaxed text-foreground/70">
-            Generate personalized soundscapes tailored to your current brainwave
-            patterns.
-          </Text>
-          <View className="mt-5">
-            <GradientButton
-              onPress={() => router.push('/sound-studio/ai/write')}
-              icon={<MaterialIcons name="bolt" size={18} color="white" />}
-            >
-              Start Creating
-            </GradientButton>
-          </View>
+        <Badge tone="yellow" size="sm" className="self-center">
+          New Feature
+        </Badge>
+        <Text className="mt-4 text-center text-3xl font-extrabold text-foreground">
+          AI Studio
+        </Text>
+        <Text className="mt-3 text-center text-sm leading-relaxed text-foreground/70">
+          Generate personalized soundscapes tailored to your current brainwave
+          patterns.
+        </Text>
+        <View className="mt-5">
+          <GradientButton
+            onPress={() => router.push('/sound-studio/ai/write')}
+            icon={<MaterialIcons name="bolt" size={18} color="white" />}
+          >
+            Start Creating
+          </GradientButton>
         </View>
-      </Pressable>
+      </Card>
 
       {/* Now playing footer */}
       <Pressable
