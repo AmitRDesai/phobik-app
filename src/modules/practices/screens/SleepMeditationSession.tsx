@@ -1,5 +1,6 @@
 import sleepMeditationImage from '@/assets/images/practices/sleep-meditation.jpg';
 import { BackButton } from '@/components/ui/BackButton';
+import { Badge } from '@/components/ui/Badge';
 import Container from '@/components/ui/Container';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors, withAlpha } from '@/constants/colors';
@@ -301,19 +302,15 @@ export default function SleepMeditationSession() {
             >
               {formatTime(elapsed)}
             </Text>
-            <View className="flex-row items-center gap-1.5 rounded-full border border-accent-yellow/20 bg-accent-yellow/10 px-3 py-1">
-              <MaterialIcons
-                name="timer"
-                size={12}
-                color={colors.accent.yellow}
-              />
-              <Text
-                className="text-[10px] font-black uppercase tracking-wider text-accent-yellow"
-                style={{ fontVariant: ['tabular-nums'] }}
-              >
-                {formatTime(remaining)} Remaining
-              </Text>
-            </View>
+            <Badge
+              tone="yellow"
+              size="sm"
+              icon={(color) => (
+                <MaterialIcons name="timer" size={12} color={color} />
+              )}
+            >
+              {`${formatTime(remaining)} Remaining`}
+            </Badge>
             <Text
               className="text-[11px] font-bold text-foreground/30"
               style={{ fontVariant: ['tabular-nums'] }}

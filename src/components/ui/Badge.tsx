@@ -1,6 +1,7 @@
 import { accentFor, withAlpha, type AccentHue } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
+import type { ReactNode } from 'react';
 import { Text, View, type ViewProps } from 'react-native';
 
 export type BadgeVariant = 'tinted' | 'outline' | 'solid';
@@ -17,6 +18,8 @@ export interface BadgeProps extends Omit<ViewProps, 'children'> {
   size?: BadgeSize;
   tone?: AccentHue;
   className?: string;
+  /** Optional leading icon. Pass a function to receive the resolved text color. */
+  icon?: ReactNode | ((color: string) => ReactNode);
   children: string;
 }
 
@@ -35,6 +38,7 @@ export function Badge({
   size = 'sm',
   tone = 'pink',
   className,
+  icon,
   children,
   ...rest
 }: BadgeProps) {
@@ -52,17 +56,24 @@ export function Badge({
       ? withAlpha(accent, 0.3)
       : undefined;
   const textColor = variant === 'solid' ? 'white' : accent;
+  const resolvedIcon = typeof icon === 'function' ? icon(textColor) : icon;
 
   return (
     <View
       {...rest}
-      className={clsx('rounded-full', SIZE_CLASSES[size], className)}
+      className={clsx(
+        'flex-row items-center rounded-full',
+        icon ? 'gap-1.5' : null,
+        SIZE_CLASSES[size],
+        className,
+      )}
       style={{
         backgroundColor: bg,
         borderWidth: variant === 'solid' ? 0 : 1,
         borderColor,
       }}
     >
+      {resolvedIcon}
       <Text className={TEXT_SIZE[size]} style={{ color: textColor }}>
         {children}
       </Text>
