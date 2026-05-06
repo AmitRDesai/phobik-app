@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -264,7 +265,7 @@ export default function IntimacyResults() {
         </View>
 
         {/* Insight Card */}
-        <View className="mb-8 rounded-2xl border border-foreground/5 bg-neutral-900/50 p-5">
+        <Card variant="surface" className="mb-8 p-5">
           <View className="mb-3 flex-row items-center gap-2">
             <MaterialIcons
               name="balance"
@@ -275,10 +276,10 @@ export default function IntimacyResults() {
               {insight.title}
             </Text>
           </View>
-          <Text className="text-sm leading-relaxed text-zinc-400">
+          <Text className="text-sm leading-relaxed text-foreground/60">
             {insight.body}
           </Text>
-        </View>
+        </Card>
 
         {/* Growth Zones */}
         <View className="mb-10">

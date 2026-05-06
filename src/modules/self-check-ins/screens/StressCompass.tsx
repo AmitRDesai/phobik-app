@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { alpha, colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -106,7 +107,7 @@ export default function StressCompass() {
             labelling you — it is about giving you insight into your nervous
             system patterns.
           </Text>
-          <View className="rounded-3xl border border-foreground/10 bg-foreground/[0.03] p-5">
+          <Card className="rounded-3xl p-5">
             <Text
               className="mb-2 text-[11px] font-black uppercase tracking-[3px]"
               style={{ color: colors.accent.yellow }}
@@ -125,7 +126,7 @@ export default function StressCompass() {
               . Your results create a {'"'}stress signature map{'"'} showing
               which nervous system pathways need support.
             </Text>
-          </View>
+          </Card>
         </View>
 
         {/* Stressor Cards */}
