@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
@@ -144,14 +145,14 @@ export default function AudioStorage() {
           })}
         </View>
         {voice ? (
-          <Pressable
+          <Button
+            variant="ghost"
+            size="compact"
             onPress={() => setVoice(null)}
-            className="mt-3 self-start rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1.5 active:opacity-70"
+            className="mt-3 self-start"
           >
-            <Text variant="caption" className="text-foreground/60">
-              Clear preference
-            </Text>
-          </Pressable>
+            Clear preference
+          </Button>
         ) : (
           <Text variant="xs" className="mt-3 text-foreground/40">
             No preference set yet — you&apos;ll be asked the first time you play
@@ -191,16 +192,13 @@ export default function AudioStorage() {
         </View>
       </Card>
 
-      <Pressable
+      <Button
+        variant="destructive"
         onPress={handleClear}
         disabled={cacheBytes === 0}
-        className="items-center rounded-2xl border border-status-danger/20 bg-status-danger/10 py-4 active:opacity-70"
-        style={{ opacity: cacheBytes === 0 ? 0.4 : 1 }}
       >
-        <Text variant="md" className="font-semibold text-status-danger">
-          Clear cached audio
-        </Text>
-      </Pressable>
+        Clear cached audio
+      </Button>
 
       <Text variant="xs" className="px-2 text-foreground/40">
         Audio re-downloads automatically the next time you open a session.

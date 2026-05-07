@@ -4,7 +4,6 @@ import { BackButton } from '@/components/ui/BackButton';
 import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
-import { Pressable } from 'react-native';
 import { OnboardingProgressBar } from './OnboardingProgressBar';
 
 interface OnboardingLayoutProps {
@@ -53,11 +52,9 @@ export function OnboardingLayout({
         <OnboardingProgressBar step={step} totalSteps={totalSteps} />
       </View>
       {onSkip ? (
-        <Pressable onPress={onSkip} className="h-10 justify-center">
-          <Text variant="sm" className="font-medium text-primary-pink">
-            Skip
-          </Text>
-        </Pressable>
+        <Button variant="ghost" size="compact" onPress={onSkip}>
+          Skip
+        </Button>
       ) : null}
     </View>
   );

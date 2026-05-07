@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Header } from '@/components/ui/Header';
 import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { Screen } from '@/components/ui/Screen';
@@ -293,15 +294,14 @@ function EmptyState({
 
       <View className="gap-2">
         {INITIAL_SUGGESTIONS.map((text) => (
-          <Pressable
+          <Button
             key={text}
+            variant="secondary"
+            size="compact"
             onPress={() => onSuggestion(text)}
-            className="rounded-2xl border border-foreground/10 bg-foreground/[0.03] px-4 py-3"
           >
-            <Text variant="sm" muted>
-              {text}
-            </Text>
-          </Pressable>
+            {text}
+          </Button>
         ))}
       </View>
     </View>

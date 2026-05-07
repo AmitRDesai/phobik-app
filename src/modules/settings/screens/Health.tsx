@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
@@ -11,7 +12,7 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import { Platform, Pressable } from 'react-native';
+import { Platform } from 'react-native';
 
 const PROVIDER_LABEL =
   Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect';
@@ -137,14 +138,9 @@ export default function Health() {
       ) : null}
 
       {hasAccess ? (
-        <Pressable
-          onPress={handleDisconnect}
-          className="items-center rounded-2xl border border-status-danger/20 bg-status-danger/10 py-4 active:opacity-70"
-        >
-          <Text variant="md" className="font-semibold text-status-danger">
-            Disconnect
-          </Text>
-        </Pressable>
+        <Button variant="destructive" onPress={handleDisconnect}>
+          Disconnect
+        </Button>
       ) : (
         <GradientButton
           onPress={handleConnect}

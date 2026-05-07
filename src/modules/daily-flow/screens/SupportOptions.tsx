@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
@@ -8,8 +9,6 @@ import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable } from 'react-native';
-
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
 import { SupportOptionCard } from '../components/SupportOptionCard';
@@ -152,22 +151,19 @@ function AddOnPill({
     );
   }
   return (
-    <Pressable
+    <Button
+      variant="secondary"
+      size="compact"
       onPress={onToggle}
-      className="flex-row items-center gap-2 rounded-full border border-foreground/15 bg-foreground/[0.04] px-5 py-2"
+      prefixIcon={
+        <MaterialIcons
+          name={icon}
+          size={14}
+          color={foregroundFor(scheme, 0.85)}
+        />
+      }
     >
-      <MaterialIcons
-        name={icon}
-        size={14}
-        color={foregroundFor(scheme, 0.85)}
-      />
-      <Text
-        variant="caption"
-        className="font-bold tracking-wider text-foreground/85"
-        style={{ paddingRight: 1.1 }}
-      >
-        {label}
-      </Text>
-    </Pressable>
+      {label}
+    </Button>
   );
 }

@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { UserAvatar } from '@/components/ui/UserAvatar';
@@ -12,7 +12,6 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
-import { Pressable } from 'react-native';
 import { SettingsMenuItem } from '../components/SettingsMenuItem';
 
 export default function Settings() {
@@ -127,24 +126,23 @@ export default function Settings() {
 
       <View className="mt-4 gap-3">
         {biometricEnabled && (
-          <Card
-            onPress={() => signOut.mutateAsync()}
-            className="flex-row items-center justify-center gap-2 py-4"
+          <Button
+            variant="secondary"
+            onPress={() => signOut.mutateAsync({})}
+            prefixIcon={
+              <MaterialIcons
+                name="lock"
+                size={20}
+                color={colors.primary.pink}
+              />
+            }
           >
-            <MaterialIcons name="lock" size={20} color={colors.primary.pink} />
-            <Text variant="md" className="font-semibold text-primary-pink">
-              Lock App
-            </Text>
-          </Card>
+            Lock App
+          </Button>
         )}
-        <Pressable
-          onPress={handleLogout}
-          className="items-center rounded-2xl border border-status-danger/20 bg-status-danger/10 py-4 active:opacity-70"
-        >
-          <Text variant="md" className="font-semibold text-status-danger">
-            Log Out
-          </Text>
-        </Pressable>
+        <Button variant="destructive" onPress={handleLogout}>
+          Log Out
+        </Button>
       </View>
     </Screen>
   );

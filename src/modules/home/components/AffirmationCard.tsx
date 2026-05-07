@@ -1,8 +1,8 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { accentFor, colors, withAlpha } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
+import { colors, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -15,8 +15,6 @@ import {
 import { AFFIRMATIONS, FEELINGS, getTimeOfDay } from '../store/affirmation';
 
 export function AffirmationCard() {
-  const scheme = useScheme();
-  const yellowText = accentFor(scheme, 'yellow');
   const { data: affirmation } = useTodayAffirmation();
   const saveAffirmation = useSaveAffirmation();
 
@@ -117,23 +115,14 @@ export function AffirmationCard() {
         {renderAffirmationText()}
       </View>
 
-      <Pressable
+      <Button
+        variant="secondary"
+        size="compact"
         onPress={() => router.push('/affirmation/feeling-selection')}
-        className="mt-4 rounded-full bg-foreground/5 px-4 py-2 active:scale-95"
-        style={{
-          borderWidth: 1,
-          borderColor: withAlpha(yellowText, 0.3),
-          boxShadow: `0 4px 8px ${withAlpha(colors.accent.yellow, 0.2)}`,
-        }}
+        className="mt-4"
       >
-        <Text
-          variant="caption"
-          className="font-bold"
-          style={{ color: yellowText }}
-        >
-          {affirmation ? 'Change affirmation' : 'Set affirmation'}
-        </Text>
-      </Pressable>
+        {affirmation ? 'Change affirmation' : 'Set affirmation'}
+      </Button>
     </DashboardCard>
   );
 }

@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -10,7 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
-import { Pressable, TextInput } from 'react-native';
+import { TextInput } from 'react-native';
 import { FeelingDropdown } from '../components/FeelingDropdown';
 import { NeedDropdown } from '../components/NeedDropdown';
 import { TagSection } from '../components/TagSection';
@@ -165,15 +166,13 @@ export default function JournalEntry() {
           title="Focus on what matters"
           right={
             isViewMode && !isEditing ? (
-              <Pressable onPress={() => setIsEditing(true)}>
-                <Text
-                  variant="sm"
-                  className="font-bold"
-                  style={{ color: yellow }}
-                >
-                  Edit
-                </Text>
-              </Pressable>
+              <Button
+                variant="ghost"
+                size="compact"
+                onPress={() => setIsEditing(true)}
+              >
+                Edit
+              </Button>
             ) : (
               <Text
                 variant="sm"

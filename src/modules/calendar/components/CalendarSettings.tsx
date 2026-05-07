@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
@@ -12,7 +13,7 @@ import { PermissionStatus } from 'expo-calendar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
-import { ActivityIndicator, Linking, Pressable } from 'react-native';
+import { ActivityIndicator, Linking } from 'react-native';
 import { useCalendarPermission } from '../hooks/useCalendarPermission';
 import {
   calendarConnectedAtom,
@@ -145,14 +146,9 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                 Connect my calendar
               </GradientButton>
               {onSkip && (
-                <Pressable onPress={onSkip}>
-                  <Text
-                    variant="sm"
-                    className="text-center font-medium text-foreground/55"
-                  >
-                    Maybe later
-                  </Text>
-                </Pressable>
+                <Button variant="ghost" onPress={onSkip}>
+                  Maybe later
+                </Button>
               )}
             </>
           )}
@@ -170,14 +166,9 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                 Open Settings
               </GradientButton>
               {onSkip && (
-                <Pressable onPress={onSkip}>
-                  <Text
-                    variant="sm"
-                    className="text-center font-medium text-foreground/55"
-                  >
-                    Skip for now
-                  </Text>
-                </Pressable>
+                <Button variant="ghost" onPress={onSkip}>
+                  Skip for now
+                </Button>
               )}
             </View>
           )}

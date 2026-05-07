@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button } from './Button';
 import { GradientButton } from './GradientButton';
 
 export function DialogContainer() {
@@ -219,23 +220,16 @@ function DialogButtonView({
 
   if (button.variant === 'destructive') {
     return (
-      <Pressable
-        onPress={onPress}
-        className="items-center rounded-full border border-red-500/30 bg-red-500/10 py-4"
-      >
-        <Text className="text-base font-semibold text-red-400">
-          {button.label}
-        </Text>
-      </Pressable>
+      <Button variant="destructive" onPress={onPress}>
+        {button.label}
+      </Button>
     );
   }
 
   // secondary
   return (
-    <Pressable onPress={onPress} className="items-center py-3">
-      <Text className="text-base font-medium text-foreground/55">
-        {button.label}
-      </Text>
-    </Pressable>
+    <Button variant="ghost" onPress={onPress}>
+      {button.label}
+    </Button>
   );
 }

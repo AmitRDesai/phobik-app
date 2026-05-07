@@ -1,1 +1,1 @@
-export { default } from '@/modules/home/screens/Today';
+export { default } from '@/modules/dashboard/screens/Dashboard';

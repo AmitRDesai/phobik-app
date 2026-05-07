@@ -5,6 +5,7 @@ import { Pressable } from 'react-native';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { GradientText } from '@/components/ui/GradientText';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -271,14 +272,14 @@ export function MysteryPracticeCard({
             </LinearGradient>
           </Pressable>
 
-          <Pressable
+          <Button
+            variant="secondary"
+            size="compact"
             onPress={handleDone}
-            className="flex-1 items-center justify-center rounded-2xl border-2 border-foreground/20 px-6 py-4 active:scale-95"
+            className="flex-1"
           >
-            <Text variant="sm" className="font-bold uppercase tracking-wider">
-              Done
-            </Text>
-          </Pressable>
+            Done
+          </Button>
         </View>
 
         {/* DOSE Rewards */}

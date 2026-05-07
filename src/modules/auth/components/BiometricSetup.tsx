@@ -15,7 +15,6 @@ import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSetAtom } from 'jotai';
-import { Pressable } from 'react-native';
 
 interface BiometricSetupProps {
   mode: 'initial-setup' | 'settings';
@@ -65,14 +64,9 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
               </Text>
             </View>
           </View>
-          <Pressable
-            onPress={handleEnable}
-            className="rounded-full bg-primary-pink/20 px-4 py-2"
-          >
-            <Text variant="sm" className="font-semibold text-primary-pink">
-              Enable
-            </Text>
-          </Pressable>
+          <Button variant="ghost" size="compact" onPress={handleEnable}>
+            Enable
+          </Button>
         </View>
       </Card>
     );

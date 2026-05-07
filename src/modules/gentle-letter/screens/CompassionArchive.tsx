@@ -8,6 +8,7 @@ import { ActivityIndicator, Pressable } from 'react-native';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -202,11 +203,13 @@ export default function CompassionArchive() {
               : 'Recent Letters'}
           </Text>
           {selectedDate && (
-            <Pressable onPress={() => setSelectedDate(null)}>
-              <Text variant="sm" className="font-semibold text-primary-pink">
-                Show All
-              </Text>
-            </Pressable>
+            <Button
+              variant="ghost"
+              size="compact"
+              onPress={() => setSelectedDate(null)}
+            >
+              Show All
+            </Button>
           )}
         </View>
 

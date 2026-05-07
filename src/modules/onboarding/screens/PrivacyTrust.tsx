@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -13,7 +14,6 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtomValue } from 'jotai';
-import { Pressable } from 'react-native';
 import { OnboardingLayout } from '../components/OnboardingLayout';
 
 const PRIVACY_FEATURES: {
@@ -126,11 +126,9 @@ export default function PrivacyTrust() {
 
       {/* Bottom links */}
       <View className="mt-6 items-center gap-3">
-        <Pressable>
-          <Text variant="sm" className="font-medium text-foreground/40">
-            Manage privacy settings
-          </Text>
-        </Pressable>
+        <Button variant="ghost" size="compact">
+          Manage privacy settings
+        </Button>
         <View className="flex-row items-center gap-1.5">
           <MaterialIcons name="lock" size={12} color={lockIconColor} />
           <Text variant="caption" className="font-bold text-foreground/30">

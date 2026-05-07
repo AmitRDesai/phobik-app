@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
@@ -12,7 +13,6 @@ import { useScheme } from '@/hooks/useTheme';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
-import { Pressable } from 'react-native';
 
 const SECURITY_POINTS = [
   {
@@ -72,15 +72,9 @@ export default function DataSecurityPromiseScreen() {
               Agree and Continue
             </GradientButton>
           )}
-          <Pressable className="mb-1 mt-6">
-            <Text
-              variant="xs"
-              muted
-              className="tracking-[0.15em] underline underline-offset-4"
-            >
-              Download full privacy policy
-            </Text>
-          </Pressable>
+          <Button variant="ghost" size="compact" className="mb-1 mt-6">
+            Download full privacy policy
+          </Button>
           {!isModal && (
             <Text
               variant="caption"

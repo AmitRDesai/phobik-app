@@ -1,11 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import {
-  accentFor,
-  colors,
-  foregroundFor,
-  withAlpha,
-} from '@/constants/colors';
+import { Button } from '@/components/ui/Button';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -22,7 +18,6 @@ type ChatInputProps = {
 
 export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
   const scheme = useScheme();
-  const purple = accentFor(scheme, 'purple');
   const [text, setText] = useState('');
   const placeholderColor = foregroundFor(scheme, 0.3);
   const micIdleColor = foregroundFor(scheme, 0.4);
@@ -72,15 +67,9 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
           <Text variant="sm" muted className="flex-1">
             {transcript || 'Listening...'}
           </Text>
-          <Pressable onPress={stop}>
-            <Text
-              variant="sm"
-              className="font-medium"
-              style={{ color: purple }}
-            >
-              Done
-            </Text>
-          </Pressable>
+          <Button variant="ghost" size="compact" onPress={stop}>
+            Done
+          </Button>
         </Animated.View>
       )}
 

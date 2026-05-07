@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
@@ -235,15 +236,15 @@ export default function SignInScreen() {
             />
           </View>
 
-          <Pressable
+          <Button
+            variant="ghost"
+            size="compact"
             className="mt-3 self-end"
             disabled={isLoading}
             onPress={() => router.push('/auth/forgot-password')}
           >
-            <Text variant="sm" muted>
-              Forgot Password?
-            </Text>
-          </Pressable>
+            Forgot Password?
+          </Button>
 
           <View className="mt-6">
             <GradientButton

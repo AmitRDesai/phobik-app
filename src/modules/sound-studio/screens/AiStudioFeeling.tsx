@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
@@ -167,11 +168,13 @@ export default function AiStudioFeeling() {
             </Text>
           </Text>
         </View>
-        <Pressable onPress={() => router.push('/sound-studio/credits')}>
-          <Text variant="caption" className="text-primary-pink font-bold">
-            Add credits
-          </Text>
-        </Pressable>
+        <Button
+          variant="ghost"
+          size="compact"
+          onPress={() => router.push('/sound-studio/credits')}
+        >
+          Add credits
+        </Button>
       </View>
     </Screen>
   );

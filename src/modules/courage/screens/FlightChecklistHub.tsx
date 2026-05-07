@@ -10,6 +10,7 @@ import heroImage from '@/assets/images/flight-checklist-hero.png';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';
@@ -164,22 +165,15 @@ export default function FlightChecklistHub() {
       {/* Quick Reset - only show when there's saved progress */}
       {hasProgress && (
         <View className="mb-8 mt-12">
-          <Pressable onPress={handleQuickReset} className="active:scale-95">
-            <View className="flex-row items-center justify-center gap-3 rounded-xl border border-status-danger/30 bg-status-danger/10 py-4">
-              <MaterialIcons
-                name="emergency"
-                size={20}
-                color={colors.status.danger}
-              />
-              <Text
-                variant="caption"
-                className="text-status-danger"
-                style={{ paddingRight: 2.2 }}
-              >
-                Quick Reset
-              </Text>
-            </View>
-          </Pressable>
+          <Button
+            variant="destructive"
+            onPress={handleQuickReset}
+            prefixIcon={
+              <MaterialIcons name="emergency" size={20} color="white" />
+            }
+          >
+            Quick Reset
+          </Button>
         </View>
       )}
     </Screen>

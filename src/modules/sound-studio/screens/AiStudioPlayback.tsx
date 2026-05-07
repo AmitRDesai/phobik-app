@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
@@ -204,11 +205,13 @@ export default function AiStudioPlayback() {
           <Text variant="caption" muted className="font-bold">
             Your Creations
           </Text>
-          <Pressable onPress={() => onAction('View All')}>
-            <Text variant="caption" className="text-primary-pink font-bold">
-              View All
-            </Text>
-          </Pressable>
+          <Button
+            variant="ghost"
+            size="compact"
+            onPress={() => onAction('View All')}
+          >
+            View All
+          </Button>
         </View>
         <View className="gap-2">
           {CREATIONS.map((c) => (

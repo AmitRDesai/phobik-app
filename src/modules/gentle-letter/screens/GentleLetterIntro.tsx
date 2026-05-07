@@ -1,9 +1,9 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Pressable } from 'react-native';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';
@@ -36,15 +36,16 @@ export default function GentleLetterIntro() {
           >
             Start My Letter
           </GradientButton>
-          <Pressable
+          <Button
+            variant="ghost"
             onPress={() => router.push('/practices/gentle-letter/archive')}
-            className="mt-4 flex-row items-center justify-center gap-2 py-2"
+            className="mt-4"
+            prefixIcon={
+              <MaterialIcons name="history" size={20} color={muted} />
+            }
           >
-            <MaterialIcons name="history" size={20} color={muted} />
-            <Text variant="md" className="font-medium text-foreground/60">
-              View Past Letters
-            </Text>
-          </Pressable>
+            View Past Letters
+          </Button>
         </View>
       }
       contentClassName="items-center"

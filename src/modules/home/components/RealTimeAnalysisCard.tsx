@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { accentFor, colors } from '@/constants/colors';
@@ -130,19 +131,20 @@ export function RealTimeAnalysisCard() {
           ) : null}
         </View>
         {hasAccess ? null : (
-          <Pressable
+          <Button
+            variant="ghost"
+            size="compact"
             onPress={() => router.push('/connect-wearable')}
-            className="flex-row items-center gap-1.5 rounded-full border border-primary-pink/30 bg-primary-pink/20 px-4 py-1.5"
+            prefixIcon={
+              <MaterialIcons
+                name="watch"
+                size={14}
+                color={colors.primary.pink}
+              />
+            }
           >
-            <MaterialIcons name="watch" size={14} color={colors.primary.pink} />
-            <Text
-              variant="caption"
-              className="font-bold tracking-wider text-primary-pink"
-              style={{ paddingRight: 1.1 }}
-            >
-              Connect
-            </Text>
-          </Pressable>
+            Connect
+          </Button>
         )}
       </View>
 

@@ -2,6 +2,7 @@ import writeVibeImg from '@/assets/images/sound-studio/write-vibe.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
@@ -14,7 +15,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, TextInput } from 'react-native';
+import { TextInput } from 'react-native';
 
 export default function AiStudioWriteIt() {
   const router = useRouter();
@@ -63,34 +64,34 @@ export default function AiStudioWriteIt() {
           textAlignVertical="top"
         />
         <View className="mt-4 flex-row gap-3">
-          <Pressable
+          <Button
+            variant="secondary"
+            size="compact"
             onPress={() =>
               dialog.info({
                 title: 'Coming soon',
                 message: 'AI polishing will be available soon.',
               })
             }
-            className="flex-row items-center gap-2 rounded-full border border-foreground/10 bg-foreground/10 px-4 py-2"
+            prefixIcon={
+              <MaterialIcons name="auto-fix-high" size={14} color={fg} />
+            }
           >
-            <MaterialIcons name="auto-fix-high" size={14} color={fg} />
-            <Text variant="xs" className="font-bold">
-              Polish with AI
-            </Text>
-          </Pressable>
-          <Pressable
+            Polish with AI
+          </Button>
+          <Button
+            variant="secondary"
+            size="compact"
             onPress={() =>
               dialog.info({
                 title: 'Coming soon',
                 message: 'Voice-to-text will be available soon.',
               })
             }
-            className="flex-row items-center gap-2 rounded-full border border-foreground/10 bg-foreground/10 px-4 py-2"
+            prefixIcon={<MaterialIcons name="mic" size={14} color={fg} />}
           >
-            <MaterialIcons name="mic" size={14} color={fg} />
-            <Text variant="xs" className="font-bold">
-              Voice-to-Text
-            </Text>
-          </Pressable>
+            Voice-to-Text
+          </Button>
         </View>
       </Card>
 
@@ -106,19 +107,19 @@ export default function AiStudioWriteIt() {
           Sync your morning thoughts or recent entries to jumpstart the sonic
           synthesis.
         </Text>
-        <Pressable
+        <Button
+          variant="secondary"
+          size="compact"
           onPress={() =>
             dialog.info({
               title: 'Coming soon',
               message: 'Journal sync will be available soon.',
             })
           }
-          className="mt-4 self-center rounded-full bg-white px-5 py-2"
+          className="mt-4 self-center"
         >
-          <Text variant="xs" className="font-bold text-black">
-            Connect Accounts
-          </Text>
-        </Pressable>
+          Connect Accounts
+        </Button>
       </Card>
 
       {/* Current Vibe card */}

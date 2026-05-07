@@ -1,15 +1,11 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
-import {
-  accentFor,
-  colors,
-  foregroundFor,
-  withAlpha,
-} from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { dialog } from '@/utils/dialog';
@@ -25,7 +21,6 @@ const FAKE_CREDITS = 42;
 export default function SoundStudioHub() {
   const router = useRouter();
   const scheme = useScheme();
-  const yellow = accentFor(scheme, 'yellow');
   const fg = foregroundFor(scheme, 1);
 
   return (
@@ -150,14 +145,14 @@ export default function SoundStudioHub() {
       </Pressable>
 
       {/* Open Expressive Writing practice */}
-      <Pressable
+      <Button
+        variant="ghost"
+        size="compact"
         onPress={() => router.push('/sound-studio/expressive-writing')}
         className="mt-3 self-center"
       >
-        <Text variant="caption" style={{ color: yellow }}>
-          Try expressive writing →
-        </Text>
-      </Pressable>
+        Try expressive writing →
+      </Button>
 
       <GradientText className="mt-10 text-center text-xs uppercase tracking-[0.3em]">
         Studio

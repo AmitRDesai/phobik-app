@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -19,19 +20,20 @@ export function DoseSummaryCard() {
         <Text variant="caption" muted>
           Daily D.O.S.E.
         </Text>
-        <Pressable
+        <Button
+          variant="ghost"
+          size="compact"
           onPress={() => router.push('/insights/dose-tracking')}
-          className="flex-row items-center gap-1"
+          icon={
+            <MaterialIcons
+              name="arrow-forward"
+              size={12}
+              color={colors.primary['pink-soft']}
+            />
+          }
         >
-          <Text variant="caption" className="text-primary-pink">
-            View Full Report
-          </Text>
-          <MaterialIcons
-            name="arrow-forward"
-            size={12}
-            color={colors.primary['pink-soft']}
-          />
-        </Pressable>
+          View Full Report
+        </Button>
       </View>
       <Pressable onPress={() => router.push('/insights/dose-tracking')}>
         <DashboardCard className="p-5">

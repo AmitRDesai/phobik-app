@@ -1,19 +1,17 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { accentFor, colors, withAlpha } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
+import { colors, withAlpha } from '@/constants/colors';
 import {
   formatCount,
   useActiveChallenge,
   useMicroChallengeStats,
 } from '@/modules/micro-challenges/hooks/useMicroChallenge';
 import { useRouter } from 'expo-router';
-import { Pressable } from 'react-native';
 import { StreakGrid } from './StreakGrid';
 
 export function ChallengesCard() {
-  const scheme = useScheme();
   const router = useRouter();
   const { challenge: activeChallenge } = useActiveChallenge();
   const { totalCompleted, completedToday, completedDates } =
@@ -73,22 +71,13 @@ export function ChallengesCard() {
             ? 'Great job today! Want to do another one?'
             : 'Complete one micro challenge to start building your streak.'}
         </Text>
-        <Pressable
-          onPress={handlePress}
-          className="w-full items-center justify-center rounded-full border border-foreground/20 bg-foreground/10 px-6 py-3.5 active:scale-[0.98]"
-        >
-          <Text
-            variant="sm"
-            className="font-bold uppercase tracking-wide"
-            style={{ color: accentFor(scheme, 'yellow') }}
-          >
-            {hasActive
-              ? 'Resume Challenge'
-              : completedToday
-                ? 'Take Another Challenge'
-                : "Start Today's Challenge"}
-          </Text>
-        </Pressable>
+        <Button variant="secondary" size="compact" onPress={handlePress}>
+          {hasActive
+            ? 'Resume Challenge'
+            : completedToday
+              ? 'Take Another Challenge'
+              : "Start Today's Challenge"}
+        </Button>
       </View>
     </DashboardCard>
   );

@@ -1,6 +1,7 @@
 import landingHero from '@/assets/images/ebook/landing-hero.jpg';
-import { Pressable, ScrollView, Text, View } from '@/components/themed';
+import { ScrollView, Text, View } from '@/components/themed';
 import { BackButton } from '@/components/ui/BackButton';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
@@ -285,11 +286,9 @@ export default function EbookLanding() {
             </GradientButton>
           </View>
           <View className="flex-row items-center justify-center gap-1 px-8 pb-2 pt-2">
-            <Pressable onPress={handleRestore}>
-              <Text variant="xs" className="text-foreground/55 underline">
-                Restore purchase
-              </Text>
-            </Pressable>
+            <Button variant="ghost" size="compact" onPress={handleRestore}>
+              Restore purchase
+            </Button>
             <Text variant="xs" className="text-foreground/55">
               {'·'}
             </Text>

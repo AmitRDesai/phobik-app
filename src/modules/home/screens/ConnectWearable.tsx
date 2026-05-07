@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
@@ -11,7 +12,7 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import { Linking, Platform, Pressable } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { openHealthConnectSettings } from 'react-native-health-connect';
 
@@ -199,14 +200,14 @@ export default function ConnectWearable() {
               {PROVIDER_LABEL}, then return here.
             </Text>
           ) : null}
-          <Pressable
+          <Button
+            variant="ghost"
+            size="compact"
             onPress={openHealthSettings}
-            className="mt-2 items-center py-3"
+            className="mt-2"
           >
-            <Text variant="xs" muted className="font-semibold">
-              Open {PROVIDER_LABEL} settings
-            </Text>
-          </Pressable>
+            Open {PROVIDER_LABEL} settings
+          </Button>
         </View>
       ) : isAndroidUnavailable ? (
         <View className="gap-3">

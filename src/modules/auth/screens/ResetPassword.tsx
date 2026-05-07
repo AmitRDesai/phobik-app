@@ -102,14 +102,14 @@ export default function ResetPasswordScreen() {
             Request New Link
           </Button>
 
-          <Pressable
+          <Button
+            variant="ghost"
+            size="compact"
             onPress={() => router.replace('/auth/sign-in')}
-            className="mt-2 py-2"
+            className="mt-2"
           >
-            <Text variant="sm" className="text-foreground/55">
-              Back to Sign In
-            </Text>
-          </Pressable>
+            Back to Sign In
+          </Button>
         </View>
       </Screen>
     );

@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
@@ -135,19 +136,20 @@ export default function CreatePost() {
             Photos
           </Text>
           {imageUris.length < 5 && (
-            <Pressable
+            <Button
+              variant="ghost"
+              size="compact"
               onPress={handleAddImages}
-              className="flex-row items-center gap-1 rounded-full bg-foreground/[0.04] px-3 py-1.5"
+              prefixIcon={
+                <MaterialIcons
+                  name="add-photo-alternate"
+                  size={18}
+                  color={colors.primary.pink}
+                />
+              }
             >
-              <MaterialIcons
-                name="add-photo-alternate"
-                size={18}
-                color={colors.primary.pink}
-              />
-              <Text variant="xs" className="font-medium text-primary-pink">
-                Add
-              </Text>
-            </Pressable>
+              Add
+            </Button>
           )}
         </View>
         {imageUris.length > 0 && (
