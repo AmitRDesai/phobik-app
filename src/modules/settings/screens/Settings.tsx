@@ -76,6 +76,14 @@ export default function Settings() {
           onPress={() => router.push('/settings/profile')}
         />
         <SettingsMenuItem
+          icon={scheme === 'dark' ? 'dark-mode' : 'light-mode'}
+          iconColor={yellow}
+          iconBgColor={withAlpha(yellow, scheme === 'dark' ? 0.15 : 0.12)}
+          label="Appearance"
+          subtitle="Light, dark, or follow system"
+          onPress={() => router.push('/settings/appearance')}
+        />
+        <SettingsMenuItem
           icon="notifications"
           iconColor={yellow}
           iconBgColor={withAlpha(yellow, scheme === 'dark' ? 0.15 : 0.12)}

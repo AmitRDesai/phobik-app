@@ -5,6 +5,6 @@ export type ThemeMode = 'light' | 'dark' | 'system';
 
 export const themeModeAtom = atomWithStorage<ThemeMode>(
   'theme-mode',
-  'system',
+  'dark',
   storage,
 );
