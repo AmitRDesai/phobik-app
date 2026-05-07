@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
@@ -7,7 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useEffect } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { DailyInsightCard } from '../components/DailyInsightCard';
 import { EntryCard } from '../components/EntryCard';
 import { JournalCalendar } from '../components/JournalCalendar';
@@ -139,7 +141,10 @@ export default function JournalDashboard() {
         <DailyInsightCard onStart={() => router.push('/journal/new')} />
 
         <View className="mb-4 flex-row items-center justify-between">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
+          <Text
+            variant="caption"
+            className="font-bold tracking-widest text-foreground/60"
+          >
             {formatDateLabel(selectedDate)}
           </Text>
         </View>
@@ -159,7 +164,7 @@ export default function JournalDashboard() {
             ))
           ) : (
             <View className="items-center py-8">
-              <Text className="text-sm text-foreground/30">
+              <Text variant="sm" className="text-foreground/30">
                 No entries for this date
               </Text>
             </View>

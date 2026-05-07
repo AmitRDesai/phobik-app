@@ -1,7 +1,7 @@
+import { Text, View } from '@/components/themed';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors, withAlpha } from '@/constants/colors';
-import { Text, View } from 'react-native';
 
 interface ListItem {
   title: string;
@@ -20,13 +20,19 @@ export function ChapterNumberedList({ items }: ChapterNumberedListProps) {
         return (
           <Card key={item.title} className="flex-row items-start gap-4">
             <IconChip size={32} shape="circle" bg={withAlpha(accent, 0.2)}>
-              <Text className="text-sm font-bold" style={{ color: accent }}>
+              <Text
+                variant="sm"
+                className="font-bold"
+                style={{ color: accent }}
+              >
                 {i + 1}
               </Text>
             </IconChip>
             <View className="flex-1">
-              <Text className="font-bold text-foreground">{item.title}</Text>
-              <Text className="mt-1 text-sm leading-relaxed text-foreground/60">
+              <Text variant="md" className="font-bold">
+                {item.title}
+              </Text>
+              <Text variant="sm" muted className="mt-1 leading-relaxed">
                 {item.description}
               </Text>
             </View>

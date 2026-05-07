@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BlurView } from '@/components/ui/BlurView';
 import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
@@ -7,7 +9,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
 import { OnboardingProgressBar } from '../components/OnboardingProgressBar';
 
 export default function Welcome() {
@@ -106,10 +107,10 @@ export default function Welcome() {
         </View>
 
         {/* Title */}
-        <Text className="text-center text-[34px] font-extrabold leading-tight tracking-tight text-foreground">
+        <Text variant="display" className="text-center tracking-tight">
           Let&apos;s get to know{'\n'}your nervous system
         </Text>
-        <Text className="mt-4 text-center text-[17px] leading-relaxed text-foreground/60">
+        <Text variant="lg" muted className="mt-4 text-center">
           Phobik works best when it understands your unique stressors.
           We&apos;ll help you find your balance.
         </Text>

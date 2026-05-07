@@ -1,8 +1,12 @@
-import { GlowBg } from '@/components/ui/GlowBg';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { BackButton } from '@/components/ui/BackButton';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
 import { useScheme } from '@/hooks/useTheme';
-
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import {
   DOSE_REWARDS,
   getActiveDoseRewards,
@@ -13,13 +17,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import {
-  Pressable,
-  ScrollView,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { Pressable, useWindowDimensions } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -29,11 +27,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { BackButton } from '@/components/ui/BackButton';
 import { CompletionBadge } from '../components/CompletionBadge';
 import { useRecordPracticeCompletion } from '../hooks/usePracticeCompletion';
 import { groundingSessionAtom } from '../store/grounding';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CONFETTI_COLORS = [colors.primary.pink, colors.accent.yellow, 'white'];
 const CONFETTI_COUNT = 24;
@@ -204,7 +200,6 @@ function RewardCircle({
   label: string;
   labelColor: string;
 }) {
-  const scheme = useScheme();
   return (
     <View className="items-center gap-3">
       <View className="relative h-16 w-16 items-center justify-center">
@@ -233,9 +228,12 @@ function RewardCircle({
         </LinearGradient>
       </View>
       <View className="items-center">
-        <Text className="text-xl font-black text-foreground">{amount}</Text>
+        <Text variant="lg" className="font-black">
+          {amount}
+        </Text>
         <Text
-          className="text-[10px] font-bold uppercase tracking-widest"
+          variant="caption"
+          className="font-bold"
           style={{ color: labelColor }}
         >
           {label}
@@ -284,85 +282,82 @@ export default function Completion() {
   };
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-black">
-      <View className="flex-1 bg-black">
-        <GlowBg
-          bgClassName="bg-black"
-          centerY={0.3}
-          intensity={0.4}
-          startColor={colors.primary.pink}
-          endColor={colors.accent.yellow}
+    <Screen
+      variant="default"
+      scroll
+      header={
+        <Header
+          right={
+            <BackButton onPress={() => router.dismissAll()} icon="close" />
+          }
         />
-
-        <Confetti />
-
-        {/* Close button — absolute positioned */}
-        <BackButton
-          className="absolute right-6 top-6 z-20"
-          onPress={() => router.dismissAll()}
-          icon="close"
-        />
-
-        <ScrollView
-          contentContainerClassName="flex-grow items-center px-6 pt-6"
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Mandala badge */}
-          <View className="mb-8">
-            <CompletionBadge />
-          </View>
-
-          {/* Title */}
-          <View className="mb-8 items-center gap-3">
-            <Text className="text-center text-3xl font-black uppercase leading-tight tracking-tighter text-foreground">
-              {'PRACTICE\nCOMPLETED!'}
-            </Text>
-            <Text className="max-w-[280px] text-center text-sm font-medium text-foreground/60">
-              You&apos;ve successfully completed a mindfulness session.
-            </Text>
-          </View>
-
-          {/* Daily D.O.S.E. Rewards */}
-          <View className="mb-12 w-full items-center gap-6">
-            <Text className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/60">
-              Daily D.O.S.E. Rewards
-            </Text>
-            <View className="flex-row justify-center gap-6">
-              {activeRewards.map((reward) => (
-                <RewardCircle
-                  key={reward.chemical}
-                  gradientColors={REWARD_STYLES[reward.chemical].gradient}
-                  glowColor={REWARD_STYLES[reward.chemical].glow}
-                  shadowColor={REWARD_STYLES[reward.chemical].shadow}
-                  amount={`+${reward.value}`}
-                  label={reward.label}
-                  labelColor={REWARD_STYLES[reward.chemical].label}
-                />
-              ))}
-            </View>
-          </View>
-        </ScrollView>
-
-        {/* Bottom buttons */}
-        <View className="gap-4 px-8 pb-8">
+      }
+      sticky={
+        <View className="gap-4 px-2">
           <GradientButton onPress={handleFinish}>
             Collect Rewards & Finish
           </GradientButton>
-          <Pressable
+          <Button
+            variant="ghost"
             onPress={() => {}}
-            className="w-full flex-row items-center justify-center gap-2 py-4 active:opacity-70"
+            prefixIcon={
+              <MaterialIcons
+                name="ios-share"
+                size={20}
+                color={foregroundFor(scheme, 0.7)}
+              />
+            }
           >
-            <MaterialIcons
-              name="ios-share"
-              size={20}
-              color={foregroundFor(scheme, 0.7)}
+            Share Victory
+          </Button>
+        </View>
+      }
+      className="px-6"
+      contentClassName="items-center"
+    >
+      <Confetti />
+
+      {/* Mandala badge */}
+      <View className="mb-8">
+        <CompletionBadge />
+      </View>
+
+      {/* Title */}
+      <View className="mb-8 items-center gap-3">
+        <Text
+          variant="h1"
+          className="text-center font-black uppercase leading-tight"
+        >
+          {'PRACTICE\nCOMPLETED!'}
+        </Text>
+        <Text
+          variant="sm"
+          muted
+          className="max-w-[280px] text-center font-medium"
+        >
+          You&apos;ve successfully completed a mindfulness session.
+        </Text>
+      </View>
+
+      {/* Daily D.O.S.E. Rewards */}
+      <View className="mb-12 w-full items-center gap-6">
+        <Text variant="caption" muted className="font-bold tracking-[0.2em]">
+          Daily D.O.S.E. Rewards
+        </Text>
+        <View className="flex-row justify-center gap-6">
+          {activeRewards.map((reward) => (
+            <RewardCircle
+              key={reward.chemical}
+              gradientColors={REWARD_STYLES[reward.chemical].gradient}
+              glowColor={REWARD_STYLES[reward.chemical].glow}
+              shadowColor={REWARD_STYLES[reward.chemical].shadow}
+              amount={`+${reward.value}`}
+              label={reward.label}
+              labelColor={REWARD_STYLES[reward.chemical].label}
             />
-            <Text className="text-sm font-semibold text-foreground/70">
-              Share Victory
-            </Text>
-          </Pressable>
+          ))}
         </View>
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }

@@ -1,5 +1,7 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { SelectableChip } from '@/modules/onboarding/components/SelectableChip';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 type MoodTabsProps = {
   label?: string;
@@ -23,7 +25,7 @@ export function MoodTabs({
       {label ? (
         <View className="mb-3 flex-row items-center gap-2">
           <View className="h-1.5 w-1.5 rounded-full bg-primary-pink" />
-          <Text className="text-xs font-semibold uppercase tracking-widest text-foreground/60">
+          <Text variant="xs" muted className="font-semibold">
             {label}
           </Text>
         </View>

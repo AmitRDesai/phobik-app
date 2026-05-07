@@ -1,10 +1,7 @@
-import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -12,6 +9,12 @@ import Animated, {
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
+
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Card } from '@/components/ui/Card';
+import { GradientButton } from '@/components/ui/GradientButton';
+import { colors, withAlpha } from '@/constants/colors';
 
 interface PauseAndNoticeProps {
   onContinue: () => void;
@@ -39,12 +42,17 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       showsVerticalScrollIndicator={false}
     >
       {/* Step label */}
-      <Text className="mb-2 mt-4 text-xs font-bold uppercase tracking-widest text-foreground/40">
+      <Text
+        variant="caption"
+        muted
+        className="mb-2 mt-4 tracking-[0.2em]"
+        style={{ paddingRight: 2.2 }}
+      >
         Step 1 of 6
       </Text>
 
       {/* Title */}
-      <Text className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+      <Text variant="h1" className="mb-8">
         Pause and Notice
       </Text>
 
@@ -61,7 +69,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
               borderRadius: 48,
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.5)}`,
+              boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.2)}`,
             }}
           >
             <MaterialIcons name="pause-circle-filled" size={56} color="white" />
@@ -70,19 +78,22 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       </View>
 
       {/* Instruction */}
-      <Text className="mb-8 text-center text-2xl font-bold text-foreground">
+      <Text variant="h2" className="mb-8 text-center">
         Take one slow breath.
       </Text>
 
       {/* Prompt card */}
       <Card className="mb-6 w-full p-6">
-        <Text className="mb-3 text-center text-lg text-foreground/80">
+        <Text variant="lg" className="mb-3 text-center text-foreground/80">
           Say quietly:{' '}
-          <Text className="font-bold text-foreground">
+          <Text variant="lg" className="font-bold">
             &ldquo;I notice...&rdquo;
           </Text>
         </Text>
-        <Text className="text-center text-sm leading-relaxed text-foreground/60">
+        <Text
+          variant="sm"
+          className="text-center leading-relaxed text-foreground/60"
+        >
           Describe what is happening in your body like you&apos;re reporting
           facts. Simply noticing helps interrupt the stress loop.
         </Text>
@@ -100,7 +111,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
               size={16}
               color={withAlpha(colors.primary.pink, 0.6)}
             />
-            <Text className="text-sm italic text-foreground/70">
+            <Text variant="sm" className="italic text-foreground/70">
               &ldquo;{example}&rdquo;
             </Text>
           </View>
@@ -113,7 +124,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       </View>
 
       {/* Footer */}
-      <Text className="mt-6 text-center text-xs text-foreground/55">
+      <Text variant="xs" className="mt-6 text-center text-foreground/55">
         Take your time. There is no rush.
       </Text>
     </ScrollView>

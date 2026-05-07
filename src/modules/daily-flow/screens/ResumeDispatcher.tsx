@@ -1,9 +1,9 @@
+import { View } from '@/components/themed/View';
 import { uuid } from '@/lib/crypto';
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
-import { View } from 'react-native';
 
 import {
   buildStepPath,

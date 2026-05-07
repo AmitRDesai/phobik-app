@@ -1,6 +1,6 @@
-import { Text } from 'react-native';
-
+import { Text } from '@/components/themed/Text';
 import { Card } from '@/components/ui/Card';
+
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
 
@@ -12,17 +12,21 @@ export default function ColdExposure() {
       title="5. Cold Shower"
       duration="1-3 min cold water"
       intro={
-        <Text className="text-base leading-6 text-foreground/70">
+        <Text variant="lg" className="leading-6 text-foreground/70">
           Brief cold exposure forces your biology to adapt. Focus on steady,
           deep breaths as you enter the water.
         </Text>
       }
     >
       <Card variant="glass" className="p-5">
-        <Text className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-foreground/50">
+        <Text
+          variant="caption"
+          className="mb-2 font-bold tracking-[0.3em] text-foreground/50"
+          style={{ paddingRight: 3 }}
+        >
           The Protocol
         </Text>
-        <Text className="text-[15px] leading-6 text-foreground/80">
+        <Text variant="md" className="leading-6 text-foreground/80">
           Embrace the shock. Train the spirit. Stay calm and breathe through the
           first 30 seconds.
         </Text>

@@ -1,15 +1,18 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GlowBg } from '@/components/ui/GlowBg';
+import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors, withAlpha } from '@/constants/colors';
-import { GradientText } from '@/components/ui/GradientText';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { CREDIT_PLANS } from '../data/sound-studio';
 
@@ -22,6 +25,9 @@ const REASONS = [
 ];
 
 export default function SoundStudioCredits() {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
+
   const onPurchase = (planName: string) =>
     dialog.info({
       title: 'Coming soon',
@@ -48,17 +54,17 @@ export default function SoundStudioCredits() {
           showsVerticalScrollIndicator={false}
         >
           {/* Hero */}
-          <Text className="text-[36px] font-extrabold leading-tight tracking-tight text-foreground">
+          <Text variant="display" className="leading-tight">
             Refill Your
           </Text>
-          <GradientText className="text-[36px] font-extrabold leading-tight tracking-tight">
+          <GradientText className="text-[36px] font-extrabold leading-tight">
             Creativity
           </GradientText>
           <View className="mt-3 flex-row items-center gap-2">
-            <MaterialIcons name="bolt" size={14} color={colors.accent.yellow} />
-            <Text className="text-xs text-foreground/60">
+            <MaterialIcons name="bolt" size={14} color={yellow} />
+            <Text variant="xs" muted>
               Current Balance:{' '}
-              <Text className="font-bold text-foreground">
+              <Text variant="xs" className="font-bold">
                 {FAKE_BALANCE} Credits
               </Text>
             </Text>
@@ -72,7 +78,7 @@ export default function SoundStudioCredits() {
                 className={`rounded-3xl border p-6 ${
                   plan.popular
                     ? 'border-primary-pink/40 bg-primary-pink/5'
-                    : 'border-foreground/10 bg-foreground/5'
+                    : 'border-foreground/10 bg-foreground/[0.04]'
                 }`}
                 style={
                   plan.popular
@@ -84,7 +90,10 @@ export default function SoundStudioCredits() {
               >
                 {plan.popular ? (
                   <View className="absolute right-5 top-5 rounded-full bg-accent-yellow px-3 py-1">
-                    <Text className="text-[10px] font-bold uppercase tracking-widest text-on-primary-fixed">
+                    <Text
+                      variant="caption"
+                      className="text-on-primary-fixed font-bold"
+                    >
                       Most Popular
                     </Text>
                   </View>
@@ -96,21 +105,21 @@ export default function SoundStudioCredits() {
                     color={colors.primary.pink}
                   />
                 </IconChip>
-                <Text className="mt-4 text-2xl font-extrabold text-foreground">
+                <Text variant="h2" className="mt-4 font-extrabold">
                   {plan.name}
                 </Text>
-                <Text className="mt-1 text-xs text-foreground/60">
+                <Text variant="xs" muted className="mt-1">
                   {plan.tagline}
                 </Text>
                 <View className="mt-4 flex-row items-baseline gap-2">
-                  <Text className="text-4xl font-extrabold text-foreground">
+                  <Text className="text-4xl font-extrabold">
                     {plan.credits}
                   </Text>
-                  <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+                  <Text variant="caption" muted className="font-bold">
                     Credits
                   </Text>
                 </View>
-                <Text className="mt-1 text-xl font-bold text-foreground">
+                <Text variant="lg" className="mt-1 font-bold">
                   {plan.price}
                 </Text>
                 <View className="mt-5">
@@ -136,7 +145,8 @@ export default function SoundStudioCredits() {
                       }}
                     >
                       <Text
-                        className="text-xs font-bold uppercase tracking-widest text-on-primary-fixed"
+                        variant="caption"
+                        className="text-on-primary-fixed font-bold"
                         onPress={() => onPurchase(plan.name)}
                       >
                         Purchase Now
@@ -150,7 +160,7 @@ export default function SoundStudioCredits() {
 
           {/* Why use credits */}
           <Card className="mt-6 rounded-3xl p-5">
-            <Text className="text-base font-bold text-foreground">
+            <Text variant="lg" className="font-bold">
               Why use Credits?
             </Text>
             <View className="mt-3 gap-2">
@@ -159,10 +169,10 @@ export default function SoundStudioCredits() {
                   <MaterialIcons
                     name="bolt"
                     size={14}
-                    color={colors.accent.yellow}
+                    color={yellow}
                     style={{ marginTop: 2 }}
                   />
-                  <Text className="flex-1 text-xs leading-relaxed text-foreground/70">
+                  <Text variant="xs" muted className="flex-1 leading-relaxed">
                     {r}
                   </Text>
                 </View>

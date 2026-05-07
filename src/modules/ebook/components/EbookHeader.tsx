@@ -1,5 +1,5 @@
+import { Text, View } from '@/components/themed';
 import { BackButton } from '@/components/ui/BackButton';
-import { Text, View } from 'react-native';
 
 interface EbookHeaderProps {
   label: string;
@@ -11,10 +11,10 @@ export function EbookHeader({ label, onBack }: EbookHeaderProps) {
     <View className="flex-row items-center px-4 pb-3">
       <BackButton onPress={onBack} />
       <View className="flex-1 items-center">
-        <Text className="mb-0.5 text-xs font-semibold uppercase tracking-wider text-foreground/60">
+        <Text variant="caption" muted className="mb-0.5">
           Calm Above the Clouds
         </Text>
-        <Text className="text-sm font-bold leading-tight tracking-tight text-foreground">
+        <Text variant="sm" className="font-bold leading-tight">
           {label}
         </Text>
       </View>

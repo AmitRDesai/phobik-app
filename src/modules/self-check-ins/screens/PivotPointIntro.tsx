@@ -1,12 +1,16 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
+import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, withAlpha } from '@/constants/colors';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
-import { ScrollView, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
   useInProgressAssessment,
@@ -19,7 +23,8 @@ import {
 
 export default function PivotPointIntro() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const scheme = useScheme();
+  const lockColor = foregroundFor(scheme, 0.3);
   const setAnswers = useSetAtom(pivotPointAnswersAtom);
   const setCurrentQuestion = useSetAtom(pivotPointCurrentQuestionAtom);
   const startAssessment = useStartAssessment();
@@ -28,7 +33,6 @@ export default function PivotPointIntro() {
   const handleStart = async () => {
     const result = await startAssessment.mutateAsync({ type: 'pivot-point' });
 
-    // Restore state from API response
     const answers: Record<number, number> = {};
     if (result.answers) {
       for (const [key, value] of Object.entries(
@@ -46,41 +50,43 @@ export default function PivotPointIntro() {
   const isResume = !!inProgress;
 
   return (
-    <View className="flex-1 bg-surface">
-      {/* Header */}
-      <View
-        className="flex-row items-center justify-between bg-surface/90 px-6 pb-4"
-        style={{ paddingTop: insets.top + 8 }}
-      >
-        <BackButton />
-        <Text className="text-lg font-bold tracking-tight text-foreground">
+    <Screen
+      variant="default"
+      scroll
+      header={
+        <Header
+          left={<BackButton />}
+          center={
+            <Text variant="lg" className="font-bold">
+              The Pivot Point
+            </Text>
+          }
+        />
+      }
+      sticky={
+        <GradientButton
+          onPress={handleStart}
+          loading={startAssessment.isPending}
+        >
+          {isResume ? 'Resume Assessment' : 'Start Assessment'}
+        </GradientButton>
+      }
+      className="px-6"
+    >
+      <View className="pt-2">
+        <Badge tone="pink" size="sm" className="mb-4 self-start">
+          Assessment
+        </Badge>
+
+        <Text variant="h1" className="mb-2 font-bold">
           The Pivot Point
         </Text>
-        <View className="h-10 w-10" />
-      </View>
-
-      <ScrollView
-        contentContainerClassName="px-6 pb-8"
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Badge */}
-        <View className="mb-4 mt-2 self-start rounded-full bg-foreground/5 px-4 py-1.5">
-          <Text className="text-xs font-bold uppercase tracking-widest text-primary-pink">
-            Assessment
-          </Text>
-        </View>
-
-        {/* Hero Title */}
-        <Text className="mb-2 text-3xl font-bold tracking-tight text-foreground">
-          The Pivot Point
-        </Text>
-        <Text className="mb-8 text-lg font-medium text-foreground/60">
+        <Text variant="lg" className="mb-8 font-medium text-foreground/60">
           How do you respond when life gets hard?
         </Text>
 
-        {/* Description Card */}
         <Card variant="surface" className="mb-4 p-6">
-          <Text className="text-[15px] leading-relaxed text-foreground/80">
+          <Text variant="md" className="leading-relaxed text-foreground/80">
             When life gets stressful, we don&apos;t rise to our
             intentions&mdash;we fall back on patterns. This quick assessment
             helps you understand how you react under pressure and how you can
@@ -88,7 +94,6 @@ export default function PivotPointIntro() {
           </Text>
         </Card>
 
-        {/* Info Cards */}
         <View className="mb-6 flex-row gap-3">
           <Card variant="surface" className="flex-1 items-center">
             <MaterialIcons
@@ -96,10 +101,13 @@ export default function PivotPointIntro() {
               size={24}
               color={colors.primary.pink}
             />
-            <Text className="mt-2 text-xs font-bold uppercase tracking-wider text-foreground/60">
+            <Text
+              variant="caption"
+              className="mt-2 font-bold tracking-wider text-foreground/60"
+            >
               Duration
             </Text>
-            <Text className="mt-1 text-base font-bold text-foreground">
+            <Text variant="lg" className="mt-1 font-bold">
               8-10 minutes
             </Text>
           </Card>
@@ -109,31 +117,25 @@ export default function PivotPointIntro() {
               size={24}
               color={colors.primary.pink}
             />
-            <Text className="mt-2 text-xs font-bold uppercase tracking-wider text-foreground/60">
+            <Text
+              variant="caption"
+              className="mt-2 font-bold tracking-wider text-foreground/60"
+            >
               Insights
             </Text>
-            <Text className="mt-1 text-center text-base font-bold text-foreground">
+            <Text variant="lg" className="mt-1 text-center font-bold">
               Personalized Pattern
             </Text>
           </Card>
         </View>
 
-        {/* Privacy Notice */}
-        <View className="mb-8 flex-row items-center justify-center gap-2">
-          <MaterialIcons name="lock" size={14} color="rgba(255,255,255,0.3)" />
-          <Text className="text-xs text-foreground/55">
+        <View className="flex-row items-center justify-center gap-2">
+          <MaterialIcons name="lock" size={14} color={lockColor} />
+          <Text variant="sm" className="text-foreground/55">
             Your responses are private and encrypted.
           </Text>
         </View>
-
-        {/* CTA */}
-        <GradientButton
-          onPress={handleStart}
-          loading={startAssessment.isPending}
-        >
-          {isResume ? 'Resume Assessment' : 'Start Assessment'}
-        </GradientButton>
-      </ScrollView>
-    </View>
+      </View>
+    </Screen>
   );
 }

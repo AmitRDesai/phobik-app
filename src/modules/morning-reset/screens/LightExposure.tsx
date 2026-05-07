@@ -1,6 +1,7 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text, View } from 'react-native';
 
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
@@ -14,9 +15,10 @@ export default function LightExposure() {
       title="1. Sunlight"
       duration="2-3 min target"
       intro={
-        <Text className="text-base leading-6 text-foreground/70">
+        <Text variant="lg" className="leading-6 text-foreground/70">
           Step outside within{' '}
           <Text
+            variant="lg"
             className="font-bold"
             style={{ color: accentFor(scheme, 'yellow') }}
           >

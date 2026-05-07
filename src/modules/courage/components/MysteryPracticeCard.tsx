@@ -1,12 +1,14 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Pressable } from 'react-native';
+
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { GradientText } from '@/components/ui/GradientText';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-
 import { dialog } from '@/utils/dialog';
-import { MaterialIcons } from '@expo/vector-icons';
-import { GradientText } from '@/components/ui/GradientText';
-import { LinearGradient } from 'expo-linear-gradient';
-import * as Haptics from 'expo-haptics';
-import { Pressable, Text, View } from 'react-native';
 
 import type { DoseReward, MysteryChallenge } from '../data/mystery-challenges';
 import { useRecordChallenge } from '../hooks/useMysteryChallenge';
@@ -20,7 +22,6 @@ interface MysteryPracticeCardProps {
 }
 
 function DoseGrid({ dose }: { dose: DoseReward }) {
-  const scheme = useScheme();
   const items = [
     { label: 'Dopamine', value: dose.dopamine, isPink: true },
     { label: 'Oxytocin', value: dose.oxytocin, isPink: false },
@@ -30,14 +31,20 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
 
   return (
     <View className="mt-8 w-full border-t border-foreground/10 pt-6">
-      <Text className="mb-4 text-center text-[10px] uppercase tracking-[3px] text-foreground/60">
+      <Text
+        variant="caption"
+        muted
+        className="mb-4 text-center tracking-[0.2em]"
+        style={{ paddingRight: 2.2 }}
+      >
         Daily D.O.S.E. Reward
       </Text>
       <View className="flex-row justify-between">
         {items.map((item) => (
           <View key={item.label} className="items-center">
             <Text
-              className="text-sm font-bold"
+              variant="sm"
+              className="font-bold"
               style={{
                 color: item.isPink ? colors.primary.pink : colors.accent.yellow,
               }}
@@ -55,7 +62,6 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
 }
 
 function GradientTimer({ formatted }: { formatted: string }) {
-  const scheme = useScheme();
   return (
     <GradientText className="text-center font-mono text-4xl font-bold">
       {formatted}
@@ -125,11 +131,15 @@ export function MysteryPracticeCard({
         const quoteText = practiceText.slice(newlineIdx + 1);
         return (
           <>
-            <Text className="text-center text-lg leading-snug text-foreground/90">
+            <Text
+              variant="lg"
+              className="text-center leading-snug text-foreground/90"
+            >
               {mainText}
             </Text>
             <Text
-              className="mt-1 text-center text-lg font-bold italic leading-snug"
+              variant="lg"
+              className="mt-1 text-center font-bold italic leading-snug"
               style={{ color: colors.accent.yellow }}
             >
               {quoteText}
@@ -138,7 +148,10 @@ export function MysteryPracticeCard({
         );
       }
       return (
-        <Text className="text-center text-lg leading-snug text-foreground/90">
+        <Text
+          variant="lg"
+          className="text-center leading-snug text-foreground/90"
+        >
           {practiceText}
         </Text>
       );
@@ -147,9 +160,16 @@ export function MysteryPracticeCard({
     const parts = practiceText.split(highlightText);
     return (
       <>
-        <Text className="text-center text-lg leading-snug text-foreground/90">
+        <Text
+          variant="lg"
+          className="text-center leading-snug text-foreground/90"
+        >
           {parts[0]}
-          <Text className="font-bold" style={{ color: colors.accent.yellow }}>
+          <Text
+            variant="lg"
+            className="font-bold"
+            style={{ color: colors.accent.yellow }}
+          >
             {highlightText}
           </Text>
           {parts[1]}
@@ -157,7 +177,8 @@ export function MysteryPracticeCard({
         {/* If highlightText is a standalone question (feelings), render it separately */}
         {challenge.type === 'feelings' && (
           <Text
-            className="mt-2 text-center text-lg font-medium italic leading-snug"
+            variant="lg"
+            className="mt-2 text-center font-medium italic leading-snug"
             style={{ color: colors.accent.yellow }}
           >
             {highlightText}
@@ -197,7 +218,7 @@ export function MysteryPracticeCard({
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: 24,
-            boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
+            boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
         >
           <MaterialIcons
@@ -208,7 +229,7 @@ export function MysteryPracticeCard({
         </LinearGradient>
 
         {/* Practice label */}
-        <Text className="mb-4 text-xl font-bold text-foreground">
+        <Text variant="h3" className="mb-4 font-bold">
           {challenge.practiceLabel}
         </Text>
 
@@ -216,7 +237,7 @@ export function MysteryPracticeCard({
         {renderPracticeText()}
 
         {/* Timer */}
-        <View className="mt-6 mb-2">
+        <View className="mb-2 mt-6">
           <GradientTimer formatted={formatted} />
         </View>
 
@@ -237,11 +258,12 @@ export function MysteryPracticeCard({
                 paddingVertical: 16,
                 paddingHorizontal: 24,
                 alignItems: 'center',
-                boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
+                boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.2)}`,
               }}
             >
               <Text
-                className="text-sm font-bold uppercase tracking-wider"
+                variant="sm"
+                className="font-bold uppercase tracking-wider"
                 style={{ color: colors.background.dark }}
               >
                 Start
@@ -253,7 +275,7 @@ export function MysteryPracticeCard({
             onPress={handleDone}
             className="flex-1 items-center justify-center rounded-2xl border-2 border-foreground/20 px-6 py-4 active:scale-95"
           >
-            <Text className="text-sm font-bold uppercase tracking-wider text-foreground">
+            <Text variant="sm" className="font-bold uppercase tracking-wider">
               Done
             </Text>
           </Pressable>

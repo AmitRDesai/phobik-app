@@ -1,17 +1,18 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { DashboardCard } from '@/components/ui/DashboardCard';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { EaseView } from 'react-native-ease';
-
-import { DashboardCard } from '@/components/ui/DashboardCard';
-import { EnergyRing } from './EnergyRing';
 import { useTodayEnergyCheckIn } from '../hooks/useEnergyCheckIn';
 import { useLatestBiometrics } from '../hooks/useLatestBiometrics';
 import { useStressScore } from '../hooks/useStressScore';
+import { EnergyRing } from './EnergyRing';
 
 function PingDot({ animated }: { animated: boolean }) {
   const scheme = useScheme();
@@ -95,28 +96,35 @@ export function RealTimeAnalysisCard() {
           <View className="mb-1 flex-row items-center gap-1.5">
             <PingDot animated={isLive} />
             <Text
-              className="text-[10px] font-bold uppercase tracking-widest"
+              variant="caption"
+              className="font-bold"
               style={{ color: yellow }}
             >
               Real-time Analysis
             </Text>
             {hasAccess && ageLabel && (isStale || !isLive) ? (
-              <Text className="text-[10px] font-medium tracking-wider text-foreground/40">
+              <Text
+                variant="caption"
+                className="font-medium tracking-wider text-foreground/40"
+              >
                 · {ageLabel}
               </Text>
             ) : null}
           </View>
-          <Text className="text-2xl font-bold tracking-tight text-foreground">
+          <Text variant="h2" className="font-bold">
             {hasAccess && !hasData
               ? 'Waiting for sync'
               : (stress.label ?? 'Peaceful')}
           </Text>
           {hasAccess && !hasData ? (
-            <Text className="mt-1 text-[11px] leading-snug text-foreground/50">
+            <Text variant="xs" className="mt-1 leading-snug text-foreground/50">
               Wear your device for a few minutes
             </Text>
           ) : stress.score != null ? (
-            <Text className="mt-1 text-[11px] font-semibold tracking-wider text-foreground/40">
+            <Text
+              variant="xs"
+              className="mt-1 font-semibold tracking-wider text-foreground/40"
+            >
               Stress {stress.score}/100
             </Text>
           ) : null}
@@ -127,7 +135,11 @@ export function RealTimeAnalysisCard() {
             className="flex-row items-center gap-1.5 rounded-full border border-primary-pink/30 bg-primary-pink/20 px-4 py-1.5"
           >
             <MaterialIcons name="watch" size={14} color={colors.primary.pink} />
-            <Text className="text-[10px] font-bold uppercase tracking-wider text-primary-pink">
+            <Text
+              variant="caption"
+              className="font-bold tracking-wider text-primary-pink"
+              style={{ paddingRight: 1.1 }}
+            >
               Connect
             </Text>
           </Pressable>
@@ -142,28 +154,38 @@ export function RealTimeAnalysisCard() {
 
         <View className="flex-1 justify-center gap-8">
           <View>
-            <Text className="mb-1 text-[12px] font-bold uppercase tracking-widest text-foreground/60">
+            <Text variant="caption" muted className="mb-1 font-bold">
               Heart Rate
             </Text>
             <View className="flex-row items-baseline gap-1.5">
-              <Text className="text-4xl font-black leading-none text-foreground">
+              <Text
+                className="text-4xl font-black leading-none text-foreground"
+                allowFontScaling={false}
+              >
                 {heartRate != null ? heartRate : '—'}
               </Text>
-              <Text className="text-[14px] font-bold uppercase tracking-tighter text-primary-pink">
+              <Text
+                variant="sm"
+                className="font-bold uppercase tracking-tighter text-primary-pink"
+              >
                 Bpm
               </Text>
             </View>
           </View>
           <View>
-            <Text className="mb-1 text-[12px] font-bold uppercase tracking-widest text-foreground/60">
+            <Text variant="caption" muted className="mb-1 font-bold">
               HRV Balance
             </Text>
             <View className="flex-row items-baseline gap-1.5">
-              <Text className="text-4xl font-black leading-none text-foreground">
+              <Text
+                className="text-4xl font-black leading-none text-foreground"
+                allowFontScaling={false}
+              >
                 {hrv != null ? hrv.toFixed(1) : '—'}
               </Text>
               <Text
-                className="text-[14px] font-bold uppercase tracking-tighter"
+                variant="sm"
+                className="font-bold uppercase tracking-tighter"
                 style={{ color: yellow }}
               >
                 Ms

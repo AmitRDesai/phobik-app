@@ -1,25 +1,35 @@
-import heroImage from '@/assets/images/flight-checklist-hero.png';
-import { Badge } from '@/components/ui/Badge';
-import { Card } from '@/components/ui/Card';
-import { alpha, colors } from '@/constants/colors';
-import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
+import heroImage from '@/assets/images/flight-checklist-hero.png';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Badge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/Card';
+import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';
+import { Screen } from '@/components/ui/Screen';
+import { alpha, colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+import { dialog } from '@/utils/dialog';
 
-import { CourageHeader } from '../components/CourageHeader';
 import { FLIGHT_PHASES, FlightPhase, PhaseAccent } from '../data/flight-phases';
 import { flightChecklistAtom } from '../store/flight-checklist';
 
 const accentColors: Record<PhaseAccent, { icon: string; bg: string }> = {
-  pink: { icon: colors.primary.pink, bg: `${colors.primary.pink}1A` },
-  yellow: { icon: colors.accent.yellow, bg: `${colors.accent.yellow}1A` },
+  pink: {
+    icon: colors.primary.pink,
+    bg: withAlpha(colors.primary.pink, 0.1),
+  },
+  yellow: {
+    icon: colors.accent.yellow,
+    bg: withAlpha(colors.accent.yellow, 0.1),
+  },
 };
 
 function PhaseButton({
@@ -29,6 +39,7 @@ function PhaseButton({
   phase: FlightPhase;
   onPress: () => void;
 }) {
+  const scheme = useScheme();
   const accent = accentColors[phase.accent];
 
   return (
@@ -41,14 +52,14 @@ function PhaseButton({
           >
             <MaterialIcons name={phase.icon} size={22} color={accent.icon} />
           </View>
-          <Text className="text-lg font-bold text-foreground">
+          <Text variant="lg" className="font-bold">
             {phase.label}
           </Text>
         </View>
         <MaterialIcons
           name="chevron-right"
           size={24}
-          color={colors.gray[700]}
+          color={foregroundFor(scheme, 0.5)}
         />
       </View>
     </Pressable>
@@ -82,97 +93,95 @@ export default function FlightChecklistHub() {
   }, [setCheckedItems]);
 
   return (
-    <View className="flex-1 bg-surface">
-      {/* Decorative radial glows */}
+    <Screen
+      variant="default"
+      scroll
+      header={<Header title="Flight Checklist" />}
+      className="px-6"
+    >
+      {/* Decorative radial glow */}
       <RadialGlow
         color={colors.primary.pink}
         size={300}
         style={{ top: '20%', right: -150 }}
       />
-      <CourageHeader title="Flight Checklist" />
 
-      <ScrollView
-        contentContainerClassName="px-6 pb-8"
-        showsVerticalScrollIndicator={false}
+      {/* Hero Section */}
+      <Card
+        className="mb-8 overflow-hidden p-0"
+        shadow={{ color: colors.primary.pink, opacity: 0.1, blur: 15 }}
       >
-        {/* Hero Section */}
-        <Card
-          className="mb-8 overflow-hidden p-0"
-          shadow={{ color: colors.primary.pink, opacity: 0.1, blur: 15 }}
-        >
-          <View className="relative h-48">
-            <Image
-              source={heroImage}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-              }}
-              contentFit="cover"
-            />
-            <LinearGradient
-              colors={['transparent', alpha.black80]}
-              start={{ x: 0.5, y: 0 }}
-              end={{ x: 0.5, y: 1 }}
-              style={{
-                flex: 1,
-                justifyContent: 'flex-end',
-                padding: 24,
-              }}
-            >
-              <Badge
-                variant="solid"
-                tone="pink"
-                size="sm"
-                className="self-start"
+        <View className="relative h-48">
+          <Image
+            source={heroImage}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}
+            contentFit="cover"
+          />
+          <LinearGradient
+            colors={['transparent', alpha.black80]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={{
+              flex: 1,
+              justifyContent: 'flex-end',
+              padding: 24,
+            }}
+          >
+            <Badge variant="solid" tone="pink" size="sm" className="self-start">
+              PHOBIK
+            </Badge>
+          </LinearGradient>
+        </View>
+      </Card>
+
+      {/* Title */}
+      <View className="mb-8 items-center">
+        <Text variant="display" className="mb-2 text-center uppercase">
+          Quick Flight{'\n'}Checklist
+        </Text>
+        <Text variant="sm" className="text-foreground/60">
+          Prepare your mind for a peaceful journey.
+        </Text>
+      </View>
+
+      {/* Phase Buttons */}
+      <View className="gap-4">
+        {FLIGHT_PHASES.map((phase) => (
+          <PhaseButton
+            key={phase.id}
+            phase={phase}
+            onPress={() => handlePhasePress(phase.id)}
+          />
+        ))}
+      </View>
+
+      {/* Quick Reset - only show when there's saved progress */}
+      {hasProgress && (
+        <View className="mb-8 mt-12">
+          <Pressable onPress={handleQuickReset} className="active:scale-95">
+            <View className="flex-row items-center justify-center gap-3 rounded-xl border border-status-danger/30 bg-status-danger/10 py-4">
+              <MaterialIcons
+                name="emergency"
+                size={20}
+                color={colors.status.danger}
+              />
+              <Text
+                variant="caption"
+                className="text-status-danger"
+                style={{ paddingRight: 2.2 }}
               >
-                PHOBIK
-              </Badge>
-            </LinearGradient>
-          </View>
-        </Card>
-
-        {/* Title */}
-        <View className="mb-8 items-center">
-          <Text className="mb-2 text-center text-3xl font-black uppercase tracking-tighter text-foreground">
-            Quick Flight{'\n'}Checklist
-          </Text>
-          <Text className="text-sm text-foreground/60">
-            Prepare your mind for a peaceful journey.
-          </Text>
+                Quick Reset
+              </Text>
+            </View>
+          </Pressable>
         </View>
-
-        {/* Phase Buttons */}
-        <View className="gap-4">
-          {FLIGHT_PHASES.map((phase) => (
-            <PhaseButton
-              key={phase.id}
-              phase={phase}
-              onPress={() => handlePhasePress(phase.id)}
-            />
-          ))}
-        </View>
-
-        {/* Quick Reset - only show when there's saved progress */}
-        {hasProgress && (
-          <View className="mb-8 mt-12">
-            <Pressable onPress={handleQuickReset} className="active:scale-95">
-              <View className="flex-row items-center justify-center gap-3 rounded-xl border border-status-danger/30 bg-status-danger/10 py-4">
-                <MaterialIcons
-                  name="emergency"
-                  size={20}
-                  color={colors.status.danger}
-                />
-                <Text className="font-black uppercase tracking-widest text-status-danger">
-                  Quick Reset
-                </Text>
-              </View>
-            </Pressable>
-          </View>
-        )}
-      </ScrollView>
-    </View>
+      )}
+    </Screen>
   );
 }

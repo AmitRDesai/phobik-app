@@ -1,15 +1,17 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
 
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 import { Screen } from '@/components/ui/Screen';
 import { variantConfig } from '@/components/variant-config';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 
 export default function EmpathyChallengeComplete() {
@@ -25,10 +27,7 @@ export default function EmpathyChallengeComplete() {
         <Header
           variant="close"
           center={
-            <Text
-              className="text-xs font-semibold uppercase tracking-widest text-foreground/60"
-              numberOfLines={1}
-            >
+            <Text variant="caption" muted numberOfLines={1}>
               Challenge Complete
             </Text>
           }
@@ -44,14 +43,12 @@ export default function EmpathyChallengeComplete() {
           >
             Share Achievement
           </GradientButton>
-          <Pressable
+          <Button
+            variant="ghost"
             onPress={() => router.replace('/(tabs)/practices')}
-            className="w-full items-center rounded-full border border-foreground/10 bg-foreground/5 py-5"
           >
-            <Text className="font-semibold text-foreground/80">
-              Return to Home
-            </Text>
-          </Pressable>
+            Return to Home
+          </Button>
         </View>
       }
       contentClassName="items-center px-6"
@@ -76,22 +73,7 @@ export default function EmpathyChallengeComplete() {
             height: 256,
             borderRadius: 128,
             padding: 3,
-            boxShadow: [
-              {
-                offsetX: 0,
-                offsetY: 0,
-                blurRadius: 60,
-                spreadDistance: 10,
-                color: 'rgba(238,43,140,0.4)',
-              },
-              {
-                offsetX: 0,
-                offsetY: 0,
-                blurRadius: 100,
-                spreadDistance: 20,
-                color: 'rgba(251,191,36,0.2)',
-              },
-            ],
+            boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
         >
           <View
@@ -107,10 +89,13 @@ export default function EmpathyChallengeComplete() {
         </LinearGradient>
       </View>
 
-      <Text className="mb-4 text-4xl font-bold text-foreground">
+      <Text variant="display" className="mb-4">
         Empathy Master!
       </Text>
-      <Text className="max-w-[320px] text-center text-lg leading-relaxed text-foreground/70">
+      <Text
+        variant="lg"
+        className="max-w-[320px] text-center leading-relaxed text-foreground/70"
+      >
         You&apos;ve completed 7 days of growth. Your heart is more open, and
         your connections are stronger.
       </Text>
@@ -121,14 +106,18 @@ export default function EmpathyChallengeComplete() {
           size={24}
           color={colors.primary.pink}
         />
-        <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground/55">
+        <Text variant="caption" muted>
           Sessions Done
         </Text>
-        <Text className="text-2xl font-bold text-foreground">7/7</Text>
+        <Text variant="h2">7/7</Text>
       </Card>
 
       <View className="mt-8 w-full gap-3 pb-8">
-        <Text className="mb-1 text-center text-[10px] font-bold uppercase tracking-[3px] text-foreground/45">
+        <Text
+          variant="caption"
+          className="mb-1 text-center tracking-[0.2em] text-foreground/45"
+          style={{ paddingRight: 2.2 }}
+        >
           Daily D.O.S.E. Reward
         </Text>
         <View className="flex-row gap-4">
@@ -141,10 +130,12 @@ export default function EmpathyChallengeComplete() {
               />
             </View>
             <View>
-              <Text className="text-[9px] font-bold uppercase tracking-wider text-foreground/55">
+              <Text variant="caption" muted>
                 Oxytocin
               </Text>
-              <Text className="text-lg font-bold text-foreground">+10</Text>
+              <Text variant="h3" className="font-bold">
+                +10
+              </Text>
             </View>
           </Card>
           <Card className="flex-1 flex-row items-center justify-center gap-3">
@@ -156,10 +147,12 @@ export default function EmpathyChallengeComplete() {
               />
             </View>
             <View>
-              <Text className="text-[9px] font-bold uppercase tracking-wider text-foreground/55">
+              <Text variant="caption" muted>
                 Serotonin
               </Text>
-              <Text className="text-lg font-bold text-foreground">+5</Text>
+              <Text variant="h3" className="font-bold">
+                +5
+              </Text>
             </View>
           </Card>
         </View>

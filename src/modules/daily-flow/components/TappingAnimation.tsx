@@ -1,6 +1,8 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { useEffect, useState } from 'react';
-import { Image, Text, View, type ImageSourcePropType } from 'react-native';
+import { Image, type ImageSourcePropType } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -46,10 +48,14 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
   return (
     <View>
       <View className="mb-4 items-center">
-        <Text className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-pink">
+        <Text
+          variant="caption"
+          className="font-black tracking-[0.3em] text-primary-pink"
+          style={{ paddingLeft: 3, paddingRight: 3 }}
+        >
           {point.phaseLabel}
         </Text>
-        <Text className="mt-1 text-3xl font-black tracking-tight text-foreground">
+        <Text variant="h1" className="mt-1 font-black">
           {point.name}
         </Text>
       </View>
@@ -94,17 +100,25 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
       </View>
 
       <Card className="mt-4">
-        <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
+        <Text
+          variant="caption"
+          className="font-bold text-foreground/50"
+          style={{ paddingRight: 1.1 }}
+        >
           Instruction
         </Text>
-        <Text className="mt-1 text-base font-bold text-foreground">
+        <Text variant="lg" className="mt-1 font-bold">
           {point.description}
         </Text>
         <View className="my-3 h-px w-full bg-foreground/10" />
-        <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
+        <Text
+          variant="caption"
+          className="font-bold text-foreground/50"
+          style={{ paddingRight: 1.1 }}
+        >
           Benefit
         </Text>
-        <Text className="mt-1 text-sm italic text-primary-pink">
+        <Text variant="sm" className="mt-1 text-primary-pink">
           → {point.benefit}
         </Text>
       </Card>

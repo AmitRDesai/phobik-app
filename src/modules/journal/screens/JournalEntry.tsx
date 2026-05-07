@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -8,7 +10,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, TextInput } from 'react-native';
 import { FeelingDropdown } from '../components/FeelingDropdown';
 import { NeedDropdown } from '../components/NeedDropdown';
 import { TagSection } from '../components/TagSection';
@@ -164,12 +166,20 @@ export default function JournalEntry() {
           right={
             isViewMode && !isEditing ? (
               <Pressable onPress={() => setIsEditing(true)}>
-                <Text className="text-sm font-bold" style={{ color: yellow }}>
+                <Text
+                  variant="sm"
+                  className="font-bold"
+                  style={{ color: yellow }}
+                >
                   Edit
                 </Text>
               </Pressable>
             ) : (
-              <Text className="text-sm font-bold" style={{ color: yellow }}>
+              <Text
+                variant="sm"
+                className="font-bold"
+                style={{ color: yellow }}
+              >
                 Drafts
               </Text>
             )
@@ -221,11 +231,16 @@ export default function JournalEntry() {
       />
 
       <View className="mb-4 flex-row items-center justify-between px-1">
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+        <Text
+          variant="caption"
+          className="font-bold tracking-widest text-primary-pink"
+        >
           Private Entry
         </Text>
         {!readOnly && isSavingDraft && (
-          <Text className="text-[10px] text-foreground/30">Auto-saving...</Text>
+          <Text variant="xs" className="text-foreground/30">
+            Auto-saving...
+          </Text>
         )}
       </View>
 

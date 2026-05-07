@@ -1,5 +1,7 @@
+import { Pressable, Text, View } from '@/components/themed';
+import { foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface EbookNavControlsProps {
@@ -20,6 +22,8 @@ export function EbookNavControls({
   onFinish,
 }: EbookNavControlsProps) {
   const insets = useSafeAreaInsets();
+  const scheme = useScheme();
+  const fg = foregroundFor(scheme, 1);
   const isLastChapter = !hasNext && onFinish;
 
   return (
@@ -33,8 +37,8 @@ export function EbookNavControls({
         className="items-center gap-1"
         style={{ opacity: hasPrev ? 1 : 0.3 }}
       >
-        <MaterialIcons name="chevron-left" size={28} color="white" />
-        <Text className="text-[10px] font-bold uppercase tracking-tighter text-foreground/60">
+        <MaterialIcons name="chevron-left" size={28} color={fg} />
+        <Text variant="caption" muted>
           Previous
         </Text>
       </Pressable>
@@ -43,13 +47,13 @@ export function EbookNavControls({
         onPress={onToc}
         className="h-12 w-12 items-center justify-center rounded-full border border-foreground/20 bg-foreground/10 active:scale-95"
       >
-        <MaterialIcons name="menu-book" size={24} color="white" />
+        <MaterialIcons name="menu-book" size={24} color={fg} />
       </Pressable>
 
       {isLastChapter ? (
         <Pressable onPress={onFinish} className="items-center gap-1">
           <MaterialIcons name="check-circle" size={28} color="#0bda8e" />
-          <Text className="text-[10px] font-bold uppercase tracking-tighter text-status-success">
+          <Text variant="caption" className="text-status-success">
             Finish
           </Text>
         </Pressable>
@@ -60,8 +64,8 @@ export function EbookNavControls({
           className="items-center gap-1"
           style={{ opacity: hasNext ? 1 : 0.3 }}
         >
-          <MaterialIcons name="chevron-right" size={28} color="white" />
-          <Text className="text-[10px] font-bold uppercase tracking-tighter text-foreground/60">
+          <MaterialIcons name="chevron-right" size={28} color={fg} />
+          <Text variant="caption" muted>
             Next
           </Text>
         </Pressable>

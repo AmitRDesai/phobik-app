@@ -1,9 +1,12 @@
-import { alpha, colors, withAlpha } from '@/constants/colors';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { accentFor, alpha, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
-import { Text, TextInput, View } from 'react-native';
+import { TextInput } from 'react-native';
 import { OnboardingLayout } from '../components/OnboardingLayout';
 import { SelectableChip } from '../components/SelectableChip';
 import {
@@ -32,6 +35,9 @@ const TOOLS: { id: RegulationTool; label: string }[] = [
 export default function RegulationPreference() {
   const [selected, setSelected] = useAtom(onboardingRegulationToolsAtom);
   const [customTool, setCustomTool] = useAtom(onboardingCustomToolAtom);
+  const scheme = useScheme();
+  const orangeAccent = accentFor(scheme, 'orange');
+  const yellowAccent = accentFor(scheme, 'yellow');
 
   const toggle = (id: RegulationTool) => {
     if (selected.includes(id)) {
@@ -53,7 +59,7 @@ export default function RegulationPreference() {
       buttonDisabled={selected.length === 0}
     >
       {/* Selection limit counter */}
-      <Text className="mb-4 text-xs font-medium uppercase tracking-widest text-foreground/40">
+      <Text variant="xs" className="mb-4 font-medium text-foreground/40">
         Selection Limit: {selected.length} / {MAX_SELECTIONS}
       </Text>
 
@@ -71,7 +77,9 @@ export default function RegulationPreference() {
         {/* Other input */}
         <View className="mt-2 w-full">
           <View className="h-12 flex-row items-center gap-2 rounded-full border border-foreground/10 bg-foreground/5 px-5">
-            <Text className="text-sm font-bold text-foreground/50">Other:</Text>
+            <Text variant="sm" className="font-bold text-foreground/50">
+              Other:
+            </Text>
             <TextInput
               value={customTool}
               onChangeText={setCustomTool}
@@ -85,9 +93,10 @@ export default function RegulationPreference() {
 
       {/* Why this matters info box */}
       <View
-        className="mt-4 rounded-xl border border-accent-yellow/20 bg-foreground/5 p-5"
+        className="mt-4 rounded-xl border bg-foreground/5 p-5"
         style={{
-          boxShadow: `0px 0px 25px ${withAlpha(colors.accent.orange, 0.15)}`,
+          borderColor: withAlpha(yellowAccent, scheme === 'dark' ? 0.2 : 0.4),
+          boxShadow: `0px 0px 25px ${withAlpha(orangeAccent, scheme === 'dark' ? 0.15 : 0.2)}`,
         }}
       >
         <View className="flex-row items-start gap-4">
@@ -106,12 +115,13 @@ export default function RegulationPreference() {
           </View>
           <View className="flex-1">
             <Text
-              style={{ color: colors.accent.orange }}
-              className="text-sm font-bold"
+              variant="sm"
+              style={{ color: orangeAccent }}
+              className="font-bold"
             >
               Why this matters
             </Text>
-            <Text className="mt-1 text-xs leading-relaxed text-foreground/40">
+            <Text variant="sm" muted className="mt-1 leading-relaxed">
               We match your preferences with your current nervous system state
               to find your optimal stress tolerance.
             </Text>

@@ -1,7 +1,6 @@
-import { Card } from '@/components/ui/Card';
+import { Text } from '@/components/themed/Text';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text } from 'react-native';
 
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
@@ -15,9 +14,10 @@ export default function DeepFocus() {
       title="7. Deep Focus"
       duration="60-120 min after breakfast"
       intro={
-        <Text className="text-base leading-6 text-foreground/70">
+        <Text variant="lg" className="leading-6 text-foreground/70">
           Your peak window opens{' '}
           <Text
+            variant="lg"
             className="font-bold"
             style={{ color: accentFor(scheme, 'yellow') }}
           >
@@ -40,11 +40,6 @@ export default function DeepFocus() {
         description="Builds a habit of high-quality output and protects creative energy."
         tone="yellow"
       />
-      <Card variant="toned" tone="pink">
-        <Text className="text-center text-[11px] font-bold uppercase tracking-[0.3em] text-foreground/60">
-          Press to sync your bio-rhythm
-        </Text>
-      </Card>
     </StepShell>
   );
 }

@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -6,9 +8,7 @@ import * as Haptics from 'expo-haptics';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Pressable,
-  Text,
   useWindowDimensions,
-  View,
   type LayoutChangeEvent,
 } from 'react-native';
 import { EaseView } from 'react-native-ease';
@@ -143,7 +143,10 @@ export function FloatingMapper({
   return (
     <View className="flex-1">
       <View className="items-center px-6 pt-2">
-        <Text className="text-center text-base leading-relaxed text-foreground/85">
+        <Text
+          variant="lg"
+          className="text-center leading-relaxed text-foreground/85"
+        >
           {promptText}
         </Text>
       </View>
@@ -258,8 +261,9 @@ export function FloatingMapper({
                   </EaseView>
                   <Animated.View style={counterRotateStyle}>
                     <Text
+                      variant="xs"
                       className={clsx(
-                        'text-center text-[11px]',
+                        'text-center',
                         isSubSelected
                           ? 'font-bold text-foreground'
                           : 'font-semibold text-foreground/70',

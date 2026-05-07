@@ -1,8 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors, withAlpha } from '@/constants/colors';
 import type { StressorKey } from '@/modules/self-check-ins/data/stressors';
 import { useLocalSearchParams } from 'expo-router';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { ReflectCard } from '../components/ReflectCard';
 import { SelfLeadershipPlan } from '../components/SelfLeadershipPlan';
@@ -32,16 +34,19 @@ export default function StressorDetail() {
           <View
             className="h-28 w-28 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
             style={{
-              boxShadow: `0px 0px 15px ${withAlpha(colors.primary['pink-soft'], 0.2)}`,
+              boxShadow: `0 0 12px ${withAlpha(colors.primary['pink-soft'], 0.2)}`,
             }}
           >
             <Text className="text-5xl">{data.emoji}</Text>
           </View>
           <View className="max-w-[320px] items-center gap-3">
-            <Text className="text-center text-2xl font-black uppercase italic leading-none tracking-tight text-foreground">
+            <Text
+              variant="h2"
+              className="text-center font-black uppercase italic"
+            >
               {data.title}
             </Text>
-            <Text className="text-center text-xs font-medium leading-relaxed text-foreground/60">
+            <Text variant="xs" muted className="text-center font-medium">
               {data.description}
             </Text>
           </View>

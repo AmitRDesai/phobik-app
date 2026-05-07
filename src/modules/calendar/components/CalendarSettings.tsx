@@ -1,25 +1,18 @@
-import { BlurView } from '@/components/ui/BlurView';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { SelectionCard } from '@/components/ui/SelectionCard';
-import { colors, foregroundFor } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
+import { colors, withAlpha } from '@/constants/colors';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
-import MaskedView from '@react-native-masked-view/masked-view';
 import { PermissionStatus } from 'expo-calendar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
-import {
-  ActivityIndicator,
-  Linking,
-  Pressable,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Linking, Pressable } from 'react-native';
 import { useCalendarPermission } from '../hooks/useCalendarPermission';
 import {
   calendarConnectedAtom,
@@ -63,7 +56,6 @@ interface CalendarSettingsProps {
 }
 
 export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
-  const scheme = useScheme();
   const [connected, setConnected] = useAtom(calendarConnectedAtom);
   const [selectedIds, setSelectedIds] = useAtom(selectedCalendarIdsAtom);
   const [checkInTiming, setCheckInTiming] = useAtom(checkInTimingAtom);
@@ -99,50 +91,38 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
   return (
     <View className="gap-6">
       {/* Calendar feature card */}
-      <Card className="overflow-hidden p-0">
-        {/* Hero gradient */}
-        <View className="h-36 items-center justify-center">
+      <Card className="items-center gap-4 p-6">
+        {/* Centered gradient icon — matches RegulationPreference info chip pattern */}
+        <View
+          className="h-16 w-16 items-center justify-center overflow-hidden rounded-full"
+          style={{
+            boxShadow: `0 0 24px ${withAlpha(colors.primary.pink, 0.35)}`,
+          }}
+        >
           <LinearGradient
-            colors={['#4a1040', '#6b2450', '#8b4020', '#a06020']}
-            start={{ x: 0, y: 0.5 }}
-            end={{ x: 1, y: 0.5 }}
+            colors={[colors.primary.pink, colors.accent.yellow]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
             style={{
               position: 'absolute',
               width: '100%',
               height: '100%',
             }}
           />
-          <View
-            className="items-center justify-center overflow-hidden rounded-2xl border border-foreground/30 p-4"
-            style={{ backgroundColor: foregroundFor(scheme, 0.35) }}
-          >
-            <BlurView intensity={20} tint="dark" className="absolute inset-0" />
-            <MaskedView
-              maskElement={
-                <MaterialIcons name="calendar-month" size={48} color="black" />
-              }
-            >
-              <LinearGradient
-                colors={[
-                  colors.primary.pink,
-                  colors.gradient['orange-red'],
-                  colors.accent.yellow,
-                ]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={{ width: 48, height: 48 }}
-              />
-            </MaskedView>
-          </View>
+          <MaterialIcons name="calendar-month" size={28} color="white" />
         </View>
 
         {/* Card content */}
-        <View className="gap-4 p-5">
+        <View className="w-full gap-4">
           <View>
-            <Text className="text-xl font-bold text-foreground">
+            <Text variant="h3" className="text-center font-bold">
               Calendar Intelligence
             </Text>
-            <Text className="mt-2 text-sm leading-relaxed text-foreground/60">
+            <Text
+              variant="sm"
+              muted
+              className="mt-2 text-center leading-relaxed"
+            >
               We&apos;ll scan for high-stress keywords like &quot;Performance
               Review&quot; or &quot;Public Speaking&quot; to offer pre-emptive
               nervous system support.
@@ -166,7 +146,10 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
               </GradientButton>
               {onSkip && (
                 <Pressable onPress={onSkip}>
-                  <Text className="text-center text-sm font-medium text-foreground/55">
+                  <Text
+                    variant="sm"
+                    className="text-center font-medium text-foreground/55"
+                  >
                     Maybe later
                   </Text>
                 </Pressable>
@@ -176,7 +159,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
 
           {!connected && denied && (
             <View className="gap-3">
-              <Text className="text-sm leading-relaxed text-foreground/60">
+              <Text variant="sm" muted className="leading-relaxed">
                 Calendar access was denied. You can enable it in your device
                 settings to let Phobik prepare you for stressful events.
               </Text>
@@ -188,7 +171,10 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
               </GradientButton>
               {onSkip && (
                 <Pressable onPress={onSkip}>
-                  <Text className="text-center text-sm font-medium text-foreground/55">
+                  <Text
+                    variant="sm"
+                    className="text-center font-medium text-foreground/55"
+                  >
                     Skip for now
                   </Text>
                 </Pressable>
@@ -209,14 +195,14 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                 size={20}
                 color={colors.primary.pink}
               />
-              <Text className="text-base font-bold text-foreground">
+              <Text variant="lg" className="font-bold">
                 Which calendars to watch?
               </Text>
             </View>
             {calendars.length === 0 ? (
               <Card className="items-center p-6">
                 <ActivityIndicator color={colors.primary.pink} />
-                <Text className="mt-2 text-sm text-foreground/55">
+                <Text variant="sm" muted className="mt-2">
                   Loading calendars...
                 </Text>
               </Card>
@@ -237,13 +223,15 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                         />
                         <View className="flex-1">
                           <Text
-                            className="font-medium text-foreground"
+                            variant="md"
+                            className="font-medium"
                             numberOfLines={1}
                           >
                             {cal.title}
                           </Text>
                           <Text
-                            className="text-xs text-foreground/55"
+                            variant="sm"
+                            className="text-foreground/55"
                             numberOfLines={1}
                           >
                             {cal.sourceName}
@@ -271,7 +259,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
 
           {/* Check-in timing */}
           <View>
-            <Text className="mb-3 text-base font-bold text-foreground">
+            <Text variant="lg" className="mb-3 font-bold">
               When should we check in?
             </Text>
             <SegmentedControl
@@ -283,7 +271,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
 
           {/* Support tone */}
           <View>
-            <Text className="mb-3 text-base font-bold text-foreground">
+            <Text variant="lg" className="mb-3 font-bold">
               Choose your support tone
             </Text>
             <View className="gap-3">

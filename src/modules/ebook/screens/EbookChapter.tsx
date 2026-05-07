@@ -1,3 +1,6 @@
+import { ScrollView, Text, View } from '@/components/themed';
+import { foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import {
   lazy,
@@ -8,7 +11,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -79,6 +82,7 @@ const CHAPTER_SCREENS: Record<
 export default function EbookChapter() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const scheme = useScheme();
   const { chapter } = useLocalSearchParams<{ chapter: string }>();
   const chapterId = Number(chapter ?? 1);
 
@@ -191,7 +195,7 @@ export default function EbookChapter() {
             <Suspense
               fallback={
                 <View className="items-center justify-center py-20">
-                  <ActivityIndicator color="white" />
+                  <ActivityIndicator color={foregroundFor(scheme, 1)} />
                 </View>
               }
             >
@@ -200,7 +204,7 @@ export default function EbookChapter() {
           </ScrollView>
         ) : (
           <View className="flex-1 items-center justify-center">
-            <Text className="text-foreground">Chapter not found</Text>
+            <Text variant="md">Chapter not found</Text>
           </View>
         )}
       </EaseView>

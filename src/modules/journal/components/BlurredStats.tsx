@@ -1,16 +1,19 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BlurView } from '@/components/ui/BlurView';
 import { Card } from '@/components/ui/Card';
 import { useBiometricHistory } from '@/modules/insights/hooks/useBiometricHistory';
-import { Text, View } from 'react-native';
 import { useJournalStats } from '../hooks/useJournalStats';
 
 function StatBox({ label, value }: { label: string; value: string | number }) {
   return (
     <Card className="flex-1 items-center p-3">
-      <Text className="mb-1 text-[10px] font-bold uppercase text-foreground/30">
+      <Text variant="caption" className="mb-1 font-bold text-foreground/30">
         {label}
       </Text>
-      <Text className="text-lg font-bold text-foreground">{value}</Text>
+      <Text variant="lg" className="font-bold">
+        {value}
+      </Text>
     </Card>
   );
 }

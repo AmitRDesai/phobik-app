@@ -1,7 +1,8 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
 
 interface ReflectCardProps {
   question: string;
@@ -16,11 +17,11 @@ export function ReflectCard({ question }: ReflectCardProps) {
           size={14}
           color={colors.primary['pink-soft']}
         />
-        <Text className="text-[10px] font-black uppercase tracking-[3px] text-primary-pink">
+        <Text variant="caption" className="text-primary-pink">
           Reflect
         </Text>
       </View>
-      <Text className="text-[15px] font-bold italic leading-snug text-foreground/90">
+      <Text variant="md" className="font-bold italic text-foreground/90">
         {question}
       </Text>
     </DashboardCard>

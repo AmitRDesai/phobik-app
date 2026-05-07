@@ -1,4 +1,5 @@
 import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
@@ -24,12 +25,7 @@ import { router } from 'expo-router';
 import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useEffect, useRef, useState } from 'react';
-import {
-  Platform,
-  Pressable,
-  TextInput as RNTextInput,
-  View,
-} from 'react-native';
+import { Platform, Pressable, TextInput as RNTextInput } from 'react-native';
 
 export default function SignInScreen() {
   const scheme = useScheme();
@@ -171,7 +167,7 @@ export default function SignInScreen() {
       {/* Welcome Text */}
       <View className="items-center px-4">
         <Text variant="h1">Welcome Back</Text>
-        <Text variant="body-lg" muted className="mt-2">
+        <Text variant="lg" muted className="mt-2">
           We missed your energy today.
         </Text>
       </View>
@@ -189,14 +185,14 @@ export default function SignInScreen() {
               color={colors.primary.pink}
             />
           </Pressable>
-          <Text variant="body-sm" className="mt-3 text-foreground/50">
+          <Text variant="sm" className="mt-3 text-foreground/50">
             Tap to sign in with {biometricType}
           </Text>
 
           {!isSignedOut && (
             <View className="mt-4 flex-row items-center">
               <View className="h-px flex-1 bg-foreground/15" />
-              <Text variant="body-sm" className="mx-4 text-foreground/45">
+              <Text variant="sm" className="mx-4 text-foreground/45">
                 or use credentials
               </Text>
               <View className="h-px flex-1 bg-foreground/15" />
@@ -244,7 +240,7 @@ export default function SignInScreen() {
             disabled={isLoading}
             onPress={() => router.push('/auth/forgot-password')}
           >
-            <Text variant="body-sm" muted>
+            <Text variant="sm" muted>
               Forgot Password?
             </Text>
           </Pressable>
@@ -258,7 +254,7 @@ export default function SignInScreen() {
               Sign In
             </GradientButton>
             {showWarmingHint && (
-              <Text variant="body-sm" muted className="mt-3 text-center">
+              <Text variant="sm" muted className="mt-3 text-center">
                 Hang tight — we&apos;re getting things ready for you.
               </Text>
             )}
@@ -268,7 +264,7 @@ export default function SignInScreen() {
           <View className="mt-6">
             <View className="mb-4 flex-row items-center">
               <View className="h-px flex-1 bg-foreground/15" />
-              <Text variant="body-sm" className="mx-4 text-foreground/45">
+              <Text variant="sm" className="mx-4 text-foreground/45">
                 or continue with
               </Text>
               <View className="h-px flex-1 bg-foreground/15" />
@@ -308,9 +304,9 @@ export default function SignInScreen() {
             className="mb-8 mt-6 py-2"
             disabled={isLoading}
           >
-            <Text variant="body-sm" muted className="text-center">
+            <Text variant="sm" muted className="text-center">
               Don&apos;t have an account?{' '}
-              <Text variant="body-sm" className="!font-bold text-primary-pink">
+              <Text variant="sm" className="font-bold text-primary-pink">
                 Sign Up
               </Text>
             </Text>

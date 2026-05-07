@@ -1,15 +1,23 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { CardAura } from '@/components/ui/CardAura';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useMemo } from 'react';
-import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useWindowDimensions } from 'react-native';
 import Svg, {
   Circle,
   Defs,
@@ -32,14 +40,25 @@ import {
   stressorRatingsAtom,
 } from '../store/self-check-ins';
 
-const CYAN = colors.accent.cyan;
-const CARD_AURA_COLORS = [
-  { start: colors.primary.pink, label: 'Priority focus' },
-  { start: CYAN, label: 'Social Bond' },
-  { start: colors.accent.yellow, label: 'Cognitive Load' },
-];
+const CARD_AURA_LABELS = [
+  'Priority focus',
+  'Social Bond',
+  'Cognitive Load',
+] as const;
+
+function useAuraColors(): string[] {
+  const scheme = useScheme();
+  return [
+    colors.primary.pink,
+    accentFor(scheme, 'cyan'),
+    accentFor(scheme, 'yellow'),
+  ];
+}
 
 export default function StressSignatureMap() {
+  const scheme = useScheme();
+  const cyan = accentFor(scheme, 'cyan');
+  const auraColors = useAuraColors();
   const params = useLocalSearchParams<{ id?: string }>();
   const assessmentId = params.id;
   const { data: assessments } = useAssessmentList();
@@ -99,85 +118,85 @@ export default function StressSignatureMap() {
   ) as Record<StressorKey, StressorCategory>;
 
   return (
-    <SafeAreaView
-      edges={['top', 'left', 'right']}
-      className="flex-1 bg-background"
+    <Screen
+      variant="default"
+      scroll
+      header={
+        <Header
+          left={<BackButton />}
+          center={
+            <View className="items-center">
+              <Text variant="sm" className="font-bold tracking-[2px]">
+                Stress Signature
+              </Text>
+              <Text
+                variant="caption"
+                className="font-medium tracking-[4px]"
+                style={{ color: cyan }}
+              >
+                Gradient Orbit Map
+              </Text>
+            </View>
+          }
+          right={
+            <View className="size-10 items-center justify-center">
+              <MaterialIcons name="hub" size={24} color={cyan} />
+            </View>
+          }
+        />
+      }
+      sticky={
+        <GradientButton
+          onPress={handleSave}
+          icon={<MaterialIcons name="insights" size={20} color="white" />}
+        >
+          Save to Insights
+        </GradientButton>
+      }
+      className="px-0"
+      contentClassName="pb-4"
     >
-      {/* Header */}
-      <View className="border-b border-foreground/5">
-        <View className="flex-row items-center justify-between p-4">
-          <BackButton />
-          <View className="items-center">
-            <Text className="text-[13px] font-bold uppercase tracking-[2px] text-foreground">
-              Stress Signature
-            </Text>
-            <Text
-              className="text-[9px] font-medium uppercase tracking-[4px]"
-              style={{ color: CYAN }}
-            >
-              Gradient Orbit Map
-            </Text>
-          </View>
-          <View className="size-10 items-center justify-center">
-            <MaterialIcons name="hub" size={24} color={CYAN} />
-          </View>
+      {/* Orbital Visualization */}
+      <OrbitMap
+        ratings={allRatings}
+        screenWidth={screenWidth}
+        stressorMap={stressorMap}
+      />
+
+      {/* Top 3 Stressors */}
+      <View className="mt-8 px-5">
+        <View className="mb-6 flex-row items-center justify-between">
+          <Text
+            variant="caption"
+            className="font-black tracking-[3px] text-foreground/80"
+          >
+            Your Top 3 Stressors
+          </Text>
+          <Text
+            variant="caption"
+            className="font-bold"
+            style={{ color: colors.primary.pink }}
+          >
+            Focus Priority
+          </Text>
+        </View>
+
+        <View className="gap-5">
+          {topStressors.map((item, index) => {
+            const stressor = stressorMap[item.key];
+            return (
+              <StressorResultCard
+                key={item.key}
+                stressor={stressor}
+                rank={index + 1}
+                accentColor={auraColors[index]}
+                subtitle={CARD_AURA_LABELS[index]}
+              />
+            );
+          })}
         </View>
       </View>
-
-      <ScrollView
-        className="flex-1"
-        contentContainerClassName="px-0 pt-0 pb-10"
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Orbital Visualization */}
-        <OrbitMap
-          ratings={allRatings}
-          screenWidth={screenWidth}
-          stressorMap={stressorMap}
-        />
-
-        {/* Top 3 Stressors */}
-        <View className="mt-8 px-5">
-          <View className="mb-6 flex-row items-center justify-between">
-            <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/80">
-              Your Top 3 Stressors
-            </Text>
-            <Text
-              className="text-[10px] font-bold uppercase"
-              style={{ color: colors.primary.pink }}
-            >
-              Focus Priority
-            </Text>
-          </View>
-
-          <View className="gap-5">
-            {topStressors.map((item, index) => {
-              const stressor = stressorMap[item.key];
-              const aura = CARD_AURA_COLORS[index];
-              return (
-                <StressorResultCard
-                  key={item.key}
-                  stressor={stressor}
-                  rank={index + 1}
-                  accentColor={aura.start}
-                  subtitle={aura.label}
-                />
-              );
-            })}
-          </View>
-        </View>
-
-        {/* Save Button (in-scroll) */}
-        <View className="mt-10 px-6">
-          <GradientButton
-            onPress={handleSave}
-            icon={<MaterialIcons name="insights" size={20} color="white" />}
-          >
-            Save to Insights
-          </GradientButton>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    </Screen>
   );
 }
 
@@ -190,6 +209,7 @@ interface OrbitMapProps {
 
 function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
   const scheme = useScheme();
+  const cyan = accentFor(scheme, 'cyan');
   const size = screenWidth;
   const cx = 100;
   const cy = 100;
@@ -262,23 +282,24 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
             width: 110,
             height: 110,
             borderRadius: 55,
-            backgroundColor: `${CYAN}08`,
-            boxShadow: `0px 0px 40px ${withAlpha(CYAN, 0.6)}`,
+            backgroundColor: `${cyan}08`,
+            boxShadow: `0px 0px 40px ${withAlpha(cyan, 0.6)}`,
           }}
         />
         <View
           className="size-10 items-center justify-center rounded-full border"
           style={{
-            backgroundColor: `${CYAN}20`,
-            borderColor: `${CYAN}30`,
-            boxShadow: `0px 0px 30px ${withAlpha(CYAN, 0.5)}`,
+            backgroundColor: `${cyan}20`,
+            borderColor: `${cyan}30`,
+            boxShadow: `0px 0px 30px ${withAlpha(cyan, 0.5)}`,
           }}
         >
-          <MaterialIcons name="spa" size={18} color={CYAN} />
+          <MaterialIcons name="spa" size={18} color={cyan} />
         </View>
         <Text
-          className="mt-2 text-[8px] font-bold uppercase tracking-[3px]"
-          style={{ color: CYAN }}
+          variant="caption"
+          className="mt-2 font-bold tracking-[3px]"
+          style={{ color: cyan }}
         >
           Core
         </Text>
@@ -287,9 +308,9 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
       <Svg width={size} height={size} viewBox="0 0 200 200">
         <Defs>
           <RadialGradient id="coreGlow" cx="50%" cy="50%" rx="50%" ry="50%">
-            <Stop offset="0%" stopColor={CYAN} stopOpacity={0.25} />
-            <Stop offset="50%" stopColor={CYAN} stopOpacity={0.06} />
-            <Stop offset="100%" stopColor={CYAN} stopOpacity={0} />
+            <Stop offset="0%" stopColor={cyan} stopOpacity={0.25} />
+            <Stop offset="50%" stopColor={cyan} stopOpacity={0.06} />
+            <Stop offset="100%" stopColor={cyan} stopOpacity={0} />
           </RadialGradient>
         </Defs>
         <Rect x="0" y="0" width="200" height="200" fill="url(#coreGlow)" />
@@ -300,7 +321,7 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
           cy={cy}
           r={INNER_R}
           fill="none"
-          stroke={CYAN}
+          stroke={cyan}
           strokeWidth={0.5}
           opacity={0.6}
         />
@@ -363,7 +384,8 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
             style={{ backgroundColor: colors.primary.pink }}
           />
           <Text
-            className="text-[8px] font-bold uppercase tracking-[3px]"
+            variant="caption"
+            className="font-bold tracking-[3px]"
             style={{ color: colors.primary.pink }}
           >
             Drained
@@ -373,7 +395,7 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
           colors={[
             `${colors.primary.pink}30`,
             foregroundFor(scheme, 0.1),
-            `${CYAN}30`,
+            `${cyan}30`,
           ]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
@@ -382,11 +404,12 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
         <View className="items-center gap-1">
           <View
             className="size-2 rounded-full"
-            style={{ backgroundColor: CYAN }}
+            style={{ backgroundColor: cyan }}
           />
           <Text
-            className="text-[8px] font-bold uppercase tracking-[3px]"
-            style={{ color: CYAN }}
+            variant="caption"
+            className="font-bold tracking-[3px]"
+            style={{ color: cyan }}
           >
             Balanced
           </Text>
@@ -408,11 +431,12 @@ function StressNode({
   ring: 'inner' | 'middle' | 'outer';
 }) {
   const scheme = useScheme();
+  const cyan = accentFor(scheme, 'cyan');
   const config = {
     inner: {
       r: 7,
-      fill: `${CYAN}10`,
-      stroke: `${CYAN}66`,
+      fill: `${cyan}10`,
+      stroke: `${cyan}66`,
       fontSize: 7,
     },
     middle: {
@@ -465,7 +489,7 @@ function StressorResultCard({
   subtitle,
 }: StressorResultCardProps) {
   return (
-    <View className="overflow-hidden rounded-[28px] border border-foreground/[0.08] bg-surface-elevated/60 p-6">
+    <View className="overflow-hidden rounded-[28px] border border-foreground/[0.08] bg-surface-elevated p-6">
       <CardAura color={accentColor} />
       <View className="mb-4 flex-row items-start justify-between">
         <View className="flex-row items-center gap-4">
@@ -479,11 +503,12 @@ function StressorResultCard({
             <Text className="text-2xl">{stressor.emoji}</Text>
           </View>
           <View>
-            <Text className="text-lg font-black tracking-tight text-foreground">
+            <Text variant="h3" className="font-black">
               {stressor.label}
             </Text>
             <Text
-              className="text-[9px] font-bold uppercase tracking-[3px]"
+              variant="caption"
+              className="font-bold tracking-[3px]"
               style={{ color: accentColor }}
             >
               {subtitle}
@@ -491,7 +516,8 @@ function StressorResultCard({
           </View>
         </View>
         <Text
-          className="text-xl font-black italic opacity-20"
+          variant="display"
+          className="font-black opacity-20"
           style={{ color: accentColor }}
         >
           {String(rank).padStart(2, '0')}
@@ -499,15 +525,18 @@ function StressorResultCard({
       </View>
 
       <View className="mb-5">
-        <Text className="mb-2 text-[9px] font-black uppercase tracking-[3px] text-foreground/55">
+        <Text
+          variant="caption"
+          className="mb-2 font-black tracking-[3px] text-foreground/55"
+        >
           Biological Root
         </Text>
-        <Text className="text-sm leading-relaxed text-foreground/80">
+        <Text variant="sm" className="leading-relaxed text-foreground/80">
           {stressor.biologicalRoot}
         </Text>
       </View>
 
-      <View className="rounded-2xl border border-foreground/5 bg-black/40 p-4">
+      <View className="rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-4">
         <View className="mb-2 flex-row items-center gap-2">
           <MaterialIcons
             name={stressor.practice.icon as keyof typeof MaterialIcons.glyphMap}
@@ -515,13 +544,14 @@ function StressorResultCard({
             color={accentColor}
           />
           <Text
-            className="text-[10px] font-black uppercase tracking-[3px]"
+            variant="caption"
+            className="font-black tracking-[3px]"
             style={{ color: accentColor }}
           >
             Phobik Practice: {stressor.practice.name}
           </Text>
         </View>
-        <Text className="text-[12px] leading-snug text-foreground/70">
+        <Text variant="sm" className="leading-snug text-foreground/70">
           {stressor.practice.description}
         </Text>
       </View>

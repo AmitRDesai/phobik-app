@@ -1,7 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors, withAlpha } from '@/constants/colors';
-import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
-import { Pressable, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Pressable } from 'react-native';
 
 interface RatingScaleProps {
   min: number;
@@ -54,23 +56,31 @@ export function RatingScale({
                     boxShadow: `0px 0px 20px ${withAlpha(colors.primary.pink, 0.4)}`,
                   }}
                 >
-                  <Text className="text-xl font-bold text-black">{option}</Text>
+                  <Text variant="h3" className="font-bold text-white">
+                    {option}
+                  </Text>
                 </LinearGradient>
               ) : (
                 <View className="h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-surface">
-                  <Text className="text-xl font-bold text-foreground/60">
+                  <Text variant="h3" className="font-bold text-foreground/60">
                     {option}
                   </Text>
                 </View>
               )}
             </Pressable>
             {isFirst && (
-              <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/45">
+              <Text
+                variant="caption"
+                className="font-bold tracking-wider text-foreground/45"
+              >
                 {startLabel}
               </Text>
             )}
             {isLast && (
-              <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/45">
+              <Text
+                variant="caption"
+                className="font-bold tracking-wider text-foreground/45"
+              >
                 {endLabel}
               </Text>
             )}

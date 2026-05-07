@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
@@ -9,7 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 function summaryText(
   restorativePct: number | null,
@@ -45,10 +47,10 @@ export function SleepIntelligenceCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
+        <Text variant="caption" muted>
           Sleep Intelligence
         </Text>
-        <Text className="text-[9px] font-bold uppercase tracking-widest text-accent-yellow">
+        <Text variant="caption" className="text-accent-yellow">
           {wearableLabel}
         </Text>
       </View>
@@ -78,10 +80,10 @@ export function SleepIntelligenceCard() {
           </IconChip>
           <View className="relative z-10 flex-1">
             <View className="mb-1 flex-row items-end justify-between">
-              <Text className="text-lg font-black text-foreground">
+              <Text variant="h3" className="font-black">
                 Restorative Sleep
               </Text>
-              <Text className="text-2xl font-black text-primary-pink">
+              <Text variant="h2" className="font-black text-primary-pink">
                 {displayPct != null ? `${displayPct}%` : '—'}
               </Text>
             </View>
@@ -95,12 +97,12 @@ export function SleepIntelligenceCard() {
                     width: `${Math.min(100, displayPct)}%`,
                     height: '100%',
                     borderRadius: 9999,
-                    boxShadow: `0px 0px 10px ${withAlpha(colors.primary['pink-soft'], 0.5)}`,
+                    boxShadow: `0 0 12px ${withAlpha(colors.primary['pink-soft'], 0.5)}`,
                   }}
                 />
               ) : null}
             </View>
-            <Text className="mt-3 text-[10px] font-medium text-foreground/40">
+            <Text variant="caption" className="mt-3 text-foreground/40">
               {summaryText(restorativePct, hasConnectedHealth)}
             </Text>
           </View>

@@ -1,15 +1,18 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 const SECURITY_POINTS = [
   {
@@ -34,6 +37,13 @@ export default function DataSecurityPromiseScreen() {
   const isModal = modal === 'true';
   const pathname = usePathname();
   const isProfileSetup = pathname.startsWith('/profile-setup');
+  const scheme = useScheme();
+  // status.success (#0bda8e) is a bright mint that washes out on white.
+  // Use a deeper green-700 for light mode so both the chip tint and the
+  // checkmark icon read with proper contrast against bg-surface.
+  const checkAccent = scheme === 'dark' ? colors.status.success : '#047857'; // green-700
+  const checkBg = withAlpha(checkAccent, scheme === 'dark' ? 0.15 : 0.18);
+  const checkBorder = withAlpha(checkAccent, scheme === 'dark' ? 0 : 0.4);
 
   const totalSteps = isProfileSetup ? 5 : 7;
   const currentStep = isProfileSetup ? 4 : 6;
@@ -63,12 +73,21 @@ export default function DataSecurityPromiseScreen() {
             </GradientButton>
           )}
           <Pressable className="mb-1 mt-6">
-            <Text className="text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground/60 underline underline-offset-4">
+            <Text
+              variant="xs"
+              muted
+              className="tracking-[0.15em] underline underline-offset-4"
+            >
               Download full privacy policy
             </Text>
           </Pressable>
           {!isModal && (
-            <Text className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
+            <Text
+              variant="caption"
+              muted
+              className="mt-3 tracking-[0.2em]"
+              style={{ paddingRight: 2.2 }}
+            >
               Step {currentStep} of {totalSteps}
             </Text>
           )}
@@ -76,14 +95,14 @@ export default function DataSecurityPromiseScreen() {
       }
       className="px-8 pt-2"
     >
-      <Text className="text-center text-xs font-black uppercase tracking-[0.3em] text-foreground/55">
+      <Text variant="caption" muted className="text-center tracking-[0.3em]">
         Security
       </Text>
       <View className="mb-10 mt-4 items-center">
-        <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight text-foreground">
+        <Text variant="h1" className="text-center">
           Your Privacy is
         </Text>
-        <GradientText className="text-center text-3xl font-extrabold leading-tight tracking-tight">
+        <GradientText className="text-center text-3xl font-extrabold leading-tight">
           Our Priority
         </GradientText>
       </View>
@@ -109,22 +128,19 @@ export default function DataSecurityPromiseScreen() {
         {SECURITY_POINTS.map((point) => (
           <View key={point.title} className="flex-row gap-4">
             <IconChip
-              size={36}
+              size={28}
               shape="circle"
-              bg={withAlpha(colors.status.success, 0.15)}
+              bg={checkBg}
+              border={checkBorder}
               className="mt-1"
             >
-              <Ionicons
-                name="checkmark"
-                size={20}
-                color={colors.status.success}
-              />
+              <Ionicons name="checkmark" size={16} color={checkAccent} />
             </IconChip>
             <View className="flex-1">
-              <Text className="text-base font-bold leading-tight text-foreground">
+              <Text variant="md" className="font-bold">
                 {point.title}
               </Text>
-              <Text className="mt-1 text-sm leading-relaxed text-foreground/60">
+              <Text variant="sm" muted className="mt-1">
                 {point.description}
               </Text>
             </View>

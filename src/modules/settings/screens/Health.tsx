@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
@@ -7,10 +9,9 @@ import { colors, withAlpha } from '@/constants/colors';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
-import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import { Platform, Pressable, Text, View } from 'react-native';
+import { Platform, Pressable } from 'react-native';
 
 const PROVIDER_LABEL =
   Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect';
@@ -85,10 +86,10 @@ export default function Health() {
             />
           </IconChip>
           <View className="flex-1">
-            <Text className="text-base font-semibold text-foreground">
+            <Text variant="md" className="font-semibold">
               {hasAccess ? 'Connected' : 'Not connected'}
             </Text>
-            <Text className="text-sm text-foreground/50">
+            <Text variant="sm" muted>
               {hasAccess
                 ? `Reading from ${PROVIDER_LABEL}`
                 : `Connect to read HR & HRV from ${PROVIDER_LABEL}`}
@@ -99,21 +100,27 @@ export default function Health() {
         {hasAccess ? (
           <View className="mt-5 gap-2">
             <View className="flex-row justify-between">
-              <Text className="text-sm text-foreground/60">Heart rate</Text>
-              <Text className="text-sm font-semibold text-foreground">
+              <Text variant="sm" muted>
+                Heart rate
+              </Text>
+              <Text variant="sm" className="font-semibold">
                 {heartRate != null ? `${heartRate} bpm` : '—'}
               </Text>
             </View>
             <View className="flex-row justify-between">
-              <Text className="text-sm text-foreground/60">HRV</Text>
-              <Text className="text-sm font-semibold text-foreground">
+              <Text variant="sm" muted>
+                HRV
+              </Text>
+              <Text variant="sm" className="font-semibold">
                 {hrv != null ? `${hrv.toFixed(1)} ms` : '—'}
               </Text>
             </View>
             {latestAt ? (
               <View className="flex-row justify-between">
-                <Text className="text-sm text-foreground/60">Last sample</Text>
-                <Text className="text-sm font-semibold text-foreground">
+                <Text variant="sm" muted>
+                  Last sample
+                </Text>
+                <Text variant="sm" className="font-semibold">
                   {latestAt.toLocaleString()}
                 </Text>
               </View>
@@ -123,7 +130,7 @@ export default function Health() {
       </Card>
 
       {isAndroidUnavailable ? (
-        <Text className="px-2 text-center text-xs leading-relaxed text-foreground/50">
+        <Text variant="xs" muted className="px-2 text-center">
           Health Connect isn&apos;t installed on this device. Install it from
           the Play Store and re-open this screen.
         </Text>
@@ -134,7 +141,7 @@ export default function Health() {
           onPress={handleDisconnect}
           className="items-center rounded-2xl border border-status-danger/20 bg-status-danger/10 py-4 active:opacity-70"
         >
-          <Text className="text-base font-semibold text-status-danger">
+          <Text variant="md" className="font-semibold text-status-danger">
             Disconnect
           </Text>
         </Pressable>
@@ -149,7 +156,7 @@ export default function Health() {
         </GradientButton>
       )}
 
-      <Text className="px-2 text-center text-xs text-foreground/40">
+      <Text variant="xs" className="px-2 text-center text-foreground/40">
         Phobik only reads HR and HRV — it never writes data to {PROVIDER_LABEL}.
       </Text>
     </Screen>

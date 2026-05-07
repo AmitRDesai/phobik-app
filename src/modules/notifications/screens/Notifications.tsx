@@ -1,16 +1,12 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  ActivityIndicator,
-  RefreshControl,
-  SectionList,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, RefreshControl, SectionList } from 'react-native';
 import { NotificationItem } from '../components/NotificationItem';
 import {
   type NotificationItem as NotificationItemType,
@@ -90,7 +86,7 @@ export default function Notifications() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <NotificationItem notification={item} />}
           renderSectionHeader={({ section }) => (
-            <Text className="mb-2 mt-4 px-1 text-[11px] font-bold uppercase tracking-widest text-foreground/40">
+            <Text variant="caption" muted className="mb-2 mt-4 px-1">
               {section.title}
             </Text>
           )}
@@ -111,7 +107,10 @@ export default function Notifications() {
                 size={48}
                 color={foregroundFor(scheme, 0.2)}
               />
-              <Text className="mt-4 text-center text-sm text-foreground/30">
+              <Text
+                variant="sm"
+                className="mt-4 text-center text-foreground/30"
+              >
                 No notifications yet.{'\n'}You're all caught up.
               </Text>
             </View>

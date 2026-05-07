@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
@@ -6,7 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
@@ -83,7 +85,10 @@ export default function Player() {
         <PlayerOrb cue={BREATH_CUES[breathIndex] ?? 'Inhale'} />
 
         {session.intention ? (
-          <Text className="mt-10 px-2 text-center text-2xl font-light italic leading-9 tracking-tight text-foreground/60">
+          <Text
+            variant="h2"
+            className="mt-10 px-2 text-center font-light leading-9 text-foreground/60"
+          >
             &ldquo;{session.intention}&rdquo;
           </Text>
         ) : null}
@@ -135,7 +140,11 @@ export default function Player() {
           </Pressable>
         </View>
 
-        <Text className="text-center text-[10px] font-bold uppercase tracking-[0.3em] text-foreground/45">
+        <Text
+          variant="caption"
+          className="text-center font-bold tracking-[0.3em] text-foreground/45"
+          style={{ paddingRight: 3.3 }}
+        >
           Ritual: {option?.title ?? 'Session'} · {formatTime(elapsed)} left
         </Text>
       </View>

@@ -1,15 +1,17 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { GlowBg } from '@/components/ui/GlowBg';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { type ReactNode } from 'react';
-import { Pressable, Text, View } from 'react-native';
 
 import { EXERCISES } from '../data/exercises';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface ExerciseIntroScreenProps {
   exerciseId: string;
@@ -30,61 +32,38 @@ export function ExerciseIntroScreen({
   const exercise = EXERCISES.find((e) => e.id === exerciseId)!;
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
-      <View className="flex-1 bg-surface">
-        <GlowBg
-          bgClassName="bg-surface"
-          centerX={0.8}
-          centerY={0.2}
-          intensity={0.4}
-          radius={0.4}
-          startColor={colors.primary.pink}
-          endColor={colors.accent.yellow}
-        />
+    <Screen
+      variant="default"
+      header={<Header left={<BackButton />} />}
+      className="flex-1 items-center justify-center px-6"
+    >
+      <View className="w-full max-w-md items-center">
+        <View className="relative mb-6">{icon}</View>
 
-        {/* Close button — top-left */}
-        <View className="absolute left-6 top-3 z-40">
-          <BackButton />
-        </View>
+        <Text variant="h1" className="mb-4 text-center font-bold">
+          {exercise.name}
+        </Text>
 
-        {/* Main content — centered */}
-        <View className="z-10 flex-1 items-center justify-center px-6 pb-32 pt-24">
-          <View className="w-full max-w-md items-center">
-            {/* Icon */}
-            <View className="relative mb-6">{icon}</View>
+        <Text
+          variant="sm"
+          muted
+          className="mx-auto mb-10 max-w-sm text-center leading-relaxed"
+        >
+          {exercise.description}
+        </Text>
 
-            {/* Title */}
-            <Text className="mb-4 text-center text-3xl font-bold tracking-tight text-foreground">
-              {exercise.name}
-            </Text>
-
-            {/* Description */}
-            <Text className="mx-auto mb-10 max-w-sm text-center text-[13px] leading-relaxed text-foreground/60">
-              {exercise.description}
-            </Text>
-
-            {/* Buttons */}
-            <View className="w-full gap-3">
-              <GradientButton
-                onPress={() => router.push(sessionRoute as never)}
-              >
-                {hasSavedSession ? 'Resume Session' : 'Start'}
-              </GradientButton>
-              {hasSavedSession && (
-                <Pressable
-                  onPress={onClearSession}
-                  className="w-full items-center rounded-full border border-foreground/5 bg-foreground/5 py-4 active:opacity-70"
-                >
-                  <Text className="text-sm font-medium text-foreground/60">
-                    Restart Progress
-                  </Text>
-                </Pressable>
-              )}
-            </View>
-          </View>
+        <View className="w-full gap-3">
+          <GradientButton onPress={() => router.push(sessionRoute as never)}>
+            {hasSavedSession ? 'Resume Session' : 'Start'}
+          </GradientButton>
+          {hasSavedSession && (
+            <Button variant="ghost" onPress={onClearSession}>
+              Restart Progress
+            </Button>
+          )}
         </View>
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }
 

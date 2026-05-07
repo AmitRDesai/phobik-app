@@ -1,10 +1,11 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors, withAlpha } from '@/constants/colors';
 import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
 import { useSleepHistory } from '@/modules/insights/hooks/useSleepHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue } from 'jotai';
-import { Text, View } from 'react-native';
 
 function scoreLabel(score: number | null): string {
   if (score == null) return 'No data';
@@ -44,7 +45,7 @@ export function SleepScoreHeader() {
             borderRadius: 80,
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: `0px 0px 25px ${withAlpha(colors.primary.pink, 0.4)}`,
+            boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.4)}`,
           }}
         >
           <View
@@ -56,19 +57,17 @@ export function SleepScoreHeader() {
             }}
           />
           <View className="z-10 items-center">
-            <Text className="text-5xl font-extrabold text-foreground">
+            <Text variant="display">
               {lastNightScore != null ? lastNightScore : '—'}
             </Text>
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/80">
+            <Text variant="caption" className="text-foreground/80">
               Score
             </Text>
           </View>
         </LinearGradient>
       </View>
-      <Text className="text-2xl font-bold text-foreground">
-        {scoreLabel(lastNightScore)}
-      </Text>
-      <Text className="mt-1 font-medium text-primary-pink/80">
+      <Text variant="h2">{scoreLabel(lastNightScore)}</Text>
+      <Text variant="md" className="mt-1 font-medium text-primary-pink/80">
         {scoreSubtitle(lastNightScore, hasConnectedHealth)}
       </Text>
     </View>

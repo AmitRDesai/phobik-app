@@ -1,9 +1,12 @@
 import mindfulWalkingImg from '@/assets/images/four-pillars/movement-mindful-walking.jpg';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+import { accentFor } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
-import { Text, View } from 'react-native';
 
 import { MovementSessionShell } from './MovementSessionShell';
 
@@ -29,6 +32,8 @@ const PHASES = [
 ];
 
 export default function MindfulWalkingSession() {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
   return (
     <MovementSessionShell
       wordmark="Mindful Walking"
@@ -36,7 +41,7 @@ export default function MindfulWalkingSession() {
     >
       <View className="items-center pt-2">
         <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/70">
+          <Text variant="caption" className="font-bold text-foreground/70">
             Grounding Frequency Active
           </Text>
         </View>
@@ -63,10 +68,10 @@ export default function MindfulWalkingSession() {
             style={{ position: 'absolute', inset: 0 }}
           />
           <View className="absolute inset-x-0 bottom-0 p-6">
-            <Text className="text-2xl font-extrabold text-foreground">
+            <Text variant="h2" className="font-extrabold text-white">
               Mindful Walking:
             </Text>
-            <Text className="text-2xl font-extrabold text-foreground">
+            <Text variant="h2" className="font-extrabold text-white">
               Feel each step.
             </Text>
           </View>
@@ -76,28 +81,29 @@ export default function MindfulWalkingSession() {
       {/* Phases */}
       <View className="mt-6 gap-3">
         {PHASES.map((phase) => (
-          <View
-            key={phase.number}
-            className="rounded-3xl border border-foreground/10 bg-foreground/5 p-5"
-          >
-            <Text className="text-[11px] font-bold tracking-widest text-accent-yellow">
+          <Card key={phase.number} variant="glass">
+            <Text
+              variant="caption"
+              className="font-bold tracking-widest"
+              style={{ color: yellow }}
+            >
               {phase.number}
             </Text>
-            <Text className="mt-1 text-lg font-bold text-foreground">
+            <Text variant="h3" className="mt-1 font-bold">
               {phase.title}
             </Text>
-            <Text className="mt-2 text-sm leading-relaxed text-foreground/70">
+            <Text
+              variant="sm"
+              className="mt-2 leading-relaxed text-foreground/70"
+            >
               {phase.description}
             </Text>
-          </View>
+          </Card>
         ))}
       </View>
 
       <View className="mt-8 items-center pb-4">
-        <Text
-          className="text-center text-base text-foreground/60"
-          style={{ color: colors.accent.yellow }}
-        >
+        <Text variant="lg" className="text-center" style={{ color: yellow }}>
           “You’re here. That’s enough.”
         </Text>
       </View>

@@ -65,9 +65,8 @@ export type FeelingContent = {
   detailTitle: string;
   detailSubtitle: string;
   subtitleColor: AccentToken;
-  subtitleItalic: boolean;
   showCategoryLabel?: boolean;
-  actionItemStyle: 'compact' | 'bento' | 'bento-tall';
+  actionItemStyle: 'compact' | 'bento';
   emphasisStyle?: 'split-muted' | 'continuous-bold' | 'plain';
   insightLabel?: string;
   actionsLabel?: string;
@@ -114,7 +113,6 @@ export const FEELINGS: FeelingContent[] = [
     detailTitle: 'Overwhelmed',
     detailSubtitle: 'Needs structure',
     subtitleColor: 'secondary',
-    subtitleItalic: true,
     actionItemStyle: 'compact',
     descriptionLead: 'Your mind is juggling too many open loops. ',
     descriptionEmphasis: "More effort isn't the answer.",
@@ -144,7 +142,6 @@ export const FEELINGS: FeelingContent[] = [
     detailTitle: 'Sad',
     detailSubtitle: 'Needs support',
     subtitleColor: 'primary',
-    subtitleItalic: false,
     actionItemStyle: 'bento',
     descriptionLead: 'Nothing is broken. ',
     descriptionEmphasis: 'Your system may be looking for connection.',
@@ -193,7 +190,6 @@ export const FEELINGS: FeelingContent[] = [
     detailTitle: 'Anxious',
     detailSubtitle: 'Needs a sense of safety',
     subtitleColor: 'primary',
-    subtitleItalic: false,
     showCategoryLabel: false,
     actionItemStyle: 'compact',
     emphasisStyle: 'continuous-bold',
@@ -234,25 +230,18 @@ export const FEELINGS: FeelingContent[] = [
     detailTitle: 'Emotionally Drained',
     detailSubtitle: 'Needs space',
     subtitleColor: 'primary',
-    subtitleItalic: false,
     showCategoryLabel: false,
-    actionItemStyle: 'bento-tall',
+    actionItemStyle: 'compact',
     emphasisStyle: 'plain',
+    insightLabel: 'The Insight',
+    actionsLabel: 'Helpful actions',
     descriptionLead:
       'Your system is overloaded and needs less, not more. Pushing through can make it worse.',
     descriptionEmphasis: '',
     actionItems: [
-      {
-        icon: 'pause-circle',
-        label: 'Step back and pause',
-        accent: 'secondary',
-      },
-      { icon: 'blur-off', label: 'Reduce stimulation', accent: 'primary' },
-      {
-        icon: 'restore',
-        label: 'Give yourself time to reset',
-        accent: 'tertiary',
-      },
+      { icon: 'pause-circle', label: 'Step back and pause' },
+      { icon: 'blur-off', label: 'Reduce stimulation' },
+      { icon: 'restore', label: 'Give yourself time to reset' },
     ],
     visualCloud: {
       image: MINDFUL_IMAGES.drained,
@@ -273,7 +262,6 @@ export const FEELINGS: FeelingContent[] = [
     detailTitle: 'Disconnected',
     detailSubtitle: 'Needs sensation',
     subtitleColor: 'secondary',
-    subtitleItalic: true,
     actionItemStyle: 'bento',
     descriptionLead: 'Your body may be pulling back to protect you. ',
     descriptionEmphasis: "Thinking your way out won't reconnect you.",

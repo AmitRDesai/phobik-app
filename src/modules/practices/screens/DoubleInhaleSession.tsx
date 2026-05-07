@@ -1,17 +1,25 @@
 import exhaleAudio from '@/assets/audio/practices/exhale.mp3';
 import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
 import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { GlowBg } from '@/components/ui/GlowBg';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { Card } from '@/components/ui/Card';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
 import { useScheme } from '@/hooks/useTheme';
-
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Pressable } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -31,17 +39,15 @@ import Svg, {
 import { useInstructionAudio } from '../hooks/useInstructionAudio';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
-import { doubleInhaleSessionAtom } from '../store/session-atoms';
 import { formatTime } from '../lib/format';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { doubleInhaleSessionAtom } from '../store/session-atoms';
 
 // ── Extracted Presentational Components ─────────────────────────────────────
 
 function InstructionCard() {
-  const scheme = useScheme();
   return (
     <View className="z-20 px-6 pb-6">
-      <View className="rounded-3xl border border-foreground/10 bg-[#0a0a0a]/80 p-5">
+      <Card variant="glass">
         <View className="flex-row items-start gap-4">
           <View className="h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-pink/10">
             <MaterialIcons
@@ -50,12 +56,15 @@ function InstructionCard() {
               color={colors.primary.pink}
             />
           </View>
-          <Text className="flex-1 text-base font-medium leading-relaxed text-foreground/80">
+          <Text
+            variant="lg"
+            className="flex-1 font-medium leading-relaxed text-foreground/80"
+          >
             Take two quick inhales through your nose, then one long exhale
             through your mouth.
           </Text>
         </View>
-      </View>
+      </Card>
     </View>
   );
 }
@@ -91,25 +100,26 @@ function PlaybackControls({
       </Pressable>
 
       {/* Pause / Play button */}
-      <Pressable
-        onPress={onPauseToggle}
-        className="h-20 w-20 items-center justify-center rounded-full bg-white active:scale-95"
-        style={{
-          boxShadow: [
-            {
-              offsetX: 0,
-              offsetY: 0,
-              blurRadius: 15,
-              color: withAlpha(colors.primary.pink, 0.3),
-            },
-          ],
-        }}
-      >
-        <MaterialIcons
-          name={isPaused ? 'play-arrow' : 'pause'}
-          size={36}
-          color={colors.background.dark}
-        />
+      <Pressable onPress={onPauseToggle} className="active:scale-95">
+        <LinearGradient
+          colors={[colors.primary.pink, colors.accent.yellow]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{
+            width: 80,
+            height: 80,
+            borderRadius: 40,
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.3)}`,
+          }}
+        >
+          <MaterialIcons
+            name={isPaused ? 'play-arrow' : 'pause'}
+            size={36}
+            color="white"
+          />
+        </LinearGradient>
       </Pressable>
 
       {/* Restart button */}
@@ -260,11 +270,15 @@ function PhaseProgress({
 }) {
   return (
     <View className="mt-4 items-center gap-3 px-6" style={{ minHeight: 140 }}>
-      <Text className="text-center text-5xl font-bold tracking-tight text-foreground">
+      <Text variant="display" className="text-center font-bold">
         {currentPhase}
       </Text>
       <View style={{ height: 36 }} className="items-center justify-center">
-        <Text className="mx-auto max-w-[280px] text-center text-sm leading-relaxed text-foreground/60">
+        <Text
+          variant="sm"
+          muted
+          className="mx-auto max-w-[280px] text-center leading-relaxed"
+        >
           {currentSubtext}
         </Text>
       </View>
@@ -297,7 +311,10 @@ function PhaseProgress({
           ))}
         </View>
         {sessionReady && (
-          <Text className="text-sm font-bold uppercase tracking-widest text-primary-pink">
+          <Text
+            variant="sm"
+            className="font-bold uppercase tracking-widest text-primary-pink"
+          >
             Step {currentStep.step} of 3: {currentStep.label}
           </Text>
         )}
@@ -540,74 +557,76 @@ export default function DoubleInhaleSession() {
     transform: [{ scale: breathScale.value * 1.2 }],
   }));
 
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
+
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
-      <View className="flex-1 bg-surface">
-        <GlowBg
-          bgClassName="bg-surface"
-          centerX={0.5}
-          centerY={0.35}
-          intensity={0.6}
-          radius={0.35}
-          startColor={colors.primary.pink}
-          endColor={colors.accent.yellow}
-        />
-
-        {/* Header: Close / Timer Pill / Spacer */}
-        <View className="z-20 flex-row items-center justify-between px-6 pb-4 pt-3.5">
-          <BackButton icon="close" />
-
-          {/* Timer pill */}
-          <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1">
-            <Text
-              className="text-sm font-bold text-accent-yellow"
-              style={{ fontVariant: ['tabular-nums'] }}
+    <Screen
+      variant="default"
+      header={
+        <Header
+          left={<BackButton icon="close" />}
+          center={
+            <View
+              className="rounded-full border px-4 py-1"
+              style={{
+                borderColor: withAlpha(yellow, 0.4),
+                backgroundColor: withAlpha(yellow, 0.12),
+              }}
             >
-              {formatTime(timeRemaining)}
-            </Text>
-          </View>
-
-          <View className="h-11 w-11" />
-        </View>
-
-        {/* Breathing visualization + phase text */}
-        <View className="z-10 flex-1 items-center justify-center">
-          <BreathingVisualization
-            mainOrbStyle={mainOrbStyle}
-            pulse1Style={pulse1Style}
-            pulse2Style={pulse2Style}
-          />
-          <PhaseProgress
-            currentPhase={currentPhase}
-            currentSubtext={currentSubtext}
-            currentStep={currentStep}
-            phaseIndex={phaseIndex}
-            sessionReady={sessionReady}
-          />
-        </View>
-
-        {/* Glass instruction card */}
-        <InstructionCard />
-
-        {/* Controls: mute / pause / restart */}
-        <PlaybackControls
-          isPaused={isPaused}
-          onPauseToggle={() => {
-            setIsPaused((p) => {
-              if (!p) {
-                inhalePlayer.pause();
-                exhalePlayer.pause();
-                bowlPlayer.pause();
-              }
-              return !p;
-            });
-          }}
-          isMuted={isMuted}
-          onMuteToggle={() => setIsMuted((m) => !m)}
-          onRestart={handleRestart}
+              <Text
+                variant="sm"
+                className="font-bold"
+                style={{
+                  color: yellow,
+                  fontVariant: ['tabular-nums'],
+                }}
+              >
+                {formatTime(timeRemaining)}
+              </Text>
+            </View>
+          }
+        />
+      }
+      className="flex-1"
+    >
+      {/* Breathing visualization + phase text */}
+      <View className="flex-1 items-center justify-center">
+        <BreathingVisualization
+          mainOrbStyle={mainOrbStyle}
+          pulse1Style={pulse1Style}
+          pulse2Style={pulse2Style}
+        />
+        <PhaseProgress
+          currentPhase={currentPhase}
+          currentSubtext={currentSubtext}
+          currentStep={currentStep}
+          phaseIndex={phaseIndex}
           sessionReady={sessionReady}
         />
       </View>
-    </SafeAreaView>
+
+      {/* Glass instruction card */}
+      <InstructionCard />
+
+      {/* Controls: mute / pause / restart */}
+      <PlaybackControls
+        isPaused={isPaused}
+        onPauseToggle={() => {
+          setIsPaused((p) => {
+            if (!p) {
+              inhalePlayer.pause();
+              exhalePlayer.pause();
+              bowlPlayer.pause();
+            }
+            return !p;
+          });
+        }}
+        isMuted={isMuted}
+        onMuteToggle={() => setIsMuted((m) => !m)}
+        onRestart={handleRestart}
+        sessionReady={sessionReady}
+      />
+    </Screen>
   );
 }

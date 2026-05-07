@@ -1,7 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors, withAlpha } from '@/constants/colors';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 interface SelectableChipProps {
   label: string;
@@ -17,8 +19,9 @@ export function SelectableChip({
   const inner = (
     <View className="h-11 flex-row items-center px-5">
       <Text
+        variant="sm"
         className={clsx(
-          'text-sm font-bold',
+          'font-bold',
           selected ? 'text-white' : 'text-foreground/80',
         )}
       >
@@ -42,7 +45,7 @@ export function SelectableChip({
           {inner}
         </LinearGradient>
       ) : (
-        <View className="rounded-full bg-foreground/10">{inner}</View>
+        <View className="rounded-full bg-foreground/5">{inner}</View>
       )}
     </Pressable>
   );

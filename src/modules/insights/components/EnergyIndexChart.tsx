@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -6,7 +8,6 @@ import { useEnergyCheckInHistory } from '@/modules/home/hooks/useEnergyCheckIn';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
 import { useMemo } from 'react';
-import { Text, View } from 'react-native';
 import Svg, {
   Circle,
   Defs,
@@ -73,12 +74,12 @@ export function EnergyIndexChart() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
+        <Text variant="caption" muted>
           Energy Index Trend
         </Text>
         <View className="flex-row items-center gap-1.5">
           <View className="h-2 w-2 rounded-full bg-primary-pink" />
-          <Text className="text-[10px] font-bold text-foreground">
+          <Text variant="xs" className="font-bold">
             Avg. {average ?? '—'}
           </Text>
         </View>
@@ -154,19 +155,19 @@ export function EnergyIndexChart() {
             ) : null}
           </Svg>
           <View className="absolute inset-0 justify-between py-1">
-            <Text className="text-[8px] font-bold uppercase text-foreground/30">
+            <Text variant="caption" className="text-foreground/30">
               High
             </Text>
-            <Text className="text-[8px] font-bold uppercase text-foreground/30">
+            <Text variant="caption" className="text-foreground/30">
               Med
             </Text>
-            <Text className="text-[8px] font-bold uppercase text-foreground/30">
+            <Text variant="caption" className="text-foreground/30">
               Low
             </Text>
           </View>
           {!isLoading && series.length === 0 ? (
             <View className="absolute inset-0 items-center justify-center">
-              <Text className="text-[11px] font-semibold text-foreground/40">
+              <Text variant="xs" muted className="font-semibold">
                 No energy check-ins yet
               </Text>
             </View>
@@ -177,7 +178,8 @@ export function EnergyIndexChart() {
             {labelIndices.map((i) => (
               <Text
                 key={series[i].date}
-                className="text-[9px] font-bold text-foreground/30"
+                variant="xs"
+                className="font-bold text-foreground/30"
               >
                 {formatLabel(series[i].date)}
               </Text>

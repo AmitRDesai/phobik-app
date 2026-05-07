@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors } from '@/constants/colors';
 import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
 import {
@@ -5,9 +7,9 @@ import {
   type BiometricHistoryPoint,
 } from '@/modules/insights/hooks/useBiometricHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
-import { useAtomValue } from 'jotai';
-import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
+import { useAtomValue } from 'jotai';
+import { Pressable } from 'react-native';
 import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg';
 
 const VIEW_W = 400;
@@ -82,16 +84,16 @@ export function HrvRecoveryChart() {
     <View className="gap-4 px-4">
       <View className="flex-row items-end justify-between">
         <View>
-          <Text className="text-lg font-bold text-foreground">
+          <Text variant="h3" className="font-bold">
             HRV Recovery
           </Text>
-          <Text className="text-sm text-foreground/40">
+          <Text variant="sm" muted>
             Heart Rate Variability trend
           </Text>
         </View>
         <View className="items-end">
           <Text
-            className="text-2xl font-bold tracking-tight"
+            variant="h2"
             style={{
               color: colors.amber[400],
               textShadowColor: colors.amber[400],
@@ -100,11 +102,12 @@ export function HrvRecoveryChart() {
             }}
           >
             {latestValue != null ? latestValue.toFixed(0) : '—'}{' '}
-            <Text className="text-xs font-normal">ms</Text>
+            <Text variant="xs">ms</Text>
           </Text>
           {deltaPct != null ? (
             <Text
-              className="text-xs font-bold"
+              variant="xs"
+              className="font-bold"
               style={{
                 color:
                   deltaPct >= 0 ? colors.status.success : colors.status.danger,
@@ -150,10 +153,10 @@ export function HrvRecoveryChart() {
             </Svg>
           ) : hasConnectedHealth ? (
             <View className="h-full w-full items-center justify-center">
-              <Text className="text-center text-xs font-semibold uppercase tracking-widest text-foreground/40">
+              <Text variant="caption" muted className="text-center">
                 No data
               </Text>
-              <Text className="mt-1 text-[10px] text-foreground/30">
+              <Text variant="caption" className="mt-1 text-foreground/30">
                 No HRV samples in this window
               </Text>
             </View>
@@ -162,10 +165,10 @@ export function HrvRecoveryChart() {
               onPress={() => router.push('/settings/health')}
               className="h-full w-full items-center justify-center"
             >
-              <Text className="text-center text-xs text-foreground/40">
+              <Text variant="xs" muted className="text-center">
                 Connect Apple Health or Health Connect for HRV trends.
               </Text>
-              <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+              <Text variant="caption" className="mt-1 text-primary-pink">
                 Set up →
               </Text>
             </Pressable>
@@ -176,7 +179,8 @@ export function HrvRecoveryChart() {
             {labels.map((label) => (
               <Text
                 key={label.key}
-                className="text-[10px] font-bold uppercase text-foreground/30"
+                variant="caption"
+                className="text-foreground/30"
               >
                 {label.text}
               </Text>

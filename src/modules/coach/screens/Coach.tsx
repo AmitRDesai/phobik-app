@@ -1,18 +1,19 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Header } from '@/components/ui/Header';
 import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  Pressable,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, Pressable } from 'react-native';
 import { ChatBubble } from '../components/ChatBubble';
 import { ChatInput } from '../components/ChatInput';
 import { FollowUpSuggestions } from '../components/FollowUpSuggestions';
@@ -117,16 +118,21 @@ export default function Coach() {
   );
 
   const iconMuted = foregroundFor(scheme, 0.5);
+  const purple = accentFor(scheme, 'purple');
 
   const headerLeft = (
     <View className="h-9 w-9 items-center justify-center rounded-full border border-foreground/10 bg-foreground/[0.08]">
-      <MaterialIcons name="psychology" size={20} color={colors.accent.purple} />
+      <MaterialIcons name="psychology" size={20} color={purple} />
     </View>
   );
   const headerCenter = (
     <View className="ml-3 flex-1">
-      <Text className="text-[15px] font-semibold text-foreground">Coach</Text>
-      <Text className="text-[11px] text-foreground/35">Powered by AI</Text>
+      <Text variant="md" className="font-semibold">
+        Coach
+      </Text>
+      <Text variant="xs" className="text-foreground/35">
+        Powered by AI
+      </Text>
     </View>
   );
   const headerRight = (
@@ -176,7 +182,8 @@ export default function Coach() {
                   color={colors.status.danger}
                 />
                 <Text
-                  className="flex-1 text-[13px]"
+                  variant="sm"
+                  className="flex-1"
                   style={{ color: colors.status.danger }}
                 >
                   {error}
@@ -200,8 +207,8 @@ export default function Coach() {
         {isLoadingHistory ? (
           <View className="flex-1 items-center justify-center gap-3">
             <View className="flex-row items-center gap-2">
-              <ActivityIndicator color={colors.accent.purple} size="small" />
-              <Text className="text-[13px] text-foreground/30">
+              <ActivityIndicator color={purple} size="small" />
+              <Text variant="sm" className="text-foreground/30">
                 Loading conversation...
               </Text>
             </View>
@@ -253,26 +260,30 @@ function EmptyState({
   greeting: string | null;
   onSuggestion: (text: string) => void;
 }) {
+  const scheme = useScheme();
+  const purple = accentFor(scheme, 'purple');
   return (
     <View className="flex-1 justify-end px-5 pb-6">
       <View className="flex-1 items-center justify-center">
-        <View className="mb-5 h-16 w-16 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/5">
-          <MaterialIcons
-            name="psychology"
-            size={30}
-            color={colors.accent.purple}
-          />
+        <View className="mb-5 h-16 w-16 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04]">
+          <MaterialIcons name="psychology" size={30} color={purple} />
         </View>
         {greeting ? (
-          <Text className="max-w-[300px] text-center text-[15px] leading-6 text-foreground/70">
+          <Text
+            variant="md"
+            className="max-w-[300px] text-center leading-6 text-foreground/70"
+          >
             {greeting}
           </Text>
         ) : (
           <>
-            <Text className="mb-2 text-center text-xl font-bold text-foreground">
+            <Text variant="h3" className="mb-2 text-center font-bold">
               Hey, I&apos;m here for you
             </Text>
-            <Text className="max-w-[280px] text-center text-[14px] leading-5 text-foreground/40">
+            <Text
+              variant="sm"
+              className="max-w-[280px] text-center leading-5 text-foreground/40"
+            >
               I can help with anxiety, grounding exercises, breathing
               techniques, and building resilience.
             </Text>
@@ -287,7 +298,9 @@ function EmptyState({
             onPress={() => onSuggestion(text)}
             className="rounded-2xl border border-foreground/10 bg-foreground/[0.03] px-4 py-3"
           >
-            <Text className="text-[14px] text-foreground/60">{text}</Text>
+            <Text variant="sm" muted>
+              {text}
+            </Text>
           </Pressable>
         ))}
       </View>

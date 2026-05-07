@@ -1,10 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
-
 import { isTodayLocal } from '@/modules/daily-flow/data/flow-navigation';
 import { useActiveDailyFlowSession } from '@/modules/daily-flow/hooks/useDailyFlowSession';
 import { useEnterDailyFlow } from '@/modules/daily-flow/hooks/useEnterDailyFlow';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export function DailyFlowHero() {
   const { session } = useActiveDailyFlowSession();
@@ -13,10 +13,10 @@ export function DailyFlowHero() {
 
   return (
     <View className="items-center px-2 pb-2 pt-6">
-      <Text className="mb-2 text-center text-3xl font-black leading-tight tracking-tight text-foreground">
+      <Text variant="h1" className="mb-2 text-center font-black leading-tight">
         How do you want to feel right now?
       </Text>
-      <Text className="mb-6 text-center text-sm font-medium text-foreground/60">
+      <Text variant="sm" muted className="mb-6 text-center font-medium">
         {canResume ? 'Pick up where you left off' : 'Start your Daily Flow'}
       </Text>
       <View className="w-full px-6">

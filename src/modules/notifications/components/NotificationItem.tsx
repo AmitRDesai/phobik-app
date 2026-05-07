@@ -1,10 +1,11 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
 import type { NotificationItem as NotificationItemType } from '../hooks/useNotifications';
 
 interface NotificationItemProps {
@@ -62,23 +63,17 @@ export function NotificationItem({ notification }: NotificationItemProps) {
 
       <View className="flex-1 gap-0.5">
         <View className="flex-row items-center gap-2">
-          <Text
-            className="flex-1 text-[14px] font-semibold text-foreground"
-            numberOfLines={1}
-          >
+          <Text variant="sm" className="flex-1 font-semibold" numberOfLines={1}>
             {notification.title}
           </Text>
           {isUnread && (
             <View className="h-2 w-2 rounded-full bg-primary-pink" />
           )}
         </View>
-        <Text
-          className="text-[13px] leading-relaxed text-foreground/60"
-          numberOfLines={2}
-        >
+        <Text variant="sm" muted numberOfLines={2}>
           {notification.body}
         </Text>
-        <Text className="mt-1 text-[11px] text-foreground/30">
+        <Text variant="xs" className="mt-1 text-foreground/30">
           {formatTimestamp(notification.createdAt)}
         </Text>
       </View>

@@ -1,7 +1,8 @@
+import { View } from '@/components/themed/View';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { TextInput, View } from 'react-native';
+import { TextInput } from 'react-native';
 
 interface SearchBarProps {
   value: string;

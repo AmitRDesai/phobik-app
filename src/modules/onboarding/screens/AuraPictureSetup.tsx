@@ -1,16 +1,17 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
+import { useImagePicker } from '@/hooks/useImagePicker';
 import { useSession } from '@/lib/auth';
 import { dialog } from '@/utils/dialog';
 import { File as ExpoFile } from 'expo-file-system';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
 import { AuraFilterToggle } from '../components/AuraFilterToggle';
 import { ProfilePictureCircle } from '../components/ProfilePictureCircle';
-import { useImagePicker } from '@/hooks/useImagePicker';
 import { useUploadProfilePicture } from '../hooks/useUploadProfilePicture';
 import { auraFilterEnabledAtom } from '../store/onboarding';
 
@@ -79,7 +80,7 @@ export default function AuraPictureSetup() {
       variant="onboarding"
       header={
         <View className="px-6 pb-2 pt-4">
-          <Text className="text-center text-lg font-bold text-foreground">
+          <Text variant="h3" className="text-center font-bold">
             Profile Setup
           </Text>
         </View>
@@ -100,10 +101,10 @@ export default function AuraPictureSetup() {
       className=""
     >
       <View className="px-8 pt-8">
-        <Text className="text-center text-3xl font-bold tracking-tight text-foreground">
+        <Text variant="h1" className="text-center">
           Your Signature Aura
         </Text>
-        <Text className="mt-3 text-center text-base leading-relaxed text-foreground/55">
+        <Text variant="lg" muted className="mt-3 text-center">
           Express your energy. Upload a photo to see your PHOBIK aura.
         </Text>
       </View>

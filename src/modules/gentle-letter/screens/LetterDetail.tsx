@@ -1,7 +1,9 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
@@ -41,7 +43,9 @@ export default function LetterDetail() {
   if (!letter) {
     return (
       <View className="flex-1 items-center justify-center bg-surface">
-        <Text className="text-base text-foreground/60">Letter not found.</Text>
+        <Text variant="md" muted>
+          Letter not found.
+        </Text>
       </View>
     );
   }
@@ -61,10 +65,10 @@ export default function LetterDetail() {
       className="px-6"
     >
       <View className="mt-6 gap-3">
-        <Text className="text-2xl font-bold leading-tight text-foreground">
+        <Text variant="h2" className="font-bold leading-tight">
           {letter.title}
         </Text>
-        <Text className="text-sm text-foreground/55">
+        <Text variant="sm" className="text-foreground/55">
           {formatDate(letter.entryDate)}
         </Text>
         {letter.coreAct && (
@@ -87,12 +91,18 @@ export default function LetterDetail() {
                   size={18}
                   color={colors.primary.pink}
                 />
-                <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
+                <Text
+                  variant="caption"
+                  className="font-bold text-foreground/55"
+                >
                   Step {step.step}: {step.label}
                 </Text>
               </View>
               <Card variant="surface" className="p-5">
-                <Text className="text-base leading-relaxed text-foreground/80">
+                <Text
+                  variant="md"
+                  className="leading-relaxed text-foreground/80"
+                >
                   {text}
                 </Text>
               </Card>

@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { ProgressDots } from '@/components/ui/ProgressDots';
@@ -7,7 +9,6 @@ import { type AgeRange, questionnaireAgeAtom } from '@/store/onboarding';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
-import { Text, View } from 'react-native';
 
 const AGE_OPTIONS: { value: AgeRange; label: string }[] = [
   { value: '18-24', label: '18–24' },
@@ -47,17 +48,22 @@ export default function AgeSelectionScreen() {
           >
             Next
           </GradientButton>
-          <Text className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
+          <Text
+            variant="caption"
+            muted
+            className="mt-3 tracking-[0.2em]"
+            style={{ paddingRight: 2.2 }}
+          >
             Step {currentStep} of {totalSteps}
           </Text>
         </View>
       }
       className="px-8 pt-2"
     >
-      <Text className="text-center text-3xl font-extrabold tracking-tight text-foreground">
+      <Text variant="h1" className="text-center tracking-tight">
         What age range do you fall into?
       </Text>
-      <Text className="mt-3 text-center text-sm text-foreground/60">
+      <Text variant="sm" muted className="mt-3 text-center">
         Select your age range to personalize your journey.
       </Text>
       <View className="mt-8 gap-4">

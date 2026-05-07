@@ -1,3 +1,6 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { DashboardCard } from '@/components/ui/DashboardCard';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import {
@@ -6,9 +9,7 @@ import {
   useMicroChallengeStats,
 } from '@/modules/micro-challenges/hooks/useMicroChallenge';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
-
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Pressable } from 'react-native';
 import { StreakGrid } from './StreakGrid';
 
 export function ChallengesCard() {
@@ -28,7 +29,12 @@ export function ChallengesCard() {
     <DashboardCard glow className="p-5">
       <View className="mb-5 flex-row gap-4">
         <View className="justify-center border-r border-foreground/10 pr-4">
-          <Text className="mb-1 text-[9px] font-bold uppercase leading-tight tracking-widest text-foreground/60">
+          <Text
+            variant="caption"
+            muted
+            className="mb-1 text-[9px] font-bold leading-tight"
+            style={{ paddingRight: 1.8 }}
+          >
             Total{'\n'}Challenges
           </Text>
           <Text
@@ -44,7 +50,12 @@ export function ChallengesCard() {
         </View>
 
         <View className="flex-1">
-          <Text className="mb-3 text-right text-[8px] font-bold uppercase tracking-widest text-foreground/60">
+          <Text
+            variant="caption"
+            muted
+            className="mb-3 text-right text-[8px] font-bold"
+            style={{ paddingRight: 1.6 }}
+          >
             Weekly Streak
           </Text>
           <View className="-mx-4">
@@ -54,7 +65,10 @@ export function ChallengesCard() {
       </View>
 
       <View className="items-center">
-        <Text className="mb-4 text-center text-sm font-medium text-foreground/70">
+        <Text
+          variant="sm"
+          className="mb-4 text-center font-medium text-foreground/70"
+        >
           {completedToday
             ? 'Great job today! Want to do another one?'
             : 'Complete one micro challenge to start building your streak.'}
@@ -64,7 +78,8 @@ export function ChallengesCard() {
           className="w-full items-center justify-center rounded-full border border-foreground/20 bg-foreground/10 px-6 py-3.5 active:scale-[0.98]"
         >
           <Text
-            className="text-sm font-bold uppercase tracking-wide"
+            variant="sm"
+            className="font-bold uppercase tracking-wide"
             style={{ color: accentFor(scheme, 'yellow') }}
           >
             {hasActive

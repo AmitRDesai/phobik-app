@@ -1,10 +1,12 @@
 import taiChiImg from '@/assets/images/four-pillars/movement-tai-chi.jpg';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, withAlpha } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { Text, View } from 'react-native';
 
 import { MovementSessionShell } from './MovementSessionShell';
 
@@ -29,14 +31,14 @@ export default function TaiChiSession() {
     >
       <View className="items-center pt-2">
         <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/70">
+          <Text variant="caption" className="font-bold text-foreground/70">
             Active Flow: Tai Chi
           </Text>
         </View>
       </View>
 
       <View className="mt-6 items-center">
-        <Text className="text-2xl font-extrabold text-foreground">
+        <Text variant="h2" className="font-extrabold">
           Move slowly.
         </Text>
         <GradientText className="text-2xl font-extrabold">
@@ -49,7 +51,7 @@ export default function TaiChiSession() {
         <View
           className="h-[280px] w-[280px] items-center justify-center overflow-hidden rounded-full border border-foreground/10"
           style={{
-            boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.4)}`,
+            boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
         >
           <Image
@@ -63,9 +65,10 @@ export default function TaiChiSession() {
       {/* Tip cards */}
       <View className="mt-10 gap-3 pb-6">
         {TIPS.map((tip) => (
-          <View
+          <Card
             key={tip.text}
-            className="flex-row items-center gap-3 rounded-3xl border border-foreground/10 bg-foreground/5 p-4"
+            variant="glass"
+            className="flex-row items-center gap-3 p-4"
           >
             <View className="h-10 w-10 items-center justify-center rounded-full bg-primary-pink/10">
               <MaterialIcons
@@ -74,10 +77,10 @@ export default function TaiChiSession() {
                 color={colors.primary.pink}
               />
             </View>
-            <Text className="flex-1 text-base text-foreground/80">
+            <Text variant="lg" className="flex-1 text-foreground/80">
               {tip.text}
             </Text>
-          </View>
+          </Card>
         ))}
       </View>
     </MovementSessionShell>

@@ -1,7 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors } from '@/constants/colors';
 import { Image, type ImageSource } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 const rowShadow = {
   borderRadius: 32,
@@ -67,9 +69,7 @@ export function PracticeListRow({
                   const [bg, text] = tone.split(' ');
                   return (
                     <View key={tag} className={`rounded-full px-3 py-1 ${bg}`}>
-                      <Text
-                        className={`text-[10px] font-bold uppercase tracking-widest ${text}`}
-                      >
+                      <Text variant="caption" className={`font-bold ${text}`}>
                         {tag}
                       </Text>
                     </View>
@@ -77,11 +77,13 @@ export function PracticeListRow({
                 })}
               </View>
             ) : null}
-            <Text className="text-2xl font-bold leading-tight text-foreground">
+            <Text variant="h2" className="font-bold leading-tight text-white">
               {title}
             </Text>
             {meta ? (
-              <Text className="mt-1.5 text-sm text-foreground/70">{meta}</Text>
+              <Text variant="sm" className="mt-1.5 text-white/70">
+                {meta}
+              </Text>
             ) : null}
           </View>
         </View>

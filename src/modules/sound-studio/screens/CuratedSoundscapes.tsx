@@ -1,28 +1,24 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
 import { PillarCard } from '@/modules/practices/components/PillarCard';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { dialog } from '@/utils/dialog';
-import { Text, View } from 'react-native';
 
 import { SOUNDSCAPE_CATEGORIES } from '../data/sound-studio';
 
 export default function CuratedSoundscapes() {
   return (
-    <PracticeScreenShell
-      wordmark="Sound Studio"
-      bgClassName="bg-surface"
-      glowCenterY={0.25}
-      glowIntensity={0.5}
-    >
+    <PracticeScreenShell wordmark="Sound Studio">
       {/* Smaller hero so "CURATED SOUNDSCAPES" fits on two lines cleanly */}
       <View className="mb-8 mt-6">
-        <Text className="text-[32px] font-extrabold uppercase leading-none tracking-tighter text-foreground">
+        <Text className="text-[32px] font-extrabold uppercase leading-none">
           CURATED
         </Text>
-        <GradientText className="text-[32px] font-extrabold uppercase leading-none tracking-tighter">
+        <GradientText className="text-[32px] font-extrabold uppercase leading-none">
           SOUNDSCAPES
         </GradientText>
-        <Text className="mt-3 max-w-[320px] text-sm leading-relaxed text-foreground/60">
+        <Text variant="sm" muted className="mt-3 max-w-[320px] leading-relaxed">
           Curated soundscapes designed to help you reset your body, settle your
           thoughts, and feel safe — fast.
         </Text>

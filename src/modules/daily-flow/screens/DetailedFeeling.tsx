@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
@@ -5,7 +7,6 @@ import { FloatingMapper } from '@/modules/micro-challenges/components/FloatingMa
 import { EMOTIONS } from '@/modules/micro-challenges/data/emotions';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text, View } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
@@ -40,22 +41,28 @@ export default function DetailedFeeling() {
       <View className="px-6">
         <View className="flex-row items-end justify-between">
           <View className="flex-1">
-            <Text className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary-pink">
+            <Text
+              variant="caption"
+              className="font-bold tracking-[0.3em] text-primary-pink"
+              style={{ paddingRight: 3.3 }}
+            >
               Step 02
             </Text>
-            <Text className="mt-2 text-3xl font-black leading-tight tracking-tight text-foreground">
+            <Text variant="h1" className="mt-2 font-black leading-tight">
               Choose how you
             </Text>
             <View className="flex-row flex-wrap items-baseline">
-              <Text className="text-3xl font-black leading-tight tracking-tight text-foreground">
+              <Text variant="h1" className="font-black leading-tight">
                 want to{' '}
               </Text>
-              <GradientText className="text-3xl font-black leading-tight tracking-tight">
+              <GradientText className="text-3xl font-black leading-tight">
                 feel
               </GradientText>
             </View>
           </View>
-          <Text className="pb-1 text-xs text-foreground/55">25% Complete</Text>
+          <Text variant="sm" className="pb-1 text-foreground/55">
+            25% Complete
+          </Text>
         </View>
 
         <View className="mt-4">

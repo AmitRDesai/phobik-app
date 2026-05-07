@@ -1,5 +1,6 @@
+import { Text } from '@/components/themed/Text';
 import * as Haptics from 'expo-haptics';
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 import Animated from 'react-native-reanimated';
 import Svg, { Circle, Defs, RadialGradient, Stop } from 'react-native-svg';
 
@@ -48,11 +49,8 @@ export function FloatingSphere({
         style={{
           width: size,
           height: size,
-          shadowColor,
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: blurred ? 0.8 : 0.6,
-          shadowRadius: blurred ? size : size / 3,
-          elevation: 8,
+          borderRadius: size / 2,
+          boxShadow: `0 0 ${blurred ? size : size / 3}px ${shadowColor}`,
         }}
       >
         <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>

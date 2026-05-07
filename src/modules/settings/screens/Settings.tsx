@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -10,7 +12,7 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { SettingsMenuItem } from '../components/SettingsMenuItem';
 
 export default function Settings() {
@@ -57,9 +59,11 @@ export default function Settings() {
           iconSize={36}
         />
         <View className="items-center">
-          <Text className="text-xl font-bold text-foreground">{userName}</Text>
+          <Text variant="h3">{userName}</Text>
           {userEmail ? (
-            <Text className="text-sm text-foreground/50">{userEmail}</Text>
+            <Text variant="sm" muted>
+              {userEmail}
+            </Text>
           ) : null}
         </View>
       </View>
@@ -120,7 +124,7 @@ export default function Settings() {
             className="flex-row items-center justify-center gap-2 py-4"
           >
             <MaterialIcons name="lock" size={20} color={colors.primary.pink} />
-            <Text className="text-base font-semibold text-primary-pink">
+            <Text variant="md" className="font-semibold text-primary-pink">
               Lock App
             </Text>
           </Card>
@@ -129,7 +133,7 @@ export default function Settings() {
           onPress={handleLogout}
           className="items-center rounded-2xl border border-status-danger/20 bg-status-danger/10 py-4 active:opacity-70"
         >
-          <Text className="text-base font-semibold text-status-danger">
+          <Text variant="md" className="font-semibold text-status-danger">
             Log Out
           </Text>
         </Pressable>

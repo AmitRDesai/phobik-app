@@ -1,6 +1,9 @@
-import { Card } from '@/components/ui/Card';
 import * as Haptics from 'expo-haptics';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
+
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Card } from '@/components/ui/Card';
 import Svg, {
   Defs,
   Ellipse,
@@ -79,7 +82,8 @@ export function BodySilhouette({
             }}
           >
             <Text
-              className="text-[9px] font-bold uppercase tracking-widest"
+              variant="caption"
+              className="text-[9px]"
               style={{ color: area.accentColor }}
             >
               {area.label}

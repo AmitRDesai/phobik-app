@@ -1,10 +1,11 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import {
@@ -67,20 +68,20 @@ export default function ChecklistGuide() {
     >
       <View className="mb-8 mt-2">
         <View className="flex-row flex-wrap items-baseline">
-          <Text className="text-4xl font-black leading-tight tracking-tight text-foreground">
+          <Text variant="display" className="font-black leading-tight">
             The Daily
           </Text>
           <GradientText
-            className="text-4xl font-black italic leading-tight tracking-tight"
+            className="text-4xl font-black leading-tight"
             end={{ x: 1, y: 1 }}
           >
             {' Flow'}
           </GradientText>
         </View>
-        <Text className="text-4xl font-black leading-tight tracking-tight text-foreground">
+        <Text variant="display" className="font-black leading-tight">
           Journey
         </Text>
-        <Text className="mt-3 text-base leading-6 text-foreground/60">
+        <Text variant="lg" muted className="mt-3 leading-6">
           Small daily shifts that realign your energy, focus, and direction.
         </Text>
       </View>
@@ -90,15 +91,15 @@ export default function ChecklistGuide() {
           <Card key={s.title} className="p-6">
             <View className="flex-row gap-5">
               <View className="h-8 w-8 items-center justify-center rounded-full border-2 border-foreground/15">
-                <Text className="text-sm font-bold text-foreground/60">
+                <Text variant="sm" className="font-bold text-foreground/60">
                   {i + 1}
                 </Text>
               </View>
               <View className="flex-1">
-                <Text className="text-lg font-bold leading-tight text-foreground">
+                <Text variant="h3" className="font-bold leading-tight">
                   {s.title}
                 </Text>
-                <Text className="mt-2 text-sm leading-5 text-foreground/60">
+                <Text variant="sm" muted className="mt-2 leading-5">
                   {s.description}
                 </Text>
               </View>

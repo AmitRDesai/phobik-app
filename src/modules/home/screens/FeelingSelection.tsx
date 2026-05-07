@@ -1,9 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Text, View } from 'react-native';
-
 import { AffirmationHeader } from '../components/AffirmationHeader';
 import { FeelingCompass } from '../components/FeelingCompass';
 
@@ -30,9 +30,9 @@ export default function FeelingSelection() {
       className="items-center justify-center px-6"
     >
       <View className="mb-10">
-        <Text className="text-center text-2xl font-light leading-tight text-foreground">
+        <Text variant="h2" className="text-center font-light leading-tight">
           What do you want to feel{'\n'}
-          <Text className="italic">more of</Text> today?
+          more of today?
         </Text>
       </View>
       <FeelingCompass selected={selected} onSelect={setSelected} />

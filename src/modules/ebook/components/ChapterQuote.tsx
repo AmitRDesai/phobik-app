@@ -1,6 +1,6 @@
+import { Text } from '@/components/themed';
 import { Card } from '@/components/ui/Card';
 import { colors } from '@/constants/colors';
-import { Text } from 'react-native';
 
 interface ChapterQuoteProps {
   children: string;
@@ -13,7 +13,9 @@ export function ChapterQuote({ children }: ChapterQuoteProps) {
       style={{ borderLeftWidth: 4, borderLeftColor: colors.primary.pink }}
     >
       <Text
-        className="text-base italic leading-relaxed text-foreground/70"
+        variant="md"
+        muted
+        className="italic leading-relaxed"
         style={{ fontFamily: 'serif' }}
       >
         {children}

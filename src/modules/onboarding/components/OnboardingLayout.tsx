@@ -1,8 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { OnboardingProgressBar } from './OnboardingProgressBar';
 
 interface OnboardingLayoutProps {
@@ -52,7 +54,9 @@ export function OnboardingLayout({
       </View>
       {onSkip ? (
         <Pressable onPress={onSkip} className="h-10 justify-center">
-          <Text className="text-sm font-medium text-primary-pink">Skip</Text>
+          <Text variant="sm" className="font-medium text-primary-pink">
+            Skip
+          </Text>
         </Pressable>
       ) : null}
     </View>
@@ -69,7 +73,12 @@ export function OnboardingLayout({
         {buttonLabel}
       </GradientButton>
       {showStepCounter && (
-        <Text className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
+        <Text
+          variant="caption"
+          muted
+          className="mt-3 tracking-[0.2em]"
+          style={{ paddingRight: 2.2 }}
+        >
           Step {step} of {totalSteps}
         </Text>
       )}
@@ -92,19 +101,16 @@ export function OnboardingLayout({
       {headerContent && <View className="px-8 pt-4">{headerContent}</View>}
       <View className="px-8 pt-4">
         <Text
-          className={
-            titleClassName ??
-            'text-[28px] font-extrabold leading-tight tracking-tight text-foreground'
-          }
+          variant="h1"
+          className={titleClassName ?? 'leading-tight font-extrabold'}
         >
           {title}
         </Text>
         {subtitle && (
           <Text
-            className={
-              subtitleClassName ??
-              'mt-3 text-sm font-medium leading-relaxed text-foreground/60'
-            }
+            variant="sm"
+            muted
+            className={subtitleClassName ?? 'mt-3 leading-relaxed font-medium'}
           >
             {subtitle}
           </Text>

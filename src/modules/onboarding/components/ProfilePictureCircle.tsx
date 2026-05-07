@@ -20,17 +20,21 @@ export function ProfilePictureCircle({
   const fallbackIconColor = foregroundFor(scheme, { dark: 0.15, light: 0.18 });
 
   return (
-    <View
-      className="relative items-center justify-center"
-      style={
-        auraEnabled
-          ? {
-              boxShadow: `0 0 60px ${withAlpha(colors.primary.pink, 0.4)}`,
-            }
-          : undefined
-      }
-    >
-      <View className="relative h-48 w-48 overflow-hidden rounded-full border-4 border-primary-pink/20">
+    <View className="relative h-48 w-48 items-center justify-center">
+      {/* Aura glow — sized to the circle so boxShadow projects a circular
+          halo. Sits behind the image View; pointer events disabled so it
+          doesn't block the FAB. */}
+      {auraEnabled && (
+        <View
+          pointerEvents="none"
+          className="absolute inset-0 rounded-full"
+          style={{
+            boxShadow: `0 0 60px ${withAlpha(colors.primary.pink, 0.4)}`,
+          }}
+        />
+      )}
+
+      <View className="absolute inset-0 overflow-hidden rounded-full border-4 border-primary-pink/20">
         {imageUri ? (
           <Image
             source={{ uri: imageUri }}

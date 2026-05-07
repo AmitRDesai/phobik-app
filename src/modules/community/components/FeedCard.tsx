@@ -1,11 +1,14 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { ImageViewer } from '@/components/ui/ImageViewer';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { colors, withAlpha } from '@/constants/colors';
 import { formatCount } from '@/modules/practices/lib/format';
+import { clsx } from 'clsx';
 import { useState } from 'react';
-import { Image, Pressable, ScrollView, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView } from 'react-native';
 import { useToggleReaction } from '../hooks/useCommunityFeed';
 
 const REACTIONS = [
@@ -75,17 +78,17 @@ export function FeedCard({
           iconSize={22}
         />
         <View>
-          <Text className="text-sm font-bold text-foreground/80">
+          <Text variant="sm" className="font-bold text-foreground/80">
             {author.name}
           </Text>
-          <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/50">
+          <Text variant="caption" muted className="font-bold">
             {getRelativeTime(createdAt)}
           </Text>
         </View>
       </View>
 
       {/* Content */}
-      <Text className="mt-4 text-lg font-bold leading-tight text-foreground">
+      <Text variant="lg" className="mt-4 font-bold leading-tight">
         {content}
       </Text>
 
@@ -147,11 +150,12 @@ export function FeedCard({
             <Pressable
               key={reaction.type}
               onPress={() => handleReaction(reaction.type)}
-              className={`flex-row items-center rounded-full px-4 py-2 ${
+              className={clsx(
+                'flex-row items-center rounded-full px-4 py-2',
                 isActive
                   ? 'bg-primary-pink'
-                  : 'border border-primary-pink/10 bg-surface-elevated'
-              }`}
+                  : 'border border-primary-pink/10 bg-surface-elevated',
+              )}
               style={
                 isActive
                   ? {
@@ -161,7 +165,8 @@ export function FeedCard({
               }
             >
               <Text
-                className={`text-xs font-bold ${isActive ? 'text-foreground' : 'text-foreground/80'}`}
+                variant="xs"
+                className={clsx('font-bold', !isActive && 'text-foreground/80')}
               >
                 {reaction.emoji} {reaction.label}
                 {reactionCount > 0 ? ` ${formatCount(reactionCount)}` : ''}

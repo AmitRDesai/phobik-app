@@ -1,6 +1,6 @@
+import { Text } from '@/components/themed/Text';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text } from 'react-native';
 
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
@@ -14,9 +14,10 @@ export default function Movement() {
       title="4. Movement"
       duration="5-10 min target"
       intro={
-        <Text className="text-base leading-6 text-foreground/70">
+        <Text variant="lg" className="leading-6 text-foreground/70">
           Dedicate{' '}
           <Text
+            variant="lg"
             className="font-bold"
             style={{ color: accentFor(scheme, 'yellow') }}
           >

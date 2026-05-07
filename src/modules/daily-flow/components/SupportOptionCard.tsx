@@ -1,8 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, Pressable } from 'react-native';
 
 import type { SupportOption } from '../data/supportOptions';
 
@@ -35,7 +37,11 @@ export function SupportOptionCard({ option, selected, onPress }: Props) {
               paddingVertical: 5,
             }}
           >
-            <Text className="text-[10px] font-black uppercase tracking-[0.1em] text-black">
+            <Text
+              variant="caption"
+              className="font-black tracking-[0.1em] text-black"
+              style={{ paddingRight: 1.1 }}
+            >
               Best match for you
             </Text>
           </LinearGradient>
@@ -78,11 +84,15 @@ export function SupportOptionCard({ option, selected, onPress }: Props) {
         <View className="flex-1 justify-end p-7">
           <View className="flex-row items-end justify-between">
             <View className="max-w-[80%] flex-1 pr-3">
-              <Text className="text-3xl font-black leading-tight tracking-tight text-white">
+              <Text
+                variant="h1"
+                className="font-black leading-tight text-white"
+              >
                 {option.title}
               </Text>
               <Text
-                className="mt-1 text-sm leading-5 text-white/60"
+                variant="sm"
+                className="mt-1 leading-5 text-white/60"
                 numberOfLines={2}
               >
                 {option.description}
@@ -94,7 +104,8 @@ export function SupportOptionCard({ option, selected, onPress }: Props) {
                   color={durationColor}
                 />
                 <Text
-                  className="text-xs font-bold"
+                  variant="sm"
+                  className="font-bold"
                   style={{ color: durationColor }}
                 >
                   {option.duration}

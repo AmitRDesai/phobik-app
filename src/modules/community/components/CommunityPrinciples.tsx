@@ -1,9 +1,11 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, withAlpha } from '@/constants/colors';
 import type { CustomDialogProps } from '@/store/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useJoinCommunity } from '../hooks/useCommunity';
 
 const PRINCIPLES = [
@@ -51,13 +53,19 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
     <View>
       {/* Header */}
       <View className="items-center pb-2">
-        <Text className="text-[10px] font-bold uppercase tracking-[3px] text-primary-pink">
+        <Text
+          variant="caption"
+          className="text-primary-pink font-bold tracking-[3px]"
+        >
           PHOBIK COMMUNITY
         </Text>
-        <Text className="mt-1 text-center text-2xl font-bold leading-tight text-foreground">
+        <Text variant="h2" className="mt-1 text-center font-bold leading-tight">
           Phobik Community Principles
         </Text>
-        <Text className="mt-2 text-center text-[13px] leading-relaxed text-primary-muted">
+        <Text
+          variant="sm"
+          className="mt-2 text-center leading-relaxed text-primary-muted"
+        >
           Kindness matters. Courage grows in Community.
         </Text>
       </View>
@@ -86,10 +94,10 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
                 <MaterialIcons name={principle.icon} size={18} color="white" />
               </LinearGradient>
               <View className="flex-1">
-                <Text className="text-sm font-semibold text-foreground">
+                <Text variant="sm" className="font-semibold">
                   {principle.title}
                 </Text>
-                <Text className="mt-0.5 text-xs leading-tight text-foreground/60">
+                <Text variant="xs" muted className="mt-0.5 leading-tight">
                   {principle.description}
                 </Text>
               </View>
@@ -108,7 +116,10 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
       </GradientButton>
 
       {/* Footer */}
-      <Text className="mt-4 text-center text-[9px] font-medium uppercase tracking-[2px] text-primary-muted/50">
+      <Text
+        variant="caption"
+        className="text-primary-muted/50 mt-4 text-center font-medium tracking-[2px]"
+      >
         Safe-sharing protocol active
       </Text>
     </View>

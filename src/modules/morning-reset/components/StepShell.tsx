@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
@@ -9,7 +11,6 @@ import { dismissToRoot } from '@/utils/navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { ReactNode } from 'react';
-import { Text, View } from 'react-native';
 
 import {
   STEP_ROUTES,
@@ -103,13 +104,17 @@ export function StepShell({
       className="px-6"
     >
       <View className="mb-2 mt-4">
-        <Text className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary-pink">
+        <Text
+          variant="caption"
+          className="font-bold tracking-[0.3em] text-primary-pink"
+          style={{ paddingRight: 3.3 }}
+        >
           {habitLabel}
         </Text>
       </View>
 
       <View className="mb-6">
-        <GradientText className="text-5xl font-black leading-tight tracking-tight">
+        <GradientText className="text-5xl font-black leading-[1.2]">
           {title}
         </GradientText>
       </View>
@@ -122,7 +127,11 @@ export function StepShell({
               size={14}
               color={accentFor(scheme, 'yellow')}
             />
-            <Text className="text-[11px] font-semibold uppercase tracking-widest text-foreground/70">
+            <Text
+              variant="xs"
+              className="font-semibold text-foreground/70"
+              style={{ paddingRight: 1.1 }}
+            >
               {duration}
             </Text>
           </View>

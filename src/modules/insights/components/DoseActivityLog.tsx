@@ -1,5 +1,6 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { Text, View } from 'react-native';
 import { getChemicalDisplay } from '../data/dose-config';
 import { useDoseActivityLog } from '../hooks/useDoseActivityLog';
 import type { DoseTotals } from '../hooks/useDailyDose';
@@ -27,11 +28,11 @@ export function DoseActivityLog() {
   if (!activities.length) {
     return (
       <View className="gap-4">
-        <Text className="px-1 text-lg font-semibold text-foreground">
+        <Text variant="h3" className="px-1">
           Activity Log
         </Text>
         <Card className="items-center p-6">
-          <Text className="text-sm text-foreground/40">
+          <Text variant="sm" className="text-foreground/40">
             Complete a practice to see your activity here
           </Text>
         </Card>
@@ -41,11 +42,11 @@ export function DoseActivityLog() {
 
   return (
     <View className="gap-4">
-      <Text className="px-1 text-lg font-semibold text-foreground">
+      <Text variant="h3" className="px-1">
         Activity Log
       </Text>
       <View className="flex-row flex-wrap gap-3">
-        {activities.map((activity, index) => {
+        {activities.map((activity) => {
           const dominant = getDominantChemical(activity);
           const display = getChemicalDisplay(dominant.key);
           return (
@@ -57,10 +58,10 @@ export function DoseActivityLog() {
                 className="mb-2 h-2 w-2 rounded-full"
                 style={{ backgroundColor: display.color }}
               />
-              <Text className="text-xs text-foreground/60">
+              <Text variant="xs" muted>
                 {activity.practiceType}
               </Text>
-              <Text className="text-sm font-medium text-foreground">
+              <Text variant="sm" className="font-medium">
                 +{dominant.value} {display.label}
               </Text>
             </Card>

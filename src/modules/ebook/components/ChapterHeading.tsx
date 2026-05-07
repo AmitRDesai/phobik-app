@@ -1,4 +1,4 @@
-import { Text } from 'react-native';
+import { Text } from '@/components/themed';
 
 interface ChapterHeadingProps {
   label: string;
@@ -7,7 +7,7 @@ interface ChapterHeadingProps {
 
 export function ChapterHeading({ label, title }: ChapterHeadingProps) {
   return (
-    <Text className="mb-8 text-3xl font-bold leading-tight text-foreground">
+    <Text variant="h1" className="mb-8">
       {label}:{'\n'}
       {title}
     </Text>

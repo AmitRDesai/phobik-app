@@ -1,8 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Pressable, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Pressable } from 'react-native';
 
 interface DailyInsightCardProps {
   onStart: () => void;
@@ -34,7 +36,7 @@ export function DailyInsightCard({ onStart }: DailyInsightCardProps) {
                   Daily Insight Prompt
                 </Text>
               </View>
-              <Text className="text-xs font-semibold leading-tight text-foreground">
+              <Text variant="sm" className="font-semibold leading-tight">
                 How did your morning walk feel today?
               </Text>
             </View>

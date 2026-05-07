@@ -1,9 +1,16 @@
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useCallback, useState } from 'react';
-import { Keyboard, Pressable, Text, TextInput, View } from 'react-native';
+import { Keyboard, Pressable, TextInput } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useVoiceInput } from '../hooks/useVoiceInput';
 
@@ -15,6 +22,7 @@ type ChatInputProps = {
 
 export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
   const scheme = useScheme();
+  const purple = accentFor(scheme, 'purple');
   const [text, setText] = useState('');
   const placeholderColor = foregroundFor(scheme, 0.3);
   const micIdleColor = foregroundFor(scheme, 0.4);
@@ -44,7 +52,7 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
   const canSend = text.trim().length > 0;
 
   return (
-    <View className="px-4 pb-1 pt-2">
+    <View className="pb-1 pt-2">
       {/* Voice listening indicator */}
       {isListening && (
         <Animated.View
@@ -61,11 +69,15 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
             className="h-2 w-2 rounded-full"
             style={{ backgroundColor: colors.accent.purple }}
           />
-          <Text className="flex-1 text-[13px] text-foreground/60">
+          <Text variant="sm" muted className="flex-1">
             {transcript || 'Listening...'}
           </Text>
           <Pressable onPress={stop}>
-            <Text className="text-[13px] font-medium text-accent-purple">
+            <Text
+              variant="sm"
+              className="font-medium"
+              style={{ color: purple }}
+            >
               Done
             </Text>
           </Pressable>

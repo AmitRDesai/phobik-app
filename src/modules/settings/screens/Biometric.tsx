@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
@@ -10,7 +12,7 @@ import { useBiometricAvailability } from '@/hooks/auth/useBiometric';
 import { biometricEnabledAtom } from '@/store/auth';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtom } from 'jotai';
-import { Pressable, Switch, Text, View } from 'react-native';
+import { Switch } from 'react-native';
 
 export default function Biometric() {
   const { biometricType, isAvailable } = useBiometricAvailability();
@@ -36,7 +38,7 @@ export default function Biometric() {
     >
       {!isAvailable ? (
         <Card className="p-6">
-          <Text className="text-center text-base text-foreground/50">
+          <Text variant="md" muted className="text-center">
             Biometric authentication is not available on this device.
           </Text>
         </Card>
@@ -57,10 +59,10 @@ export default function Biometric() {
                   />
                 </IconChip>
                 <View className="flex-1">
-                  <Text className="text-base font-semibold text-foreground">
+                  <Text variant="md" className="font-semibold">
                     {biometricType} Enabled
                   </Text>
-                  <Text className="text-sm text-foreground/50">
+                  <Text variant="sm" muted>
                     Quick sign-in is active
                   </Text>
                 </View>
@@ -84,11 +86,11 @@ export default function Biometric() {
             className="flex-row items-center justify-center gap-2 py-4"
           >
             <MaterialIcons name="lock" size={20} color={colors.primary.pink} />
-            <Text className="text-base font-semibold text-primary-pink">
+            <Text variant="md" className="font-semibold text-primary-pink">
               Lock App
             </Text>
           </Card>
-          <Text className="px-2 text-center text-xs text-foreground/40">
+          <Text variant="xs" className="px-2 text-center text-foreground/40">
             Locks the app and requires {biometricType} to re-enter. Your session
             stays active.
           </Text>

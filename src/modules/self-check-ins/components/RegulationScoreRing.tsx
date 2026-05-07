@@ -1,5 +1,7 @@
-import { colors } from '@/constants/colors';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 interface RegulationScoreRingProps {
@@ -12,6 +14,8 @@ const RADIUS = (SIZE - STROKE_WIDTH) / 2;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 export function RegulationScoreRing({ percentage }: RegulationScoreRingProps) {
+  const scheme = useScheme();
+  const trackColor = foregroundFor(scheme, 0.06);
   const strokeDashoffset = CIRCUMFERENCE - (CIRCUMFERENCE * percentage) / 100;
 
   const getLabel = () => {
@@ -30,16 +34,14 @@ export function RegulationScoreRing({ percentage }: RegulationScoreRingProps) {
               <Stop offset="1" stopColor={colors.accent.yellow} />
             </LinearGradient>
           </Defs>
-          {/* Background ring */}
           <Circle
             cx={SIZE / 2}
             cy={SIZE / 2}
             r={RADIUS}
-            stroke="rgba(255,255,255,0.05)"
+            stroke={trackColor}
             strokeWidth={STROKE_WIDTH}
             fill="none"
           />
-          {/* Progress ring */}
           <Circle
             cx={SIZE / 2}
             cy={SIZE / 2}
@@ -55,12 +57,12 @@ export function RegulationScoreRing({ percentage }: RegulationScoreRingProps) {
           />
         </Svg>
         <View className="absolute items-center">
-          <Text className="text-3xl font-bold text-foreground">
+          <Text variant="h1" className="font-bold">
             {percentage}%
           </Text>
         </View>
       </View>
-      <Text className="text-center text-xs text-foreground/60">
+      <Text variant="sm" muted className="text-center">
         {getLabel()}
       </Text>
     </View>

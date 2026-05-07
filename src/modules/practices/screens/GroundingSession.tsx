@@ -1,25 +1,26 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { GlowBg } from '@/components/ui/GlowBg';
+import { GradientText } from '@/components/ui/GradientText';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { MaterialIcons } from '@expo/vector-icons';
-import { GradientText } from '@/components/ui/GradientText';
 import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { AudioVisualizer } from '../components/AudioVisualizer';
 import { HeartRateBadge } from '../components/HeartRateBadge';
 import { ProgressRing } from '../components/ProgressRing';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
-import { groundingSessionAtom } from '../store/grounding';
 import { formatTime } from '../lib/format';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { groundingSessionAtom } from '../store/grounding';
 
 interface SessionStep {
   count: number;
@@ -189,127 +190,133 @@ export default function GroundingSession() {
   const instructionParts = parseInstruction(currentStep.instruction);
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-black">
-      <View className="flex-1 bg-black">
-        <GlowBg
-          bgClassName="bg-black"
-          centerX={0.5}
-          centerY={0.5}
-          intensity={1}
-          radius={0.5}
-          startColor={colors.primary.pink}
-          endColor={colors.accent.yellow}
-        />
-
-        {/* Header */}
-        <View className="z-10 flex-row items-center justify-between p-4 pb-2">
-          <BackButton icon="close" />
-          <Text className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-foreground">
-            5-4-3-2-1 Session
-          </Text>
-          <View className="w-12 items-end">
-            <HeartRateBadge />
-          </View>
-        </View>
-
-        {/* Main content */}
-        <View className="z-10 flex-1 items-center justify-center p-6">
-          {/* Progress ring with center number */}
-          <View className="relative mb-12 items-center justify-center">
-            <ProgressRing progress={progress} />
-            <View className="absolute items-center justify-center">
-              <GradientText className="text-8xl font-bold leading-none tracking-tighter">
-                {String(currentStep.count)}
-              </GradientText>
-              <View className="mt-4">
-                <AudioVisualizer
-                  levels={audioLevels}
-                  isPlaying={status.playing && !isMuted}
-                />
-              </View>
-            </View>
-          </View>
-
-          {/* Instruction text — fixed height to prevent layout shifts */}
-          <View
-            className="max-w-[280px] items-center gap-4"
-            style={{ minHeight: 120 }}
-          >
-            <View className="flex-row flex-wrap items-center justify-center">
-              {instructionParts.map((part, i) =>
-                part.gradient ? (
-                  <GradientText
-                    key={i}
-                    className="text-2xl font-bold leading-tight"
-                  >
-                    {part.text}
-                  </GradientText>
-                ) : (
-                  <Text
-                    key={i}
-                    className="text-center text-2xl font-bold leading-tight text-foreground"
-                  >
-                    {part.text}
-                  </Text>
-                ),
-              )}
-            </View>
-            <Text className="text-center text-base leading-relaxed text-foreground/60">
-              {currentStep.subInstruction}
+    <Screen
+      variant="default"
+      header={
+        <Header
+          left={<BackButton icon="close" />}
+          center={
+            <Text variant="lg" className="font-bold">
+              5-4-3-2-1 Session
             </Text>
+          }
+          right={<HeartRateBadge />}
+        />
+      }
+      className="flex-1"
+    >
+      {/* Main content */}
+      <View className="flex-1 items-center justify-center p-6">
+        {/* Progress ring with center number */}
+        <View className="relative mb-12 items-center justify-center">
+          <ProgressRing progress={progress} />
+          <View className="absolute items-center justify-center">
+            <GradientText className="text-8xl font-bold leading-none">
+              {String(currentStep.count)}
+            </GradientText>
+            <View className="mt-4">
+              <AudioVisualizer
+                levels={audioLevels}
+                isPlaying={status.playing && !isMuted}
+              />
+            </View>
           </View>
         </View>
 
-        {/* Timer */}
-        <View className="z-10 items-center gap-2 px-6 py-4">
-          <Text className="text-xs font-semibold uppercase tracking-widest text-foreground/40">
-            Time Remaining
-          </Text>
-          <Text
-            className="text-xl font-medium text-foreground"
-            style={{ fontVariant: ['tabular-nums'] }}
-          >
-            {formatTime(timeRemaining)}
+        {/* Instruction text — fixed height to prevent layout shifts */}
+        <View
+          className="max-w-[280px] items-center gap-4"
+          style={{ minHeight: 120 }}
+        >
+          <View className="flex-row flex-wrap items-center justify-center">
+            {instructionParts.map((part, i) =>
+              part.gradient ? (
+                <GradientText
+                  key={i}
+                  className="text-2xl font-bold leading-tight"
+                >
+                  {part.text}
+                </GradientText>
+              ) : (
+                <Text
+                  key={i}
+                  variant="h2"
+                  className="text-center font-bold leading-tight"
+                >
+                  {part.text}
+                </Text>
+              ),
+            )}
+          </View>
+          <Text variant="lg" muted className="text-center leading-relaxed">
+            {currentStep.subInstruction}
           </Text>
         </View>
+      </View>
 
-        {/* Controls */}
-        <View className="z-10 mb-8 flex-row items-center justify-center gap-8">
-          <Pressable
-            onPress={() => setIsMuted((m) => !m)}
-            className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
-          >
-            <MaterialIcons
-              name={isMuted ? 'volume-off' : 'volume-up'}
-              size={24}
-              color={foregroundFor(scheme, 0.7)}
-            />
-          </Pressable>
-          <Pressable
-            onPress={() => setIsPaused((p) => !p)}
-            className="h-14 w-14 items-center justify-center rounded-full bg-white active:scale-95"
+      {/* Timer */}
+      <View className="items-center gap-2 px-6 py-4">
+        <Text variant="caption" className="font-semibold text-foreground/40">
+          Time Remaining
+        </Text>
+        <Text
+          variant="lg"
+          className="font-medium"
+          style={{ fontVariant: ['tabular-nums'] }}
+        >
+          {formatTime(timeRemaining)}
+        </Text>
+      </View>
+
+      {/* Controls */}
+      <View className="mb-8 flex-row items-center justify-center gap-8">
+        <Pressable
+          onPress={() => setIsMuted((m) => !m)}
+          className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
+        >
+          <MaterialIcons
+            name={isMuted ? 'volume-off' : 'volume-up'}
+            size={24}
+            color={foregroundFor(scheme, 0.7)}
+          />
+        </Pressable>
+        <Pressable
+          onPress={() => setIsPaused((p) => !p)}
+          style={{
+            borderRadius: 32,
+            boxShadow: `0 0 24px ${withAlpha(colors.primary.pink, 0.5)}`,
+          }}
+        >
+          <LinearGradient
+            colors={[colors.primary.pink, colors.accent.yellow]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
             style={{
-              boxShadow: `0px 2px 8px ${withAlpha('#fff', 0.3)}`,
+              width: 64,
+              height: 64,
+              borderRadius: 32,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <MaterialIcons
               name={isPaused ? 'play-arrow' : 'pause'}
-              size={28}
-              color={colors.background.dark}
+              size={32}
+              color="white"
             />
-          </Pressable>
-          <Pressable
-            onPress={handleRestart}
-            className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
-          >
-            <MaterialIcons
-              name="replay"
-              size={24}
-              color={foregroundFor(scheme, 0.7)}
-            />
-          </Pressable>
-        </View>
+          </LinearGradient>
+        </Pressable>
+        <Pressable
+          onPress={handleRestart}
+          className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
+        >
+          <MaterialIcons
+            name="replay"
+            size={24}
+            color={foregroundFor(scheme, 0.7)}
+          />
+        </Pressable>
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }

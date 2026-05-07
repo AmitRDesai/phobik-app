@@ -1,11 +1,14 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, withAlpha } from '@/constants/colors';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
+import { useScheme } from '@/hooks/useTheme';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
-import { ScrollView, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, Ellipse, RadialGradient, Stop } from 'react-native-svg';
 
 import {
@@ -17,34 +20,51 @@ import {
   intimacyCurrentQuestionAtom,
 } from '../store/self-check-ins';
 
-const INSTRUCTIONS = [
+type Instruction = {
+  number: string;
+  text: string;
+  tone: 'pink' | 'yellow' | 'neutral';
+};
+
+const INSTRUCTIONS: Instruction[] = [
   {
     number: '1',
     text: 'Focus on your actions and interactions over the past month.',
-    bgColor: withAlpha(colors.primary.pink, 0.1),
-    textColor: colors.primary.pink,
+    tone: 'pink',
   },
   {
     number: '2',
     text: 'Rate each statement from 0 (Not true) to 4 (Almost always).',
-    bgColor: withAlpha(colors.accent.yellow, 0.1),
-    textColor: colors.accent.yellow,
+    tone: 'yellow',
   },
   {
     number: '3',
     text: 'Be honest with yourself for the most accurate resonance results.',
-    bgColor: 'rgba(255,255,255,0.1)',
-    textColor: 'rgba(255,255,255,0.6)',
+    tone: 'neutral',
   },
 ];
 
 export default function IntimacyIntro() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
   const setAnswers = useSetAtom(intimacyAnswersAtom);
   const setCurrentQuestion = useSetAtom(intimacyCurrentQuestionAtom);
   const startAssessment = useStartAssessment();
   const inProgress = useInProgressAssessment('intimacy');
+
+  const toneColors = (tone: Instruction['tone']) => {
+    if (tone === 'pink')
+      return {
+        bg: withAlpha(colors.primary.pink, 0.1),
+        text: colors.primary.pink,
+      };
+    if (tone === 'yellow') return { bg: withAlpha(yellow, 0.1), text: yellow };
+    return {
+      bg: 'rgba(127,127,127,0.12)',
+      text: 'rgba(127,127,127,0.7)',
+    };
+  };
 
   const handleBeginQuiz = async () => {
     const result = await startAssessment.mutateAsync({ type: 'intimacy' });
@@ -67,141 +87,140 @@ export default function IntimacyIntro() {
   const isResume = !!inProgress;
 
   return (
-    <View className="flex-1 bg-black">
-      {/* Header */}
-      <View
-        className="flex-row items-center justify-between px-6 pb-4"
-        style={{
-          paddingTop: insets.top + 8,
-          backgroundColor: 'rgba(0,0,0,0.8)',
-        }}
-      >
-        <BackButton />
-        <Text className="text-lg font-bold tracking-tight text-foreground">
-          Assessment
-        </Text>
-        <View className="h-10 w-10" />
-      </View>
-
-      <ScrollView
-        contentContainerClassName="pb-40"
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Mandala Visual */}
-        <View className="items-center justify-center pb-12 pt-8">
-          <Svg
-            width={360}
-            height={360}
-            viewBox="0 0 360 360"
-            style={{ position: 'absolute' }}
-            pointerEvents="none"
-          >
-            <Defs>
-              <RadialGradient id="mandalaGlow" cx="50%" cy="50%" r="50%">
-                <Stop
-                  offset="0%"
-                  stopColor={colors.primary.pink}
-                  stopOpacity={0.5}
-                />
-                <Stop
-                  offset="40%"
-                  stopColor={colors.primary.pink}
-                  stopOpacity={0.2}
-                />
-                <Stop
-                  offset="70%"
-                  stopColor={colors.primary.pink}
-                  stopOpacity={0.05}
-                />
-                <Stop
-                  offset="100%"
-                  stopColor={colors.primary.pink}
-                  stopOpacity={0}
-                />
-              </RadialGradient>
-            </Defs>
-            <Ellipse
-              cx="180"
-              cy="180"
-              rx="180"
-              ry="180"
-              fill="url(#mandalaGlow)"
-            />
-          </Svg>
-
-          <View className="relative h-56 w-56 items-center justify-center">
-            <View
-              className="absolute inset-0 rounded-full"
-              style={{
-                borderWidth: 2,
-                borderColor: withAlpha(colors.primary.pink, 0.2),
-              }}
-            />
-            <View
-              className="items-center justify-center rounded-full bg-surface p-8"
-              style={{
-                borderWidth: 1,
-                borderColor: withAlpha(colors.primary.pink, 0.3),
-              }}
-            >
-              <View className="absolute items-center justify-center">
-                <MaterialIcons
-                  name="filter-vintage"
-                  size={96}
-                  color={withAlpha(colors.accent.yellow, 0.2)}
-                />
-              </View>
-              <MaterialIcons
-                name="favorite"
-                size={72}
-                color={withAlpha(colors.primary.pink, 0.85)}
-              />
-            </View>
-          </View>
-        </View>
-
-        {/* Title */}
-        <View className="px-8 pb-10 text-center">
-          <Text className="pb-3 text-center text-3xl font-bold leading-tight tracking-tight text-foreground">
-            Balanced Communication Quiz
-          </Text>
-          <Text className="text-center text-base leading-relaxed text-foreground/60">
-            A self-reflection tool for mindful listening and clear expression.
-          </Text>
-        </View>
-
-        {/* Instructions */}
-        <View className="gap-6 px-8">
-          {INSTRUCTIONS.map((item) => (
-            <View key={item.number} className="flex-row items-start gap-4">
-              <View
-                className="h-8 w-8 items-center justify-center rounded-full"
-                style={{ backgroundColor: item.bgColor }}
-              >
-                <Text className="font-bold" style={{ color: item.textColor }}>
-                  {item.number}
-                </Text>
-              </View>
-              <Text className="flex-1 pt-1 text-sm leading-snug text-foreground/70">
-                {item.text}
-              </Text>
-            </View>
-          ))}
-        </View>
-      </ScrollView>
-
-      {/* Fixed Bottom Button */}
-      <View
-        className="absolute bottom-0 left-0 right-0 px-6"
-        style={{ paddingBottom: insets.bottom + 16 }}
-      >
+    <Screen
+      variant="default"
+      scroll
+      header={
+        <Header
+          left={<BackButton />}
+          center={
+            <Text variant="lg" className="font-bold">
+              Assessment
+            </Text>
+          }
+        />
+      }
+      sticky={
         <GradientButton
           onPress={handleBeginQuiz}
           loading={startAssessment.isPending}
         >
           {isResume ? 'Resume Quiz' : 'Begin Quiz'}
         </GradientButton>
+      }
+      className="px-0"
+    >
+      {/* Mandala Visual */}
+      <View className="items-center justify-center pb-12 pt-8">
+        <Svg
+          width={360}
+          height={360}
+          viewBox="0 0 360 360"
+          style={{ position: 'absolute' }}
+          pointerEvents="none"
+        >
+          <Defs>
+            <RadialGradient id="mandalaGlow" cx="50%" cy="50%" r="50%">
+              <Stop
+                offset="0%"
+                stopColor={colors.primary.pink}
+                stopOpacity={0.5}
+              />
+              <Stop
+                offset="40%"
+                stopColor={colors.primary.pink}
+                stopOpacity={0.2}
+              />
+              <Stop
+                offset="70%"
+                stopColor={colors.primary.pink}
+                stopOpacity={0.05}
+              />
+              <Stop
+                offset="100%"
+                stopColor={colors.primary.pink}
+                stopOpacity={0}
+              />
+            </RadialGradient>
+          </Defs>
+          <Ellipse
+            cx="180"
+            cy="180"
+            rx="180"
+            ry="180"
+            fill="url(#mandalaGlow)"
+          />
+        </Svg>
+
+        <View className="relative h-56 w-56 items-center justify-center">
+          <View
+            className="absolute inset-0 rounded-full"
+            style={{
+              borderWidth: 2,
+              borderColor: withAlpha(colors.primary.pink, 0.2),
+            }}
+          />
+          <View
+            className="items-center justify-center rounded-full bg-surface p-8"
+            style={{
+              borderWidth: 1,
+              borderColor: withAlpha(colors.primary.pink, 0.3),
+            }}
+          >
+            <View className="absolute items-center justify-center">
+              <MaterialIcons
+                name="filter-vintage"
+                size={96}
+                color={withAlpha(colors.accent.yellow, 0.2)}
+              />
+            </View>
+            <MaterialIcons
+              name="favorite"
+              size={72}
+              color={withAlpha(colors.primary.pink, 0.85)}
+            />
+          </View>
+        </View>
       </View>
-    </View>
+
+      {/* Title */}
+      <View className="px-8 pb-10">
+        <Text variant="h1" className="pb-3 text-center font-bold leading-tight">
+          Balanced Communication Quiz
+        </Text>
+        <Text variant="lg" muted className="text-center leading-relaxed">
+          A self-reflection tool for mindful listening and clear expression.
+        </Text>
+      </View>
+
+      {/* Instructions */}
+      <View className="gap-6 px-8">
+        {INSTRUCTIONS.map((item) => {
+          const tone = toneColors(item.tone);
+          return (
+            <View key={item.number} className="flex-row items-start gap-4">
+              <View
+                className="h-8 w-8 items-center justify-center rounded-full"
+                style={{ backgroundColor: tone.bg }}
+              >
+                <Text
+                  variant="sm"
+                  className="font-bold"
+                  style={{ color: tone.text }}
+                >
+                  {item.number}
+                </Text>
+              </View>
+              <Text
+                variant="sm"
+                className="flex-1 pt-1 leading-snug text-foreground/70"
+              >
+                {item.text}
+              </Text>
+            </View>
+          );
+        })}
+      </View>
+    </Screen>
   );
 }

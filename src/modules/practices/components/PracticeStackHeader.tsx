@@ -1,7 +1,5 @@
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
 import { GradientText } from '@/components/ui/GradientText';
 
 type PracticeStackHeaderProps = {
@@ -16,13 +14,8 @@ export function PracticeStackHeader({
   onBackPress,
   hideBack,
 }: PracticeStackHeaderProps) {
-  const insets = useSafeAreaInsets();
-
   return (
-    <View
-      className="flex-row items-center justify-between px-6 pb-4"
-      style={{ paddingTop: insets.top + 8 }}
-    >
+    <View className="flex-row items-center justify-between px-6 pb-4 pt-2">
       {hideBack ? (
         <View className="h-10 w-10" />
       ) : (

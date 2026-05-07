@@ -148,7 +148,7 @@ function renderCenter({
         {title}
       </Text>
       {subtitle ? (
-        <Text variant="body-sm" muted numberOfLines={1}>
+        <Text variant="sm" muted numberOfLines={1}>
           {subtitle}
         </Text>
       ) : null}

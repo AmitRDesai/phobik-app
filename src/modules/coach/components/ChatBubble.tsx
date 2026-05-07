@@ -1,4 +1,11 @@
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { useScheme, type ResolvedScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
@@ -6,7 +13,7 @@ import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
-import { Pressable, Share, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Share, StyleSheet } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import Animated, { FadeInDown, FadeInRight } from 'react-native-reanimated';
 import type { ChatMessage } from '../hooks/useCoachChat';
@@ -28,6 +35,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
   const router = useRouter();
   const markdownStyles = useMemo(() => buildMarkdownStyles(scheme), [scheme]);
   const iconMuted = foregroundFor(scheme, 0.2);
+  const purple = accentFor(scheme, 'purple');
 
   if (!isUser && !message.content && message.status !== 'error') return null;
 
@@ -71,22 +79,18 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
         className="mb-4 flex-row gap-3"
       >
         <View className="mt-0.5 h-7 w-7 items-center justify-center rounded-full bg-foreground/[0.08]">
-          <MaterialIcons
-            name="psychology"
-            size={16}
-            color={colors.accent.purple}
-          />
+          <MaterialIcons name="psychology" size={16} color={purple} />
         </View>
         <View className="flex-1 gap-2">
-          <Text className="text-[14px] text-foreground/40">
+          <Text variant="sm" className="text-foreground/40">
             Failed to get a response
           </Text>
           <Pressable
             onPress={() => onRetry?.(message.id)}
             className="flex-row items-center gap-1.5 self-start rounded-full border border-foreground/10 bg-foreground/[0.08] px-3 py-1.5"
           >
-            <Ionicons name="refresh" size={14} color={colors.accent.purple} />
-            <Text className="text-[13px] font-medium text-foreground/70">
+            <Ionicons name="refresh" size={14} color={purple} />
+            <Text variant="sm" className="font-medium text-foreground/70">
               Retry
             </Text>
           </Pressable>
@@ -109,12 +113,12 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
             boxShadow: `0 2px 8px ${withAlpha(colors.primary.pink, 0.25)}`,
           }}
         >
-          <Text className="text-[15px] leading-[22px] text-white">
+          <Text variant="md" className="text-white">
             {message.content}
           </Text>
         </View>
         <View className="mt-1 flex-row items-center justify-end gap-2">
-          <Text className="text-[10px] text-foreground/20">
+          <Text variant="xs" className="text-[10px] text-foreground/20">
             {formatTime(message.timestamp)}
           </Text>
           <Pressable onPress={handleCopy} hitSlop={8}>
@@ -132,16 +136,12 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
       className="mb-4 flex-row gap-3"
     >
       <View className="mt-0.5 h-7 w-7 items-center justify-center rounded-full bg-foreground/[0.08]">
-        <MaterialIcons
-          name="psychology"
-          size={16}
-          color={colors.accent.purple}
-        />
+        <MaterialIcons name="psychology" size={16} color={purple} />
       </View>
       <View className="flex-1">
         <Markdown style={markdownStyles}>{message.content}</Markdown>
         <View className="mt-1 flex-row items-center justify-between">
-          <Text className="text-[10px] text-foreground/20">
+          <Text variant="xs" className="text-[10px] text-foreground/20">
             {formatTime(message.timestamp)}
           </Text>
           {message.status === 'sent' && message.content.length > 0 && (

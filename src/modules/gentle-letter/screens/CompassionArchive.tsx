@@ -3,8 +3,10 @@ import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable } from 'react-native';
 
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
@@ -111,7 +113,7 @@ export default function CompassionArchive() {
           <Pressable onPress={prevMonth} className="rounded-full p-2">
             <MaterialIcons name="chevron-left" size={24} color={chevronColor} />
           </Pressable>
-          <Text className="text-base font-bold text-foreground">
+          <Text variant="md" className="font-bold">
             {MONTHS[calMonth - 1]} {calYear}
           </Text>
           <Pressable onPress={nextMonth} className="rounded-full p-2">
@@ -126,7 +128,7 @@ export default function CompassionArchive() {
         <View className="mb-2 flex-row">
           {DAY_LABELS.map((label, i) => (
             <View key={`day-${i}`} className="flex-1 items-center">
-              <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground/55">
+              <Text variant="caption" className="font-bold text-foreground/55">
                 {label}
               </Text>
             </View>
@@ -162,8 +164,9 @@ export default function CompassionArchive() {
                       <View className="absolute inset-0 rounded-full border border-primary-pink/30 bg-primary-pink/20" />
                     ) : null}
                     <Text
+                      variant="sm"
                       className={clsx(
-                        'text-sm font-medium',
+                        'font-medium',
                         isSelected
                           ? 'text-white'
                           : hasLetter
@@ -193,14 +196,14 @@ export default function CompassionArchive() {
 
       <View className="mt-8">
         <View className="mb-4 flex-row items-center justify-between">
-          <Text className="text-lg font-bold text-foreground">
+          <Text variant="lg" className="font-bold">
             {selectedDate
               ? `Letters on ${formatDate(selectedDate)}`
               : 'Recent Letters'}
           </Text>
           {selectedDate && (
             <Pressable onPress={() => setSelectedDate(null)}>
-              <Text className="text-sm font-semibold text-primary-pink">
+              <Text variant="sm" className="font-semibold text-primary-pink">
                 Show All
               </Text>
             </Pressable>
@@ -216,7 +219,7 @@ export default function CompassionArchive() {
               size={40}
               color={foregroundFor(scheme, 0.45)}
             />
-            <Text className="mt-3 text-center text-base text-foreground/55">
+            <Text variant="md" className="mt-3 text-center text-foreground/55">
               {selectedDate
                 ? 'No letters on this date.'
                 : 'No letters yet. Start your first gentle letter practice.'}
@@ -236,10 +239,13 @@ export default function CompassionArchive() {
                 className="flex-row overflow-hidden rounded-xl border border-foreground/5 bg-surface-elevated"
               >
                 <View className="flex-1 gap-2 p-4">
-                  <Text className="text-xs font-medium uppercase tracking-wider text-foreground/55">
+                  <Text
+                    variant="caption"
+                    className="font-medium tracking-wider text-foreground/55"
+                  >
                     {formatDate(letter.entryDate)}
                   </Text>
-                  <Text className="text-base font-bold text-foreground">
+                  <Text variant="md" className="font-bold">
                     {letter.title}
                   </Text>
                   {letter.coreAct && (
@@ -248,7 +254,10 @@ export default function CompassionArchive() {
                     </Badge>
                   )}
                   <View className="mt-1 flex-row items-center gap-1">
-                    <Text className="text-sm font-medium text-foreground/80">
+                    <Text
+                      variant="sm"
+                      className="font-medium text-foreground/80"
+                    >
                       Read reflection
                     </Text>
                     <MaterialIcons
@@ -279,7 +288,7 @@ export default function CompassionArchive() {
           size={14}
           color={foregroundFor(scheme, 0.45)}
         />
-        <Text className="text-center text-xs italic text-foreground/55">
+        <Text variant="sm" className="text-center italic text-foreground/55">
           Your archive is private and end-to-end encrypted.
         </Text>
       </View>

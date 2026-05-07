@@ -1,9 +1,11 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
-import { colors } from '@/constants/colors';
+import { accentFor, colors } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View } from 'react-native';
 
 import type { PatternArchetype } from '../data/pivot-point-patterns';
 
@@ -16,13 +18,18 @@ export function PatternResultCard({
   archetype,
   isPrimary,
 }: PatternResultCardProps) {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
+
   if (!isPrimary) {
     return (
       <Card variant="surface" className="p-5">
-        <Text className="mb-2 text-lg font-bold text-foreground">
+        <Text variant="lg" className="mb-2 font-bold">
           {archetype.emoji} {archetype.label}
         </Text>
-        <Text className="text-sm text-foreground/60">{archetype.tagline}</Text>
+        <Text variant="sm" muted>
+          {archetype.tagline}
+        </Text>
       </Card>
     );
   }
@@ -39,38 +46,41 @@ export function PatternResultCard({
           Primary Pattern
         </Badge>
 
-        {/* Emoji + Title */}
         <Text className="mb-2 text-4xl">{archetype.emoji}</Text>
-        <Text className="mb-3 text-2xl font-bold text-foreground">
+        <Text variant="h2" className="mb-3 font-bold">
           {archetype.label}
         </Text>
-        <Text className="mb-5 text-sm text-foreground/60">
+        <Text variant="sm" muted className="mb-5">
           {archetype.tagline}
         </Text>
 
-        {/* Strength */}
         <View className="mb-3 flex-row items-center gap-2">
-          <MaterialIcons name="bolt" size={18} color={colors.accent.yellow} />
-          <Text className="text-xs font-bold uppercase tracking-wider text-foreground/60">
+          <MaterialIcons name="bolt" size={18} color={yellow} />
+          <Text
+            variant="caption"
+            className="font-bold tracking-wider text-foreground/60"
+          >
             Strength
           </Text>
         </View>
-        <Text className="mb-4 text-sm text-foreground">
+        <Text variant="sm" className="mb-4">
           {archetype.strength}
         </Text>
 
-        {/* Growth Edge */}
         <View className="mb-3 flex-row items-center gap-2">
           <MaterialIcons
             name="psychology"
             size={18}
             color={colors.primary.pink}
           />
-          <Text className="text-xs font-bold uppercase tracking-wider text-foreground/60">
+          <Text
+            variant="caption"
+            className="font-bold tracking-wider text-foreground/60"
+          >
             Growth Edge
           </Text>
         </View>
-        <Text className="text-sm text-foreground">{archetype.growthEdge}</Text>
+        <Text variant="sm">{archetype.growthEdge}</Text>
       </View>
     </LinearGradient>
   );

@@ -1,6 +1,6 @@
+import { Text, View } from '@/components/themed';
 import { colors } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View } from 'react-native';
 
 interface EbookProgressBarProps {
   percent: number;
@@ -10,10 +10,10 @@ export function EbookProgressBar({ percent }: EbookProgressBarProps) {
   return (
     <View className="px-6 pb-4">
       <View className="mb-1.5 flex-row items-center justify-between">
-        <Text className="text-xs font-medium text-foreground/50">
+        <Text variant="xs" muted className="font-medium">
           Book Progress
         </Text>
-        <Text className="text-xs font-semibold text-foreground/80">
+        <Text variant="xs" className="font-semibold">
           {percent}%
         </Text>
       </View>

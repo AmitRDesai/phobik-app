@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
@@ -8,7 +10,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
 import { useMemo } from 'react';
-import { Pressable, Text, View } from 'react-native';
 
 import { MEDITATIONS } from '../data/meditations';
 import { meditationSessionsAtom } from '../store/sessions';
@@ -31,17 +32,12 @@ export default function MeditationList() {
   }, [sessions]);
 
   return (
-    <PracticeScreenShell
-      wordmark="FLOW STUDIO"
-      bgClassName="bg-surface"
-      glowCenterY={0.25}
-      glowIntensity={0.5}
-    >
+    <PracticeScreenShell wordmark="FLOW STUDIO">
       <View className="mb-8 mt-4">
-        <GradientText className="text-[44px] font-extrabold leading-none tracking-tighter">
+        <GradientText className="text-4xl font-extrabold leading-[1.05]">
           Meditations
         </GradientText>
-        <Text className="mt-4 max-w-[340px] text-base leading-relaxed text-foreground/60">
+        <Text variant="lg" muted className="mt-4 max-w-[340px]">
           Step into your biometric field. Choose a practice to align your
           physiological state with your mental intention.
         </Text>
@@ -55,13 +51,15 @@ export default function MeditationList() {
           className="mb-6 flex-row items-center gap-4"
         >
           <IconChip size="lg" shape="circle" tone="pink">
-            <MaterialIcons name="play-arrow" size={24} color="white" />
+            {(color) => (
+              <MaterialIcons name="play-arrow" size={24} color={color} />
+            )}
           </IconChip>
           <View className="flex-1">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-              Unfinished session
+            <Text variant="caption" className="font-bold text-primary-pink">
+              Unfinished
             </Text>
-            <Text className="mt-0.5 text-base font-bold text-foreground">
+            <Text variant="lg" numberOfLines={1} className="mt-0.5 font-bold">
               {resumable.title}
             </Text>
           </View>

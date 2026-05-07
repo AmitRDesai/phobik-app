@@ -1,29 +1,29 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { GlowBg } from '@/components/ui/GlowBg';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
+import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
+import { useNow } from '@/hooks/useNow';
+import { usePulseAnimation } from '@/hooks/usePulseAnimation';
 import { useScheme } from '@/hooks/useTheme';
-
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
+import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+import { useStressScore } from '@/modules/home/hooks/useStressScore';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useReducer, useRef, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView } from 'react-native';
 import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
-import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
-import { usePulseAnimation } from '@/hooks/usePulseAnimation';
-import { useNow } from '@/hooks/useNow';
 import Svg, { Circle, Path } from 'react-native-svg';
 
-import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
-import { useStressScore } from '@/modules/home/hooks/useStressScore';
-
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
-import { muscleRelaxationSessionAtom } from '../store/muscle-relaxation';
 import { formatTime } from '../lib/format';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { muscleRelaxationSessionAtom } from '../store/muscle-relaxation';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -281,12 +281,13 @@ function BiometricBadge({
   value: string;
   valueColor: string;
 }) {
-  const scheme = useScheme();
   return (
     <View className="items-center rounded-2xl border border-foreground/10 bg-foreground/5 p-3">
       <MaterialIcons name={icon} size={14} color={iconColor} />
-      <Text className="mt-1 text-[10px] text-foreground/40">{label}</Text>
-      <Text className="text-xs font-bold" style={{ color: valueColor }}>
+      <Text variant="xs" className="mt-1 text-foreground/40">
+        {label}
+      </Text>
+      <Text variant="xs" className="font-bold" style={{ color: valueColor }}>
         {value}
       </Text>
     </View>
@@ -326,11 +327,7 @@ function MuscleGroupStep({
             ],
           }}
         >
-          <MaterialIcons
-            name={group.icon}
-            size={24}
-            color={colors.background.dark}
-          />
+          <MaterialIcons name={group.icon} size={24} color="white" />
         </LinearGradient>
       ) : (
         <View className="h-14 w-14 items-center justify-center rounded-2xl border border-foreground/10 bg-foreground/5">
@@ -346,11 +343,12 @@ function MuscleGroupStep({
         </View>
       )}
       <Text
-        className={`text-[10px] ${
+        variant="caption"
+        className={
           state === 'active'
             ? 'font-bold text-primary-pink'
             : 'font-medium text-foreground/30'
-        }`}
+        }
       >
         {group.label}
       </Text>
@@ -389,19 +387,20 @@ function InstructionDisplay({
             ],
           }}
         />
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+        <Text variant="caption" className="font-bold text-primary-pink">
           Active Focus: {groupLabel}
         </Text>
       </View>
 
       {/* Phase title */}
-      <Text className="mb-2 text-center text-2xl font-bold leading-tight text-foreground">
+      <Text variant="h2" className="mb-2 text-center font-bold leading-tight">
         {phaseLabel}
       </Text>
 
       {/* Phase instruction */}
       <Text
-        className="px-10 text-center text-sm leading-relaxed text-foreground/50"
+        variant="sm"
+        className="px-10 text-center leading-relaxed text-foreground/50"
         style={{ fontVariant: ['tabular-nums'] }}
       >
         {instructionText}
@@ -423,6 +422,7 @@ function SessionControls({
   timeLabel: string;
   progressBarStyle: object;
 }) {
+  const scheme = useScheme();
   return (
     <View className="z-20 px-6 pb-12 pt-4">
       <View className="flex-row items-center gap-4">
@@ -433,7 +433,7 @@ function SessionControls({
           <MaterialIcons
             name={isPaused ? 'play-arrow' : 'pause'}
             size={24}
-            color="white"
+            color={foregroundFor(scheme, 0.7)}
           />
         </Pressable>
         <View className="h-1.5 flex-1 overflow-hidden rounded-full bg-foreground/10">
@@ -459,7 +459,8 @@ function SessionControls({
           </Animated.View>
         </View>
         <Text
-          className="text-xs text-foreground/40"
+          variant="sm"
+          className="text-foreground/40"
           style={{ fontVariant: ['tabular-nums'] }}
         >
           {timeLabel}
@@ -652,117 +653,109 @@ export default function MuscleRelaxationSession() {
     stepPhase === 'audio' ? 'Listen to the instructions...' : 'Hold and relax';
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
-      <View className="flex-1 bg-surface">
-        <GlowBg
-          bgClassName="bg-surface"
-          centerX={0.5}
-          centerY={0.35}
-          intensity={stepPhase === 'audio' ? 0.15 : 0.25}
-          radius={0.4}
-          startColor={colors.primary.pink}
-          endColor={colors.accent.yellow}
-        />
-
-        {/* Header */}
-        <View className="z-20 flex-row items-center justify-between px-4 py-3">
-          <BackButton icon="close" />
-
-          {/* Center title + HRV badge */}
-          <View className="items-center">
-            <Text className="text-sm font-bold tracking-tight text-foreground/90">
-              Muscle Relaxation
-            </Text>
-            <View className="mt-0.5 flex-row items-center gap-1.5">
-              <View
-                className="h-1.5 w-1.5 rounded-full bg-primary-pink"
-                style={{
-                  boxShadow: [
-                    {
-                      offsetX: 0,
-                      offsetY: 0,
-                      blurRadius: 8,
-                      color: withAlpha(colors.primary.pink, 0.6),
-                    },
-                  ],
-                }}
-              />
-              <Text className="text-[10px] font-medium uppercase tracking-wider text-primary-pink">
-                {isLive
-                  ? `HRV Live: ${Math.round(liveHrv)}ms`
-                  : hasAccess
-                    ? 'HRV: No recent data'
-                    : 'HRV: Not connected'}
+    <Screen
+      variant="default"
+      header={
+        <Header
+          left={<BackButton icon="close" />}
+          center={
+            <View className="items-center">
+              <Text variant="sm" className="font-bold text-foreground/90">
+                Muscle Relaxation
               </Text>
+              <View className="mt-0.5 flex-row items-center gap-1.5">
+                <View
+                  className="h-1.5 w-1.5 rounded-full bg-primary-pink"
+                  style={{
+                    boxShadow: [
+                      {
+                        offsetX: 0,
+                        offsetY: 0,
+                        blurRadius: 8,
+                        color: withAlpha(colors.primary.pink, 0.6),
+                      },
+                    ],
+                  }}
+                />
+                <Text
+                  variant="caption"
+                  className="font-medium tracking-wider text-primary-pink"
+                >
+                  {isLive
+                    ? `HRV Live: ${Math.round(liveHrv)}ms`
+                    : hasAccess
+                      ? 'HRV: No recent data'
+                      : 'HRV: Not connected'}
+                </Text>
+              </View>
             </View>
-          </View>
-
-          <View className="h-10 w-10" />
-        </View>
-
-        {/* Body visualization area */}
-        <View className="z-10 flex-1 items-center justify-center">
-          {/* Biometric badges - positioned on the left */}
-          <View className="absolute left-4 top-1/2 z-20 -translate-y-1/2 gap-4">
-            <BiometricBadge
-              icon="monitor-heart"
-              iconColor={colors.accent.yellow}
-              label="Stress"
-              value={stress.label ?? '—'}
-              valueColor={colors.accent.yellow}
-            />
-            <BiometricBadge
-              icon="air"
-              iconColor={colors.primary.pink}
-              label="Breath"
-              value={breathLabel}
-              valueColor={colors.primary.pink}
-            />
-          </View>
-
-          {/* Body silhouette */}
-          <BodySilhouette activeGlow={currentGroup.glowPosition} />
-        </View>
-
-        {/* Instruction area */}
-        <InstructionDisplay
-          groupLabel={currentGroup.label}
-          phaseLabel={phaseLabel}
-          instructionText={instructionText}
+          }
         />
-
-        {/* Muscle group step navigator */}
-        <View className="z-20 pb-4 pt-2">
-          <ScrollView
-            ref={scrollRef}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerClassName="px-6 gap-4 pb-2"
-          >
-            {MUSCLE_GROUPS.map((group, index) => {
-              let state: 'completed' | 'active' | 'upcoming';
-              if (index < currentStepIndex) {
-                state = 'completed';
-              } else if (index === currentStepIndex) {
-                state = 'active';
-              } else {
-                state = 'upcoming';
-              }
-              return (
-                <MuscleGroupStep key={group.id} group={group} state={state} />
-              );
-            })}
-          </ScrollView>
+      }
+      className="flex-1"
+    >
+      {/* Body visualization area */}
+      <View className="flex-1 items-center justify-center">
+        {/* Biometric badges - positioned on the left */}
+        <View className="absolute left-4 top-1/2 z-20 -translate-y-1/2 gap-4">
+          <BiometricBadge
+            icon="monitor-heart"
+            iconColor={colors.accent.yellow}
+            label="Stress"
+            value={stress.label ?? '—'}
+            valueColor={colors.accent.yellow}
+          />
+          <BiometricBadge
+            icon="air"
+            iconColor={colors.primary.pink}
+            label="Breath"
+            value={breathLabel}
+            valueColor={colors.primary.pink}
+          />
         </View>
 
-        {/* Bottom controls: pause + progress bar + timer */}
-        <SessionControls
-          isPaused={isPaused}
-          onPauseToggle={() => setIsPaused((p) => !p)}
-          timeLabel={formatTime(timeRemaining)}
-          progressBarStyle={progressBarStyle}
-        />
+        {/* Body silhouette */}
+        <BodySilhouette activeGlow={currentGroup.glowPosition} />
       </View>
-    </SafeAreaView>
+
+      {/* Instruction area */}
+      <InstructionDisplay
+        groupLabel={currentGroup.label}
+        phaseLabel={phaseLabel}
+        instructionText={instructionText}
+      />
+
+      {/* Muscle group step navigator */}
+      <View className="z-20 pb-4 pt-2">
+        <ScrollView
+          ref={scrollRef}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerClassName="px-6 gap-4 pb-2"
+        >
+          {MUSCLE_GROUPS.map((group, index) => {
+            let state: 'completed' | 'active' | 'upcoming';
+            if (index < currentStepIndex) {
+              state = 'completed';
+            } else if (index === currentStepIndex) {
+              state = 'active';
+            } else {
+              state = 'upcoming';
+            }
+            return (
+              <MuscleGroupStep key={group.id} group={group} state={state} />
+            );
+          })}
+        </ScrollView>
+      </View>
+
+      {/* Bottom controls: pause + progress bar + timer */}
+      <SessionControls
+        isPaused={isPaused}
+        onPauseToggle={() => setIsPaused((p) => !p)}
+        timeLabel={formatTime(timeRemaining)}
+        progressBarStyle={progressBarStyle}
+      />
+    </Screen>
   );
 }

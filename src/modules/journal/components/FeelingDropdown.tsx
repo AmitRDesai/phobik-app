@@ -1,10 +1,12 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { useCallback, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -61,7 +63,7 @@ export function FeelingDropdown({
             size={20}
             color={colors.primary.pink}
           />
-          <Text className="text-base font-semibold text-foreground">
+          <Text variant="md" className="font-semibold">
             {selectedLabel || 'What are you feeling?'}
           </Text>
         </View>
@@ -86,8 +88,9 @@ export function FeelingDropdown({
               style={{ width: '48%' }}
             >
               <Text
+                variant="sm"
                 className={clsx(
-                  'text-xs font-medium',
+                  'font-medium',
                   value === option.value
                     ? 'text-primary-pink'
                     : 'text-foreground/70',

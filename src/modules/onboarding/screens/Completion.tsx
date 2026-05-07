@@ -1,18 +1,22 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
-import { colors, withAlpha } from '@/constants/colors';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { Text, View } from 'react-native';
 import { OnboardingProgressBar } from '../components/OnboardingProgressBar';
 import { useCompleteOnboarding } from '../hooks/useCompleteOnboarding';
 import { useSaveOnboardingAnswers } from '../hooks/useSaveOnboardingAnswers';
 import { onboardingDataAtom, resetOnboardingAtom } from '../store/onboarding';
 
 export default function Completion() {
+  const scheme = useScheme();
+  const orangeAccent = accentFor(scheme, 'orange');
   const completeOnboarding = useCompleteOnboarding();
   const saveOnboardingAnswers = useSaveOnboardingAnswers();
   const onboardingData = useAtomValue(onboardingDataAtom);
@@ -47,10 +51,16 @@ export default function Completion() {
               <OnboardingProgressBar step={8} />
             </View>
             <View className="mt-3 flex-row items-center justify-center gap-2">
-              <Text className="text-sm font-medium text-foreground/55">
+              <Text variant="sm" className="font-medium text-foreground/55">
                 Onboarding Complete
               </Text>
-              <Text className="text-sm font-bold text-[#FF8C37]">100%</Text>
+              <Text
+                variant="sm"
+                className="font-bold"
+                style={{ color: orangeAccent }}
+              >
+                100%
+              </Text>
             </View>
           </>
         ) : undefined
@@ -66,7 +76,11 @@ export default function Completion() {
           >
             Go to Today
           </GradientButton>
-          <Text className="mt-6 text-[10px] font-bold uppercase tracking-[0.3em] text-foreground/45">
+          <Text
+            variant="caption"
+            className="mt-6 font-bold tracking-[0.3em] text-foreground/45"
+            style={{ paddingRight: 3.3 }}
+          >
             Your journey starts now
           </Text>
         </View>
@@ -76,7 +90,12 @@ export default function Completion() {
       <View className="flex-1 items-center justify-center px-8">
         {/* Victory circle */}
         <View className="mb-10 items-center justify-center">
-          <View className="absolute h-64 w-64 rounded-full border border-[#FF8C37]/20" />
+          <View
+            className="absolute h-64 w-64 rounded-full border"
+            style={{
+              borderColor: withAlpha(colors.gradient['bright-orange'], 0.2),
+            }}
+          />
           <View className="absolute h-52 w-52 rounded-full border border-primary-pink/10" />
 
           <LinearGradient
@@ -114,10 +133,13 @@ export default function Completion() {
           <View className="absolute left-6 top-2 h-3 w-3 rounded-full bg-foreground/40" />
         </View>
 
-        <Text className="text-center text-4xl font-extrabold tracking-tight text-foreground">
+        <Text variant="display" className="text-center">
           You&apos;re set.
         </Text>
-        <Text className="mt-4 max-w-[280px] text-center text-lg font-medium text-foreground/55">
+        <Text
+          variant="lg"
+          className="mt-4 max-w-[280px] text-center font-medium text-foreground/55"
+        >
           Phobik will meet you where you are and adapt as you go.
         </Text>
       </View>

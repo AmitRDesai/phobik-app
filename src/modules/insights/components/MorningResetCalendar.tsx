@@ -1,11 +1,13 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors, withAlpha } from '@/constants/colors';
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { useQuery } from '@powersync/tanstack-react-query';
+import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
-import { Text, View } from 'react-native';
 
 const DAY_LABELS = [
   { key: 'mon', label: 'M' },
@@ -141,10 +143,10 @@ export function MorningResetCalendar() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
+        <Text variant="caption" muted>
           Morning Reset History
         </Text>
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
+        <Text variant="caption" className="text-foreground/60">
           {monthLabel}
         </Text>
       </View>
@@ -152,7 +154,7 @@ export function MorningResetCalendar() {
         <View className="mb-2 flex-row">
           {DAY_LABELS.map((day) => (
             <View key={day.key} className="flex-1 items-center">
-              <Text className="text-[8px] font-black uppercase text-foreground/30">
+              <Text variant="caption" className="text-foreground/30">
                 {day.label}
               </Text>
             </View>
@@ -168,13 +170,15 @@ export function MorningResetCalendar() {
                 {cell ? (
                   <>
                     <Text
-                      className={`text-[10px] font-bold ${
+                      variant="xs"
+                      className={clsx(
+                        'font-bold',
                         cell.today
                           ? 'text-primary-pink'
                           : cell.weekend
                             ? 'text-accent-yellow'
-                            : 'text-foreground'
-                      }`}
+                            : 'text-foreground',
+                      )}
                     >
                       {cell.day}
                     </Text>
@@ -203,10 +207,10 @@ export function MorningResetCalendar() {
           </View>
         ))}
         <View className="flex-row items-center justify-between border-t border-foreground/5 pt-4">
-          <Text className="text-[9px] font-medium text-foreground/40">
+          <Text variant="xs" muted className="font-medium">
             Build a Steady Morning
           </Text>
-          <Text className="text-[9px] font-black uppercase tracking-widest text-primary-pink">
+          <Text variant="caption" className="text-primary-pink">
             {completedCount}/{totalDays} Complete
           </Text>
         </View>

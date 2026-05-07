@@ -1,7 +1,8 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
-import { colors } from '@/constants/colors';
-import { Text, View } from 'react-native';
+import { colors, withAlpha } from '@/constants/colors';
 
 import type { DoseReward } from '@/modules/courage/data/mystery-challenges';
 
@@ -43,7 +44,7 @@ export function DoseRewardsGrid({ dose }: DoseRewardsGridProps) {
 
   return (
     <View>
-      <Text className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground/60">
+      <Text variant="caption" muted className="mb-4">
         Daily D.O.S.E. Rewards
       </Text>
       <View className="flex-row flex-wrap gap-3">
@@ -57,18 +58,24 @@ export function DoseRewardsGrid({ dose }: DoseRewardsGridProps) {
             <IconChip
               size="md"
               shape="circle"
-              bg={`${item.color}15`}
-              border={`${item.color}30`}
+              bg={withAlpha(item.color, 0.08)}
+              border={withAlpha(item.color, 0.2)}
             >
-              <Text className="text-xs font-bold" style={{ color: item.color }}>
+              <Text
+                variant="xs"
+                className="font-bold"
+                style={{ color: item.color }}
+              >
                 +{dose[item.key]}
               </Text>
             </IconChip>
             <View>
-              <Text className="text-[10px] font-bold uppercase tracking-tight text-foreground/55">
+              <Text variant="caption" muted>
                 {item.label}
               </Text>
-              <Text className="text-xs text-foreground/70">{item.sub}</Text>
+              <Text variant="xs" className="text-foreground/70">
+                {item.sub}
+              </Text>
             </View>
           </Card>
         ))}

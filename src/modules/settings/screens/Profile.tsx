@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Header } from '@/components/ui/Header';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
@@ -12,7 +14,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { File as ExpoFile } from 'expo-file-system';
 import { useState } from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, Pressable } from 'react-native';
 
 export default function Profile() {
   const { data: session } = useSession();
@@ -124,9 +126,11 @@ export default function Profile() {
           </View>
         </View>
         {uploadMutation.isPending && (
-          <Text className="mt-2 text-xs text-foreground/50">Uploading...</Text>
+          <Text variant="xs" muted className="mt-2">
+            Uploading...
+          </Text>
         )}
-        <Text className="mt-2 text-sm font-medium text-primary-pink">
+        <Text variant="sm" className="mt-2 font-medium text-primary-pink">
           Change Photo
         </Text>
       </Pressable>

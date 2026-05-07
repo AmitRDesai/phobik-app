@@ -1,7 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { CalendarDay } from './CalendarDay';
 
 const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -94,7 +96,7 @@ export function JournalCalendar({
   return (
     <View className="mb-4 mt-4">
       <View className="mb-3 flex-row items-center justify-between px-2">
-        <Text className="text-lg font-bold text-foreground">
+        <Text variant="lg" className="font-bold">
           {MONTH_NAMES[month - 1]} {year}
         </Text>
         <View className="flex-row gap-4">

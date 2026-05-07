@@ -1,3 +1,6 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
@@ -8,7 +11,7 @@ import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useRef, useState } from 'react';
-import { Pressable, Text, TextInput as RNTextInput, View } from 'react-native';
+import { Pressable, TextInput as RNTextInput } from 'react-native';
 
 export default function ResetPasswordScreen() {
   const { token, error: urlError } = useLocalSearchParams<{
@@ -82,28 +85,30 @@ export default function ResetPasswordScreen() {
             />
           </IconChip>
 
-          <Text className="text-3xl font-bold text-foreground">
+          <Text variant="h1" className="font-bold">
             Invalid Link
           </Text>
-          <Text className="mt-3 text-center text-base leading-6 text-foreground/50">
+          <Text variant="md" muted className="mt-3 text-center leading-relaxed">
             This password reset link is invalid or has expired. Please request a
             new one.
           </Text>
 
-          <Pressable
+          <Button
+            variant="ghost"
+            size="compact"
             onPress={() => router.replace('/auth/forgot-password')}
-            className="mt-8 py-2"
+            className="mt-6"
           >
-            <Text className="text-sm font-semibold text-primary-pink">
-              Request New Link
-            </Text>
-          </Pressable>
+            Request New Link
+          </Button>
 
           <Pressable
             onPress={() => router.replace('/auth/sign-in')}
-            className="mt-4 py-2"
+            className="mt-2 py-2"
           >
-            <Text className="text-sm text-foreground/55">Back to Sign In</Text>
+            <Text variant="sm" className="text-foreground/55">
+              Back to Sign In
+            </Text>
           </Pressable>
         </View>
       </Screen>
@@ -118,10 +123,11 @@ export default function ResetPasswordScreen() {
       className="grow justify-center"
       scrollViewProps={{ keyboardDismissMode: 'interactive' }}
     >
-      {/* Title */}
       <View className="items-center px-4 pb-8">
-        <Text className="text-3xl font-bold text-foreground">New Password</Text>
-        <Text className="mt-3 text-center text-base leading-6 text-foreground/50">
+        <Text variant="h1" className="font-bold">
+          New Password
+        </Text>
+        <Text variant="md" muted className="mt-3 text-center leading-relaxed">
           Enter your new password below.
         </Text>
       </View>
@@ -159,14 +165,14 @@ export default function ResetPasswordScreen() {
         </View>
 
         {password.length > 0 && password.length < 8 && (
-          <Text className="mt-2 text-xs text-status-danger">
+          <Text variant="sm" className="mt-2 text-status-danger">
             Password must be at least 8 characters
           </Text>
         )}
 
         {confirmPassword.length > 0 && password !== confirmPassword && (
-          <Text className="mt-2 text-xs text-status-danger">
-            Passwords don't match
+          <Text variant="sm" className="mt-2 text-status-danger">
+            Passwords don&apos;t match
           </Text>
         )}
 
@@ -185,9 +191,11 @@ export default function ResetPasswordScreen() {
           className="mt-6 py-2"
           disabled={isLoading}
         >
-          <Text className="text-center text-sm text-foreground/55">
+          <Text variant="sm" className="text-center text-foreground/55">
             Remember your password?{' '}
-            <Text className="font-bold text-primary-pink">Sign In</Text>
+            <Text variant="sm" className="font-bold text-primary-pink">
+              Sign In
+            </Text>
           </Text>
         </Pressable>
       </View>

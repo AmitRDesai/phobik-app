@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
 import {
@@ -7,7 +9,7 @@ import {
 import { useAssessmentList } from '@/modules/self-check-ins/hooks/useSelfCheckIn';
 import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView } from 'react-native';
 
 const ACCENT_COLORS = [
   colors.primary['pink-soft'],
@@ -66,10 +68,10 @@ export function TopStressorsRow() {
   return (
     <View className="-mx-5 gap-4">
       <View className="flex-row items-center justify-between px-5">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
+        <Text variant="caption" muted>
           Top Stressors
         </Text>
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+        <Text variant="caption" className="text-primary-pink">
           Compass Link
         </Text>
       </View>
@@ -86,10 +88,13 @@ export function TopStressorsRow() {
           >
             <DashboardCard className="min-w-[200px] items-center justify-center p-4">
               <Text className="mb-2 text-3xl">🧭</Text>
-              <Text className="text-center text-[10px] font-bold uppercase tracking-tighter text-foreground/60">
+              <Text
+                variant="caption"
+                className="text-center text-foreground/60"
+              >
                 Take the Stress{'\n'}Compass
               </Text>
-              <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+              <Text variant="caption" className="mt-1 text-primary-pink">
                 Start
               </Text>
             </DashboardCard>
@@ -107,10 +112,14 @@ export function TopStressorsRow() {
             >
               <DashboardCard className="min-w-[120px] items-center p-4">
                 <Text className="mb-2 text-3xl">{s.emoji}</Text>
-                <Text className="text-[10px] font-bold uppercase tracking-tighter text-foreground/60">
+                <Text variant="caption" className="text-foreground/60">
                   {s.label}
                 </Text>
-                <Text className="text-lg font-black" style={{ color: s.color }}>
+                <Text
+                  variant="lg"
+                  className="font-black"
+                  style={{ color: s.color }}
+                >
                   {s.count}
                 </Text>
               </DashboardCard>

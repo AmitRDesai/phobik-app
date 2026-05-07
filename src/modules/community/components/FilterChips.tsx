@@ -1,5 +1,7 @@
+import { Text } from '@/components/themed/Text';
 import { colors, withAlpha } from '@/constants/colors';
-import { Pressable, ScrollView, Text } from 'react-native';
+import { clsx } from 'clsx';
+import { Pressable, ScrollView } from 'react-native';
 
 const CIRCLES = [
   { label: 'All Stories', value: undefined },
@@ -29,11 +31,12 @@ export function FilterChips({ selected, onSelect }: FilterChipsProps) {
           <Pressable
             key={circle.label}
             onPress={() => onSelect(circle.value)}
-            className={`h-9 items-center justify-center rounded-full px-5 ${
+            className={clsx(
+              'h-9 items-center justify-center rounded-full px-5',
               isActive
                 ? 'bg-primary-pink'
-                : 'border border-primary-pink/10 bg-surface-elevated'
-            }`}
+                : 'border border-primary-pink/10 bg-surface-elevated',
+            )}
             style={
               isActive
                 ? {
@@ -43,7 +46,11 @@ export function FilterChips({ selected, onSelect }: FilterChipsProps) {
             }
           >
             <Text
-              className={`text-sm font-semibold ${isActive ? 'text-foreground' : 'text-foreground/80'}`}
+              variant="sm"
+              className={clsx(
+                'font-semibold',
+                !isActive && 'text-foreground/80',
+              )}
             >
               {circle.label}
             </Text>

@@ -1,7 +1,8 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BlurView } from '@/components/ui/BlurView';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { useScheme } from '@/hooks/useTheme';
-import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function InsightsHeader() {
@@ -19,10 +20,10 @@ export function InsightsHeader() {
         style={{ paddingTop: insets.top + 8 }}
       >
         <View>
-          <Text className="text-xl font-black tracking-tight text-foreground">
+          <Text variant="h2" className="font-black">
             Insights
           </Text>
-          <Text className="text-[10px] font-medium uppercase tracking-widest text-primary-pink">
+          <Text variant="caption" className="text-primary-pink">
             Biometric Intelligence
           </Text>
         </View>

@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import {
   accentFor,
   colors,
@@ -7,7 +9,7 @@ import {
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, TextInput } from 'react-native';
 import { FEELING_OPTIONS, NEED_OPTIONS } from '../data/options';
 import { getTagColor, getTagColorFromHex } from '../data/tag-colors';
 import { useCreateTag, useJournalTags } from '../hooks/useJournalTags';
@@ -68,7 +70,10 @@ export function TagSection({
     <View className="mb-6">
       {hasChips && (
         <>
-          <Text className="mb-3 px-1 text-[10px] font-bold uppercase tracking-widest text-foreground/40">
+          <Text
+            variant="caption"
+            className="mb-3 px-1 font-bold tracking-widest text-foreground/40"
+          >
             Selected Tags
           </Text>
           <ScrollView
@@ -193,7 +198,7 @@ export function TagSection({
                   onPress={() => onAddTag(tag.name)}
                   className="rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1"
                 >
-                  <Text className="text-[10px] text-foreground/50">
+                  <Text variant="xs" className="text-foreground/50">
                     {tag.name}
                   </Text>
                 </Pressable>

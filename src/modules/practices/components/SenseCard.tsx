@@ -1,7 +1,8 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors } from '@/constants/colors';
-import { Text, View } from 'react-native';
 
 interface SenseCardProps {
   count: number;
@@ -14,15 +15,20 @@ export function SenseCard({ count, title, subtitle }: SenseCardProps) {
     <Card className="flex-row items-start gap-4">
       <IconChip size="sm" shape="circle" tone="pink">
         <Text
-          className="text-sm font-bold"
+          variant="sm"
+          className="font-bold"
           style={{ color: colors.primary.pink }}
         >
           {count}
         </Text>
       </IconChip>
       <View className="flex-1">
-        <Text className="text-sm font-semibold text-foreground">{title}</Text>
-        <Text className="mt-0.5 text-xs text-foreground/50">{subtitle}</Text>
+        <Text variant="md" className="font-semibold">
+          {title}
+        </Text>
+        <Text variant="sm" className="mt-0.5 text-foreground/50">
+          {subtitle}
+        </Text>
       </View>
     </Card>
   );

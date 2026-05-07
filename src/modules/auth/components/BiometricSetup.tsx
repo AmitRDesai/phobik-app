@@ -1,3 +1,6 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
@@ -12,7 +15,7 @@ import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSetAtom } from 'jotai';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 interface BiometricSetupProps {
   mode: 'initial-setup' | 'settings';
@@ -54,10 +57,10 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
               <Ionicons name={iconName} size={22} color={colors.primary.pink} />
             </IconChip>
             <View className="flex-1">
-              <Text className="text-base font-semibold text-foreground">
+              <Text variant="lg" className="font-semibold">
                 {biometricType}
               </Text>
-              <Text className="text-sm text-foreground/55">
+              <Text variant="sm" className="text-foreground/55">
                 Quick sign-in with {biometricType}
               </Text>
             </View>
@@ -66,7 +69,7 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
             onPress={handleEnable}
             className="rounded-full bg-primary-pink/20 px-4 py-2"
           >
-            <Text className="text-sm font-semibold text-primary-pink">
+            <Text variant="sm" className="font-semibold text-primary-pink">
               Enable
             </Text>
           </Pressable>
@@ -95,10 +98,13 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
           <Ionicons name={iconName} size={56} color="white" />
         </LinearGradient>
 
-        <Text className="text-center text-3xl font-extrabold text-foreground">
+        <Text variant="h1" className="text-center font-extrabold">
           Enable {biometricType}
         </Text>
-        <Text className="mt-3 text-center text-base leading-relaxed text-foreground/55">
+        <Text
+          variant="lg"
+          className="mt-3 text-center leading-relaxed text-foreground/55"
+        >
           Use {biometricType} to quickly sign back in without typing your
           password.
         </Text>
@@ -107,11 +113,9 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
           <GradientButton onPress={handleEnable}>
             Enable {biometricType}
           </GradientButton>
-          <Pressable onPress={handleSkip} className="py-4">
-            <Text className="text-center text-base font-semibold text-foreground/55">
-              Skip for now
-            </Text>
-          </Pressable>
+          <Button variant="ghost" onPress={handleSkip}>
+            Skip for now
+          </Button>
         </View>
       </View>
     </Screen>

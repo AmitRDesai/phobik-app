@@ -1,9 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter, type Href } from 'expo-router';
-import { Text, View } from 'react-native';
 
 interface QuickAccessItem {
   icon: keyof typeof MaterialIcons.glyphMap;
@@ -41,7 +42,11 @@ export function QuickAccessGrid() {
           style={{ width: '48%' }}
         >
           <MaterialIcons name={item.icon} size={22} color={iconColor} />
-          <Text className="text-[11px] font-bold uppercase tracking-wider text-foreground/70">
+          <Text
+            variant="caption"
+            className="font-bold tracking-wider text-foreground/70"
+            style={{ paddingRight: 1.1 }}
+          >
             {item.label}
           </Text>
         </Card>

@@ -1,10 +1,11 @@
-import { Header } from '@/components/ui/Header';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Text, View } from 'react-native';
 import { ChakraFigure } from '../components/ChakraFigure';
 
 const principles = [
@@ -30,6 +31,7 @@ export default function PhilosophyScreen() {
   return (
     <Screen
       variant="auth"
+      scroll
       header={<Header center={<ProgressDots total={7} current={2} />} />}
       sticky={
         <View className="items-center">
@@ -39,30 +41,37 @@ export default function PhilosophyScreen() {
           >
             Next
           </GradientButton>
-          <Text className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
+          <Text
+            variant="caption"
+            muted
+            className="mt-3 tracking-[0.2em]"
+            style={{ paddingRight: 2.2 }}
+          >
             Step 2 of 7
           </Text>
         </View>
       }
       className="px-8 pt-2"
     >
-      <Text className="text-center text-4xl font-extrabold tracking-tight text-foreground">
+      <Text variant="display" className="text-center tracking-tight">
         Phobik Philosophy
       </Text>
-      <Text className="mt-3 text-center text-lg font-medium text-foreground/70">
+      <Text variant="lg" muted className="mt-3 text-center font-medium">
         Phobik blends three major principles
       </Text>
-      <View className="flex-1 items-center justify-center py-6">
+      <View className="items-center justify-center py-6">
         <ChakraFigure />
       </View>
       <View>
         {principles.map((p) => (
           <View key={p.number} className="mb-3 flex-row">
-            <Text className="mr-3 text-lg font-bold text-primary-pink">
+            <Text variant="h3" className="mr-3 text-primary-pink">
               {p.number}
             </Text>
-            <Text className="flex-1 text-[15px] text-foreground/90">
-              <Text className="font-bold text-foreground">{p.title}</Text>
+            <Text variant="md" className="flex-1 text-foreground/90">
+              <Text variant="md" className="font-bold">
+                {p.title}
+              </Text>
               {' – '}
               {p.description}
             </Text>

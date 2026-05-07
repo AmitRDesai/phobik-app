@@ -1,4 +1,7 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { useSaveCalendarPrefs } from '@/modules/calendar/hooks/useSaveCalendarPrefs';
 import {
@@ -7,11 +10,10 @@ import {
   selectedCalendarIdsAtom,
   supportToneAtom,
 } from '@/modules/calendar/store/calendar';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtomValue } from 'jotai';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { OnboardingLayout } from '../components/OnboardingLayout';
 
 const PRIVACY_FEATURES: {
@@ -67,7 +69,7 @@ export default function PrivacyTrust() {
     <OnboardingLayout
       step={7}
       title="Your Data, Your Sanctuary."
-      titleClassName="text-[28px] font-extrabold leading-tight tracking-tight text-foreground text-center"
+      titleClassName="text-[28px] font-extrabold leading-tight text-foreground text-center"
       subtitle="PHOBIK is designed to protect your privacy while mapping your nervous system."
       subtitleClassName="mt-3 text-base font-normal leading-relaxed text-foreground/60 text-center"
       onBack={() => router.back()}
@@ -111,10 +113,10 @@ export default function PrivacyTrust() {
               <MaterialIcons name={feature.icon} size={24} color="white" />
             </View>
             <View className="flex-1">
-              <Text className="text-base font-bold text-foreground">
+              <Text variant="lg" className="font-bold">
                 {feature.title}
               </Text>
-              <Text className="mt-0.5 text-sm text-foreground/50">
+              <Text variant="sm" className="mt-0.5 text-foreground/50">
                 {feature.description}
               </Text>
             </View>
@@ -125,13 +127,13 @@ export default function PrivacyTrust() {
       {/* Bottom links */}
       <View className="mt-6 items-center gap-3">
         <Pressable>
-          <Text className="text-sm font-medium text-foreground/40">
+          <Text variant="sm" className="font-medium text-foreground/40">
             Manage privacy settings
           </Text>
         </Pressable>
         <View className="flex-row items-center gap-1.5">
           <MaterialIcons name="lock" size={12} color={lockIconColor} />
-          <Text className="text-[11px] font-bold uppercase tracking-widest text-foreground/30">
+          <Text variant="caption" className="font-bold text-foreground/30">
             End-to-End Encrypted
           </Text>
         </View>

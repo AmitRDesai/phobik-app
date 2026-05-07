@@ -1,12 +1,13 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
 
-import { GradientText } from '@/components/ui/GradientText';
 import { MoodTabs } from '../components/MoodTabs';
 import { PracticeListRow } from '../components/PracticeListRow';
 import { PracticeScreenShell } from '../components/PracticeScreenShell';
@@ -31,22 +32,20 @@ export default function BreatheList() {
   }, [filter]);
 
   return (
-    <PracticeScreenShell
-      wordmark="FLOW STUDIO"
-      bgClassName="bg-surface"
-      glowCenterY={0.25}
-      glowIntensity={0.5}
-    >
+    <PracticeScreenShell wordmark="FLOW STUDIO">
       <View className="mb-8 mt-4">
         <View className="flex-row flex-wrap items-baseline">
-          <Text className="text-[44px] font-extrabold uppercase leading-none tracking-tighter text-foreground">
+          <Text
+            variant="display"
+            className="font-extrabold uppercase leading-[1.05]"
+          >
             BREATHE &{' '}
           </Text>
-          <GradientText className="text-[44px] font-extrabold uppercase leading-none tracking-tighter">
+          <GradientText className="text-4xl font-extrabold uppercase leading-[1.05]">
             REGULATE
           </GradientText>
         </View>
-        <Text className="mt-3 max-w-[320px] text-base leading-relaxed text-foreground/60">
+        <Text variant="lg" muted className="mt-3 max-w-[320px]">
           Steady your breath to settle your body in seconds.
         </Text>
       </View>
@@ -59,13 +58,19 @@ export default function BreatheList() {
           className="mb-6 flex-row items-center gap-4"
         >
           <IconChip size="lg" shape="circle" tone="pink">
-            <MaterialIcons name="play-arrow" size={24} color="white" />
+            {(color) => (
+              <MaterialIcons name="play-arrow" size={24} color={color} />
+            )}
           </IconChip>
           <View className="flex-1">
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
-              Unfinished session
+            <Text
+              variant="caption"
+              className="font-bold text-primary-pink"
+              numberOfLines={1}
+            >
+              Unfinished
             </Text>
-            <Text className="mt-0.5 text-base font-bold text-foreground">
+            <Text variant="lg" numberOfLines={1} className="mt-0.5 font-bold">
               {resumable.title}
             </Text>
           </View>
@@ -89,7 +94,7 @@ export default function BreatheList() {
 
       <View className="gap-5">
         {filteredExercises.length === 0 ? (
-          <Text className="py-12 text-center text-sm text-foreground/50">
+          <Text variant="sm" className="py-12 text-center text-foreground/50">
             No practices match this level.
           </Text>
         ) : (

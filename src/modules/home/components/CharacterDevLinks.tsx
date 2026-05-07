@@ -1,7 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { withAlpha } from '@/constants/colors';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 const LINKS = [
   { label: 'Sunny', href: '/characters/sunny' as const, tint: '#FACC15' },
@@ -14,8 +16,8 @@ export function CharacterDevLinks() {
   const router = useRouter();
 
   return (
-    <Card>
-      <Text className="mb-3 text-[10px] font-bold uppercase tracking-widest text-foreground/40">
+    <Card variant="elevated">
+      <Text variant="caption" className="mb-3 font-bold text-foreground/40">
         Characters (dev)
       </Text>
       <View className="flex-row flex-wrap gap-2">
@@ -27,7 +29,8 @@ export function CharacterDevLinks() {
             style={{ backgroundColor: withAlpha(link.tint, 0.13) }}
           >
             <Text
-              className="text-xs font-semibold"
+              variant="sm"
+              className="font-semibold"
               style={{ color: link.tint }}
             >
               {link.label}

@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
@@ -9,13 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import {
-  Platform,
-  Pressable,
-  TextInput as RNTextInput,
-  Text,
-  View,
-} from 'react-native';
+import { Platform, Pressable, TextInput as RNTextInput } from 'react-native';
 import {
   useAppleSignIn,
   useGoogleSignIn,
@@ -147,20 +143,18 @@ export default function CreateAccountScreen() {
           <Ionicons name="finger-print" size={40} color="white" />
         </View>
 
-        <Text className="text-3xl font-extrabold tracking-tight text-white">
+        <Text variant="h1" className="tracking-tight text-white">
           PHOBIK
         </Text>
-        <Text className="mt-1 text-sm text-white/80">
+        <Text variant="sm" className="mt-1 text-white/80">
           Biometric Mental Wellness
         </Text>
       </LinearGradient>
 
       {/* Form Section */}
       <View className="flex-1 px-8 pt-8">
-        <Text className="text-2xl font-bold text-foreground">
-          Create Account
-        </Text>
-        <Text className="mb-8 mt-2 text-sm text-foreground/55">
+        <Text variant="h1">Create Account</Text>
+        <Text variant="sm" muted className="mb-8 mt-2">
           Join the future of secure health tracking
         </Text>
 
@@ -229,7 +223,7 @@ export default function CreateAccountScreen() {
             Create Account
           </GradientButton>
           {showWarmingHint && (
-            <Text className="mt-3 text-center text-xs text-foreground/60">
+            <Text variant="sm" muted className="mt-3 text-center">
               Hang tight — we&apos;re getting things ready for you.
             </Text>
           )}
@@ -239,7 +233,7 @@ export default function CreateAccountScreen() {
         <View className="mt-6">
           <View className="mb-4 flex-row items-center">
             <View className="h-px flex-1 bg-foreground/10" />
-            <Text className="mx-4 text-sm text-foreground/55">
+            <Text variant="sm" muted className="mx-4">
               or continue with
             </Text>
             <View className="h-px flex-1 bg-foreground/10" />
@@ -266,9 +260,10 @@ export default function CreateAccountScreen() {
           </View>
         </View>
 
-        <Text className="mt-4 text-center text-xs leading-5 text-foreground/55">
+        <Text variant="sm" muted className="mt-4 text-center">
           By signing up, you agree to our{'\n'}
           <Text
+            variant="sm"
             className="text-primary-pink"
             onPress={() => router.push('/auth/terms-of-service?modal=true')}
           >
@@ -276,6 +271,7 @@ export default function CreateAccountScreen() {
           </Text>{' '}
           and{' '}
           <Text
+            variant="sm"
             className="text-primary-pink"
             onPress={() => router.push('/auth/privacy-policy?modal=true')}
           >
@@ -289,9 +285,11 @@ export default function CreateAccountScreen() {
           className="mb-8 mt-6 py-2"
           disabled={isLoading}
         >
-          <Text className="text-center text-sm text-foreground/50">
+          <Text variant="sm" muted className="text-center">
             Already have an account?{' '}
-            <Text className="font-bold text-primary-pink">Sign In</Text>
+            <Text variant="sm" className="font-bold text-primary-pink">
+              Sign In
+            </Text>
           </Text>
         </Pressable>
       </View>

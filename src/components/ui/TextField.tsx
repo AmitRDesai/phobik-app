@@ -171,11 +171,11 @@ export function TextField({
         ) : null}
       </View>
       {hasError ? (
-        <Text variant="body-sm" className="px-2 text-status-danger">
+        <Text variant="sm" className="px-2 text-status-danger">
           {error}
         </Text>
       ) : hint ? (
-        <Text variant="body-sm" muted className="px-2">
+        <Text variant="sm" muted className="px-2">
           {hint}
         </Text>
       ) : null}

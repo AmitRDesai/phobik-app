@@ -1,8 +1,10 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Redirect, useRouter } from 'expo-router';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -44,10 +46,10 @@ export default function EmpathyChallengeCalendar() {
     >
       <View className="gap-3 py-4">
         <View className="flex-row items-end justify-between">
-          <Text className="text-base font-medium text-foreground">
+          <Text variant="md" className="font-medium">
             Overall Progress
           </Text>
-          <Text className="text-sm font-bold text-primary-pink">
+          <Text variant="sm" className="font-bold text-primary-pink">
             {completedCount}/7 Days
           </Text>
         </View>
@@ -117,7 +119,7 @@ export default function EmpathyChallengeCalendar() {
                     {isCompleted ? (
                       <MaterialIcons name="check" size={18} color="white" />
                     ) : (
-                      <Text className="text-sm font-bold text-white">
+                      <Text variant="sm" className="font-bold text-white">
                         {empathyDay.day}
                       </Text>
                     )}
@@ -171,10 +173,10 @@ export default function EmpathyChallengeCalendar() {
                   />
                 ) : (
                   <View className="justify-center pt-2">
-                    <Text className="text-lg font-semibold text-foreground">
+                    <Text variant="lg" className="font-semibold">
                       Day {empathyDay.day}: {empathyDay.title}
                     </Text>
-                    <Text className="text-sm text-foreground/60">
+                    <Text variant="sm" className="text-foreground/60">
                       {isCompleted
                         ? 'Completed'
                         : isWaiting
@@ -214,10 +216,10 @@ function ActiveDayCard({
       />
 
       <View className="gap-1 p-4">
-        <Text className="text-xl font-bold text-foreground">
+        <Text variant="h2">
           Day {empathyDay.day}: {empathyDay.title}
         </Text>
-        <Text className="mb-4 text-sm leading-relaxed text-foreground/70">
+        <Text variant="sm" className="mb-4 leading-relaxed text-foreground/70">
           {empathyDay.calendarDescription}
         </Text>
         <GradientButton

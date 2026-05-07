@@ -1,4 +1,6 @@
 import BL_IMAGE from '@/assets/images/daily-flow/bilateral-tutorial.png';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
@@ -6,9 +8,8 @@ import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Image, Text, View } from 'react-native';
+import { Image } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { getFeeling } from '../data/feelings';
@@ -84,13 +85,13 @@ export default function BiLateralTutorial() {
           </View>
         </View>
         <View className="mt-7 items-center">
-          <GradientText
-            className="text-[34px] font-black tracking-tight"
-            end={{ x: 1, y: 1 }}
-          >
+          <GradientText className="text-[34px] font-black" end={{ x: 1, y: 1 }}>
             Find Your Rhythm
           </GradientText>
-          <Text className="mt-2 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/55">
+          <Text
+            variant="caption"
+            className="mt-2 text-center font-bold tracking-[0.2em] text-foreground/55"
+          >
             Phase 1 · Regulating the Nervous System
           </Text>
         </View>
@@ -147,14 +148,17 @@ function SmallStepCard({
     <Card className="p-5">
       <View className="flex-row items-start gap-4">
         <Text
-          className="text-2xl font-black tracking-tight"
+          variant="h2"
+          className="font-black"
           style={{ color: numberColor }}
         >
           {number}
         </Text>
         <View className="flex-1">
-          <Text className="text-base font-bold text-foreground">{title}</Text>
-          <Text className="mt-1 text-sm leading-5 text-foreground/60">
+          <Text variant="lg" className="font-bold">
+            {title}
+          </Text>
+          <Text variant="sm" muted className="mt-1 leading-5">
             {description}
           </Text>
         </View>
@@ -165,27 +169,23 @@ function SmallStepCard({
 
 function HighlightStepCard({ yellow }: { yellow: string }) {
   return (
-    <View className="relative overflow-hidden rounded-2xl border border-primary-pink/25 bg-foreground/[0.05] p-7">
-      <View className="absolute right-3 top-3" pointerEvents="none">
-        <MaterialIcons
-          name="touch-app"
-          size={72}
-          color="white"
-          style={{ opacity: 0.08 }}
-        />
-      </View>
-      <View className="flex-row items-start gap-5">
+    <Card
+      className="relative overflow-hidden border-primary-pink/40 p-5"
+      shadow={{ color: colors.primary.pink, opacity: 0.2, blur: 16 }}
+    >
+      <View className="flex-row items-start gap-4">
         <Text
-          className="text-4xl font-black tracking-tight"
+          variant="h1"
+          className="font-black"
           style={{ color: colors.primary.pink }}
         >
           03
         </Text>
         <View className="flex-1">
-          <Text className="text-xl font-bold text-foreground">
+          <Text variant="lg" className="font-bold">
             Start a Steady Rhythm
           </Text>
-          <Text className="mt-2 text-base leading-6 text-foreground/70">
+          <Text variant="sm" muted className="mt-1 leading-5">
             Gently tap{' '}
             <Text className="font-bold" style={{ color: colors.primary.pink }}>
               left
@@ -198,7 +198,7 @@ function HighlightStepCard({ yellow }: { yellow: string }) {
           </Text>
         </View>
       </View>
-    </View>
+    </Card>
   );
 }
 
@@ -213,13 +213,17 @@ function MiniStepCard({
 }) {
   return (
     <Card variant="surface" className="p-5">
-      <Text className="text-[10px] font-black uppercase tracking-[0.25em] text-foreground/50">
+      <Text
+        variant="caption"
+        className="font-black tracking-[0.25em] text-foreground/50"
+        style={{ paddingRight: 2.5 }}
+      >
         {step}
       </Text>
-      <Text className="mt-1.5 text-base font-bold text-foreground">
+      <Text variant="lg" className="mt-1.5 font-bold">
         {title}
       </Text>
-      <Text className="mt-1 text-xs leading-5 text-foreground/55">
+      <Text variant="sm" className="mt-1 leading-5 text-foreground/55">
         {description}
       </Text>
     </Card>

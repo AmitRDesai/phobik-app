@@ -1,5 +1,7 @@
-import { Header } from '@/components/ui/Header';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { SelectionCard } from '@/components/ui/SelectionCard';
@@ -10,7 +12,6 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
 import type { ReactNode } from 'react';
-import { Text, View } from 'react-native';
 
 type IconRenderProps = { size: number; color: string };
 
@@ -97,17 +98,22 @@ export default function GoalSelectionScreen() {
           >
             Continue
           </GradientButton>
-          <Text className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
+          <Text
+            variant="caption"
+            muted
+            className="mt-3 tracking-[0.2em]"
+            style={{ paddingRight: 2.2 }}
+          >
             Step {currentStep} of {totalSteps}
           </Text>
         </View>
       }
       className="px-8 pt-2"
     >
-      <Text className="text-center text-3xl font-extrabold tracking-tight text-foreground">
+      <Text variant="h1" className="text-center tracking-tight">
         What brings you here?
       </Text>
-      <Text className="mt-3 text-center text-sm text-foreground/60">
+      <Text variant="sm" muted className="mt-3 text-center">
         Select the goals that matter most to you. We&apos;ll tailor your path
         accordingly.
       </Text>

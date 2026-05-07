@@ -1,8 +1,12 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { MovementSessionShell } from './MovementSessionShell';
 
@@ -30,6 +34,8 @@ function classify(index: number, currentIndex: number): StepState {
 }
 
 export default function QiGongSession() {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
   const [duration, setDuration] = useState('60s');
   const currentIndex = 2; // "Allow the shake..." active per design
 
@@ -38,7 +44,7 @@ export default function QiGongSession() {
       wordmark="Qi Gong Shaking"
       bottom={
         <View className="items-center">
-          <Text className="mb-3 text-sm text-foreground/50">
+          <Text variant="sm" className="mb-3 text-foreground/50">
             Let it settle... and feel the difference.
           </Text>
           <View className="w-full">
@@ -48,10 +54,10 @@ export default function QiGongSession() {
       }
     >
       <View className="items-center pt-6">
-        <Text className="text-2xl font-extrabold text-foreground">
+        <Text variant="h2" className="font-extrabold">
           Qi Gong Shaking
         </Text>
-        <Text className="mt-2 text-sm text-foreground/60">
+        <Text variant="sm" muted className="mt-2">
           Let your body release stored energy.
         </Text>
       </View>
@@ -71,7 +77,8 @@ export default function QiGongSession() {
               }`}
             >
               <Text
-                className={`text-sm font-bold ${active ? 'text-primary-pink' : 'text-foreground/70'}`}
+                variant="sm"
+                className={`font-bold ${active ? 'text-primary-pink' : 'text-foreground/70'}`}
               >
                 {d}
               </Text>
@@ -85,18 +92,18 @@ export default function QiGongSession() {
         <View
           className="h-[220px] w-[180px] items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 px-6"
           style={{
-            boxShadow: `0px 0px 30px ${withAlpha(colors.accent.yellow, 0.4)}`,
+            boxShadow: `0px 0px 12px ${withAlpha(yellow, 0.2)}`,
           }}
         >
-          <MaterialIcons name="air" size={56} color={colors.accent.yellow} />
-          <Text className="mt-5 text-center text-[10px] uppercase tracking-widest text-foreground/60">
+          <MaterialIcons name="air" size={56} color={yellow} />
+          <Text variant="xs" className="mt-5 text-center text-foreground/60">
             Flow State Active
           </Text>
         </View>
       </View>
 
       {/* Primer instruction card (icon + headline + sub-text) */}
-      <View className="mt-10 flex-row items-start gap-3 rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
+      <Card variant="glass" className="mt-10 flex-row items-start gap-3">
         <View className="h-10 w-10 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10">
           <MaterialIcons
             name={PRIMER.icon}
@@ -105,14 +112,14 @@ export default function QiGongSession() {
           />
         </View>
         <View className="flex-1">
-          <Text className="text-base font-bold text-foreground">
+          <Text variant="lg" className="font-bold">
             {PRIMER.title}
           </Text>
-          <Text className="mt-1 text-sm text-foreground/70">
+          <Text variant="sm" className="mt-1 text-foreground/70">
             {PRIMER.description}
           </Text>
         </View>
-      </View>
+      </Card>
 
       {/* Checklist with completed / current / upcoming states */}
       <View className="mt-4 gap-3 pb-8">
@@ -132,7 +139,7 @@ export default function QiGongSession() {
                     color={colors.primary.pink}
                   />
                 </View>
-                <Text className="flex-1 text-sm text-foreground/50">
+                <Text variant="sm" className="flex-1 text-foreground/50">
                   {step.title}
                 </Text>
               </View>
@@ -145,7 +152,7 @@ export default function QiGongSession() {
                 key={step.id}
                 className="flex-row items-center gap-3 rounded-3xl border border-primary-pink/40 bg-primary-pink/10 p-5"
                 style={{
-                  boxShadow: `0px 0px 16px ${withAlpha(colors.primary.pink, 0.3)}`,
+                  boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
                 }}
               >
                 <View className="h-7 w-7 items-center justify-center rounded-full">
@@ -155,7 +162,7 @@ export default function QiGongSession() {
                     color={colors.primary.pink}
                   />
                 </View>
-                <Text className="flex-1 text-base font-bold text-foreground">
+                <Text variant="lg" className="flex-1 font-bold">
                   {step.title}
                 </Text>
               </View>
@@ -171,9 +178,9 @@ export default function QiGongSession() {
               <MaterialIcons
                 name="radio-button-unchecked"
                 size={20}
-                color="rgba(255,255,255,0.25)"
+                color="rgba(127,127,127,0.4)"
               />
-              <Text className="flex-1 text-sm text-foreground/40">
+              <Text variant="sm" className="flex-1 text-foreground/40">
                 {step.title}
               </Text>
             </View>

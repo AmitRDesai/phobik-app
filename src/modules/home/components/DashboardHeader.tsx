@@ -1,14 +1,16 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BlurView } from '@/components/ui/BlurView';
 import { NotificationBadge } from '@/components/ui/NotificationBadge';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { variantConfig } from '@/components/variant-config';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
 import { useSession } from '@/hooks/auth/useAuth';
+import { useScheme } from '@/hooks/useTheme';
 import { useUnreadCount } from '@/modules/notifications/hooks/useNotifications';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function DashboardHeader() {
@@ -41,10 +43,10 @@ export function DashboardHeader() {
             }}
           />
           <View>
-            <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+            <Text variant="caption" className="font-bold text-primary-pink">
               Welcome back
             </Text>
-            <Text className="text-lg font-bold leading-tight text-foreground">
+            <Text variant="h3" className="font-bold leading-tight">
               {userName}
             </Text>
           </View>

@@ -1,7 +1,7 @@
+import { Text, View } from '@/components/themed';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
 
 interface ChapterCalloutProps {
   icon?: keyof typeof MaterialIcons.glyphMap;
@@ -32,10 +32,14 @@ export function ChapterCallout({
         </IconChip>
       )}
       {title && (
-        <Text className="mb-2 text-lg font-bold text-foreground">{title}</Text>
+        <Text variant="lg" className="mb-2 font-bold">
+          {title}
+        </Text>
       )}
       <Text
-        className="text-base leading-relaxed text-foreground/70"
+        variant="md"
+        muted
+        className="leading-relaxed"
         style={{ fontFamily: 'serif' }}
       >
         {children}

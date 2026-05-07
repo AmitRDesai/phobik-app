@@ -1,10 +1,12 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
-import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Pressable, StyleSheet } from 'react-native';
 import Svg, {
   Defs,
   Line,
@@ -142,8 +144,9 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
         }}
       >
         <Text
+          variant="caption"
           className={clsx(
-            'text-[10px] font-bold uppercase tracking-widest',
+            'font-bold',
             selected ? 'text-primary-pink' : 'text-foreground/50',
           )}
         >
@@ -224,10 +227,12 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
               )}
             </Pressable>
             <Text
+              variant="xs"
               className={clsx(
-                'mt-1 text-center text-[8px] font-semibold uppercase tracking-wider',
+                'mt-1 text-center text-[8px] font-semibold tracking-wider',
                 isSelected ? 'text-foreground' : 'text-foreground/40',
               )}
+              style={{ paddingRight: 1.6 }}
             >
               {feeling.label}
             </Text>

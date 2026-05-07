@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -7,7 +9,7 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
 import { useEffect, useRef } from 'react';
-import { AppState, Text, View } from 'react-native';
+import { AppState } from 'react-native';
 import { BlurredStats } from '../components/BlurredStats';
 import { useJournalLock } from '../hooks/useJournalLock';
 import { journalUnlockedAtom } from '../store/journal';
@@ -67,7 +69,10 @@ export default function LockedJournal() {
       header={
         <Header
           center={
-            <Text className="text-sm font-bold uppercase tracking-wide text-foreground/40">
+            <Text
+              variant="caption"
+              className="font-bold tracking-wide text-foreground/40"
+            >
               Secure Journal
             </Text>
           }
@@ -84,17 +89,20 @@ export default function LockedJournal() {
           />
         </View>
         <View className="absolute -bottom-2 -right-2 h-12 w-12 items-center justify-center rounded-full border border-foreground/20 bg-surface-elevated">
-          <MaterialIcons name="lock" size={24} color={colors.accent.yellow} />
+          <MaterialIcons name="lock" size={24} color={yellow} />
         </View>
       </View>
 
-      <Text className="mb-2 max-w-[240px] text-center text-3xl font-bold tracking-tight text-foreground">
+      <Text variant="h1" className="mb-2 text-center font-bold">
         Your Thoughts are
       </Text>
-      <Text className="mb-4 text-center text-3xl font-bold tracking-tight text-foreground">
+      <Text variant="h1" className="mb-4 text-center font-bold">
         Protected
       </Text>
-      <Text className="mx-auto mb-12 max-w-[280px] text-center text-sm leading-relaxed text-foreground/40">
+      <Text
+        variant="sm"
+        className="mx-auto mb-12 max-w-[280px] text-center leading-relaxed text-foreground/40"
+      >
         This journal is locked for your privacy. Unlock to access your
         biometric-linked emotional reflections.
       </Text>
@@ -117,10 +125,7 @@ export default function LockedJournal() {
           className="h-1.5 w-1.5 rounded-full"
           style={{ backgroundColor: yellow }}
         />
-        <Text
-          className="text-[11px] font-bold uppercase tracking-widest"
-          style={{ color: yellow }}
-        >
+        <Text variant="caption" className="font-bold" style={{ color: yellow }}>
           Secure Biometric Access
         </Text>
       </View>

@@ -1,12 +1,15 @@
-import { GradientButton } from '@/components/ui/GradientButton';
-import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtom } from 'jotai';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
-import { BodySilhouette } from './BodySilhouette';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { GradientButton } from '@/components/ui/GradientButton';
+import { colors } from '@/constants/colors';
+
 import { SENSATION_ATTRIBUTES } from '../data/sensation-attributes';
 import { selectedBodyAreaAtom } from '../store/micro-challenges';
+import { BodySilhouette } from './BodySilhouette';
 
 interface BodyScanProps {
   onContinue: () => void;
@@ -21,10 +24,10 @@ export function BodyScan({ onContinue }: BodyScanProps) {
       showsVerticalScrollIndicator={false}
     >
       {/* Title */}
-      <Text className="mb-2 mt-6 text-3xl font-bold tracking-tight text-foreground">
+      <Text variant="h1" className="mb-2 mt-6">
         Where&apos;s the Sensation
       </Text>
-      <Text className="mb-6 text-sm leading-relaxed text-foreground/60">
+      <Text variant="sm" className="mb-6 leading-relaxed text-foreground/60">
         Scan your body and notice where you feel the strongest sensation.
       </Text>
 
@@ -35,7 +38,7 @@ export function BodyScan({ onContinue }: BodyScanProps) {
       />
 
       {/* Sensation attributes */}
-      <Text className="mb-4 mt-6 text-center text-2xl font-bold tracking-tight text-foreground">
+      <Text variant="h2" className="mb-4 mt-6 text-center">
         Ask yourself, is this sensation...
       </Text>
 
@@ -46,10 +49,16 @@ export function BodyScan({ onContinue }: BodyScanProps) {
             className="flex-1 rounded-xl border border-foreground/5 bg-foreground/[0.03] p-4"
             style={{ minWidth: '45%' }}
           >
-            <Text className="mb-1 text-center text-[9px] font-black uppercase tracking-widest text-foreground/40">
+            <Text
+              variant="caption"
+              className="mb-1 text-center text-[9px] font-black text-foreground/40"
+            >
               {attr.category}
             </Text>
-            <Text className="text-center text-xs font-medium text-foreground/90">
+            <Text
+              variant="xs"
+              className="text-center font-medium text-foreground/90"
+            >
               {attr.question}
             </Text>
           </View>
@@ -59,7 +68,10 @@ export function BodyScan({ onContinue }: BodyScanProps) {
       {/* Tip */}
       <View className="mb-8 flex-row items-start gap-3 rounded-xl border border-foreground/5 bg-foreground/[0.03] p-5">
         <MaterialIcons name="touch-app" size={20} color={colors.primary.pink} />
-        <Text className="flex-1 text-xs leading-relaxed text-foreground/70">
+        <Text
+          variant="xs"
+          className="flex-1 leading-relaxed text-foreground/70"
+        >
           Choose the strongest sensation and place your hand there. Take a few
           slow breaths into that area.
         </Text>

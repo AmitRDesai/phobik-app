@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
@@ -8,7 +10,6 @@ import { colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { TimelineConnector } from '../components/TimelineConnector';
@@ -86,7 +87,11 @@ export default function Intro() {
           >
             Continue
           </GradientButton>
-          <Text className="mt-5 text-[11px] font-bold uppercase tracking-[0.3em] text-foreground/45">
+          <Text
+            variant="caption"
+            className="mt-5 font-bold tracking-[0.3em] text-foreground/45"
+            style={{ paddingRight: 3.3 }}
+          >
             Step 1 of 4
           </Text>
         </View>
@@ -94,10 +99,13 @@ export default function Intro() {
       className="px-6"
     >
       <View className="mb-10 items-center">
-        <Text className="text-center text-4xl font-black leading-[1.1] tracking-tight text-foreground">
+        <Text
+          variant="display"
+          className="text-center font-black leading-[1.1]"
+        >
           Why you
         </Text>
-        <GradientText className="text-4xl font-black leading-[1.1] tracking-tight">
+        <GradientText className="text-4xl font-black leading-[1.1]">
           Feel the way you do.
         </GradientText>
       </View>
@@ -119,15 +127,18 @@ export default function Intro() {
                 <MaterialIcons name={p.icon} size={20} color={accent} />
               </View>
               <Card className="mt-1 flex-1 p-5">
-                <Text className="text-2xl font-bold tracking-tight text-foreground">
+                <Text variant="h2" className="font-bold">
                   {p.title}
                 </Text>
                 {p.highlight ? (
-                  <Text className="mt-3 text-base font-bold leading-6 text-primary-pink-light">
+                  <Text
+                    variant="lg"
+                    className="mt-3 font-bold leading-6 text-primary-pink-light"
+                  >
                     {p.highlight}
                   </Text>
                 ) : null}
-                <Text className="mt-2 text-[15px] leading-6 text-foreground/60">
+                <Text variant="md" muted className="mt-2 leading-6">
                   {p.body}
                 </Text>
               </Card>

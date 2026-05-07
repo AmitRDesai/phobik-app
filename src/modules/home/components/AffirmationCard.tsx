@@ -1,10 +1,12 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 import {
   useSaveAffirmation,
@@ -46,7 +48,10 @@ export function AffirmationCard() {
             size={32}
             color={withAlpha(colors.primary.pink, 0.4)}
           />
-          <Text className="text-center text-base font-light leading-relaxed text-foreground/40">
+          <Text
+            variant="lg"
+            className="text-center font-light leading-relaxed text-foreground/40"
+          >
             Tap below to set your affirmation for today
           </Text>
         </View>
@@ -89,7 +94,10 @@ export function AffirmationCard() {
     >
       <View className="mb-2 w-full flex-row items-start justify-between">
         <View className="w-6" />
-        <Text className="max-w-[180px] text-center text-[10px] font-medium italic leading-tight tracking-wide text-foreground/50">
+        <Text
+          variant="xs"
+          className="max-w-[180px] text-center font-medium italic leading-tight tracking-wide text-foreground/50"
+        >
           Set the intention for the day
         </Text>
         {affirmation ? (
@@ -119,7 +127,8 @@ export function AffirmationCard() {
         }}
       >
         <Text
-          className="text-[10px] font-bold uppercase tracking-widest"
+          variant="caption"
+          className="font-bold"
           style={{ color: yellowText }}
         >
           {affirmation ? 'Change affirmation' : 'Set affirmation'}

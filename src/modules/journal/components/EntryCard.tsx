@@ -1,7 +1,10 @@
-import { colors, withAlpha } from '@/constants/colors';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView } from 'react-native';
 import { getTagColor } from '../data/tag-colors';
 
 interface EntryCardProps {
@@ -27,28 +30,28 @@ function getHour(dateVal: string | Date) {
   return d.getHours();
 }
 
-function getTimeIcon(hour: number): {
-  name: keyof typeof MaterialIcons.glyphMap;
-  color: string;
-} {
-  if (hour >= 6 && hour < 18) {
-    return { name: 'wb-sunny', color: colors.accent.yellow };
-  }
-  return { name: 'bedtime', color: colors.accent.purple };
+function getTimeIconName(hour: number): keyof typeof MaterialIcons.glyphMap {
+  return hour >= 6 && hour < 18 ? 'wb-sunny' : 'bedtime';
 }
 
 export function EntryCard({
   title,
   content,
   createdAt,
-  feeling,
   tags,
   onPress,
 }: EntryCardProps) {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
+  const purple = accentFor(scheme, 'purple');
   const displayTitle = title || content.slice(0, 30).trim() || 'Untitled';
   const timeStr = formatTime(createdAt);
   const hour = getHour(createdAt);
-  const timeIcon = getTimeIcon(hour);
+  const isDay = hour >= 6 && hour < 18;
+  const timeIcon = {
+    name: getTimeIconName(hour),
+    color: isDay ? yellow : purple,
+  };
   const displayTags = tags?.slice(0, 3) ?? [];
 
   return (
@@ -64,7 +67,10 @@ export function EntryCard({
       >
         <View className="rounded-2xl bg-surface-elevated p-4">
           <View className="mb-2 flex-row items-center justify-between">
-            <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/30">
+            <Text
+              variant="caption"
+              className="font-bold tracking-wider text-foreground/30"
+            >
               {timeStr}
             </Text>
             <MaterialIcons
@@ -74,12 +80,13 @@ export function EntryCard({
             />
           </View>
 
-          <Text className="text-sm font-bold text-foreground">
+          <Text variant="sm" className="font-bold">
             {displayTitle}
           </Text>
 
           <Text
-            className="mt-1 text-[11px] leading-relaxed text-foreground/40"
+            variant="sm"
+            className="mt-1 leading-relaxed text-foreground/40"
             numberOfLines={1}
           >
             {content}

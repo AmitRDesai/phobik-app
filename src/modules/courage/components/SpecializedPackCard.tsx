@@ -1,18 +1,25 @@
-import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
+
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { GradientText } from '@/components/ui/GradientText';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 
 import { SpecializedPack } from '../data/specialized-packs';
 
 function HeroSection({ pack }: { pack: SpecializedPack }) {
+  const scheme = useScheme();
   const isActive = pack.status === 'active';
-  const iconColor = isActive ? 'white' : colors.gray[600];
-  const accentColor = isActive ? colors.primary.pink : colors.gray[700];
+  const iconColor = isActive ? 'white' : foregroundFor(scheme, 0.4);
+  const accentColor = isActive
+    ? colors.primary.pink
+    : foregroundFor(scheme, 0.3);
 
   return (
-    <View className="relative h-56 items-center justify-center overflow-hidden bg-gray-900">
+    <View className="relative h-56 items-center justify-center overflow-hidden bg-foreground/[0.04]">
       {/* Background gradient */}
       <LinearGradient
         colors={['transparent', 'black']}
@@ -24,7 +31,7 @@ function HeroSection({ pack }: { pack: SpecializedPack }) {
       {/* Radial-ish overlay */}
       {isActive && (
         <LinearGradient
-          colors={[`${colors.primary.pink}4D`, 'transparent']}
+          colors={[withAlpha(colors.primary.pink, 0.3), 'transparent']}
           start={{ x: 0.5, y: 0.5 }}
           end={{ x: 1, y: 1 }}
           style={{
@@ -80,24 +87,22 @@ function ActiveCard({
         <View className="p-6">
           {/* Title + badge */}
           <View className="mb-2 flex-row items-start justify-between">
-            <Text className="text-2xl font-bold text-foreground">
-              {pack.title}
-            </Text>
+            <Text variant="h2">{pack.title}</Text>
             <View className="rounded-full bg-primary-pink/20 px-3 py-1">
-              <Text className="text-xs font-semibold uppercase tracking-wider text-primary-pink">
+              <Text variant="caption" className="text-primary-pink">
                 {pack.badge}
               </Text>
             </View>
           </View>
 
           {/* Subtitle */}
-          <Text className="mb-6 text-base italic text-foreground/60">
+          <Text variant="md" className="mb-6 italic text-foreground/60">
             {pack.subtitle}
           </Text>
 
           {/* Transformation goal */}
           <View className="mb-4 flex-row items-center gap-2">
-            <Text className="text-xs font-medium uppercase tracking-tight text-foreground/55">
+            <Text variant="caption" muted>
               Transformation Goal:
             </Text>
             <GradientText className="text-sm font-bold">
@@ -116,7 +121,7 @@ function ActiveCard({
               end={{ x: 1, y: 0 }}
               style={{
                 borderRadius: 12,
-                boxShadow: `0px 4px 8px ${withAlpha(colors.primary.pink, 0.2)}`,
+                boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.2)}`,
               }}
             >
               <View className="flex-row items-center justify-center gap-2 py-4">
@@ -125,7 +130,7 @@ function ActiveCard({
                   size={20}
                   color="white"
                 />
-                <Text className="text-base font-bold text-foreground">
+                <Text variant="md" className="font-bold">
                   {unlocked ? 'View Journey' : pack.ctaLabel}
                 </Text>
               </View>
@@ -133,7 +138,10 @@ function ActiveCard({
           </Pressable>
 
           {/* Support text */}
-          <Text className="mt-3 text-center text-[10px] text-foreground/55">
+          <Text
+            variant="xs"
+            className="mt-3 text-center text-[10px] text-foreground/55"
+          >
             {pack.supportText}
           </Text>
         </View>
@@ -143,6 +151,7 @@ function ActiveCard({
 }
 
 function LockedCard({ pack }: { pack: SpecializedPack }) {
+  const scheme = useScheme();
   return (
     <View className="overflow-hidden rounded-xl border border-foreground/15 bg-surface-elevated/50">
       <HeroSection pack={pack} />
@@ -150,41 +159,48 @@ function LockedCard({ pack }: { pack: SpecializedPack }) {
       <View className="p-6 opacity-80">
         {/* Title + badge */}
         <View className="mb-2 flex-row items-start justify-between">
-          <Text className="text-2xl font-bold text-foreground/70">
+          <Text variant="h2" className="text-foreground/70">
             {pack.title}
           </Text>
-          <View className="rounded-full bg-gray-800 px-3 py-1">
-            <Text className="text-xs font-semibold uppercase tracking-wider text-foreground/60">
+          <View className="rounded-full bg-foreground/10 px-3 py-1">
+            <Text variant="caption" muted>
               {pack.badge}
             </Text>
           </View>
         </View>
 
         {/* Subtitle */}
-        <Text className="mb-6 text-base italic text-foreground/55">
+        <Text variant="md" className="mb-6 italic text-foreground/55">
           {pack.subtitle}
         </Text>
 
         {/* Transformation goal */}
         <View className="mb-4 flex-row items-center gap-2">
-          <Text className="text-xs font-medium uppercase tracking-tight text-foreground/45">
+          <Text variant="caption" className="text-foreground/45">
             Transformation Goal:
           </Text>
-          <Text className="text-sm font-bold text-foreground/60">
+          <Text variant="sm" className="font-bold text-foreground/60">
             {pack.transformationGoal}
           </Text>
         </View>
 
         {/* Disabled button */}
-        <View className="flex-row items-center justify-center gap-2 rounded-xl bg-gray-800 py-4">
-          <MaterialIcons name="lock" size={20} color={colors.gray[500]} />
-          <Text className="text-base font-bold text-foreground/55">
+        <View className="flex-row items-center justify-center gap-2 rounded-xl bg-foreground/10 py-4">
+          <MaterialIcons
+            name="lock"
+            size={20}
+            color={foregroundFor(scheme, 0.4)}
+          />
+          <Text variant="md" className="font-bold text-foreground/55">
             {pack.ctaLabel}
           </Text>
         </View>
 
         {/* Support text */}
-        <Text className="mt-3 text-center text-[10px] italic text-foreground/45">
+        <Text
+          variant="xs"
+          className="mt-3 text-center text-[10px] italic text-foreground/45"
+        >
           {pack.supportText}
         </Text>
       </View>

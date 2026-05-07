@@ -1,7 +1,8 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
-import { Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -44,23 +45,23 @@ export function QuestionProgress({
       <View className="mb-4 flex-row items-end justify-between">
         {showPercentage ? (
           <>
-            <Text className="text-base font-bold text-foreground">
+            <Text variant="lg" className="font-bold">
               Question {current} of {total}
             </Text>
-            <Text className="text-sm font-bold text-foreground/60">
+            <Text variant="sm" className="font-bold text-foreground/60">
               {Math.round(progress)}%
             </Text>
           </>
         ) : (
           <>
-            <Text className="text-4xl font-extrabold tracking-tight text-foreground">
+            <Text variant="display" className="font-extrabold">
               {displayNumber}
-              <Text className="text-xl font-medium text-foreground/45">
+              <Text variant="lg" className="font-medium text-foreground/45">
                 /{displayTotal}
               </Text>
             </Text>
             {sectionLabel && (
-              <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
+              <Text variant="caption" className="font-bold text-foreground/60">
                 {sectionLabel}
               </Text>
             )}

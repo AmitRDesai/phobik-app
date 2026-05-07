@@ -1,3 +1,6 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -9,7 +12,7 @@ import { env } from '@/utils/env';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState('');
@@ -52,39 +55,42 @@ export default function ForgotPasswordScreen() {
           <View
             className="mb-8 h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
             style={{
-              boxShadow: [
-                {
-                  offsetX: 0,
-                  offsetY: 0,
-                  blurRadius: 30,
-                  color: withAlpha(colors.primary.pink, 0.15),
-                },
-              ],
+              boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
             }}
           >
             <Ionicons name="mail-open" size={48} color={colors.primary.pink} />
           </View>
 
-          <Text className="text-3xl font-bold text-foreground">
+          <Text variant="h1" className="font-bold">
             Check Your Email
           </Text>
-          <Text className="mt-3 text-center text-base leading-6 text-foreground/50">
+          <Text variant="md" muted className="mt-3 text-center leading-relaxed">
             We sent a password reset link to
           </Text>
-          <Text className="mt-1 text-center text-base font-semibold text-primary-pink">
+          <Text
+            variant="md"
+            className="mt-1 text-center font-semibold text-primary-pink"
+          >
             {email}
           </Text>
 
-          <Text className="mt-10 text-center text-xs leading-5 text-foreground/50">
+          <Text
+            variant="sm"
+            muted
+            className="mt-10 text-center leading-relaxed"
+          >
             Click the link in the email to reset your password.{'\n'}If you
             don&apos;t see it, check your spam folder.
           </Text>
 
-          <Pressable onPress={() => router.back()} className="mt-8 py-2">
-            <Text className="text-sm font-semibold text-primary-pink">
-              Back to Sign In
-            </Text>
-          </Pressable>
+          <Button
+            variant="ghost"
+            size="compact"
+            onPress={() => router.back()}
+            className="mt-6"
+          >
+            Back to Sign In
+          </Button>
         </View>
       </Screen>
     );
@@ -99,31 +105,22 @@ export default function ForgotPasswordScreen() {
       className="grow justify-center"
       scrollViewProps={{ keyboardDismissMode: 'interactive' }}
     >
-      {/* Icon */}
       <View className="items-center pb-8">
         <View
           className="h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
           style={{
-            boxShadow: [
-              {
-                offsetX: 0,
-                offsetY: 0,
-                blurRadius: 30,
-                color: withAlpha(colors.primary.pink, 0.15),
-              },
-            ],
+            boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
         >
           <Ionicons name="lock-open" size={48} color={colors.primary.pink} />
         </View>
       </View>
 
-      {/* Title */}
       <View className="items-center px-4">
-        <Text className="text-3xl font-bold text-foreground">
+        <Text variant="h1" className="font-bold">
           Forgot Password?
         </Text>
-        <Text className="mt-3 text-center text-base leading-6 text-foreground/50">
+        <Text variant="md" muted className="mt-3 text-center leading-relaxed">
           Enter your email and we&apos;ll send you a link to reset your
           password.
         </Text>
@@ -161,9 +158,11 @@ export default function ForgotPasswordScreen() {
         className="mt-6 py-2"
         disabled={isLoading}
       >
-        <Text className="text-center text-sm text-foreground/55">
+        <Text variant="sm" className="text-center text-foreground/55">
           Remember your password?{' '}
-          <Text className="font-bold text-primary-pink">Sign In</Text>
+          <Text variant="sm" className="font-bold text-primary-pink">
+            Sign In
+          </Text>
         </Text>
       </Pressable>
     </Screen>

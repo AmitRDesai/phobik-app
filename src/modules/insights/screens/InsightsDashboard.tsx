@@ -1,6 +1,7 @@
+import { View } from '@/components/themed/View';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { BiometricIndexCard } from '../components/BiometricIndexCard';
 import { DoseSummaryCard } from '../components/DoseSummaryCard';

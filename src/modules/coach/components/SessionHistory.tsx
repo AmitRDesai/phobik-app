@@ -1,17 +1,12 @@
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { accentFor, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { authClient } from '@/lib/auth';
 import { env } from '@/utils/env';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  Modal,
-  Pressable,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, Modal, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type Thread = {
@@ -47,6 +42,7 @@ export function SessionHistory({
   currentThreadId,
 }: SessionHistoryProps) {
   const scheme = useScheme();
+  const purple = accentFor(scheme, 'purple');
   const [threads, setThreads] = useState<Thread[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -94,12 +90,12 @@ export function SessionHistory({
         <SafeAreaView edges={['top']} className="flex-1">
           {/* Header */}
           <View className="flex-row items-center border-b border-foreground/5 px-5 pb-3 pt-6">
-            <Text className="flex-1 text-lg font-semibold text-foreground">
+            <Text variant="h3" className="flex-1 font-semibold">
               Past Sessions
             </Text>
             <Pressable
               onPress={onClose}
-              className="h-8 w-8 items-center justify-center rounded-full bg-foreground/5"
+              className="h-8 w-8 items-center justify-center rounded-full bg-foreground/[0.04]"
             >
               <Ionicons name="close" size={18} color={iconMuted} />
             </Pressable>
@@ -107,7 +103,7 @@ export function SessionHistory({
 
           {isLoading ? (
             <View className="flex-1 items-center justify-center">
-              <ActivityIndicator color={colors.accent.purple} size="small" />
+              <ActivityIndicator color={purple} size="small" />
             </View>
           ) : threads.length === 0 ? (
             <View className="flex-1 items-center justify-center gap-3 px-8">
@@ -116,7 +112,7 @@ export function SessionHistory({
                 size={40}
                 color={iconFaint}
               />
-              <Text className="text-center text-[14px] text-foreground/30">
+              <Text variant="sm" className="text-center text-foreground/30">
                 No past sessions yet. Start a conversation with your coach!
               </Text>
             </View>
@@ -136,10 +132,10 @@ export function SessionHistory({
                     className="mb-2 flex-row items-center gap-3 rounded-2xl border px-4 py-3.5"
                     style={{
                       backgroundColor: isCurrent
-                        ? withAlpha(colors.accent.purple, 0.15)
+                        ? withAlpha(purple, 0.15)
                         : foregroundFor(scheme, 0.03),
                       borderColor: isCurrent
-                        ? withAlpha(colors.accent.purple, 0.3)
+                        ? withAlpha(purple, 0.3)
                         : foregroundFor(scheme, 0.05),
                     }}
                   >
@@ -147,17 +143,18 @@ export function SessionHistory({
                       <MaterialIcons
                         name="psychology"
                         size={18}
-                        color={isCurrent ? colors.accent.purple : iconDim}
+                        color={isCurrent ? purple : iconDim}
                       />
                     </View>
                     <View className="flex-1">
                       <Text
-                        className="text-[14px] font-medium text-foreground/80"
+                        variant="sm"
+                        className="font-medium text-foreground/80"
                         numberOfLines={1}
                       >
                         {item.title || 'Untitled session'}
                       </Text>
-                      <Text className="text-[11px] text-foreground/30">
+                      <Text variant="xs" className="text-foreground/30">
                         {formatDate(item.createdAt)}
                       </Text>
                     </View>
@@ -165,12 +162,13 @@ export function SessionHistory({
                       <View
                         className="rounded-full px-2 py-0.5"
                         style={{
-                          backgroundColor: withAlpha(colors.accent.purple, 0.2),
+                          backgroundColor: withAlpha(purple, 0.2),
                         }}
                       >
                         <Text
-                          className="text-[10px] font-medium"
-                          style={{ color: colors.accent.purple }}
+                          variant="xs"
+                          className="font-medium"
+                          style={{ color: purple }}
                         >
                           Active
                         </Text>

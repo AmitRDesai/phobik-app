@@ -1,14 +1,14 @@
 import { MandalaIcon } from '@/components/icons/MandalaIcon';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
-import { colors } from '@/constants/colors';
 import { warmServer } from '@/lib/server-warmup';
 import { Ionicons } from '@expo/vector-icons';
-import { GradientText } from '@/components/ui/GradientText';
 import { Link, router } from 'expo-router';
 import { useEffect } from 'react';
-import { Text, View } from 'react-native';
 
 export default function WelcomeScreen() {
   useEffect(() => {
@@ -30,9 +30,11 @@ export default function WelcomeScreen() {
             Next
           </GradientButton>
           <Link href="/auth/sign-in" replace className="mt-2 py-2">
-            <Text className="text-center text-sm text-foreground/55">
+            <Text variant="sm" muted className="text-center">
               Already have an account?{' '}
-              <Text className="font-bold text-primary-pink">Sign In</Text>
+              <Text variant="sm" className="font-bold text-primary-pink">
+                Sign In
+              </Text>
             </Text>
           </Link>
         </View>
@@ -45,17 +47,17 @@ export default function WelcomeScreen() {
         </View>
         <View className="items-center gap-4">
           <View className="flex-row flex-wrap items-center justify-center">
-            <Text className="text-center text-4xl font-extrabold tracking-tight text-foreground">
+            <Text variant="display" className="text-center tracking-tight">
               Welcome to{' '}
             </Text>
             <GradientText className="text-4xl font-extrabold">
               PHOBIK
             </GradientText>
           </View>
-          <Text className="text-center text-lg font-semibold text-foreground">
+          <Text variant="h3" className="text-center">
             Create the life you want.
           </Text>
-          <Text className="text-center text-lg font-semibold text-foreground">
+          <Text variant="h3" className="text-center">
             Overcome your challenges and face your fears.
           </Text>
         </View>

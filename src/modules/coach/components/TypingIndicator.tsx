@@ -1,18 +1,21 @@
-import { colors } from '@/constants/colors';
+import { View } from '@/components/themed/View';
+import { accentFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect } from 'react';
-import { View } from 'react-native';
 import Animated, {
   type SharedValue,
-  useSharedValue,
   useAnimatedStyle,
+  useSharedValue,
+  withDelay,
   withRepeat,
   withSequence,
   withTiming,
-  withDelay,
 } from 'react-native-reanimated';
 
 export function TypingIndicator() {
+  const scheme = useScheme();
+  const purple = accentFor(scheme, 'purple');
   const dot1 = useSharedValue(0.3);
   const dot2 = useSharedValue(0.3);
   const dot3 = useSharedValue(0.3);
@@ -42,18 +45,14 @@ export function TypingIndicator() {
   return (
     <View className="mb-4 flex-row gap-3">
       <View className="mt-0.5 h-7 w-7 items-center justify-center rounded-full bg-foreground/[0.08]">
-        <MaterialIcons
-          name="psychology"
-          size={16}
-          color={colors.accent.purple}
-        />
+        <MaterialIcons name="psychology" size={16} color={purple} />
       </View>
       <View className="flex-row items-center gap-1.5 pt-2">
         {[style1, style2, style3].map((style, i) => (
           <Animated.View
             key={i}
             className="h-[6px] w-[6px] rounded-full"
-            style={[{ backgroundColor: colors.accent.purple }, style]}
+            style={[{ backgroundColor: purple }, style]}
           />
         ))}
       </View>

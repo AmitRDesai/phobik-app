@@ -1,13 +1,18 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
+import { useScheme } from '@/hooks/useTheme';
+import { foregroundFor } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
-import { useRef, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Pressable } from 'react-native';
 import { EaseView } from 'react-native-ease';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { InsightCard } from '../components/InsightCard';
 import { QuestionProgress } from '../components/QuestionProgress';
@@ -27,14 +32,14 @@ const TOTAL = INTIMACY_QUESTIONS.length;
 
 export default function IntimacyQuestion() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const scheme = useScheme();
+  const closeIconColor = foregroundFor(scheme, 0.7);
   const [currentIndex, setCurrentIndex] = useAtom(intimacyCurrentQuestionAtom);
   const [answers, setAnswers] = useAtom(intimacyAnswersAtom);
   const saveAnswer = useSaveAnswer();
   const completeAssessment = useCompleteAssessment();
   const inProgress = useInProgressAssessment('intimacy');
 
-  const scrollRef = useRef<ScrollView>(null);
   const [direction, setDirection] = useState<'forward' | 'back'>('forward');
   const question = INTIMACY_QUESTIONS[currentIndex];
   const selectedValue = answers[question.id] ?? null;
@@ -58,7 +63,6 @@ export default function IntimacyQuestion() {
     if (currentIndex > 0) {
       setDirection('back');
       setCurrentIndex((i) => i - 1);
-      scrollRef.current?.scrollTo({ y: 0, animated: true });
       return;
     }
     await handleClose();
@@ -90,86 +94,77 @@ export default function IntimacyQuestion() {
     } else {
       setDirection('forward');
       setCurrentIndex((i) => i + 1);
-      scrollRef.current?.scrollTo({ y: 0, animated: true });
     }
   };
 
   return (
-    <View className="flex-1 bg-black">
-      {/* Header */}
-      <View
-        className="flex-row items-center justify-between px-6 pb-4"
-        style={{
-          paddingTop: insets.top + 8,
-          backgroundColor: 'rgba(0,0,0,0.8)',
-        }}
-      >
-        <BackButton onPress={handleBack} />
-        <Text className="text-lg font-bold tracking-tight text-foreground">
-          Intimacy Quiz
-        </Text>
-        <Pressable
-          onPress={handleClose}
-          className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
-        >
-          <MaterialIcons name="close" size={20} color="white" />
-        </Pressable>
-      </View>
+    <Screen
+      variant="default"
+      scroll
+      header={
+        <Header
+          left={<BackButton onPress={handleBack} />}
+          center={
+            <Text variant="lg" className="font-bold">
+              Intimacy Quiz
+            </Text>
+          }
+          right={
+            <Pressable
+              onPress={handleClose}
+              className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
+            >
+              <MaterialIcons name="close" size={20} color={closeIconColor} />
+            </Pressable>
+          }
+        />
+      }
+      sticky={
+        <GradientButton onPress={handleNext} disabled={selectedValue === null}>
+          {isLastQuestion ? 'Save Response' : 'Next Question'}
+        </GradientButton>
+      }
+      className="px-6"
+      contentClassName="pb-8"
+    >
+      {/* Progress */}
+      <QuestionProgress
+        current={currentIndex + 1}
+        total={TOTAL}
+        sectionLabel={question.section}
+      />
 
-      <ScrollView
-        ref={scrollRef}
-        contentContainerClassName="px-6 pb-8"
-        showsVerticalScrollIndicator={false}
+      <EaseView
+        key={currentIndex}
+        className="flex-1"
+        initialAnimate={{
+          opacity: 0,
+          translateX: direction === 'forward' ? 40 : -40,
+        }}
+        animate={{ opacity: 1, translateX: 0 }}
+        transition={{ type: 'timing', duration: 300 }}
       >
-        {/* Progress */}
-        <QuestionProgress
-          current={currentIndex + 1}
-          total={TOTAL}
-          sectionLabel={question.section}
+        {/* Question */}
+        <Text variant="h1" className="mb-10 font-bold leading-tight">
+          &ldquo;{question.text}&rdquo;
+        </Text>
+
+        {/* Rating Scale */}
+        <RatingScale
+          min={0}
+          max={4}
+          value={selectedValue}
+          onChange={handleRatingChange}
         />
 
-        <EaseView
-          key={currentIndex}
-          className="flex-1"
-          initialAnimate={{
-            opacity: 0,
-            translateX: direction === 'forward' ? 40 : -40,
-          }}
-          animate={{ opacity: 1, translateX: 0 }}
-          transition={{ type: 'timing', duration: 300 }}
-        >
-          {/* Question */}
-          <Text className="mb-10 text-[28px] font-bold leading-tight tracking-tight text-foreground">
-            &ldquo;{question.text}&rdquo;
-          </Text>
-
-          {/* Rating Scale */}
-          <RatingScale
-            min={0}
-            max={4}
-            value={selectedValue}
-            onChange={handleRatingChange}
+        {/* Insight Card */}
+        <View className="mt-14">
+          <InsightCard
+            title={question.insight.title}
+            body={question.insight.body}
           />
-
-          {/* Insight Card */}
-          <View className="mt-14">
-            <InsightCard
-              title={question.insight.title}
-              body={question.insight.body}
-            />
-          </View>
-
-          {/* Next Button */}
-          <View className="mt-6">
-            <GradientButton
-              onPress={handleNext}
-              disabled={selectedValue === null}
-            >
-              {isLastQuestion ? 'Save Response' : 'Next Question'}
-            </GradientButton>
-          </View>
-        </EaseView>
-      </ScrollView>
-    </View>
+        </View>
+      </EaseView>
+    </Screen>
   );
 }

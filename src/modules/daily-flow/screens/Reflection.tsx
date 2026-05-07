@@ -1,6 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
+import { SelectionCard } from '@/components/ui/SelectionCard';
 import { variantConfig } from '@/components/variant-config';
 import {
   accentFor,
@@ -10,11 +13,9 @@ import {
 } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
@@ -130,10 +131,14 @@ export default function Reflection() {
           </LinearGradient>
         </View>
 
-        <Text className="mt-7 text-4xl font-black tracking-tight text-foreground">
+        <Text variant="h1" className="mt-7 font-black">
           Session Complete
         </Text>
-        <Text className="mt-3 max-w-xs text-center text-sm leading-5 text-foreground/60">
+        <Text
+          variant="sm"
+          muted
+          className="mt-3 max-w-xs text-center leading-5"
+        >
           You&rsquo;ve dedicated 10 minutes to your internal landscape. Notice
           the stillness.
         </Text>
@@ -144,7 +149,7 @@ export default function Reflection() {
       </View>
 
       <View className="mt-12">
-        <Text className="text-2xl font-bold tracking-tight text-foreground">
+        <Text variant="h2" className="font-bold">
           How do you feel now?
         </Text>
         <View className="mt-2 h-1 w-12 rounded-full bg-primary-pink" />
@@ -152,29 +157,18 @@ export default function Reflection() {
 
       <View className="mt-6 gap-3">
         {OPTIONS.map((option) => {
-          const active = selected === option.id;
           const color = optionColor(option.accent);
           return (
-            <Pressable
+            <SelectionCard
               key={option.id}
-              onPress={() => setSelected(option.id)}
-              className={clsx(
-                'flex-row items-center gap-4 rounded-2xl border p-5',
-                active
-                  ? 'border-foreground/30 bg-foreground/[0.08]'
-                  : 'border-foreground/5 bg-foreground/[0.04]',
-              )}
-              style={
-                active
-                  ? { boxShadow: `0 0 14px ${withAlpha(color, 0.4)}` }
-                  : undefined
+              label={option.label}
+              icon={
+                <MaterialIcons name={option.icon} size={20} color={color} />
               }
-            >
-              <MaterialIcons name={option.icon} size={24} color={color} />
-              <Text className="text-lg font-bold text-foreground">
-                {option.label}
-              </Text>
-            </Pressable>
+              selected={selected === option.id}
+              onPress={() => setSelected(option.id)}
+              variant="radio"
+            />
           );
         })}
       </View>

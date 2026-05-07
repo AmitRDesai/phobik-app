@@ -1,10 +1,11 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { SelectionCard } from '@/components/ui/SelectionCard';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtom } from 'jotai';
-import { Text, View } from 'react-native';
 import {
   onboardingReminderPrefAtom,
   type ReminderPreference,
@@ -53,10 +54,10 @@ export function FearTriggersDialog({ close }: FearTriggersDialogProps) {
 
   return (
     <View className="px-2 pb-4">
-      <Text className="mb-2 text-[22px] font-bold tracking-tight text-foreground">
+      <Text variant="h2" className="mb-2">
         Would you like gentle support before these moments?
       </Text>
-      <Text className="mb-6 text-sm leading-relaxed text-foreground/60">
+      <Text variant="sm" muted className="mb-6 leading-relaxed">
         We can nudge you with breathwork or grounding tools based on your
         schedule.
       </Text>

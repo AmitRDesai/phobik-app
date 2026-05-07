@@ -1,7 +1,7 @@
+import { Text } from '@/components/themed/Text';
 import { Card } from '@/components/ui/Card';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text } from 'react-native';
 
 import { BenefitCard } from '../components/BenefitCard';
 import { StepShell } from '../components/StepShell';
@@ -15,9 +15,10 @@ export default function Nourishment() {
       title="6. Nourishment"
       duration="Within 1-2 hours of waking"
       intro={
-        <Text className="text-base leading-6 text-foreground/70">
+        <Text variant="lg" className="leading-6 text-foreground/70">
           Eat within{' '}
           <Text
+            variant="lg"
             className="font-bold"
             style={{ color: accentFor(scheme, 'yellow') }}
           >
@@ -52,10 +53,10 @@ export default function Nourishment() {
         tone="pink"
       />
       <Card variant="glass">
-        <Text className="mb-2 text-xl font-bold text-foreground">
+        <Text variant="h3" className="mb-2 font-bold">
           Scientific Benefits
         </Text>
-        <Text className="text-[14px] leading-6 text-foreground/65">
+        <Text variant="sm" className="leading-6 text-foreground/65">
           Stabilizes blood sugar, prevents brain fog, supports dopamine and
           serotonin production, and improves sustained attention.
         </Text>

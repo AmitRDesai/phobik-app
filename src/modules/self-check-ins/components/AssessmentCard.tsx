@@ -1,8 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, withAlpha } from '@/constants/colors';
+import { colors } from '@/constants/colors';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
 
 import type { AssessmentMeta } from '../data/assessments';
 
@@ -49,19 +50,14 @@ export function AssessmentCard({
       }}
     >
       <View className="mb-5 flex-row items-center gap-4">
-        <View
-          className="h-12 w-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10"
-          style={{
-            boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.5)}`,
-          }}
-        >
+        <View className="h-12 w-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10">
           {renderIcon(assessment)}
         </View>
         <View className="flex-1">
-          <Text className="text-lg font-bold text-foreground">
+          <Text variant="h3" className="font-bold">
             {assessment.title}
           </Text>
-          <Text className="mt-1 text-xs leading-relaxed text-foreground/60">
+          <Text variant="sm" muted className="mt-1 leading-relaxed">
             {assessment.description}
           </Text>
         </View>

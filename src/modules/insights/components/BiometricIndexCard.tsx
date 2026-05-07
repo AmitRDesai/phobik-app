@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
 import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
@@ -6,9 +8,9 @@ import {
   type BiometricHistoryPoint,
 } from '@/modules/insights/hooks/useBiometricHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
-import { useAtomValue } from 'jotai';
-import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
+import { useAtomValue } from 'jotai';
+import { Pressable } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
 const VIEW_W = 400;
@@ -45,21 +47,17 @@ export function BiometricIndexCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
+        <Text variant="caption" muted>
           Biometric Index
         </Text>
         <View className="flex-row gap-3">
           <View className="flex-row items-center gap-1">
-            <View className="h-1.5 w-1.5 rounded-full bg-white" />
-            <Text className="text-[9px] font-bold uppercase tracking-tighter text-foreground">
-              HR
-            </Text>
+            <View className="h-1.5 w-1.5 rounded-full bg-foreground" />
+            <Text variant="caption">HR</Text>
           </View>
           <View className="flex-row items-center gap-1">
             <View className="h-1.5 w-1.5 rounded-full bg-primary-pink" />
-            <Text className="text-[9px] font-bold uppercase tracking-tighter text-foreground">
-              HRV
-            </Text>
+            <Text variant="caption">HRV</Text>
           </View>
         </View>
       </View>
@@ -93,10 +91,10 @@ export function BiometricIndexCard() {
           </View>
         ) : hasConnectedHealth ? (
           <View className="h-24 w-full items-center justify-center">
-            <Text className="text-center text-xs font-semibold uppercase tracking-widest text-foreground/40">
+            <Text variant="caption" muted className="text-center">
               No data
             </Text>
-            <Text className="mt-1 text-[10px] leading-snug text-foreground/30">
+            <Text variant="xs" className="mt-1 text-foreground/30">
               No HR or HRV samples in this window
             </Text>
           </View>
@@ -105,36 +103,40 @@ export function BiometricIndexCard() {
             onPress={() => router.push('/settings/health')}
             className="h-24 w-full items-center justify-center"
           >
-            <Text className="text-center text-xs leading-relaxed text-foreground/40">
+            <Text variant="xs" muted className="text-center">
               Connect Apple Health or Health Connect to see your HR & HRV
               trends.
             </Text>
-            <Text className="mt-1 text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+            <Text variant="caption" className="mt-1 text-primary-pink">
               Set up →
             </Text>
           </Pressable>
         )}
         <View className="mt-4 flex-row gap-4 border-t border-foreground/5 pt-4">
           <View className="flex-1">
-            <Text className="text-[9px] font-black uppercase tracking-widest text-foreground/40">
+            <Text variant="caption" muted>
               {range === 'Day' ? 'Latest Heart Rate' : 'Avg Heart Rate'}
             </Text>
-            <Text className="text-xl font-black text-foreground">
+            <Text variant="h2" className="font-black">
               {hr.avg != null
                 ? Math.round(range === 'Day' ? hr.latest!.value : hr.avg)
                 : '—'}{' '}
-              <Text className="text-xs text-foreground/30">BPM</Text>
+              <Text variant="xs" className="text-foreground/30">
+                BPM
+              </Text>
             </Text>
           </View>
           <View className="flex-1">
-            <Text className="text-[9px] font-black uppercase tracking-widest text-foreground/40">
+            <Text variant="caption" muted>
               {range === 'Day' ? 'Latest HRV' : 'Mean HRV'}
             </Text>
-            <Text className="text-xl font-black text-primary-pink">
+            <Text variant="h2" className="font-black text-primary-pink">
               {hrv.avg != null
                 ? (range === 'Day' ? hrv.latest!.value : hrv.avg).toFixed(1)
                 : '—'}{' '}
-              <Text className="text-xs text-foreground/30">ms</Text>
+              <Text variant="xs" className="text-foreground/30">
+                ms
+              </Text>
             </Text>
           </View>
         </View>

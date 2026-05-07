@@ -1,12 +1,14 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 
 export default function GentleLetterIntro() {
@@ -21,7 +23,7 @@ export default function GentleLetterIntro() {
       header={
         <Header
           center={
-            <Text className="text-xs font-bold uppercase tracking-widest text-foreground/55">
+            <Text variant="caption" className="font-bold text-foreground/55">
               Practice
             </Text>
           }
@@ -39,7 +41,7 @@ export default function GentleLetterIntro() {
             className="mt-4 flex-row items-center justify-center gap-2 py-2"
           >
             <MaterialIcons name="history" size={20} color={muted} />
-            <Text className="text-base font-medium text-foreground/60">
+            <Text variant="md" className="font-medium text-foreground/60">
               View Past Letters
             </Text>
           </Pressable>
@@ -57,22 +59,7 @@ export default function GentleLetterIntro() {
         <View
           className="h-32 w-32 items-center justify-center rounded-full border border-foreground/10 bg-primary-pink/10"
           style={{
-            boxShadow: [
-              {
-                offsetX: 0,
-                offsetY: 0,
-                blurRadius: 60,
-                spreadDistance: 10,
-                color: 'rgba(255,182,193,0.2)',
-              },
-              {
-                offsetX: 0,
-                offsetY: 0,
-                blurRadius: 100,
-                spreadDistance: 20,
-                color: 'rgba(255,255,153,0.1)',
-              },
-            ],
+            boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
         >
           <MaterialIcons
@@ -83,15 +70,21 @@ export default function GentleLetterIntro() {
         </View>
       </View>
 
-      <Text className="mb-4 text-center text-[32px] font-bold leading-tight text-foreground">
+      <Text variant="h1" className="mb-4 text-center font-bold leading-tight">
         Write a Gentle Letter to Yourself
       </Text>
 
-      <Text className="mb-4 text-center text-lg font-medium text-primary-pink">
+      <Text
+        variant="lg"
+        className="mb-4 text-center font-medium text-primary-pink"
+      >
         A PHOBIK practice in courage and kindness.
       </Text>
 
-      <Text className="mb-12 max-w-[320px] text-center text-base leading-relaxed text-foreground/60">
+      <Text
+        variant="md"
+        className="mb-12 max-w-[320px] text-center leading-relaxed text-foreground/60"
+      >
         A guided exercise in self-compassion. Through 5 gentle steps, replace
         harsh self-judgment with understanding and care.
       </Text>

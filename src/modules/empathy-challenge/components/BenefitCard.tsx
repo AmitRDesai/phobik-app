@@ -1,7 +1,8 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
 
 interface BenefitCardProps {
   icon: keyof typeof MaterialIcons.glyphMap;
@@ -16,8 +17,12 @@ export function BenefitCard({ icon, title, description }: BenefitCardProps) {
         {(color) => <MaterialIcons name={icon} size={24} color={color} />}
       </IconChip>
       <View className="flex-1">
-        <Text className="text-base font-semibold text-foreground">{title}</Text>
-        <Text className="text-sm text-foreground/60">{description}</Text>
+        <Text variant="md" className="font-semibold">
+          {title}
+        </Text>
+        <Text variant="sm" className="text-foreground/60">
+          {description}
+        </Text>
       </View>
     </Card>
   );

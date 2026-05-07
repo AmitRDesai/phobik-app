@@ -1,4 +1,5 @@
-import { Text } from 'react-native';
+import { Text } from '@/components/themed';
+import { clsx } from 'clsx';
 
 interface ChapterParagraphProps {
   children: string;
@@ -8,7 +9,9 @@ interface ChapterParagraphProps {
 export function ChapterParagraph({ children, bold }: ChapterParagraphProps) {
   return (
     <Text
-      className={`mb-6 text-base leading-relaxed text-foreground/80 ${bold ? 'font-semibold' : ''}`}
+      variant="md"
+      muted
+      className={clsx('mb-6 leading-relaxed', bold && 'font-semibold')}
       style={{ fontFamily: 'serif' }}
     >
       {children}

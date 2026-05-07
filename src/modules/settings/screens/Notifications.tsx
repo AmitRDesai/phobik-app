@@ -1,9 +1,11 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Switch, Text, View } from 'react-native';
+import { Switch } from 'react-native';
 import {
   useNotificationSettings,
   useUpdateNotificationSettings,
@@ -26,8 +28,12 @@ function ToggleRow({
   return (
     <Card className="flex-row items-center gap-3 px-4 py-3.5">
       <View className="flex-1">
-        <Text className="text-base font-semibold text-foreground">{label}</Text>
-        <Text className="text-sm text-foreground/50">{description}</Text>
+        <Text variant="md" className="font-semibold">
+          {label}
+        </Text>
+        <Text variant="sm" muted>
+          {description}
+        </Text>
       </View>
       <Switch
         value={value}

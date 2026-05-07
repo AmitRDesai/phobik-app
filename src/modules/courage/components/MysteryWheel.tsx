@@ -1,6 +1,8 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { alpha, colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useAnimatedProps,
@@ -250,63 +252,63 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
           justifyContent: 'center',
         }}
       >
-        {/* SVG Wheel */}
-        <Svg
-          width={WHEEL_SIZE}
-          height={WHEEL_SIZE}
-          viewBox="0 0 100 100"
+        {/* SVG Wheel — shadow lives on a circular wrapper View; boxShadow on
+            <Svg> uses the rect bounds and would render a square halo. */}
+        <View
           style={{
-            boxShadow: [
-              {
-                offsetX: 0,
-                offsetY: 8,
-                blurRadius: 16,
-                color: 'rgba(0, 0, 0, 0.4)',
-              },
-            ],
+            width: WHEEL_SIZE,
+            height: WHEEL_SIZE,
+            borderRadius: WHEEL_SIZE / 2,
+            boxShadow: `0px 8px 16px ${withAlpha('#000000', 0.4)}`,
           }}
         >
-          <Defs>
-            {SEGMENT_ORDER.map((type) => {
-              const challenge = challengeMap[type];
-              return (
-                <LinearGradient
-                  key={type}
-                  id={`grad-${type}`}
-                  x1="0%"
-                  y1="0%"
-                  x2="100%"
-                  y2="100%"
-                >
-                  <Stop
-                    offset="0%"
-                    stopColor={challenge.wheelGradient[0]}
-                    stopOpacity={1}
-                  />
-                  <Stop
-                    offset="100%"
-                    stopColor={challenge.wheelGradient[1]}
-                    stopOpacity={1}
-                  />
-                </LinearGradient>
-              );
-            })}
-          </Defs>
-          {SEGMENT_ORDER.map((type, i) => (
-            <Path key={type} d={SEGMENT_PATHS[i]} fill={`url(#grad-${type})`} />
-          ))}
-          {/* Spotlight: dim every inactive segment with a translucent black
+          <Svg width={WHEEL_SIZE} height={WHEEL_SIZE} viewBox="0 0 100 100">
+            <Defs>
+              {SEGMENT_ORDER.map((type) => {
+                const challenge = challengeMap[type];
+                return (
+                  <LinearGradient
+                    key={type}
+                    id={`grad-${type}`}
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <Stop
+                      offset="0%"
+                      stopColor={challenge.wheelGradient[0]}
+                      stopOpacity={1}
+                    />
+                    <Stop
+                      offset="100%"
+                      stopColor={challenge.wheelGradient[1]}
+                      stopOpacity={1}
+                    />
+                  </LinearGradient>
+                );
+              })}
+            </Defs>
+            {SEGMENT_ORDER.map((type, i) => (
+              <Path
+                key={type}
+                d={SEGMENT_PATHS[i]}
+                fill={`url(#grad-${type})`}
+              />
+            ))}
+            {/* Spotlight: dim every inactive segment with a translucent black
               overlay. The active segment's overlay is fully transparent, so
               it stays at full color and reads as the highlighted one. */}
-          {SEGMENT_ORDER.map((type, i) => (
-            <AnimatedPath
-              key={`dim-${type}`}
-              d={SEGMENT_PATHS[i]}
-              fill="black"
-              animatedProps={dimPropsList[i]}
-            />
-          ))}
-        </Svg>
+            {SEGMENT_ORDER.map((type, i) => (
+              <AnimatedPath
+                key={`dim-${type}`}
+                d={SEGMENT_PATHS[i]}
+                fill="black"
+                animatedProps={dimPropsList[i]}
+              />
+            ))}
+          </Svg>
+        </View>
 
         {/* Labels overlay */}
         <View className="absolute inset-0" pointerEvents="none">
@@ -327,12 +329,14 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
                 }}
               >
                 <Text
-                  className="text-center text-[10px] font-bold uppercase tracking-wider"
+                  variant="caption"
+                  className="text-center"
                   style={{ color: isDark ? alpha.black80 : 'white' }}
                 >
                   {challenge.wheelLabel}
                 </Text>
                 <Text
+                  variant="xs"
                   className="mt-0.5 px-1 text-center text-[7px] leading-tight"
                   style={{
                     color: isDark ? alpha.black70 : foregroundFor(scheme, 0.9),

@@ -1,3 +1,6 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
@@ -7,15 +10,7 @@ import { env } from '@/utils/env';
 import { Ionicons } from '@expo/vector-icons';
 import * as IntentLauncher from 'expo-intent-launcher';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  ActivityIndicator,
-  AppState,
-  Linking,
-  Platform,
-  Pressable,
-  Text,
-  View,
-} from 'react-native';
+import { AppState, Linking, Platform } from 'react-native';
 
 const RESEND_COOLDOWN_SECONDS = 60;
 
@@ -134,13 +129,14 @@ export default function EmailVerificationScreen() {
         </View>
 
         {/* Title */}
-        <Text className="text-3xl font-bold text-foreground">
-          Verify Your Email
-        </Text>
-        <Text className="mt-3 text-center text-base leading-6 text-foreground/50">
+        <Text variant="h1">Verify Your Email</Text>
+        <Text variant="lg" muted className="mt-3 text-center">
           We sent a verification link to
         </Text>
-        <Text className="mt-1 text-center text-base font-semibold text-primary-pink">
+        <Text
+          variant="lg"
+          className="mt-1 text-center font-semibold text-primary-pink"
+        >
           {email}
         </Text>
 
@@ -152,26 +148,18 @@ export default function EmailVerificationScreen() {
         </View>
 
         {/* Resend Button */}
-        <Pressable
+        <Button
+          variant="ghost"
           onPress={handleResend}
           disabled={resendCooldown > 0 || isSending}
-          className="mt-6 py-2"
+          loading={isSending}
+          className="mt-6"
         >
-          {isSending ? (
-            <ActivityIndicator color={colors.primary.pink} size="small" />
-          ) : resendCooldown > 0 ? (
-            <Text className="text-sm text-foreground/50">
-              Resend in {resendCooldown}s
-            </Text>
-          ) : (
-            <Text className="text-sm font-semibold text-primary-pink">
-              Resend Email
-            </Text>
-          )}
-        </Pressable>
+          {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend Email'}
+        </Button>
 
         {/* Hint */}
-        <Text className="mt-10 text-center text-xs leading-5 text-foreground/50">
+        <Text variant="sm" muted className="mt-10 text-center">
           Click the link in the email, then return here.{'\n'}The app will
           detect verification automatically.
         </Text>

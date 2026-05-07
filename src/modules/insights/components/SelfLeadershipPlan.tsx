@@ -1,11 +1,14 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 
 import { MaterialIcons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import type { StressorExercise } from '../data/stressor-details';
 import { STRENGTHS } from '../data/stressor-details';
 
@@ -31,11 +34,11 @@ export function SelfLeadershipPlan({
             size={14}
             color={colors.accent.gold}
           />
-          <Text className="text-[10px] font-black uppercase tracking-[3px] text-accent-yellow">
+          <Text variant="caption" className="text-accent-yellow">
             Self-Leadership Check
           </Text>
         </View>
-        <Text className="mb-4 text-[13px] font-bold text-foreground">
+        <Text variant="sm" className="mb-4 font-bold">
           Which strength will help you handle this stressor?
         </Text>
         <View className="flex-row flex-wrap gap-2">
@@ -44,23 +47,25 @@ export function SelfLeadershipPlan({
             return (
               <Pressable
                 key={strength}
-                className={`rounded-full px-3 py-1.5 ${
+                className={clsx(
+                  'rounded-full px-3 py-1.5',
                   isSelected
                     ? 'bg-primary-pink'
-                    : 'border border-foreground/10 bg-foreground/5'
-                }`}
+                    : 'border border-foreground/10 bg-foreground/5',
+                )}
                 style={
                   isSelected
                     ? {
-                        boxShadow: `0px 4px 12px ${withAlpha(colors.primary['pink-soft'], 0.3)}`,
+                        boxShadow: `0 0 12px ${withAlpha(colors.primary['pink-soft'], 0.3)}`,
                       }
                     : undefined
                 }
               >
                 <Text
-                  className={`text-[10px] font-bold uppercase tracking-wider ${
-                    isSelected ? 'text-foreground' : 'text-foreground/70'
-                  }`}
+                  variant="caption"
+                  className={clsx(
+                    isSelected ? 'text-foreground' : 'text-foreground/70',
+                  )}
                 >
                   {strength}
                 </Text>
@@ -72,7 +77,7 @@ export function SelfLeadershipPlan({
 
       {/* Self-Leadership Plan */}
       <View className="gap-4">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/60">
+        <Text variant="caption" className="text-foreground/60">
           Self-Leadership Plan
         </Text>
         <View className="flex-row items-center gap-2 rounded-lg border border-primary-pink/10 bg-primary-pink/5 p-2">
@@ -81,7 +86,7 @@ export function SelfLeadershipPlan({
             size={12}
             color={colors.primary['pink-soft']}
           />
-          <Text className="flex-1 text-[10px] font-bold text-primary-pink/80">
+          <Text variant="caption" className="flex-1 text-primary-pink/80">
             Inner CEO: Choose your strength above to activate these tools.
           </Text>
         </View>
@@ -91,9 +96,10 @@ export function SelfLeadershipPlan({
       {exercises.map((ex, i) => (
         <View key={i}>
           <DashboardCard
-            className={`flex-row items-center gap-4 overflow-hidden p-5 ${
-              ex.highlighted ? 'border-primary-pink/30' : ''
-            }`}
+            className={clsx(
+              'flex-row items-center gap-4 overflow-hidden p-5',
+              ex.highlighted && 'border-primary-pink/30',
+            )}
             glow={ex.highlighted}
           >
             <View
@@ -101,7 +107,7 @@ export function SelfLeadershipPlan({
               style={
                 ex.highlighted
                   ? {
-                      boxShadow: `0px 0px 15px ${withAlpha(colors.primary['pink-soft'], 0.3)}`,
+                      boxShadow: `0 0 12px ${withAlpha(colors.primary['pink-soft'], 0.3)}`,
                       width: 56,
                       height: 56,
                     }
@@ -115,10 +121,10 @@ export function SelfLeadershipPlan({
               />
             </View>
             <View className="flex-1">
-              <Text className="text-sm font-black text-foreground">
+              <Text variant="sm" className="font-black">
                 {ex.title}
               </Text>
-              <Text className="text-[10px] text-foreground/60">
+              <Text variant="xs" muted>
                 {ex.description}
               </Text>
             </View>
@@ -141,7 +147,7 @@ export function SelfLeadershipPlan({
                   : (ex.iconColor ?? foregroundFor(scheme, 0.4)),
               }}
             />
-            <Text className="text-[9px] font-black uppercase tracking-widest text-foreground/55">
+            <Text variant="caption" muted>
               Supports: {ex.supports}
             </Text>
           </View>

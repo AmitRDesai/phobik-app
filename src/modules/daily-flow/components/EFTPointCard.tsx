@@ -1,8 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { accentFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { Text, View } from 'react-native';
 
 import type { EFTPointEntry } from '../data/eftPoints';
 
@@ -17,23 +18,28 @@ export function EFTPointCard({ point }: { point: EFTPointEntry }) {
       <View className="flex-row items-start gap-4">
         <IconChip size="md" shape="circle" tone={tone}>
           <Text
-            className="text-sm font-bold"
+            variant="sm"
+            className="font-bold"
             style={{ color: base, opacity: textOpacity }}
           >
             {point.number}
           </Text>
         </IconChip>
         <View className="flex-1">
-          <Text className="text-base font-bold leading-tight text-foreground">
+          <Text variant="lg" className="font-bold leading-tight">
             {point.title}
           </Text>
           <Text
-            className="mt-1.5 text-xs font-semibold italic"
-            style={{ color: withAlpha(accentFor(scheme, 'yellow'), 0.8) }}
+            variant="caption"
+            className="mt-1.5 font-semibold"
+            style={{
+              color: withAlpha(accentFor(scheme, 'yellow'), 0.8),
+              paddingRight: 1.1,
+            }}
           >
             {point.meridian}
           </Text>
-          <Text className="mt-1.5 text-sm leading-5 text-foreground/70">
+          <Text variant="sm" className="mt-1.5 leading-5 text-foreground/70">
             {point.description}
           </Text>
         </View>

@@ -1,24 +1,20 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor } from '@/constants/colors';
+import { accentFor, colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useRef, useState } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  RefreshControl,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, RefreshControl } from 'react-native';
 import { CommunityPrinciples } from '../components/CommunityPrinciples';
 import { FeedCard } from '../components/FeedCard';
 import { FilterChips } from '../components/FilterChips';
-import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { SearchBar } from '../components/SearchBar';
 import { useCommunityMember } from '../hooks/useCommunity';
 import { useCommunityPosts } from '../hooks/useCommunityFeed';
@@ -46,16 +42,23 @@ export default function Community() {
 }
 
 function JoinCommunityView() {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
   const handleJoin = () => {
     dialog.open({ component: CommunityPrinciples });
   };
 
   return (
     <Screen className="flex-1 items-center justify-center gap-6 px-8">
-      <MaterialIcons name="groups" size={64} color={colors.accent.yellow} />
+      <MaterialIcons name="groups" size={64} color={yellow} />
       <View className="items-center gap-2">
-        <Text className="text-2xl font-bold text-foreground">Courage Wall</Text>
-        <Text className="text-center text-sm leading-relaxed text-primary-muted">
+        <Text variant="h2" className="font-bold">
+          Courage Wall
+        </Text>
+        <Text
+          variant="sm"
+          className="text-center leading-relaxed text-primary-muted"
+        >
           A safe space to share your brave moments, support others, and grow
           together.
         </Text>
@@ -135,7 +138,7 @@ function CommunityFeed() {
     <Screen
       header={
         <View className="gap-3 px-4 pb-6 pt-2">
-          <Text className="text-center text-xl font-bold tracking-tight text-foreground">
+          <Text variant="h3" className="text-center font-bold">
             Courage Wall
           </Text>
           <SearchBar value={search} onChangeText={handleSearchChange} />
@@ -190,7 +193,7 @@ function CommunityFeed() {
                 size={48}
                 color={foregroundFor(scheme, 0.2)}
               />
-              <Text className="mt-4 text-sm text-foreground/30">
+              <Text variant="sm" className="mt-4 text-foreground/30">
                 No posts yet. Be the first to share!
               </Text>
             </View>

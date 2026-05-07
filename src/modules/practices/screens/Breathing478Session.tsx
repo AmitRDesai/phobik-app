@@ -2,27 +2,27 @@ import exhaleAudio from '@/assets/audio/practices/exhale.mp3';
 import holdAudio from '@/assets/audio/practices/hold.mp3';
 import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
 import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { GlowBg } from '@/components/ui/GlowBg';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
-
-import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
 import { useNow } from '@/hooks/useNow';
+import { useScheme } from '@/hooks/useTheme';
+import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
+import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
-
-import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+import { useEffect, useState } from 'react';
+import { Pressable } from 'react-native';
 
 import { BreathingCircle478 } from '../components/BreathingCircle478';
 import { useInstructionAudio } from '../hooks/useInstructionAudio';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
 import { breathing478SessionAtom } from '../store/session-atoms';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const INHALE = 4;
 const HOLD = 7;
@@ -162,175 +162,186 @@ export default function Breathing478Session() {
   const liveHrv = isFresh(hrvAt) ? hrv : null;
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
-      <View className="flex-1 bg-surface">
-        <GlowBg
-          bgClassName="bg-surface"
-          centerX={0.5}
-          centerY={0.35}
-          intensity={0.6}
-          radius={0.35}
-          startColor={colors.primary.pink}
-          endColor={colors.accent.yellow}
-        />
-
-        {/* Header */}
-        <View className="z-10 flex-row items-center justify-between px-6 py-4">
-          <BackButton />
-          <Text className="text-lg font-bold tracking-tight text-foreground">
-            4-7-8 Breathing
-          </Text>
-          <View className="h-11 w-11" />
-        </View>
-
-        {/* Breathing instruction text — fixed height to prevent layout shifts */}
-        <View className="z-10 mt-2 items-center px-8" style={{ height: 100 }}>
-          <Text className="mb-2 text-center text-4xl font-light tracking-tight text-foreground">
-            {currentPhase}
-          </Text>
-          <Text className="mx-auto max-w-[280px] text-center text-sm leading-relaxed text-foreground/60">
-            {currentSubtext}
-          </Text>
-        </View>
-
-        {/* Circular visualization - flex to fill available space */}
-        <View className="z-10 flex-1 items-center justify-center">
-          <BreathingCircle478
-            elapsed={elapsed}
-            isPaused={isPaused}
-            isActive={sessionReady}
-            phaseIndex={phaseIndex}
-          />
-        </View>
-
-        {/* Bottom section */}
-        <View className="z-20 px-6">
-          {/* Instruction card */}
-          <View className="mb-6 rounded-2xl border border-foreground/[0.08] bg-foreground/[0.04] p-4">
-            <Text className="text-center text-[13px] font-medium leading-relaxed text-foreground/80">
-              Inhale for 4 seconds, hold your breath for 7 seconds, and exhale
-              for 8 seconds. Repeat this cycle 4 times.
+    <Screen
+      variant="default"
+      scroll
+      header={
+        <Header
+          left={<BackButton />}
+          center={
+            <Text variant="lg" className="font-bold">
+              4-7-8 Breathing
             </Text>
-          </View>
+          }
+        />
+      }
+      className="px-0"
+    >
+      {/* Breathing instruction text — fixed height to prevent layout shifts */}
+      <View className="mt-2 items-center px-8" style={{ height: 100 }}>
+        <Text variant="display" className="mb-2 text-center font-light">
+          {currentPhase}
+        </Text>
+        <Text
+          variant="sm"
+          muted
+          className="mx-auto max-w-[280px] text-center leading-relaxed"
+        >
+          {currentSubtext}
+        </Text>
+      </View>
 
-          {/* Controls row: mute, pause, restart */}
-          <View className="mb-8 flex-row items-center justify-between px-6">
-            {/* Mute button */}
-            <Pressable
-              onPress={() => setIsMuted((m) => !m)}
-              className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
+      {/* Circular visualization - flex to fill available space */}
+      <View className="flex-1 items-center justify-center">
+        <BreathingCircle478
+          elapsed={elapsed}
+          isPaused={isPaused}
+          isActive={sessionReady}
+          phaseIndex={phaseIndex}
+        />
+      </View>
+
+      {/* Bottom section */}
+      <View className="px-screen-x pt-6">
+        {/* Instruction card */}
+        <View className="mb-6 rounded-2xl border border-foreground/[0.08] bg-foreground/[0.04] p-4">
+          <Text
+            variant="sm"
+            className="text-center font-medium leading-relaxed text-foreground/80"
+          >
+            Inhale for 4 seconds, hold your breath for 7 seconds, and exhale for
+            8 seconds. Repeat this cycle 4 times.
+          </Text>
+        </View>
+
+        {/* Controls row: mute, pause, restart */}
+        <View className="mb-8 flex-row items-center justify-between px-6">
+          {/* Mute button */}
+          <Pressable
+            onPress={() => setIsMuted((m) => !m)}
+            className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
+          >
+            <MaterialIcons
+              name={isMuted ? 'volume-off' : 'volume-up'}
+              size={24}
+              color={foregroundFor(scheme, 0.6)}
+            />
+          </Pressable>
+
+          {/* Pause / Play button */}
+          <Pressable
+            onPress={() => setIsPaused((p) => !p)}
+            style={{
+              borderRadius: 32,
+              boxShadow: `0 0 24px ${withAlpha(colors.primary.pink, 0.5)}`,
+            }}
+          >
+            <LinearGradient
+              colors={[colors.primary.pink, colors.accent.yellow]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{
+                width: 64,
+                height: 64,
+                borderRadius: 32,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <MaterialIcons
-                name={isMuted ? 'volume-off' : 'volume-up'}
-                size={24}
-                color={foregroundFor(scheme, 0.6)}
+                name={isPaused ? 'play-arrow' : 'pause'}
+                size={32}
+                color="white"
               />
-            </Pressable>
+            </LinearGradient>
+          </Pressable>
 
-            {/* Pause / Play button */}
-            <Pressable
-              onPress={() => setIsPaused((p) => !p)}
-              className="active:scale-95"
-            >
-              <LinearGradient
-                colors={[colors.primary.pink, colors.accent.yellow]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
+          {/* Restart button */}
+          <Pressable
+            onPress={handleRestart}
+            className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
+          >
+            <MaterialIcons
+              name={sessionReady ? 'replay' : 'skip-next'}
+              size={24}
+              color={foregroundFor(scheme, 0.6)}
+            />
+          </Pressable>
+        </View>
+
+        {/* Stats cards row */}
+        <View className="mb-4 flex-row gap-4">
+          {/* Heart Rate card */}
+          <View className="flex-1 rounded-[32px] border border-foreground/[0.08] bg-foreground/[0.04] p-5">
+            <View className="flex-row items-center gap-2">
+              <MaterialIcons
+                name="favorite"
+                size={18}
+                color={colors.primary.pink}
                 style={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: 40,
-                  padding: 2,
-                  boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.4)}`,
+                  textShadowColor: withAlpha(colors.rose[500], 0.5),
+                  textShadowOffset: { width: 0, height: 0 },
+                  textShadowRadius: 10,
                 }}
-              >
-                <View className="flex-1 items-center justify-center rounded-full bg-black/40">
-                  <MaterialIcons
-                    name={isPaused ? 'play-arrow' : 'pause'}
-                    size={36}
-                    color="white"
-                  />
-                </View>
-              </LinearGradient>
-            </Pressable>
-
-            {/* Restart button */}
-            <Pressable
-              onPress={handleRestart}
-              className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
-            >
-              <MaterialIcons
-                name={sessionReady ? 'replay' : 'skip-next'}
-                size={24}
-                color={foregroundFor(scheme, 0.6)}
               />
-            </Pressable>
+              <Text
+                variant="caption"
+                className="font-bold tracking-[0.2em] text-foreground/50"
+                style={{ paddingRight: 1.8 }}
+              >
+                Heart Rate
+              </Text>
+            </View>
+            <View className="mt-1 flex-row items-baseline gap-1">
+              <Text
+                variant="h2"
+                className="font-semibold"
+                style={{ fontVariant: ['tabular-nums'] }}
+              >
+                {liveHr != null ? liveHr : '—'}
+              </Text>
+              <Text variant="caption" className="font-bold text-foreground/55">
+                BPM
+              </Text>
+            </View>
           </View>
 
-          {/* Stats cards row */}
-          <View className="mb-4 flex-row gap-4">
-            {/* Heart Rate card */}
-            <View className="flex-1 rounded-[32px] border border-foreground/[0.08] bg-foreground/[0.04] p-5">
-              <View className="flex-row items-center gap-2">
-                <MaterialIcons
-                  name="favorite"
-                  size={18}
-                  color={colors.primary.pink}
-                  style={{
-                    textShadowColor: withAlpha(colors.rose[500], 0.5),
-                    textShadowOffset: { width: 0, height: 0 },
-                    textShadowRadius: 10,
-                  }}
-                />
-                <Text className="text-[9px] font-bold uppercase tracking-[0.2em] text-foreground/50">
-                  Heart Rate
-                </Text>
-              </View>
-              <View className="mt-1 flex-row items-baseline gap-1">
-                <Text
-                  className="text-2xl font-semibold text-foreground"
-                  style={{ fontVariant: ['tabular-nums'] }}
-                >
-                  {liveHr != null ? liveHr : '—'}
-                </Text>
-                <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/55">
-                  BPM
-                </Text>
-              </View>
+          {/* HRV card */}
+          <View className="flex-1 rounded-[32px] border border-foreground/[0.08] bg-foreground/[0.04] p-5">
+            <View className="flex-row items-center gap-2">
+              <MaterialIcons
+                name="monitor-heart"
+                size={18}
+                color={colors.accent.yellow}
+                style={{
+                  textShadowColor: withAlpha(colors.yellow[500], 0.5),
+                  textShadowOffset: { width: 0, height: 0 },
+                  textShadowRadius: 10,
+                }}
+              />
+              <Text
+                variant="caption"
+                className="font-bold tracking-[0.2em] text-foreground/50"
+                style={{ paddingRight: 1.8 }}
+              >
+                HRV
+              </Text>
             </View>
-
-            {/* HRV card */}
-            <View className="flex-1 rounded-[32px] border border-foreground/[0.08] bg-foreground/[0.04] p-5">
-              <View className="flex-row items-center gap-2">
-                <MaterialIcons
-                  name="monitor-heart"
-                  size={18}
-                  color={colors.accent.yellow}
-                  style={{
-                    textShadowColor: withAlpha(colors.yellow[500], 0.5),
-                    textShadowOffset: { width: 0, height: 0 },
-                    textShadowRadius: 10,
-                  }}
-                />
-                <Text className="text-[9px] font-bold uppercase tracking-[0.2em] text-foreground/50">
-                  HRV
-                </Text>
-              </View>
-              <View className="mt-1 flex-row items-baseline gap-1">
-                <Text
-                  className="text-2xl font-semibold text-foreground"
-                  style={{ fontVariant: ['tabular-nums'] }}
-                >
-                  {liveHrv != null ? Math.round(liveHrv) : '—'}
-                </Text>
-                <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/55">
-                  MS
-                </Text>
-              </View>
+            <View className="mt-1 flex-row items-baseline gap-1">
+              <Text
+                variant="h2"
+                className="font-semibold"
+                style={{ fontVariant: ['tabular-nums'] }}
+              >
+                {liveHrv != null ? Math.round(liveHrv) : '—'}
+              </Text>
+              <Text variant="caption" className="font-bold text-foreground/55">
+                MS
+              </Text>
             </View>
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }

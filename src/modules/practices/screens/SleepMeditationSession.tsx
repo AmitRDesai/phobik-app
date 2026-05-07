@@ -1,26 +1,29 @@
 import sleepMeditationImage from '@/assets/images/practices/sleep-meditation.jpg';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Badge } from '@/components/ui/Badge';
-import { GlowBg } from '@/components/ui/GlowBg';
-import { colors, withAlpha } from '@/constants/colors';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
+import { usePulseAnimation } from '@/hooks/usePulseAnimation';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useKeepAwake } from 'expo-keep-awake';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, Pressable } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
-import { usePulseAnimation } from '@/hooks/usePulseAnimation';
 import Svg, { Defs, RadialGradient, Rect, Stop } from 'react-native-svg';
 
 import { useRecordPracticeCompletion } from '../hooks/usePracticeCompletion';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
+import { formatTime } from '../lib/format';
 import {
   SleepMeditationDuration,
   sleepMeditationSessionAtom,
 } from '../store/sleep-meditation';
-import { formatTime } from '../lib/format';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 // ── Audio keys (resolved from backend manifest at runtime) ───────────────────
 
@@ -113,6 +116,8 @@ function PulsingAura({ isPlaying }: { isPlaying: boolean }) {
 // ── Main Session Screen ──────────────────────────────────────────────────────
 
 export default function SleepMeditationSession() {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
   useKeepAwake();
   const recordCompletion = useRecordPracticeCompletion();
   const savedState = useAtomValue(sleepMeditationSessionAtom);
@@ -220,206 +225,191 @@ export default function SleepMeditationSession() {
   const progress = duration > 0 ? elapsed / duration : 0;
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
-      <View className="flex-1 bg-surface">
-        <GlowBg
-          bgClassName="bg-surface"
-          centerX={0.2}
-          centerY={0.3}
-          intensity={0.12}
-          radius={0.4}
-          startColor={colors.primary.pink}
-          endColor={colors.accent.yellow}
+    <Screen
+      variant="default"
+      header={
+        <Header
+          left={<BackButton />}
+          center={
+            <Text variant="sm" className="font-semibold text-foreground/60">
+              Sleep & Soundscape
+            </Text>
+          }
         />
-        <GlowBg
-          bgClassName="bg-transparent"
-          centerX={0.8}
-          centerY={0.7}
-          intensity={0.08}
-          radius={0.4}
-          startColor={colors.accent.yellow}
-          endColor={colors.primary.pink}
-        />
+      }
+      className="flex-1"
+    >
+      {/* Main content */}
+      <View className="flex-1 items-center justify-center px-6">
+        {/* Pulsing aura circle */}
+        <PulsingAura isPlaying={status.playing} />
 
-        {/* Header */}
-        <View className="z-20 flex-row items-center justify-between px-4 py-3">
-          <BackButton />
-          <Text className="text-[13px] font-semibold uppercase tracking-widest text-foreground/60">
-            Sleep & Soundscape
+        {/* Title */}
+        <View className="mt-8 items-center">
+          <Text
+            variant="h1"
+            className="text-center font-extrabold leading-tight"
+          >
+            Guided Sleep Meditation
           </Text>
-          <View className="h-10 w-10" />
+          <Text
+            variant="caption"
+            className="mt-2 font-semibold text-primary-pink/90"
+          >
+            Deep Rest Journey
+          </Text>
         </View>
 
-        {/* Main content */}
-        <View className="z-10 flex-1 items-center justify-center px-6">
-          {/* Pulsing aura circle */}
-          <PulsingAura isPlaying={status.playing} />
-
-          {/* Title */}
-          <View className="mt-8 items-center">
-            <Text className="text-center text-3xl font-extrabold leading-tight tracking-tight text-foreground">
-              Guided Sleep Meditation
-            </Text>
-            <Text className="mt-2 text-sm font-semibold uppercase tracking-widest text-primary-pink/90">
-              Deep Rest Journey
-            </Text>
-          </View>
-
-          {/* Duration selector pills */}
-          <View className="mt-8 flex-row gap-3">
-            {DURATION_LABELS.map(({ key, label }) => (
-              <Pressable
-                key={key}
-                onPress={() => handleDurationChange(key)}
-                disabled={status.playing}
-                className={`rounded-full px-5 py-2.5 ${
+        {/* Duration selector pills */}
+        <View className="mt-8 flex-row gap-3">
+          {DURATION_LABELS.map(({ key, label }) => (
+            <Pressable
+              key={key}
+              onPress={() => handleDurationChange(key)}
+              disabled={status.playing}
+              className={`rounded-full px-5 py-2.5 ${
+                selectedDuration === key
+                  ? 'border border-accent-yellow/30 bg-foreground/10'
+                  : 'border border-foreground/10 bg-foreground/5'
+              } ${status.playing ? 'opacity-40' : ''}`}
+            >
+              <Text
+                variant="caption"
+                className={`font-semibold ${
                   selectedDuration === key
-                    ? 'border border-accent-yellow/30 bg-foreground/10'
-                    : 'border border-foreground/10 bg-foreground/5'
-                } ${status.playing ? 'opacity-40' : ''}`}
+                    ? 'text-accent-yellow'
+                    : 'text-foreground/60'
+                }`}
               >
-                <Text
-                  className={`text-xs font-semibold uppercase tracking-widest ${
-                    selectedDuration === key
-                      ? 'text-accent-yellow'
-                      : 'text-foreground/60'
-                  }`}
-                >
-                  {label}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
-        </View>
-
-        {/* Progress section */}
-        <View className="z-20 px-8 pb-4">
-          {/* Time labels */}
-          <View className="mb-3 flex-row items-center justify-between">
-            <Text
-              className="text-[11px] font-bold text-foreground/30"
-              style={{ fontVariant: ['tabular-nums'] }}
-            >
-              {formatTime(elapsed)}
-            </Text>
-            <Badge
-              tone="yellow"
-              size="sm"
-              icon={(color) => (
-                <MaterialIcons name="timer" size={12} color={color} />
-              )}
-            >
-              {`${formatTime(remaining)} Remaining`}
-            </Badge>
-            <Text
-              className="text-[11px] font-bold text-foreground/30"
-              style={{ fontVariant: ['tabular-nums'] }}
-            >
-              {formatTime(duration)}
-            </Text>
-          </View>
-
-          {/* Progress bar */}
-          <View className="h-1 w-full overflow-hidden rounded-full bg-foreground/5">
-            <View
-              className="h-full rounded-full"
-              style={{
-                width: `${progress * 100}%`,
-                backgroundColor: colors.accent.yellow,
-                boxShadow: [
-                  {
-                    offsetX: 0,
-                    offsetY: 0,
-                    blurRadius: 15,
-                    color: withAlpha(colors.accent.yellow, 0.4),
-                  },
-                ],
-              }}
-            />
-          </View>
-        </View>
-
-        {/* Playback controls */}
-        <View className="z-20 items-center px-8 pb-12 pt-4">
-          <View className="w-full max-w-[320px] flex-row items-center justify-between px-4">
-            {/* Replay 10s */}
-            <Pressable
-              onPress={handleReplay10}
-              disabled={!hasStarted}
-              className="active:scale-110"
-              style={{ opacity: hasStarted ? 1 : 0.3 }}
-            >
-              <MaterialIcons
-                name="replay-10"
-                size={36}
-                color={colors.accent.yellow}
-              />
+                {label}
+              </Text>
             </Pressable>
-
-            {/* Play/Pause */}
-            <Pressable
-              onPress={handlePlayPause}
-              disabled={!isReady}
-              className="items-center justify-center active:scale-95"
-              style={{
-                width: 80,
-                height: 80,
-                borderRadius: 40,
-                backgroundColor: colors.accent.yellow,
-                opacity: isReady ? 1 : 0.4,
-                boxShadow: [
-                  {
-                    offsetX: 0,
-                    offsetY: 4,
-                    blurRadius: 20,
-                    color: withAlpha(colors.accent.yellow, 0.25),
-                  },
-                ],
-              }}
-            >
-              {isDownloading ? (
-                <Text
-                  className="text-lg font-bold"
-                  style={{
-                    color: colors.background.dark,
-                    fontVariant: ['tabular-nums'],
-                  }}
-                >
-                  {downloadProgress != null
-                    ? `${Math.round(downloadProgress * 100)}%`
-                    : '…'}
-                </Text>
-              ) : (
-                <MaterialIcons
-                  name={
-                    !hasStarted
-                      ? 'play-arrow'
-                      : status.playing
-                        ? 'pause'
-                        : 'play-arrow'
-                  }
-                  size={48}
-                  color={colors.background.dark}
-                />
-              )}
-            </Pressable>
-
-            {/* Forward 10s */}
-            <Pressable
-              onPress={handleForward10}
-              disabled={!hasStarted}
-              className="active:scale-110"
-              style={{ opacity: hasStarted ? 1 : 0.3 }}
-            >
-              <MaterialIcons
-                name="forward-10"
-                size={36}
-                color={colors.accent.yellow}
-              />
-            </Pressable>
-          </View>
+          ))}
         </View>
       </View>
-    </SafeAreaView>
+
+      {/* Progress section */}
+      <View className="px-8 pb-4">
+        {/* Time labels */}
+        <View className="mb-3 flex-row items-center justify-between">
+          <Text
+            variant="caption"
+            className="font-bold text-foreground/30"
+            style={{ fontVariant: ['tabular-nums'] }}
+          >
+            {formatTime(elapsed)}
+          </Text>
+          <Badge
+            tone="yellow"
+            size="sm"
+            icon={(color) => (
+              <MaterialIcons name="timer" size={12} color={color} />
+            )}
+          >
+            {`${formatTime(remaining)} Remaining`}
+          </Badge>
+          <Text
+            variant="caption"
+            className="font-bold text-foreground/30"
+            style={{ fontVariant: ['tabular-nums'] }}
+          >
+            {formatTime(duration)}
+          </Text>
+        </View>
+
+        {/* Progress bar */}
+        <View className="h-1 w-full overflow-hidden rounded-full bg-foreground/5">
+          <View
+            className="h-full rounded-full"
+            style={{
+              width: `${progress * 100}%`,
+              backgroundColor: yellow,
+              boxShadow: [
+                {
+                  offsetX: 0,
+                  offsetY: 0,
+                  blurRadius: 15,
+                  color: withAlpha(yellow, 0.4),
+                },
+              ],
+            }}
+          />
+        </View>
+      </View>
+
+      {/* Playback controls */}
+      <View className="z-20 items-center px-8 pb-12 pt-4">
+        <View className="w-full max-w-[320px] flex-row items-center justify-between px-4">
+          {/* Replay 10s */}
+          <Pressable
+            onPress={handleReplay10}
+            disabled={!hasStarted}
+            className="active:scale-110"
+            style={{ opacity: hasStarted ? 1 : 0.3 }}
+          >
+            <MaterialIcons name="replay-10" size={36} color={yellow} />
+          </Pressable>
+
+          {/* Play/Pause */}
+          <Pressable
+            onPress={handlePlayPause}
+            disabled={!isReady}
+            className="items-center justify-center active:scale-95"
+            style={{
+              width: 80,
+              height: 80,
+              borderRadius: 40,
+              backgroundColor: yellow,
+              opacity: isReady ? 1 : 0.4,
+              boxShadow: [
+                {
+                  offsetX: 0,
+                  offsetY: 4,
+                  blurRadius: 20,
+                  color: withAlpha(yellow, 0.25),
+                },
+              ],
+            }}
+          >
+            {isDownloading ? (
+              <Text
+                variant="lg"
+                className="font-bold"
+                style={{
+                  color: scheme === 'dark' ? 'black' : 'white',
+                  fontVariant: ['tabular-nums'],
+                }}
+              >
+                {downloadProgress != null
+                  ? `${Math.round(downloadProgress * 100)}%`
+                  : '…'}
+              </Text>
+            ) : (
+              <MaterialIcons
+                name={
+                  !hasStarted
+                    ? 'play-arrow'
+                    : status.playing
+                      ? 'pause'
+                      : 'play-arrow'
+                }
+                size={48}
+                color={scheme === 'dark' ? 'black' : 'white'}
+              />
+            )}
+          </Pressable>
+
+          {/* Forward 10s */}
+          <Pressable
+            onPress={handleForward10}
+            disabled={!hasStarted}
+            className="active:scale-110"
+            style={{ opacity: hasStarted ? 1 : 0.3 }}
+          >
+            <MaterialIcons name="forward-10" size={36} color={yellow} />
+          </Pressable>
+        </View>
+      </View>
+    </Screen>
   );
 }

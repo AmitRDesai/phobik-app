@@ -3,28 +3,29 @@ import holdAudio from '@/assets/audio/practices/hold.mp3';
 import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
 import restAudio from '@/assets/audio/practices/rest.mp3';
 import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { GlowBg } from '@/components/ui/GlowBg';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
-
-import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
+import { Card } from '@/components/ui/Card';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
 import { useNow } from '@/hooks/useNow';
+import { useScheme } from '@/hooks/useTheme';
+import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
+import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
-
-import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+import { useEffect, useState } from 'react';
+import { Pressable } from 'react-native';
 
 import { BreathingBox } from '../components/BreathingBox';
 import { useInstructionAudio } from '../hooks/useInstructionAudio';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
-import { boxBreathingSessionAtom } from '../store/session-atoms';
 import { formatTime } from '../lib/format';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { boxBreathingSessionAtom } from '../store/session-atoms';
 
 const PHASE_DURATION = 4;
 const CYCLE_DURATION = PHASE_DURATION * 4; // 16s
@@ -147,238 +148,259 @@ export default function BoxBreathingSession() {
   const hasLiveData = hasAccess && (hrvMs != null || heartRateBpm != null);
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-surface">
-      <View className="flex-1 bg-surface">
-        <GlowBg
-          bgClassName="bg-surface"
-          centerX={0.5}
-          centerY={0.35}
-          intensity={0.5}
-          radius={0.35}
-          startColor={colors.primary.pink}
-          endColor={colors.accent.yellow}
+    <Screen
+      variant="default"
+      header={
+        <Header
+          left={<BackButton />}
+          center={
+            <Text variant="lg" className="font-bold">
+              Box Breathing
+            </Text>
+          }
+        />
+      }
+      className="flex-1"
+    >
+      {/* Breathing Visualization - centered */}
+      <View className="flex-1 items-center justify-center">
+        <BreathingBox
+          elapsed={elapsed}
+          isPaused={isPaused}
+          isActive={sessionReady}
+          countdown={countdown}
         />
 
-        {/* Header */}
-        <View className="z-10 flex-row items-center justify-between px-6 py-4">
-          <BackButton />
-          <Text className="text-lg font-bold tracking-tight text-foreground">
-            Box Breathing
-          </Text>
-          <View className="h-11 w-11" />
-        </View>
-
-        {/* Breathing Visualization - centered */}
-        <View className="z-10 flex-1 items-center justify-center">
-          <BreathingBox
-            elapsed={elapsed}
-            isPaused={isPaused}
-            isActive={sessionReady}
-            countdown={countdown}
-          />
-
-          {/* Instruction text */}
-          <View className="mt-8 items-center">
-            <Text className="mb-4 text-xs font-medium tracking-wide text-foreground/40">
-              MATCH YOUR BREATH TO THE SQUARE
-            </Text>
-
-            {/* Time cards */}
-            <View className="flex-row gap-4">
-              <View className="items-center rounded-2xl border border-foreground/5 bg-surface px-6 py-3">
-                <Text className="mb-1 text-[10px] font-bold uppercase tracking-wider text-primary-pink">
-                  Completed
-                </Text>
-                <Text
-                  className="text-xl font-bold text-foreground/90"
-                  style={{ fontVariant: ['tabular-nums'] }}
-                >
-                  {formatTime(elapsed)}
-                </Text>
-              </View>
-              <View className="items-center rounded-2xl border border-foreground/5 bg-surface px-6 py-3">
-                <Text className="mb-1 text-[10px] font-bold uppercase tracking-wider text-accent-yellow">
-                  Goal
-                </Text>
-                <Text
-                  className="text-xl font-bold text-foreground/90"
-                  style={{ fontVariant: ['tabular-nums'] }}
-                >
-                  {formatTime(TOTAL_DURATION)}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-
-        {/* Bottom HRV Card + Controls */}
-        <View className="z-20 px-6 pb-6">
-          <View
-            className="rounded-[32px] border border-foreground/10 p-6"
-            style={{ backgroundColor: colors.background.dark }}
+        {/* Instruction text */}
+        <View className="mt-8 items-center">
+          <Text
+            variant="caption"
+            className="mb-4 font-medium text-foreground/40"
+            style={{ paddingRight: 1.1 }}
           >
-            {/* HRV Header */}
-            <View className="mb-6 flex-row items-center justify-between">
-              <View className="flex-row items-center gap-2.5">
-                <View
-                  className="h-8 w-8 items-center justify-center rounded-lg"
-                  style={{ backgroundColor: withAlpha(colors.pink[400], 0.1) }}
-                >
-                  <MaterialIcons
-                    name="monitor-heart"
-                    size={18}
-                    color={colors.primary.pink}
-                  />
-                </View>
-                <View>
-                  <Text className="text-xs font-bold text-foreground">
-                    HRV Tracking
-                  </Text>
-                  <Text className="text-[10px] leading-none text-foreground/40">
-                    {hasLiveData
-                      ? 'Wearable Streaming'
-                      : hasAccess
-                        ? 'No recent samples'
-                        : 'Wearable Not Connected'}
-                  </Text>
-                </View>
-              </View>
-              <View
-                className={`flex-row items-center gap-2 rounded-full border px-2.5 py-1 ${
-                  hasLiveData
-                    ? 'border-green-500/20 bg-green-500/10'
-                    : 'border-foreground/10 bg-foreground/5'
-                }`}
+            MATCH YOUR BREATH TO THE SQUARE
+          </Text>
+
+          {/* Time cards */}
+          <View className="flex-row gap-4">
+            <View className="items-center rounded-2xl border border-foreground/5 bg-surface px-6 py-3">
+              <Text
+                variant="caption"
+                className="mb-1 font-bold tracking-wider text-primary-pink"
+                style={{ paddingRight: 1.1 }}
               >
-                <View
-                  className={`h-1.5 w-1.5 rounded-full ${
-                    hasLiveData ? 'bg-green-500' : 'bg-foreground/30'
-                  }`}
-                />
-                <Text
-                  className={`text-[10px] font-bold uppercase ${
-                    hasLiveData ? 'text-green-500' : 'text-foreground/40'
-                  }`}
-                >
-                  {hasLiveData ? 'Synced' : 'Idle'}
-                </Text>
-              </View>
+                Completed
+              </Text>
+              <Text
+                variant="lg"
+                className="font-bold text-foreground/90"
+                style={{ fontVariant: ['tabular-nums'] }}
+              >
+                {formatTime(elapsed)}
+              </Text>
             </View>
-
-            {/* HRV Stats Grid */}
-            <View className="flex-row gap-6">
-              {/* Variability */}
-              <View className="flex-1 gap-2">
-                <View className="flex-row items-baseline gap-1.5">
-                  <Text className="text-3xl font-bold text-foreground">
-                    {hrvMs != null ? hrvMs : '—'}
-                  </Text>
-                  <Text className="text-xs font-medium uppercase tracking-tighter text-primary-pink">
-                    ms
-                  </Text>
-                </View>
-                <View className="h-1.5 overflow-hidden rounded-full bg-foreground/5">
-                  <LinearGradient
-                    colors={[colors.primary.pink, colors.accent.yellow]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    style={{
-                      height: '100%',
-                      width: `${Math.min(100, hrvMs ?? 0)}%`,
-                      borderRadius: 99,
-                    }}
-                  />
-                </View>
-                <Text className="text-[10px] font-semibold uppercase tracking-widest text-foreground/30">
-                  Variability
-                </Text>
-              </View>
-
-              {/* Heart Rate */}
-              <View className="flex-1 items-end gap-2">
-                <View className="flex-row items-baseline gap-1.5">
-                  <Text className="text-3xl font-bold text-foreground">
-                    {heartRateBpm != null ? heartRateBpm : '—'}
-                  </Text>
-                  <Text className="text-xs font-medium uppercase tracking-tighter text-accent-yellow">
-                    bpm
-                  </Text>
-                </View>
-                <View className="h-1.5 w-full overflow-hidden rounded-full bg-foreground/5">
-                  <View className="flex-1 flex-row justify-end">
-                    <LinearGradient
-                      colors={[colors.primary.pink, colors.accent.yellow]}
-                      start={{ x: 1, y: 0 }}
-                      end={{ x: 0, y: 0 }}
-                      style={{
-                        height: '100%',
-                        width: `${Math.min(100, heartRateBpm ?? 0)}%`,
-                        borderRadius: 99,
-                      }}
-                    />
-                  </View>
-                </View>
-                <Text className="text-[10px] font-semibold uppercase tracking-widest text-foreground/30">
-                  Heart Rate
-                </Text>
-              </View>
-            </View>
-
-            {/* Playback Controls */}
-            <View className="mt-8 flex-row items-center justify-between border-t border-foreground/5 px-6 pt-6">
-              {/* Mute button */}
-              <Pressable
-                onPress={() => setIsMuted((m) => !m)}
-                className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
+            <View className="items-center rounded-2xl border border-foreground/5 bg-surface px-6 py-3">
+              <Text
+                variant="caption"
+                className="mb-1 font-bold tracking-wider text-accent-yellow"
+                style={{ paddingRight: 1.1 }}
               >
-                <MaterialIcons
-                  name={isMuted ? 'volume-off' : 'volume-up'}
-                  size={24}
-                  color={foregroundFor(scheme, 0.6)}
-                />
-              </Pressable>
-
-              {/* Pause / Play button */}
-              <Pressable
-                onPress={() => setIsPaused((p) => !p)}
-                className="active:scale-95"
+                Goal
+              </Text>
+              <Text
+                variant="lg"
+                className="font-bold text-foreground/90"
+                style={{ fontVariant: ['tabular-nums'] }}
               >
-                <LinearGradient
-                  colors={[colors.primary.pink, colors.accent.yellow]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={{
-                    width: 64,
-                    height: 64,
-                    borderRadius: 32,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.3)}`,
-                  }}
-                >
-                  <MaterialIcons
-                    name={isPaused ? 'play-arrow' : 'pause'}
-                    size={30}
-                    color="white"
-                  />
-                </LinearGradient>
-              </Pressable>
-
-              {/* Restart button */}
-              <Pressable
-                onPress={handleRestart}
-                className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
-              >
-                <MaterialIcons
-                  name={sessionReady ? 'replay' : 'skip-next'}
-                  size={24}
-                  color={foregroundFor(scheme, 0.6)}
-                />
-              </Pressable>
+                {formatTime(TOTAL_DURATION)}
+              </Text>
             </View>
           </View>
         </View>
       </View>
-    </SafeAreaView>
+
+      {/* Bottom HRV Card + Controls */}
+      <View className="px-screen-x pb-6">
+        <Card variant="glass">
+          {/* HRV Header */}
+          <View className="mb-6 flex-row items-center justify-between">
+            <View className="flex-row items-center gap-2.5">
+              <View
+                className="h-8 w-8 items-center justify-center rounded-lg"
+                style={{ backgroundColor: withAlpha(colors.pink[400], 0.1) }}
+              >
+                <MaterialIcons
+                  name="monitor-heart"
+                  size={18}
+                  color={colors.primary.pink}
+                />
+              </View>
+              <View>
+                <Text variant="sm" className="font-bold">
+                  HRV Tracking
+                </Text>
+                <Text
+                  variant="caption"
+                  className="leading-none text-foreground/40"
+                  style={{ paddingRight: 1.1 }}
+                >
+                  {hasLiveData
+                    ? 'Wearable Streaming'
+                    : hasAccess
+                      ? 'No recent samples'
+                      : 'Wearable Not Connected'}
+                </Text>
+              </View>
+            </View>
+            <View
+              className={`flex-row items-center gap-2 rounded-full border px-2.5 py-1 ${
+                hasLiveData
+                  ? 'border-green-500/20 bg-green-500/10'
+                  : 'border-foreground/10 bg-foreground/5'
+              }`}
+            >
+              <View
+                className={`h-1.5 w-1.5 rounded-full ${
+                  hasLiveData ? 'bg-green-500' : 'bg-foreground/30'
+                }`}
+              />
+              <Text
+                variant="caption"
+                className={`font-bold ${
+                  hasLiveData ? 'text-green-500' : 'text-foreground/40'
+                }`}
+                style={{ paddingRight: 1.1 }}
+              >
+                {hasLiveData ? 'Synced' : 'Idle'}
+              </Text>
+            </View>
+          </View>
+
+          {/* HRV Stats Grid */}
+          <View className="flex-row gap-6">
+            {/* Variability */}
+            <View className="flex-1 gap-2">
+              <View className="flex-row items-baseline gap-1.5">
+                <Text variant="h1" className="font-bold">
+                  {hrvMs != null ? hrvMs : '—'}
+                </Text>
+                <Text
+                  variant="caption"
+                  className="font-medium tracking-tighter text-primary-pink"
+                >
+                  ms
+                </Text>
+              </View>
+              <View className="h-1.5 overflow-hidden rounded-full bg-foreground/5">
+                <LinearGradient
+                  colors={[colors.primary.pink, colors.accent.yellow]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={{
+                    height: '100%',
+                    width: `${Math.min(100, hrvMs ?? 0)}%`,
+                    borderRadius: 99,
+                  }}
+                />
+              </View>
+              <Text
+                variant="caption"
+                className="font-semibold text-foreground/30"
+              >
+                Variability
+              </Text>
+            </View>
+
+            {/* Heart Rate */}
+            <View className="flex-1 items-end gap-2">
+              <View className="flex-row items-baseline gap-1.5">
+                <Text variant="h1" className="font-bold">
+                  {heartRateBpm != null ? heartRateBpm : '—'}
+                </Text>
+                <Text
+                  variant="caption"
+                  className="font-medium tracking-tighter text-accent-yellow"
+                >
+                  bpm
+                </Text>
+              </View>
+              <View className="h-1.5 w-full overflow-hidden rounded-full bg-foreground/5">
+                <View className="flex-1 flex-row justify-end">
+                  <LinearGradient
+                    colors={[colors.primary.pink, colors.accent.yellow]}
+                    start={{ x: 1, y: 0 }}
+                    end={{ x: 0, y: 0 }}
+                    style={{
+                      height: '100%',
+                      width: `${Math.min(100, heartRateBpm ?? 0)}%`,
+                      borderRadius: 99,
+                    }}
+                  />
+                </View>
+              </View>
+              <Text
+                variant="caption"
+                className="font-semibold text-foreground/30"
+              >
+                Heart Rate
+              </Text>
+            </View>
+          </View>
+
+          {/* Playback Controls */}
+          <View className="mt-8 flex-row items-center justify-between border-t border-foreground/5 px-6 pt-6">
+            {/* Mute button */}
+            <Pressable
+              onPress={() => setIsMuted((m) => !m)}
+              className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
+            >
+              <MaterialIcons
+                name={isMuted ? 'volume-off' : 'volume-up'}
+                size={24}
+                color={foregroundFor(scheme, 0.6)}
+              />
+            </Pressable>
+
+            {/* Pause / Play button */}
+            <Pressable
+              onPress={() => setIsPaused((p) => !p)}
+              className="active:scale-95"
+            >
+              <LinearGradient
+                colors={[colors.primary.pink, colors.accent.yellow]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: 32,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.3)}`,
+                }}
+              >
+                <MaterialIcons
+                  name={isPaused ? 'play-arrow' : 'pause'}
+                  size={30}
+                  color="white"
+                />
+              </LinearGradient>
+            </Pressable>
+
+            {/* Restart button */}
+            <Pressable
+              onPress={handleRestart}
+              className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
+            >
+              <MaterialIcons
+                name={sessionReady ? 'replay' : 'skip-next'}
+                size={24}
+                color={foregroundFor(scheme, 0.6)}
+              />
+            </Pressable>
+          </View>
+        </Card>
+      </View>
+    </Screen>
   );
 }

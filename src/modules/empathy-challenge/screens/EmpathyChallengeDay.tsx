@@ -2,14 +2,21 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Keyboard, Text, TextInput, View } from 'react-native';
+import { Keyboard, TextInput } from 'react-native';
 
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
-import { accentFor, colors, foregroundFor } from '@/constants/colors';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { scheduleEmpathyChallengeReminder } from '@/lib/notifications';
 import { dialog } from '@/utils/dialog';
@@ -83,7 +90,7 @@ export default function EmpathyChallengeDay() {
         <Header
           variant="close"
           center={
-            <Text className="text-xs font-bold uppercase tracking-[3px] text-foreground/55">
+            <Text variant="caption" muted>
               Phobik
             </Text>
           }
@@ -105,10 +112,10 @@ export default function EmpathyChallengeDay() {
     >
       <View className="gap-2 px-5 py-4">
         <View className="flex-row items-end justify-between">
-          <Text className="text-sm font-semibold text-foreground/80">
+          <Text variant="sm" className="font-semibold text-foreground/80">
             7-Day Empathy Challenge
           </Text>
-          <Text className="text-xs font-bold uppercase tracking-wider text-primary-pink">
+          <Text variant="caption" className="text-primary-pink">
             Day {dayNum} of 7
           </Text>
         </View>
@@ -130,9 +137,9 @@ export default function EmpathyChallengeDay() {
         <View className="relative min-h-[220px] overflow-hidden rounded-3xl border border-foreground/10 bg-surface-elevated">
           <LinearGradient
             colors={[
-              'rgba(244, 114, 182, 0.15)',
+              withAlpha(colors.primary.pink, 0.15),
               'transparent',
-              'rgba(251, 191, 36, 0.1)',
+              withAlpha(colors.accent.yellow, 0.1),
             ]}
             start={{ x: 0.7, y: 0 }}
             end={{ x: 0.2, y: 1 }}
@@ -146,17 +153,14 @@ export default function EmpathyChallengeDay() {
           />
           <View className="flex-1 justify-end p-7">
             <View className="mb-3 self-start rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1.5">
-              <Text
-                className="text-[10px] font-bold uppercase tracking-[2px]"
-                style={{ color: yellow }}
-              >
+              <Text variant="caption" style={{ color: yellow }}>
                 {empathyDay.badge}
               </Text>
             </View>
-            <Text className="text-[28px] font-bold leading-tight text-foreground">
+            <Text variant="h1">
               Day {dayNum}: {empathyDay.title}
             </Text>
-            <Text className="mt-2 text-sm text-foreground/60">
+            <Text variant="sm" className="mt-2 text-foreground/60">
               {empathyDay.subtitle}
             </Text>
           </View>
@@ -171,7 +175,10 @@ export default function EmpathyChallengeDay() {
             title="Intention"
           />
           <Card variant="surface" className="p-6">
-            <Text className="text-lg italic leading-relaxed text-foreground/85">
+            <Text
+              variant="lg"
+              className="italic leading-relaxed text-foreground/85"
+            >
               {empathyDay.intention}
             </Text>
           </Card>
@@ -185,13 +192,16 @@ export default function EmpathyChallengeDay() {
           />
 
           <View className="gap-6">
-            <Text className="text-base leading-relaxed text-foreground/65">
+            <Text variant="md" className="leading-relaxed text-foreground/65">
               {empathyDay.challengeText}
             </Text>
 
             {empathyDay.challengeHighlight && (
               <Card variant="toned" tone="pink" className="px-5 py-4">
-                <Text className="text-base font-medium italic leading-relaxed text-foreground">
+                <Text
+                  variant="md"
+                  className="font-medium italic leading-relaxed"
+                >
                   {empathyDay.challengeHighlight}
                 </Text>
               </Card>
@@ -212,7 +222,7 @@ export default function EmpathyChallengeDay() {
                         color={bullet.iconColor}
                       />
                     </IconChip>
-                    <Text className="flex-1 text-[15px] leading-relaxed text-foreground">
+                    <Text variant="md" className="flex-1 leading-relaxed">
                       {bullet.text}
                     </Text>
                   </Card>
@@ -248,15 +258,18 @@ export default function EmpathyChallengeDay() {
                         />
                       </LinearGradient>
                       <View>
-                        <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/55">
+                        <Text variant="caption" muted>
                           Step {i + 1}
                         </Text>
-                        <Text className="text-base font-bold text-foreground">
+                        <Text variant="md" className="font-bold">
                           {card.title}
                         </Text>
                       </View>
                     </View>
-                    <Text className="text-sm leading-relaxed text-foreground/65">
+                    <Text
+                      variant="sm"
+                      className="leading-relaxed text-foreground/65"
+                    >
                       {card.description}
                     </Text>
                   </Card>
@@ -265,7 +278,7 @@ export default function EmpathyChallengeDay() {
             )}
 
             <View className="gap-2.5">
-              <Text className="ml-1 text-[10px] font-bold uppercase tracking-[1.5px] text-foreground/55">
+              <Text variant="caption" muted className="ml-1">
                 {empathyDay.reflectionLabel}
               </Text>
               <TextInput
@@ -285,24 +298,24 @@ export default function EmpathyChallengeDay() {
 
         <View>
           <View className="mb-3 flex-row items-center justify-between px-1">
-            <Text className="text-[11px] font-bold uppercase tracking-wider text-foreground/55">
+            <Text variant="caption" muted>
               Daily D.O.S.E. Reward
             </Text>
-            <Text className="text-[10px] font-black" style={{ color: yellow }}>
+            <Text variant="caption" style={{ color: yellow }}>
               EARNED ON COMPLETION
             </Text>
           </View>
           <View className="flex-row gap-3">
             <DoseCard
               icon="favorite"
-              iconBgColor={`${colors.primary.pink}33`}
+              iconBgColor={withAlpha(colors.primary.pink, 0.2)}
               iconColor={colors.primary.pink}
               value="+10"
               label="Oxytocin"
             />
             <DoseCard
               icon="wb-sunny"
-              iconBgColor={`${yellow}33`}
+              iconBgColor={withAlpha(yellow, 0.2)}
               iconColor={yellow}
               value="+5"
               label="Serotonin"
@@ -326,7 +339,7 @@ function SectionHeader({
   return (
     <View className="mb-4 flex-row items-center gap-2.5">
       <MaterialIcons name={icon} size={20} color={iconColor} />
-      <Text className="text-lg font-bold tracking-tight text-foreground">
+      <Text variant="h3" className="font-bold">
         {title}
       </Text>
     </View>
@@ -352,8 +365,10 @@ function DoseCard({
         <MaterialIcons name={icon} size={20} color={iconColor} />
       </IconChip>
       <View>
-        <Text className="text-sm font-black text-foreground">{value}</Text>
-        <Text className="text-[10px] font-bold uppercase text-foreground/55">
+        <Text variant="sm" className="font-black">
+          {value}
+        </Text>
+        <Text variant="caption" muted>
           {label}
         </Text>
       </View>

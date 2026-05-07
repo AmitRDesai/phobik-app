@@ -1,12 +1,17 @@
-import { BackButton } from '@/components/ui/BackButton';
-import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { dialog } from '@/utils/dialog';
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable } from 'react-native';
 import { EaseView } from 'react-native-ease';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { BackButton } from '@/components/ui/BackButton';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
+import { colors, foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+import { dialog } from '@/utils/dialog';
 
 import { BodyScan } from '../components/BodyScan';
 import { DailyDose } from '../components/DailyDose';
@@ -18,18 +23,18 @@ import { EMOTIONS } from '../data/emotions';
 import { NEEDS } from '../data/needs';
 import { clearChallengeCache } from '../hooks/useAIChallenge';
 import {
+  useAbandonChallenge,
   useActiveChallenge,
+  useCompleteChallenge,
   useStartChallenge,
   useUpdateChallenge,
-  useCompleteChallenge,
-  useAbandonChallenge,
 } from '../hooks/useMicroChallenge';
 
 const TOTAL_STEPS = 6;
 
 export default function MicroChallenges() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const scheme = useScheme();
   const { challenge, isLoading: isLoadingChallenge } = useActiveChallenge();
   const startChallenge = useStartChallenge();
   const updateChallenge = useUpdateChallenge();
@@ -179,9 +184,11 @@ export default function MicroChallenges() {
 
   if (!isInitialized || isLoadingChallenge || !challengeId) {
     return (
-      <View className="flex-1 items-center justify-center bg-black">
-        <ActivityIndicator color={colors.primary.pink} />
-      </View>
+      <Screen variant="default">
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator color={colors.primary.pink} />
+        </View>
+      </Screen>
     );
   }
 
@@ -241,28 +248,34 @@ export default function MicroChallenges() {
   };
 
   return (
-    <View className="flex-1 bg-black">
-      {/* Header */}
-      <View
-        className="flex-row items-center justify-between px-6 pb-2"
-        style={{ paddingTop: insets.top + 8 }}
-      >
-        <BackButton onPress={handleBack} />
-        <Text className="text-xs font-bold uppercase tracking-widest text-foreground/60">
-          Quick Challenge
-        </Text>
-        <Pressable
-          onPress={handleClose}
-          className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
-        >
-          <MaterialIcons name="close" size={20} color="white" />
-        </Pressable>
-      </View>
-
-      {/* Progress */}
+    <Screen
+      variant="default"
+      header={
+        <Header
+          left={<BackButton onPress={handleBack} />}
+          center={
+            <Text variant="caption" muted style={{ paddingRight: 2.2 }}>
+              Quick Challenge
+            </Text>
+          }
+          right={
+            <Pressable
+              onPress={handleClose}
+              className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/[0.04]"
+            >
+              <MaterialIcons
+                name="close"
+                size={20}
+                color={foregroundFor(scheme, 1)}
+              />
+            </Pressable>
+          }
+        />
+      }
+      className="px-0 pt-0"
+    >
       <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} />
 
-      {/* Step Content with transition */}
       <EaseView
         key={step}
         className="flex-1"
@@ -275,6 +288,6 @@ export default function MicroChallenges() {
       >
         {renderStep()}
       </EaseView>
-    </View>
+    </Screen>
   );
 }

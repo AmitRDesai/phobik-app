@@ -1,9 +1,11 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, withAlpha } from '@/constants/colors';
 import type { CustomDialogProps } from '@/store/dialog';
-import { MaterialIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View } from 'react-native';
 
 import type { DoseReward, MysteryChallenge } from '../data/mystery-challenges';
 
@@ -30,14 +32,20 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
 
   return (
     <View className="mt-2 w-full border-t border-foreground/10 pt-5">
-      <Text className="mb-4 text-center text-[10px] uppercase tracking-[3px] text-foreground/60">
+      <Text
+        variant="caption"
+        muted
+        className="mb-4 text-center tracking-[0.2em]"
+        style={{ paddingRight: 2.2 }}
+      >
         D.O.S.E. Earned
       </Text>
       <View className="flex-row justify-between">
         {items.map((item) => (
           <View key={item.label} className="items-center">
             <Text
-              className="text-base font-bold"
+              variant="md"
+              className="font-bold"
               style={{
                 color: item.isPink ? colors.primary.pink : colors.accent.yellow,
               }}
@@ -74,7 +82,7 @@ export function MysteryComplete({
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: 16,
-            boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.4)}`,
+            boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
         >
           <MaterialIcons
@@ -84,13 +92,16 @@ export function MysteryComplete({
           />
         </LinearGradient>
 
-        <Text className="text-[10px] font-bold uppercase tracking-[3px] text-primary-pink">
+        <Text variant="caption" className="text-primary-pink">
           Practice Complete
         </Text>
-        <Text className="mt-1 text-center text-2xl font-bold leading-tight text-foreground">
+        <Text variant="h2" className="mt-1 text-center leading-tight">
           {challenge.title}
         </Text>
-        <Text className="mt-2 text-center text-[13px] leading-relaxed text-primary-muted">
+        <Text
+          variant="sm"
+          className="mt-2 text-center leading-relaxed text-primary-muted"
+        >
           You spent {formatDuration(durationSeconds)} on{' '}
           {challenge.practiceLabel.toLowerCase()}. Small brave steps matter.
         </Text>

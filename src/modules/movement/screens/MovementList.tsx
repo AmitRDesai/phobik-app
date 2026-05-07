@@ -1,10 +1,11 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
 import { MoodTabs } from '@/modules/practices/components/MoodTabs';
 import { PracticeListRow } from '@/modules/practices/components/PracticeListRow';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Text, View } from 'react-native';
 
 import {
   MOVEMENT_EXERCISES,
@@ -22,22 +23,20 @@ export default function MovementList() {
   }, [mood]);
 
   return (
-    <PracticeScreenShell
-      wordmark="FLOW STUDIO"
-      bgClassName="bg-surface"
-      glowCenterY={0.25}
-      glowIntensity={0.5}
-    >
+    <PracticeScreenShell wordmark="FLOW STUDIO">
       <View className="mb-8 mt-4">
         <View className="flex-row flex-wrap items-baseline">
-          <Text className="text-[44px] font-extrabold uppercase leading-none tracking-tighter text-foreground">
+          <Text
+            variant="display"
+            className="font-extrabold uppercase leading-[1.05]"
+          >
             MOVE &{' '}
           </Text>
-          <GradientText className="text-[44px] font-extrabold uppercase leading-none tracking-tighter">
+          <GradientText className="text-4xl font-extrabold uppercase leading-[1.05]">
             RESET
           </GradientText>
         </View>
-        <Text className="mt-3 max-w-[320px] text-base leading-relaxed text-foreground/60">
+        <Text variant="lg" muted className="mt-3 max-w-[320px]">
           Move your body, release tension, and come back to yourself.
         </Text>
       </View>
@@ -51,7 +50,7 @@ export default function MovementList() {
 
       <View className="gap-5">
         {filteredExercises.length === 0 ? (
-          <Text className="py-12 text-center text-sm text-foreground/50">
+          <Text variant="sm" className="py-12 text-center text-foreground/50">
             No practices match this mood yet.
           </Text>
         ) : (
@@ -68,7 +67,10 @@ export default function MovementList() {
         )}
       </View>
 
-      <Text className="mt-10 text-center text-sm leading-relaxed text-foreground/40">
+      <Text
+        variant="sm"
+        className="mt-10 text-center leading-relaxed text-foreground/40"
+      >
         The right movement can change how you feel in minutes.
       </Text>
     </PracticeScreenShell>

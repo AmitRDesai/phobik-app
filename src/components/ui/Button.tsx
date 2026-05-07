@@ -38,11 +38,14 @@ const sizeStyles = {
 } as const;
 
 const labelClass = (variant: ButtonVariant, size: ButtonSize): string => {
-  const base = `text-center font-bold ${sizeStyles[size].text}`;
+  const weight = variant === 'ghost' ? 'font-medium' : 'font-bold';
+  const base = `text-center ${weight} ${sizeStyles[size].text}`;
   const color =
     variant === 'primary' || variant === 'destructive'
       ? 'text-white'
-      : 'text-foreground';
+      : variant === 'ghost'
+        ? 'text-foreground/70'
+        : 'text-foreground';
   return `${base} ${color}`;
 };
 

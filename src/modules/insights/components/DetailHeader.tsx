@@ -1,7 +1,8 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { BlurView } from '@/components/ui/BlurView';
 import { useScheme } from '@/hooks/useTheme';
-import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface DetailHeaderProps {
@@ -25,7 +26,7 @@ export function DetailHeader({ title, rightAction }: DetailHeaderProps) {
       >
         <View className="flex-row items-center gap-2">
           <BackButton />
-          <Text className="text-lg font-bold tracking-tight text-foreground">
+          <Text variant="h3" className="font-bold">
             {title}
           </Text>
         </View>

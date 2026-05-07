@@ -1,8 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { FeelingOptionCard } from '../components/FeelingOptionCard';
@@ -40,13 +41,13 @@ export default function FeelingSelection() {
       className="px-6"
     >
       <View className="mb-8 mt-2">
-        <Text className="text-[42px] font-black leading-[1.05] tracking-tight text-foreground">
+        <Text className="text-[42px] font-black leading-[1.05] text-foreground">
           How are you
         </Text>
-        <GradientText className="text-[42px] font-black leading-[1.05] tracking-tight">
+        <GradientText className="text-[42px] font-black leading-[1.05]">
           feeling right now?
         </GradientText>
-        <Text className="mt-4 text-lg leading-7 text-foreground/60">
+        <Text variant="lg" muted className="mt-4 leading-7">
           Different states need different tools.
         </Text>
       </View>

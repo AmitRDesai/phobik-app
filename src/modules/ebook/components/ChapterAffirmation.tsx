@@ -1,6 +1,6 @@
+import { Text, View } from '@/components/themed';
 import { colors } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View } from 'react-native';
 
 export function ChapterAffirmation() {
   return (
@@ -11,11 +11,12 @@ export function ChapterAffirmation() {
         end={{ x: 1, y: 1 }}
         style={{ borderRadius: 16, padding: 20 }}
       >
-        <Text className="text-center text-xs font-semibold uppercase tracking-widest text-foreground/50">
+        <Text variant="caption" muted className="text-center">
           Affirmation
         </Text>
         <Text
-          className="mt-3 text-center text-lg italic leading-relaxed text-foreground"
+          variant="lg"
+          className="mt-3 text-center italic leading-relaxed"
           style={{ fontFamily: 'serif' }}
         >
           I am safe in this moment.

@@ -1,11 +1,14 @@
-import { colors } from '@/constants/colors';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { colors, withAlpha } from '@/constants/colors';
 import {
   Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
 } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { ButtonVariant, CourageOption, IconDef } from '../data/courage-options';
 
@@ -52,7 +55,9 @@ function CardButton({
         style={{ borderRadius: 8, alignSelf: 'flex-start' }}
       >
         <View className="flex-row items-center gap-2 px-4 py-2">
-          <Text className="text-xs font-bold text-foreground">{label}</Text>
+          <Text variant="xs" className="font-bold">
+            {label}
+          </Text>
           <MaterialIcons name={icon} size={12} color="white" />
         </View>
       </LinearGradient>
@@ -69,9 +74,12 @@ function CardButton({
 
   return (
     <View
-      className={`self-start flex-row items-center gap-2 rounded-lg px-4 py-2 ${variantClasses[variant]}`}
+      className={clsx(
+        'flex-row items-center gap-2 self-start rounded-lg px-4 py-2',
+        variantClasses[variant],
+      )}
     >
-      <Text className="text-xs font-bold" style={{ color: textColor }}>
+      <Text variant="xs" className="font-bold" style={{ color: textColor }}>
         {label}
       </Text>
       <MaterialIcons name={icon} size={12} color={textColor} />
@@ -82,7 +90,10 @@ function CardButton({
 export function CourageOptionCard({ option, onPress }: CourageOptionCardProps) {
   return (
     <LinearGradient
-      colors={[`${colors.primary.pink}40`, `${colors.accent.yellow}40`]}
+      colors={[
+        withAlpha(colors.primary.pink, 0.25),
+        withAlpha(colors.accent.yellow, 0.25),
+      ]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={{ borderRadius: 12, padding: 1 }}
@@ -96,11 +107,11 @@ export function CourageOptionCard({ option, onPress }: CourageOptionCardProps) {
           <View>
             <View className="mb-1 flex-row items-center gap-2">
               <CardIcon icon={option.icon} size={20} color={option.iconColor} />
-              <Text className="text-lg font-bold text-foreground">
+              <Text variant="lg" className="font-bold">
                 {option.title}
               </Text>
             </View>
-            <Text className="text-xs leading-snug text-foreground/60">
+            <Text variant="xs" className="leading-snug text-foreground/60">
               {option.description}
             </Text>
           </View>

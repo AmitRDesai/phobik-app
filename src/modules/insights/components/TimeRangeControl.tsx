@@ -1,7 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { withAlpha } from '@/constants/colors';
-import { type TimeRange, timeRangeAtom } from '../store/insights';
+import { clsx } from 'clsx';
 import { useAtom } from 'jotai';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
+import { type TimeRange, timeRangeAtom } from '../store/insights';
 
 const RANGES: TimeRange[] = ['Day', 'Week', '2 Weeks', 'Month'];
 
@@ -20,15 +23,16 @@ export function TimeRangeControl() {
           style={
             selected === range
               ? {
-                  boxShadow: `0px 2px 10px ${withAlpha('#000', 0.5)}`,
+                  boxShadow: `0 0 12px ${withAlpha('#000', 0.5)}`,
                 }
               : undefined
           }
         >
           <Text
-            className={`text-xs font-semibold ${
-              selected === range ? 'text-foreground' : 'text-foreground/40'
-            }`}
+            variant="caption"
+            className={clsx(
+              selected === range ? 'text-foreground' : 'text-foreground/40',
+            )}
           >
             {range}
           </Text>

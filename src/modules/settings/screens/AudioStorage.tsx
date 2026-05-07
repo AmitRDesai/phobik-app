@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
@@ -16,7 +18,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 function formatBytes(bytes: number): string {
   if (bytes === 0) return '0 B';
@@ -84,7 +86,7 @@ export default function AudioStorage() {
       className="px-4"
       contentClassName="gap-4"
     >
-      <Text className="px-2 text-[11px] uppercase tracking-widest text-foreground/30">
+      <Text variant="caption" className="px-2 text-foreground/30">
         Voice
       </Text>
       <Card className="px-4 py-4">
@@ -97,10 +99,10 @@ export default function AudioStorage() {
             />
           </IconChip>
           <View className="flex-1">
-            <Text className="text-base font-semibold text-foreground">
+            <Text variant="md" className="font-semibold">
               Narrator voice
             </Text>
-            <Text className="text-sm text-foreground/50">
+            <Text variant="sm" muted>
               Default voice for guided audio. Override per-session from any
               screen.
             </Text>
@@ -129,7 +131,8 @@ export default function AudioStorage() {
                   color={isSelected ? colors.primary.pink : foregroundIcon}
                 />
                 <Text
-                  className="text-sm font-semibold"
+                  variant="sm"
+                  className="font-semibold"
                   style={{
                     color: isSelected ? colors.primary.pink : foregroundIcon,
                   }}
@@ -145,12 +148,12 @@ export default function AudioStorage() {
             onPress={() => setVoice(null)}
             className="mt-3 self-start rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1.5 active:opacity-70"
           >
-            <Text className="text-[11px] font-semibold uppercase tracking-widest text-foreground/60">
+            <Text variant="caption" className="text-foreground/60">
               Clear preference
             </Text>
           </Pressable>
         ) : (
-          <Text className="mt-3 text-xs text-foreground/40">
+          <Text variant="xs" className="mt-3 text-foreground/40">
             No preference set yet — you&apos;ll be asked the first time you play
             guided audio.
           </Text>
@@ -158,7 +161,7 @@ export default function AudioStorage() {
       </Card>
 
       <View className="h-2" />
-      <Text className="px-2 text-[11px] uppercase tracking-widest text-foreground/30">
+      <Text variant="caption" className="px-2 text-foreground/30">
         Storage
       </Text>
       <Card className="px-4 py-5">
@@ -171,20 +174,20 @@ export default function AudioStorage() {
             <MaterialIcons name="library-music" size={22} color={cyan} />
           </IconChip>
           <View className="flex-1">
-            <Text className="text-base font-semibold text-foreground">
+            <Text variant="md" className="font-semibold">
               Cached audio
             </Text>
-            <Text className="text-sm text-foreground/50">
+            <Text variant="sm" muted>
               Sessions you&apos;ve played are stored locally so they work
               offline.
             </Text>
           </View>
         </View>
         <View className="mt-4 flex-row items-baseline gap-2">
-          <Text className="text-2xl font-bold text-foreground">
-            {formatBytes(cacheBytes)}
+          <Text variant="h2">{formatBytes(cacheBytes)}</Text>
+          <Text variant="sm" muted>
+            on this device
           </Text>
-          <Text className="text-sm text-foreground/50">on this device</Text>
         </View>
       </Card>
 
@@ -194,18 +197,18 @@ export default function AudioStorage() {
         className="items-center rounded-2xl border border-status-danger/20 bg-status-danger/10 py-4 active:opacity-70"
         style={{ opacity: cacheBytes === 0 ? 0.4 : 1 }}
       >
-        <Text className="text-base font-semibold text-status-danger">
+        <Text variant="md" className="font-semibold text-status-danger">
           Clear cached audio
         </Text>
       </Pressable>
 
-      <Text className="px-2 text-xs leading-relaxed text-foreground/40">
+      <Text variant="xs" className="px-2 text-foreground/40">
         Audio re-downloads automatically the next time you open a session.
         Sessions cached on-device will keep working offline.
       </Text>
 
       <View className="h-2" />
-      <Text className="px-2 text-[11px] uppercase tracking-widest text-foreground/30">
+      <Text variant="caption" className="px-2 text-foreground/30">
         About
       </Text>
       <Card className="px-4 py-4">
@@ -216,7 +219,7 @@ export default function AudioStorage() {
             color={foregroundFor(scheme, 0.5)}
             style={{ marginTop: 2 }}
           />
-          <Text className="flex-1 text-sm leading-relaxed text-foreground/60">
+          <Text variant="sm" muted className="flex-1">
             Audio is downloaded on demand from your secure account. The cache is
             capped at 200 MB — older sessions are removed automatically when the
             limit is reached.

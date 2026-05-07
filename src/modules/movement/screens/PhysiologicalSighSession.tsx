@@ -1,8 +1,11 @@
-import { colors, withAlpha } from '@/constants/colors';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
+import { useScheme } from '@/hooks/useTheme';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View } from 'react-native';
 
 import { MovementSessionShell } from './MovementSessionShell';
 
@@ -23,16 +26,21 @@ const STEPS = [
 ];
 
 export default function PhysiologicalSighSession() {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
   return (
     <MovementSessionShell
       wordmark="Physiological Sigh"
       bottom={
         <View className="items-center">
-          <Text className="text-lg font-bold text-accent-yellow">
+          <Text variant="lg" className="font-bold" style={{ color: yellow }}>
             Notice the shift.
           </Text>
           <View className="mt-4 flex-row gap-2">
-            <View className="h-1.5 w-1.5 rounded-full bg-accent-yellow" />
+            <View
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ backgroundColor: yellow }}
+            />
             <View className="h-1.5 w-1.5 rounded-full bg-foreground/20" />
             <View className="h-1.5 w-1.5 rounded-full bg-foreground/20" />
             <View className="h-1.5 w-1.5 rounded-full bg-foreground/20" />
@@ -42,10 +50,10 @@ export default function PhysiologicalSighSession() {
       }
     >
       <View className="items-center pt-6">
-        <Text className="text-2xl font-extrabold text-foreground">
+        <Text variant="h2" className="font-extrabold">
           Physiological Sigh + Arm Raise
         </Text>
-        <Text className="mt-2 text-xs uppercase tracking-widest text-foreground/60">
+        <Text variant="xs" className="mt-2 text-foreground/60">
           Phase: Expansion
         </Text>
       </View>
@@ -55,7 +63,7 @@ export default function PhysiologicalSighSession() {
         <View
           className="h-[220px] w-[220px] items-center justify-center rounded-full"
           style={{
-            boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.5)}`,
+            boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
         >
           <LinearGradient
@@ -71,10 +79,10 @@ export default function PhysiologicalSighSession() {
             }}
           >
             <View className="h-[200px] w-[200px] items-center justify-center rounded-full border border-foreground/20 bg-surface/40">
-              <Text className="text-3xl font-extrabold text-foreground">
+              <Text variant="h1" className="font-extrabold">
                 4s
               </Text>
-              <Text className="mt-1 text-[10px] uppercase tracking-widest text-foreground/70">
+              <Text variant="caption" className="mt-1 text-foreground/70">
                 Inhale
               </Text>
             </View>
@@ -85,9 +93,10 @@ export default function PhysiologicalSighSession() {
       {/* Guided flow text cards */}
       <View className="mt-10 gap-3 pb-6">
         {STEPS.map((step) => (
-          <View
+          <Card
             key={step.title}
-            className={`flex-row items-start gap-4 rounded-3xl border border-foreground/10 bg-foreground/5 p-5 ${
+            variant="glass"
+            className={`flex-row items-start gap-4 ${
               step.active ? '' : 'opacity-50'
             }`}
           >
@@ -95,18 +104,21 @@ export default function PhysiologicalSighSession() {
               <MaterialIcons
                 name={step.icon}
                 size={20}
-                color={step.active ? colors.primary.pink : colors.accent.yellow}
+                color={step.active ? colors.primary.pink : yellow}
               />
             </View>
             <View className="flex-1">
-              <Text className="text-base font-bold text-foreground">
+              <Text variant="lg" className="font-bold">
                 {step.title}
               </Text>
-              <Text className="mt-1 text-sm leading-relaxed text-foreground/70">
+              <Text
+                variant="sm"
+                className="mt-1 leading-relaxed text-foreground/70"
+              >
                 {step.description}
               </Text>
             </View>
-          </View>
+          </Card>
         ))}
       </View>
 

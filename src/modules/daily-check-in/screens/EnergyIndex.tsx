@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
@@ -12,7 +14,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { Text, useWindowDimensions, View } from 'react-native';
+import { useWindowDimensions } from 'react-native';
 import { Slider } from '../components/Slider';
 
 interface Pillars {
@@ -70,23 +72,13 @@ export default function EnergyIndex() {
 
   return (
     <Screen
-      header={
-        <Header
-          title="Check In"
-          right={
-            <View className="size-10 items-center justify-center">
-              <MaterialIcons
-                name="analytics"
-                size={24}
-                color={colors.primary.pink}
-              />
-            </View>
-          }
-        />
-      }
+      header={<Header title="Check In" />}
       sticky={
-        <View className="px-screen-x pb-4">
-          <Text className="mb-6 text-center text-[11px] font-medium italic text-foreground/60">
+        <View className="pb-4">
+          <Text
+            variant="xs"
+            className="mb-6 text-center font-medium text-foreground/60"
+          >
             {'"'}When your energy aligns, courage follows.{'"'}
           </Text>
           <GradientButton
@@ -102,10 +94,13 @@ export default function EnergyIndex() {
     >
       {/* Title */}
       <View className="items-center px-6 pt-8">
-        <Text className="mb-3 text-center text-2xl font-bold leading-tight tracking-tight text-foreground">
+        <Text variant="h2" className="mb-3 text-center font-bold leading-tight">
           Where does your energy need support today?
         </Text>
-        <Text className="max-w-[340px] text-center text-[13px] leading-relaxed text-foreground/55">
+        <Text
+          variant="sm"
+          className="max-w-[340px] text-center leading-relaxed text-foreground/55"
+        >
           Adjust each slider (0-25) to see your real-time total score.
         </Text>
       </View>
@@ -175,7 +170,10 @@ export default function EnergyIndex() {
                 boxShadow: `0px 0px 20px ${withAlpha(colors.primary.pink, 0.3)}`,
               }}
             >
-              <Text className="mb-0.5 text-[9px] font-bold uppercase tracking-[3px] text-foreground/50">
+              <Text
+                variant="caption"
+                className="mb-0.5 font-bold tracking-[3px] text-foreground/50"
+              >
                 Energy
               </Text>
               <GradientText
@@ -184,7 +182,10 @@ export default function EnergyIndex() {
               >
                 {String(energyIndex)}
               </GradientText>
-              <Text className="mt-1 text-[9px] font-bold uppercase tracking-[3px] text-foreground/50">
+              <Text
+                variant="caption"
+                className="mt-1 font-bold tracking-[3px] text-foreground/50"
+              >
                 Index
               </Text>
             </View>
@@ -279,7 +280,8 @@ function EnergyCircle({
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
           <Text
-            className="text-[10px] font-bold uppercase tracking-[2px] text-foreground/60"
+            variant="caption"
+            className="font-bold tracking-[2px] text-foreground/60"
             style={
               isVertical
                 ? { transform: [{ rotate: labelRotation }] }
@@ -335,7 +337,8 @@ function ScorePill({ value, rotation }: { value: number; rotation?: string }) {
       }}
     >
       <Text
-        className="text-sm font-bold"
+        variant="sm"
+        className="font-bold"
         style={{ color: colors.primary.pink }}
       >
         {value}

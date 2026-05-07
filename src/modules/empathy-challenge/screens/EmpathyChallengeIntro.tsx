@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
 
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -40,10 +41,16 @@ export default function EmpathyChallengeIntro() {
       <View className="h-16" />
 
       <View className="-mt-6 items-center px-6">
-        <Text className="pb-3 text-center text-4xl font-bold leading-tight text-foreground">
+        <Text
+          variant="display"
+          className="pb-3 text-center font-bold leading-tight"
+        >
           7-Day Empathy Challenge
         </Text>
-        <Text className="max-w-xs text-center text-lg font-normal leading-relaxed text-foreground/60">
+        <Text
+          variant="lg"
+          className="max-w-xs text-center leading-relaxed text-foreground/60"
+        >
           A week to strengthen awareness, connection, and compassion. Empathy
           isn&apos;t one thing — it&apos;s a skill of the mind, heart and
           action. Each day, you&apos;ll explore one layer: Perspective

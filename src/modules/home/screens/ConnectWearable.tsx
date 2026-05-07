@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
@@ -9,7 +11,7 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import { Linking, Platform, Pressable, Text, View } from 'react-native';
+import { Linking, Platform, Pressable } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { openHealthConnectSettings } from 'react-native-health-connect';
 
@@ -64,13 +66,17 @@ function HealthHero({ pulsing }: { pulsing: boolean }) {
         </View>
       </View>
 
-      <Text className="mb-2 text-xs font-bold uppercase tracking-widest text-primary-pink">
+      <Text variant="caption" className="mb-2 font-bold text-primary-pink">
         {pulsing ? `Connect to ${PROVIDER_LABEL}` : 'Connected'}
       </Text>
-      <Text className="mb-3 text-3xl font-bold tracking-tight text-foreground">
+      <Text variant="h1" className="mb-3 font-bold">
         {pulsing ? 'Sync Your Wearable' : "You're synced"}
       </Text>
-      <Text className="max-w-[300px] text-center text-sm leading-relaxed text-foreground/60">
+      <Text
+        variant="sm"
+        muted
+        className="max-w-[300px] text-center leading-relaxed"
+      >
         {pulsing
           ? `Phobik reads heart rate and HRV from ${PROVIDER_LABEL} — read-only, never written. Any wearable that syncs there (Apple Watch, Whoop, Oura, Garmin, Fitbit, Polar) works automatically.`
           : `Phobik is now reading your heart rate and HRV from ${PROVIDER_LABEL}.`}
@@ -92,7 +98,7 @@ function MetricRow({
 }) {
   return (
     <Card className="flex-1 p-5">
-      <Text className="mb-2 text-[10px] font-bold uppercase tracking-widest text-foreground/60">
+      <Text variant="caption" muted className="mb-2 font-bold">
         {label}
       </Text>
       <View className="flex-row items-baseline gap-1.5">
@@ -100,7 +106,8 @@ function MetricRow({
           {value}
         </Text>
         <Text
-          className="text-[14px] font-bold uppercase tracking-tighter"
+          variant="sm"
+          className="font-bold uppercase tracking-tighter"
           style={{ color: unitColor }}
         >
           {unit}
@@ -155,7 +162,10 @@ export default function ConnectWearable() {
         <Header
           center={
             <Text
-              className="text-sm font-bold uppercase tracking-[4px] text-foreground/60"
+              variant="sm"
+              muted
+              className="font-bold uppercase tracking-[4px]"
+              style={{ paddingRight: 4 }}
               numberOfLines={1}
             >
               Connect Wearable
@@ -184,7 +194,7 @@ export default function ConnectWearable() {
             />
           </View>
           {heartRate == null && hrv == null ? (
-            <Text className="text-center text-xs leading-relaxed text-foreground/60">
+            <Text variant="sm" muted className="text-center leading-relaxed">
               No recent samples yet. Wear your device and sync it to{' '}
               {PROVIDER_LABEL}, then return here.
             </Text>
@@ -193,14 +203,17 @@ export default function ConnectWearable() {
             onPress={openHealthSettings}
             className="mt-2 items-center py-3"
           >
-            <Text className="text-xs font-semibold uppercase tracking-widest text-foreground/60">
+            <Text variant="xs" muted className="font-semibold">
               Open {PROVIDER_LABEL} settings
             </Text>
           </Pressable>
         </View>
       ) : isAndroidUnavailable ? (
         <View className="gap-3">
-          <Text className="text-center text-sm leading-relaxed text-foreground/70">
+          <Text
+            variant="sm"
+            className="text-center leading-relaxed text-foreground/70"
+          >
             Health Connect isn&apos;t installed on this device. Install it from
             the Play Store, then return here to connect.
           </Text>

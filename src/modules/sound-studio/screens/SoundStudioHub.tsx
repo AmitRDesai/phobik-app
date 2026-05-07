@@ -1,14 +1,22 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, withAlpha } from '@/constants/colors';
 import { GradientText } from '@/components/ui/GradientText';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { NOW_PLAYING_IMAGE } from '../data/sound-studio';
 
@@ -16,33 +24,30 @@ const FAKE_CREDITS = 42;
 
 export default function SoundStudioHub() {
   const router = useRouter();
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
+  const fg = foregroundFor(scheme, 1);
 
   return (
-    <PracticeScreenShell
-      wordmark="Sound Studio"
-      bgClassName="bg-surface"
-      glowCenterY={0.25}
-      glowIntensity={0.5}
-      scrollContentClassName="px-6 pb-32"
-    >
+    <PracticeScreenShell wordmark="Sound Studio" scrollContentClassName="pb-32">
       {/* Credits row */}
       <Card
         onPress={() => router.push('/sound-studio/credits')}
         className="mt-2 flex-row items-center justify-between p-5"
       >
         <View>
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+          <Text variant="caption" muted>
             AI Generation
           </Text>
-          <Text className="mt-1 text-2xl font-extrabold text-foreground">
+          <Text variant="h2" className="mt-1 font-extrabold">
             {FAKE_CREDITS} Credits
           </Text>
-          <Text className="mt-1 text-xs text-foreground/50">
+          <Text variant="xs" muted className="mt-1">
             Refills in 12 hours
           </Text>
         </View>
         <View className="rounded-full bg-primary-pink px-5 py-2">
-          <Text className="text-xs font-bold uppercase tracking-widest text-on-primary-fixed">
+          <Text variant="caption" className="text-on-primary-fixed font-bold">
             Refill
           </Text>
         </View>
@@ -57,10 +62,13 @@ export default function SoundStudioHub() {
         <Badge tone="pink" size="sm" className="self-center">
           Handpicked
         </Badge>
-        <Text className="mt-4 text-center text-3xl font-extrabold text-foreground">
+        <Text
+          variant="display"
+          className="mt-4 text-center text-[28px] leading-[34px]"
+        >
           Curated{'\n'}Soundscapes
         </Text>
-        <Text className="mt-3 text-center text-sm leading-relaxed text-foreground/70">
+        <Text variant="sm" muted className="mt-3 text-center leading-relaxed">
           Immerse yourself in expertly crafted audio environments designed for
           peak relaxation and focus.
         </Text>
@@ -83,10 +91,13 @@ export default function SoundStudioHub() {
         <Badge tone="yellow" size="sm" className="self-center">
           New Feature
         </Badge>
-        <Text className="mt-4 text-center text-3xl font-extrabold text-foreground">
+        <Text
+          variant="display"
+          className="mt-4 text-center text-[28px] leading-[34px]"
+        >
           AI Studio
         </Text>
-        <Text className="mt-3 text-center text-sm leading-relaxed text-foreground/70">
+        <Text variant="sm" muted className="mt-3 text-center leading-relaxed">
           Generate personalized soundscapes tailored to your current brainwave
           patterns.
         </Text>
@@ -108,7 +119,7 @@ export default function SoundStudioHub() {
             message: 'Audio playback will be available soon.',
           })
         }
-        className="mt-6 flex-row items-center gap-3 rounded-3xl border border-foreground/10 bg-foreground/5 p-3 pr-5 active:scale-[0.98]"
+        className="mt-6 flex-row items-center gap-3 rounded-3xl border border-foreground/10 bg-foreground/[0.04] p-3 pr-5 active:scale-[0.98]"
       >
         <Image
           source={NOW_PLAYING_IMAGE}
@@ -116,15 +127,15 @@ export default function SoundStudioHub() {
           contentFit="cover"
         />
         <View className="flex-1">
-          <Text className="text-sm font-bold text-foreground">
+          <Text variant="sm" className="font-bold">
             Deep Focus Beta
           </Text>
-          <Text className="text-[11px] text-foreground/50">
+          <Text variant="xs" muted>
             AI Generated • 4:20
           </Text>
         </View>
         <Pressable className="h-9 w-9 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10">
-          <MaterialIcons name="skip-next" size={18} color="white" />
+          <MaterialIcons name="skip-next" size={18} color={fg} />
         </Pressable>
         <View
           className="h-9 w-9 items-center justify-center rounded-full"
@@ -143,7 +154,7 @@ export default function SoundStudioHub() {
         onPress={() => router.push('/sound-studio/expressive-writing')}
         className="mt-3 self-center"
       >
-        <Text className="text-xs font-semibold uppercase tracking-widest text-accent-yellow">
+        <Text variant="caption" style={{ color: yellow }}>
           Try expressive writing →
         </Text>
       </Pressable>

@@ -1,10 +1,12 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { GradientText } from '@/components/ui/GradientText';
+import { variantConfig } from '@/components/variant-config';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { variantConfig } from '@/components/variant-config';
 import { MaterialIcons } from '@expo/vector-icons';
-import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 interface AffirmationReadyCardProps {
   feeling: string;

@@ -1,12 +1,14 @@
+import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useEffect, useRef } from 'react';
+import { ActivityIndicator, ScrollView } from 'react-native';
+
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect, useRef } from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 import { EMOTIONS } from '../data/emotions';
 import { NEEDS } from '../data/needs';
@@ -95,10 +97,12 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
         showsVerticalScrollIndicator={false}
       >
         <View className="mb-8 items-center pt-4">
-          <Text className="text-2xl font-bold text-foreground">
-            Get your Daily Dose
-          </Text>
-          <Text className="mt-1 text-xs font-bold uppercase tracking-widest text-foreground/40">
+          <Text variant="h2">Get your Daily Dose</Text>
+          <Text
+            variant="caption"
+            className="mt-1 text-foreground/40"
+            style={{ paddingRight: 2.2 }}
+          >
             Regulation Complete
           </Text>
         </View>
@@ -109,14 +113,14 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
           end={{ x: 1, y: 1 }}
           style={{ borderRadius: 20, padding: 1 }}
         >
-          <View className="rounded-[19px] bg-black p-6">
+          <View className="rounded-[19px] bg-surface-elevated p-6">
             <View className="mb-4 flex-row items-center gap-2">
               {showLoading ? (
                 <ActivityIndicator size={10} color={colors.primary.pink} />
               ) : (
                 <View className="h-2 w-2 rounded-full bg-primary-pink" />
               )}
-              <Text className="text-xs font-bold uppercase tracking-wider text-primary-pink">
+              <Text variant="caption" className="text-primary-pink">
                 {showLoading
                   ? 'Personalizing...'
                   : showAsAI
@@ -125,21 +129,26 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
               </Text>
             </View>
 
-            <Text className="mb-3 text-xl font-semibold leading-tight text-foreground">
+            <Text variant="h3" className="mb-3 leading-tight">
               {displayChallenge.title}
             </Text>
-            <Text className="text-base leading-relaxed text-foreground/70">
+            <Text variant="md" className="leading-relaxed text-foreground/70">
               Since you&apos;re feeling{' '}
-              <Text className="font-medium text-accent-yellow">
+              <Text variant="md" className="font-medium text-accent-yellow">
                 {emotionLabel}
               </Text>{' '}
               and need{' '}
-              <Text className="font-medium text-primary-pink">{needLabel}</Text>
+              <Text variant="md" className="font-medium text-primary-pink">
+                {needLabel}
+              </Text>
               , try this:
             </Text>
 
             <View className="mt-6 rounded-xl border border-foreground/10 bg-foreground/5 p-4">
-              <Text className="text-sm italic leading-relaxed text-foreground/90">
+              <Text
+                variant="sm"
+                className="italic leading-relaxed text-foreground/90"
+              >
                 &ldquo;{displayChallenge.challengeText}&rdquo;
               </Text>
             </View>
@@ -151,7 +160,7 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
                   size={12}
                   color={foregroundFor(scheme, 0.3)}
                 />
-                <Text className="text-[10px] text-foreground/30">
+                <Text variant="xs" className="text-foreground/30">
                   Tailored by AI based on your history
                 </Text>
               </View>

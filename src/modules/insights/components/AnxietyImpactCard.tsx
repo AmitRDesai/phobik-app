@@ -1,8 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { CardAura } from '@/components/ui/CardAura';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 export function AnxietyImpactCard() {
   return (
@@ -15,25 +17,25 @@ export function AnxietyImpactCard() {
             size={20}
             color={colors.primary.pink}
           />
-          <Text className="font-bold tracking-tight text-foreground">
+          <Text variant="md" className="font-bold">
             Anxiety Impact
           </Text>
         </View>
         <View className="gap-3">
-          <Text className="text-sm leading-relaxed text-foreground/70">
+          <Text variant="sm" className="text-foreground/70">
             Yesterday&apos;s elevated{' '}
             <Text className="font-bold text-primary-pink">cortisol levels</Text>{' '}
             from the afternoon stress spike delayed your REM entry by 42
             minutes.
           </Text>
           <View className="h-px w-full bg-foreground/5" />
-          <Text className="text-xs italic text-foreground/60">
+          <Text variant="xs" muted className="italic">
             &ldquo;Your deep sleep was 15% lower than your baseline. Consider a
             10-minute breathwork session before tonight&apos;s rest.&rdquo;
           </Text>
         </View>
         <Pressable className="mt-4 flex-row items-center justify-center gap-2 rounded-lg bg-primary-pink/20 py-3">
-          <Text className="text-xs font-bold uppercase tracking-widest text-primary-pink">
+          <Text variant="caption" className="text-primary-pink">
             Open Guided Relief
           </Text>
           <MaterialIcons

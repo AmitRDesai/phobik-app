@@ -1,12 +1,20 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, withAlpha } from '@/constants/colors';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
+import { useScheme } from '@/hooks/useTheme';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
-import { ScrollView, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 import { INTIMACY_QUESTIONS } from '../data/intimacy-questions';
@@ -74,14 +82,20 @@ function ScoreRing({
           />
         </Svg>
         <View className="absolute items-center">
-          <Text className="text-3xl font-bold text-foreground">{score}</Text>
-          <Text className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-foreground/55">
+          <Text variant="h1" className="font-bold">
+            {score}
+          </Text>
+          <Text
+            variant="caption"
+            className="mt-0.5 font-semibold tracking-wider text-foreground/55"
+          >
             / {max}
           </Text>
         </View>
       </View>
       <Text
-        className="mt-4 text-xs font-bold uppercase tracking-wider"
+        variant="caption"
+        className="mt-4 font-bold tracking-wider"
         style={{ color: labelColor }}
       >
         {label}
@@ -187,7 +201,9 @@ const CHALLENGES: ChallengePractice[] = [
 
 export default function IntimacyResults() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
+  const chevronColor = foregroundFor(scheme, 0.4);
   const answers = useAtomValue(intimacyAnswersAtom);
 
   // Section scores (each section has 8 questions × 4 max = 32)
@@ -215,168 +231,166 @@ export default function IntimacyResults() {
   const growthZones = getGrowthZones(speakerPct, listenerPct);
 
   return (
-    <View className="flex-1 bg-black">
-      {/* Header */}
-      <View
-        className="flex-row items-center justify-between px-6 pb-4"
-        style={{
-          paddingTop: insets.top + 8,
-          backgroundColor: 'rgba(0,0,0,0.8)',
-        }}
-      >
-        <BackButton onPress={() => router.back()} />
-        <Text className="text-lg font-bold tracking-tight text-foreground">
-          Quiz Results
+    <Screen
+      variant="default"
+      scroll
+      header={
+        <Header
+          left={<BackButton onPress={() => router.back()} />}
+          center={
+            <Text variant="lg" className="font-bold">
+              Quiz Results
+            </Text>
+          }
+        />
+      }
+      sticky={
+        <GradientButton onPress={() => router.back()}>
+          Finish & Log
+        </GradientButton>
+      }
+      className="px-6"
+    >
+      {/* Title */}
+      <View className="items-center pb-8 pt-4">
+        <Text variant="h1" className="mb-2 text-center font-bold">
+          Speaker vs Listener
         </Text>
-        <View className="h-10 w-10" />
+        <Text variant="sm" muted className="text-center">
+          Intimacy & Connection Assessment
+        </Text>
       </View>
 
-      <ScrollView
-        contentContainerClassName="px-6"
-        contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Title */}
-        <View className="items-center pb-8 pt-4">
-          <Text className="mb-2 text-center text-3xl font-bold tracking-tight text-foreground">
-            Speaker vs Listener
-          </Text>
-          <Text className="text-center text-sm text-foreground/60">
-            Intimacy & Connection Assessment
+      {/* Score Rings */}
+      <View className="mb-8 flex-row items-start justify-between gap-4">
+        <ScoreRing
+          score={speakerScore}
+          max={speakerMax}
+          label="Speaker Role"
+          labelColor={colors.primary.pink}
+          gradientId="speakerRingGrad"
+        />
+        <ScoreRing
+          score={listenerScore}
+          max={listenerMax}
+          label="Listener Role"
+          labelColor={yellow}
+          gradientId="listenerRingGrad"
+        />
+      </View>
+
+      {/* Insight Card */}
+      <Card variant="surface" className="mb-8 p-5">
+        <View className="mb-3 flex-row items-center gap-2">
+          <MaterialIcons name="balance" size={20} color={colors.primary.pink} />
+          <Text variant="lg" className="font-bold">
+            {insight.title}
           </Text>
         </View>
+        <Text variant="sm" muted className="leading-relaxed">
+          {insight.body}
+        </Text>
+      </Card>
 
-        {/* Score Rings */}
-        <View className="mb-8 flex-row items-start justify-between gap-4">
-          <ScoreRing
-            score={speakerScore}
-            max={speakerMax}
-            label="Speaker Role"
-            labelColor={colors.primary.pink}
-            gradientId="speakerRingGrad"
-          />
-          <ScoreRing
-            score={listenerScore}
-            max={listenerMax}
-            label="Listener Role"
-            labelColor={colors.accent.yellow}
-            gradientId="listenerRingGrad"
-          />
-        </View>
-
-        {/* Insight Card */}
-        <Card variant="surface" className="mb-8 p-5">
-          <View className="mb-3 flex-row items-center gap-2">
-            <MaterialIcons
-              name="balance"
-              size={20}
-              color={colors.primary.pink}
-            />
-            <Text className="text-base font-bold text-foreground">
-              {insight.title}
-            </Text>
-          </View>
-          <Text className="text-sm leading-relaxed text-foreground/60">
-            {insight.body}
-          </Text>
-        </Card>
-
-        {/* Growth Zones */}
-        <View className="mb-10">
-          <Text className="mb-4 text-lg font-bold text-foreground">
-            Growth Zones
-          </Text>
-          <View className="gap-4">
-            {growthZones.map((zone) => (
+      {/* Growth Zones */}
+      <View className="mb-10">
+        <Text variant="h3" className="mb-4 font-bold">
+          Growth Zones
+        </Text>
+        <View className="gap-4">
+          {growthZones.map((zone) => {
+            const zoneColor =
+              zone.color === colors.accent.yellow ? yellow : zone.color;
+            return (
               <View
                 key={zone.title}
                 className="rounded-xl p-4"
                 style={{
-                  backgroundColor: withAlpha(zone.color, 0.05),
+                  backgroundColor: withAlpha(zoneColor, 0.05),
                   borderLeftWidth: 4,
-                  borderLeftColor: zone.color,
+                  borderLeftColor: zoneColor,
                   borderTopWidth: 1,
                   borderRightWidth: 1,
                   borderBottomWidth: 1,
-                  borderTopColor: withAlpha(zone.color, 0.3),
-                  borderRightColor: withAlpha(zone.color, 0.3),
-                  borderBottomColor: withAlpha(zone.color, 0.3),
+                  borderTopColor: withAlpha(zoneColor, 0.3),
+                  borderRightColor: withAlpha(zoneColor, 0.3),
+                  borderBottomColor: withAlpha(zoneColor, 0.3),
                 }}
               >
                 <View className="mb-1 flex-row items-start justify-between">
                   <Text
-                    className="text-sm font-bold"
-                    style={{ color: zone.color }}
+                    variant="sm"
+                    className="font-bold"
+                    style={{ color: zoneColor }}
                   >
                     {zone.title}
                   </Text>
                   <View
                     className="rounded-full px-2 py-0.5"
-                    style={{ backgroundColor: withAlpha(zone.color, 0.2) }}
+                    style={{ backgroundColor: withAlpha(zoneColor, 0.2) }}
                   >
                     <Text
-                      className="text-[10px] font-bold uppercase tracking-tight"
-                      style={{ color: zone.color }}
+                      variant="caption"
+                      className="font-bold"
+                      style={{ color: zoneColor }}
                     >
                       {zone.badge}
                     </Text>
                   </View>
                 </View>
-                <Text className="text-xs text-foreground/60">{zone.body}</Text>
+                <Text variant="sm" muted>
+                  {zone.body}
+                </Text>
               </View>
-            ))}
-          </View>
+            );
+          })}
         </View>
+      </View>
 
-        {/* Connection Challenges */}
-        <View>
-          <Text className="mb-4 text-lg font-bold text-foreground">
-            Connection Challenges
-          </Text>
-          <View className="gap-3">
-            {CHALLENGES.map((challenge) => (
+      {/* Connection Challenges */}
+      <View>
+        <Text variant="h3" className="mb-4 font-bold">
+          Connection Challenges
+        </Text>
+        <View className="gap-3">
+          {CHALLENGES.map((challenge) => {
+            const challengeColor =
+              challenge.color === colors.accent.yellow
+                ? yellow
+                : challenge.color;
+            return (
               <View
                 key={challenge.title}
                 className="flex-row items-center gap-4 rounded-xl border border-foreground/5 bg-surface-elevated p-4"
               >
                 <View
                   className="h-10 w-10 items-center justify-center rounded-full"
-                  style={{ backgroundColor: withAlpha(challenge.color, 0.1) }}
+                  style={{ backgroundColor: withAlpha(challengeColor, 0.1) }}
                 >
                   <MaterialIcons
                     name={challenge.icon}
                     size={20}
-                    color={challenge.color}
+                    color={challengeColor}
                   />
                 </View>
                 <View className="flex-1">
-                  <Text className="text-sm font-bold text-foreground">
+                  <Text variant="sm" className="font-bold">
                     {challenge.title}
                   </Text>
-                  <Text className="text-[11px] text-foreground/60">
+                  <Text variant="sm" muted>
                     {challenge.body}
                   </Text>
                 </View>
                 <MaterialIcons
                   name="chevron-right"
                   size={20}
-                  color={withAlpha('#ffffff', 0.4)}
+                  color={chevronColor}
                 />
               </View>
-            ))}
-          </View>
+            );
+          })}
         </View>
-      </ScrollView>
-
-      {/* Fixed Bottom CTA */}
-      <View
-        className="absolute bottom-0 left-0 right-0 px-6"
-        style={{ paddingBottom: insets.bottom + 16, paddingTop: 16 }}
-      >
-        <GradientButton onPress={() => router.back()}>
-          Finish & Log
-        </GradientButton>
       </View>
-    </View>
+    </Screen>
   );
 }

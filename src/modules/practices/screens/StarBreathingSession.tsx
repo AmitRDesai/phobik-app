@@ -1,32 +1,32 @@
 import exhaleAudio from '@/assets/audio/practices/exhale.mp3';
 import holdAudio from '@/assets/audio/practices/hold.mp3';
 import inhaleAudio from '@/assets/audio/practices/inhale.mp3';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { GlowBg } from '@/components/ui/GlowBg';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
-
-import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
-import { useNow } from '@/hooks/useNow';
-import { MaterialIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { useEffect, useRef, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
-import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
+import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
 import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
-
+import { useNow } from '@/hooks/useNow';
+import { useScheme } from '@/hooks/useTheme';
+import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { useStressScore } from '@/modules/home/hooks/useStressScore';
 import { useBiometricHistory } from '@/modules/insights/hooks/useBiometricHistory';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { useEffect, useState } from 'react';
+import { Pressable } from 'react-native';
+import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
 
 import { BreathingStar } from '../components/BreathingStar';
 import { useInstructionAudio } from '../hooks/useInstructionAudio';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { useSessionTimer } from '../hooks/useSessionTimer';
-import { starBreathingSessionAtom } from '../store/session-atoms';
 import { formatTime } from '../lib/format';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { starBreathingSessionAtom } from '../store/session-atoms';
 
 const TOTAL_DURATION = 50; // one full star orbit (5 breathing cycles)
 
@@ -80,11 +80,11 @@ function StatsCard() {
             />
           </LinearGradient>
           <View>
-            <Text className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-foreground/30">
+            <Text variant="xs" className="mb-0.5 font-bold text-foreground/30">
               Heart Rate Variability
             </Text>
             <View className="flex-row items-baseline gap-2">
-              <Text className="text-lg font-semibold text-foreground">
+              <Text variant="lg" className="font-semibold">
                 {liveHrv != null ? `${Math.round(liveHrv)}ms` : '—'}
               </Text>
               {deltaPct != null ? (
@@ -97,7 +97,8 @@ function StatsCard() {
                     }
                   />
                   <Text
-                    className={`text-xs font-bold ${
+                    variant="caption"
+                    className={`font-bold ${
                       deltaPct >= 0 ? 'text-emerald-400' : 'text-primary-pink'
                     }`}
                   >
@@ -133,7 +134,10 @@ function StatsCard() {
       {/* Stats grid */}
       <View className="flex-row gap-4">
         <View className="flex-1 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-4">
-          <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-accent-yellow/50">
+          <Text
+            variant="caption"
+            className="mb-1.5 font-bold text-accent-yellow/50"
+          >
             Stress Level
           </Text>
           <View className="flex-row items-center gap-2">
@@ -146,13 +150,16 @@ function StatsCard() {
                     : 'bg-emerald-400'
               }`}
             />
-            <Text className="text-sm font-semibold text-foreground">
+            <Text variant="sm" className="font-semibold">
               {stress.label ?? '—'}
             </Text>
           </View>
         </View>
         <View className="flex-1 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-4">
-          <Text className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-primary-pink/50">
+          <Text
+            variant="caption"
+            className="mb-1.5 font-bold text-primary-pink/50"
+          >
             Sync Status
           </Text>
           <View className="flex-row items-center gap-2">
@@ -175,7 +182,7 @@ function StatsCard() {
                   : undefined
               }
             />
-            <Text className="text-sm font-semibold text-foreground">
+            <Text variant="sm" className="font-semibold">
               {isLive ? 'Live Tracking' : hasAccess ? 'Idle' : 'Not Connected'}
             </Text>
           </View>
@@ -215,23 +222,29 @@ function PlaybackControls({
       </Pressable>
       <Pressable
         onPress={onPauseToggle}
-        className="h-14 w-14 items-center justify-center rounded-full bg-white active:scale-95"
         style={{
-          boxShadow: [
-            {
-              offsetX: 0,
-              offsetY: 2,
-              blurRadius: 8,
-              color: 'rgba(255, 255, 255, 0.3)',
-            },
-          ],
+          borderRadius: 32,
+          boxShadow: `0 0 24px ${withAlpha(colors.primary.pink, 0.5)}`,
         }}
       >
-        <MaterialIcons
-          name={isPaused ? 'play-arrow' : 'pause'}
-          size={28}
-          color={colors.background.dark}
-        />
+        <LinearGradient
+          colors={[colors.primary.pink, colors.accent.yellow]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{
+            width: 64,
+            height: 64,
+            borderRadius: 32,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <MaterialIcons
+            name={isPaused ? 'play-arrow' : 'pause'}
+            size={32}
+            color="white"
+          />
+        </LinearGradient>
       </Pressable>
       <Pressable
         onPress={onRestart}
@@ -356,124 +369,120 @@ export default function StarBreathingSession() {
   };
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-black">
-      <View className="flex-1 bg-black">
-        <GlowBg
-          bgClassName="bg-black"
-          centerX={0.5}
-          centerY={0.4}
-          intensity={0.8}
-          radius={0.35}
-          startColor={colors.primary.pink}
-          endColor={colors.accent.yellow}
-        />
-
-        {/* Header */}
-        <View className="z-50 px-6 pb-4 pt-2">
-          <View className="mb-4 flex-row items-center justify-between">
-            <BackButton icon="close" />
+    <Screen
+      variant="default"
+      scroll
+      header={
+        <Header
+          left={<BackButton icon="close" />}
+          center={
             <View className="items-center">
-              <Text className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/40">
+              <Text
+                variant="caption"
+                className="mb-1 font-bold text-foreground/40"
+              >
                 Star Breathing
               </Text>
               <Text
-                className="text-xl font-medium text-foreground"
+                variant="lg"
+                className="font-medium"
                 style={{ fontVariant: ['tabular-nums'] }}
               >
                 {formatTime(timeRemaining)}
               </Text>
             </View>
-            <View className="h-11 w-11" />
-          </View>
-        </View>
-
-        {/* Scrollable content */}
-        <ScrollView
-          className="z-10 flex-1"
-          contentContainerClassName="items-center px-6 pb-6"
-          showsVerticalScrollIndicator={false}
+          }
+        />
+      }
+      className="px-6"
+      contentClassName="items-center pb-6"
+    >
+      {/* Breathing instruction — fixed height to prevent layout shifts */}
+      <View className="items-center px-2 pt-4" style={{ height: 100 }}>
+        <Text variant="display" className="mb-3 text-center font-semibold">
+          {currentPhase}
+        </Text>
+        <Text
+          variant="sm"
+          className="text-center font-medium text-foreground/40"
         >
-          {/* Breathing instruction — fixed height to prevent layout shifts */}
-          <View className="items-center px-2 pt-4" style={{ height: 100 }}>
-            <Text className="mb-3 text-center text-5xl font-semibold tracking-tight text-foreground">
-              {currentPhase}
-            </Text>
-            <Text className="text-center text-sm font-medium text-foreground/40">
-              {subText}
-            </Text>
-          </View>
-
-          {/* Star visualization */}
-          <View className="mb-4 items-center justify-center">
-            <BreathingStar
-              key={restartKey}
-              isActive={sessionReady}
-              isPaused={isPaused}
-              onPhaseChange={setBreathPhase}
-              initialElapsed={
-                savedState ? TOTAL_DURATION - initialTimeRemaining : 0
-              }
-            />
-          </View>
-
-          {/* Progress bar */}
-          <View
-            className="mb-0 w-full max-w-xs overflow-hidden rounded-full bg-foreground/[0.08]"
-            style={{ height: 4 }}
-          >
-            <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
-              <LinearGradient
-                colors={[colors.primary.pink, colors.accent.yellow]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={{
-                  height: '100%',
-                  width: '100%',
-                  borderRadius: 99,
-                }}
-              />
-            </Animated.View>
-          </View>
-
-          {/* Timer */}
-          <Text
-            className="mb-6 mt-3 text-[10px] font-bold uppercase tracking-widest text-foreground/55"
-            style={{ fontVariant: ['tabular-nums'] }}
-          >
-            {formatTime(elapsed)} / {formatTime(TOTAL_DURATION)}
-          </Text>
-
-          {/* Instruction card */}
-          <View className="mb-6 w-full max-w-sm rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-4">
-            <Text className="text-center text-[15px] font-medium leading-relaxed text-foreground/90">
-              Trace the star&#39;s edges with your breath. Inhale and exhale
-              along the lines, hold at each point.
-            </Text>
-          </View>
-
-          {/* Playback controls */}
-          <PlaybackControls
-            isPaused={isPaused}
-            onPauseToggle={() => {
-              setIsPaused((p) => {
-                if (!p) {
-                  inhalePlayer.pause();
-                  holdPlayer.pause();
-                  exhalePlayer.pause();
-                }
-                return !p;
-              });
-            }}
-            isMuted={isMuted}
-            onMuteToggle={() => setIsMuted((m) => !m)}
-            onRestart={handleRestart}
-            sessionReady={sessionReady}
-          />
-
-          {/* HRV + Stats card */}
-          <StatsCard />
-        </ScrollView>
+          {subText}
+        </Text>
       </View>
-    </SafeAreaView>
+
+      {/* Star visualization */}
+      <View className="mb-4 items-center justify-center">
+        <BreathingStar
+          key={restartKey}
+          isActive={sessionReady}
+          isPaused={isPaused}
+          onPhaseChange={setBreathPhase}
+          initialElapsed={
+            savedState ? TOTAL_DURATION - initialTimeRemaining : 0
+          }
+        />
+      </View>
+
+      {/* Progress bar */}
+      <View
+        className="mb-0 w-full max-w-xs overflow-hidden rounded-full bg-foreground/[0.08]"
+        style={{ height: 4 }}
+      >
+        <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
+          <LinearGradient
+            colors={[colors.primary.pink, colors.accent.yellow]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{
+              height: '100%',
+              width: '100%',
+              borderRadius: 99,
+            }}
+          />
+        </Animated.View>
+      </View>
+
+      {/* Timer */}
+      <Text
+        variant="caption"
+        className="mb-6 mt-3 font-bold text-foreground/55"
+        style={{ fontVariant: ['tabular-nums'] }}
+      >
+        {formatTime(elapsed)} / {formatTime(TOTAL_DURATION)}
+      </Text>
+
+      {/* Instruction card */}
+      <View className="mb-6 w-full max-w-sm rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-4">
+        <Text
+          variant="md"
+          className="text-center font-medium leading-relaxed text-foreground/90"
+        >
+          Trace the star&#39;s edges with your breath. Inhale and exhale along
+          the lines, hold at each point.
+        </Text>
+      </View>
+
+      {/* Playback controls */}
+      <PlaybackControls
+        isPaused={isPaused}
+        onPauseToggle={() => {
+          setIsPaused((p) => {
+            if (!p) {
+              inhalePlayer.pause();
+              holdPlayer.pause();
+              exhalePlayer.pause();
+            }
+            return !p;
+          });
+        }}
+        isMuted={isMuted}
+        onMuteToggle={() => setIsMuted((m) => !m)}
+        onRestart={handleRestart}
+        sessionReady={sessionReady}
+      />
+
+      {/* HRV + Stats card */}
+      <StatsCard />
+    </Screen>
   );
 }

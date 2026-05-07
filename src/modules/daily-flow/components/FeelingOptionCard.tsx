@@ -1,7 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, Pressable } from 'react-native';
 
 import type { FeelingContent } from '../data/feelings';
 
@@ -51,16 +53,17 @@ export function FeelingOptionCard({ feeling, onPress }: Props) {
           />
         </View>
         <View className="mt-auto">
-          <Text className="text-3xl font-black tracking-tight text-white">
+          <Text variant="h1" className="font-black text-white">
             {feeling.label}
           </Text>
-          <Text className="mt-2 text-[15px] leading-6 text-white/65">
+          <Text variant="md" className="mt-2 leading-6 text-white/65">
             {feeling.description}
           </Text>
           <View className="mt-5 flex-row items-center gap-1.5">
             <Text
-              className="text-[11px] font-black uppercase tracking-[0.25em]"
-              style={{ color: accent }}
+              variant="caption"
+              className="font-black tracking-[0.25em]"
+              style={{ color: accent, paddingRight: 2.75 }}
             >
               {feeling.ctaLabel}
             </Text>

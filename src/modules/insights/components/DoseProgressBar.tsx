@@ -1,4 +1,5 @@
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import Svg, { Path } from 'react-native-svg';
 import type { DoseChemical } from '../data/dose-config';
 
@@ -22,14 +23,22 @@ export function DoseProgressBar({ chemical, index = 0 }: DoseProgressBarProps) {
     <View className="gap-2">
       <View className="flex-row items-end justify-between">
         <View className="gap-0.5">
-          <Text className="font-medium" style={{ color: chemical.color }}>
+          <Text
+            variant="md"
+            className="font-medium"
+            style={{ color: chemical.color }}
+          >
             {chemical.label}
           </Text>
-          <Text className="text-[10px] uppercase tracking-widest text-foreground/50">
+          <Text variant="caption" muted>
             {chemical.subtitle}
           </Text>
         </View>
-        <Text className="text-lg font-bold" style={{ color: chemical.color }}>
+        <Text
+          variant="lg"
+          className="font-bold"
+          style={{ color: chemical.color }}
+        >
           {chemical.coins} Coins
         </Text>
       </View>

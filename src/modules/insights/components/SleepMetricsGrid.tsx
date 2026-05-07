@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors } from '@/constants/colors';
 import {
   useLastNightRestingHr,
@@ -6,7 +8,6 @@ import {
 import { timeRangeAtom } from '@/modules/insights/store/insights';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtomValue } from 'jotai';
-import { Text, View } from 'react-native';
 
 function formatDuration(minutes: number | null): string {
   if (minutes == null || minutes <= 0) return '—';
@@ -36,8 +37,10 @@ function MetricTile({
   return (
     <View className="flex-1 items-center gap-2 rounded-xl border border-primary-pink/20 bg-primary-pink/5 p-4">
       <MaterialIcons name={icon} size={20} color={colors.primary.pink} />
-      <Text className="text-base font-bold text-foreground">{value}</Text>
-      <Text className="text-[10px] font-medium uppercase tracking-wider text-foreground/40">
+      <Text variant="md" className="font-bold">
+        {value}
+      </Text>
+      <Text variant="caption" muted>
         {label}
       </Text>
     </View>

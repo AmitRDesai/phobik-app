@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -15,7 +17,7 @@ import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 export default function TermsOfServiceScreen() {
   const { modal } = useLocalSearchParams<{ modal?: string }>();
@@ -84,7 +86,7 @@ export default function TermsOfServiceScreen() {
               size={18}
               color={colors.primary.pink}
             />
-            <Text className="text-sm font-semibold text-primary-pink">
+            <Text variant="label" className="text-primary-pink">
               Download full Terms of Service (PDF)
             </Text>
           </Pressable>
@@ -101,16 +103,21 @@ export default function TermsOfServiceScreen() {
               >
                 Decline
               </Button>
-              <Text className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/55">
+              <Text
+                variant="caption"
+                muted
+                className="mt-3 tracking-[0.2em]"
+                style={{ paddingRight: 2.2 }}
+              >
                 Step {currentStep} of {totalSteps}
               </Text>
             </>
           )}
         </View>
       }
-      className="grow justify-center px-8 pt-2"
+      className="px-8"
     >
-      <View className="mb-6 items-center">
+      <View className="mb-4 items-center">
         <LinearGradient
           colors={[colors.primary.pink, colors.accent.yellow]}
           start={{ x: 0, y: 0 }}
@@ -121,28 +128,28 @@ export default function TermsOfServiceScreen() {
             borderRadius: 16,
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 20,
+            marginBottom: 16,
             boxShadow: `0 4px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
         >
           <Ionicons name="shield-checkmark" size={36} color="white" />
         </LinearGradient>
-        <Text className="text-3xl font-extrabold tracking-tight text-foreground">
+        <Text variant="h1" className="tracking-tight">
           Terms of Service
         </Text>
-        <Text className="mt-2 text-sm font-semibold uppercase tracking-widest text-foreground/55">
+        <Text variant="xs" muted className="mt-2">
           Phobik (PBK) App
         </Text>
       </View>
       <Card className="mb-4 p-6">
-        <Text className="text-center text-[16px] font-bold leading-relaxed text-foreground">
+        <Text variant="lg" className="text-center font-bold">
           Phobik is a wellness and self development app designed to provide
           educational tools and personal growth. It is not a healthcare provider
           and does not provide medical advice, diagnosis or therapy.
         </Text>
       </Card>
       <View className="px-2">
-        <Text className="text-center text-[15px] leading-relaxed text-foreground/55">
+        <Text variant="md" muted className="text-center">
           By continuing, you agree to our full Terms of Service which govern
           your account, subscriptions, and use of our community and biometric
           features.

@@ -1,9 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
 
 interface SettingsMenuItemProps {
   icon: keyof typeof MaterialIcons.glyphMap;
@@ -29,9 +30,13 @@ export function SettingsMenuItem({
         <MaterialIcons name={icon} size={22} color={iconColor} />
       </IconChip>
       <View className="flex-1">
-        <Text className="text-base font-semibold text-foreground">{label}</Text>
+        <Text variant="md" className="font-semibold">
+          {label}
+        </Text>
         {subtitle && (
-          <Text className="text-sm text-foreground/50">{subtitle}</Text>
+          <Text variant="sm" muted>
+            {subtitle}
+          </Text>
         )}
       </View>
       <MaterialIcons

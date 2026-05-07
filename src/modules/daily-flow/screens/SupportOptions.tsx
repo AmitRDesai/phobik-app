@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
@@ -6,7 +8,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
@@ -55,7 +57,10 @@ export default function SupportOptions() {
           >
             Start My Shift
           </GradientButton>
-          <Text className="mt-4 px-4 text-center text-xs italic text-foreground/50">
+          <Text
+            variant="sm"
+            className="mt-4 px-4 text-center text-foreground/50"
+          >
             Prepare for a sensory transition. Please use headphones.
           </Text>
         </View>
@@ -65,14 +70,20 @@ export default function SupportOptions() {
       <View className="mb-8">
         <View className="flex-row items-end justify-between">
           <View className="flex-1">
-            <Text className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary-pink">
+            <Text
+              variant="caption"
+              className="font-bold tracking-[0.3em] text-primary-pink"
+              style={{ paddingRight: 3.3 }}
+            >
               Step 03
             </Text>
-            <Text className="mt-2 text-3xl font-black leading-tight tracking-tight text-foreground">
+            <Text variant="h1" className="mt-2 font-black leading-tight">
               Choose your sound
             </Text>
           </View>
-          <Text className="pb-1 text-xs text-foreground/55">75% Complete</Text>
+          <Text variant="sm" className="pb-1 text-foreground/55">
+            75% Complete
+          </Text>
         </View>
         <View className="mt-4">
           <DailyFlowProgressBar progress={0.75} />
@@ -91,7 +102,11 @@ export default function SupportOptions() {
       </View>
 
       <View className="mt-10 items-center">
-        <Text className="text-[11px] font-bold uppercase tracking-[0.3em] text-foreground/50">
+        <Text
+          variant="caption"
+          className="font-bold tracking-[0.3em] text-foreground/50"
+          style={{ paddingRight: 3.3 }}
+        >
           Enhance Your Session
         </Text>
         <View className="mt-5 flex-row flex-wrap justify-center gap-3">
@@ -146,7 +161,11 @@ function AddOnPill({
         size={14}
         color={foregroundFor(scheme, 0.85)}
       />
-      <Text className="text-[10px] font-bold uppercase tracking-wider text-foreground/85">
+      <Text
+        variant="caption"
+        className="font-bold tracking-wider text-foreground/85"
+        style={{ paddingRight: 1.1 }}
+      >
         {label}
       </Text>
     </Pressable>

@@ -1,7 +1,7 @@
+import { Text, View } from '@/components/themed';
 import { colors } from '@/constants/colors';
 import { Image, ImageSource } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View } from 'react-native';
 
 interface ChapterHeroImageProps {
   source: ImageSource;
@@ -28,7 +28,10 @@ export function ChapterHeroImage({ source, caption }: ChapterHeroImageProps) {
         />
       </View>
       {caption && (
-        <Text className="mt-2 text-center text-xs italic text-foreground/40">
+        <Text
+          variant="xs"
+          className="mt-2 text-center italic text-foreground/40"
+        >
           {caption}
         </Text>
       )}

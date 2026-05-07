@@ -1,11 +1,13 @@
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useRef } from 'react';
+
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useRef } from 'react';
-import { Text, View } from 'react-native';
 
 import { MysteryPracticeCard } from '../components/MysteryPracticeCard';
 import {
@@ -47,7 +49,7 @@ export default function MysteryPractice() {
         <View className="px-6 py-2">
           <BackButton onPress={handleBack} />
           <View className="pb-6 pt-4">
-            <GradientText className="text-center text-5xl font-extrabold uppercase tracking-tight">
+            <GradientText className="text-center text-5xl font-extrabold uppercase">
               {challenge.title}
             </GradientText>
           </View>
@@ -56,7 +58,10 @@ export default function MysteryPractice() {
       className=""
     >
       <View className="mb-8 px-6">
-        <Text className="text-center text-sm italic leading-relaxed text-foreground/60">
+        <Text
+          variant="sm"
+          className="text-center italic leading-relaxed text-foreground/60"
+        >
           {challenge.description}
         </Text>
       </View>
@@ -78,12 +83,12 @@ export default function MysteryPractice() {
 
       <View className="mt-8 items-center pb-10">
         <Text
-          className="text-xs font-medium uppercase tracking-widest"
+          variant="caption"
           style={{ color: withAlpha(colors.primary.pink, 0.6) }}
         >
           Mindful Insight
         </Text>
-        <Text className="mt-1 text-xs text-foreground/55">
+        <Text variant="xs" className="mt-1 text-foreground/55">
           Consistency is the key to neural rewiring.
         </Text>
       </View>

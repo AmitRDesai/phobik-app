@@ -1,10 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { dismissToRoot } from '@/utils/navigation';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text, View } from 'react-native';
-
 import { AffirmationHeader } from '../components/AffirmationHeader';
 import { AffirmationReadyCard } from '../components/AffirmationReadyCard';
 import { useSaveAffirmation } from '../hooks/useAffirmation';
@@ -58,7 +58,10 @@ export default function AffirmationReady() {
         onSync={handleSync}
       />
       <View className="mt-6 px-4">
-        <Text className="text-center text-base leading-relaxed text-foreground/70">
+        <Text
+          variant="lg"
+          className="text-center leading-relaxed text-foreground/70"
+        >
           Your affirmation works best when you practice it regularly. Repeat it
           during challenging moments to help guide your thoughts and reactions.
         </Text>

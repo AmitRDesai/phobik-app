@@ -1,6 +1,8 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 interface SegmentedControlProps<T extends string> {
   options: { label: string; value: T }[];
@@ -14,7 +16,7 @@ export function SegmentedControl<T extends string>({
   onSelect,
 }: SegmentedControlProps<T>) {
   return (
-    <View className="h-12 flex-row gap-1 rounded-xl bg-foreground/10 p-1">
+    <View className="h-12 flex-row gap-1 rounded-xl bg-foreground/5 p-1">
       {options.map((option) => {
         const isSelected = selected === option.value;
 
@@ -37,13 +39,13 @@ export function SegmentedControl<T extends string>({
                   boxShadow: `0 0 8px ${withAlpha(colors.primary.pink, 0.3)}`,
                 }}
               >
-                <Text className="text-sm font-bold text-white">
+                <Text variant="sm" className="font-bold text-white">
                   {option.label}
                 </Text>
               </LinearGradient>
             ) : (
               <View className="flex-1 items-center justify-center rounded-lg">
-                <Text className="text-sm font-bold text-foreground/65">
+                <Text variant="sm" className="font-bold text-foreground/65">
                   {option.label}
                 </Text>
               </View>

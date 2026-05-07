@@ -1,10 +1,10 @@
-import { colors } from '@/constants/colors';
+import { Pressable, ScrollView, Text, View } from '@/components/themed';
 import { BackButton } from '@/components/ui/BackButton';
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { EBOOK_CHAPTERS } from '../data/ebook-chapters';
@@ -31,7 +31,7 @@ export default function EbookIndex() {
         style={{ paddingTop: insets.top + 8 }}
       >
         <BackButton icon="close" />
-        <Text className="flex-1 pr-10 text-center text-lg font-bold text-foreground">
+        <Text variant="lg" className="flex-1 pr-10 text-center font-bold">
           Table of Contents
         </Text>
       </View>
@@ -42,12 +42,10 @@ export default function EbookIndex() {
       >
         {/* Book Title */}
         <View className="mb-2 px-6 py-4 text-left">
-          <Text className="mb-1 text-sm font-semibold uppercase tracking-tight text-foreground/60">
+          <Text variant="caption" muted className="mb-1">
             E-Book
           </Text>
-          <Text className="text-3xl font-bold leading-tight text-foreground">
-            Calm Above the Clouds
-          </Text>
+          <Text variant="h1">Calm Above the Clouds</Text>
         </View>
 
         {/* Chapter List */}
@@ -84,26 +82,27 @@ export default function EbookIndex() {
                   >
                     <View className="flex-1 pr-4">
                       <Text
-                        className="mb-1 text-xs font-semibold uppercase tracking-wider"
+                        variant="caption"
+                        className="mb-1"
                         style={{ color: colors.primary.pink }}
                       >
                         {chapter.label}
                       </Text>
-                      <Text className="text-base font-bold text-foreground">
+                      <Text variant="md" className="font-bold">
                         {chapter.title}
                       </Text>
                     </View>
-                    <Text className="text-xs font-medium text-foreground/50">
+                    <Text variant="xs" muted className="font-medium">
                       Reading
                     </Text>
                   </LinearGradient>
                 ) : (
                   <View className="flex-row items-center justify-between border-b border-foreground/5 px-6 py-4">
                     <View className="flex-1 pr-4">
-                      <Text className="mb-1 text-xs font-semibold uppercase tracking-wider text-foreground/50">
+                      <Text variant="caption" muted className="mb-1">
                         {chapter.label}
                       </Text>
-                      <Text className="text-base font-medium text-foreground/80">
+                      <Text variant="md" muted className="font-medium">
                         {chapter.title}
                       </Text>
                     </View>

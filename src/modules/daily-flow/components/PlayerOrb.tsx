@@ -1,6 +1,7 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 
 function Ring({
@@ -74,7 +75,11 @@ export function PlayerOrb({ cue }: Props) {
           end={{ x: 1, y: 1 }}
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
-          <Text className="text-base font-black uppercase tracking-[0.2em] text-black">
+          <Text
+            variant="lg"
+            className="font-black uppercase tracking-[0.2em] text-black"
+            style={{ paddingRight: 3.4 }}
+          >
             {cue}
           </Text>
         </LinearGradient>

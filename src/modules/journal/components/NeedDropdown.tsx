@@ -1,3 +1,5 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import {
   accentFor,
@@ -8,7 +10,7 @@ import {
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -62,7 +64,7 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
             size={20}
             color={accentFor(scheme, 'yellow')}
           />
-          <Text className="text-base font-semibold text-foreground">
+          <Text variant="md" className="font-semibold">
             {selectedLabel || 'What are you needing?'}
           </Text>
         </View>
@@ -87,7 +89,8 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
               style={{ width: '48%' }}
             >
               <Text
-                className="text-xs font-medium"
+                variant="sm"
+                className="font-medium"
                 style={{
                   color:
                     value === option.value

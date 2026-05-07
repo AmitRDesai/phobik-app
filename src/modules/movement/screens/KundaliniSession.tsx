@@ -1,12 +1,16 @@
 import kundaliniImg from '@/assets/images/four-pillars/movement-kundalini.jpg';
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
-import { colors, withAlpha } from '@/constants/colors';
-import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { GradientText } from '@/components/ui/GradientText';
+import { useScheme } from '@/hooks/useTheme';
+import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { MovementSessionShell } from './MovementSessionShell';
 
@@ -31,6 +35,8 @@ const STEPS = [
 ];
 
 export default function KundaliniSession() {
+  const scheme = useScheme();
+  const yellow = accentFor(scheme, 'yellow');
   const [duration, setDuration] = useState('3 min');
   const { heartRate } = useLatestBiometrics();
 
@@ -39,33 +45,29 @@ export default function KundaliniSession() {
       wordmark="Kundalini Spinal Flex"
       bottom={
         <View className="flex-row items-center justify-between">
-          <View>
-            <Text className="text-xs uppercase tracking-widest text-foreground/50">
-              Feel the energy in your body
-            </Text>
-          </View>
-          <View>
-            <GradientButton compact onPress={() => {}}>
-              Start
-            </GradientButton>
-          </View>
+          <Text variant="xs" className="text-foreground/50">
+            Feel the energy in your body
+          </Text>
+          <GradientButton compact onPress={() => {}}>
+            Start
+          </GradientButton>
         </View>
       }
     >
-      <View className="rounded-3xl border border-foreground/10 bg-foreground/5 p-5">
-        <Text className="text-xl font-extrabold text-foreground">
+      <Card variant="glass">
+        <Text variant="h3" className="font-extrabold">
           Kundalini Spinal Flex
         </Text>
-        <Text className="mt-1 text-sm text-foreground/70">
+        <Text variant="sm" className="mt-1 text-foreground/70">
           Synchronize your movement with rhythmic exhales to unlock spinal
           energy.
         </Text>
-      </View>
+      </Card>
 
       {/* Duration / Pace */}
       <View className="mt-4 flex-row gap-3">
-        <View className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 p-4">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+        <Card variant="glass" className="flex-1 p-4">
+          <Text variant="caption" className="font-bold text-foreground/50">
             Duration
           </Text>
           <View className="mt-3 flex-row gap-2">
@@ -82,7 +84,8 @@ export default function KundaliniSession() {
                   }`}
                 >
                   <Text
-                    className={`text-xs font-bold ${active ? 'text-on-primary-fixed' : 'text-foreground/70'}`}
+                    variant="caption"
+                    className={`font-bold ${active ? 'text-white' : 'text-foreground/70'}`}
                   >
                     {d}
                   </Text>
@@ -90,36 +93,47 @@ export default function KundaliniSession() {
               );
             })}
           </View>
-        </View>
-        <View className="flex-1 rounded-3xl border border-foreground/10 bg-foreground/5 p-4">
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+        </Card>
+        <Card variant="glass" className="flex-1 p-4">
+          <Text variant="caption" className="font-bold text-foreground/50">
             Pace
           </Text>
-          <Text className="mt-2 text-3xl font-extrabold text-accent-yellow">
+          <Text
+            variant="h1"
+            className="mt-2 font-extrabold"
+            style={{ color: yellow }}
+          >
             {heartRate ?? '—'}
           </Text>
-          <Text className="text-[10px] uppercase tracking-widest text-foreground/50">
+          <Text variant="caption" className="text-foreground/50">
             BPM
           </Text>
-        </View>
+        </Card>
       </View>
 
       {/* Hero with INHALE/EXHALE labels */}
       <View className="mt-6">
         <View className="absolute left-1 top-1/2 -translate-y-1/2 z-10">
-          <Text className="rotate-[-90deg] text-[10px] font-bold uppercase tracking-[0.4em] text-foreground/50">
+          <Text
+            variant="caption"
+            className="rotate-[-90deg] font-bold tracking-[0.4em] text-foreground/50"
+          >
             Exhale
           </Text>
         </View>
         <View className="absolute right-1 top-1/2 -translate-y-1/2 z-10">
-          <Text className="rotate-90 text-[10px] font-bold uppercase tracking-[0.4em] text-accent-yellow">
+          <Text
+            variant="caption"
+            className="rotate-90 font-bold tracking-[0.4em]"
+            style={{ color: yellow }}
+          >
             Inhale
           </Text>
         </View>
         <View
           className="overflow-hidden rounded-[28px] border border-foreground/10"
           style={{
-            boxShadow: `0px 0px 24px ${withAlpha(colors.primary.pink, 0.4)}`,
+            boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
         >
           <Image
@@ -133,9 +147,10 @@ export default function KundaliniSession() {
       {/* Steps accordion */}
       <View className="mt-6 gap-3">
         {STEPS.map((step) => (
-          <View
+          <Card
             key={step.title}
-            className="flex-row items-start gap-3 rounded-3xl border border-foreground/10 bg-foreground/5 p-4"
+            variant="glass"
+            className="flex-row items-start gap-3 p-4"
           >
             <MaterialIcons
               name={step.icon}
@@ -143,14 +158,17 @@ export default function KundaliniSession() {
               color={colors.primary.pink}
             />
             <View className="flex-1">
-              <Text className="text-base font-bold text-foreground">
+              <Text variant="lg" className="font-bold">
                 {step.title}
               </Text>
-              <Text className="mt-1 text-sm leading-relaxed text-foreground/70">
+              <Text
+                variant="sm"
+                className="mt-1 leading-relaxed text-foreground/70"
+              >
                 {step.description}
               </Text>
             </View>
-          </View>
+          </Card>
         ))}
       </View>
 

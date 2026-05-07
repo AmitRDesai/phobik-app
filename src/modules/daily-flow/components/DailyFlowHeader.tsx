@@ -1,9 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { dialog } from '@/utils/dialog';
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
 
 import { exitDailyFlow, getPreviousStep } from '../data/flow-navigation';
 import {
@@ -74,14 +75,11 @@ export function DailyFlowHeader({
       DAILY FLOW
     </GradientText>
   ) : title ? (
-    <Text
-      className="text-base font-bold tracking-tight text-foreground"
-      numberOfLines={1}
-    >
+    <Text variant="lg" className="font-bold" numberOfLines={1}>
       {title}
     </Text>
   ) : step ? (
-    <Text className="text-xs font-bold uppercase tracking-widest text-foreground/50">
+    <Text variant="xs" className="font-bold text-foreground/50">
       {step}
     </Text>
   ) : null;

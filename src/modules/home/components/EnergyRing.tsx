@@ -1,7 +1,8 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
-import { Text, View } from 'react-native';
 import Svg, {
   Circle,
   Defs,
@@ -85,7 +86,7 @@ export function EnergyRing({
         >
           {value !== null ? value : 'N/A'}
         </Text>
-        <Text className="mt-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
+        <Text variant="caption" muted className="mt-1 font-bold">
           Energy
         </Text>
       </View>

@@ -1,8 +1,9 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
 import {
   getChemicalDisplay,
   getDeficiencyTip,
@@ -37,10 +38,10 @@ export function DoseDeficiencyAlert({ totals }: DoseDeficiencyAlertProps) {
           />
         </IconChip>
         <View className="flex-1">
-          <Text className="font-semibold text-foreground">
+          <Text variant="md" className="font-semibold">
             You&apos;re low on {display.label} today
           </Text>
-          <Text className="mt-1 text-sm text-foreground/60">
+          <Text variant="sm" muted className="mt-1">
             Smart Tip: {tip}
           </Text>
         </View>

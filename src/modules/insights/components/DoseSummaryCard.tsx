@@ -1,8 +1,10 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { buildDoseChemicals } from '../data/dose-config';
 import { useDailyDose } from '../hooks/useDailyDose';
 
@@ -14,14 +16,14 @@ export function DoseSummaryCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text className="text-[11px] font-black uppercase tracking-[3px] text-foreground/40">
+        <Text variant="caption" muted>
           Daily D.O.S.E.
         </Text>
         <Pressable
           onPress={() => router.push('/insights/dose-tracking')}
           className="flex-row items-center gap-1"
         >
-          <Text className="text-[10px] font-bold uppercase tracking-widest text-primary-pink">
+          <Text variant="caption" className="text-primary-pink">
             View Full Report
           </Text>
           <MaterialIcons
@@ -34,10 +36,10 @@ export function DoseSummaryCard() {
       <Pressable onPress={() => router.push('/insights/dose-tracking')}>
         <DashboardCard className="p-5">
           <View className="mb-4">
-            <Text className="text-sm font-black text-foreground">
+            <Text variant="sm" className="font-black">
               Daily D.O.S.E.
             </Text>
-            <Text className="text-[10px] font-medium uppercase tracking-wider text-foreground/30">
+            <Text variant="caption" className="text-foreground/30">
               Neurochemical Balance
             </Text>
           </View>
@@ -58,11 +60,12 @@ export function DoseSummaryCard() {
                   />
                 </View>
                 <View>
-                  <Text className="text-[8px] font-bold uppercase tracking-tighter text-foreground/30">
+                  <Text variant="caption" className="text-foreground/30">
                     {chem.label}
                   </Text>
                   <Text
-                    className="text-xs font-black"
+                    variant="xs"
+                    className="font-black"
                     style={{ color: chem.color }}
                   >
                     {chem.coins} Coins

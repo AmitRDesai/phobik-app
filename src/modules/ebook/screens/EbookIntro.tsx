@@ -1,22 +1,21 @@
 import introHero from '@/assets/images/ebook/introduction-hero.jpg';
+import { ScrollView, Text, View } from '@/components/themed';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { GradientButton } from '@/components/ui/GradientButton';
+import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
+import { RadialGlow } from '@/components/ui/RadialGlow';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { GradientText } from '@/components/ui/GradientText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
-import { ScrollView, Text, View } from 'react-native';
-
-import { RadialGlow } from '@/components/ui/RadialGlow';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useUpdateEbookProgress } from '../hooks/useEbookProgress';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function EbookIntro() {
   const router = useRouter();
@@ -45,7 +44,7 @@ export default function EbookIntro() {
       <View className="z-10 flex-row items-center justify-between px-6 pt-2">
         <BackButton />
         <View className="rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1">
-          <Text className="text-xs font-medium uppercase tracking-widest text-foreground/70">
+          <Text variant="caption" muted>
             Introduction
           </Text>
         </View>
@@ -89,9 +88,7 @@ export default function EbookIntro() {
                     paddingVertical: 4,
                   }}
                 >
-                  <Text className="text-[10px] font-bold uppercase tracking-tighter text-foreground">
-                    Phobik Series
-                  </Text>
+                  <Text variant="caption">Phobik Series</Text>
                 </LinearGradient>
               </View>
             </View>
@@ -99,11 +96,11 @@ export default function EbookIntro() {
 
           {/* Title */}
           <View className="mt-8">
-            <Text className="text-4xl font-bold leading-tight tracking-tight text-foreground">
+            <Text variant="display" className="leading-tight">
               A New Way to Understand and Work with the{' '}
             </Text>
             <GradientText
-              className="text-4xl font-bold leading-tight tracking-tight"
+              className="text-[36px] font-extrabold leading-[40px]"
               end={{ x: 1, y: 1 }}
             >
               Fear of Flying
@@ -118,10 +115,8 @@ export default function EbookIntro() {
 
           {/* Content */}
           <View className="mt-8 gap-6">
-            <Text className="text-xl font-semibold text-foreground/90">
-              Welcome to Calm Above the Clouds
-            </Text>
-            <Text className="text-lg italic leading-relaxed text-foreground/60">
+            <Text variant="h3">Welcome to Calm Above the Clouds</Text>
+            <Text variant="lg" muted className="italic leading-relaxed">
               {
                 '"This package is designed to help you navigate the skies with confidence. My personal journey through flight anxiety led to the creation of this two-part approach."'
               }
@@ -142,10 +137,10 @@ export default function EbookIntro() {
                   />
                 </IconChip>
                 <View className="flex-1">
-                  <Text className="font-bold text-foreground">
+                  <Text variant="md" className="font-bold">
                     1. Intellectual Reassurance
                   </Text>
-                  <Text className="mt-1 text-sm text-foreground/50">
+                  <Text variant="sm" muted className="mt-1">
                     Gaining a logical understanding of how aviation works to
                     dispel common myths and technical fears.
                   </Text>
@@ -166,10 +161,10 @@ export default function EbookIntro() {
                   />
                 </IconChip>
                 <View className="flex-1">
-                  <Text className="font-bold text-foreground">
+                  <Text variant="md" className="font-bold">
                     2. Emotional Safety
                   </Text>
-                  <Text className="mt-1 text-sm text-foreground/50">
+                  <Text variant="sm" muted className="mt-1">
                     Nervous System Regulation via the Phobik app to manage the
                     physical symptoms of anxiety in real-time.
                   </Text>
@@ -178,7 +173,7 @@ export default function EbookIntro() {
             </View>
 
             <View className="pb-12 pt-6">
-              <Text className="text-base leading-normal text-foreground/50">
+              <Text variant="md" muted className="leading-relaxed">
                 By combining logic with somatic tools, we address both the mind
                 and the body, ensuring you feel supported from takeoff to
                 landing.

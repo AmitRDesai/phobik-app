@@ -1,23 +1,25 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
-import { GlowBg } from '@/components/ui/GlowBg';
-import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors, withAlpha } from '@/constants/colors';
-import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
-import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { GradientText } from '@/components/ui/GradientText';
+import { Screen } from '@/components/ui/Screen';
+import { useScheme } from '@/hooks/useTheme';
+import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
+import { audioVoiceAtom, type AudioVoice } from '@/lib/audio/voice';
+import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
+import { useSaveOnLeave } from '@/modules/practices/hooks/useSaveOnLeave';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { audioVoiceAtom, type AudioVoice } from '@/lib/audio/voice';
-import { useSaveOnLeave } from '@/modules/practices/hooks/useSaveOnLeave';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { getMeditation } from '../data/meditations';
 import { meditationSessionsAtom } from '../store/sessions';
@@ -41,6 +43,8 @@ function formatTime(seconds: number): string {
 export function MeditationScreen({ meditationId }: MeditationScreenProps) {
   useKeepAwake();
   const router = useRouter();
+  const scheme = useScheme();
+  const controlIconColor = foregroundFor(scheme, 0.7);
   const meditation = getMeditation(meditationId);
   const [voicePref, setVoicePref] = useAtom(audioVoiceAtom);
   // Per-screen override (session-only). Tapping the toggle sets this; the
@@ -307,188 +311,199 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
     isReady && status.duration > 0 ? status.currentTime / status.duration : 0;
 
   return (
-    <View className="flex-1 bg-surface">
-      <GlowBg
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-        centerY={0.25}
-        radius={0.4}
-        intensity={0.4}
-        bgClassName="bg-surface"
-      />
-      <PracticeStackHeader wordmark="Meditation" />
-
-      <ScrollFade>
-        <ScrollView
-          className="flex-1"
-          contentContainerClassName="px-6"
-          contentContainerStyle={{ paddingBottom: FADE_HEIGHT }}
-          showsVerticalScrollIndicator={false}
-        >
-          <View
-            className="overflow-hidden rounded-[28px]"
-            style={{
-              boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.4)}`,
-            }}
-          >
-            <Image
-              source={meditation.introImage}
-              style={{ width: '100%', aspectRatio: 1.4 }}
-              contentFit="cover"
-            />
-          </View>
-
-          {meditation.eyebrow ? (
-            <Badge tone="pink" size="sm" className="mt-6 self-start">
-              {meditation.eyebrow}
-            </Badge>
-          ) : (
-            <View className="mt-6" />
-          )}
-
-          <GradientText className="mt-3 text-[34px] font-extrabold leading-tight tracking-tight">
-            {meditation.title}
-          </GradientText>
-
-          {meditation.meta ? (
-            <Text className="mt-1 text-sm text-foreground/60">
-              {meditation.meta}
-            </Text>
-          ) : null}
-
-          <View className="mt-6 gap-3">
-            {meditation.body.map((p) => (
-              <Text
-                key={p}
-                className="text-base leading-relaxed text-foreground/75"
+    <Screen
+      variant="default"
+      scroll
+      header={<PracticeStackHeader wordmark="Meditation" />}
+      sticky={
+        <View className="gap-7 border-t border-foreground/5 px-2 pt-4">
+          {/* Voice toggle (only once a voice is in effect) */}
+          {meditation.audioBaseKey && effectiveVoice ? (
+            <View className="items-center">
+              <Pressable
+                onPress={onToggleVoice}
+                className="flex-row items-center gap-2 rounded-full border border-foreground/10 bg-foreground/5 px-3.5 py-1.5 active:opacity-70"
               >
-                {p}
-              </Text>
-            ))}
-          </View>
-
-          {meditation.stats && meditation.stats.length > 0 ? (
-            <View className="mt-6 flex-row gap-3">
-              {meditation.stats.map((stat) => (
-                <Card key={stat.label} className="flex-1 px-4 py-3">
-                  <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/50">
-                    {stat.label}
-                  </Text>
-                  <Text className="mt-1 text-base font-bold text-foreground">
-                    {renderStatValue(stat)}
-                  </Text>
-                </Card>
-              ))}
+                <MaterialIcons
+                  name={effectiveVoice === 'female' ? 'female' : 'male'}
+                  size={14}
+                  color={controlIconColor}
+                />
+                <Text
+                  variant="caption"
+                  className="font-semibold text-foreground/70"
+                >
+                  {effectiveVoice === 'female' ? 'Female' : 'Male'} voice
+                </Text>
+                <MaterialIcons
+                  name="swap-horiz"
+                  size={14}
+                  color={controlIconColor}
+                />
+              </Pressable>
             </View>
           ) : null}
-        </ScrollView>
-      </ScrollFade>
 
-      {/* Fixed bottom: voice toggle + progress + controls */}
-      <View className="gap-7 border-t border-foreground/5 bg-surface/80 px-6 pb-12 pt-6">
-        {/* Voice toggle (only once a voice is in effect) */}
-        {meditation.audioBaseKey && effectiveVoice ? (
-          <View className="items-center">
+          {/* Progress bar + times */}
+          <View>
+            <View className="h-[3px] w-full overflow-hidden rounded-full bg-foreground/10">
+              <LinearGradient
+                colors={[colors.primary.pink, colors.accent.yellow]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{ height: 3, width: `${playbackRatio * 100}%` }}
+              />
+            </View>
+            <View className="mt-2 flex-row items-center justify-between">
+              <Text
+                variant="xs"
+                className="text-foreground/60"
+                style={{ fontVariant: ['tabular-nums'] }}
+              >
+                {elapsed}
+              </Text>
+              <Text
+                variant="xs"
+                className="text-foreground/60"
+                style={{ fontVariant: ['tabular-nums'] }}
+              >
+                {total}
+              </Text>
+            </View>
+          </View>
+
+          <View className="flex-row items-center justify-center gap-6">
             <Pressable
-              onPress={onToggleVoice}
-              className="flex-row items-center gap-2 rounded-full border border-foreground/10 bg-foreground/5 px-3.5 py-1.5 active:opacity-70"
+              onPress={onReplay10}
+              disabled={!isReady}
+              className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
+              style={{ opacity: isReady ? 1 : 0.4 }}
             >
               <MaterialIcons
-                name={effectiveVoice === 'female' ? 'female' : 'male'}
-                size={14}
-                color="white"
+                name="replay-10"
+                size={24}
+                color={controlIconColor}
               />
-              <Text className="text-[11px] font-semibold uppercase tracking-widest text-foreground/70">
-                {effectiveVoice === 'female' ? 'Female' : 'Male'} voice
-              </Text>
-              <MaterialIcons name="swap-horiz" size={14} color="white" />
             </Pressable>
-          </View>
-        ) : null}
 
-        {/* Progress bar + times */}
-        <View>
-          <View className="h-[3px] w-full overflow-hidden rounded-full bg-foreground/10">
-            <LinearGradient
-              colors={[colors.primary.pink, colors.accent.yellow]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={{ height: 3, width: `${playbackRatio * 100}%` }}
-            />
-          </View>
-          <View className="mt-2 flex-row items-center justify-between">
-            <Text className="text-xs text-foreground/60">{elapsed}</Text>
-            <Text className="text-xs text-foreground/60">{total}</Text>
-          </View>
-        </View>
-
-        <View className="flex-row items-center justify-center gap-6">
-          <Pressable
-            onPress={onReplay10}
-            disabled={!isReady}
-            className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
-            style={{ opacity: isReady ? 1 : 0.4 }}
-          >
-            <MaterialIcons name="replay-10" size={22} color="white" />
-          </Pressable>
-
-          <Pressable
-            onPress={onTogglePlay}
-            // Only disable while a download is *actively* in progress with a
-            // voice already selected — every other state lets the handler
-            // decide what to do (open the voice picker, show "Coming soon",
-            // play, pause). Disabling earlier traps the user with no way to
-            // open the voice picker.
-            disabled={!!meditation.audioBaseKey && !!effectiveVoice && !isReady}
-            className="h-20 w-20 items-center justify-center rounded-full active:scale-95"
-            style={{
-              boxShadow: `0px 0px 20px ${withAlpha(colors.primary.pink, 0.6)}`,
-              opacity:
-                meditation.audioBaseKey && effectiveVoice && !isReady ? 0.7 : 1,
-            }}
-          >
-            <LinearGradient
-              colors={[colors.primary.pink, colors.accent.yellow]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
+            <Pressable
+              onPress={onTogglePlay}
+              disabled={
+                !!meditation.audioBaseKey && !!effectiveVoice && !isReady
+              }
               style={{
-                width: 80,
-                height: 80,
-                borderRadius: 9999,
-                alignItems: 'center',
-                justifyContent: 'center',
+                borderRadius: 32,
+                boxShadow: `0 0 24px ${withAlpha(colors.primary.pink, 0.5)}`,
+                opacity:
+                  meditation.audioBaseKey && effectiveVoice && !isReady
+                    ? 0.7
+                    : 1,
               }}
             >
-              {isDownloading ? (
-                <Text
-                  className="text-base font-bold"
-                  style={{
-                    color: 'black',
-                    fontVariant: ['tabular-nums'],
-                  }}
-                >
-                  {progress != null ? `${Math.round(progress * 100)}%` : '…'}
-                </Text>
-              ) : (
-                <MaterialIcons
-                  name={status.playing ? 'pause' : 'play-arrow'}
-                  size={40}
-                  color="black"
-                />
-              )}
-            </LinearGradient>
-          </Pressable>
+              <LinearGradient
+                colors={[colors.primary.pink, colors.accent.yellow]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: 32,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {isDownloading ? (
+                  <Text
+                    variant="sm"
+                    className="font-bold text-white"
+                    style={{ fontVariant: ['tabular-nums'] }}
+                  >
+                    {progress != null ? `${Math.round(progress * 100)}%` : '…'}
+                  </Text>
+                ) : (
+                  <MaterialIcons
+                    name={status.playing ? 'pause' : 'play-arrow'}
+                    size={32}
+                    color="white"
+                  />
+                )}
+              </LinearGradient>
+            </Pressable>
 
-          <Pressable
-            onPress={onForward30}
-            disabled={!isReady}
-            className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
-            style={{ opacity: isReady ? 1 : 0.4 }}
-          >
-            <MaterialIcons name="forward-30" size={22} color="white" />
-          </Pressable>
+            <Pressable
+              onPress={onForward30}
+              disabled={!isReady}
+              className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
+              style={{ opacity: isReady ? 1 : 0.4 }}
+            >
+              <MaterialIcons
+                name="forward-30"
+                size={24}
+                color={controlIconColor}
+              />
+            </Pressable>
+          </View>
         </View>
+      }
+      className="px-6 pt-4"
+    >
+      <View
+        className="overflow-hidden rounded-[28px]"
+        style={{
+          boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
+        }}
+      >
+        <Image
+          source={meditation.introImage}
+          style={{ width: '100%', aspectRatio: 1.4 }}
+          contentFit="cover"
+        />
       </View>
-    </View>
+
+      {meditation.eyebrow ? (
+        <Badge tone="pink" size="sm" className="mt-6 self-start">
+          {meditation.eyebrow}
+        </Badge>
+      ) : (
+        <View className="mt-6" />
+      )}
+
+      <GradientText className="mt-3 text-[34px] font-extrabold leading-[1.1]">
+        {meditation.title}
+      </GradientText>
+
+      {meditation.meta ? (
+        <Text variant="sm" muted className="mt-1">
+          {meditation.meta}
+        </Text>
+      ) : null}
+
+      <View className="mt-6 gap-3">
+        {meditation.body.map((p) => (
+          <Text
+            key={p}
+            variant="lg"
+            className="leading-relaxed text-foreground/75"
+          >
+            {p}
+          </Text>
+        ))}
+      </View>
+
+      {meditation.stats && meditation.stats.length > 0 ? (
+        <View className="mt-6 flex-row gap-3">
+          {meditation.stats.map((stat) => (
+            <Card key={stat.label} className="flex-1 px-4 py-3">
+              <Text variant="caption" className="font-bold text-foreground/50">
+                {stat.label}
+              </Text>
+              <Text variant="lg" className="mt-1 font-bold">
+                {renderStatValue(stat)}
+              </Text>
+            </Card>
+          ))}
+        </View>
+      ) : null}
+    </Screen>
   );
 }

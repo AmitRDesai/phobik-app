@@ -1,12 +1,15 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useState } from 'react';
+import { TextInput } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { MaterialIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 interface ReflectWithCuriosityProps {
   onFinish: (reflection?: string) => void;
@@ -24,12 +27,12 @@ export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
       bottomOffset={40}
     >
       {/* Title */}
-      <Text className="mb-2 mt-4 text-center text-3xl font-bold tracking-tight text-foreground">
+      <Text variant="h1" className="mb-2 mt-4 text-center">
         Reflect with Curiosity
       </Text>
 
       {/* Instruction */}
-      <Text className="mb-6 text-center text-sm text-foreground/60">
+      <Text variant="sm" className="mb-6 text-center text-foreground/60">
         Growth happens when we reflect without judging ourselves. Instead of
         asking: What&apos;s wrong with me? Ask, what is the feeling trying to
         tell me?
@@ -49,14 +52,14 @@ export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
           />
         </IconChip>
         <View className="flex-1">
-          <Text className="text-sm font-semibold text-foreground">
+          <Text variant="sm" className="font-semibold">
             Next time, what could I do sooner to care for that need?
           </Text>
         </View>
       </View>
 
       {/* Reflection input */}
-      <Text className="mb-2 text-xs font-bold uppercase tracking-wider text-foreground/55">
+      <Text variant="caption" muted className="mb-2">
         My Reflection Note
       </Text>
       <TextInput
@@ -87,7 +90,12 @@ export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
             style={{ height: '100%', width: '100%', borderRadius: 9999 }}
           />
         </View>
-        <Text className="text-center text-xs font-medium uppercase tracking-widest text-foreground/55">
+        <Text
+          variant="caption"
+          muted
+          className="text-center"
+          style={{ paddingRight: 2.2 }}
+        >
           Completion 100% &mdash; You&apos;re doing great!
         </Text>
       </View>

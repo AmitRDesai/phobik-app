@@ -3,8 +3,10 @@ import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
 import { useRef, useState } from 'react';
-import { Keyboard, Pressable, Text, TextInput, View } from 'react-native';
+import { Keyboard, Pressable, TextInput } from 'react-native';
 
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
@@ -114,7 +116,7 @@ export default function GentleLetterWrite() {
         <Header
           left={<BackButton onPress={handleBack} />}
           center={
-            <Text className="text-sm font-semibold text-foreground">
+            <Text variant="sm" className="font-semibold">
               Gentle Letter Writing
             </Text>
           }
@@ -134,16 +136,23 @@ export default function GentleLetterWrite() {
     >
       <View className="mt-6 items-center gap-4">
         <ProgressDots total={5} current={currentStep + 1} />
-        <Text className="text-xs font-medium uppercase tracking-widest text-primary-pink/80">
+        <Text
+          variant="caption"
+          className="font-medium text-primary-pink/80"
+          style={{ paddingRight: 2.2 }}
+        >
           Step {currentStep + 1} of 5: {stepData.label}
         </Text>
       </View>
 
-      <Text className="mt-8 text-center text-2xl font-bold leading-tight text-foreground">
+      <Text variant="h2" className="mt-8 text-center font-bold leading-tight">
         {stepData.headline}
       </Text>
 
-      <Text className="mt-3 text-center text-base leading-relaxed text-foreground/60">
+      <Text
+        variant="md"
+        className="mt-3 text-center leading-relaxed text-foreground/60"
+      >
         {stepData.body}
       </Text>
 
@@ -166,14 +175,17 @@ export default function GentleLetterWrite() {
           size={14}
           color={foregroundFor(scheme, 0.5)}
         />
-        <Text className="text-center text-xs italic text-foreground/55">
+        <Text variant="sm" className="text-center italic text-foreground/55">
           {stepData.tip}
         </Text>
       </View>
 
       {isLastStep && (
         <View className="mt-6 gap-3">
-          <Text className="text-center text-xs font-bold uppercase tracking-widest text-foreground/55">
+          <Text
+            variant="caption"
+            className="text-center font-bold text-foreground/55"
+          >
             What core act does this letter honor?
           </Text>
           <View className="flex-row flex-wrap justify-center gap-2">
@@ -200,8 +212,9 @@ export default function GentleLetterWrite() {
                     }
                   />
                   <Text
+                    variant="sm"
                     className={clsx(
-                      'text-sm font-medium',
+                      'font-medium',
                       selected ? 'text-primary-pink' : 'text-foreground/60',
                     )}
                   >

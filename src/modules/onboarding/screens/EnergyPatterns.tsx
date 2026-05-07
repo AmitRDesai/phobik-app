@@ -1,10 +1,11 @@
+import { Text } from '@/components/themed/Text';
+import { View } from '@/components/themed/View';
+import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
-import { Text, View } from 'react-native';
 import { OnboardingLayout } from '../components/OnboardingLayout';
-import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import {
   onboardingEnergyCreativityAtom,
   onboardingEnergyDipAtom,
@@ -42,7 +43,7 @@ export default function EnergyPatterns() {
     <OnboardingLayout
       step={5}
       title="Understanding your energy helps PHOBIK tailor your nervous system regulation."
-      titleClassName="text-[22px] font-extrabold leading-tight tracking-tight text-foreground"
+      titleClassName="text-[22px] font-extrabold leading-tight text-foreground"
       onBack={() => router.back()}
       buttonLabel="Continue"
       onButtonPress={() => router.push('/onboarding/calendar-support')}
@@ -56,7 +57,7 @@ export default function EnergyPatterns() {
                 size={20}
                 color={colors.primary.pink}
               />
-              <Text className="text-lg font-bold text-foreground">
+              <Text variant="h3" className="font-bold">
                 {section.label}
               </Text>
             </View>
