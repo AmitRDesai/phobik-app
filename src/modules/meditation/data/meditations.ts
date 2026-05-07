@@ -71,9 +71,14 @@ export const MEDITATIONS: Meditation[] = [
       "Yoga Nidra guides your body into a state of deep rest while your mind remains gently aware. This practice has been shown to reduce stress, improve sleep quality, and support nervous system recovery by shifting brain activity into slower, restorative states. It's especially helpful when you feel exhausted, burned out, or unable to fully relax.",
     ],
     duration: '30 min',
+    stats: [
+      { label: 'Duration', value: '—', live: 'duration' },
+      { label: 'Remaining', value: '—', live: 'remaining' },
+    ],
     listImage: listYogaNidraImg,
     introImage: yogaNidraImg,
     route: '/meditations/yoga-nidra',
+    audioBaseKey: 'yoga-nidra',
   },
   {
     id: 'breath-reset',

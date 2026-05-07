@@ -24,18 +24,6 @@ type CustomColors = {
   background: {
     dark: string;
     charcoal: string;
-    input: string;
-    onboarding: string;
-    dashboard: string;
-  };
-  card: {
-    plum: string;
-    dark: string;
-    elevated: string;
-  };
-  aura: {
-    toggle: string;
-    border: string;
   };
   status: {
     success: string;
@@ -47,7 +35,6 @@ type CustomColors = {
     'bright-orange': string;
     'hot-pink': string;
     'light-gold': string;
-    'orange-red': string;
     'soft-pink': string;
     magenta: string;
     amber: string;
@@ -123,24 +110,11 @@ export function accentFor(scheme: 'dark' | 'light', hue: AccentHue): string {
 
 /** Opacity variants for icon/SVG props where className isn't supported */
 export const alpha = {
-  white03: 'rgba(255,255,255,0.03)',
-  white05: 'rgba(255,255,255,0.05)',
-  white08: 'rgba(255,255,255,0.08)',
-  white10: 'rgba(255,255,255,0.1)',
   white15: 'rgba(255,255,255,0.15)',
   white20: 'rgba(255,255,255,0.2)',
-  white30: 'rgba(255,255,255,0.3)',
-  white35: 'rgba(255,255,255,0.35)',
-  white40: 'rgba(255,255,255,0.4)',
-  white50: 'rgba(255,255,255,0.5)',
   white60: 'rgba(255,255,255,0.6)',
-  white70: 'rgba(255,255,255,0.7)',
-  white80: 'rgba(255,255,255,0.8)',
-  white90: 'rgba(255,255,255,0.9)',
   black70: 'rgba(0,0,0,0.7)',
   black80: 'rgba(0,0,0,0.8)',
-  black85: 'rgba(0,0,0,0.85)',
-  black95: 'rgba(0,0,0,0.95)',
   // Mid-gray that reads as a soft "muted" tone in both light and dark mode
   // — useful for placeholder text and decorative icons that shouldn't flip
   // with the theme.

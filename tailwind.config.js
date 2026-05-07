@@ -41,18 +41,6 @@ module.exports = {
         background: {
           dark: '#050505',
           charcoal: '#121212',
-          input: '#1a1a1a',
-          onboarding: '#1a0b12',
-          dashboard: '#120812',
-        },
-        card: {
-          plum: '#2D152D',
-          dark: '#1a1318',
-          elevated: '#1e1e1e',
-        },
-        aura: {
-          toggle: '#492236',
-          border: '#68314d',
         },
         status: {
           success: '#0bda8e',
@@ -64,7 +52,6 @@ module.exports = {
           'bright-orange': '#FF8C37',
           'hot-pink': '#FF3B8E',
           'light-gold': '#FFD64D',
-          'orange-red': '#ff6b3d',
           'soft-pink': '#ff4b8b',
           magenta: '#f4258c',
           amber: '#ffb800',
