@@ -14,6 +14,7 @@ const SECTIONS: {
     | '/dev/design-system/icon-chips'
     | '/dev/design-system/text-fields'
     | '/dev/design-system/text-areas'
+    | '/dev/design-system/segmented-controls'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -60,6 +61,12 @@ const SECTIONS: {
     label: 'TextArea',
     subtitle: 'filled · minimal · rows · label · hint · error · counter',
     icon: 'notes',
+  },
+  {
+    href: '/dev/design-system/segmented-controls',
+    label: 'SegmentedControl',
+    subtitle: '2–4 options · binary · null state · long labels · patterns',
+    icon: 'tab',
   },
   {
     href: '/dev/design-system/screens',
