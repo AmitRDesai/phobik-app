@@ -115,7 +115,7 @@ function MetricRow({
         {label}
       </Text>
       <View className="flex-row items-baseline gap-1.5">
-        <Text weight="black" className="text-4xl leading-none">
+        <Text size="display" weight="black" className="leading-none">
           {value}
         </Text>
         <Text
@@ -233,7 +233,8 @@ export default function ConnectWearable() {
           <Text
             size="sm"
             align="center"
-            className="leading-relaxed text-foreground/70"
+            tone="secondary"
+            className="leading-relaxed"
           >
             Health Connect isn&apos;t installed on this device. Install it from
             the Play Store, then return here to connect.

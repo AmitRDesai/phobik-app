@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
 import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { Screen } from '@/components/ui/Screen';
-import { accentFor, colors, foregroundFor } from '@/constants/colors';
+import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -55,8 +56,9 @@ function JoinCommunityView() {
         <Text size="h2">Courage Wall</Text>
         <Text
           size="sm"
+          tone="secondary"
           align="center"
-          className="leading-relaxed text-primary-muted"
+          className="leading-relaxed"
         >
           A safe space to share your brave moments, support others, and grow
           together.
@@ -75,7 +77,6 @@ function JoinCommunityView() {
 }
 
 function CommunityFeed() {
-  const scheme = useScheme();
   const router = useRouter();
   const [search, setSearch] = useAtom(communitySearchAtom);
   const [circle, setCircle] = useAtom(communityCircleFilterAtom);
@@ -186,15 +187,15 @@ function CommunityFeed() {
             ) : null
           }
           ListEmptyComponent={
-            <View className="items-center py-16">
-              <MaterialIcons
-                name="edit-note"
-                size={48}
-                color={foregroundFor(scheme, 0.2)}
+            <View className="py-16">
+              <EmptyState
+                size="sm"
+                icon={(color) => (
+                  <MaterialIcons name="edit-note" size={28} color={color} />
+                )}
+                title="No posts yet"
+                description="Be the first to share!"
               />
-              <Text size="sm" tone="tertiary" className="mt-4">
-                No posts yet. Be the first to share!
-              </Text>
             </View>
           }
         />

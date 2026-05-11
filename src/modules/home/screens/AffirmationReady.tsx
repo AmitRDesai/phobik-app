@@ -58,7 +58,8 @@ export default function AffirmationReady() {
         <Text
           size="lg"
           align="center"
-          className="leading-relaxed text-foreground/70"
+          tone="secondary"
+          className="leading-relaxed"
         >
           Your affirmation works best when you practice it regularly. Repeat it
           during challenging moments to help guide your thoughts and reactions.

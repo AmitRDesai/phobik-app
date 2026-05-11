@@ -123,13 +123,7 @@ export default function Settings() {
 
       {__DEV__ && (
         <View className="gap-2">
-          <Text
-            size="xs"
-            treatment="caption"
-            tone="secondary"
-            weight="bold"
-            className="px-2 tracking-widest"
-          >
+          <Text size="xs" treatment="caption" tone="secondary" className="px-2">
             Developer
           </Text>
           <SettingsMenuItem

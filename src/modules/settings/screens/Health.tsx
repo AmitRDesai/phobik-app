@@ -151,7 +151,7 @@ export default function Health() {
         </Button>
       )}
 
-      <Text size="xs" align="center" className="px-2 text-foreground/40">
+      <Text size="xs" align="center" tone="tertiary" className="px-2">
         Phobik only reads HR and HRV — it never writes data to {PROVIDER_LABEL}.
       </Text>
     </Screen>

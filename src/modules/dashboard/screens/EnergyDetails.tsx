@@ -149,12 +149,7 @@ export default function EnergyDetails() {
           </View>
         </View>
 
-        <Text
-          size="sm"
-          align="center"
-          weight="medium"
-          className="text-foreground/70"
-        >
+        <Text size="sm" align="center" weight="medium" tone="secondary">
           {insight}
         </Text>
       </View>

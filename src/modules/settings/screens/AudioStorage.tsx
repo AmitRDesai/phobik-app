@@ -154,7 +154,7 @@ export default function AudioStorage() {
             Clear preference
           </Button>
         ) : (
-          <Text size="xs" className="mt-3 text-foreground/40">
+          <Text size="xs" tone="tertiary" className="mt-3">
             No preference set yet — you&apos;ll be asked the first time you play
             guided audio.
           </Text>
@@ -200,7 +200,7 @@ export default function AudioStorage() {
         Clear cached audio
       </Button>
 
-      <Text size="xs" className="px-2 text-foreground/40">
+      <Text size="xs" tone="tertiary" className="px-2">
         Audio re-downloads automatically the next time you open a session.
         Sessions cached on-device will keep working offline.
       </Text>

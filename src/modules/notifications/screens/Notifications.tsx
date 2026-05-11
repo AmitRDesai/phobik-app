@@ -1,9 +1,9 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
+import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, RefreshControl, SectionList } from 'react-native';
@@ -56,7 +56,6 @@ function groupByDate(items: NotificationItemType[]): Section[] {
 }
 
 export default function Notifications() {
-  const scheme = useScheme();
   const { data, isLoading } = useNotifications();
   const { mutate: markAllRead } = useMarkAllRead();
   const [refreshing, setRefreshing] = useState(false);
@@ -106,15 +105,18 @@ export default function Notifications() {
             />
           }
           ListEmptyComponent={
-            <View className="items-center px-8 py-24">
-              <MaterialIcons
-                name="notifications-none"
-                size={48}
-                color={foregroundFor(scheme, 0.2)}
+            <View className="px-8 py-24">
+              <EmptyState
+                icon={(color) => (
+                  <MaterialIcons
+                    name="notifications-none"
+                    size={32}
+                    color={color}
+                  />
+                )}
+                title="No notifications yet"
+                description="You're all caught up."
               />
-              <Text size="sm" align="center" tone="tertiary" className="mt-4">
-                No notifications yet.{'\n'}You're all caught up.
-              </Text>
             </View>
           }
         />

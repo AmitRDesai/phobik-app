@@ -83,7 +83,7 @@ export default function Biometric() {
               Lock App
             </Text>
           </Card>
-          <Text size="xs" align="center" className="px-2 text-foreground/40">
+          <Text size="xs" align="center" tone="tertiary" className="px-2">
             Locks the app and requires {biometricType} to re-enter. Your session
             stays active.
           </Text>

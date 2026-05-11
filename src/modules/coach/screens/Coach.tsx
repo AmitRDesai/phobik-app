@@ -131,7 +131,7 @@ export default function Coach() {
       <Text size="md" weight="semibold">
         Coach
       </Text>
-      <Text size="xs" className="text-foreground/35">
+      <Text size="xs" tone="tertiary">
         Powered by AI
       </Text>
     </View>
@@ -273,19 +273,21 @@ function EmptyState({
           <Text
             size="md"
             align="center"
-            className="max-w-[300px] leading-6 text-foreground/70"
+            tone="secondary"
+            className="max-w-[300px] leading-6"
           >
             {greeting}
           </Text>
         ) : (
           <>
-            <Text size="h3" align="center" weight="bold" className="mb-2">
+            <Text size="h3" align="center" className="mb-2">
               Hey, I&apos;m here for you
             </Text>
             <Text
               size="sm"
               align="center"
-              className="max-w-[280px] leading-5 text-foreground/40"
+              tone="tertiary"
+              className="max-w-[280px] leading-5"
             >
               I can help with anxiety, grounding exercises, breathing
               techniques, and building resilience.

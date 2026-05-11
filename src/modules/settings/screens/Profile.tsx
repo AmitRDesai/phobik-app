@@ -11,6 +11,7 @@ import { authClient } from '@/lib/auth';
 import { useSession } from '@/hooks/auth/useAuth';
 import { useUploadProfilePicture } from '@/modules/onboarding/hooks/useUploadProfilePicture';
 import { dialog } from '@/utils/dialog';
+import { toast } from '@/utils/toast';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { File as ExpoFile } from 'expo-file-system';
@@ -82,10 +83,7 @@ export default function Profile() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries();
-      dialog.info({
-        title: 'Saved',
-        message: 'Your profile has been updated.',
-      });
+      toast.success('Profile updated');
     },
     onError: (error: Error) => {
       dialog.error({ title: 'Error', message: error.message });
