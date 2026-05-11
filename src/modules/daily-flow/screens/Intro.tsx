@@ -134,7 +134,7 @@ export default function Intro() {
                     size="lg"
                     tone="accent"
                     weight="bold"
-                    className="mt-3 leading-6 -light"
+                    className="mt-3 leading-6"
                   >
                     {p.highlight}
                   </Text>

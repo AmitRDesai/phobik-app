@@ -342,7 +342,7 @@ function ScorePill({ value, rotation }: { value: number; rotation?: string }) {
     <View
       className="rounded-md border bg-foreground/10 px-1.5 py-0.5"
       style={{
-        borderColor: `${colors.primary.pink}30`,
+        borderColor: withAlpha(colors.primary.pink, 0.19),
         boxShadow: `0px 0px 4px ${withAlpha(colors.primary.pink, 0.3)}`,
         ...(rotation ? { transform: [{ rotate: rotation }] } : {}),
       }}

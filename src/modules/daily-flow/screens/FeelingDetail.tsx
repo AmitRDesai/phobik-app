@@ -543,7 +543,7 @@ function VisualAnchorCard({
         >
           {anchor.label}
         </Text>
-        <Text size="lg" tone="inverse" weight="medium" className="mt-1 /85">
+        <Text size="lg" tone="inverse" weight="medium" className="mt-1">
           {anchor.title}
         </Text>
       </View>
