@@ -10,6 +10,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
@@ -221,18 +222,17 @@ export default function CompassionArchive() {
         {isLoading ? (
           <ActivityIndicator size="small" color={colors.primary.pink} />
         ) : !letters?.length ? (
-          <Card variant="flat" className="items-center p-8">
-            <MaterialIcons
-              name="edit-note"
-              size={40}
-              color={foregroundFor(scheme, 0.45)}
-            />
-            <Text size="md" align="center" tone="secondary" className="mt-3">
-              {selectedDate
-                ? 'No letters on this date.'
-                : 'No letters yet. Start your first gentle letter practice.'}
-            </Text>
-          </Card>
+          <EmptyState
+            icon={(color) => (
+              <MaterialIcons name="edit-note" size={24} color={color} />
+            )}
+            title={selectedDate ? 'No letters on this date' : 'No letters yet'}
+            description={
+              selectedDate
+                ? 'Try a different date or write a new letter.'
+                : 'Start your first gentle letter practice.'
+            }
+          />
         ) : (
           <View className="gap-4">
             {letters.map((letter) => (

@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { accentFor, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { authClient } from '@/lib/auth';
@@ -106,15 +107,18 @@ export function SessionHistory({
               <ActivityIndicator color={purple} size="small" />
             </View>
           ) : threads.length === 0 ? (
-            <View className="flex-1 items-center justify-center gap-3 px-8">
-              <Ionicons
-                name="chatbubbles-outline"
-                size={40}
-                color={iconFaint}
+            <View className="flex-1 items-center justify-center">
+              <EmptyState
+                icon={(color) => (
+                  <Ionicons
+                    name="chatbubbles-outline"
+                    size={24}
+                    color={color}
+                  />
+                )}
+                title="No past sessions yet"
+                description="Start a conversation with your coach."
               />
-              <Text size="sm" align="center" tone="tertiary">
-                No past sessions yet. Start a conversation with your coach!
-              </Text>
             </View>
           ) : (
             <FlatList
