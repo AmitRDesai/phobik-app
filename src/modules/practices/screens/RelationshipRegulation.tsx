@@ -44,8 +44,9 @@ export default function RelationshipRegulation() {
         <View className="mt-10 items-center">
           <Text
             size="md"
+            tone="tertiary"
             align="center"
-            className="max-w-[280px] leading-relaxed text-foreground/40"
+            className="max-w-[280px] leading-relaxed"
           >
             &ldquo;The quality of your life is the quality of your
             relationships.&rdquo;

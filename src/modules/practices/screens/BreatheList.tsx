@@ -90,7 +90,7 @@ export default function BreatheList() {
 
       <View className="gap-5">
         {filteredExercises.length === 0 ? (
-          <Text size="sm" align="center" className="py-12 text-foreground/50">
+          <Text size="sm" tone="secondary" align="center" className="py-12">
             No practices match this level.
           </Text>
         ) : (

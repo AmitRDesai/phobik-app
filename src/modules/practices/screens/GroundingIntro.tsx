@@ -57,8 +57,9 @@ export default function GroundingIntro() {
 
         <Text
           size="sm"
+          tone="secondary"
           align="center"
-          className="max-w-[90%] leading-relaxed text-foreground/70"
+          className="max-w-[90%] leading-relaxed"
         >
           {exercise.description}
         </Text>
@@ -82,11 +83,7 @@ export default function GroundingIntro() {
           <Text size="h3" weight="bold">
             Ready to begin?
           </Text>
-          <Text
-            size="xs"
-            treatment="caption"
-            className="mt-1 text-foreground/40"
-          >
+          <Text size="xs" treatment="caption" tone="tertiary" className="mt-1">
             Estimated duration: 3-5 minutes
           </Text>
         </View>
