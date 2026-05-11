@@ -88,7 +88,7 @@ export default function EbookIntro() {
                     paddingVertical: 4,
                   }}
                 >
-                  <Text size="xs" treatment="caption">
+                  <Text size="xs" treatment="caption" tone="inverse">
                     Phobik Series
                   </Text>
                 </LinearGradient>

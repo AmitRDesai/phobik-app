@@ -1,6 +1,7 @@
 import { Pressable, ScrollView, Text, View } from '@/components/themed';
 import { BackButton } from '@/components/ui/BackButton';
-import { colors } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -13,6 +14,7 @@ import { useEbookProgress } from '../hooks/useEbookProgress';
 export default function EbookIndex() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const scheme = useScheme();
   const { data: progress } = useEbookProgress();
   const { completedChapters, lastChapterId: lastChapter } = progress;
 
@@ -63,8 +65,8 @@ export default function EbookIndex() {
                 {isCurrent ? (
                   <LinearGradient
                     colors={[
-                      `${colors.primary.pink}26`,
-                      `${colors.accent.yellow}0D`,
+                      withAlpha(colors.primary.pink, 0.15),
+                      withAlpha(colors.accent.yellow, 0.05),
                     ]}
                     start={{ x: 0, y: 0.5 }}
                     end={{ x: 1, y: 0.5 }}
@@ -75,7 +77,7 @@ export default function EbookIndex() {
                       paddingHorizontal: 24,
                       paddingVertical: 16,
                       borderBottomWidth: 1,
-                      borderBottomColor: 'rgba(255,255,255,0.05)',
+                      borderBottomColor: foregroundFor(scheme, 0.05),
                       borderLeftWidth: 4,
                       borderLeftColor: colors.primary.pink,
                     }}
@@ -84,8 +86,8 @@ export default function EbookIndex() {
                       <Text
                         size="xs"
                         treatment="caption"
+                        tone="accent"
                         className="mb-1"
-                        style={{ color: colors.primary.pink }}
                       >
                         {chapter.label}
                       </Text>

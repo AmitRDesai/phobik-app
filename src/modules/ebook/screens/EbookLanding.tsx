@@ -4,7 +4,8 @@ import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
-import { colors, withAlpha } from '@/constants/colors';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { usePackOffering } from '@/modules/purchases/hooks/usePackOffering';
 import { usePackPurchased } from '@/modules/purchases/hooks/usePackPurchased';
 import { usePurchasePack } from '@/modules/purchases/hooks/usePurchasePack';
@@ -26,6 +27,7 @@ const PACK_ID = 'fear-of-flying';
 export default function EbookLanding() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const scheme = useScheme();
   const { data: progress } = useEbookProgress();
   const purchased = usePackPurchased(PACK_ID);
   const { introSeen } = progress;
@@ -142,7 +144,7 @@ export default function EbookLanding() {
               />
               {/* Pink top overlay */}
               <LinearGradient
-                colors={[`${colors.primary.pink}33`, 'transparent']}
+                colors={[withAlpha(colors.primary.pink, 0.2), 'transparent']}
                 start={{ x: 0.5, y: 0 }}
                 end={{ x: 0.5, y: 0.5 }}
                 style={{ position: 'absolute', inset: 0 }}
@@ -214,7 +216,7 @@ export default function EbookLanding() {
                 <MaterialIcons
                   name="chevron-right"
                   size={24}
-                  color={colors.gray[600]}
+                  color={foregroundFor(scheme, 0.4)}
                 />
               )}
             </Card>
@@ -249,7 +251,7 @@ export default function EbookLanding() {
                 <MaterialIcons
                   name="chevron-right"
                   size={24}
-                  color={colors.gray[600]}
+                  color={foregroundFor(scheme, 0.4)}
                 />
               )}
             </Card>
