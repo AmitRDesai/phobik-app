@@ -19,6 +19,7 @@ const SECTIONS: {
     | '/dev/design-system/headers'
     | '/dev/design-system/progress-dots'
     | '/dev/design-system/notification-badges'
+    | '/dev/design-system/gradient-text'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -95,6 +96,13 @@ const SECTIONS: {
     label: 'NotificationBadge',
     subtitle: 'count · overflow (9+) · anchor parents · positioning rules',
     icon: 'circle-notifications',
+  },
+  {
+    href: '/dev/design-system/gradient-text',
+    label: 'GradientText',
+    subtitle:
+      'color pairs · direction · sizes · brand wordmark · anti-patterns',
+    icon: 'gradient',
   },
   {
     href: '/dev/design-system/screens',
