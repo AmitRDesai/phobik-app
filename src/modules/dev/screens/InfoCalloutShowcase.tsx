@@ -70,7 +70,7 @@ export default function InfoCalloutShowcase() {
         </PropRow>
       </Section>
 
-      <Section title="Tones">
+      <Section title="Tones — accent hues">
         <Text size="sm" tone="tertiary">
           Tones tint the icon chip + (in `tinted` variant) the bg + border. Pick
           a tone that matches the message&apos;s emotional register — cyan for
@@ -88,6 +88,45 @@ export default function InfoCalloutShowcase() {
             />
           </PropRow>
         ))}
+      </Section>
+
+      <Section title="Tones — status">
+        <Text size="sm" tone="tertiary">
+          Status tones (danger / warning / success) live alongside the accent
+          hues. Use for validation messages, security warnings, and success
+          confirmations that should stay on screen — NOT for transient
+          notifications (Toast) or modal-required alerts (Dialog).
+        </Text>
+        <PropRow label='tone="danger"'>
+          <InfoCallout
+            tone="danger"
+            icon={(color) => (
+              <MaterialIcons name="error-outline" size={20} color={color} />
+            )}
+            title="Couldn't save your changes"
+            description="We hit a sync error. Check your connection and try again."
+          />
+        </PropRow>
+        <PropRow label='tone="warning"'>
+          <InfoCallout
+            tone="warning"
+            icon={(color) => (
+              <MaterialIcons name="warning-amber" size={20} color={color} />
+            )}
+            title="Your subscription expires in 3 days"
+            description="Renew to keep premium features active."
+          />
+        </PropRow>
+        <PropRow label='tone="success"'>
+          <InfoCallout
+            tone="success"
+            icon={(color) => (
+              <MaterialIcons name="check-circle" size={20} color={color} />
+            )}
+            title="14-day streak reached"
+            description="Consistency is the unlock. Keep going."
+          />
+        </PropRow>
       </Section>
 
       <Section title="Sizes">

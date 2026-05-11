@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed/Text';
-import { IconChip } from '@/components/ui/IconChip';
 import {
   accentFor,
+  colors,
   foregroundFor,
   withAlpha,
   type AccentHue,
@@ -16,6 +16,14 @@ import { Pressable, View } from 'react-native';
 export type InfoCalloutVariant = 'tinted' | 'plain';
 export type InfoCalloutSize = 'sm' | 'md';
 
+/**
+ * InfoCallout's tone surface. Accepts the standard accent hues (cyan,
+ * purple, etc.) AND the three status tones (danger, warning, success) so
+ * a single primitive covers both informational tips and validation /
+ * status callouts.
+ */
+export type InfoCalloutTone = AccentHue | 'danger' | 'warning' | 'success';
+
 export interface InfoCalloutProps {
   title: string;
   description?: string;
@@ -25,7 +33,7 @@ export interface InfoCalloutProps {
    */
   icon?: ReactNode | ((color: string) => ReactNode);
   /** Accent color for the icon chip + tinted border / bg. Default: `cyan`. */
-  tone?: AccentHue;
+  tone?: InfoCalloutTone;
   /**
    * Visual style.
    *   tinted (default) — bg + border tinted with `tone` at low alpha
@@ -46,10 +54,17 @@ const SIZE_PAD: Record<InfoCalloutSize, string> = {
   md: 'px-4 py-4 gap-4',
 };
 
-const SIZE_CHIP: Record<InfoCalloutSize, 'md' | 'lg'> = {
-  sm: 'md',
-  md: 'lg',
+const SIZE_CHIP_PX: Record<InfoCalloutSize, number> = {
+  sm: 40,
+  md: 48,
 };
+
+function resolveTone(tone: InfoCalloutTone, scheme: 'light' | 'dark'): string {
+  if (tone === 'danger') return colors.status.danger;
+  if (tone === 'warning') return colors.status.warning;
+  if (tone === 'success') return colors.status.success;
+  return accentFor(scheme, tone);
+}
 
 /**
  * Inline informational callout. Use for tips, hints, soft warnings, and
@@ -61,6 +76,11 @@ const SIZE_CHIP: Record<InfoCalloutSize, 'md' | 'lg'> = {
  * Visual: icon chip + title + optional description + optional action,
  * laid out in a horizontal row inside a tinted (or plain) bordered
  * container. Pass `onDismiss` to add an X close affordance.
+ *
+ * `tone` accepts AccentHue (`pink`/`cyan`/`yellow`/...) and the status
+ * tones (`danger`/`warning`/`success`). Use status tones for validation
+ * errors, security warnings, and success confirmations that should stay
+ * on screen.
  */
 export function InfoCallout({
   title,
@@ -74,7 +94,8 @@ export function InfoCallout({
   className,
 }: InfoCalloutProps) {
   const scheme = useScheme();
-  const accent = accentFor(scheme, tone);
+  const accent = resolveTone(tone, scheme);
+  const chipPx = SIZE_CHIP_PX[size];
 
   const containerStyle =
     variant === 'tinted'
@@ -83,6 +104,8 @@ export function InfoCallout({
           borderColor: withAlpha(accent, 0.3),
         }
       : undefined;
+
+  const resolvedIcon = typeof icon === 'function' ? icon(accent) : icon;
 
   return (
     <View
@@ -97,9 +120,17 @@ export function InfoCallout({
     >
       <View className="flex-row items-start gap-3">
         {icon ? (
-          <IconChip size={SIZE_CHIP[size]} shape="circle" tone={tone}>
-            {icon}
-          </IconChip>
+          <View
+            className="items-center justify-center rounded-full"
+            style={{
+              width: chipPx,
+              height: chipPx,
+              borderRadius: chipPx / 2,
+              backgroundColor: withAlpha(accent, 0.15),
+            }}
+          >
+            {resolvedIcon}
+          </View>
         ) : null}
         <View className="flex-1 gap-1">
           <Text size={size === 'sm' ? 'sm' : 'md'} weight="semibold">

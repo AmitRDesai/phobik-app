@@ -29,6 +29,7 @@ export type TextSize =
 
 export type TextTone =
   | 'primary'
+  | 'body'
   | 'secondary'
   | 'tertiary'
   | 'disabled'
@@ -39,6 +40,7 @@ export type TextTone =
   | 'inverse';
 
 export type TextWeight =
+  | 'light'
   | 'normal'
   | 'medium'
   | 'semibold'
@@ -73,6 +75,7 @@ const sizeDefaultWeight: Record<TextSize, string> = {
 };
 
 const weightClasses: Record<TextWeight, string> = {
+  light: 'font-light',
   normal: 'font-normal',
   medium: 'font-medium',
   semibold: 'font-semibold',
@@ -83,6 +86,11 @@ const weightClasses: Record<TextWeight, string> = {
 
 const toneClasses: Record<TextTone, string> = {
   primary: 'text-foreground',
+  // Body sits between primary (/100) and secondary (/55) — for descriptive
+  // body copy / supporting paragraphs where /100 is too loud but /55 is too
+  // muted. Audit found /60-/80 overrides everywhere; `body=/70` absorbs the
+  // bulk of them.
+  body: 'text-foreground/70',
   secondary: 'text-foreground/55',
   tertiary: 'text-foreground/30',
   disabled: 'text-foreground/15',

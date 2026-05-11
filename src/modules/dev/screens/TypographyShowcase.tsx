@@ -28,6 +28,7 @@ const SIZES: SizeRowData[] = [
 
 const TONES: TextTone[] = [
   'primary',
+  'body',
   'secondary',
   'tertiary',
   'disabled',
@@ -39,6 +40,7 @@ const TONES: TextTone[] = [
 ];
 
 const WEIGHTS: TextWeight[] = [
+  'light',
   'normal',
   'medium',
   'semibold',

@@ -23,8 +23,8 @@ The themed Text has six orthogonal axes — NEVER use Tailwind `text-*` classes 
 | Axis | Values | Use |
 |---|---|---|
 | `size` | `display` / `h1` / `h2` / `h3` / `lg` / `md` / `sm` / `xs` | Scale + line-height paired; h1/h2/h3 auto-apply `accessibilityRole="header"` |
-| `tone` | `primary` (default) / `secondary` (/55) / `tertiary` (/30) / `disabled` (/15) / `accent` (pink) / `danger` / `success` / `warning` / `inverse` | Foreground tone — never `text-foreground/55`, use `tone="secondary"` |
-| `weight` | `regular` / `medium` / `semibold` / `bold` / `black` | Never `font-bold` className |
+| `tone` | `primary` (default, /100) / `body` (/70) / `secondary` (/55) / `tertiary` (/30) / `disabled` (/15) / `accent` (pink) / `danger` / `success` / `warning` / `inverse` | Never `text-foreground/N` className. Use `body` for descriptive paragraphs / body copy that needs more presence than `secondary` |
+| `weight` | `light` / `normal` / `medium` / `semibold` / `bold` / `extrabold` / `black` | Never `font-bold` / `font-light` className |
 | `align` | `left` / `center` / `right` | Never `text-center` className |
 | `italic` | boolean | |
 | `treatment` | `'caption'` | Eyebrows / status labels / small companion text (uppercase tracking-widest semibold) |
@@ -95,7 +95,7 @@ Every primitive lives in `src/components/ui/`. The full live catalog is browsabl
 
 - **`Toast`** (imperative via `toast.success/info/warning/error` from `@/utils/toast`) — transient non-blocking confirmations (Saved / Copied / Synced). Replace `dialog.info` for save confirmations.
 - **`Dialog`** (imperative via `dialog.error/info/loading/open/close` from `@/utils/dialog`) — blocking modal. Use when the user must choose / acknowledge. Custom-component dialogs via `dialog.open({ component, props })`.
-- **`InfoCallout`** — persistent inline tip / hint / soft warning. `variant: 'tinted' | 'plain'`, `tone`, optional `action`, optional `onDismiss`.
+- **`InfoCallout`** — persistent inline tip / hint / soft warning. `variant: 'tinted' | 'plain'`, `tone` (AccentHue OR status: `'danger'` / `'warning'` / `'success'` for validation / security / success messages), optional `action`, optional `onDismiss`.
 - **`NetworkBanner`** — auto-managed offline strip. Checks both `isConnected` and `isInternetReachable` (captive portals).
 - **`EmptyState`** — no-data screens. `size: 'sm' | 'md' | 'lg'`, render-prop `icon`, `tone`, `title` + `description` + `action`. Use for "no data + here's what to do", NOT for transient loading (use Skeleton).
 - **`Skeleton`** — pulsing placeholder shapes. `shape: 'rect' | 'circle' | 'pill'`. Compose multiple to mimic the real layout.
