@@ -35,6 +35,7 @@ const SECTIONS: {
     | '/dev/design-system/accordions'
     | '/dev/design-system/floating-add-buttons'
     | '/dev/design-system/info-callouts'
+    | '/dev/design-system/user-avatars'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -222,6 +223,13 @@ const SECTIONS: {
     subtitle:
       'tinted / plain · tones · sizes · action · dismissible · inline tips',
     icon: 'lightbulb-outline',
+  },
+  {
+    href: '/dev/design-system/user-avatars',
+    label: 'UserAvatar',
+    subtitle:
+      'sizes · image / initials / icon fallback hierarchy · session-aware',
+    icon: 'account-circle',
   },
   {
     href: '/dev/design-system/screens',

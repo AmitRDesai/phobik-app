@@ -74,8 +74,9 @@ export function FeedCard({
       <View className="flex-row items-center gap-3">
         <UserAvatar
           imageUri={author.image}
-          className="h-10 w-10 bg-primary-pink/20"
-          iconSize={22}
+          name={author.name}
+          size="md"
+          className="bg-primary-pink/20"
         />
         <View>
           <Text size="sm" weight="bold" className="text-foreground/80">

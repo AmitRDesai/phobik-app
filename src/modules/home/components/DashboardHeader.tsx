@@ -37,7 +37,8 @@ export function DashboardHeader() {
           className="flex-row items-center gap-3"
         >
           <UserAvatar
-            className="h-10 w-10 border-2 border-primary-pink/40 bg-foreground/10"
+            size="md"
+            className="border-2 border-primary-pink/40"
             style={{
               boxShadow: `0 4px 8px ${withAlpha(colors.primary.pink, 0.2)}`,
             }}

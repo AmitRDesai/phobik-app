@@ -157,7 +157,7 @@ export default function GradientTextShowcase() {
             <Text size="xs" treatment="caption" tone="tertiary">
               GOOD MORNING
             </Text>
-            <GradientText className="text-4xl font-bold">Amit</GradientText>
+            <GradientText className="text-4xl font-bold">John</GradientText>
             <Text size="sm" tone="secondary">
               Ready for today&apos;s reset?
             </Text>

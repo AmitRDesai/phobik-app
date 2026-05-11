@@ -53,10 +53,7 @@ export default function Settings() {
       contentClassName="gap-6"
     >
       <View className="items-center gap-3 py-4">
-        <UserAvatar
-          className="h-20 w-20 border-2 border-primary-pink/40 bg-foreground/10"
-          iconSize={36}
-        />
+        <UserAvatar size={80} className="border-2 border-primary-pink/40" />
         <View className="items-center">
           <Text size="h3">{userName}</Text>
           {userEmail ? (

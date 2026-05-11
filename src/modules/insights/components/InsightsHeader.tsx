@@ -27,7 +27,7 @@ export function InsightsHeader() {
             Biometric Intelligence
           </Text>
         </View>
-        <UserAvatar className="h-10 w-10 border border-foreground/20 bg-foreground/10" />
+        <UserAvatar size="md" className="border border-foreground/20" />
       </View>
     </BlurView>
   );

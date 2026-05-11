@@ -114,7 +114,7 @@ export default function HeaderShowcase() {
             <Header
               title="Dashboard"
               left={noopBack}
-              right={<UserAvatar className="h-8 w-8" iconSize={16} />}
+              right={<UserAvatar size="sm" />}
             />
           </HeaderFrame>
         </PropRow>
@@ -260,7 +260,7 @@ export default function HeaderShowcase() {
             <Header
               title="Today"
               left={null}
-              right={<UserAvatar className="h-8 w-8" iconSize={16} />}
+              right={<UserAvatar size="sm" />}
             />
           </HeaderFrame>
         </PropRow>

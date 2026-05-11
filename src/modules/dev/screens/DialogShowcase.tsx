@@ -319,7 +319,7 @@ export default function DialogShowcase() {
             onPress={async () => {
               const r = await dialog.open({
                 component: NamePromptDialog,
-                props: { initialValue: 'Amit' },
+                props: { initialValue: 'John' },
               });
               record('name-prompt')(r);
             }}

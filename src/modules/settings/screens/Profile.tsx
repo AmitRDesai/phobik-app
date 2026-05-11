@@ -116,10 +116,7 @@ export default function Profile() {
               <Image source={{ uri: imageUri }} className="h-full w-full" />
             </View>
           ) : (
-            <UserAvatar
-              className="h-24 w-24 border-2 border-primary-pink/40 bg-foreground/10"
-              iconSize={40}
-            />
+            <UserAvatar size={96} className="border-2 border-primary-pink/40" />
           )}
           <View className="absolute bottom-0 right-0 h-8 w-8 items-center justify-center rounded-full border-2 border-surface bg-primary-pink">
             <MaterialIcons name="camera-alt" size={16} color="white" />

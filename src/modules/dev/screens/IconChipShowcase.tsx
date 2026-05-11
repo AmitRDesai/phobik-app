@@ -191,7 +191,7 @@ export default function IconChipShowcase() {
                 <MaterialIcons name="person" size={16} color={color} />
               )}
             </IconChip>
-            <Text size="sm">@amit</Text>
+            <Text size="sm">@johnsmith</Text>
           </View>
         </PropRow>
 
