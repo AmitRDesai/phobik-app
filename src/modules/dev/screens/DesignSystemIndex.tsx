@@ -33,6 +33,7 @@ const SECTIONS: {
     | '/dev/design-system/skeletons'
     | '/dev/design-system/sliders'
     | '/dev/design-system/accordions'
+    | '/dev/design-system/floating-add-buttons'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -206,6 +207,13 @@ const SECTIONS: {
     subtitle:
       'flat / card · sizes · controlled · auto-height · FAQ + settings patterns',
     icon: 'expand-more',
+  },
+  {
+    href: '/dev/design-system/floating-add-buttons',
+    label: 'FloatingAddButton',
+    subtitle:
+      'bottom-right FAB · custom icons · positioning override · accessibility',
+    icon: 'add-circle',
   },
   {
     href: '/dev/design-system/screens',
