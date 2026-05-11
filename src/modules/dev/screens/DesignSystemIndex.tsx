@@ -23,6 +23,7 @@ const SECTIONS: {
     | '/dev/design-system/glows'
     | '/dev/design-system/dialogs'
     | '/dev/design-system/network-banners'
+    | '/dev/design-system/progress-bars'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -127,6 +128,13 @@ const SECTIONS: {
     subtitle:
       'auto-hide offline strip · NetInfo subscription · placement · messages',
     icon: 'cloud-off',
+  },
+  {
+    href: '/dev/design-system/progress-bars',
+    label: 'ProgressBar',
+    subtitle:
+      'sizes · tones · gradient · clamping · audio scrubber + upload patterns',
+    icon: 'linear-scale',
   },
   {
     href: '/dev/design-system/screens',
