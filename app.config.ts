@@ -12,9 +12,9 @@ const VARIANTS: Record<
     scheme: 'phobik.dev',
   },
   preview: {
-    name: 'Phobik Preview',
-    bundleId: 'com.phobik.app.preview',
-    scheme: 'phobik.preview',
+    name: 'Phobik',
+    bundleId: 'com.phobik.app',
+    scheme: 'phobik',
   },
   production: {
     name: 'Phobik',
