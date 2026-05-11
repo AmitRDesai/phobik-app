@@ -3,12 +3,24 @@ import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { SegmentedControl } from '@/components/ui/SegmentedControl';
+import {
+  SegmentedControl,
+  type SegmentedControlVariant,
+} from '@/components/ui/SegmentedControl';
 import { useState } from 'react';
 
 type Tone = 'all' | 'positive' | 'negative';
 type Range = 'today' | 'week' | 'month' | 'year';
 type View5 = 'a' | 'b' | 'c' | 'd' | 'e';
+
+const VARIANTS: SegmentedControlVariant[] = ['gradient', 'tinted'];
+
+const VARIANT_NOTES: Record<SegmentedControlVariant, string> = {
+  gradient:
+    'Pink→yellow brand gradient + soft pink glow (default). Loud — use for primary mode switches (Me vs. Community).',
+  tinted:
+    "Quiet foreground/10 fill + foreground text. Use for tertiary scope filters above charts/lists where the control shouldn't compete with content.",
+};
 
 export default function SegmentedControlShowcase() {
   const [binary, setBinary] = useState<'on' | 'off'>('on');
@@ -21,6 +33,9 @@ export default function SegmentedControlShowcase() {
   const [unselected, setUnselected] = useState<Tone | null>(null);
   const [pattern1, setPattern1] = useState<'me' | 'community'>('me');
   const [pattern2, setPattern2] = useState<Range>('week');
+  const [variantGradient, setVariantGradient] = useState<Tone>('all');
+  const [variantTinted, setVariantTinted] = useState<Tone>('all');
+  const [chartRange, setChartRange] = useState<Range>('week');
 
   return (
     <Screen
@@ -32,15 +47,33 @@ export default function SegmentedControlShowcase() {
     >
       <Section title="What it is">
         <Text size="sm" tone="secondary">
-          A horizontal pill row for picking one of N short options. The active
-          option fills with the pink→yellow brand gradient + a soft pink glow.
-          Use for view switching (timeframe, scope) where the option set is
-          stable and 2–4 wide.
+          A horizontal pill row for picking one of N short options. Use for view
+          switching (timeframe, scope) where the option set is stable and 2–4
+          wide.
         </Text>
         <Text size="sm" tone="tertiary">
           Generic over the value type — `options: {`{ label, value }`}[]` so you
           keep type-safe values like `'today' | 'week' | 'month'`.
         </Text>
+      </Section>
+
+      <Section title="Variants">
+        {VARIANTS.map((v) => (
+          <PropRow key={v} label={`variant="${v}"`} note={VARIANT_NOTES[v]}>
+            <SegmentedControl
+              variant={v}
+              options={[
+                { label: 'All', value: 'all' },
+                { label: 'Positive', value: 'positive' },
+                { label: 'Negative', value: 'negative' },
+              ]}
+              selected={v === 'gradient' ? variantGradient : variantTinted}
+              onSelect={
+                v === 'gradient' ? setVariantGradient : setVariantTinted
+              }
+            />
+          </PropRow>
+        ))}
       </Section>
 
       <Section title="Option count">
@@ -168,20 +201,25 @@ export default function SegmentedControlShowcase() {
           </View>
         </PropRow>
 
-        <PropRow label="Inline above a list / chart">
+        <PropRow
+          label="Inline above a chart (tinted)"
+          note="Tinted active pill keeps focus on the chart instead of the control."
+        >
           <Card variant="raised" size="md" className="gap-3">
             <SegmentedControl
+              variant="tinted"
               options={[
-                { label: 'Mood', value: 'today' },
-                { label: 'Energy', value: 'week' },
-                { label: 'Sleep', value: 'month' },
+                { label: 'Today', value: 'today' },
+                { label: 'Week', value: 'week' },
+                { label: 'Month', value: 'month' },
+                { label: 'Year', value: 'year' },
               ]}
-              selected={pattern2}
-              onSelect={setPattern2}
+              selected={chartRange}
+              onSelect={setChartRange}
             />
             <View className="h-24 items-center justify-center rounded-md bg-foreground/[0.04]">
               <Text size="sm" tone="tertiary">
-                Chart placeholder
+                Chart placeholder ({chartRange})
               </Text>
             </View>
           </Card>
