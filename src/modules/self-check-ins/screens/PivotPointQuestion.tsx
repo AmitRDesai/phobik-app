@@ -15,7 +15,7 @@ import { Pressable } from 'react-native';
 import { EaseView } from 'react-native-ease';
 
 import { QuestionProgress } from '../components/QuestionProgress';
-import { RatingScale } from '../components/RatingScale';
+import { Rating } from '@/components/ui/Rating';
 import {
   PIVOT_QUESTIONS,
   PIVOT_RATING_LABELS,
@@ -173,7 +173,7 @@ export default function PivotPointQuestion() {
           {question.text}
         </Text>
 
-        <RatingScale
+        <Rating
           min={1}
           max={5}
           value={selectedValue}

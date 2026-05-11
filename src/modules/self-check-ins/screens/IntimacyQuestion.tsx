@@ -16,7 +16,7 @@ import { EaseView } from 'react-native-ease';
 
 import { InsightCard } from '../components/InsightCard';
 import { QuestionProgress } from '../components/QuestionProgress';
-import { RatingScale } from '../components/RatingScale';
+import { Rating } from '@/components/ui/Rating';
 import { INTIMACY_QUESTIONS } from '../data/intimacy-questions';
 import {
   useCompleteAssessment,
@@ -150,7 +150,7 @@ export default function IntimacyQuestion() {
         </Text>
 
         {/* Rating Scale */}
-        <RatingScale
+        <Rating
           min={0}
           max={4}
           value={selectedValue}

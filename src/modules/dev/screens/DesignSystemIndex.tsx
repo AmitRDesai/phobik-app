@@ -36,6 +36,7 @@ const SECTIONS: {
     | '/dev/design-system/floating-add-buttons'
     | '/dev/design-system/info-callouts'
     | '/dev/design-system/user-avatars'
+    | '/dev/design-system/ratings'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -230,6 +231,13 @@ const SECTIONS: {
     subtitle:
       'sizes · image / initials / icon fallback hierarchy · session-aware',
     icon: 'account-circle',
+  },
+  {
+    href: '/dev/design-system/ratings',
+    label: 'Rating',
+    subtitle:
+      'numeric scale · ranges · sizes · gradient / tinted · endpoint labels',
+    icon: 'looks-5',
   },
   {
     href: '/dev/design-system/screens',
