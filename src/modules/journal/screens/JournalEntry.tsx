@@ -10,7 +10,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { TextInput } from 'react-native';
+import { TextArea } from '@/components/ui/TextArea';
 import { FeelingDropdown } from '../components/FeelingDropdown';
 import { NeedDropdown } from '../components/NeedDropdown';
 import { TagSection } from '../components/TagSection';
@@ -241,21 +241,17 @@ export default function JournalEntry() {
         )}
       </View>
 
-      <TextInput
+      <TextArea
+        variant="minimal"
+        rows="md"
         value={content}
         onChangeText={
           readOnly
-            ? undefined
+            ? () => {}
             : (text) => dispatch({ type: 'SET_CONTENT', content: text })
         }
         placeholder="How is your body feeling right now?"
-        placeholderTextColor={foregroundFor(scheme, 0.2)}
-        multiline
         editable={!readOnly}
-        className="min-h-[200px] text-[18px] font-light text-foreground"
-        cursorColor={colors.primary.pink}
-        selectionColor={colors.primary.pink}
-        textAlignVertical="top"
       />
     </Screen>
   );

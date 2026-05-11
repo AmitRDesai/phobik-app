@@ -14,7 +14,8 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Image, Pressable, ScrollView, Switch, TextInput } from 'react-native';
+import { Image, Pressable, ScrollView, Switch } from 'react-native';
+import { TextArea } from '@/components/ui/TextArea';
 import { useCreatePost } from '../hooks/useCommunityFeed';
 
 type Circle = '18-24' | '25-34' | '35-44' | '45-54' | '55+';
@@ -107,24 +108,13 @@ export default function CreatePost() {
       </View>
 
       {/* Text Input */}
-      <View>
-        <TextInput
-          value={content}
-          onChangeText={(text) =>
-            setContent(
-              text.length <= MAX_CHARS ? text : text.slice(0, MAX_CHARS),
-            )
-          }
-          placeholder="Start writing here..."
-          placeholderTextColor={foregroundFor(scheme, 0.2)}
-          multiline
-          textAlignVertical="top"
-          className="h-64 rounded-2xl border-2 border-foreground/10 bg-foreground/[0.04] p-5 text-lg leading-relaxed text-foreground"
-        />
-        <Text size="xs" tone="secondary" align="right" className="mt-2">
-          {content.length} / {MAX_CHARS}
-        </Text>
-      </View>
+      <TextArea
+        value={content}
+        onChangeText={setContent}
+        placeholder="Start writing here..."
+        rows="lg"
+        maxLength={MAX_CHARS}
+      />
 
       {/* Image Attachments */}
       <View className="gap-3">

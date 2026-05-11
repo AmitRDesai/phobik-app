@@ -4,7 +4,8 @@ import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
 import { useRef, useState } from 'react';
-import { Keyboard, Pressable, TextInput } from 'react-native';
+import { Keyboard, Pressable } from 'react-native';
+import { TextArea } from '@/components/ui/TextArea';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
@@ -160,18 +161,13 @@ export default function GentleLetterWrite() {
         {stepData.body}
       </Text>
 
-      <View className="mt-6 overflow-hidden rounded-xl border border-primary-pink/30 bg-foreground/5">
-        <TextInput
-          className="p-4 text-base text-foreground"
-          placeholder={stepData.placeholder}
-          placeholderTextColor={foregroundFor(scheme, 0.4)}
-          multiline
-          textAlignVertical="top"
-          value={currentText}
-          onChangeText={handleTextChange}
-          style={{ minHeight: 200 }}
-        />
-      </View>
+      <TextArea
+        className="mt-6"
+        rows="md"
+        value={currentText}
+        onChangeText={handleTextChange}
+        placeholder={stepData.placeholder}
+      />
 
       <View className="mt-3 flex-row items-center justify-center gap-1.5">
         <MaterialIcons

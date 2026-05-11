@@ -25,7 +25,7 @@ export function DoseScoreCard({ date }: DoseScoreCardProps) {
         offsetY: 8,
       }}
       onPress={() => router.push({ pathname: '/energy', params: { date } })}
-      className="flex-1 items-center"
+      className="flex-1 items-center overflow-hidden"
     >
       <GlowBg
         centerX={0.5}

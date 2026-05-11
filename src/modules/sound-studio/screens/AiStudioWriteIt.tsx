@@ -14,7 +14,7 @@ import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { TextInput } from 'react-native';
+import { TextArea } from '@/components/ui/TextArea';
 
 export default function AiStudioWriteIt() {
   const router = useRouter();
@@ -57,14 +57,12 @@ export default function AiStudioWriteIt() {
 
       {/* Textarea */}
       <Card className="mt-6 rounded-3xl p-5">
-        <TextInput
+        <TextArea
+          variant="minimal"
+          rows="md"
           value={text}
           onChangeText={setText}
-          multiline
           placeholder="Describe your day, a specific memory, or your current mood here..."
-          placeholderTextColor={foregroundFor(scheme, 0.35)}
-          className="min-h-[120px] text-base text-foreground"
-          textAlignVertical="top"
         />
         <View className="mt-4 flex-row gap-3">
           <Button

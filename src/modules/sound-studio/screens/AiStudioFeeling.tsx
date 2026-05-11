@@ -11,7 +11,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Pressable, TextInput } from 'react-native';
+import { Pressable } from 'react-native';
+import { TextArea } from '@/components/ui/TextArea';
 
 import { EMOTIONAL_TAGS, type EmotionalTag } from '../data/sound-studio';
 
@@ -121,14 +122,13 @@ export default function AiStudioFeeling() {
         <Text size="xs" treatment="caption" tone="secondary">
           Custom Mood or Genre
         </Text>
-        <TextInput
+        <TextArea
+          variant="minimal"
+          rows="sm"
+          className="mt-3"
           value={customMood}
           onChangeText={setCustomMood}
-          multiline
           placeholder="Describe the mood..."
-          placeholderTextColor={foregroundFor(scheme, 0.35)}
-          className="mt-3 min-h-[60px] text-base text-foreground"
-          textAlignVertical="top"
         />
         <Text size="xs" className="mt-3 text-foreground/40 leading-relaxed">
           "A midnight drive through a neon-soaked city under a purple haze."
@@ -140,14 +140,13 @@ export default function AiStudioFeeling() {
         <Text size="xs" treatment="caption" tone="secondary">
           Music Prompt
         </Text>
-        <TextInput
+        <TextArea
+          variant="minimal"
+          rows="sm"
+          className="mt-3"
           value={musicPrompt}
           onChangeText={setMusicPrompt}
-          multiline
           placeholder="Describe the musical landscape, instruments, and progression in detail..."
-          placeholderTextColor={foregroundFor(scheme, 0.35)}
-          className="mt-3 min-h-[80px] text-base text-foreground"
-          textAlignVertical="top"
         />
         <Text size="xs" className="mt-3 text-foreground/40 leading-relaxed">
           Example: "An cinematic orchestral piece that begins with a haunting

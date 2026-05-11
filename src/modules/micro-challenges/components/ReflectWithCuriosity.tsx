@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { TextInput } from 'react-native';
+import { TextArea } from '@/components/ui/TextArea';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import { Text } from '@/components/themed/Text';
@@ -62,14 +62,12 @@ export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
       <Text size="xs" treatment="caption" tone="secondary" className="mb-2">
         My Reflection Note
       </Text>
-      <TextInput
+      <TextArea
+        rows="sm"
+        className="mb-8"
         value={reflection}
         onChangeText={setReflection}
         placeholder="Next time..."
-        placeholderTextColor={foregroundFor(scheme, 0.15)}
-        multiline
-        textAlignVertical="top"
-        className="mb-8 min-h-[140px] rounded-xl border border-foreground/10 bg-foreground/[0.03] p-4 text-sm text-foreground/90"
       />
 
       {/* Save button */}

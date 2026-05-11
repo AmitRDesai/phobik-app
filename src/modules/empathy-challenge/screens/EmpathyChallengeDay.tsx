@@ -3,7 +3,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Keyboard, TextInput } from 'react-native';
+import { Keyboard } from 'react-native';
+import { TextArea } from '@/components/ui/TextArea';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
@@ -285,16 +286,11 @@ export default function EmpathyChallengeDay() {
               >
                 {empathyDay.reflectionLabel}
               </Text>
-              <TextInput
-                className="rounded-2xl border border-foreground/10 bg-surface-elevated p-4 text-base leading-relaxed text-foreground"
-                placeholder={empathyDay.reflectionPlaceholder}
-                placeholderTextColor={foregroundFor(scheme, 0.35)}
-                multiline
-                numberOfLines={3}
-                textAlignVertical="top"
+              <TextArea
+                rows="sm"
                 value={reflection}
                 onChangeText={setReflection}
-                style={{ minHeight: 110 }}
+                placeholder={empathyDay.reflectionPlaceholder}
               />
             </View>
           </View>

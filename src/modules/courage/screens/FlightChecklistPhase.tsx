@@ -4,7 +4,8 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Pressable, TextInput } from 'react-native';
+import { Pressable } from 'react-native';
+import { TextArea } from '@/components/ui/TextArea';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
@@ -282,14 +283,11 @@ function JournalPrompt() {
       <Text size="sm" italic className="mb-3 text-foreground/60">
         {'"What am I worried about? Fact or fiction?"'}
       </Text>
-      <TextInput
+      <TextArea
+        rows="sm"
         value={text}
         onChangeText={setText}
         placeholder="Type your reflections here..."
-        placeholderTextColor={foregroundFor(scheme, 0.35)}
-        multiline
-        className="min-h-[120px] rounded-xl border border-foreground/15 bg-foreground/[0.04] p-4 text-sm text-foreground"
-        textAlignVertical="top"
       />
     </View>
   );
