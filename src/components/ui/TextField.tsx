@@ -31,6 +31,8 @@ export interface TextFieldProps {
   /** Optional leading icon (React node — pass an icon component). */
   icon?: ReactNode;
   editable?: boolean;
+  /** Focus the field on mount — use sparingly (prompts, modal forms). */
+  autoFocus?: boolean;
   returnKeyType?: ReturnKeyTypeOptions;
   onSubmitEditing?: () => void;
   /** Override label casing. Default: false (sentence case). */
@@ -99,6 +101,7 @@ export function TextField({
   size = 'default',
   icon,
   editable = true,
+  autoFocus,
   returnKeyType,
   onSubmitEditing,
   labelUppercase = false,
@@ -154,6 +157,7 @@ export function TextField({
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           editable={editable}
+          autoFocus={autoFocus}
           returnKeyType={returnKeyType}
           onSubmitEditing={onSubmitEditing}
         />

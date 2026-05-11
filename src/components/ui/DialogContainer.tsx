@@ -1,4 +1,6 @@
-import { colors, withAlpha } from '@/constants/colors';
+import { Text } from '@/components/themed/Text';
+import { DIALOG_OVERLAY_HEX, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import {
   dialogAtom,
   type DialogButton,
@@ -10,15 +12,37 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue } from 'jotai';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Text } from '@/components/themed/Text';
-import { ActivityIndicator, BackHandler, Pressable, View } from 'react-native';
+import {
+  ActivityIndicator,
+  BackHandler,
+  Dimensions,
+  Pressable,
+  ScrollView,
+  View,
+} from 'react-native';
 import { EaseView } from 'react-native-ease';
+import { KeyboardStickyView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from './Button';
 
+// Generous slide-in offset that works for tall custom dialogs without
+// needing to measure the sheet height at runtime.
+const SLIDE_IN_OFFSET = 600;
+// Cap the sheet body so very tall custom dialogs scroll instead of pushing
+// past the top of the screen on small phones.
+const SHEET_MAX_HEIGHT_PCT = 0.85;
+
 export function DialogContainer() {
+  const scheme = useScheme();
   const dialogState = useAtomValue(dialogAtom);
   const insets = useSafeAreaInsets();
+  const { height: screenHeight } = Dimensions.get('window');
+
+  // Per-scheme bottom-sheet bg. Must be OPAQUE — the sheet sits over the
+  // dim overlay + the screen content underneath; any alpha would let the
+  // page bleed through. Neutral charcoal on dark — distinct from the screen
+  // bg (#121212) without the plum cast of the `surface-elevated` token.
+  const sheetBg = scheme === 'dark' ? '#1f1f1f' : '#ffffff';
 
   // Keep last dialog state during exit animation
   const [renderState, setRenderState] = useState<DialogState | null>(null);
@@ -90,7 +114,7 @@ export function DialogContainer() {
           duration: isOpen ? 250 : 200,
           easing: [0.455, 0.03, 0.515, 0.955],
         }}
-        style={{ backgroundColor: withAlpha('#0a0408', 0.4) }}
+        style={{ backgroundColor: withAlpha(DIALOG_OVERLAY_HEX, 0.4) }}
       >
         <Pressable
           className="flex-1"
@@ -99,76 +123,89 @@ export function DialogContainer() {
         />
       </EaseView>
 
-      {/* Bottom sheet */}
-      <EaseView
-        className="absolute bottom-0 left-0 right-0 rounded-t-[2.5rem] bg-surface-elevated"
-        initialAnimate={{ translateY: 300 }}
-        animate={{ translateY: isOpen ? 0 : 300 }}
-        transition={{
-          type: 'timing',
-          duration: isOpen ? 250 : 200,
-          easing: [0.455, 0.03, 0.515, 0.955],
-        }}
-        style={{ paddingBottom: Math.max(insets.bottom, 10) }}
+      {/* Bottom sheet — wrapped in KeyboardStickyView so it rises with the
+          keyboard when a custom dialog contains a focused input. */}
+      <KeyboardStickyView
+        offset={{ closed: 0, opened: 0 }}
+        style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}
       >
-        {/* Drag handle */}
-        <View className="items-center pt-3">
-          <View className="h-1 w-10 rounded-full bg-foreground/25" />
-        </View>
+        <EaseView
+          className="rounded-t-[2.5rem]"
+          initialAnimate={{ translateY: SLIDE_IN_OFFSET }}
+          animate={{ translateY: isOpen ? 0 : SLIDE_IN_OFFSET }}
+          transition={{
+            type: 'timing',
+            duration: isOpen ? 250 : 200,
+            easing: [0.455, 0.03, 0.515, 0.955],
+          }}
+          style={{
+            backgroundColor: sheetBg,
+            paddingBottom: Math.max(insets.bottom, 10),
+            maxHeight: screenHeight * SHEET_MAX_HEIGHT_PCT,
+          }}
+        >
+          <ScrollView
+            contentContainerClassName="px-6 pb-6 pt-6"
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+          >
+            {isCustom && CustomComponent ? (
+              <CustomComponent
+                close={handleCustomClose}
+                {...renderState.customProps}
+              />
+            ) : (
+              <>
+                {/* Icon */}
+                <DialogIcon type={renderState.type} />
 
-        <View className="px-6 pb-6 pt-4">
-          {isCustom && CustomComponent ? (
-            <CustomComponent
-              close={handleCustomClose}
-              {...renderState.customProps}
-            />
-          ) : (
-            <>
-              {/* Icon */}
-              <DialogIcon type={renderState.type} />
+                {/* Title */}
+                {renderState.title && (
+                  <Text size="h2" align="center" className="mt-4">
+                    {renderState.title}
+                  </Text>
+                )}
 
-              {/* Title */}
-              {renderState.title && (
-                <Text size="h2" align="center" className="mt-4">
-                  {renderState.title}
-                </Text>
-              )}
+                {/* Message */}
+                {renderState.message && (
+                  <Text
+                    size="md"
+                    tone="secondary"
+                    align="center"
+                    className="mt-2 leading-6"
+                  >
+                    {renderState.message}
+                  </Text>
+                )}
 
-              {/* Message */}
-              {renderState.message && (
-                <Text
-                  size="md"
-                  tone="secondary"
-                  align="center"
-                  className="mt-2 leading-6"
-                >
-                  {renderState.message}
-                </Text>
-              )}
-
-              {/* Loading indicator */}
-              {isLoading && (
-                <View className="mt-6 items-center">
-                  <ActivityIndicator size="large" color={colors.primary.pink} />
-                </View>
-              )}
-
-              {/* Buttons */}
-              {renderState.buttons.length > 0 && (
-                <View className="mt-6 gap-3">
-                  {renderState.buttons.map((button) => (
-                    <DialogButtonView
-                      key={button.label}
-                      button={button}
-                      onPress={() => handleButtonPress(button)}
+                {/* Loading indicator */}
+                {isLoading && (
+                  <View className="mt-6 items-center">
+                    <ActivityIndicator
+                      size="large"
+                      color={colors.primary.pink}
                     />
-                  ))}
-                </View>
-              )}
-            </>
-          )}
-        </View>
-      </EaseView>
+                  </View>
+                )}
+
+                {/* Buttons */}
+                {renderState.buttons.length > 0 && (
+                  <View className="mt-6 gap-3">
+                    {renderState.buttons.map((button) => (
+                      <DialogButtonView
+                        key={button.label}
+                        button={button}
+                        onPress={() => handleButtonPress(button)}
+                      />
+                    ))}
+                  </View>
+                )}
+              </>
+            )}
+          </ScrollView>
+        </EaseView>
+      </KeyboardStickyView>
     </View>
   );
 }

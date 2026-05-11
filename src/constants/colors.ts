@@ -136,3 +136,10 @@ export const alpha = {
   neutral55: 'rgba(127,127,127,0.55)',
   neutral60: 'rgba(127,127,127,0.6)',
 } as const;
+
+/**
+ * Brand-specific dim color used behind modal sheets (DialogContainer). Always
+ * the same plum-near-black hex regardless of scheme — the overlay's job is
+ * to dim content underneath, not to theme-adapt.
+ */
+export const DIALOG_OVERLAY_HEX = '#0a0408';

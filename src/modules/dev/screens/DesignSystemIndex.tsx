@@ -21,6 +21,7 @@ const SECTIONS: {
     | '/dev/design-system/notification-badges'
     | '/dev/design-system/gradient-text'
     | '/dev/design-system/glows'
+    | '/dev/design-system/dialogs'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -111,6 +112,13 @@ const SECTIONS: {
     subtitle:
       'GlowBg (screen wash) + RadialGlow (element halo) · sizes · colors',
     icon: 'blur-on',
+  },
+  {
+    href: '/dev/design-system/dialogs',
+    label: 'Dialog',
+    subtitle:
+      'error · info · loading · open (custom) · buttons · async patterns',
+    icon: 'chat-bubble-outline',
   },
   {
     href: '/dev/design-system/screens',
