@@ -39,6 +39,7 @@ const SECTIONS: {
     | '/dev/design-system/ratings'
     | '/dev/design-system/inline-links'
     | '/dev/design-system/playback-controls'
+    | '/dev/design-system/social-auth-buttons'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -254,6 +255,13 @@ const SECTIONS: {
     subtitle:
       'mute + play/pause + restart · sizes · session controls for breathing flows',
     icon: 'play-circle-filled',
+  },
+  {
+    href: '/dev/design-system/social-auth-buttons',
+    label: 'SocialAuthButton',
+    subtitle:
+      'round 56×56 Google / Apple chip · theme-aware icon · iOS-only apple gate',
+    icon: 'fingerprint',
   },
   {
     href: '/dev/design-system/screens',

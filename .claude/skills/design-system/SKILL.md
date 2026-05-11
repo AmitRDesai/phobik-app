@@ -64,6 +64,7 @@ Every primitive lives in `src/components/ui/`. The full live catalog is browsabl
 - **`Button`** — `variant: 'primary' (gradient) | 'secondary' (ghost border) | 'destructive' (red wash) | 'ghost'` × `size: 'xs' | 'sm' | 'md' | 'lg'`. `iconOnly`, `prefixIcon`, `icon`, `fullWidth`, `loading`, `loadingText`. Built-in haptic, hitSlop accessibility for sub-44pt sizes.
 - **`InlineLink`** — single-row link with a `tone="secondary"` prefix + `tone="accent" weight="bold"` action word (`"Already have an account? **Sign In**"`). Centered by default; tap target is the whole row. Use for in-flow navigation cues at the bottom of auth / form screens.
 - **`FloatingAddButton`** — bottom-right FAB with the brand gradient. Pass `icon` for non-default actions (compose, search, play). Requires `accessibilityLabel`.
+- **`SocialAuthButton`** — round 56×56 social-auth chip. `provider: 'google' | 'apple'`. Theme-aware icon color. Compose in a `flex-row gap-4` at the bottom of auth forms; gate the apple variant with `Platform.OS === 'ios'`.
 
 ### Selection
 

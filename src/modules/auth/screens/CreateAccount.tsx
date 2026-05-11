@@ -2,6 +2,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { InlineLink } from '@/components/ui/InlineLink';
 import { Screen } from '@/components/ui/Screen';
+import { SocialAuthButton } from '@/components/ui/SocialAuthButton';
 import { TextField } from '@/components/ui/TextField';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -12,7 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Platform, Pressable, TextInput as RNTextInput } from 'react-native';
+import { Platform, TextInput as RNTextInput } from 'react-native';
 import {
   useAppleSignIn,
   useGoogleSignIn,
@@ -29,8 +30,6 @@ const GRADIENT_HEADER_STYLE = {
 
 export default function CreateAccountScreen() {
   const scheme = useScheme();
-  const socialIconColor =
-    scheme === 'dark' ? foregroundFor(scheme, 0.8) : 'rgba(0,0,0,0.78)';
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -261,22 +260,17 @@ export default function CreateAccountScreen() {
           </View>
 
           <View className="flex-row justify-center gap-4">
-            <Pressable
+            <SocialAuthButton
+              provider="google"
               onPress={handleGoogleSignUp}
               disabled={isLoading}
-              className="h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10"
-            >
-              <Ionicons name="logo-google" size={24} color={socialIconColor} />
-            </Pressable>
-
+            />
             {Platform.OS === 'ios' && (
-              <Pressable
+              <SocialAuthButton
+                provider="apple"
                 onPress={handleAppleSignUp}
                 disabled={isLoading}
-                className="h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10"
-              >
-                <Ionicons name="logo-apple" size={24} color={socialIconColor} />
-              </Pressable>
+              />
             )}
           </View>
         </View>
