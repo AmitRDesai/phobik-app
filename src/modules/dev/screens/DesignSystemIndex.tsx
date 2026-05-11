@@ -29,6 +29,7 @@ const SECTIONS: {
     | '/dev/design-system/dropdown-selects'
     | '/dev/design-system/audio-players'
     | '/dev/design-system/empty-states'
+    | '/dev/design-system/toasts'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -174,6 +175,13 @@ const SECTIONS: {
     subtitle:
       'sm / md / lg · tones · icon + title + description + optional CTA',
     icon: 'inbox',
+  },
+  {
+    href: '/dev/design-system/toasts',
+    label: 'Toast',
+    subtitle:
+      'success · info · warning · error · imperative API · auto-dismiss',
+    icon: 'notifications-active',
   },
   {
     href: '/dev/design-system/screens',

@@ -1,6 +1,7 @@
 import '@azure/core-asynciterator-polyfill';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { DialogContainer } from '@/components/ui/DialogContainer';
+import { ToastContainer } from '@/components/ui/ToastContainer';
 import { colors } from '@/constants/colors';
 import useAppInitializer from '@/hooks/useAppInitializer';
 import { useTheme } from '@/hooks/useTheme';
@@ -34,6 +35,7 @@ export default function RootLayout() {
             <ThemeProvider>
               <RootNavigator />
               <DialogContainer />
+              <ToastContainer />
               <ThemedSystemBars />
             </ThemeProvider>
           </PersistQueryClientProvider>
