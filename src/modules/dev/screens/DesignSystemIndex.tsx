@@ -27,6 +27,7 @@ const SECTIONS: {
     | '/dev/design-system/switches'
     | '/dev/design-system/chip-selects'
     | '/dev/design-system/dropdown-selects'
+    | '/dev/design-system/audio-players'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -158,6 +159,13 @@ const SECTIONS: {
     subtitle:
       'trigger opens Dialog sheet · descriptions · icons · allowClear · form fields',
     icon: 'arrow-drop-down-circle',
+  },
+  {
+    href: '/dev/design-system/audio-players',
+    label: 'AudioPlayer',
+    subtitle:
+      'hero · mini · inline · tones · loading · seek · skip · presentation-only',
+    icon: 'play-circle-outline',
   },
   {
     href: '/dev/design-system/screens',
