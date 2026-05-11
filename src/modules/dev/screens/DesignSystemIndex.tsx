@@ -28,6 +28,7 @@ const SECTIONS: {
     | '/dev/design-system/chip-selects'
     | '/dev/design-system/dropdown-selects'
     | '/dev/design-system/audio-players'
+    | '/dev/design-system/empty-states'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -164,8 +165,15 @@ const SECTIONS: {
     href: '/dev/design-system/audio-players',
     label: 'AudioPlayer',
     subtitle:
-      'hero · mini · inline · tones · loading · seek · skip · presentation-only',
+      'hero · card · mini · inline · tones · loading · seek · skip · voice · mute',
     icon: 'play-circle-outline',
+  },
+  {
+    href: '/dev/design-system/empty-states',
+    label: 'EmptyState',
+    subtitle:
+      'sm / md / lg · tones · icon + title + description + optional CTA',
+    icon: 'inbox',
   },
   {
     href: '/dev/design-system/screens',
