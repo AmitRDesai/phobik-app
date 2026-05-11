@@ -26,6 +26,7 @@ const SECTIONS: {
     | '/dev/design-system/progress-bars'
     | '/dev/design-system/switches'
     | '/dev/design-system/chip-selects'
+    | '/dev/design-system/dropdown-selects'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -150,6 +151,13 @@ const SECTIONS: {
     subtitle:
       'multi / single · sizes · tones · icons · wrap / scroll · disabled',
     icon: 'style',
+  },
+  {
+    href: '/dev/design-system/dropdown-selects',
+    label: 'DropdownSelect',
+    subtitle:
+      'trigger opens Dialog sheet · descriptions · icons · allowClear · form fields',
+    icon: 'arrow-drop-down-circle',
   },
   {
     href: '/dev/design-system/screens',
