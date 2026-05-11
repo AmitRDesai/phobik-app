@@ -40,6 +40,7 @@ function ScoreRing({
   labelColor,
   gradientId,
 }: ScoreRingProps) {
+  const scheme = useScheme();
   const percentage = max > 0 ? (score / max) * 100 : 0;
   const strokeDashoffset =
     RING_CIRCUMFERENCE - (RING_CIRCUMFERENCE * percentage) / 100;
@@ -62,7 +63,7 @@ function ScoreRing({
             cx={RING_SIZE / 2}
             cy={RING_SIZE / 2}
             r={RING_RADIUS}
-            stroke="rgba(255,255,255,0.06)"
+            stroke={foregroundFor(scheme, 0.06)}
             strokeWidth={RING_STROKE}
             fill="none"
           />

@@ -1,7 +1,7 @@
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { useRouter } from 'expo-router';
 import { Text } from '@/components/themed/Text';
-import { View } from 'react-native';
+import { View } from '@/components/themed/View';
 
 import { AssessmentCard } from '../components/AssessmentCard';
 import { ASSESSMENTS } from '../data/assessments';
@@ -17,10 +17,10 @@ export default function AssessmentHub() {
   return (
     <PracticeScreenShell wordmark="Self Check-Ins">
       <View className="mb-8 mt-2">
-        <Text weight="extrabold" className="text-3xl tracking-tight">
+        <Text size="h2" weight="extrabold" className="tracking-tight">
           Assessment Hub
         </Text>
-        <Text weight="medium" size="sm" className="mt-1 text-foreground/60">
+        <Text size="sm" weight="medium" tone="secondary" className="mt-1">
           Deep insights for personal evolution.
         </Text>
       </View>

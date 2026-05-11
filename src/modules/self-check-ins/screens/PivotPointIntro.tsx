@@ -78,7 +78,7 @@ export default function PivotPointIntro() {
         <Text size="h1" className="mb-2">
           The Pivot Point
         </Text>
-        <Text size="lg" weight="medium" className="mb-8 text-foreground/60">
+        <Text size="lg" weight="medium" tone="secondary" className="mb-8">
           How do you respond when life gets hard?
         </Text>
 

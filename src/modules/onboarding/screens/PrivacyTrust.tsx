@@ -36,7 +36,7 @@ const PRIVACY_FEATURES: {
   },
   {
     icon: 'settings-suggest',
-    iconBg: '#555555',
+    iconBg: colors.gray[600],
     title: 'Granular Control',
     description: 'You decide which sensors and permissions are active.',
   },
@@ -116,7 +116,7 @@ export default function PrivacyTrust() {
               <Text size="lg" weight="bold">
                 {feature.title}
               </Text>
-              <Text size="sm" className="mt-0.5 text-foreground/50">
+              <Text size="sm" tone="secondary" className="mt-0.5">
                 {feature.description}
               </Text>
             </View>

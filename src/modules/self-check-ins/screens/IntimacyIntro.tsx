@@ -5,7 +5,12 @@ import { BackButton } from '@/components/ui/BackButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { useScheme } from '@/hooks/useTheme';
-import { accentFor, colors, withAlpha } from '@/constants/colors';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
@@ -61,8 +66,8 @@ export default function IntimacyIntro() {
       };
     if (tone === 'yellow') return { bg: withAlpha(yellow, 0.1), text: yellow };
     return {
-      bg: 'rgba(127,127,127,0.12)',
-      text: 'rgba(127,127,127,0.7)',
+      bg: foregroundFor(scheme, 0.1),
+      text: foregroundFor(scheme, 0.6),
     };
   };
 

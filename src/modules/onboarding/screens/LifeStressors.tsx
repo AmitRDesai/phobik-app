@@ -1,7 +1,7 @@
+import { View } from '@/components/themed/View';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
-import { View } from 'react-native';
 import { OnboardingGridCard } from '../components/OnboardingGridCard';
 import { OnboardingLayout } from '../components/OnboardingLayout';
 import {
