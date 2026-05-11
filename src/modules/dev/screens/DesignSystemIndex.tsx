@@ -31,6 +31,7 @@ const SECTIONS: {
     | '/dev/design-system/empty-states'
     | '/dev/design-system/toasts'
     | '/dev/design-system/skeletons'
+    | '/dev/design-system/sliders'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -190,6 +191,13 @@ const SECTIONS: {
     subtitle:
       'rect / pill / circle · animated pulse · compositions · static mode',
     icon: 'view-stream',
+  },
+  {
+    href: '/dev/design-system/sliders',
+    label: 'Slider',
+    subtitle:
+      'range + step · tones · disabled · auto-measured width · drag + tap',
+    icon: 'tune',
   },
   {
     href: '/dev/design-system/screens',
