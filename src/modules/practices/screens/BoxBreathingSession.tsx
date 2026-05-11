@@ -8,17 +8,16 @@ import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
+import { PlaybackControls } from '@/components/ui/PlaybackControls';
 import { Screen } from '@/components/ui/Screen';
 import { useNow } from '@/hooks/useNow';
-import { useScheme } from '@/hooks/useTheme';
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useState } from 'react';
-import { Pressable } from 'react-native';
 
 import { BreathingBox } from '../components/BreathingBox';
 import { useInstructionAudio } from '../hooks/useInstructionAudio';
@@ -32,7 +31,6 @@ const CYCLE_DURATION = PHASE_DURATION * 4; // 16s
 const TOTAL_DURATION = CYCLE_DURATION * 5; // 5 cycles = 80 seconds
 
 export default function BoxBreathingSession() {
-  const scheme = useScheme();
   const savedState = useAtomValue(boxBreathingSessionAtom);
   const setSession = useSetAtom(boxBreathingSessionAtom);
 
@@ -355,58 +353,16 @@ export default function BoxBreathingSession() {
             </View>
           </View>
 
-          {/* Playback Controls */}
-          <View className="mt-8 flex-row items-center justify-between border-t border-foreground/5 px-6 pt-6">
-            {/* Mute button */}
-            <Pressable
-              onPress={() => setIsMuted((m) => !m)}
-              className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
-            >
-              <MaterialIcons
-                name={isMuted ? 'volume-off' : 'volume-up'}
-                size={24}
-                color={foregroundFor(scheme, 0.6)}
-              />
-            </Pressable>
-
-            {/* Pause / Play button */}
-            <Pressable
-              onPress={() => setIsPaused((p) => !p)}
-              className="active:scale-95"
-            >
-              <LinearGradient
-                colors={[colors.primary.pink, colors.accent.yellow]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: 32,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.3)}`,
-                }}
-              >
-                <MaterialIcons
-                  name={isPaused ? 'play-arrow' : 'pause'}
-                  size={30}
-                  color="white"
-                />
-              </LinearGradient>
-            </Pressable>
-
-            {/* Restart button */}
-            <Pressable
-              onPress={handleRestart}
-              className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
-            >
-              <MaterialIcons
-                name={sessionReady ? 'replay' : 'skip-next'}
-                size={24}
-                color={foregroundFor(scheme, 0.6)}
-              />
-            </Pressable>
-          </View>
+          <PlaybackControls
+            className="mt-8 justify-between border-t border-foreground/5 px-6 pt-6"
+            size="md"
+            isPaused={isPaused}
+            onPauseToggle={() => setIsPaused((p) => !p)}
+            isMuted={isMuted}
+            onMuteToggle={() => setIsMuted((m) => !m)}
+            onRestart={handleRestart}
+            sessionReady={sessionReady}
+          />
         </Card>
       </View>
     </Screen>

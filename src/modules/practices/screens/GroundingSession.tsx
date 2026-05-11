@@ -3,17 +3,13 @@ import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
+import { PlaybackControls } from '@/components/ui/PlaybackControls';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useKeepAwake } from 'expo-keep-awake';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable } from 'react-native';
 
 import { AudioVisualizer } from '../components/AudioVisualizer';
 import { HeartRateBadge } from '../components/HeartRateBadge';
@@ -88,7 +84,6 @@ function parseInstruction(text: string) {
 }
 
 export default function GroundingSession() {
-  const scheme = useScheme();
   useKeepAwake();
   const router = useRouter();
   const savedState = useAtomValue(groundingSessionAtom);
@@ -274,55 +269,15 @@ export default function GroundingSession() {
         </Text>
       </View>
 
-      {/* Controls */}
-      <View className="mb-8 flex-row items-center justify-center gap-8">
-        <Pressable
-          onPress={() => setIsMuted((m) => !m)}
-          className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
-        >
-          <MaterialIcons
-            name={isMuted ? 'volume-off' : 'volume-up'}
-            size={24}
-            color={foregroundFor(scheme, 0.7)}
-          />
-        </Pressable>
-        <Pressable
-          onPress={() => setIsPaused((p) => !p)}
-          style={{
-            borderRadius: 32,
-            boxShadow: `0 0 24px ${withAlpha(colors.primary.pink, 0.5)}`,
-          }}
-        >
-          <LinearGradient
-            colors={[colors.primary.pink, colors.accent.yellow]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{
-              width: 64,
-              height: 64,
-              borderRadius: 32,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <MaterialIcons
-              name={isPaused ? 'play-arrow' : 'pause'}
-              size={32}
-              color="white"
-            />
-          </LinearGradient>
-        </Pressable>
-        <Pressable
-          onPress={handleRestart}
-          className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
-        >
-          <MaterialIcons
-            name="replay"
-            size={24}
-            color={foregroundFor(scheme, 0.7)}
-          />
-        </Pressable>
-      </View>
+      <PlaybackControls
+        className="mb-8 justify-center gap-8"
+        size="sm"
+        isPaused={isPaused}
+        onPauseToggle={() => setIsPaused((p) => !p)}
+        isMuted={isMuted}
+        onMuteToggle={() => setIsMuted((m) => !m)}
+        onRestart={handleRestart}
+      />
     </Screen>
   );
 }
