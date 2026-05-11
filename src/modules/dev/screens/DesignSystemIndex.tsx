@@ -20,6 +20,7 @@ const SECTIONS: {
     | '/dev/design-system/progress-dots'
     | '/dev/design-system/notification-badges'
     | '/dev/design-system/gradient-text'
+    | '/dev/design-system/glows'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -103,6 +104,13 @@ const SECTIONS: {
     subtitle:
       'color pairs · direction · sizes · brand wordmark · anti-patterns',
     icon: 'gradient',
+  },
+  {
+    href: '/dev/design-system/glows',
+    label: 'Glows',
+    subtitle:
+      'GlowBg (screen wash) + RadialGlow (element halo) · sizes · colors',
+    icon: 'blur-on',
   },
   {
     href: '/dev/design-system/screens',
