@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { IconChip } from '@/components/ui/IconChip';
+import { InlineLink } from '@/components/ui/InlineLink';
 import { Screen } from '@/components/ui/Screen';
 import { TextField } from '@/components/ui/TextField';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
@@ -203,18 +204,13 @@ export default function ResetPasswordScreen() {
           </Button>
         </View>
 
-        <Pressable
+        <InlineLink
+          prefix="Remember your password?"
+          action="Sign In"
           onPress={() => router.replace('/auth/sign-in')}
-          className="mt-6 py-2"
           disabled={isLoading}
-        >
-          <Text size="sm" align="center" tone="secondary">
-            Remember your password?{' '}
-            <Text size="sm" tone="accent" weight="bold">
-              Sign In
-            </Text>
-          </Text>
-        </Pressable>
+          className="mt-6"
+        />
       </View>
     </Screen>
   );

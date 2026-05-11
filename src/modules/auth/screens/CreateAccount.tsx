@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { InlineLink } from '@/components/ui/InlineLink';
 import { Screen } from '@/components/ui/Screen';
 import { TextField } from '@/components/ui/TextField';
 import { colors, foregroundFor } from '@/constants/colors';
@@ -300,18 +301,13 @@ export default function CreateAccountScreen() {
           .
         </Text>
 
-        <Pressable
+        <InlineLink
+          prefix="Already have an account?"
+          action="Sign In"
           onPress={() => router.replace('/auth/sign-in')}
-          className="mb-8 mt-6 py-2"
           disabled={isLoading}
-        >
-          <Text size="sm" tone="secondary" align="center">
-            Already have an account?{' '}
-            <Text size="sm" tone="accent" weight="bold">
-              Sign In
-            </Text>
-          </Text>
-        </Pressable>
+          className="mb-8 mt-6"
+        />
       </View>
     </Screen>
   );

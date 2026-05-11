@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Screen } from '@/components/ui/Screen';
+import { InlineLink } from '@/components/ui/InlineLink';
 import { TextField } from '@/components/ui/TextField';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import {
@@ -315,18 +316,13 @@ export default function SignInScreen() {
             </View>
           </View>
 
-          <Pressable
+          <InlineLink
+            prefix="Don't have an account?"
+            action="Sign Up"
             onPress={handleSignUp}
-            className="mb-8 mt-6 py-2"
             disabled={isLoading}
-          >
-            <Text size="sm" tone="secondary" align="center">
-              Don&apos;t have an account?{' '}
-              <Text size="sm" tone="accent" weight="bold">
-                Sign Up
-              </Text>
-            </Text>
-          </Pressable>
+            className="mb-8 mt-6"
+          />
         </View>
       )}
     </Screen>

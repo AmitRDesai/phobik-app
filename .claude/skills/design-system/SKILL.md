@@ -62,6 +62,7 @@ Every primitive lives in `src/components/ui/`. The full live catalog is browsabl
 ### Buttons / actions
 
 - **`Button`** — `variant: 'primary' (gradient) | 'secondary' (ghost border) | 'destructive' (red wash) | 'ghost'` × `size: 'xs' | 'sm' | 'md' | 'lg'`. `iconOnly`, `prefixIcon`, `icon`, `fullWidth`, `loading`, `loadingText`. Built-in haptic, hitSlop accessibility for sub-44pt sizes.
+- **`InlineLink`** — single-row link with a `tone="secondary"` prefix + `tone="accent" weight="bold"` action word (`"Already have an account? **Sign In**"`). Centered by default; tap target is the whole row. Use for in-flow navigation cues at the bottom of auth / form screens.
 - **`FloatingAddButton`** — bottom-right FAB with the brand gradient. Pass `icon` for non-default actions (compose, search, play). Requires `accessibilityLabel`.
 
 ### Selection
@@ -146,6 +147,7 @@ export default function MyScreen() {
 | Raw hex color literal | `colors.*` lookup, `accentFor`, `foregroundFor`, or `withAlpha` |
 | `shadowColor` / `shadowOffset` / `shadowOpacity` / `shadowRadius` | `boxShadow` string with `withAlpha(color, opacity)` |
 | `Pressable` + `Text` "button" (Skip / Resend / Log Out) | `Button` primitive with appropriate `variant` |
+| `Pressable` wrapping `<Text tone="secondary">Prefix <Text tone="accent">Action</Text></Text>` | `InlineLink prefix="Prefix" action="Action" onPress={...}` |
 | `multiline TextInput` from RN | `TextArea` primitive |
 | `keyboardType + autoCapitalize + secureTextEntry` props | `TextField type="text/password/email/numeric"` |
 | Raw RN `Switch` + `trackColor` block | `Switch` from `@/components/ui/Switch` |
