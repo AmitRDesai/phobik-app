@@ -25,6 +25,7 @@ const SECTIONS: {
     | '/dev/design-system/network-banners'
     | '/dev/design-system/progress-bars'
     | '/dev/design-system/switches'
+    | '/dev/design-system/chip-selects'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -142,6 +143,13 @@ const SECTIONS: {
     label: 'Switch',
     subtitle: 'binary toggle · disabled · settings rows · form flag patterns',
     icon: 'toggle-on',
+  },
+  {
+    href: '/dev/design-system/chip-selects',
+    label: 'ChipSelect',
+    subtitle:
+      'multi / single · sizes · tones · icons · wrap / scroll · disabled',
+    icon: 'style',
   },
   {
     href: '/dev/design-system/screens',
