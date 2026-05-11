@@ -3,15 +3,13 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
-import { useScheme } from '@/hooks/useTheme';
-import { foregroundFor } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
-import { Pressable } from 'react-native';
 import { EaseView } from 'react-native-ease';
 
 import { InsightCard } from '../components/InsightCard';
@@ -32,8 +30,6 @@ const TOTAL = INTIMACY_QUESTIONS.length;
 
 export default function IntimacyQuestion() {
   const router = useRouter();
-  const scheme = useScheme();
-  const closeIconColor = foregroundFor(scheme, 0.7);
   const [currentIndex, setCurrentIndex] = useAtom(intimacyCurrentQuestionAtom);
   const [answers, setAnswers] = useAtom(intimacyAnswersAtom);
   const saveAnswer = useSaveAnswer();
@@ -110,12 +106,16 @@ export default function IntimacyQuestion() {
             </Text>
           }
           right={
-            <Pressable
+            <IconChip
+              size="md"
+              shape="circle"
               onPress={handleClose}
-              className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
+              accessibilityLabel="Quit assessment"
             >
-              <MaterialIcons name="close" size={20} color={closeIconColor} />
-            </Pressable>
+              {(color) => (
+                <MaterialIcons name="close" size={20} color={color} />
+              )}
+            </IconChip>
           }
         />
       }

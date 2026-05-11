@@ -83,7 +83,7 @@ Every primitive lives in `src/components/ui/`. The full live catalog is browsabl
 ### Display
 
 - **`Badge`** — `variant: 'tinted' (default) | 'outline' | 'solid'` × `size: 'sm' | 'md'`, `tone`, optional `icon` (render-prop). Always uppercase tracked.
-- **`IconChip`** — `size: 'sm' | 'md' | 'lg' | number` × `shape: 'rounded' | 'circle' | 'square'`. `tone` + render-prop icon for color-coded chips. Composable inside cards / list rows.
+- **`IconChip`** — `size: 'sm' | 'md' | 'lg' | number` × `shape: 'rounded' | 'circle' | 'square'`. `tone` + render-prop icon for color-coded chips. Composable inside cards / list rows. Pass `onPress` + `accessibilityLabel` to render as a tappable icon button (haptic + `active:opacity-70` + hitSlop for sub-44pt sizes) — covers the "round close button in a Header right slot" pattern.
 - **`UserAvatar`** — `size: 'sm' | 'md' | 'lg' | 'xl' | number` (32/40/48/80/custom). Three-step fallback: `imageUri` → `name` initials → person icon. Pulls session user automatically; pass `imageUri` / `name` for other users.
 - **`Badge`** + **`IconChip`** + **`UserAvatar`** all support the render-prop icon pattern: `icon={(color) => <Ionicons ... color={color} />}` auto-colors from the resolved tone.
 - **`GradientText`** — pink→yellow masked text for hero / brand wordmarks. Children must be a plain string.
@@ -156,6 +156,7 @@ export default function MyScreen() {
 | `dialog.info("Saved")` for transient confirm | `toast.success("Saved")` |
 | `LoadingScreen` / spinner inside a list | `Skeleton` shapes that match the list row |
 | `<View className="h-10 w-10 rounded-full ...">` (icon chip) | `IconChip` with appropriate size + tone |
+| `<Pressable className="h-10 w-10 ... rounded-full"><MaterialIcons name="close" .../></Pressable>` (header close / round icon button) | `IconChip onPress={...} accessibilityLabel="..." size="md" shape="circle">{(color) => <Icon color={color} />}</IconChip>` |
 | Hand-rolled rating buttons | `Rating` primitive |
 | Inline accordion w/ animated height + caller-supplied EXPANDED_HEIGHT | `Accordion` (auto-measures content) |
 

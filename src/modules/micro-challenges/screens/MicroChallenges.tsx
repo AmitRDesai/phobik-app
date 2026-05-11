@@ -8,9 +8,9 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
+import { colors } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 
 import { BodyScan } from '../components/BodyScan';
@@ -34,7 +34,6 @@ const TOTAL_STEPS = 6;
 
 export default function MicroChallenges() {
   const router = useRouter();
-  const scheme = useScheme();
   const { challenge, isLoading: isLoadingChallenge } = useActiveChallenge();
   const startChallenge = useStartChallenge();
   const updateChallenge = useUpdateChallenge();
@@ -264,16 +263,16 @@ export default function MicroChallenges() {
             </Text>
           }
           right={
-            <Pressable
+            <IconChip
+              size="md"
+              shape="circle"
               onPress={handleClose}
-              className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/[0.04]"
+              accessibilityLabel="Close"
             >
-              <MaterialIcons
-                name="close"
-                size={20}
-                color={foregroundFor(scheme, 1)}
-              />
-            </Pressable>
+              {(color) => (
+                <MaterialIcons name="close" size={20} color={color} />
+              )}
+            </IconChip>
           }
         />
       }

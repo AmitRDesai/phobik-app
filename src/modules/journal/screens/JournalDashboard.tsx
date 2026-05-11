@@ -9,7 +9,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useEffect } from 'react';
-import { Pressable } from 'react-native';
 import { DailyInsightCard } from '../components/DailyInsightCard';
 import { EntryCard } from '../components/EntryCard';
 import { JournalCalendar } from '../components/JournalCalendar';
@@ -109,20 +108,18 @@ export default function JournalDashboard() {
             title="Private Journal"
             subtitle="Encrypted Reflections"
             right={
-              <Pressable onPress={handleLock}>
-                <IconChip
-                  size="md"
-                  shape="circle"
-                  tone="pink"
-                  border={withAlpha(colors.primary.pink, 0.3)}
-                >
-                  <MaterialIcons
-                    name="lock"
-                    size={22}
-                    color={colors.primary.pink}
-                  />
-                </IconChip>
-              </Pressable>
+              <IconChip
+                size="md"
+                shape="circle"
+                tone="pink"
+                border={withAlpha(colors.primary.pink, 0.3)}
+                onPress={handleLock}
+                accessibilityLabel="Lock journal"
+              >
+                {(color) => (
+                  <MaterialIcons name="lock" size={22} color={color} />
+                )}
+              </IconChip>
             }
           />
         }
