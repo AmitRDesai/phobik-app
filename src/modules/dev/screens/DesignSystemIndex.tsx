@@ -15,6 +15,7 @@ const SECTIONS: {
     | '/dev/design-system/text-fields'
     | '/dev/design-system/text-areas'
     | '/dev/design-system/segmented-controls'
+    | '/dev/design-system/selection-cards'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -67,6 +68,12 @@ const SECTIONS: {
     label: 'SegmentedControl',
     subtitle: '2–4 options · binary · null state · long labels · patterns',
     icon: 'tab',
+  },
+  {
+    href: '/dev/design-system/selection-cards',
+    label: 'SelectionCard',
+    subtitle: 'radio · checkbox · icon · description · single/multi-select',
+    icon: 'check-box',
   },
   {
     href: '/dev/design-system/screens',

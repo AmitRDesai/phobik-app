@@ -1,84 +1,68 @@
-import { colors, withAlpha } from '@/constants/colors';
+import { Text } from '@/components/themed/Text';
+import { IconChip } from '@/components/ui/IconChip';
+import { colors, withAlpha, type AccentHue } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from '@/components/themed/Text';
+import * as Haptics from 'expo-haptics';
+import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
+
+export type SelectionCardVariant = 'radio' | 'checkbox';
 
 interface SelectionCardProps {
   label: string;
   description?: string;
-  icon?: React.ReactNode;
+  /**
+   * Icon node, or a render-prop that receives the resolved icon color (the
+   * tone accent if `tone` is set, otherwise a theme-aware neutral foreground).
+   * Lets callers avoid hardcoding color values per option.
+   */
+  icon?: ReactNode | ((color: string) => ReactNode);
+  /**
+   * Accent hue for the icon chip. The card chrome itself stays brand-pink for
+   * selection regardless of tone — tone only colors the icon + chip bg.
+   */
+  tone?: AccentHue;
   selected: boolean;
   onPress: () => void;
-  variant: 'radio' | 'checkbox';
+  variant: SelectionCardVariant;
+  /** When true: rejects taps, renders at 40% opacity. */
+  disabled?: boolean;
+  /** Suppress press haptics. Default: false. */
+  noHaptic?: boolean;
 }
 
 export function SelectionCard({
   label,
   description,
   icon,
+  tone,
   selected,
   onPress,
   variant,
+  disabled,
+  noHaptic,
 }: SelectionCardProps) {
-  const cardContent = (
-    <>
-      {icon && (
-        <View className="h-10 w-10 items-center justify-center rounded-full bg-foreground/10">
-          {icon}
-        </View>
-      )}
-      <View className="flex-1">
-        <Text weight="semibold" size="md">
-          {label}
-        </Text>
-        {description && (
-          <Text tone="secondary" size="sm" className="mt-0.5">
-            {description}
-          </Text>
-        )}
-      </View>
-      {variant === 'radio' ? (
-        <RadioIndicator selected={selected} />
-      ) : (
-        <CheckboxIndicator selected={selected} />
-      )}
-    </>
-  );
+  const scheme = useScheme();
+  const selectedInnerBg =
+    scheme === 'dark' ? 'rgba(255,255,255,0.05)' : '#ffffff';
 
-  if (variant === 'checkbox') {
-    const cardInner = (
-      <View
-        className={clsx(
-          'flex-row items-center gap-4 rounded-2xl px-4 py-4',
-          selected ? 'bg-surface-elevated' : 'bg-foreground/5',
-        )}
-      >
-        {cardContent}
-      </View>
-    );
-
-    return (
-      <Pressable onPress={onPress}>
-        {selected ? (
-          <LinearGradient
-            colors={[colors.primary.pink, colors.accent.yellow]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{ borderRadius: 16, padding: 2 }}
-          >
-            {cardInner}
-          </LinearGradient>
-        ) : (
-          <View style={{ borderRadius: 16, padding: 2 }}>{cardInner}</View>
-        )}
-      </Pressable>
-    );
-  }
+  const handlePress = () => {
+    if (disabled) return;
+    if (!noHaptic) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    onPress();
+  };
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable
+      onPress={handlePress}
+      disabled={disabled}
+      accessibilityRole={variant === 'radio' ? 'radio' : 'checkbox'}
+      accessibilityState={{ checked: selected, disabled: !!disabled }}
+      className={clsx(!disabled && 'active:scale-[0.98]')}
+      style={disabled ? { opacity: 0.4 } : undefined}
+    >
       <View
         className={clsx(
           'flex-row items-center gap-4 rounded-2xl border px-4 py-4',
@@ -89,12 +73,32 @@ export function SelectionCard({
         style={
           selected
             ? {
-                boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.3)}`,
+                backgroundColor: selectedInnerBg,
+                boxShadow: `0 0 6px ${withAlpha(colors.primary.pink, 0.18)}`,
               }
             : undefined
         }
       >
-        {cardContent}
+        {icon ? (
+          <IconChip size="md" shape="circle" tone={tone}>
+            {icon}
+          </IconChip>
+        ) : null}
+        <View className="flex-1">
+          <Text weight="semibold" size="md">
+            {label}
+          </Text>
+          {description && (
+            <Text tone="secondary" size="sm" className="mt-0.5">
+              {description}
+            </Text>
+          )}
+        </View>
+        {variant === 'radio' ? (
+          <RadioIndicator selected={selected} />
+        ) : (
+          <CheckboxIndicator selected={selected} />
+        )}
       </View>
     </Pressable>
   );
@@ -118,10 +122,10 @@ function CheckboxIndicator({ selected }: { selected: boolean }) {
     <View
       className={clsx(
         'h-6 w-6 items-center justify-center rounded-full',
-        selected ? 'bg-accent-yellow' : 'bg-foreground/15',
+        selected ? 'bg-primary-pink' : 'bg-foreground/15',
       )}
     >
-      {selected && <Ionicons name="checkmark-sharp" size={14} color="black" />}
+      {selected && <Ionicons name="checkmark-sharp" size={14} color="white" />}
     </View>
   );
 }
