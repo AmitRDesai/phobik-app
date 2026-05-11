@@ -86,7 +86,12 @@ function GlassCard({
         style={{ backgroundColor: bgColor, borderWidth: 1, borderColor }}
       >
         {item.category && (
-          <Text variant="caption" muted className="mb-1.5">
+          <Text
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            className="mb-1.5"
+          >
             {item.category}
           </Text>
         )}
@@ -111,14 +116,14 @@ function GlassCard({
           )}
           <View className="flex-1">
             <Text
-              variant="md"
-              className="font-semibold"
+              size="md"
+              weight="semibold"
               style={isHighlighted ? { color: colors.primary.pink } : undefined}
             >
               {item.text}
             </Text>
             {item.description && (
-              <Text variant="sm" className="mt-1 text-foreground/50">
+              <Text size="sm" className="mt-1 text-foreground/50">
                 {item.description}
               </Text>
             )}
@@ -151,10 +156,10 @@ function BreathingCard() {
           <MaterialIcons name="air" size={20} color="white" />
         </LinearGradient>
         <View className="flex-1">
-          <Text variant="md" className="font-bold">
+          <Text size="md" weight="bold">
             60-90 seconds of slow breathing
           </Text>
-          <Text variant="sm" className="mt-0.5 text-foreground/50">
+          <Text size="sm" className="mt-0.5 text-foreground/50">
             Regulate your nervous system before taxi.
           </Text>
         </View>
@@ -167,9 +172,9 @@ function RealityCheck() {
   return (
     <Card variant="toned" tone="yellow" className="flex-row items-center gap-3">
       <MaterialIcons name="verified" size={20} color={colors.accent.yellow} />
-      <Text variant="sm" className="flex-1 font-semibold">
+      <Text size="sm" weight="semibold" className="flex-1">
         Reality check:{' '}
-        <Text variant="sm" className="italic text-accent-yellow">
+        <Text size="sm" italic className="text-accent-yellow">
           Right now, nothing is required of me
         </Text>
       </Text>
@@ -185,7 +190,7 @@ function AnchorSelection() {
     <Card className="p-5">
       <View className="mb-4 flex-row items-center gap-2">
         <MaterialIcons name="anchor" size={18} color={colors.primary.pink} />
-        <Text variant="md" className="font-bold">
+        <Text size="md" weight="bold">
           Choose an anchor
         </Text>
       </View>
@@ -221,8 +226,9 @@ function AnchorSelection() {
                 }
               />
               <Text
-                variant="xs"
-                className="font-semibold text-foreground/70"
+                size="xs"
+                weight="semibold"
+                className="text-foreground/70"
                 numberOfLines={1}
               >
                 {opt.label}
@@ -249,13 +255,13 @@ function ExhaleCard() {
         size={48}
         color={withAlpha(colors.primary.pink, 0.2)}
       />
-      <Text variant="lg" className="mt-2 font-bold">
+      <Text size="lg" weight="bold" className="mt-2">
         Focus on your{' '}
-        <Text variant="lg" className="font-bold text-primary-pink">
+        <Text size="lg" tone="accent" weight="bold">
           Exhale
         </Text>
       </Text>
-      <Text variant="xs" className="mt-1 text-foreground/60">
+      <Text size="xs" className="mt-1 text-foreground/60">
         Current altitude: Increasing
       </Text>
     </View>
@@ -270,10 +276,10 @@ function JournalPrompt() {
 
   return (
     <View className="mt-6">
-      <Text variant="md" className="mb-2 font-bold">
+      <Text size="md" weight="bold" className="mb-2">
         Journal Prompt
       </Text>
-      <Text variant="sm" className="mb-3 italic text-foreground/60">
+      <Text size="sm" italic className="mb-3 text-foreground/60">
         {'"What am I worried about? Fact or fiction?"'}
       </Text>
       <TextInput
@@ -330,14 +336,14 @@ export default function FlightChecklistPhase() {
       {/* Phase badge */}
       {phase.phaseBadge && (
         <View className="mb-4 self-start rounded-full bg-primary-pink/10 px-3 py-1">
-          <Text variant="caption" className="text-primary-pink">
+          <Text size="xs" treatment="caption" tone="accent">
             {phase.phaseBadge}
           </Text>
         </View>
       )}
 
       {/* Title */}
-      <Text variant="display" className="mb-2 uppercase">
+      <Text size="display" className="mb-2 uppercase">
         {phase.title}
         {'\n'}Checklist
       </Text>
@@ -352,7 +358,7 @@ export default function FlightChecklistPhase() {
 
       {/* Subtitle */}
       {phase.subtitle && (
-        <Text variant="sm" className="mb-6 leading-5 text-foreground/60">
+        <Text size="sm" className="mb-6 leading-5 text-foreground/60">
           {phase.subtitle}
         </Text>
       )}
@@ -399,10 +405,10 @@ export default function FlightChecklistPhase() {
             />
           </IconChip>
           <View className="flex-1">
-            <Text variant="md" className="font-bold">
+            <Text size="md" weight="bold">
               Turbulence Tools
             </Text>
-            <Text variant="sm" className="mt-0.5 text-foreground/50">
+            <Text size="sm" className="mt-0.5 text-foreground/50">
               Practical grounding techniques
             </Text>
           </View>
@@ -419,7 +425,13 @@ export default function FlightChecklistPhase() {
 
       {/* Status text */}
       {phase.statusText && (
-        <Text variant="caption" muted className="mt-6 text-center">
+        <Text
+          size="xs"
+          treatment="caption"
+          tone="secondary"
+          align="center"
+          className="mt-6"
+        >
           {phase.statusText}
         </Text>
       )}

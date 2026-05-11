@@ -30,11 +30,11 @@ export function SettingsMenuItem({
         <MaterialIcons name={icon} size={22} color={iconColor} />
       </IconChip>
       <View className="flex-1">
-        <Text variant="md" className="font-semibold">
+        <Text size="md" weight="semibold">
           {label}
         </Text>
         {subtitle && (
-          <Text variant="sm" muted>
+          <Text size="sm" tone="secondary">
             {subtitle}
           </Text>
         )}

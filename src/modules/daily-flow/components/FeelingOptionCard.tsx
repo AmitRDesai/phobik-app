@@ -53,16 +53,18 @@ export function FeelingOptionCard({ feeling, onPress }: Props) {
           />
         </View>
         <View className="mt-auto">
-          <Text variant="h1" className="font-black text-white">
+          <Text size="h1" tone="inverse" weight="black">
             {feeling.label}
           </Text>
-          <Text variant="md" className="mt-2 leading-6 text-white/65">
+          <Text size="md" tone="inverse" className="mt-2 leading-6 /65">
             {feeling.description}
           </Text>
           <View className="mt-5 flex-row items-center gap-1.5">
             <Text
-              variant="caption"
-              className="font-black tracking-[0.25em]"
+              size="xs"
+              treatment="caption"
+              weight="black"
+              className="tracking-[0.25em]"
               style={{ color: accent, paddingRight: 2.75 }}
             >
               {feeling.ctaLabel}

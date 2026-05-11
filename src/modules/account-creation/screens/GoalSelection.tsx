@@ -99,8 +99,9 @@ export default function GoalSelectionScreen() {
             Continue
           </GradientButton>
           <Text
-            variant="caption"
-            muted
+            size="xs"
+            treatment="caption"
+            tone="secondary"
             className="mt-3 tracking-[0.2em]"
             style={{ paddingRight: 2.2 }}
           >
@@ -110,10 +111,10 @@ export default function GoalSelectionScreen() {
       }
       className="px-8 pt-2"
     >
-      <Text variant="h1" className="text-center tracking-tight">
+      <Text size="h1" align="center" className="tracking-tight">
         What brings you here?
       </Text>
-      <Text variant="sm" muted className="mt-3 text-center">
+      <Text size="sm" tone="secondary" align="center" className="mt-3">
         Select the goals that matter most to you. We&apos;ll tailor your path
         accordingly.
       </Text>

@@ -15,10 +15,7 @@ export function PillarHeroHeader({
 }: PillarHeroHeaderProps) {
   return (
     <View className="mb-10 mt-6">
-      <Text
-        variant="display"
-        className="font-extrabold uppercase leading-[1.05]"
-      >
+      <Text size="display" className="uppercase leading-[1.05]">
         {title}
       </Text>
       {accent ? (
@@ -27,7 +24,11 @@ export function PillarHeroHeader({
         </GradientText>
       ) : null}
       {subtitle ? (
-        <Text variant="lg" muted className="mt-4 max-w-[320px] leading-relaxed">
+        <Text
+          size="lg"
+          tone="secondary"
+          className="mt-4 max-w-[320px] leading-relaxed"
+        >
           {subtitle}
         </Text>
       ) : null}

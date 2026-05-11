@@ -45,24 +45,25 @@ export default function AiStudioExpress() {
 
       {/* Hero copy */}
       <View className="mt-4 items-center">
-        <Text className="text-[34px] font-extrabold leading-tight">
+        <Text weight="extrabold" className="text-[34px] leading-tight">
           Bringing
         </Text>
-        <Text className="text-[34px] font-extrabold leading-tight">
-          <Text className="text-[34px] font-extrabold leading-tight">
+        <Text weight="extrabold" className="text-[34px] leading-tight">
+          <Text weight="extrabold" className="text-[34px] leading-tight">
             your{' '}
           </Text>
           <GradientText className="text-[34px] font-extrabold leading-tight">
             sound
           </GradientText>
         </Text>
-        <Text className="text-[34px] font-extrabold leading-tight">
+        <Text weight="extrabold" className="text-[34px] leading-tight">
           to life.
         </Text>
         <Text
-          variant="lg"
-          muted
-          className="mt-4 max-w-[300px] text-center leading-relaxed"
+          size="lg"
+          tone="secondary"
+          align="center"
+          className="mt-4 max-w-[300px] leading-relaxed"
         >
           Giving your feelings a voice — so they can move, shift, and set you
           free.
@@ -91,7 +92,7 @@ export default function AiStudioExpress() {
 
         {/* Status pill */}
         <View className="absolute right-2 top-4 rounded-full border border-foreground/15 bg-foreground/10 px-3 py-1">
-          <Text variant="caption" className="font-bold">
+          <Text size="xs" treatment="caption" weight="bold">
             Analyzing
           </Text>
         </View>
@@ -100,10 +101,10 @@ export default function AiStudioExpress() {
       {/* Progress */}
       <View className="mt-12">
         <View className="flex-row items-center justify-between">
-          <Text variant="caption" muted>
+          <Text size="xs" treatment="caption" tone="secondary">
             Neural-Harmonic Mapping
           </Text>
-          <Text variant="caption" className="font-bold">
+          <Text size="xs" treatment="caption" weight="bold">
             {Math.round(progress * 100)}%
           </Text>
         </View>

@@ -73,22 +73,22 @@ export function ChemicalPetal({
       <View className="flex-row items-center gap-1">
         <MaterialIcons name={icon} size={14} color={color} />
         <Text
-          variant="caption"
-          className="font-bold tracking-widest"
+          size="xs"
+          treatment="caption"
+          weight="bold"
+          className="tracking-widest"
           style={{ color }}
         >
           {pillarLabel}
         </Text>
       </View>
-      <Text
-        className="mt-2 text-4xl font-black text-foreground"
-        allowFontScaling={false}
-      >
+      <Text weight="black" className="mt-2 text-4xl" allowFontScaling={false}>
         {score}
       </Text>
       <Text
-        variant="xs"
-        className="mt-1 font-bold uppercase tracking-widest"
+        size="xs"
+        weight="bold"
+        className="mt-1 uppercase tracking-widest"
         style={{ color: withAlpha(color, 0.7) }}
       >
         {chemicalLabel}

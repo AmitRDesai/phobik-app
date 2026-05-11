@@ -29,8 +29,10 @@ export function ChapterHeroImage({ source, caption }: ChapterHeroImageProps) {
       </View>
       {caption && (
         <Text
-          variant="xs"
-          className="mt-2 text-center italic text-foreground/40"
+          size="xs"
+          italic
+          align="center"
+          className="mt-2 text-foreground/40"
         >
           {caption}
         </Text>

@@ -24,10 +24,10 @@ export function PatternResultCard({
   if (!isPrimary) {
     return (
       <Card variant="surface" className="p-5">
-        <Text variant="lg" className="mb-2 font-bold">
+        <Text size="lg" weight="bold" className="mb-2">
           {archetype.emoji} {archetype.label}
         </Text>
-        <Text variant="sm" muted>
+        <Text size="sm" tone="secondary">
           {archetype.tagline}
         </Text>
       </Card>
@@ -47,23 +47,25 @@ export function PatternResultCard({
         </Badge>
 
         <Text className="mb-2 text-4xl">{archetype.emoji}</Text>
-        <Text variant="h2" className="mb-3 font-bold">
+        <Text size="h2" className="mb-3">
           {archetype.label}
         </Text>
-        <Text variant="sm" muted className="mb-5">
+        <Text size="sm" tone="secondary" className="mb-5">
           {archetype.tagline}
         </Text>
 
         <View className="mb-3 flex-row items-center gap-2">
           <MaterialIcons name="bolt" size={18} color={yellow} />
           <Text
-            variant="caption"
-            className="font-bold tracking-wider text-foreground/60"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="tracking-wider text-foreground/60"
           >
             Strength
           </Text>
         </View>
-        <Text variant="sm" className="mb-4">
+        <Text size="sm" className="mb-4">
           {archetype.strength}
         </Text>
 
@@ -74,13 +76,15 @@ export function PatternResultCard({
             color={colors.primary.pink}
           />
           <Text
-            variant="caption"
-            className="font-bold tracking-wider text-foreground/60"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="tracking-wider text-foreground/60"
           >
             Growth Edge
           </Text>
         </View>
-        <Text variant="sm">{archetype.growthEdge}</Text>
+        <Text size="sm">{archetype.growthEdge}</Text>
       </View>
     </LinearGradient>
   );

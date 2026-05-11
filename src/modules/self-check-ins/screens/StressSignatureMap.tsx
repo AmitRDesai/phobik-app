@@ -126,12 +126,14 @@ export default function StressSignatureMap() {
           left={<BackButton />}
           center={
             <View className="items-center">
-              <Text variant="sm" className="font-bold tracking-[2px]">
+              <Text size="sm" weight="bold" className="tracking-[2px]">
                 Stress Signature
               </Text>
               <Text
-                variant="caption"
-                className="font-medium tracking-[4px]"
+                size="xs"
+                treatment="caption"
+                weight="medium"
+                className="tracking-[4px]"
                 style={{ color: cyan }}
               >
                 Gradient Orbit Map
@@ -167,14 +169,17 @@ export default function StressSignatureMap() {
       <View className="mt-8 px-5">
         <View className="mb-6 flex-row items-center justify-between">
           <Text
-            variant="caption"
-            className="font-black tracking-[3px] text-foreground/80"
+            size="xs"
+            treatment="caption"
+            weight="black"
+            className="tracking-[3px] text-foreground/80"
           >
             Your Top 3 Stressors
           </Text>
           <Text
-            variant="caption"
-            className="font-bold"
+            size="xs"
+            treatment="caption"
+            weight="bold"
             style={{ color: colors.primary.pink }}
           >
             Focus Priority
@@ -297,8 +302,10 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
           <MaterialIcons name="spa" size={18} color={cyan} />
         </View>
         <Text
-          variant="caption"
-          className="mt-2 font-bold tracking-[3px]"
+          size="xs"
+          treatment="caption"
+          weight="bold"
+          className="mt-2 tracking-[3px]"
           style={{ color: cyan }}
         >
           Core
@@ -384,8 +391,10 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
             style={{ backgroundColor: colors.primary.pink }}
           />
           <Text
-            variant="caption"
-            className="font-bold tracking-[3px]"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="tracking-[3px]"
             style={{ color: colors.primary.pink }}
           >
             Drained
@@ -407,8 +416,10 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
             style={{ backgroundColor: cyan }}
           />
           <Text
-            variant="caption"
-            className="font-bold tracking-[3px]"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="tracking-[3px]"
             style={{ color: cyan }}
           >
             Balanced
@@ -503,12 +514,14 @@ function StressorResultCard({
             <Text className="text-2xl">{stressor.emoji}</Text>
           </View>
           <View>
-            <Text variant="h3" className="font-black">
+            <Text size="h3" weight="black">
               {stressor.label}
             </Text>
             <Text
-              variant="caption"
-              className="font-bold tracking-[3px]"
+              size="xs"
+              treatment="caption"
+              weight="bold"
+              className="tracking-[3px]"
               style={{ color: accentColor }}
             >
               {subtitle}
@@ -516,8 +529,9 @@ function StressorResultCard({
           </View>
         </View>
         <Text
-          variant="display"
-          className="font-black opacity-20"
+          size="display"
+          weight="black"
+          className="opacity-20"
           style={{ color: accentColor }}
         >
           {String(rank).padStart(2, '0')}
@@ -526,12 +540,15 @@ function StressorResultCard({
 
       <View className="mb-5">
         <Text
-          variant="caption"
-          className="mb-2 font-black tracking-[3px] text-foreground/55"
+          size="xs"
+          treatment="caption"
+          tone="secondary"
+          weight="black"
+          className="mb-2 tracking-[3px]"
         >
           Biological Root
         </Text>
-        <Text variant="sm" className="leading-relaxed text-foreground/80">
+        <Text size="sm" className="leading-relaxed text-foreground/80">
           {stressor.biologicalRoot}
         </Text>
       </View>
@@ -544,14 +561,16 @@ function StressorResultCard({
             color={accentColor}
           />
           <Text
-            variant="caption"
-            className="font-black tracking-[3px]"
+            size="xs"
+            treatment="caption"
+            weight="black"
+            className="tracking-[3px]"
             style={{ color: accentColor }}
           >
             Phobik Practice: {stressor.practice.name}
           </Text>
         </View>
-        <Text variant="sm" className="leading-snug text-foreground/70">
+        <Text size="sm" className="leading-snug text-foreground/70">
           {stressor.practice.description}
         </Text>
       </View>

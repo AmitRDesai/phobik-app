@@ -11,7 +11,7 @@ export default function Stillness() {
       title="2. Just Breathe"
       duration="2-3 min target"
       intro={
-        <Text variant="lg" className="leading-6 text-foreground/70">
+        <Text size="lg" className="leading-6 text-foreground/70">
           Take 2-3 minutes to sit quietly. Allow the world to fade as you anchor
           into the present moment.
         </Text>

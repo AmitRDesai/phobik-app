@@ -22,10 +22,10 @@ export default function DoseTracking() {
       contentClassName="gap-8 pb-4"
     >
       <View className="pt-4">
-        <Text variant="h1" className="text-primary-pink">
+        <Text size="h1" tone="accent">
           Daily D.O.S.E.
         </Text>
-        <Text variant="sm" muted className="mt-1">
+        <Text size="sm" tone="secondary" className="mt-1">
           How well did you nourish your brain today?
         </Text>
       </View>

@@ -41,8 +41,10 @@ export function DayNavigator({
           <MaterialIcons name="chevron-left" size={22} color={fg} />
         </Pressable>
         <Text
-          variant="caption"
-          className="px-2 font-bold tracking-[0.2em] text-foreground"
+          size="xs"
+          treatment="caption"
+          weight="bold"
+          className="px-2 tracking-[0.2em]"
         >
           {formatLabel(date, isToday)}
         </Text>

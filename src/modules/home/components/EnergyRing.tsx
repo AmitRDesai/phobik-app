@@ -86,7 +86,13 @@ export function EnergyRing({
         >
           {value !== null ? value : 'N/A'}
         </Text>
-        <Text variant="caption" muted className="mt-1 font-bold">
+        <Text
+          size="xs"
+          treatment="caption"
+          tone="secondary"
+          weight="bold"
+          className="mt-1"
+        >
           Energy
         </Text>
       </View>

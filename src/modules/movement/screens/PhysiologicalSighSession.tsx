@@ -33,7 +33,7 @@ export default function PhysiologicalSighSession() {
       wordmark="Physiological Sigh"
       bottom={
         <View className="items-center">
-          <Text variant="lg" className="font-bold" style={{ color: yellow }}>
+          <Text size="lg" weight="bold" style={{ color: yellow }}>
             Notice the shift.
           </Text>
           <View className="mt-4 flex-row gap-2">
@@ -50,10 +50,10 @@ export default function PhysiologicalSighSession() {
       }
     >
       <View className="items-center pt-6">
-        <Text variant="h2" className="font-extrabold">
+        <Text size="h2" weight="extrabold">
           Physiological Sigh + Arm Raise
         </Text>
-        <Text variant="xs" className="mt-2 text-foreground/60">
+        <Text size="xs" className="mt-2 text-foreground/60">
           Phase: Expansion
         </Text>
       </View>
@@ -79,10 +79,14 @@ export default function PhysiologicalSighSession() {
             }}
           >
             <View className="h-[200px] w-[200px] items-center justify-center rounded-full border border-foreground/20 bg-surface/40">
-              <Text variant="h1" className="font-extrabold">
+              <Text size="h1" weight="extrabold">
                 4s
               </Text>
-              <Text variant="caption" className="mt-1 text-foreground/70">
+              <Text
+                size="xs"
+                treatment="caption"
+                className="mt-1 text-foreground/70"
+              >
                 Inhale
               </Text>
             </View>
@@ -108,11 +112,11 @@ export default function PhysiologicalSighSession() {
               />
             </View>
             <View className="flex-1">
-              <Text variant="lg" className="font-bold">
+              <Text size="lg" weight="bold">
                 {step.title}
               </Text>
               <Text
-                variant="sm"
+                size="sm"
                 className="mt-1 leading-relaxed text-foreground/70"
               >
                 {step.description}

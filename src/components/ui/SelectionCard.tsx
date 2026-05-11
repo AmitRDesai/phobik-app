@@ -2,7 +2,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 
 interface SelectionCardProps {
   label: string;
@@ -29,9 +30,11 @@ export function SelectionCard({
         </View>
       )}
       <View className="flex-1">
-        <Text className="text-base font-semibold text-foreground">{label}</Text>
+        <Text weight="semibold" size="md">
+          {label}
+        </Text>
         {description && (
-          <Text className="mt-0.5 text-sm text-foreground/55">
+          <Text tone="secondary" size="sm" className="mt-0.5">
             {description}
           </Text>
         )}

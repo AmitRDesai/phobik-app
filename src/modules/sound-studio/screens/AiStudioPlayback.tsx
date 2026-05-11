@@ -56,13 +56,13 @@ export default function AiStudioPlayback() {
       className="px-6 pt-2"
     >
       {/* Hero copy */}
-      <Text className="text-[32px] font-extrabold leading-tight">
+      <Text weight="extrabold" className="text-[32px] leading-tight">
         Ready to hear{' '}
         <GradientText className="text-[32px] font-extrabold leading-tight">
           your song?
         </GradientText>
       </Text>
-      <Text variant="sm" muted className="mt-3">
+      <Text size="sm" tone="secondary" className="mt-3">
         AI-generated from your prompt: "A rhythmic neon pulse through a
         crystalline forest at midnight."
       </Text>
@@ -121,10 +121,10 @@ export default function AiStudioPlayback() {
 
       {/* Track meta */}
       <View className="mt-5">
-        <Text variant="h2" className="font-extrabold">
+        <Text size="h2" weight="extrabold">
           Neon Crystalline Pulse
         </Text>
-        <Text variant="xs" muted className="mt-1">
+        <Text size="xs" tone="secondary" className="mt-1">
           BPM: 124 • Key: F# Minor
         </Text>
 
@@ -138,10 +138,10 @@ export default function AiStudioPlayback() {
           />
         </View>
         <View className="mt-2 flex-row justify-between">
-          <Text variant="xs" muted>
+          <Text size="xs" tone="secondary">
             01:16
           </Text>
-          <Text variant="xs" muted>
+          <Text size="xs" tone="secondary">
             05:44
           </Text>
         </View>
@@ -191,7 +191,7 @@ export default function AiStudioPlayback() {
               }}
             >
               <MaterialIcons name="ios-share" size={14} color="white" />
-              <Text variant="caption" className="font-bold">
+              <Text size="xs" treatment="caption" weight="bold">
                 Share
               </Text>
             </LinearGradient>
@@ -202,7 +202,7 @@ export default function AiStudioPlayback() {
       {/* Your Creations */}
       <View className="mt-8">
         <View className="mb-3 flex-row items-baseline justify-between">
-          <Text variant="caption" muted className="font-bold">
+          <Text size="xs" treatment="caption" tone="secondary" weight="bold">
             Your Creations
           </Text>
           <Button
@@ -228,10 +228,10 @@ export default function AiStudioPlayback() {
                 />
               </IconChip>
               <View className="flex-1">
-                <Text variant="sm" className="font-bold">
+                <Text size="sm" weight="bold">
                   {c.title}
                 </Text>
-                <Text variant="xs" muted>
+                <Text size="xs" tone="secondary">
                   {c.meta}
                 </Text>
               </View>
@@ -242,10 +242,10 @@ export default function AiStudioPlayback() {
 
       {/* Want more magic? */}
       <Card className="mt-6 p-5">
-        <Text variant="lg" className="font-bold">
+        <Text size="lg" weight="bold">
           Want more magic?
         </Text>
-        <Text variant="xs" muted className="mt-1">
+        <Text size="xs" tone="secondary" className="mt-1">
           Start a new session and create something unique today.
         </Text>
         <View className="mt-4">

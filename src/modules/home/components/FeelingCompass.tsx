@@ -144,7 +144,8 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
         }}
       >
         <Text
-          variant="caption"
+          size="xs"
+          treatment="caption"
           className={clsx(
             'font-bold',
             selected ? 'text-primary-pink' : 'text-foreground/50',
@@ -227,7 +228,7 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
               )}
             </Pressable>
             <Text
-              variant="xs"
+              size="xs"
               className={clsx(
                 'mt-1 text-center text-[8px] font-semibold tracking-wider',
                 isSelected ? 'text-foreground' : 'text-foreground/40',

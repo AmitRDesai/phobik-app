@@ -128,10 +128,10 @@ export default function Coach() {
   );
   const headerCenter = (
     <View className="ml-3 flex-1">
-      <Text variant="md" className="font-semibold">
+      <Text size="md" weight="semibold">
         Coach
       </Text>
-      <Text variant="xs" className="text-foreground/35">
+      <Text size="xs" className="text-foreground/35">
         Powered by AI
       </Text>
     </View>
@@ -183,7 +183,7 @@ export default function Coach() {
                   color={colors.status.danger}
                 />
                 <Text
-                  variant="sm"
+                  size="sm"
                   className="flex-1"
                   style={{ color: colors.status.danger }}
                 >
@@ -209,7 +209,7 @@ export default function Coach() {
           <View className="flex-1 items-center justify-center gap-3">
             <View className="flex-row items-center gap-2">
               <ActivityIndicator color={purple} size="small" />
-              <Text variant="sm" className="text-foreground/30">
+              <Text size="sm" tone="tertiary">
                 Loading conversation...
               </Text>
             </View>
@@ -271,19 +271,21 @@ function EmptyState({
         </View>
         {greeting ? (
           <Text
-            variant="md"
-            className="max-w-[300px] text-center leading-6 text-foreground/70"
+            size="md"
+            align="center"
+            className="max-w-[300px] leading-6 text-foreground/70"
           >
             {greeting}
           </Text>
         ) : (
           <>
-            <Text variant="h3" className="mb-2 text-center font-bold">
+            <Text size="h3" align="center" weight="bold" className="mb-2">
               Hey, I&apos;m here for you
             </Text>
             <Text
-              variant="sm"
-              className="max-w-[280px] text-center leading-5 text-foreground/40"
+              size="sm"
+              align="center"
+              className="max-w-[280px] leading-5 text-foreground/40"
             >
               I can help with anxiety, grounding exercises, breathing
               techniques, and building resilience.

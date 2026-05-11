@@ -69,7 +69,9 @@ export function FloatingSphere({
         </Svg>
         {/* Label — dimmer on background spheres */}
         <Text
-          className="absolute text-center font-bold"
+          align="center"
+          weight="bold"
+          className="absolute"
           style={{
             fontSize,
             color: 'rgba(0,0,0,0.7)',

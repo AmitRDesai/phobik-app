@@ -16,8 +16,9 @@ export function WearableValueCard() {
       <View className="mb-4 flex-row items-center gap-2">
         <MaterialIcons name="favorite" size={16} color={colors.primary.pink} />
         <Text
-          variant="caption"
-          className="font-bold"
+          size="xs"
+          treatment="caption"
+          weight="bold"
           style={{ color: colors.primary.pink }}
         >
           Wearable Status
@@ -26,38 +27,55 @@ export function WearableValueCard() {
 
       <View className="flex-row gap-6">
         <View className="flex-1">
-          <Text variant="caption" muted className="mb-1 font-bold">
+          <Text
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            weight="bold"
+            className="mb-1"
+          >
             Heart Rate
           </Text>
           <View className="flex-row items-baseline gap-1.5">
             <Text
-              className="text-4xl font-black leading-none text-foreground"
+              weight="black"
+              className="text-4xl leading-none"
               allowFontScaling={false}
             >
               {heartRate != null ? heartRate : '—'}
             </Text>
             <Text
-              variant="sm"
-              className="font-bold uppercase tracking-tighter text-primary-pink"
+              size="sm"
+              tone="accent"
+              weight="bold"
+              className="uppercase tracking-tighter"
             >
               Bpm
             </Text>
           </View>
         </View>
         <View className="flex-1">
-          <Text variant="caption" muted className="mb-1 font-bold">
+          <Text
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            weight="bold"
+            className="mb-1"
+          >
             HRV Balance
           </Text>
           <View className="flex-row items-baseline gap-1.5">
             <Text
-              className="text-4xl font-black leading-none text-foreground"
+              weight="black"
+              className="text-4xl leading-none"
               allowFontScaling={false}
             >
               {hrv != null ? hrv.toFixed(1) : '—'}
             </Text>
             <Text
-              variant="sm"
-              className="font-bold uppercase tracking-tighter"
+              size="sm"
+              weight="bold"
+              className="uppercase tracking-tighter"
               style={{ color: yellow }}
             >
               Ms

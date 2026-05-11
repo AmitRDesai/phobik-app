@@ -113,10 +113,10 @@ export default function PrivacyTrust() {
               <MaterialIcons name={feature.icon} size={24} color="white" />
             </View>
             <View className="flex-1">
-              <Text variant="lg" className="font-bold">
+              <Text size="lg" weight="bold">
                 {feature.title}
               </Text>
-              <Text variant="sm" className="mt-0.5 text-foreground/50">
+              <Text size="sm" className="mt-0.5 text-foreground/50">
                 {feature.description}
               </Text>
             </View>
@@ -131,7 +131,7 @@ export default function PrivacyTrust() {
         </Button>
         <View className="flex-row items-center gap-1.5">
           <MaterialIcons name="lock" size={12} color={lockIconColor} />
-          <Text variant="caption" className="font-bold text-foreground/30">
+          <Text size="xs" treatment="caption" tone="tertiary" weight="bold">
             End-to-End Encrypted
           </Text>
         </View>

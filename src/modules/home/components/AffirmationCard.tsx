@@ -47,8 +47,9 @@ export function AffirmationCard() {
             color={withAlpha(colors.primary.pink, 0.4)}
           />
           <Text
-            variant="lg"
-            className="text-center font-light leading-relaxed text-foreground/40"
+            size="lg"
+            align="center"
+            className="font-light leading-relaxed text-foreground/40"
           >
             Tap below to set your affirmation for today
           </Text>
@@ -62,7 +63,11 @@ export function AffirmationCard() {
 
     if (index < 0) {
       return (
-        <Text className="text-center text-3xl font-light italic leading-relaxed text-foreground/95">
+        <Text
+          italic
+          align="center"
+          className="text-3xl font-light leading-relaxed text-foreground/95"
+        >
           {'"'}
           {text}.{'"'}
         </Text>
@@ -74,10 +79,16 @@ export function AffirmationCard() {
     const after = text.slice(index + feeling.length);
 
     return (
-      <Text className="text-center text-3xl font-light italic leading-relaxed text-foreground/95">
+      <Text
+        italic
+        align="center"
+        className="text-3xl font-light leading-relaxed text-foreground/95"
+      >
         {'"'}
         {before}
-        <Text className="font-bold text-primary-pink">{word}</Text>
+        <Text tone="accent" weight="bold">
+          {word}
+        </Text>
         {after}.{'"'}
       </Text>
     );
@@ -93,8 +104,11 @@ export function AffirmationCard() {
       <View className="mb-2 w-full flex-row items-start justify-between">
         <View className="w-6" />
         <Text
-          variant="xs"
-          className="max-w-[180px] text-center font-medium italic leading-tight tracking-wide text-foreground/50"
+          size="xs"
+          italic
+          align="center"
+          weight="medium"
+          className="max-w-[180px] leading-tight tracking-wide text-foreground/50"
         >
           Set the intention for the day
         </Text>

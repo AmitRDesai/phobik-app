@@ -106,8 +106,9 @@ export function ScoreRing({
             </Text>
             {suffix ? (
               <Text
-                variant="sm"
-                className="ml-0.5 font-bold text-foreground/60"
+                size="sm"
+                weight="bold"
+                className="ml-0.5 text-foreground/60"
               >
                 {suffix}
               </Text>
@@ -115,7 +116,13 @@ export function ScoreRing({
           </View>
         )}
         {caption ? (
-          <Text variant="caption" muted className="mt-1 font-bold">
+          <Text
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            weight="bold"
+            className="mt-1"
+          >
             {caption}
           </Text>
         ) : null}

@@ -29,7 +29,8 @@ export function TimeRangeControl() {
           }
         >
           <Text
-            variant="caption"
+            size="xs"
+            treatment="caption"
             className={clsx(
               selected === range ? 'text-foreground' : 'text-foreground/40',
             )}

@@ -23,22 +23,14 @@ export function DoseProgressBar({ chemical, index = 0 }: DoseProgressBarProps) {
     <View className="gap-2">
       <View className="flex-row items-end justify-between">
         <View className="gap-0.5">
-          <Text
-            variant="md"
-            className="font-medium"
-            style={{ color: chemical.color }}
-          >
+          <Text size="md" weight="medium" style={{ color: chemical.color }}>
             {chemical.label}
           </Text>
-          <Text variant="caption" muted>
+          <Text size="xs" treatment="caption" tone="secondary">
             {chemical.subtitle}
           </Text>
         </View>
-        <Text
-          variant="lg"
-          className="font-bold"
-          style={{ color: chemical.color }}
-        >
+        <Text size="lg" weight="bold" style={{ color: chemical.color }}>
           {chemical.coins} Coins
         </Text>
       </View>

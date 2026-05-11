@@ -17,11 +17,11 @@ export function ReflectCard({ question }: ReflectCardProps) {
           size={14}
           color={colors.primary['pink-soft']}
         />
-        <Text variant="caption" className="text-primary-pink">
+        <Text size="xs" treatment="caption" tone="accent">
           Reflect
         </Text>
       </View>
-      <Text variant="md" className="font-bold italic text-foreground/90">
+      <Text size="md" italic weight="bold" className="text-foreground/90">
         {question}
       </Text>
     </DashboardCard>

@@ -80,7 +80,7 @@ export default function AuraPictureSetup() {
       variant="onboarding"
       header={
         <View className="px-6 pb-2 pt-4">
-          <Text variant="h3" className="text-center font-bold">
+          <Text size="h3" align="center" weight="bold">
             Profile Setup
           </Text>
         </View>
@@ -101,10 +101,10 @@ export default function AuraPictureSetup() {
       className=""
     >
       <View className="px-8 pt-8">
-        <Text variant="h1" className="text-center">
+        <Text size="h1" align="center">
           Your Signature Aura
         </Text>
-        <Text variant="lg" muted className="mt-3 text-center">
+        <Text size="lg" tone="secondary" align="center" className="mt-3">
           Express your energy. Upload a photo to see your PHOBIK aura.
         </Text>
       </View>

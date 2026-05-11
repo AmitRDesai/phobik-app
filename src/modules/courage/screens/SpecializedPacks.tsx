@@ -26,10 +26,10 @@ export default function SpecializedPacks() {
       className="px-4"
     >
       <View className="px-2 pb-2 pt-4">
-        <Text variant="caption" muted className="mb-1">
+        <Text size="xs" treatment="caption" tone="secondary" className="mb-1">
           Premium Journeys
         </Text>
-        <Text variant="h1">Enhance Your Mind</Text>
+        <Text size="h1">Enhance Your Mind</Text>
       </View>
 
       <View className="mt-6 gap-6">

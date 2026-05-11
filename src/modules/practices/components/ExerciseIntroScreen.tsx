@@ -40,14 +40,15 @@ export function ExerciseIntroScreen({
       <View className="w-full max-w-md items-center">
         <View className="relative mb-6">{icon}</View>
 
-        <Text variant="h1" className="mb-4 text-center font-bold">
+        <Text size="h1" align="center" className="mb-4">
           {exercise.name}
         </Text>
 
         <Text
-          variant="sm"
-          muted
-          className="mx-auto mb-10 max-w-sm text-center leading-relaxed"
+          size="sm"
+          tone="secondary"
+          align="center"
+          className="mx-auto mb-10 max-w-sm leading-relaxed"
         >
           {exercise.description}
         </Text>

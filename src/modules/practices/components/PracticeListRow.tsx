@@ -69,7 +69,11 @@ export function PracticeListRow({
                   const [bg, text] = tone.split(' ');
                   return (
                     <View key={tag} className={`rounded-full px-3 py-1 ${bg}`}>
-                      <Text variant="caption" className={`font-bold ${text}`}>
+                      <Text
+                        size="xs"
+                        treatment="caption"
+                        className={`font-bold ${text}`}
+                      >
                         {tag}
                       </Text>
                     </View>
@@ -77,11 +81,11 @@ export function PracticeListRow({
                 })}
               </View>
             ) : null}
-            <Text variant="h2" className="font-bold leading-tight text-white">
+            <Text size="h2" tone="inverse" className="leading-tight">
               {title}
             </Text>
             {meta ? (
-              <Text variant="sm" className="mt-1.5 text-white/70">
+              <Text size="sm" tone="inverse" className="mt-1.5 /70">
                 {meta}
               </Text>
             ) : null}

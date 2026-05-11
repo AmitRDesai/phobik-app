@@ -82,7 +82,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
           <MaterialIcons name="psychology" size={16} color={purple} />
         </View>
         <View className="flex-1 gap-2">
-          <Text variant="sm" className="text-foreground/40">
+          <Text size="sm" className="text-foreground/40">
             Failed to get a response
           </Text>
           <Pressable
@@ -90,7 +90,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
             className="flex-row items-center gap-1.5 self-start rounded-full border border-foreground/10 bg-foreground/[0.08] px-3 py-1.5"
           >
             <Ionicons name="refresh" size={14} color={purple} />
-            <Text variant="sm" className="font-medium text-foreground/70">
+            <Text size="sm" weight="medium" className="text-foreground/70">
               Retry
             </Text>
           </Pressable>
@@ -113,12 +113,12 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
             boxShadow: `0 2px 8px ${withAlpha(colors.primary.pink, 0.25)}`,
           }}
         >
-          <Text variant="md" className="text-white">
+          <Text size="md" tone="inverse">
             {message.content}
           </Text>
         </View>
         <View className="mt-1 flex-row items-center justify-end gap-2">
-          <Text variant="xs" className="text-[10px] text-foreground/20">
+          <Text size="xs" className="text-[10px] text-foreground/20">
             {formatTime(message.timestamp)}
           </Text>
           <Pressable onPress={handleCopy} hitSlop={8}>
@@ -141,7 +141,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
       <View className="flex-1">
         <Markdown style={markdownStyles}>{message.content}</Markdown>
         <View className="mt-1 flex-row items-center justify-between">
-          <Text variant="xs" className="text-[10px] text-foreground/20">
+          <Text size="xs" className="text-[10px] text-foreground/20">
             {formatTime(message.timestamp)}
           </Text>
           {message.status === 'sent' && message.content.length > 0 && (

@@ -20,19 +20,15 @@ export function ChapterNumberedList({ items }: ChapterNumberedListProps) {
         return (
           <Card key={item.title} className="flex-row items-start gap-4">
             <IconChip size={32} shape="circle" bg={withAlpha(accent, 0.2)}>
-              <Text
-                variant="sm"
-                className="font-bold"
-                style={{ color: accent }}
-              >
+              <Text size="sm" weight="bold" style={{ color: accent }}>
                 {i + 1}
               </Text>
             </IconChip>
             <View className="flex-1">
-              <Text variant="md" className="font-bold">
+              <Text size="md" weight="bold">
                 {item.title}
               </Text>
-              <Text variant="sm" muted className="mt-1 leading-relaxed">
+              <Text size="sm" tone="secondary" className="mt-1 leading-relaxed">
                 {item.description}
               </Text>
             </View>

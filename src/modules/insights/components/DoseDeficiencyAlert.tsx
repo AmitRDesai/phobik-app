@@ -38,10 +38,10 @@ export function DoseDeficiencyAlert({ totals }: DoseDeficiencyAlertProps) {
           />
         </IconChip>
         <View className="flex-1">
-          <Text variant="md" className="font-semibold">
+          <Text size="md" weight="semibold">
             You&apos;re low on {display.label} today
           </Text>
-          <Text variant="sm" muted className="mt-1">
+          <Text size="sm" tone="secondary" className="mt-1">
             Smart Tip: {tip}
           </Text>
         </View>

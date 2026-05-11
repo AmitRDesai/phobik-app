@@ -142,8 +142,10 @@ export default function JournalDashboard() {
 
         <View className="mb-4 flex-row items-center justify-between">
           <Text
-            variant="caption"
-            className="font-bold tracking-widest text-foreground/60"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="tracking-widest text-foreground/60"
           >
             {formatDateLabel(selectedDate)}
           </Text>
@@ -164,7 +166,7 @@ export default function JournalDashboard() {
             ))
           ) : (
             <View className="items-center py-8">
-              <Text variant="sm" className="text-foreground/30">
+              <Text size="sm" tone="tertiary">
                 No entries for this date
               </Text>
             </View>

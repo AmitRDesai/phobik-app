@@ -38,7 +38,7 @@ export function EbookNavControls({
         style={{ opacity: hasPrev ? 1 : 0.3 }}
       >
         <MaterialIcons name="chevron-left" size={28} color={fg} />
-        <Text variant="caption" muted>
+        <Text size="xs" treatment="caption" tone="secondary">
           Previous
         </Text>
       </Pressable>
@@ -53,7 +53,7 @@ export function EbookNavControls({
       {isLastChapter ? (
         <Pressable onPress={onFinish} className="items-center gap-1">
           <MaterialIcons name="check-circle" size={28} color="#0bda8e" />
-          <Text variant="caption" className="text-status-success">
+          <Text size="xs" treatment="caption" tone="success">
             Finish
           </Text>
         </Pressable>
@@ -65,7 +65,7 @@ export function EbookNavControls({
           style={{ opacity: hasNext ? 1 : 0.3 }}
         >
           <MaterialIcons name="chevron-right" size={28} color={fg} />
-          <Text variant="caption" muted>
+          <Text size="xs" treatment="caption" tone="secondary">
             Next
           </Text>
         </Pressable>

@@ -30,9 +30,9 @@ export default function WelcomeScreen() {
             Next
           </GradientButton>
           <Link href="/auth/sign-in" replace className="mt-2 py-2">
-            <Text variant="sm" muted className="text-center">
+            <Text size="sm" tone="secondary" align="center">
               Already have an account?{' '}
-              <Text variant="sm" className="font-bold text-primary-pink">
+              <Text size="sm" tone="accent" weight="bold">
                 Sign In
               </Text>
             </Text>
@@ -47,17 +47,17 @@ export default function WelcomeScreen() {
         </View>
         <View className="items-center gap-4">
           <View className="flex-row flex-wrap items-center justify-center">
-            <Text variant="display" className="text-center tracking-tight">
+            <Text size="display" align="center" className="tracking-tight">
               Welcome to{' '}
             </Text>
             <GradientText className="text-4xl font-extrabold">
               PHOBIK
             </GradientText>
           </View>
-          <Text variant="h3" className="text-center">
+          <Text size="h3" align="center">
             Create the life you want.
           </Text>
-          <Text variant="h3" className="text-center">
+          <Text size="h3" align="center">
             Overcome your challenges and face your fears.
           </Text>
         </View>

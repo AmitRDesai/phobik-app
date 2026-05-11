@@ -32,13 +32,13 @@ export function ChapterCallout({
         </IconChip>
       )}
       {title && (
-        <Text variant="lg" className="mb-2 font-bold">
+        <Text size="lg" weight="bold" className="mb-2">
           {title}
         </Text>
       )}
       <Text
-        variant="md"
-        muted
+        size="md"
+        tone="secondary"
         className="leading-relaxed"
         style={{ fontFamily: 'serif' }}
       >

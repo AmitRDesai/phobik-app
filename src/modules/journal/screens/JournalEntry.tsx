@@ -174,11 +174,7 @@ export default function JournalEntry() {
                 Edit
               </Button>
             ) : (
-              <Text
-                variant="sm"
-                className="font-bold"
-                style={{ color: yellow }}
-              >
+              <Text size="sm" weight="bold" style={{ color: yellow }}>
                 Drafts
               </Text>
             )
@@ -231,13 +227,16 @@ export default function JournalEntry() {
 
       <View className="mb-4 flex-row items-center justify-between px-1">
         <Text
-          variant="caption"
-          className="font-bold tracking-widest text-primary-pink"
+          size="xs"
+          treatment="caption"
+          tone="accent"
+          weight="bold"
+          className="tracking-widest"
         >
           Private Entry
         </Text>
         {!readOnly && isSavingDraft && (
-          <Text variant="xs" className="text-foreground/30">
+          <Text size="xs" tone="tertiary">
             Auto-saving...
           </Text>
         )}

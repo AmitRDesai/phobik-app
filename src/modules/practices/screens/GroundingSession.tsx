@@ -196,7 +196,7 @@ export default function GroundingSession() {
         <Header
           left={<BackButton icon="close" />}
           center={
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               5-4-3-2-1 Session
             </Text>
           }
@@ -240,15 +240,21 @@ export default function GroundingSession() {
               ) : (
                 <Text
                   key={i}
-                  variant="h2"
-                  className="text-center font-bold leading-tight"
+                  size="h2"
+                  align="center"
+                  className="leading-tight"
                 >
                   {part.text}
                 </Text>
               ),
             )}
           </View>
-          <Text variant="lg" muted className="text-center leading-relaxed">
+          <Text
+            size="lg"
+            tone="secondary"
+            align="center"
+            className="leading-relaxed"
+          >
             {currentStep.subInstruction}
           </Text>
         </View>
@@ -256,12 +262,12 @@ export default function GroundingSession() {
 
       {/* Timer */}
       <View className="items-center gap-2 px-6 py-4">
-        <Text variant="caption" className="font-semibold text-foreground/40">
+        <Text size="xs" treatment="caption" className="text-foreground/40">
           Time Remaining
         </Text>
         <Text
-          variant="lg"
-          className="font-medium"
+          size="lg"
+          weight="medium"
           style={{ fontVariant: ['tabular-nums'] }}
         >
           {formatTime(timeRemaining)}

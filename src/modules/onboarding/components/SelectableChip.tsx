@@ -19,7 +19,7 @@ export function SelectableChip({
   const inner = (
     <View className="h-11 flex-row items-center px-5">
       <Text
-        variant="sm"
+        size="sm"
         className={clsx(
           'font-bold',
           selected ? 'text-white' : 'text-foreground/80',

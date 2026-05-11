@@ -45,7 +45,12 @@ function TrailingAction({
           boxShadow: `0 0 12px ${withAlpha(color, 0.4)}`,
         }}
       >
-        <Text variant="xs" className="font-black tracking-widest text-white">
+        <Text
+          size="xs"
+          tone="inverse"
+          weight="black"
+          className="tracking-widest"
+        >
           BOOST
         </Text>
       </Pressable>
@@ -150,20 +155,19 @@ export function DoseActionRow({
 
       <View className="flex-1">
         <Text
-          variant="caption"
-          className="font-bold tracking-widest"
+          size="xs"
+          treatment="caption"
+          weight="bold"
+          className="tracking-widest"
           style={{ color }}
         >
           {label}
         </Text>
         <View className="mt-1 flex-row items-baseline gap-1">
-          <Text
-            className="text-xl font-black text-foreground"
-            allowFontScaling={false}
-          >
+          <Text weight="black" className="text-xl" allowFontScaling={false}>
             {score}
           </Text>
-          <Text variant="xs" muted className="font-semibold">
+          <Text size="xs" tone="secondary" weight="semibold">
             / {CHEMICAL_MAX}
           </Text>
         </View>

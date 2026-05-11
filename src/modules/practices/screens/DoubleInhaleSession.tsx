@@ -57,8 +57,9 @@ function InstructionCard() {
             />
           </View>
           <Text
-            variant="lg"
-            className="flex-1 font-medium leading-relaxed text-foreground/80"
+            size="lg"
+            weight="medium"
+            className="flex-1 leading-relaxed text-foreground/80"
           >
             Take two quick inhales through your nose, then one long exhale
             through your mouth.
@@ -270,14 +271,15 @@ function PhaseProgress({
 }) {
   return (
     <View className="mt-4 items-center gap-3 px-6" style={{ minHeight: 140 }}>
-      <Text variant="display" className="text-center font-bold">
+      <Text size="display" align="center" weight="bold">
         {currentPhase}
       </Text>
       <View style={{ height: 36 }} className="items-center justify-center">
         <Text
-          variant="sm"
-          muted
-          className="mx-auto max-w-[280px] text-center leading-relaxed"
+          size="sm"
+          tone="secondary"
+          align="center"
+          className="mx-auto max-w-[280px] leading-relaxed"
         >
           {currentSubtext}
         </Text>
@@ -312,8 +314,10 @@ function PhaseProgress({
         </View>
         {sessionReady && (
           <Text
-            variant="sm"
-            className="font-bold uppercase tracking-widest text-primary-pink"
+            size="sm"
+            tone="accent"
+            weight="bold"
+            className="uppercase tracking-widest"
           >
             Step {currentStep.step} of 3: {currentStep.label}
           </Text>
@@ -378,7 +382,6 @@ function useDrivenSharedValue(
   useEffect(() => {
     value.value = build(active);
     // build is a stable module-level function reference
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active, value]);
   return value;
 }
@@ -575,8 +578,8 @@ export default function DoubleInhaleSession() {
               }}
             >
               <Text
-                variant="sm"
-                className="font-bold"
+                size="sm"
+                weight="bold"
                 style={{
                   color: yellow,
                   fontVariant: ['tabular-nums'],

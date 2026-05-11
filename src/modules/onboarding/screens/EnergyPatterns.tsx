@@ -57,7 +57,7 @@ export default function EnergyPatterns() {
                 size={20}
                 color={colors.primary.pink}
               />
-              <Text variant="h3" className="font-bold">
+              <Text size="h3" weight="bold">
                 {section.label}
               </Text>
             </View>

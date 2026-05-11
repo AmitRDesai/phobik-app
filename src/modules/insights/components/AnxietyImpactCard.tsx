@@ -17,19 +17,21 @@ export function AnxietyImpactCard() {
             size={20}
             color={colors.primary.pink}
           />
-          <Text variant="md" className="font-bold">
+          <Text size="md" weight="bold">
             Anxiety Impact
           </Text>
         </View>
         <View className="gap-3">
-          <Text variant="sm" className="text-foreground/70">
+          <Text size="sm" className="text-foreground/70">
             Yesterday&apos;s elevated{' '}
-            <Text className="font-bold text-primary-pink">cortisol levels</Text>{' '}
+            <Text tone="accent" weight="bold">
+              cortisol levels
+            </Text>{' '}
             from the afternoon stress spike delayed your REM entry by 42
             minutes.
           </Text>
           <View className="h-px w-full bg-foreground/5" />
-          <Text variant="xs" muted className="italic">
+          <Text size="xs" tone="secondary" italic>
             &ldquo;Your deep sleep was 15% lower than your baseline. Consider a
             10-minute breathwork session before tonight&apos;s rest.&rdquo;
           </Text>

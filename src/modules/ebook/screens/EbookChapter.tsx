@@ -113,7 +113,6 @@ export default function EbookChapter() {
 
   useEffect(() => {
     updateProgress.mutate({ lastChapterId: chapterId });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chapterId]);
 
   const markCompleted = useCallback(() => {
@@ -204,7 +203,7 @@ export default function EbookChapter() {
           </ScrollView>
         ) : (
           <View className="flex-1 items-center justify-center">
-            <Text variant="md">Chapter not found</Text>
+            <Text size="md">Chapter not found</Text>
           </View>
         )}
       </EaseView>

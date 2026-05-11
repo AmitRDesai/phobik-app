@@ -67,8 +67,10 @@ export default function Intention() {
             Next
           </GradientButton>
           <Text
-            variant="caption"
-            className="mt-4 font-bold tracking-[0.2em] text-foreground/45"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="mt-4 tracking-[0.2em] text-foreground/45"
           >
             Tap shuffle for a new anchor
           </Text>
@@ -80,14 +82,17 @@ export default function Intention() {
         <View className="flex-row items-end justify-between">
           <View className="flex-1">
             <Text
-              variant="caption"
-              className="font-bold tracking-[0.3em] text-primary-pink"
+              size="xs"
+              treatment="caption"
+              tone="accent"
+              weight="bold"
+              className="tracking-[0.3em]"
               style={{ paddingRight: 3.3 }}
             >
               Step 01
             </Text>
             <View className="mt-2 flex-row flex-wrap items-baseline">
-              <Text variant="h1" className="font-black leading-tight">
+              <Text size="h1" weight="black" className="leading-tight">
                 Start with your{' '}
               </Text>
               <GradientText className="text-3xl font-black leading-tight">
@@ -95,7 +100,7 @@ export default function Intention() {
               </GradientText>
             </View>
           </View>
-          <Text variant="sm" className="pb-1 text-foreground/55">
+          <Text size="sm" tone="secondary" className="pb-1">
             0% Complete
           </Text>
         </View>
@@ -104,7 +109,7 @@ export default function Intention() {
           <DailyFlowProgressBar progress={0.02} />
         </View>
 
-        <Text variant="lg" className="mt-5 leading-6 text-foreground/65">
+        <Text size="lg" className="mt-5 leading-6 text-foreground/65">
           Hold this in your mind as you begin your shift.
         </Text>
       </View>
@@ -153,7 +158,7 @@ function IntentionCard({
         <MaterialIcons name="refresh" size={18} color={colors.primary.pink} />
       </Pressable>
 
-      <Text variant="h1" className="font-bold leading-tight">
+      <Text size="h1" className="leading-tight">
         {item.text}
       </Text>
 

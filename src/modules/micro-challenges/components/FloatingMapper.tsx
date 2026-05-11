@@ -144,8 +144,9 @@ export function FloatingMapper({
     <View className="flex-1">
       <View className="items-center px-6 pt-2">
         <Text
-          variant="lg"
-          className="text-center leading-relaxed text-foreground/85"
+          size="lg"
+          align="center"
+          className="leading-relaxed text-foreground/85"
         >
           {promptText}
         </Text>
@@ -261,7 +262,7 @@ export function FloatingMapper({
                   </EaseView>
                   <Animated.View style={counterRotateStyle}>
                     <Text
-                      variant="xs"
+                      size="xs"
                       className={clsx(
                         'text-center',
                         isSubSelected

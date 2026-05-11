@@ -30,7 +30,7 @@ export default function FeelingSelection() {
       className="items-center justify-center px-6"
     >
       <View className="mb-10">
-        <Text variant="h2" className="text-center font-light leading-tight">
+        <Text size="h2" align="center" className="font-light leading-tight">
           What do you want to feel{'\n'}
           more of today?
         </Text>

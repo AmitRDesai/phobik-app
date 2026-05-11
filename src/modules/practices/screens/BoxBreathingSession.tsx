@@ -154,7 +154,7 @@ export default function BoxBreathingSession() {
         <Header
           left={<BackButton />}
           center={
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               Box Breathing
             </Text>
           }
@@ -174,8 +174,10 @@ export default function BoxBreathingSession() {
         {/* Instruction text */}
         <View className="mt-8 items-center">
           <Text
-            variant="caption"
-            className="mb-4 font-medium text-foreground/40"
+            size="xs"
+            treatment="caption"
+            weight="medium"
+            className="mb-4 text-foreground/40"
             style={{ paddingRight: 1.1 }}
           >
             MATCH YOUR BREATH TO THE SQUARE
@@ -185,15 +187,19 @@ export default function BoxBreathingSession() {
           <View className="flex-row gap-4">
             <View className="items-center rounded-2xl border border-foreground/5 bg-surface px-6 py-3">
               <Text
-                variant="caption"
-                className="mb-1 font-bold tracking-wider text-primary-pink"
+                size="xs"
+                treatment="caption"
+                tone="accent"
+                weight="bold"
+                className="mb-1 tracking-wider"
                 style={{ paddingRight: 1.1 }}
               >
                 Completed
               </Text>
               <Text
-                variant="lg"
-                className="font-bold text-foreground/90"
+                size="lg"
+                weight="bold"
+                className="text-foreground/90"
                 style={{ fontVariant: ['tabular-nums'] }}
               >
                 {formatTime(elapsed)}
@@ -201,15 +207,18 @@ export default function BoxBreathingSession() {
             </View>
             <View className="items-center rounded-2xl border border-foreground/5 bg-surface px-6 py-3">
               <Text
-                variant="caption"
-                className="mb-1 font-bold tracking-wider text-accent-yellow"
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="mb-1 tracking-wider text-accent-yellow"
                 style={{ paddingRight: 1.1 }}
               >
                 Goal
               </Text>
               <Text
-                variant="lg"
-                className="font-bold text-foreground/90"
+                size="lg"
+                weight="bold"
+                className="text-foreground/90"
                 style={{ fontVariant: ['tabular-nums'] }}
               >
                 {formatTime(TOTAL_DURATION)}
@@ -236,11 +245,12 @@ export default function BoxBreathingSession() {
                 />
               </View>
               <View>
-                <Text variant="sm" className="font-bold">
+                <Text size="sm" weight="bold">
                   HRV Tracking
                 </Text>
                 <Text
-                  variant="caption"
+                  size="xs"
+                  treatment="caption"
                   className="leading-none text-foreground/40"
                   style={{ paddingRight: 1.1 }}
                 >
@@ -265,7 +275,8 @@ export default function BoxBreathingSession() {
                 }`}
               />
               <Text
-                variant="caption"
+                size="xs"
+                treatment="caption"
                 className={`font-bold ${
                   hasLiveData ? 'text-green-500' : 'text-foreground/40'
                 }`}
@@ -281,12 +292,13 @@ export default function BoxBreathingSession() {
             {/* Variability */}
             <View className="flex-1 gap-2">
               <View className="flex-row items-baseline gap-1.5">
-                <Text variant="h1" className="font-bold">
-                  {hrvMs != null ? hrvMs : '—'}
-                </Text>
+                <Text size="h1">{hrvMs != null ? hrvMs : '—'}</Text>
                 <Text
-                  variant="caption"
-                  className="font-medium tracking-tighter text-primary-pink"
+                  size="xs"
+                  treatment="caption"
+                  tone="accent"
+                  weight="medium"
+                  className="tracking-tighter"
                 >
                   ms
                 </Text>
@@ -303,10 +315,7 @@ export default function BoxBreathingSession() {
                   }}
                 />
               </View>
-              <Text
-                variant="caption"
-                className="font-semibold text-foreground/30"
-              >
+              <Text size="xs" treatment="caption" tone="tertiary">
                 Variability
               </Text>
             </View>
@@ -314,12 +323,14 @@ export default function BoxBreathingSession() {
             {/* Heart Rate */}
             <View className="flex-1 items-end gap-2">
               <View className="flex-row items-baseline gap-1.5">
-                <Text variant="h1" className="font-bold">
+                <Text size="h1">
                   {heartRateBpm != null ? heartRateBpm : '—'}
                 </Text>
                 <Text
-                  variant="caption"
-                  className="font-medium tracking-tighter text-accent-yellow"
+                  size="xs"
+                  treatment="caption"
+                  weight="medium"
+                  className="tracking-tighter text-accent-yellow"
                 >
                   bpm
                 </Text>
@@ -338,10 +349,7 @@ export default function BoxBreathingSession() {
                   />
                 </View>
               </View>
-              <Text
-                variant="caption"
-                className="font-semibold text-foreground/30"
-              >
+              <Text size="xs" treatment="caption" tone="tertiary">
                 Heart Rate
               </Text>
             </View>

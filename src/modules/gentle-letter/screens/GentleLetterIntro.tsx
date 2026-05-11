@@ -23,7 +23,7 @@ export default function GentleLetterIntro() {
       header={
         <Header
           center={
-            <Text variant="caption" className="font-bold text-foreground/55">
+            <Text size="xs" treatment="caption" tone="secondary" weight="bold">
               Practice
             </Text>
           }
@@ -71,20 +71,24 @@ export default function GentleLetterIntro() {
         </View>
       </View>
 
-      <Text variant="h1" className="mb-4 text-center font-bold leading-tight">
+      <Text size="h1" align="center" className="mb-4 leading-tight">
         Write a Gentle Letter to Yourself
       </Text>
 
       <Text
-        variant="lg"
-        className="mb-4 text-center font-medium text-primary-pink"
+        size="lg"
+        align="center"
+        tone="accent"
+        weight="medium"
+        className="mb-4"
       >
         A PHOBIK practice in courage and kindness.
       </Text>
 
       <Text
-        variant="md"
-        className="mb-12 max-w-[320px] text-center leading-relaxed text-foreground/60"
+        size="md"
+        align="center"
+        className="mb-12 max-w-[320px] leading-relaxed text-foreground/60"
       >
         A guided exercise in self-compassion. Through 5 gentle steps, replace
         harsh self-judgment with understanding and care.

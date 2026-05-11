@@ -89,8 +89,12 @@ export default function BiLateralTutorial() {
             Find Your Rhythm
           </GradientText>
           <Text
-            variant="caption"
-            className="mt-2 text-center font-bold tracking-[0.2em] text-foreground/55"
+            size="xs"
+            treatment="caption"
+            align="center"
+            tone="secondary"
+            weight="bold"
+            className="mt-2 tracking-[0.2em]"
           >
             Phase 1 · Regulating the Nervous System
           </Text>
@@ -147,18 +151,14 @@ function SmallStepCard({
   return (
     <Card className="p-5">
       <View className="flex-row items-start gap-4">
-        <Text
-          variant="h2"
-          className="font-black"
-          style={{ color: numberColor }}
-        >
+        <Text size="h2" weight="black" style={{ color: numberColor }}>
           {number}
         </Text>
         <View className="flex-1">
-          <Text variant="lg" className="font-bold">
+          <Text size="lg" weight="bold">
             {title}
           </Text>
-          <Text variant="sm" muted className="mt-1 leading-5">
+          <Text size="sm" tone="secondary" className="mt-1 leading-5">
             {description}
           </Text>
         </View>
@@ -174,24 +174,20 @@ function HighlightStepCard({ yellow }: { yellow: string }) {
       shadow={{ color: colors.primary.pink, opacity: 0.2, blur: 16 }}
     >
       <View className="flex-row items-start gap-4">
-        <Text
-          variant="h1"
-          className="font-black"
-          style={{ color: colors.primary.pink }}
-        >
+        <Text size="h1" weight="black" style={{ color: colors.primary.pink }}>
           03
         </Text>
         <View className="flex-1">
-          <Text variant="lg" className="font-bold">
+          <Text size="lg" weight="bold">
             Start a Steady Rhythm
           </Text>
-          <Text variant="sm" muted className="mt-1 leading-5">
+          <Text size="sm" tone="secondary" className="mt-1 leading-5">
             Gently tap{' '}
-            <Text className="font-bold" style={{ color: colors.primary.pink }}>
+            <Text weight="bold" style={{ color: colors.primary.pink }}>
               left
             </Text>
             {' → then '}
-            <Text className="font-bold" style={{ color: yellow }}>
+            <Text weight="bold" style={{ color: yellow }}>
               right
             </Text>
             {' → left → right. Aim for 1–2 taps per second.'}
@@ -214,16 +210,18 @@ function MiniStepCard({
   return (
     <Card variant="surface" className="p-5">
       <Text
-        variant="caption"
-        className="font-black tracking-[0.25em] text-foreground/50"
+        size="xs"
+        treatment="caption"
+        weight="black"
+        className="tracking-[0.25em] text-foreground/50"
         style={{ paddingRight: 2.5 }}
       >
         {step}
       </Text>
-      <Text variant="lg" className="mt-1.5 font-bold">
+      <Text size="lg" weight="bold" className="mt-1.5">
         {title}
       </Text>
-      <Text variant="sm" className="mt-1 leading-5 text-foreground/55">
+      <Text size="sm" tone="secondary" className="mt-1 leading-5">
         {description}
       </Text>
     </Card>

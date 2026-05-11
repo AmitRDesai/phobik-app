@@ -14,11 +14,11 @@ export default function DeepFocus() {
       title="7. Deep Focus"
       duration="60-120 min after breakfast"
       intro={
-        <Text variant="lg" className="leading-6 text-foreground/70">
+        <Text size="lg" className="leading-6 text-foreground/70">
           Your peak window opens{' '}
           <Text
-            variant="lg"
-            className="font-bold"
+            size="lg"
+            weight="bold"
             style={{ color: accentFor(scheme, 'yellow') }}
           >
             60-120 minutes

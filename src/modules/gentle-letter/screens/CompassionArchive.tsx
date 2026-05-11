@@ -114,7 +114,7 @@ export default function CompassionArchive() {
           <Pressable onPress={prevMonth} className="rounded-full p-2">
             <MaterialIcons name="chevron-left" size={24} color={chevronColor} />
           </Pressable>
-          <Text variant="md" className="font-bold">
+          <Text size="md" weight="bold">
             {MONTHS[calMonth - 1]} {calYear}
           </Text>
           <Pressable onPress={nextMonth} className="rounded-full p-2">
@@ -129,7 +129,12 @@ export default function CompassionArchive() {
         <View className="mb-2 flex-row">
           {DAY_LABELS.map((label, i) => (
             <View key={`day-${i}`} className="flex-1 items-center">
-              <Text variant="caption" className="font-bold text-foreground/55">
+              <Text
+                size="xs"
+                treatment="caption"
+                tone="secondary"
+                weight="bold"
+              >
                 {label}
               </Text>
             </View>
@@ -165,7 +170,7 @@ export default function CompassionArchive() {
                       <View className="absolute inset-0 rounded-full border border-primary-pink/30 bg-primary-pink/20" />
                     ) : null}
                     <Text
-                      variant="sm"
+                      size="sm"
                       className={clsx(
                         'font-medium',
                         isSelected
@@ -197,7 +202,7 @@ export default function CompassionArchive() {
 
       <View className="mt-8">
         <View className="mb-4 flex-row items-center justify-between">
-          <Text variant="lg" className="font-bold">
+          <Text size="lg" weight="bold">
             {selectedDate
               ? `Letters on ${formatDate(selectedDate)}`
               : 'Recent Letters'}
@@ -222,7 +227,7 @@ export default function CompassionArchive() {
               size={40}
               color={foregroundFor(scheme, 0.45)}
             />
-            <Text variant="md" className="mt-3 text-center text-foreground/55">
+            <Text size="md" align="center" tone="secondary" className="mt-3">
               {selectedDate
                 ? 'No letters on this date.'
                 : 'No letters yet. Start your first gentle letter practice.'}
@@ -243,12 +248,15 @@ export default function CompassionArchive() {
               >
                 <View className="flex-1 gap-2 p-4">
                   <Text
-                    variant="caption"
-                    className="font-medium tracking-wider text-foreground/55"
+                    size="xs"
+                    treatment="caption"
+                    tone="secondary"
+                    weight="medium"
+                    className="tracking-wider"
                   >
                     {formatDate(letter.entryDate)}
                   </Text>
-                  <Text variant="md" className="font-bold">
+                  <Text size="md" weight="bold">
                     {letter.title}
                   </Text>
                   {letter.coreAct && (
@@ -258,8 +266,9 @@ export default function CompassionArchive() {
                   )}
                   <View className="mt-1 flex-row items-center gap-1">
                     <Text
-                      variant="sm"
-                      className="font-medium text-foreground/80"
+                      size="sm"
+                      weight="medium"
+                      className="text-foreground/80"
                     >
                       Read reflection
                     </Text>
@@ -291,7 +300,7 @@ export default function CompassionArchive() {
           size={14}
           color={foregroundFor(scheme, 0.45)}
         />
-        <Text variant="sm" className="text-center italic text-foreground/55">
+        <Text size="sm" italic align="center" tone="secondary">
           Your archive is private and end-to-end encrypted.
         </Text>
       </View>

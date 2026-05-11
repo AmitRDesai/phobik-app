@@ -44,7 +44,7 @@ export default function EbookIntro() {
       <View className="z-10 flex-row items-center justify-between px-6 pt-2">
         <BackButton />
         <View className="rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1">
-          <Text variant="caption" muted>
+          <Text size="xs" treatment="caption" tone="secondary">
             Introduction
           </Text>
         </View>
@@ -88,7 +88,9 @@ export default function EbookIntro() {
                     paddingVertical: 4,
                   }}
                 >
-                  <Text variant="caption">Phobik Series</Text>
+                  <Text size="xs" treatment="caption">
+                    Phobik Series
+                  </Text>
                 </LinearGradient>
               </View>
             </View>
@@ -96,7 +98,7 @@ export default function EbookIntro() {
 
           {/* Title */}
           <View className="mt-8">
-            <Text variant="display" className="leading-tight">
+            <Text size="display" className="leading-tight">
               A New Way to Understand and Work with the{' '}
             </Text>
             <GradientText
@@ -115,8 +117,8 @@ export default function EbookIntro() {
 
           {/* Content */}
           <View className="mt-8 gap-6">
-            <Text variant="h3">Welcome to Calm Above the Clouds</Text>
-            <Text variant="lg" muted className="italic leading-relaxed">
+            <Text size="h3">Welcome to Calm Above the Clouds</Text>
+            <Text size="lg" tone="secondary" italic className="leading-relaxed">
               {
                 '"This package is designed to help you navigate the skies with confidence. My personal journey through flight anxiety led to the creation of this two-part approach."'
               }
@@ -137,10 +139,10 @@ export default function EbookIntro() {
                   />
                 </IconChip>
                 <View className="flex-1">
-                  <Text variant="md" className="font-bold">
+                  <Text size="md" weight="bold">
                     1. Intellectual Reassurance
                   </Text>
-                  <Text variant="sm" muted className="mt-1">
+                  <Text size="sm" tone="secondary" className="mt-1">
                     Gaining a logical understanding of how aviation works to
                     dispel common myths and technical fears.
                   </Text>
@@ -161,10 +163,10 @@ export default function EbookIntro() {
                   />
                 </IconChip>
                 <View className="flex-1">
-                  <Text variant="md" className="font-bold">
+                  <Text size="md" weight="bold">
                     2. Emotional Safety
                   </Text>
-                  <Text variant="sm" muted className="mt-1">
+                  <Text size="sm" tone="secondary" className="mt-1">
                     Nervous System Regulation via the Phobik app to manage the
                     physical symptoms of anxiety in real-time.
                   </Text>
@@ -173,7 +175,7 @@ export default function EbookIntro() {
             </View>
 
             <View className="pb-12 pt-6">
-              <Text variant="md" muted className="leading-relaxed">
+              <Text size="md" tone="secondary" className="leading-relaxed">
                 By combining logic with somatic tools, we address both the mind
                 and the body, ensuring you feel supported from takeoff to
                 landing.

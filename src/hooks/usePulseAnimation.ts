@@ -52,7 +52,6 @@ export function usePulseAnimation({
     } else {
       value.value = withTiming(rest, { duration: restDuration });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- pulse params are configured at construction
   }, [active, value]);
   return value;
 }

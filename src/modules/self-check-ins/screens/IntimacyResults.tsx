@@ -82,20 +82,22 @@ function ScoreRing({
           />
         </Svg>
         <View className="absolute items-center">
-          <Text variant="h1" className="font-bold">
-            {score}
-          </Text>
+          <Text size="h1">{score}</Text>
           <Text
-            variant="caption"
-            className="mt-0.5 font-semibold tracking-wider text-foreground/55"
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            className="mt-0.5 tracking-wider"
           >
             / {max}
           </Text>
         </View>
       </View>
       <Text
-        variant="caption"
-        className="mt-4 font-bold tracking-wider"
+        size="xs"
+        treatment="caption"
+        weight="bold"
+        className="mt-4 tracking-wider"
         style={{ color: labelColor }}
       >
         {label}
@@ -238,7 +240,7 @@ export default function IntimacyResults() {
         <Header
           left={<BackButton onPress={() => router.back()} />}
           center={
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               Quiz Results
             </Text>
           }
@@ -253,10 +255,10 @@ export default function IntimacyResults() {
     >
       {/* Title */}
       <View className="items-center pb-8 pt-4">
-        <Text variant="h1" className="mb-2 text-center font-bold">
+        <Text size="h1" align="center" className="mb-2">
           Speaker vs Listener
         </Text>
-        <Text variant="sm" muted className="text-center">
+        <Text size="sm" tone="secondary" align="center">
           Intimacy & Connection Assessment
         </Text>
       </View>
@@ -283,18 +285,18 @@ export default function IntimacyResults() {
       <Card variant="surface" className="mb-8 p-5">
         <View className="mb-3 flex-row items-center gap-2">
           <MaterialIcons name="balance" size={20} color={colors.primary.pink} />
-          <Text variant="lg" className="font-bold">
+          <Text size="lg" weight="bold">
             {insight.title}
           </Text>
         </View>
-        <Text variant="sm" muted className="leading-relaxed">
+        <Text size="sm" tone="secondary" className="leading-relaxed">
           {insight.body}
         </Text>
       </Card>
 
       {/* Growth Zones */}
       <View className="mb-10">
-        <Text variant="h3" className="mb-4 font-bold">
+        <Text size="h3" weight="bold" className="mb-4">
           Growth Zones
         </Text>
         <View className="gap-4">
@@ -318,11 +320,7 @@ export default function IntimacyResults() {
                 }}
               >
                 <View className="mb-1 flex-row items-start justify-between">
-                  <Text
-                    variant="sm"
-                    className="font-bold"
-                    style={{ color: zoneColor }}
-                  >
+                  <Text size="sm" weight="bold" style={{ color: zoneColor }}>
                     {zone.title}
                   </Text>
                   <View
@@ -330,15 +328,16 @@ export default function IntimacyResults() {
                     style={{ backgroundColor: withAlpha(zoneColor, 0.2) }}
                   >
                     <Text
-                      variant="caption"
-                      className="font-bold"
+                      size="xs"
+                      treatment="caption"
+                      weight="bold"
                       style={{ color: zoneColor }}
                     >
                       {zone.badge}
                     </Text>
                   </View>
                 </View>
-                <Text variant="sm" muted>
+                <Text size="sm" tone="secondary">
                   {zone.body}
                 </Text>
               </View>
@@ -349,7 +348,7 @@ export default function IntimacyResults() {
 
       {/* Connection Challenges */}
       <View>
-        <Text variant="h3" className="mb-4 font-bold">
+        <Text size="h3" weight="bold" className="mb-4">
           Connection Challenges
         </Text>
         <View className="gap-3">
@@ -374,10 +373,10 @@ export default function IntimacyResults() {
                   />
                 </View>
                 <View className="flex-1">
-                  <Text variant="sm" className="font-bold">
+                  <Text size="sm" weight="bold">
                     {challenge.title}
                   </Text>
-                  <Text variant="sm" muted>
+                  <Text size="sm" tone="secondary">
                     {challenge.body}
                   </Text>
                 </View>

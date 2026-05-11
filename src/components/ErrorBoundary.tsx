@@ -1,7 +1,7 @@
 import { colors } from '@/constants/colors';
 import { type ErrorBoundaryProps } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
-import { Text } from 'react-native';
+import { Text } from './themed/Text';
 import { Button } from './ui/Button';
 import { Screen } from './ui/Screen';
 
@@ -14,13 +14,13 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
         tintColor={colors.red[500]}
         resizeMode="scaleAspectFill"
       />
-      <Text className="text-center text-lg mt-4 text-foreground/30">
+      <Text size="lg" tone="tertiary" align="center" className="mt-4">
         Something broke, please reload the app!
       </Text>
-      <Text className="mt-2 mb-4 text-foreground/55">{error.message}</Text>
-      <Button onPress={retry}>
-        <Text className="text-white">Try again</Text>
-      </Button>
+      <Text size="md" tone="secondary" className="mt-2 mb-4">
+        {error.message}
+      </Text>
+      <Button onPress={retry}>Try again</Button>
     </Screen>
   );
 }

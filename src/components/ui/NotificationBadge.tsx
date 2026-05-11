@@ -1,4 +1,5 @@
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 
 interface NotificationBadgeProps {
   count: number;
@@ -19,7 +20,7 @@ export function NotificationBadge({ count }: NotificationBadgeProps) {
       className="absolute -right-1 -top-1 h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-background-dashboard bg-primary-pink px-1"
       pointerEvents="none"
     >
-      <Text className="text-[10px] font-bold leading-none text-white">
+      <Text tone="inverse" weight="bold" className="text-[10px] leading-none">
         {display}
       </Text>
     </View>

@@ -45,23 +45,28 @@ export function QuestionProgress({
       <View className="mb-4 flex-row items-end justify-between">
         {showPercentage ? (
           <>
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               Question {current} of {total}
             </Text>
-            <Text variant="sm" className="font-bold text-foreground/60">
+            <Text size="sm" weight="bold" className="text-foreground/60">
               {Math.round(progress)}%
             </Text>
           </>
         ) : (
           <>
-            <Text variant="display" className="font-extrabold">
+            <Text size="display">
               {displayNumber}
-              <Text variant="lg" className="font-medium text-foreground/45">
+              <Text size="lg" weight="medium" className="text-foreground/45">
                 /{displayTotal}
               </Text>
             </Text>
             {sectionLabel && (
-              <Text variant="caption" className="font-bold text-foreground/60">
+              <Text
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="text-foreground/60"
+              >
                 {sectionLabel}
               </Text>
             )}

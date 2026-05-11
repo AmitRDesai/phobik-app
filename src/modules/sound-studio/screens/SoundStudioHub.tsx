@@ -31,18 +31,23 @@ export default function SoundStudioHub() {
         className="mt-2 flex-row items-center justify-between p-5"
       >
         <View>
-          <Text variant="caption" muted>
+          <Text size="xs" treatment="caption" tone="secondary">
             AI Generation
           </Text>
-          <Text variant="h2" className="mt-1 font-extrabold">
+          <Text size="h2" weight="extrabold" className="mt-1">
             {FAKE_CREDITS} Credits
           </Text>
-          <Text variant="xs" muted className="mt-1">
+          <Text size="xs" tone="secondary" className="mt-1">
             Refills in 12 hours
           </Text>
         </View>
         <View className="rounded-full bg-primary-pink px-5 py-2">
-          <Text variant="caption" className="text-on-primary-fixed font-bold">
+          <Text
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="text-on-primary-fixed"
+          >
             Refill
           </Text>
         </View>
@@ -58,12 +63,18 @@ export default function SoundStudioHub() {
           Handpicked
         </Badge>
         <Text
-          variant="display"
-          className="mt-4 text-center text-[28px] leading-[34px]"
+          size="display"
+          align="center"
+          className="mt-4 text-[28px] leading-[34px]"
         >
           Curated{'\n'}Soundscapes
         </Text>
-        <Text variant="sm" muted className="mt-3 text-center leading-relaxed">
+        <Text
+          size="sm"
+          tone="secondary"
+          align="center"
+          className="mt-3 leading-relaxed"
+        >
           Immerse yourself in expertly crafted audio environments designed for
           peak relaxation and focus.
         </Text>
@@ -87,12 +98,18 @@ export default function SoundStudioHub() {
           New Feature
         </Badge>
         <Text
-          variant="display"
-          className="mt-4 text-center text-[28px] leading-[34px]"
+          size="display"
+          align="center"
+          className="mt-4 text-[28px] leading-[34px]"
         >
           AI Studio
         </Text>
-        <Text variant="sm" muted className="mt-3 text-center leading-relaxed">
+        <Text
+          size="sm"
+          tone="secondary"
+          align="center"
+          className="mt-3 leading-relaxed"
+        >
           Generate personalized soundscapes tailored to your current brainwave
           patterns.
         </Text>
@@ -122,10 +139,10 @@ export default function SoundStudioHub() {
           contentFit="cover"
         />
         <View className="flex-1">
-          <Text variant="sm" className="font-bold">
+          <Text size="sm" weight="bold">
             Deep Focus Beta
           </Text>
-          <Text variant="xs" muted>
+          <Text size="xs" tone="secondary">
             AI Generated • 4:20
           </Text>
         </View>

@@ -1,6 +1,7 @@
 import { BackButton } from '@/components/ui/BackButton';
 import { PropsWithChildren } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type Props = PropsWithChildren<{
@@ -13,7 +14,7 @@ export function CharacterScreenShell({ title, children }: Props) {
       <SafeAreaView className="flex-1">
         <View className="flex-row items-center px-4 py-2">
           <BackButton />
-          <Text className="ml-3 text-lg font-semibold text-foreground">
+          <Text weight="semibold" size="lg" className="ml-3">
             {title}
           </Text>
         </View>

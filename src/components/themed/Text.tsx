@@ -1,7 +1,23 @@
 import { cn } from '@/lib/cn';
 import { Text as RNText, type TextProps as RNTextProps } from 'react-native';
 
-export type TextVariant =
+/**
+ * Typography type system — orthogonal axes plus optional treatment.
+ *
+ *   size       sets fontSize + lineHeight        (default: 'md')
+ *   tone       sets color / hierarchy            (default: 'primary')
+ *   weight     overrides the size's default weight (optional)
+ *   align      text alignment                    (optional)
+ *   italic     italic style                      (optional)
+ *   treatment  applies a special pattern (caption) on top
+ *
+ * Default weight per size is baked in (display→extrabold, h1/h2→bold,
+ * h3→semibold, lg/md/sm/xs→normal). Pass `weight` only when overriding.
+ *
+ * Headings (display/h1/h2/h3) automatically get `accessibilityRole="header"`
+ * so VoiceOver / TalkBack announce them as headings.
+ */
+export type TextSize =
   | 'display'
   | 'h1'
   | 'h2'
@@ -9,61 +25,154 @@ export type TextVariant =
   | 'lg'
   | 'md'
   | 'sm'
-  | 'xs'
-  | 'label'
-  | 'caption'
-  | 'mono';
+  | 'xs';
 
-const variantClasses: Record<TextVariant, string> = {
-  display: 'text-[36px] leading-[40px] font-extrabold',
-  h1: 'text-[28px] leading-[34px] font-bold',
-  h2: 'text-[22px] leading-[28px] font-bold',
-  h3: 'text-[18px] leading-[24px] font-semibold',
-  lg: 'text-[17px] leading-[24px] font-normal',
-  md: 'text-[15px] leading-[22px] font-normal',
-  sm: 'text-[13px] leading-[19px] font-normal',
-  xs: 'text-[11px] leading-[15px] font-normal',
-  label: 'text-[13px] leading-[18px] font-semibold',
-  caption: 'text-[11px] leading-[14px] font-semibold uppercase tracking-widest',
-  mono: 'text-[13px] leading-[18px] font-medium',
+export type TextTone =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'disabled'
+  | 'accent'
+  | 'danger'
+  | 'success'
+  | 'warning'
+  | 'inverse';
+
+export type TextWeight =
+  | 'normal'
+  | 'medium'
+  | 'semibold'
+  | 'bold'
+  | 'extrabold'
+  | 'black';
+
+export type TextAlign = 'left' | 'center' | 'right';
+
+export type TextTreatment = 'caption';
+
+const sizeClasses: Record<TextSize, string> = {
+  display: 'text-[36px] leading-[40px]',
+  h1: 'text-[28px] leading-[34px]',
+  h2: 'text-[22px] leading-[28px]',
+  h3: 'text-[18px] leading-[24px]',
+  lg: 'text-[17px] leading-[24px]',
+  md: 'text-[15px] leading-[22px]',
+  sm: 'text-[13px] leading-[19px]',
+  xs: 'text-[11px] leading-[15px]',
 };
 
+const sizeDefaultWeight: Record<TextSize, string> = {
+  display: 'font-extrabold',
+  h1: 'font-bold',
+  h2: 'font-bold',
+  h3: 'font-semibold',
+  lg: 'font-normal',
+  md: 'font-normal',
+  sm: 'font-normal',
+  xs: 'font-normal',
+};
+
+const weightClasses: Record<TextWeight, string> = {
+  normal: 'font-normal',
+  medium: 'font-medium',
+  semibold: 'font-semibold',
+  bold: 'font-bold',
+  extrabold: 'font-extrabold',
+  black: 'font-black',
+};
+
+const toneClasses: Record<TextTone, string> = {
+  primary: 'text-foreground',
+  secondary: 'text-foreground/55',
+  tertiary: 'text-foreground/30',
+  disabled: 'text-foreground/15',
+  accent: 'text-primary-pink',
+  danger: 'text-status-danger',
+  success: 'text-status-success',
+  warning: 'text-status-warning',
+  inverse: 'text-white',
+};
+
+const alignClasses: Record<TextAlign, string> = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+};
+
+const treatmentClasses: Record<TextTreatment, string> = {
+  caption: 'uppercase tracking-widest font-semibold',
+};
+
+const HEADING_SIZES: ReadonlySet<TextSize> = new Set([
+  'display',
+  'h1',
+  'h2',
+  'h3',
+]);
+
 export interface TextProps extends RNTextProps {
-  variant?: TextVariant;
-  /** Apply muted foreground (lower opacity). Default: false */
-  muted?: boolean;
-  /** Use inverse foreground (e.g. text on a brand background). Default: false */
-  inverse?: boolean;
+  size?: TextSize;
+  tone?: TextTone;
+  weight?: TextWeight;
+  align?: TextAlign;
+  /** Render in italic. Composes with every other axis. */
+  italic?: boolean;
+  treatment?: TextTreatment;
 }
 
 /**
- * Themed Text. Defaults to `text-foreground` (theme-aware via ThemeProvider
- * vars). Pass a `variant` to apply the typography scale; `muted` /
- * `inverse` adjust color without overriding the variant's size/weight.
+ * Themed Text.
+ *
+ *   <Text size="h1">Title</Text>
+ *   <Text tone="secondary">Subtitle in body size</Text>
+ *   <Text size="sm" tone="tertiary">Helper text</Text>
+ *   <Text size="xs" treatment="caption" tone="accent">EYEBROW</Text>
+ *   <Text size="sm" tone="danger" align="center">Validation error</Text>
+ *   <Text italic tone="secondary">Italic body</Text>
  */
 export function Text({
-  variant = 'md',
-  muted,
-  inverse,
+  size = 'md',
+  tone = 'primary',
+  weight,
+  align,
+  italic,
+  treatment,
   className,
-  style,
   allowFontScaling = true,
+  accessibilityRole,
   ...rest
 }: TextProps) {
-  const colorClass = inverse
-    ? 'text-surface'
-    : muted
-      ? 'text-foreground/55'
-      : 'text-foreground';
+  // Resolution order for weight:
+  //   1. explicit `weight` prop (highest)
+  //   2. treatment (caption=semibold)
+  //   3. size default (display=extrabold, h1/h2=bold, h3=semibold, body=normal)
+  const weightClass = weight
+    ? weightClasses[weight]
+    : treatment
+      ? '' // treatment string carries its own weight
+      : sizeDefaultWeight[size];
+
+  // Auto-apply accessibilityRole="header" for heading sizes unless the caller
+  // explicitly passed one (e.g. for a button label that uses h3 sizing).
+  const resolvedRole =
+    accessibilityRole ?? (HEADING_SIZES.has(size) ? 'header' : undefined);
+
   return (
     <RNText
-      // cn() = clsx + tailwind-merge: dedupes classes by Tailwind conflict
-      // group so caller `className` overrides the variant defaults (e.g.
-      // `font-bold` wins over the variant's `font-normal`) without needing
-      // the `!` important modifier.
-      className={cn(variantClasses[variant], colorClass, className)}
-      style={style}
+      // cn() = clsx + tailwind-merge: caller className overrides the variant
+      // defaults (e.g. `text-foreground/40` wins over the tone preset) without
+      // needing `!` important modifiers.
+      className={cn(
+        sizeClasses[size],
+        weightClass,
+        toneClasses[tone],
+        align ? alignClasses[align] : '',
+        treatment ? treatmentClasses[treatment] : '',
+        italic ? 'italic' : '',
+        className,
+      )}
       allowFontScaling={allowFontScaling}
+      accessibilityRole={resolvedRole}
       {...rest}
     />
   );

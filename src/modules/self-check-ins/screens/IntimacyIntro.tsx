@@ -94,7 +94,7 @@ export default function IntimacyIntro() {
         <Header
           left={<BackButton />}
           center={
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               Assessment
             </Text>
           }
@@ -185,10 +185,15 @@ export default function IntimacyIntro() {
 
       {/* Title */}
       <View className="px-8 pb-10">
-        <Text variant="h1" className="pb-3 text-center font-bold leading-tight">
+        <Text size="h1" align="center" className="pb-3 leading-tight">
           Balanced Communication Quiz
         </Text>
-        <Text variant="lg" muted className="text-center leading-relaxed">
+        <Text
+          size="lg"
+          tone="secondary"
+          align="center"
+          className="leading-relaxed"
+        >
           A self-reflection tool for mindful listening and clear expression.
         </Text>
       </View>
@@ -203,16 +208,12 @@ export default function IntimacyIntro() {
                 className="h-8 w-8 items-center justify-center rounded-full"
                 style={{ backgroundColor: tone.bg }}
               >
-                <Text
-                  variant="sm"
-                  className="font-bold"
-                  style={{ color: tone.text }}
-                >
+                <Text size="sm" weight="bold" style={{ color: tone.text }}>
                   {item.number}
                 </Text>
               </View>
               <Text
-                variant="sm"
+                size="sm"
                 className="flex-1 pt-1 leading-snug text-foreground/70"
               >
                 {item.text}

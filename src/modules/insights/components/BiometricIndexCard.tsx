@@ -47,17 +47,21 @@ export function BiometricIndexCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text variant="caption" muted>
+        <Text size="xs" treatment="caption" tone="secondary">
           Biometric Index
         </Text>
         <View className="flex-row gap-3">
           <View className="flex-row items-center gap-1">
             <View className="h-1.5 w-1.5 rounded-full bg-foreground" />
-            <Text variant="caption">HR</Text>
+            <Text size="xs" treatment="caption">
+              HR
+            </Text>
           </View>
           <View className="flex-row items-center gap-1">
             <View className="h-1.5 w-1.5 rounded-full bg-primary-pink" />
-            <Text variant="caption">HRV</Text>
+            <Text size="xs" treatment="caption">
+              HRV
+            </Text>
           </View>
         </View>
       </View>
@@ -91,10 +95,10 @@ export function BiometricIndexCard() {
           </View>
         ) : hasConnectedHealth ? (
           <View className="h-24 w-full items-center justify-center">
-            <Text variant="caption" muted className="text-center">
+            <Text size="xs" treatment="caption" tone="secondary" align="center">
               No data
             </Text>
-            <Text variant="xs" className="mt-1 text-foreground/30">
+            <Text size="xs" tone="tertiary" className="mt-1">
               No HR or HRV samples in this window
             </Text>
           </View>
@@ -103,38 +107,38 @@ export function BiometricIndexCard() {
             onPress={() => router.push('/settings/health')}
             className="h-24 w-full items-center justify-center"
           >
-            <Text variant="xs" muted className="text-center">
+            <Text size="xs" tone="secondary" align="center">
               Connect Apple Health or Health Connect to see your HR & HRV
               trends.
             </Text>
-            <Text variant="caption" className="mt-1 text-primary-pink">
+            <Text size="xs" treatment="caption" tone="accent" className="mt-1">
               Set up →
             </Text>
           </Pressable>
         )}
         <View className="mt-4 flex-row gap-4 border-t border-foreground/5 pt-4">
           <View className="flex-1">
-            <Text variant="caption" muted>
+            <Text size="xs" treatment="caption" tone="secondary">
               {range === 'Day' ? 'Latest Heart Rate' : 'Avg Heart Rate'}
             </Text>
-            <Text variant="h2" className="font-black">
+            <Text size="h2" weight="black">
               {hr.avg != null
                 ? Math.round(range === 'Day' ? hr.latest!.value : hr.avg)
                 : '—'}{' '}
-              <Text variant="xs" className="text-foreground/30">
+              <Text size="xs" tone="tertiary">
                 BPM
               </Text>
             </Text>
           </View>
           <View className="flex-1">
-            <Text variant="caption" muted>
+            <Text size="xs" treatment="caption" tone="secondary">
               {range === 'Day' ? 'Latest HRV' : 'Mean HRV'}
             </Text>
-            <Text variant="h2" className="font-black text-primary-pink">
+            <Text size="h2" tone="accent" weight="black">
               {hrv.avg != null
                 ? (range === 'Day' ? hrv.latest!.value : hrv.avg).toFixed(1)
                 : '—'}{' '}
-              <Text variant="xs" className="text-foreground/30">
+              <Text size="xs" tone="tertiary">
                 ms
               </Text>
             </Text>

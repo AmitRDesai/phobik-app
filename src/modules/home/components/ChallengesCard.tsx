@@ -28,15 +28,19 @@ export function ChallengesCard() {
       <View className="mb-5 flex-row gap-4">
         <View className="justify-center border-r border-foreground/10 pr-4">
           <Text
-            variant="caption"
-            muted
-            className="mb-1 text-[9px] font-bold leading-tight"
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            weight="bold"
+            className="mb-1 text-[9px] leading-tight"
             style={{ paddingRight: 1.8 }}
           >
             Total{'\n'}Challenges
           </Text>
           <Text
-            className="text-4xl font-black text-primary-pink"
+            tone="accent"
+            weight="black"
+            className="text-4xl"
             style={{
               textShadowColor: withAlpha(colors.primary.pink, 0.5),
               textShadowOffset: { width: 0, height: 0 },
@@ -49,9 +53,12 @@ export function ChallengesCard() {
 
         <View className="flex-1">
           <Text
-            variant="caption"
-            muted
-            className="mb-3 text-right text-[8px] font-bold"
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            align="right"
+            weight="bold"
+            className="mb-3 text-[8px]"
             style={{ paddingRight: 1.6 }}
           >
             Weekly Streak
@@ -64,8 +71,10 @@ export function ChallengesCard() {
 
       <View className="items-center">
         <Text
-          variant="sm"
-          className="mb-4 text-center font-medium text-foreground/70"
+          size="sm"
+          align="center"
+          weight="medium"
+          className="mb-4 text-foreground/70"
         >
           {completedToday
             ? 'Great job today! Want to do another one?'

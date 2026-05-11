@@ -38,12 +38,15 @@ export default function StressorDetail() {
         </View>
         <View className="max-w-[320px] items-center gap-3">
           <Text
-            variant="h2"
-            className="text-center font-black uppercase italic"
+            size="h2"
+            italic
+            align="center"
+            weight="black"
+            className="uppercase"
           >
             {data.title}
           </Text>
-          <Text variant="xs" muted className="text-center font-medium">
+          <Text size="xs" tone="secondary" align="center" weight="medium">
             {data.description}
           </Text>
         </View>

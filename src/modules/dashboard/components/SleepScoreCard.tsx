@@ -30,10 +30,10 @@ export function SleepScoreCard({ date }: SleepScoreCardProps) {
                 : 'Light Rest'
         }
       />
-      <Text variant="h2" className="mt-5 text-center font-bold">
+      <Text size="h2" align="center" className="mt-5">
         Sleep Score
       </Text>
-      <Text variant="sm" className="mt-1 text-center text-foreground/55">
+      <Text size="sm" align="center" tone="secondary" className="mt-1">
         {hours != null && mins != null ? `${hours}h ${mins}m total` : 'No data'}
       </Text>
     </DashboardCard>

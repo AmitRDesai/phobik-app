@@ -105,8 +105,11 @@ export function StepShell({
     >
       <View className="mb-2 mt-4">
         <Text
-          variant="caption"
-          className="font-bold tracking-[0.3em] text-primary-pink"
+          size="xs"
+          treatment="caption"
+          tone="accent"
+          weight="bold"
+          className="tracking-[0.3em]"
           style={{ paddingRight: 3.3 }}
         >
           {habitLabel}
@@ -128,8 +131,9 @@ export function StepShell({
               color={accentFor(scheme, 'yellow')}
             />
             <Text
-              variant="xs"
-              className="font-semibold text-foreground/70"
+              size="xs"
+              weight="semibold"
+              className="text-foreground/70"
               style={{ paddingRight: 1.1 }}
             >
               {duration}

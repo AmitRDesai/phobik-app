@@ -85,8 +85,9 @@ export function WeekRhythmStrip({ days }: WeekRhythmStripProps) {
         return (
           <View key={day.date} className="items-center gap-1.5">
             <Text
-              variant="xs"
-              className="font-bold uppercase tracking-widest text-foreground/40"
+              size="xs"
+              weight="bold"
+              className="uppercase tracking-widest text-foreground/40"
             >
               {day.weekdayLabel}
             </Text>
@@ -94,10 +95,7 @@ export function WeekRhythmStrip({ days }: WeekRhythmStripProps) {
               className="h-12 w-12 items-center justify-center rounded-full"
               style={pillStyle}
             >
-              <Text
-                className="text-sm font-bold"
-                style={{ color: numberColor }}
-              >
+              <Text weight="bold" size="sm" style={{ color: numberColor }}>
                 {day.dayNum}
               </Text>
             </View>

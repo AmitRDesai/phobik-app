@@ -330,8 +330,9 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
                   color={controlIconColor}
                 />
                 <Text
-                  variant="caption"
-                  className="font-semibold text-foreground/70"
+                  size="xs"
+                  treatment="caption"
+                  className="text-foreground/70"
                 >
                   {effectiveVoice === 'female' ? 'Female' : 'Male'} voice
                 </Text>
@@ -356,14 +357,14 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
             </View>
             <View className="mt-2 flex-row items-center justify-between">
               <Text
-                variant="xs"
+                size="xs"
                 className="text-foreground/60"
                 style={{ fontVariant: ['tabular-nums'] }}
               >
                 {elapsed}
               </Text>
               <Text
-                variant="xs"
+                size="xs"
                 className="text-foreground/60"
                 style={{ fontVariant: ['tabular-nums'] }}
               >
@@ -414,8 +415,9 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
               >
                 {isDownloading ? (
                   <Text
-                    variant="sm"
-                    className="font-bold text-white"
+                    size="sm"
+                    tone="inverse"
+                    weight="bold"
                     style={{ fontVariant: ['tabular-nums'] }}
                   >
                     {progress != null ? `${Math.round(progress * 100)}%` : '…'}
@@ -473,7 +475,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
       </GradientText>
 
       {meditation.meta ? (
-        <Text variant="sm" muted className="mt-1">
+        <Text size="sm" tone="secondary" className="mt-1">
           {meditation.meta}
         </Text>
       ) : null}
@@ -482,7 +484,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
         {meditation.body.map((p) => (
           <Text
             key={p}
-            variant="lg"
+            size="lg"
             className="leading-relaxed text-foreground/75"
           >
             {p}
@@ -494,10 +496,15 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
         <View className="mt-6 flex-row gap-3">
           {meditation.stats.map((stat) => (
             <Card key={stat.label} className="flex-1 px-4 py-3">
-              <Text variant="caption" className="font-bold text-foreground/50">
+              <Text
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="text-foreground/50"
+              >
                 {stat.label}
               </Text>
-              <Text variant="lg" className="mt-1 font-bold">
+              <Text size="lg" weight="bold" className="mt-1">
                 {renderStatValue(stat)}
               </Text>
             </Card>

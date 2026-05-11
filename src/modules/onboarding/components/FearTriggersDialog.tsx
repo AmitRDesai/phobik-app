@@ -54,10 +54,10 @@ export function FearTriggersDialog({ close }: FearTriggersDialogProps) {
 
   return (
     <View className="px-2 pb-4">
-      <Text variant="h2" className="mb-2">
+      <Text size="h2" className="mb-2">
         Would you like gentle support before these moments?
       </Text>
-      <Text variant="sm" muted className="mb-6 leading-relaxed">
+      <Text size="sm" tone="secondary" className="mb-6 leading-relaxed">
         We can nudge you with breathwork or grounding tools based on your
         schedule.
       </Text>

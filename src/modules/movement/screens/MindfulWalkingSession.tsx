@@ -41,7 +41,12 @@ export default function MindfulWalkingSession() {
     >
       <View className="items-center pt-2">
         <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
-          <Text variant="caption" className="font-bold text-foreground/70">
+          <Text
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="text-foreground/70"
+          >
             Grounding Frequency Active
           </Text>
         </View>
@@ -68,10 +73,10 @@ export default function MindfulWalkingSession() {
             style={{ position: 'absolute', inset: 0 }}
           />
           <View className="absolute inset-x-0 bottom-0 p-6">
-            <Text variant="h2" className="font-extrabold text-white">
+            <Text size="h2" tone="inverse" weight="extrabold">
               Mindful Walking:
             </Text>
-            <Text variant="h2" className="font-extrabold text-white">
+            <Text size="h2" tone="inverse" weight="extrabold">
               Feel each step.
             </Text>
           </View>
@@ -83,19 +88,18 @@ export default function MindfulWalkingSession() {
         {PHASES.map((phase) => (
           <Card key={phase.number} variant="glass">
             <Text
-              variant="caption"
-              className="font-bold tracking-widest"
+              size="xs"
+              treatment="caption"
+              weight="bold"
+              className="tracking-widest"
               style={{ color: yellow }}
             >
               {phase.number}
             </Text>
-            <Text variant="h3" className="mt-1 font-bold">
+            <Text size="h3" weight="bold" className="mt-1">
               {phase.title}
             </Text>
-            <Text
-              variant="sm"
-              className="mt-2 leading-relaxed text-foreground/70"
-            >
+            <Text size="sm" className="mt-2 leading-relaxed text-foreground/70">
               {phase.description}
             </Text>
           </Card>
@@ -103,7 +107,7 @@ export default function MindfulWalkingSession() {
       </View>
 
       <View className="mt-8 items-center pb-4">
-        <Text variant="lg" className="text-center" style={{ color: yellow }}>
+        <Text size="lg" align="center" style={{ color: yellow }}>
           “You’re here. That’s enough.”
         </Text>
       </View>

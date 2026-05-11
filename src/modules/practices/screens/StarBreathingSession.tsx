@@ -80,11 +80,11 @@ function StatsCard() {
             />
           </LinearGradient>
           <View>
-            <Text variant="xs" className="mb-0.5 font-bold text-foreground/30">
+            <Text size="xs" tone="tertiary" weight="bold" className="mb-0.5">
               Heart Rate Variability
             </Text>
             <View className="flex-row items-baseline gap-2">
-              <Text variant="lg" className="font-semibold">
+              <Text size="lg" weight="semibold">
                 {liveHrv != null ? `${Math.round(liveHrv)}ms` : '—'}
               </Text>
               {deltaPct != null ? (
@@ -97,7 +97,8 @@ function StatsCard() {
                     }
                   />
                   <Text
-                    variant="caption"
+                    size="xs"
+                    treatment="caption"
                     className={`font-bold ${
                       deltaPct >= 0 ? 'text-emerald-400' : 'text-primary-pink'
                     }`}
@@ -135,8 +136,10 @@ function StatsCard() {
       <View className="flex-row gap-4">
         <View className="flex-1 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-4">
           <Text
-            variant="caption"
-            className="mb-1.5 font-bold text-accent-yellow/50"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="mb-1.5 text-accent-yellow/50"
           >
             Stress Level
           </Text>
@@ -150,15 +153,18 @@ function StatsCard() {
                     : 'bg-emerald-400'
               }`}
             />
-            <Text variant="sm" className="font-semibold">
+            <Text size="sm" weight="semibold">
               {stress.label ?? '—'}
             </Text>
           </View>
         </View>
         <View className="flex-1 rounded-2xl border border-foreground/5 bg-foreground/[0.04] p-4">
           <Text
-            variant="caption"
-            className="mb-1.5 font-bold text-primary-pink/50"
+            size="xs"
+            treatment="caption"
+            tone="accent"
+            weight="bold"
+            className="mb-1.5 /50"
           >
             Sync Status
           </Text>
@@ -182,7 +188,7 @@ function StatsCard() {
                   : undefined
               }
             />
-            <Text variant="sm" className="font-semibold">
+            <Text size="sm" weight="semibold">
               {isLive ? 'Live Tracking' : hasAccess ? 'Idle' : 'Not Connected'}
             </Text>
           </View>
@@ -378,14 +384,16 @@ export default function StarBreathingSession() {
           center={
             <View className="items-center">
               <Text
-                variant="caption"
-                className="mb-1 font-bold text-foreground/40"
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="mb-1 text-foreground/40"
               >
                 Star Breathing
               </Text>
               <Text
-                variant="lg"
-                className="font-medium"
+                size="lg"
+                weight="medium"
                 style={{ fontVariant: ['tabular-nums'] }}
               >
                 {formatTime(timeRemaining)}
@@ -399,12 +407,14 @@ export default function StarBreathingSession() {
     >
       {/* Breathing instruction — fixed height to prevent layout shifts */}
       <View className="items-center px-2 pt-4" style={{ height: 100 }}>
-        <Text variant="display" className="mb-3 text-center font-semibold">
+        <Text size="display" align="center" weight="semibold" className="mb-3">
           {currentPhase}
         </Text>
         <Text
-          variant="sm"
-          className="text-center font-medium text-foreground/40"
+          size="sm"
+          align="center"
+          weight="medium"
+          className="text-foreground/40"
         >
           {subText}
         </Text>
@@ -444,8 +454,11 @@ export default function StarBreathingSession() {
 
       {/* Timer */}
       <Text
-        variant="caption"
-        className="mb-6 mt-3 font-bold text-foreground/55"
+        size="xs"
+        treatment="caption"
+        tone="secondary"
+        weight="bold"
+        className="mb-6 mt-3"
         style={{ fontVariant: ['tabular-nums'] }}
       >
         {formatTime(elapsed)} / {formatTime(TOTAL_DURATION)}
@@ -454,8 +467,10 @@ export default function StarBreathingSession() {
       {/* Instruction card */}
       <View className="mb-6 w-full max-w-sm rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-4">
         <Text
-          variant="md"
-          className="text-center font-medium leading-relaxed text-foreground/90"
+          size="md"
+          align="center"
+          weight="medium"
+          className="leading-relaxed text-foreground/90"
         >
           Trace the star&#39;s edges with your breath. Inhale and exhale along
           the lines, hold at each point.

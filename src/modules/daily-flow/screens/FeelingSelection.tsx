@@ -41,13 +41,13 @@ export default function FeelingSelection() {
       className="px-6"
     >
       <View className="mb-8 mt-2">
-        <Text className="text-[42px] font-black leading-[1.05] text-foreground">
+        <Text weight="black" className="text-[42px] leading-[1.05]">
           How are you
         </Text>
         <GradientText className="text-[42px] font-black leading-[1.05]">
           feeling right now?
         </GradientText>
-        <Text variant="lg" muted className="mt-4 leading-7">
+        <Text size="lg" tone="secondary" className="mt-4 leading-7">
           Different states need different tools.
         </Text>
       </View>

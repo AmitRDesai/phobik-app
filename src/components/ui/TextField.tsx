@@ -114,8 +114,10 @@ export function TextField({
     <View className={clsx('gap-2', className)}>
       {label ? (
         <Text
-          variant={labelUppercase ? 'caption' : 'label'}
-          muted={!labelUppercase}
+          size={labelUppercase ? 'xs' : 'sm'}
+          treatment={labelUppercase ? 'caption' : undefined}
+          weight={labelUppercase ? undefined : 'semibold'}
+          tone={labelUppercase ? 'primary' : 'secondary'}
           className={labelUppercase ? '' : 'px-1'}
         >
           {label}
@@ -171,11 +173,11 @@ export function TextField({
         ) : null}
       </View>
       {hasError ? (
-        <Text variant="sm" className="px-2 text-status-danger">
+        <Text size="sm" tone="danger" className="px-2">
           {error}
         </Text>
       ) : hint ? (
-        <Text variant="sm" muted className="px-2">
+        <Text size="sm" tone="secondary" className="px-2">
           {hint}
         </Text>
       ) : null}

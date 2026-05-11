@@ -38,8 +38,10 @@ export function SupportOptionCard({ option, selected, onPress }: Props) {
             }}
           >
             <Text
-              variant="caption"
-              className="font-black tracking-[0.1em] text-black"
+              size="xs"
+              treatment="caption"
+              weight="black"
+              className="tracking-[0.1em] text-black"
               style={{ paddingRight: 1.1 }}
             >
               Best match for you
@@ -85,14 +87,17 @@ export function SupportOptionCard({ option, selected, onPress }: Props) {
           <View className="flex-row items-end justify-between">
             <View className="max-w-[80%] flex-1 pr-3">
               <Text
-                variant="h1"
-                className="font-black leading-tight text-white"
+                size="h1"
+                tone="inverse"
+                weight="black"
+                className="leading-tight"
               >
                 {option.title}
               </Text>
               <Text
-                variant="sm"
-                className="mt-1 leading-5 text-white/60"
+                size="sm"
+                tone="inverse"
+                className="mt-1 leading-5 /60"
                 numberOfLines={2}
               >
                 {option.description}
@@ -103,11 +108,7 @@ export function SupportOptionCard({ option, selected, onPress }: Props) {
                   size={13}
                   color={durationColor}
                 />
-                <Text
-                  variant="sm"
-                  className="font-bold"
-                  style={{ color: durationColor }}
-                >
+                <Text size="sm" weight="bold" style={{ color: durationColor }}>
                   {option.duration}
                 </Text>
               </View>

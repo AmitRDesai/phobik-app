@@ -1,3 +1,4 @@
+import { Text } from '@/components/themed/Text';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import {
@@ -6,7 +7,6 @@ import {
   Image,
   Modal,
   Pressable,
-  Text,
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -53,7 +53,7 @@ export function ImageViewer({
             className="absolute z-10 items-center self-center rounded-full bg-white/10 px-3 py-1"
             style={{ top: insets.top + 12 }}
           >
-            <Text className="text-xs font-semibold text-white">
+            <Text tone="inverse" weight="semibold" size="xs">
               {activeIndex + 1} / {images.length}
             </Text>
           </View>

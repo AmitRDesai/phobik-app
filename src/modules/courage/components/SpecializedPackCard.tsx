@@ -87,22 +87,22 @@ function ActiveCard({
         <View className="p-6">
           {/* Title + badge */}
           <View className="mb-2 flex-row items-start justify-between">
-            <Text variant="h2">{pack.title}</Text>
+            <Text size="h2">{pack.title}</Text>
             <View className="rounded-full bg-primary-pink/20 px-3 py-1">
-              <Text variant="caption" className="text-primary-pink">
+              <Text size="xs" treatment="caption" tone="accent">
                 {pack.badge}
               </Text>
             </View>
           </View>
 
           {/* Subtitle */}
-          <Text variant="md" className="mb-6 italic text-foreground/60">
+          <Text size="md" italic className="mb-6 text-foreground/60">
             {pack.subtitle}
           </Text>
 
           {/* Transformation goal */}
           <View className="mb-4 flex-row items-center gap-2">
-            <Text variant="caption" muted>
+            <Text size="xs" treatment="caption" tone="secondary">
               Transformation Goal:
             </Text>
             <GradientText className="text-sm font-bold">
@@ -130,7 +130,7 @@ function ActiveCard({
                   size={20}
                   color="white"
                 />
-                <Text variant="md" className="font-bold">
+                <Text size="md" weight="bold">
                   {unlocked ? 'View Journey' : pack.ctaLabel}
                 </Text>
               </View>
@@ -139,8 +139,10 @@ function ActiveCard({
 
           {/* Support text */}
           <Text
-            variant="xs"
-            className="mt-3 text-center text-[10px] text-foreground/55"
+            size="xs"
+            align="center"
+            tone="secondary"
+            className="mt-3 text-[10px]"
           >
             {pack.supportText}
           </Text>
@@ -159,27 +161,27 @@ function LockedCard({ pack }: { pack: SpecializedPack }) {
       <View className="p-6 opacity-80">
         {/* Title + badge */}
         <View className="mb-2 flex-row items-start justify-between">
-          <Text variant="h2" className="text-foreground/70">
+          <Text size="h2" className="text-foreground/70">
             {pack.title}
           </Text>
           <View className="rounded-full bg-foreground/10 px-3 py-1">
-            <Text variant="caption" muted>
+            <Text size="xs" treatment="caption" tone="secondary">
               {pack.badge}
             </Text>
           </View>
         </View>
 
         {/* Subtitle */}
-        <Text variant="md" className="mb-6 italic text-foreground/55">
+        <Text size="md" italic tone="secondary" className="mb-6">
           {pack.subtitle}
         </Text>
 
         {/* Transformation goal */}
         <View className="mb-4 flex-row items-center gap-2">
-          <Text variant="caption" className="text-foreground/45">
+          <Text size="xs" treatment="caption" className="text-foreground/45">
             Transformation Goal:
           </Text>
-          <Text variant="sm" className="font-bold text-foreground/60">
+          <Text size="sm" weight="bold" className="text-foreground/60">
             {pack.transformationGoal}
           </Text>
         </View>
@@ -191,15 +193,17 @@ function LockedCard({ pack }: { pack: SpecializedPack }) {
             size={20}
             color={foregroundFor(scheme, 0.4)}
           />
-          <Text variant="md" className="font-bold text-foreground/55">
+          <Text size="md" tone="secondary" weight="bold">
             {pack.ctaLabel}
           </Text>
         </View>
 
         {/* Support text */}
         <Text
-          variant="xs"
-          className="mt-3 text-center text-[10px] italic text-foreground/45"
+          size="xs"
+          italic
+          align="center"
+          className="mt-3 text-[10px] text-foreground/45"
         >
           {pack.supportText}
         </Text>

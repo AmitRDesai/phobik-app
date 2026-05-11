@@ -169,7 +169,7 @@ export default function Breathing478Session() {
         <Header
           left={<BackButton />}
           center={
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               4-7-8 Breathing
             </Text>
           }
@@ -179,13 +179,14 @@ export default function Breathing478Session() {
     >
       {/* Breathing instruction text — fixed height to prevent layout shifts */}
       <View className="mt-2 items-center px-8" style={{ height: 100 }}>
-        <Text variant="display" className="mb-2 text-center font-light">
+        <Text size="display" align="center" className="mb-2 font-light">
           {currentPhase}
         </Text>
         <Text
-          variant="sm"
-          muted
-          className="mx-auto max-w-[280px] text-center leading-relaxed"
+          size="sm"
+          tone="secondary"
+          align="center"
+          className="mx-auto max-w-[280px] leading-relaxed"
         >
           {currentSubtext}
         </Text>
@@ -206,8 +207,10 @@ export default function Breathing478Session() {
         {/* Instruction card */}
         <View className="mb-6 rounded-2xl border border-foreground/[0.08] bg-foreground/[0.04] p-4">
           <Text
-            variant="sm"
-            className="text-center font-medium leading-relaxed text-foreground/80"
+            size="sm"
+            align="center"
+            weight="medium"
+            className="leading-relaxed text-foreground/80"
           >
             Inhale for 4 seconds, hold your breath for 7 seconds, and exhale for
             8 seconds. Repeat this cycle 4 times.
@@ -285,8 +288,10 @@ export default function Breathing478Session() {
                 }}
               />
               <Text
-                variant="caption"
-                className="font-bold tracking-[0.2em] text-foreground/50"
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="tracking-[0.2em] text-foreground/50"
                 style={{ paddingRight: 1.8 }}
               >
                 Heart Rate
@@ -294,13 +299,18 @@ export default function Breathing478Session() {
             </View>
             <View className="mt-1 flex-row items-baseline gap-1">
               <Text
-                variant="h2"
-                className="font-semibold"
+                size="h2"
+                weight="semibold"
                 style={{ fontVariant: ['tabular-nums'] }}
               >
                 {liveHr != null ? liveHr : '—'}
               </Text>
-              <Text variant="caption" className="font-bold text-foreground/55">
+              <Text
+                size="xs"
+                treatment="caption"
+                tone="secondary"
+                weight="bold"
+              >
                 BPM
               </Text>
             </View>
@@ -320,8 +330,10 @@ export default function Breathing478Session() {
                 }}
               />
               <Text
-                variant="caption"
-                className="font-bold tracking-[0.2em] text-foreground/50"
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="tracking-[0.2em] text-foreground/50"
                 style={{ paddingRight: 1.8 }}
               >
                 HRV
@@ -329,13 +341,18 @@ export default function Breathing478Session() {
             </View>
             <View className="mt-1 flex-row items-baseline gap-1">
               <Text
-                variant="h2"
-                className="font-semibold"
+                size="h2"
+                weight="semibold"
                 style={{ fontVariant: ['tabular-nums'] }}
               >
                 {liveHrv != null ? Math.round(liveHrv) : '—'}
               </Text>
-              <Text variant="caption" className="font-bold text-foreground/55">
+              <Text
+                size="xs"
+                treatment="caption"
+                tone="secondary"
+                weight="bold"
+              >
                 MS
               </Text>
             </View>

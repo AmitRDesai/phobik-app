@@ -10,13 +10,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue } from 'jotai';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  ActivityIndicator,
-  BackHandler,
-  Pressable,
-  Text,
-  View,
-} from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { ActivityIndicator, BackHandler, Pressable, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from './Button';
@@ -135,14 +130,19 @@ export function DialogContainer() {
 
               {/* Title */}
               {renderState.title && (
-                <Text className="mt-4 text-center text-xl font-bold text-foreground">
+                <Text size="h2" align="center" className="mt-4">
                   {renderState.title}
                 </Text>
               )}
 
               {/* Message */}
               {renderState.message && (
-                <Text className="mt-2 text-center text-base leading-6 text-foreground/60">
+                <Text
+                  size="md"
+                  tone="secondary"
+                  align="center"
+                  className="mt-2 leading-6"
+                >
                   {renderState.message}
                 </Text>
               )}

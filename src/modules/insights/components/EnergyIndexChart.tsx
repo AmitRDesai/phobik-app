@@ -74,12 +74,12 @@ export function EnergyIndexChart() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text variant="caption" muted>
+        <Text size="xs" treatment="caption" tone="secondary">
           Energy Index Trend
         </Text>
         <View className="flex-row items-center gap-1.5">
           <View className="h-2 w-2 rounded-full bg-primary-pink" />
-          <Text variant="xs" className="font-bold">
+          <Text size="xs" weight="bold">
             Avg. {average ?? '—'}
           </Text>
         </View>
@@ -155,19 +155,19 @@ export function EnergyIndexChart() {
             ) : null}
           </Svg>
           <View className="absolute inset-0 justify-between py-1">
-            <Text variant="caption" className="text-foreground/30">
+            <Text size="xs" treatment="caption" tone="tertiary">
               High
             </Text>
-            <Text variant="caption" className="text-foreground/30">
+            <Text size="xs" treatment="caption" tone="tertiary">
               Med
             </Text>
-            <Text variant="caption" className="text-foreground/30">
+            <Text size="xs" treatment="caption" tone="tertiary">
               Low
             </Text>
           </View>
           {!isLoading && series.length === 0 ? (
             <View className="absolute inset-0 items-center justify-center">
-              <Text variant="xs" muted className="font-semibold">
+              <Text size="xs" tone="secondary" weight="semibold">
                 No energy check-ins yet
               </Text>
             </View>
@@ -178,8 +178,9 @@ export function EnergyIndexChart() {
             {labelIndices.map((i) => (
               <Text
                 key={series[i].date}
-                variant="xs"
-                className="font-bold text-foreground/30"
+                size="xs"
+                tone="tertiary"
+                weight="bold"
               >
                 {formatLabel(series[i].date)}
               </Text>

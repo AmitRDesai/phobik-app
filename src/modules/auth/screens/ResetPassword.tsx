@@ -85,10 +85,13 @@ export default function ResetPasswordScreen() {
             />
           </IconChip>
 
-          <Text variant="h1" className="font-bold">
-            Invalid Link
-          </Text>
-          <Text variant="md" muted className="mt-3 text-center leading-relaxed">
+          <Text size="h1">Invalid Link</Text>
+          <Text
+            size="md"
+            tone="secondary"
+            align="center"
+            className="mt-3 leading-relaxed"
+          >
             This password reset link is invalid or has expired. Please request a
             new one.
           </Text>
@@ -124,10 +127,13 @@ export default function ResetPasswordScreen() {
       scrollViewProps={{ keyboardDismissMode: 'interactive' }}
     >
       <View className="items-center px-4 pb-8">
-        <Text variant="h1" className="font-bold">
-          New Password
-        </Text>
-        <Text variant="md" muted className="mt-3 text-center leading-relaxed">
+        <Text size="h1">New Password</Text>
+        <Text
+          size="md"
+          tone="secondary"
+          align="center"
+          className="mt-3 leading-relaxed"
+        >
           Enter your new password below.
         </Text>
       </View>
@@ -165,13 +171,13 @@ export default function ResetPasswordScreen() {
         </View>
 
         {password.length > 0 && password.length < 8 && (
-          <Text variant="sm" className="mt-2 text-status-danger">
+          <Text size="sm" tone="danger" className="mt-2">
             Password must be at least 8 characters
           </Text>
         )}
 
         {confirmPassword.length > 0 && password !== confirmPassword && (
-          <Text variant="sm" className="mt-2 text-status-danger">
+          <Text size="sm" tone="danger" className="mt-2">
             Passwords don&apos;t match
           </Text>
         )}
@@ -191,9 +197,9 @@ export default function ResetPasswordScreen() {
           className="mt-6 py-2"
           disabled={isLoading}
         >
-          <Text variant="sm" className="text-center text-foreground/55">
+          <Text size="sm" align="center" tone="secondary">
             Remember your password?{' '}
-            <Text variant="sm" className="font-bold text-primary-pink">
+            <Text size="sm" tone="accent" weight="bold">
               Sign In
             </Text>
           </Text>

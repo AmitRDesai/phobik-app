@@ -25,16 +25,13 @@ export default function FourPillars() {
       contentClassName="pb-8"
     >
       <View className="mb-8">
-        <Text
-          variant="display"
-          className="font-extrabold uppercase leading-[1.05]"
-        >
+        <Text size="display" className="uppercase leading-[1.05]">
           {PILLAR_HUB.hero.title}
         </Text>
         <GradientText className="text-4xl font-extrabold uppercase leading-[1.05]">
           {PILLAR_HUB.hero.accent}
         </GradientText>
-        <Text variant="md" muted className="mt-4 uppercase">
+        <Text size="md" tone="secondary" className="mt-4 uppercase">
           {PILLAR_HUB.hero.subtitle}
         </Text>
       </View>

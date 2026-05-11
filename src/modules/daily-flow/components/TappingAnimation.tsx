@@ -49,13 +49,16 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
     <View>
       <View className="mb-4 items-center">
         <Text
-          variant="caption"
-          className="font-black tracking-[0.3em] text-primary-pink"
+          size="xs"
+          treatment="caption"
+          tone="accent"
+          weight="black"
+          className="tracking-[0.3em]"
           style={{ paddingLeft: 3, paddingRight: 3 }}
         >
           {point.phaseLabel}
         </Text>
-        <Text variant="h1" className="mt-1 font-black">
+        <Text size="h1" weight="black" className="mt-1">
           {point.name}
         </Text>
       </View>
@@ -101,24 +104,28 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
 
       <Card className="mt-4">
         <Text
-          variant="caption"
-          className="font-bold text-foreground/50"
+          size="xs"
+          treatment="caption"
+          weight="bold"
+          className="text-foreground/50"
           style={{ paddingRight: 1.1 }}
         >
           Instruction
         </Text>
-        <Text variant="lg" className="mt-1 font-bold">
+        <Text size="lg" weight="bold" className="mt-1">
           {point.description}
         </Text>
         <View className="my-3 h-px w-full bg-foreground/10" />
         <Text
-          variant="caption"
-          className="font-bold text-foreground/50"
+          size="xs"
+          treatment="caption"
+          weight="bold"
+          className="text-foreground/50"
           style={{ paddingRight: 1.1 }}
         >
           Benefit
         </Text>
-        <Text variant="sm" className="mt-1 text-primary-pink">
+        <Text size="sm" tone="accent" className="mt-1">
           → {point.benefit}
         </Text>
       </Card>

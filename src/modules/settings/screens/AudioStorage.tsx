@@ -87,7 +87,7 @@ export default function AudioStorage() {
       className="px-4"
       contentClassName="gap-4"
     >
-      <Text variant="caption" className="px-2 text-foreground/30">
+      <Text size="xs" treatment="caption" tone="tertiary" className="px-2">
         Voice
       </Text>
       <Card className="px-4 py-4">
@@ -100,10 +100,10 @@ export default function AudioStorage() {
             />
           </IconChip>
           <View className="flex-1">
-            <Text variant="md" className="font-semibold">
+            <Text size="md" weight="semibold">
               Narrator voice
             </Text>
-            <Text variant="sm" muted>
+            <Text size="sm" tone="secondary">
               Default voice for guided audio. Override per-session from any
               screen.
             </Text>
@@ -132,8 +132,8 @@ export default function AudioStorage() {
                   color={isSelected ? colors.primary.pink : foregroundIcon}
                 />
                 <Text
-                  variant="sm"
-                  className="font-semibold"
+                  size="sm"
+                  weight="semibold"
                   style={{
                     color: isSelected ? colors.primary.pink : foregroundIcon,
                   }}
@@ -154,7 +154,7 @@ export default function AudioStorage() {
             Clear preference
           </Button>
         ) : (
-          <Text variant="xs" className="mt-3 text-foreground/40">
+          <Text size="xs" className="mt-3 text-foreground/40">
             No preference set yet — you&apos;ll be asked the first time you play
             guided audio.
           </Text>
@@ -162,7 +162,7 @@ export default function AudioStorage() {
       </Card>
 
       <View className="h-2" />
-      <Text variant="caption" className="px-2 text-foreground/30">
+      <Text size="xs" treatment="caption" tone="tertiary" className="px-2">
         Storage
       </Text>
       <Card className="px-4 py-5">
@@ -175,18 +175,18 @@ export default function AudioStorage() {
             <MaterialIcons name="library-music" size={22} color={cyan} />
           </IconChip>
           <View className="flex-1">
-            <Text variant="md" className="font-semibold">
+            <Text size="md" weight="semibold">
               Cached audio
             </Text>
-            <Text variant="sm" muted>
+            <Text size="sm" tone="secondary">
               Sessions you&apos;ve played are stored locally so they work
               offline.
             </Text>
           </View>
         </View>
         <View className="mt-4 flex-row items-baseline gap-2">
-          <Text variant="h2">{formatBytes(cacheBytes)}</Text>
-          <Text variant="sm" muted>
+          <Text size="h2">{formatBytes(cacheBytes)}</Text>
+          <Text size="sm" tone="secondary">
             on this device
           </Text>
         </View>
@@ -200,13 +200,13 @@ export default function AudioStorage() {
         Clear cached audio
       </Button>
 
-      <Text variant="xs" className="px-2 text-foreground/40">
+      <Text size="xs" className="px-2 text-foreground/40">
         Audio re-downloads automatically the next time you open a session.
         Sessions cached on-device will keep working offline.
       </Text>
 
       <View className="h-2" />
-      <Text variant="caption" className="px-2 text-foreground/30">
+      <Text size="xs" treatment="caption" tone="tertiary" className="px-2">
         About
       </Text>
       <Card className="px-4 py-4">
@@ -217,7 +217,7 @@ export default function AudioStorage() {
             color={foregroundFor(scheme, 0.5)}
             style={{ marginTop: 2 }}
           />
-          <Text variant="sm" muted className="flex-1">
+          <Text size="sm" tone="secondary" className="flex-1">
             Audio is downloaded on demand from your secure account. The cache is
             capped at 200 MB — older sessions are removed automatically when the
             limit is reached.

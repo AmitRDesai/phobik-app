@@ -56,15 +56,22 @@ export default function Landing() {
     >
       <View className="mb-10 mt-4 items-center">
         <Text
-          variant="h1"
-          className="mb-2 text-center font-black leading-tight"
+          size="h1"
+          align="center"
+          weight="black"
+          className="mb-2 leading-tight"
         >
           Your
         </Text>
         <GradientText className="text-center text-5xl font-black leading-[1.2]">
           Morning Reset
         </GradientText>
-        <Text variant="lg" muted className="mt-6 px-2 text-center leading-6">
+        <Text
+          size="lg"
+          tone="secondary"
+          align="center"
+          className="mt-6 px-2 leading-6"
+        >
           Your brain is both at its most sensitive and its most powerful in the
           first hours of your day.
         </Text>
@@ -72,8 +79,11 @@ export default function Landing() {
 
       <Card variant="glass" className="mb-6">
         <Text
-          variant="caption"
-          className="mb-5 font-bold tracking-[0.25em] text-foreground/55"
+          size="xs"
+          treatment="caption"
+          tone="secondary"
+          weight="bold"
+          className="mb-5 tracking-[0.25em]"
           style={{ paddingRight: 2.75 }}
         >
           Your Morning Flow
@@ -92,10 +102,10 @@ export default function Landing() {
                 />
               </View>
               <View className="flex-1">
-                <Text variant="md" className="font-semibold">
+                <Text size="md" weight="semibold">
                   {habit.title}
                 </Text>
-                <Text variant="sm" muted className="mt-0.5">
+                <Text size="sm" tone="secondary" className="mt-0.5">
                   {habit.duration}
                 </Text>
               </View>

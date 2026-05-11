@@ -42,14 +42,17 @@ export default function EmpathyChallengeIntro() {
 
       <View className="-mt-6 items-center px-6">
         <Text
-          variant="display"
-          className="pb-3 text-center font-bold leading-tight"
+          size="display"
+          align="center"
+          weight="bold"
+          className="pb-3 leading-tight"
         >
           7-Day Empathy Challenge
         </Text>
         <Text
-          variant="lg"
-          className="max-w-xs text-center leading-relaxed text-foreground/60"
+          size="lg"
+          align="center"
+          className="max-w-xs leading-relaxed text-foreground/60"
         >
           A week to strengthen awareness, connection, and compassion. Empathy
           isn&apos;t one thing — it&apos;s a skill of the mind, heart and

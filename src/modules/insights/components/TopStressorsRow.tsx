@@ -68,10 +68,10 @@ export function TopStressorsRow() {
   return (
     <View className="-mx-5 gap-4">
       <View className="flex-row items-center justify-between px-5">
-        <Text variant="caption" muted>
+        <Text size="xs" treatment="caption" tone="secondary">
           Top Stressors
         </Text>
-        <Text variant="caption" className="text-primary-pink">
+        <Text size="xs" treatment="caption" tone="accent">
           Compass Link
         </Text>
       </View>
@@ -89,12 +89,19 @@ export function TopStressorsRow() {
             <DashboardCard className="min-w-[200px] items-center justify-center p-4">
               <Text className="mb-2 text-3xl">🧭</Text>
               <Text
-                variant="caption"
-                className="text-center text-foreground/60"
+                size="xs"
+                treatment="caption"
+                align="center"
+                className="text-foreground/60"
               >
                 Take the Stress{'\n'}Compass
               </Text>
-              <Text variant="caption" className="mt-1 text-primary-pink">
+              <Text
+                size="xs"
+                treatment="caption"
+                tone="accent"
+                className="mt-1"
+              >
                 Start
               </Text>
             </DashboardCard>
@@ -112,14 +119,14 @@ export function TopStressorsRow() {
             >
               <DashboardCard className="min-w-[120px] items-center p-4">
                 <Text className="mb-2 text-3xl">{s.emoji}</Text>
-                <Text variant="caption" className="text-foreground/60">
+                <Text
+                  size="xs"
+                  treatment="caption"
+                  className="text-foreground/60"
+                >
                   {s.label}
                 </Text>
-                <Text
-                  variant="lg"
-                  className="font-black"
-                  style={{ color: s.color }}
-                >
+                <Text size="lg" weight="black" style={{ color: s.color }}>
                   {s.count}
                 </Text>
               </DashboardCard>

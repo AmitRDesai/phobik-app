@@ -17,10 +17,10 @@ export function BenefitCard({ icon, title, description }: BenefitCardProps) {
         {(color) => <MaterialIcons name={icon} size={24} color={color} />}
       </IconChip>
       <View className="flex-1">
-        <Text variant="md" className="font-semibold">
+        <Text size="md" weight="semibold">
           {title}
         </Text>
-        <Text variant="sm" className="text-foreground/60">
+        <Text size="sm" className="text-foreground/60">
           {description}
         </Text>
       </View>

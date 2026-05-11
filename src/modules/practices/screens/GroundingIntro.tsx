@@ -29,7 +29,7 @@ export default function GroundingIntro() {
         <Header
           left={<BackButton />}
           center={
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               Technique Intro
             </Text>
           }
@@ -45,20 +45,21 @@ export default function GroundingIntro() {
         </Badge>
 
         <View className="mb-4 flex-row flex-wrap items-center justify-center">
-          <Text variant="display" className="font-extrabold leading-tight">
+          <Text size="display" className="leading-tight">
             {'The '}
           </Text>
           <GradientText className="text-4xl font-extrabold">
             5-4-3-2-1
           </GradientText>
-          <Text variant="display" className="font-extrabold leading-tight">
+          <Text size="display" className="leading-tight">
             {' technique'}
           </Text>
         </View>
 
         <Text
-          variant="sm"
-          className="max-w-[90%] text-center leading-relaxed text-foreground/70"
+          size="sm"
+          align="center"
+          className="max-w-[90%] leading-relaxed text-foreground/70"
         >
           {exercise.description}
         </Text>
@@ -79,10 +80,14 @@ export default function GroundingIntro() {
       {/* Ready to begin */}
       <View className="mb-8 mt-10 px-6">
         <View className="mb-6 items-center">
-          <Text variant="h3" className="font-bold">
+          <Text size="h3" weight="bold">
             Ready to begin?
           </Text>
-          <Text variant="caption" className="mt-1 text-foreground/40">
+          <Text
+            size="xs"
+            treatment="caption"
+            className="mt-1 text-foreground/40"
+          >
             Estimated duration: 3-5 minutes
           </Text>
         </View>

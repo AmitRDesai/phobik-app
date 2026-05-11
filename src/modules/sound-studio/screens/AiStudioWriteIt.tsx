@@ -45,9 +45,13 @@ export default function AiStudioWriteIt() {
       </Badge>
 
       {/* Title */}
-      <Text className="mt-4 text-[44px] font-extrabold leading-none">What</Text>
-      <Text className="text-[44px] font-extrabold leading-none">happened?</Text>
-      <Text variant="lg" muted className="mt-4 leading-relaxed">
+      <Text weight="extrabold" className="mt-4 text-[44px] leading-none">
+        What
+      </Text>
+      <Text weight="extrabold" className="text-[44px] leading-none">
+        happened?
+      </Text>
+      <Text size="lg" tone="secondary" className="mt-4 leading-relaxed">
         The algorithm listens to the sentiment of your story. Speak your truth,
         and let the sonics follow.
       </Text>
@@ -100,10 +104,10 @@ export default function AiStudioWriteIt() {
         <View className="h-12 w-12 items-center justify-center self-center rounded-2xl bg-accent-yellow/15">
           <MaterialIcons name="auto-stories" size={22} color={yellow} />
         </View>
-        <Text variant="lg" className="mt-3 text-center font-bold">
+        <Text size="lg" align="center" weight="bold" className="mt-3">
           From Journal
         </Text>
-        <Text variant="sm" muted className="mt-1 text-center">
+        <Text size="sm" tone="secondary" align="center" className="mt-1">
           Sync your morning thoughts or recent entries to jumpstart the sonic
           synthesis.
         </Text>
@@ -130,10 +134,10 @@ export default function AiStudioWriteIt() {
           contentFit="cover"
         />
         <View className="p-5">
-          <Text variant="caption" muted>
+          <Text size="xs" treatment="caption" tone="secondary">
             Current Vibe
           </Text>
-          <Text variant="lg" className="mt-1 font-bold">
+          <Text size="lg" weight="bold" className="mt-1">
             Ethereal Melancholy
           </Text>
         </View>

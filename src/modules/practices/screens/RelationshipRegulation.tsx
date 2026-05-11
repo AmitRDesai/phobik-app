@@ -1,6 +1,7 @@
+import { Text } from '@/components/themed/Text';
 import { useActiveChallenge } from '@/modules/empathy-challenge/hooks/useEmpathyChallenge';
 import { useAssessmentList } from '@/modules/self-check-ins/hooks/useSelfCheckIn';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { RELATIONSHIP_SUBMENU } from '../data/four-pillars';
 import { PillarSubMenuScreen } from './PillarSubMenuScreen';
@@ -41,7 +42,11 @@ export default function RelationshipRegulation() {
       submenu={{ ...RELATIONSHIP_SUBMENU, items: liveItems }}
       footer={
         <View className="mt-10 items-center">
-          <Text className="max-w-[280px] text-center text-base leading-relaxed text-foreground/40">
+          <Text
+            size="md"
+            align="center"
+            className="max-w-[280px] leading-relaxed text-foreground/40"
+          >
             &ldquo;The quality of your life is the quality of your
             relationships.&rdquo;
           </Text>

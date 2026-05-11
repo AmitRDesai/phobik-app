@@ -1,7 +1,8 @@
 import { BlurView } from '@/components/ui/BlurView';
 import { colors, withAlpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import Svg, {
   Circle,
   Defs,
@@ -106,7 +107,11 @@ export function ChakraFigure() {
         className="absolute -left-6 top-4 flex-row items-center gap-2 rounded-2xl border border-white/10 bg-primary-pink/[0.15] px-3.5 py-2 shadow-lg overflow-hidden"
       >
         <Ionicons name="eye" size={14} color={colors.accent.yellow} />
-        <Text className="text-[10px] font-bold uppercase tracking-wider text-white">
+        <Text
+          tone="inverse"
+          weight="bold"
+          className="text-[10px] uppercase tracking-wider"
+        >
           Sight
         </Text>
       </BlurView>
@@ -118,7 +123,11 @@ export function ChakraFigure() {
         className="absolute -right-6 bottom-12 flex-row items-center gap-2 rounded-2xl border border-white/10 bg-accent-yellow/10 px-3.5 py-2 shadow-lg overflow-hidden"
       >
         <Ionicons name="volume-medium" size={14} color={colors.primary.pink} />
-        <Text className="text-[10px] font-bold uppercase tracking-wider text-white">
+        <Text
+          tone="inverse"
+          weight="bold"
+          className="text-[10px] uppercase tracking-wider"
+        >
           Sound
         </Text>
       </BlurView>

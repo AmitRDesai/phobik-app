@@ -43,7 +43,7 @@ export default function LetterDetail() {
   if (!letter) {
     return (
       <View className="flex-1 items-center justify-center bg-surface">
-        <Text variant="md" muted>
+        <Text size="md" tone="secondary">
           Letter not found.
         </Text>
       </View>
@@ -65,10 +65,10 @@ export default function LetterDetail() {
       className="px-6"
     >
       <View className="mt-6 gap-3">
-        <Text variant="h2" className="font-bold leading-tight">
+        <Text size="h2" className="leading-tight">
           {letter.title}
         </Text>
-        <Text variant="sm" className="text-foreground/55">
+        <Text size="sm" tone="secondary">
           {formatDate(letter.entryDate)}
         </Text>
         {letter.coreAct && (
@@ -92,17 +92,16 @@ export default function LetterDetail() {
                   color={colors.primary.pink}
                 />
                 <Text
-                  variant="caption"
-                  className="font-bold text-foreground/55"
+                  size="xs"
+                  treatment="caption"
+                  tone="secondary"
+                  weight="bold"
                 >
                   Step {step.step}: {step.label}
                 </Text>
               </View>
               <Card variant="surface" className="p-5">
-                <Text
-                  variant="md"
-                  className="leading-relaxed text-foreground/80"
-                >
+                <Text size="md" className="leading-relaxed text-foreground/80">
                   {text}
                 </Text>
               </Card>

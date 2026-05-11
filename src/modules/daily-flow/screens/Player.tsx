@@ -86,8 +86,9 @@ export default function Player() {
 
         {session.intention ? (
           <Text
-            variant="h2"
-            className="mt-10 px-2 text-center font-light leading-9 text-foreground/60"
+            size="h2"
+            align="center"
+            className="mt-10 px-2 font-light leading-9 text-foreground/60"
           >
             &ldquo;{session.intention}&rdquo;
           </Text>
@@ -141,8 +142,11 @@ export default function Player() {
         </View>
 
         <Text
-          variant="caption"
-          className="text-center font-bold tracking-[0.3em] text-foreground/45"
+          size="xs"
+          treatment="caption"
+          align="center"
+          weight="bold"
+          className="tracking-[0.3em] text-foreground/45"
           style={{ paddingRight: 3.3 }}
         >
           Ritual: {option?.title ?? 'Session'} · {formatTime(elapsed)} left

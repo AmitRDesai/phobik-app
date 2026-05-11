@@ -27,12 +27,12 @@ export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
       bottomOffset={40}
     >
       {/* Title */}
-      <Text variant="h1" className="mb-2 mt-4 text-center">
+      <Text size="h1" align="center" className="mb-2 mt-4">
         Reflect with Curiosity
       </Text>
 
       {/* Instruction */}
-      <Text variant="sm" className="mb-6 text-center text-foreground/60">
+      <Text size="sm" align="center" className="mb-6 text-foreground/60">
         Growth happens when we reflect without judging ourselves. Instead of
         asking: What&apos;s wrong with me? Ask, what is the feeling trying to
         tell me?
@@ -52,14 +52,14 @@ export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
           />
         </IconChip>
         <View className="flex-1">
-          <Text variant="sm" className="font-semibold">
+          <Text size="sm" weight="semibold">
             Next time, what could I do sooner to care for that need?
           </Text>
         </View>
       </View>
 
       {/* Reflection input */}
-      <Text variant="caption" muted className="mb-2">
+      <Text size="xs" treatment="caption" tone="secondary" className="mb-2">
         My Reflection Note
       </Text>
       <TextInput
@@ -91,9 +91,10 @@ export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
           />
         </View>
         <Text
-          variant="caption"
-          muted
-          className="text-center"
+          size="xs"
+          treatment="caption"
+          tone="secondary"
+          align="center"
           style={{ paddingRight: 2.2 }}
         >
           Completion 100% &mdash; You&apos;re doing great!

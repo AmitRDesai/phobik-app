@@ -231,7 +231,7 @@ export default function SleepMeditationSession() {
         <Header
           left={<BackButton />}
           center={
-            <Text variant="sm" className="font-semibold text-foreground/60">
+            <Text size="sm" weight="semibold" className="text-foreground/60">
               Sleep & Soundscape
             </Text>
           }
@@ -247,14 +247,18 @@ export default function SleepMeditationSession() {
         {/* Title */}
         <View className="mt-8 items-center">
           <Text
-            variant="h1"
-            className="text-center font-extrabold leading-tight"
+            size="h1"
+            align="center"
+            weight="extrabold"
+            className="leading-tight"
           >
             Guided Sleep Meditation
           </Text>
           <Text
-            variant="caption"
-            className="mt-2 font-semibold text-primary-pink/90"
+            size="xs"
+            treatment="caption"
+            tone="accent"
+            className="mt-2 /90"
           >
             Deep Rest Journey
           </Text>
@@ -274,7 +278,8 @@ export default function SleepMeditationSession() {
               } ${status.playing ? 'opacity-40' : ''}`}
             >
               <Text
-                variant="caption"
+                size="xs"
+                treatment="caption"
                 className={`font-semibold ${
                   selectedDuration === key
                     ? 'text-accent-yellow'
@@ -293,8 +298,10 @@ export default function SleepMeditationSession() {
         {/* Time labels */}
         <View className="mb-3 flex-row items-center justify-between">
           <Text
-            variant="caption"
-            className="font-bold text-foreground/30"
+            size="xs"
+            treatment="caption"
+            tone="tertiary"
+            weight="bold"
             style={{ fontVariant: ['tabular-nums'] }}
           >
             {formatTime(elapsed)}
@@ -309,8 +316,10 @@ export default function SleepMeditationSession() {
             {`${formatTime(remaining)} Remaining`}
           </Badge>
           <Text
-            variant="caption"
-            className="font-bold text-foreground/30"
+            size="xs"
+            treatment="caption"
+            tone="tertiary"
+            weight="bold"
             style={{ fontVariant: ['tabular-nums'] }}
           >
             {formatTime(duration)}
@@ -373,8 +382,8 @@ export default function SleepMeditationSession() {
           >
             {isDownloading ? (
               <Text
-                variant="lg"
-                className="font-bold"
+                size="lg"
+                weight="bold"
                 style={{
                   color: scheme === 'dark' ? 'black' : 'white',
                   fontVariant: ['tabular-nums'],

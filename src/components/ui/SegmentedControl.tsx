@@ -39,13 +39,13 @@ export function SegmentedControl<T extends string>({
                   boxShadow: `0 0 8px ${withAlpha(colors.primary.pink, 0.3)}`,
                 }}
               >
-                <Text variant="sm" className="font-bold text-white">
+                <Text size="sm" tone="inverse" weight="bold">
                   {option.label}
                 </Text>
               </LinearGradient>
             ) : (
               <View className="flex-1 items-center justify-center rounded-lg">
-                <Text variant="sm" className="font-bold text-foreground/65">
+                <Text size="sm" weight="bold" className="text-foreground/65">
                   {option.label}
                 </Text>
               </View>

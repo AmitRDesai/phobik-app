@@ -111,8 +111,10 @@ export function PillarCard({
                   />
                 ) : null}
                 <Text
-                  variant="caption"
-                  className="flex-1 font-bold"
+                  size="xs"
+                  treatment="caption"
+                  weight="bold"
+                  className="flex-1"
                   style={{
                     color: accentColor ?? 'rgba(255,255,255,0.7)',
                   }}
@@ -122,13 +124,15 @@ export function PillarCard({
               </View>
             ) : null}
             <Text
-              variant="h2"
-              className="font-extrabold uppercase leading-tight text-white"
+              size="h2"
+              tone="inverse"
+              weight="extrabold"
+              className="uppercase leading-tight"
             >
               {title}
             </Text>
             {subtitle ? (
-              <Text variant="sm" className="mt-2 leading-snug text-white/70">
+              <Text size="sm" tone="inverse" className="mt-2 leading-snug /70">
                 {subtitle}
               </Text>
             ) : null}

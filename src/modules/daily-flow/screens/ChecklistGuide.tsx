@@ -68,7 +68,7 @@ export default function ChecklistGuide() {
     >
       <View className="mb-8 mt-2">
         <View className="flex-row flex-wrap items-baseline">
-          <Text variant="display" className="font-black leading-tight">
+          <Text size="display" weight="black" className="leading-tight">
             The Daily
           </Text>
           <GradientText
@@ -78,10 +78,10 @@ export default function ChecklistGuide() {
             {' Flow'}
           </GradientText>
         </View>
-        <Text variant="display" className="font-black leading-tight">
+        <Text size="display" weight="black" className="leading-tight">
           Journey
         </Text>
-        <Text variant="lg" muted className="mt-3 leading-6">
+        <Text size="lg" tone="secondary" className="mt-3 leading-6">
           Small daily shifts that realign your energy, focus, and direction.
         </Text>
       </View>
@@ -91,15 +91,15 @@ export default function ChecklistGuide() {
           <Card key={s.title} className="p-6">
             <View className="flex-row gap-5">
               <View className="h-8 w-8 items-center justify-center rounded-full border-2 border-foreground/15">
-                <Text variant="sm" className="font-bold text-foreground/60">
+                <Text size="sm" weight="bold" className="text-foreground/60">
                   {i + 1}
                 </Text>
               </View>
               <View className="flex-1">
-                <Text variant="h3" className="font-bold leading-tight">
+                <Text size="h3" weight="bold" className="leading-tight">
                   {s.title}
                 </Text>
-                <Text variant="sm" muted className="mt-2 leading-5">
+                <Text size="sm" tone="secondary" className="mt-2 leading-5">
                   {s.description}
                 </Text>
               </View>

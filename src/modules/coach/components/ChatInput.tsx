@@ -64,7 +64,7 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
             className="h-2 w-2 rounded-full"
             style={{ backgroundColor: colors.accent.purple }}
           />
-          <Text variant="sm" muted className="flex-1">
+          <Text size="sm" tone="secondary" className="flex-1">
             {transcript || 'Listening...'}
           </Text>
           <Button variant="ghost" size="compact" onPress={stop}>

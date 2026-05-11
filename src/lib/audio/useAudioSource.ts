@@ -173,7 +173,6 @@ export function useAudioSource(key: string | null): UseAudioSourceResult {
     //     flight after the user taps Retry
     //   isOnline — auto-retry when connectivity returns
     //   retryCount — manual retry trigger from `retry()`
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     key,
     sha256,

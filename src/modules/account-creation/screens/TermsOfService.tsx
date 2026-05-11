@@ -86,7 +86,7 @@ export default function TermsOfServiceScreen() {
               size={18}
               color={colors.primary.pink}
             />
-            <Text variant="label" className="text-primary-pink">
+            <Text size="sm" weight="semibold" tone="accent">
               Download full Terms of Service (PDF)
             </Text>
           </Pressable>
@@ -104,8 +104,9 @@ export default function TermsOfServiceScreen() {
                 Decline
               </Button>
               <Text
-                variant="caption"
-                muted
+                size="xs"
+                treatment="caption"
+                tone="secondary"
                 className="mt-3 tracking-[0.2em]"
                 style={{ paddingRight: 2.2 }}
               >
@@ -134,22 +135,22 @@ export default function TermsOfServiceScreen() {
         >
           <Ionicons name="shield-checkmark" size={36} color="white" />
         </LinearGradient>
-        <Text variant="h1" className="tracking-tight">
+        <Text size="h1" className="tracking-tight">
           Terms of Service
         </Text>
-        <Text variant="xs" muted className="mt-2">
+        <Text size="xs" tone="secondary" className="mt-2">
           Phobik (PBK) App
         </Text>
       </View>
       <Card className="mb-4 p-6">
-        <Text variant="lg" className="text-center font-bold">
+        <Text size="lg" align="center" weight="bold">
           Phobik is a wellness and self development app designed to provide
           educational tools and personal growth. It is not a healthcare provider
           and does not provide medical advice, diagnosis or therapy.
         </Text>
       </Card>
       <View className="px-2">
-        <Text variant="md" muted className="text-center">
+        <Text size="md" tone="secondary" align="center">
           By continuing, you agree to our full Terms of Service which govern
           your account, subscriptions, and use of our community and biometric
           features.

@@ -90,7 +90,7 @@ export function SessionHistory({
         <SafeAreaView edges={['top']} className="flex-1">
           {/* Header */}
           <View className="flex-row items-center border-b border-foreground/5 px-5 pb-3 pt-6">
-            <Text variant="h3" className="flex-1 font-semibold">
+            <Text size="h3" className="flex-1">
               Past Sessions
             </Text>
             <Pressable
@@ -112,7 +112,7 @@ export function SessionHistory({
                 size={40}
                 color={iconFaint}
               />
-              <Text variant="sm" className="text-center text-foreground/30">
+              <Text size="sm" align="center" tone="tertiary">
                 No past sessions yet. Start a conversation with your coach!
               </Text>
             </View>
@@ -148,13 +148,14 @@ export function SessionHistory({
                     </View>
                     <View className="flex-1">
                       <Text
-                        variant="sm"
-                        className="font-medium text-foreground/80"
+                        size="sm"
+                        weight="medium"
+                        className="text-foreground/80"
                         numberOfLines={1}
                       >
                         {item.title || 'Untitled session'}
                       </Text>
-                      <Text variant="xs" className="text-foreground/30">
+                      <Text size="xs" tone="tertiary">
                         {formatDate(item.createdAt)}
                       </Text>
                     </View>
@@ -166,8 +167,8 @@ export function SessionHistory({
                         }}
                       >
                         <Text
-                          variant="xs"
-                          className="font-medium"
+                          size="xs"
+                          weight="medium"
                           style={{ color: purple }}
                         >
                           Active

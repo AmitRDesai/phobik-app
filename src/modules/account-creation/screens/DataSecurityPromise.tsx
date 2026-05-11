@@ -77,8 +77,9 @@ export default function DataSecurityPromiseScreen() {
           </Button>
           {!isModal && (
             <Text
-              variant="caption"
-              muted
+              size="xs"
+              treatment="caption"
+              tone="secondary"
               className="mt-3 tracking-[0.2em]"
               style={{ paddingRight: 2.2 }}
             >
@@ -89,11 +90,17 @@ export default function DataSecurityPromiseScreen() {
       }
       className="px-8 pt-2"
     >
-      <Text variant="caption" muted className="text-center tracking-[0.3em]">
+      <Text
+        size="xs"
+        treatment="caption"
+        tone="secondary"
+        align="center"
+        className="tracking-[0.3em]"
+      >
         Security
       </Text>
       <View className="mb-10 mt-4 items-center">
-        <Text variant="h1" className="text-center">
+        <Text size="h1" align="center">
           Your Privacy is
         </Text>
         <GradientText className="text-center text-3xl font-extrabold leading-tight">
@@ -131,10 +138,10 @@ export default function DataSecurityPromiseScreen() {
               <Ionicons name="checkmark" size={16} color={checkAccent} />
             </IconChip>
             <View className="flex-1">
-              <Text variant="md" className="font-bold">
+              <Text size="md" weight="bold">
                 {point.title}
               </Text>
-              <Text variant="sm" muted className="mt-1">
+              <Text size="sm" tone="secondary" className="mt-1">
                 {point.description}
               </Text>
             </View>

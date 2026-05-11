@@ -63,7 +63,7 @@ export function FeelingDropdown({
             size={20}
             color={colors.primary.pink}
           />
-          <Text variant="md" className="font-semibold">
+          <Text size="md" weight="semibold">
             {selectedLabel || 'What are you feeling?'}
           </Text>
         </View>
@@ -88,7 +88,7 @@ export function FeelingDropdown({
               style={{ width: '48%' }}
             >
               <Text
-                variant="sm"
+                size="sm"
                 className={clsx(
                   'font-medium',
                   value === option.value

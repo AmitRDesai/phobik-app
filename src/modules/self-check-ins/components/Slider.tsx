@@ -49,7 +49,6 @@ export function Slider({
   useEffect(() => {
     const newX = ((value - min) / (max - min)) * usableWidth;
     thumbX.value = newX;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, min, max, usableWidth]);
 
   // Cancel running animations on unmount
@@ -58,7 +57,6 @@ export function Slider({
       cancelAnimation(thumbX);
       cancelAnimation(thumbScale);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateValue = useCallback(

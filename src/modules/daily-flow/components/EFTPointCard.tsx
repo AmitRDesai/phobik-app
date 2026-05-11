@@ -18,20 +18,21 @@ export function EFTPointCard({ point }: { point: EFTPointEntry }) {
       <View className="flex-row items-start gap-4">
         <IconChip size="md" shape="circle" tone={tone}>
           <Text
-            variant="sm"
-            className="font-bold"
+            size="sm"
+            weight="bold"
             style={{ color: base, opacity: textOpacity }}
           >
             {point.number}
           </Text>
         </IconChip>
         <View className="flex-1">
-          <Text variant="lg" className="font-bold leading-tight">
+          <Text size="lg" weight="bold" className="leading-tight">
             {point.title}
           </Text>
           <Text
-            variant="caption"
-            className="mt-1.5 font-semibold"
+            size="xs"
+            treatment="caption"
+            className="mt-1.5"
             style={{
               color: withAlpha(accentFor(scheme, 'yellow'), 0.8),
               paddingRight: 1.1,
@@ -39,7 +40,7 @@ export function EFTPointCard({ point }: { point: EFTPointEntry }) {
           >
             {point.meridian}
           </Text>
-          <Text variant="sm" className="mt-1.5 leading-5 text-foreground/70">
+          <Text size="sm" className="mt-1.5 leading-5 text-foreground/70">
             {point.description}
           </Text>
         </View>

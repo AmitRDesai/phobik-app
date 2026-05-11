@@ -37,7 +37,7 @@ export default function MeditationList() {
         <GradientText className="text-4xl font-extrabold leading-[1.05]">
           Meditations
         </GradientText>
-        <Text variant="lg" muted className="mt-4 max-w-[340px]">
+        <Text size="lg" tone="secondary" className="mt-4 max-w-[340px]">
           Step into your biometric field. Choose a practice to align your
           physiological state with your mental intention.
         </Text>
@@ -56,10 +56,10 @@ export default function MeditationList() {
             )}
           </IconChip>
           <View className="flex-1">
-            <Text variant="caption" className="font-bold text-primary-pink">
+            <Text size="xs" treatment="caption" tone="accent" weight="bold">
               Unfinished
             </Text>
-            <Text variant="lg" numberOfLines={1} className="mt-0.5 font-bold">
+            <Text size="lg" numberOfLines={1} weight="bold" className="mt-0.5">
               {resumable.title}
             </Text>
           </View>

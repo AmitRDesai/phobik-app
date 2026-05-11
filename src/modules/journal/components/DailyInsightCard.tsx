@@ -30,13 +30,14 @@ export function DailyInsightCard({ onStart }: DailyInsightCardProps) {
               <View className="mb-0.5 flex-row items-center gap-1">
                 <MaterialIcons name="auto-awesome" size={12} color={yellow} />
                 <Text
-                  className="text-[8px] font-bold uppercase tracking-widest"
+                  weight="bold"
+                  className="text-[8px] uppercase tracking-widest"
                   style={{ color: withAlpha(yellow, 0.8) }}
                 >
                   Daily Insight Prompt
                 </Text>
               </View>
-              <Text variant="sm" className="font-semibold leading-tight">
+              <Text size="sm" weight="semibold" className="leading-tight">
                 How did your morning walk feel today?
               </Text>
             </View>
@@ -52,7 +53,9 @@ export function DailyInsightCard({ onStart }: DailyInsightCardProps) {
                   boxShadow: `0 2px 4px ${withAlpha(colors.primary.pink, 0.2)}`,
                 }}
               >
-                <Text className="text-[10px] font-bold text-white">Start</Text>
+                <Text tone="inverse" weight="bold" className="text-[10px]">
+                  Start
+                </Text>
               </LinearGradient>
             </Pressable>
           </View>

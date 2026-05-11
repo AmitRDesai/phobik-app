@@ -26,17 +26,14 @@ export default function MovementList() {
     <PracticeScreenShell wordmark="FLOW STUDIO">
       <View className="mb-8 mt-4">
         <View className="flex-row flex-wrap items-baseline">
-          <Text
-            variant="display"
-            className="font-extrabold uppercase leading-[1.05]"
-          >
+          <Text size="display" className="uppercase leading-[1.05]">
             MOVE &{' '}
           </Text>
           <GradientText className="text-4xl font-extrabold uppercase leading-[1.05]">
             RESET
           </GradientText>
         </View>
-        <Text variant="lg" muted className="mt-3 max-w-[320px]">
+        <Text size="lg" tone="secondary" className="mt-3 max-w-[320px]">
           Move your body, release tension, and come back to yourself.
         </Text>
       </View>
@@ -50,7 +47,7 @@ export default function MovementList() {
 
       <View className="gap-5">
         {filteredExercises.length === 0 ? (
-          <Text variant="sm" className="py-12 text-center text-foreground/50">
+          <Text size="sm" align="center" className="py-12 text-foreground/50">
             No practices match this mood yet.
           </Text>
         ) : (
@@ -68,8 +65,9 @@ export default function MovementList() {
       </View>
 
       <Text
-        variant="sm"
-        className="mt-10 text-center leading-relaxed text-foreground/40"
+        size="sm"
+        align="center"
+        className="mt-10 leading-relaxed text-foreground/40"
       >
         The right movement can change how you feel in minutes.
       </Text>

@@ -27,10 +27,10 @@ export function StressorHeader({ title, subtitle }: StressorHeaderProps) {
         <View className="flex-row items-center">
           <BackButton className="mr-4" />
           <View>
-            <Text variant="h2" className="font-black uppercase">
+            <Text size="h2" weight="black" className="uppercase">
               {title}
             </Text>
-            <Text variant="caption" className="mt-1 text-primary-pink">
+            <Text size="xs" treatment="caption" tone="accent" className="mt-1">
               {subtitle}
             </Text>
           </View>

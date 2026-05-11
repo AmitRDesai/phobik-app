@@ -27,7 +27,7 @@ export default function PivotPointResults() {
     return (
       <Screen variant="default" className="px-6">
         <View className="flex-1 items-center justify-center">
-          <Text variant="md" muted>
+          <Text size="md" tone="secondary">
             Assessment incomplete.
           </Text>
           <GradientButton onPress={() => router.back()} className="mt-4">
@@ -49,7 +49,7 @@ export default function PivotPointResults() {
         <Header
           left={<BackButton onPress={() => router.back()} />}
           center={
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               The Pivot Point
             </Text>
           }
@@ -63,10 +63,10 @@ export default function PivotPointResults() {
       className="px-6"
     >
       <View className="mb-8 pt-4">
-        <Text variant="h1" className="mb-3 font-bold">
+        <Text size="h1" className="mb-3">
           This is how you respond under pressure
         </Text>
-        <Text variant="md" className="leading-relaxed text-foreground/60">
+        <Text size="md" className="leading-relaxed text-foreground/60">
           This isn&apos;t who you are&mdash;it&apos;s a pattern your brain has
           learned. And patterns can change.
         </Text>
@@ -82,8 +82,11 @@ export default function PivotPointResults() {
 
       <View className="mb-4">
         <Text
-          variant="caption"
-          className="mb-2 font-bold tracking-widest text-foreground/55"
+          size="xs"
+          treatment="caption"
+          tone="secondary"
+          weight="bold"
+          className="mb-2 tracking-widest"
         >
           Secondary Pattern
         </Text>
@@ -94,20 +97,23 @@ export default function PivotPointResults() {
         <View className="mb-4 flex-row items-center gap-2">
           <MaterialIcons name="auto-awesome" size={18} color={yellow} />
           <Text
-            variant="caption"
-            className="font-bold tracking-widest text-foreground/55"
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            weight="bold"
+            className="tracking-widest"
           >
             Your Next Practices
           </Text>
         </View>
-        <Text variant="sm" className="mb-4 leading-relaxed text-foreground/60">
+        <Text size="sm" className="mb-4 leading-relaxed text-foreground/60">
           Based on your primary pattern, these are the practices that will help
           you most right now.
         </Text>
         {primary.recommendations.map((rec) => (
           <View key={rec} className="mb-3 flex-row items-start gap-3">
             <View className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary-pink" />
-            <Text variant="sm" className="flex-1">
+            <Text size="sm" className="flex-1">
               {rec}
             </Text>
           </View>
@@ -115,10 +121,7 @@ export default function PivotPointResults() {
       </Card>
 
       <Card variant="surface" className="p-6">
-        <Text
-          variant="sm"
-          className="italic leading-relaxed text-foreground/60"
-        >
+        <Text size="sm" italic className="leading-relaxed text-foreground/60">
           Your next step isn&apos;t to become someone new&hellip; It&apos;s to
           respond just 1% differently when it matters.
         </Text>

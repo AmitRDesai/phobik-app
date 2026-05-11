@@ -254,7 +254,12 @@ export default function MicroChallenges() {
         <Header
           left={<BackButton onPress={handleBack} />}
           center={
-            <Text variant="caption" muted style={{ paddingRight: 2.2 }}>
+            <Text
+              size="xs"
+              treatment="caption"
+              tone="secondary"
+              style={{ paddingRight: 2.2 }}
+            >
               Quick Challenge
             </Text>
           }

@@ -38,7 +38,7 @@ export default function Biometric() {
     >
       {!isAvailable ? (
         <Card className="p-6">
-          <Text variant="md" muted className="text-center">
+          <Text size="md" tone="secondary" align="center">
             Biometric authentication is not available on this device.
           </Text>
         </Card>
@@ -59,10 +59,10 @@ export default function Biometric() {
                   />
                 </IconChip>
                 <View className="flex-1">
-                  <Text variant="md" className="font-semibold">
+                  <Text size="md" weight="semibold">
                     {biometricType} Enabled
                   </Text>
-                  <Text variant="sm" muted>
+                  <Text size="sm" tone="secondary">
                     Quick sign-in is active
                   </Text>
                 </View>
@@ -86,11 +86,11 @@ export default function Biometric() {
             className="flex-row items-center justify-center gap-2 py-4"
           >
             <MaterialIcons name="lock" size={20} color={colors.primary.pink} />
-            <Text variant="md" className="font-semibold text-primary-pink">
+            <Text size="md" tone="accent" weight="semibold">
               Lock App
             </Text>
           </Card>
-          <Text variant="xs" className="px-2 text-center text-foreground/40">
+          <Text size="xs" align="center" className="px-2 text-foreground/40">
             Locks the app and requires {biometricType} to re-enter. Your session
             stays active.
           </Text>

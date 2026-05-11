@@ -85,12 +85,15 @@ export default function StressCompass() {
           left={<BackButton />}
           center={
             <View className="items-center">
-              <Text variant="sm" className="font-bold tracking-[3px]">
+              <Text size="sm" weight="bold" className="tracking-[3px]">
                 Stress Compass
               </Text>
               <Text
-                variant="caption"
-                className="font-medium tracking-[4px] text-foreground/55"
+                size="xs"
+                treatment="caption"
+                tone="secondary"
+                weight="medium"
+                className="tracking-[4px]"
               >
                 Assessment
               </Text>
@@ -116,11 +119,11 @@ export default function StressCompass() {
     >
       {/* Intro Section */}
       <View className="mb-10">
-        <Text variant="h1" className="mb-4 font-black leading-tight">
+        <Text size="h1" weight="black" className="mb-4 leading-tight">
           What is the Stress{'\n'}Compass?
         </Text>
         <Text
-          variant="md"
+          size="md"
           className="mb-6 font-light leading-relaxed text-foreground/70"
         >
           The Stress Compass helps you understand which areas of life are
@@ -130,19 +133,21 @@ export default function StressCompass() {
         </Text>
         <Card className="rounded-3xl p-5">
           <Text
-            variant="caption"
-            className="mb-2 font-black tracking-[3px]"
+            size="xs"
+            treatment="caption"
+            weight="black"
+            className="mb-2 tracking-[3px]"
             style={{ color: yellowAccent }}
           >
             How it works
           </Text>
-          <Text variant="sm" className="leading-relaxed text-foreground/60">
+          <Text size="sm" className="leading-relaxed text-foreground/60">
             You will rate 10 core stressor categories on a scale of 1-10.{' '}
-            <Text variant="sm" className="font-medium">
+            <Text size="sm" weight="medium">
               1 is {'"'}draining me{'"'}
             </Text>{' '}
             and{' '}
-            <Text variant="sm" className="font-medium">
+            <Text size="sm" weight="medium">
               10 {'"'}feels balanced{'"'}
             </Text>
             . Your results create a {'"'}stress signature map{'"'} showing which
@@ -169,8 +174,10 @@ export default function StressCompass() {
       {/* Bottom Quote */}
       <View className="items-center px-6 py-16">
         <Text
-          variant="sm"
-          className="max-w-[280px] text-center font-light leading-relaxed text-foreground/55"
+          size="sm"
+          align="center"
+          tone="secondary"
+          className="max-w-[280px] font-light leading-relaxed"
         >
           {'"'}This is not a test you can fail. It is a map to help you find
           your way back to yourself.{'"'}
@@ -216,7 +223,7 @@ function StressorCard({
             color={colors.primary.pink}
           />
         </View>
-        <Text variant="lg" className="font-bold">
+        <Text size="lg" weight="bold">
           {label}
         </Text>
       </View>
@@ -263,21 +270,28 @@ function StressorCard({
         {/* Labels */}
         <View className="flex-row items-center justify-between">
           <Text
-            variant="caption"
-            className="font-bold tracking-[2px] text-foreground/55"
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            weight="bold"
+            className="tracking-[2px]"
           >
             Draining
           </Text>
           <Text
-            variant="caption"
-            className="font-bold"
+            size="xs"
+            treatment="caption"
+            weight="bold"
             style={{ color: yellowAccent }}
           >
             Rating: {value}
           </Text>
           <Text
-            variant="caption"
-            className="font-bold tracking-[2px] text-foreground/55"
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            weight="bold"
+            className="tracking-[2px]"
           >
             Balanced
           </Text>

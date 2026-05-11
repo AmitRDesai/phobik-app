@@ -136,7 +136,7 @@ function renderCenter({
 }): ReactNode {
   if (variant === 'wordmark') {
     return (
-      <Text variant="h3" className="tracking-wide">
+      <Text size="h3" className="tracking-wide">
         Phobik
       </Text>
     );
@@ -144,11 +144,11 @@ function renderCenter({
   if (!title) return null;
   return (
     <View className="items-center">
-      <Text variant="h3" numberOfLines={1}>
+      <Text size="h3" numberOfLines={1}>
         {title}
       </Text>
       {subtitle ? (
-        <Text variant="sm" muted numberOfLines={1}>
+        <Text size="sm" tone="secondary" numberOfLines={1}>
           {subtitle}
         </Text>
       ) : null}

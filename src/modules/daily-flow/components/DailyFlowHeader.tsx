@@ -75,11 +75,11 @@ export function DailyFlowHeader({
       DAILY FLOW
     </GradientText>
   ) : title ? (
-    <Text variant="lg" className="font-bold" numberOfLines={1}>
+    <Text size="lg" weight="bold" numberOfLines={1}>
       {title}
     </Text>
   ) : step ? (
-    <Text variant="xs" className="font-bold text-foreground/50">
+    <Text size="xs" weight="bold" className="text-foreground/50">
       {step}
     </Text>
   ) : null;

@@ -57,17 +57,17 @@ export function SleepScoreHeader() {
             }}
           />
           <View className="z-10 items-center">
-            <Text variant="display">
+            <Text size="display">
               {lastNightScore != null ? lastNightScore : '—'}
             </Text>
-            <Text variant="caption" className="text-foreground/80">
+            <Text size="xs" treatment="caption" className="text-foreground/80">
               Score
             </Text>
           </View>
         </LinearGradient>
       </View>
-      <Text variant="h2">{scoreLabel(lastNightScore)}</Text>
-      <Text variant="md" className="mt-1 font-medium text-primary-pink/80">
+      <Text size="h2">{scoreLabel(lastNightScore)}</Text>
+      <Text size="md" tone="accent" weight="medium" className="mt-1 /80">
         {scoreSubtitle(lastNightScore, hasConnectedHealth)}
       </Text>
     </View>

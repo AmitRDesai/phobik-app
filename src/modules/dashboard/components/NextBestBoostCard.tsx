@@ -45,14 +45,17 @@ export function NextBestBoostCard({
         </View>
         <View className="flex-1">
           <Text
-            variant="caption"
-            className="font-bold tracking-widest text-foreground/55"
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            weight="bold"
+            className="tracking-widest"
           >
             Your Next Boost
           </Text>
-          <Text variant="sm" className="mt-1 font-bold text-foreground">
+          <Text size="sm" weight="bold" className="mt-1">
             +{pointHint} {meta.label}:{' '}
-            <Text variant="sm" className="font-medium text-foreground/70">
+            <Text size="sm" weight="medium" className="text-foreground/70">
               {meta.boostLabel}
             </Text>
           </Text>
@@ -62,8 +65,10 @@ export function NextBestBoostCard({
           className="rounded-xl bg-foreground px-3 py-2 active:opacity-80"
         >
           <Text
-            variant="caption"
-            className="font-bold tracking-widest text-surface"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="tracking-widest text-surface"
           >
             Do it
           </Text>

@@ -31,11 +31,11 @@ export function BenefitCard({
       <IconChip size="lg" shape="rounded" tone={hue} className="mb-4">
         {(color) => <MaterialIcons name={icon} size={22} color={color} />}
       </IconChip>
-      <Text variant="h3" className="font-bold">
+      <Text size="h3" weight="bold">
         {title}
       </Text>
       {description ? (
-        <Text variant="sm" muted className="mt-1.5 leading-5">
+        <Text size="sm" tone="secondary" className="mt-1.5 leading-5">
           {description}
         </Text>
       ) : null}

@@ -72,8 +72,11 @@ export default function TappingSession() {
             {isLastPoint ? 'Finish Tapping' : 'Next Tap Point'}
           </GradientButton>
           <Text
-            variant="caption"
-            className="mt-3 text-center font-bold tracking-[0.25em] text-foreground/40"
+            size="xs"
+            treatment="caption"
+            align="center"
+            weight="bold"
+            className="mt-3 tracking-[0.25em] text-foreground/40"
             style={{ paddingLeft: 2.75, paddingRight: 2.75 }}
           >
             Point {pointIndex + 1} of {TAPPING_POINTS.length}
@@ -84,8 +87,10 @@ export default function TappingSession() {
     >
       <View className="mt-2 items-center">
         <Text
-          variant="display"
-          className="text-center font-black leading-tight"
+          size="display"
+          align="center"
+          weight="black"
+          className="leading-tight"
           adjustsFontSizeToFit
           numberOfLines={1}
         >
@@ -103,15 +108,19 @@ export default function TappingSession() {
 
       <View className="mt-6 items-center">
         <Text
-          variant="caption"
-          className="font-bold tracking-[0.25em] text-foreground/50"
+          size="xs"
+          treatment="caption"
+          weight="bold"
+          className="tracking-[0.25em] text-foreground/50"
           style={{ paddingLeft: 2.5, paddingRight: 2.5 }}
         >
           Setup Phrase
         </Text>
         <Text
-          variant="lg"
-          className="mt-2 px-2 text-center font-medium leading-7 text-foreground/75"
+          size="lg"
+          align="center"
+          weight="medium"
+          className="mt-2 px-2 leading-7 text-foreground/75"
         >
           &ldquo;{content.setupPhrase}&rdquo;
         </Text>
@@ -119,8 +128,10 @@ export default function TappingSession() {
 
       <View className="mt-6 items-center">
         <Text
-          variant="caption"
-          className="font-bold tracking-[0.25em]"
+          size="xs"
+          treatment="caption"
+          weight="bold"
+          className="tracking-[0.25em]"
           style={{
             color: accentColor,
             paddingLeft: 2.5,
@@ -130,8 +141,10 @@ export default function TappingSession() {
           Tapping Prompt
         </Text>
         <Text
-          variant="h2"
-          className="mt-3 px-2 text-center font-black leading-8"
+          size="h2"
+          align="center"
+          weight="black"
+          className="mt-3 px-2 leading-8"
         >
           &ldquo;{content.prompt}&rdquo;
         </Text>

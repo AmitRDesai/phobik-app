@@ -167,8 +167,8 @@ export default function SignInScreen() {
 
       {/* Welcome Text */}
       <View className="items-center px-4">
-        <Text variant="h1">Welcome Back</Text>
-        <Text variant="lg" muted className="mt-2">
+        <Text size="h1">Welcome Back</Text>
+        <Text size="lg" tone="secondary" className="mt-2">
           We missed your energy today.
         </Text>
       </View>
@@ -186,14 +186,14 @@ export default function SignInScreen() {
               color={colors.primary.pink}
             />
           </Pressable>
-          <Text variant="sm" className="mt-3 text-foreground/50">
+          <Text size="sm" className="mt-3 text-foreground/50">
             Tap to sign in with {biometricType}
           </Text>
 
           {!isSignedOut && (
             <View className="mt-4 flex-row items-center">
               <View className="h-px flex-1 bg-foreground/15" />
-              <Text variant="sm" className="mx-4 text-foreground/45">
+              <Text size="sm" className="mx-4 text-foreground/45">
                 or use credentials
               </Text>
               <View className="h-px flex-1 bg-foreground/15" />
@@ -255,7 +255,7 @@ export default function SignInScreen() {
               Sign In
             </GradientButton>
             {showWarmingHint && (
-              <Text variant="sm" muted className="mt-3 text-center">
+              <Text size="sm" tone="secondary" align="center" className="mt-3">
                 Hang tight — we&apos;re getting things ready for you.
               </Text>
             )}
@@ -265,7 +265,7 @@ export default function SignInScreen() {
           <View className="mt-6">
             <View className="mb-4 flex-row items-center">
               <View className="h-px flex-1 bg-foreground/15" />
-              <Text variant="sm" className="mx-4 text-foreground/45">
+              <Text size="sm" className="mx-4 text-foreground/45">
                 or continue with
               </Text>
               <View className="h-px flex-1 bg-foreground/15" />
@@ -305,9 +305,9 @@ export default function SignInScreen() {
             className="mb-8 mt-6 py-2"
             disabled={isLoading}
           >
-            <Text variant="sm" muted className="text-center">
+            <Text size="sm" tone="secondary" align="center">
               Don&apos;t have an account?{' '}
-              <Text variant="sm" className="font-bold text-primary-pink">
+              <Text size="sm" tone="accent" weight="bold">
                 Sign Up
               </Text>
             </Text>

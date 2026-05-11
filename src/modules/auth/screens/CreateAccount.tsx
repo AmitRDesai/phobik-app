@@ -143,18 +143,18 @@ export default function CreateAccountScreen() {
           <Ionicons name="finger-print" size={40} color="white" />
         </View>
 
-        <Text variant="h1" className="tracking-tight text-white">
+        <Text size="h1" tone="inverse" className="tracking-tight">
           PHOBIK
         </Text>
-        <Text variant="sm" className="mt-1 text-white/80">
+        <Text size="sm" tone="inverse" className="mt-1 /80">
           Biometric Mental Wellness
         </Text>
       </LinearGradient>
 
       {/* Form Section */}
       <View className="flex-1 px-8 pt-8">
-        <Text variant="h1">Create Account</Text>
-        <Text variant="sm" muted className="mb-8 mt-2">
+        <Text size="h1">Create Account</Text>
+        <Text size="sm" tone="secondary" className="mb-8 mt-2">
           Join the future of secure health tracking
         </Text>
 
@@ -223,7 +223,7 @@ export default function CreateAccountScreen() {
             Create Account
           </GradientButton>
           {showWarmingHint && (
-            <Text variant="sm" muted className="mt-3 text-center">
+            <Text size="sm" tone="secondary" align="center" className="mt-3">
               Hang tight — we&apos;re getting things ready for you.
             </Text>
           )}
@@ -233,7 +233,7 @@ export default function CreateAccountScreen() {
         <View className="mt-6">
           <View className="mb-4 flex-row items-center">
             <View className="h-px flex-1 bg-foreground/10" />
-            <Text variant="sm" muted className="mx-4">
+            <Text size="sm" tone="secondary" className="mx-4">
               or continue with
             </Text>
             <View className="h-px flex-1 bg-foreground/10" />
@@ -260,19 +260,19 @@ export default function CreateAccountScreen() {
           </View>
         </View>
 
-        <Text variant="sm" muted className="mt-4 text-center">
+        <Text size="sm" tone="secondary" align="center" className="mt-4">
           By signing up, you agree to our{'\n'}
           <Text
-            variant="sm"
-            className="text-primary-pink"
+            size="sm"
+            tone="accent"
             onPress={() => router.push('/auth/terms-of-service?modal=true')}
           >
             Terms of Service
           </Text>{' '}
           and{' '}
           <Text
-            variant="sm"
-            className="text-primary-pink"
+            size="sm"
+            tone="accent"
             onPress={() => router.push('/auth/privacy-policy?modal=true')}
           >
             Privacy Policy
@@ -285,9 +285,9 @@ export default function CreateAccountScreen() {
           className="mb-8 mt-6 py-2"
           disabled={isLoading}
         >
-          <Text variant="sm" muted className="text-center">
+          <Text size="sm" tone="secondary" align="center">
             Already have an account?{' '}
-            <Text variant="sm" className="font-bold text-primary-pink">
+            <Text size="sm" tone="accent" weight="bold">
               Sign In
             </Text>
           </Text>

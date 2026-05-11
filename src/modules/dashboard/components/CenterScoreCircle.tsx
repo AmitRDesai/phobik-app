@@ -24,26 +24,33 @@ export function CenterScoreCircle({
       }}
     >
       <Text
-        className="text-[9px] font-semibold uppercase tracking-[0.25em] text-foreground/55"
+        tone="secondary"
+        weight="semibold"
+        className="text-[9px] uppercase tracking-[0.25em]"
         style={{ marginBottom: -2 }}
       >
         SYNRGY SCORE
       </Text>
       <Text
-        className="text-6xl font-black leading-[64px] text-foreground"
+        weight="black"
+        className="text-6xl leading-[64px]"
         allowFontScaling={false}
       >
         {total}
       </Text>
       <Text
-        variant="xs"
-        className="mt-1 font-bold tracking-widest text-foreground/50"
+        size="xs"
+        weight="bold"
+        className="mt-1 tracking-widest text-foreground/50"
       >
         of 100 today
       </Text>
       <Text
-        variant="caption"
-        className="mt-2 font-bold uppercase tracking-widest text-primary-pink"
+        size="xs"
+        treatment="caption"
+        tone="accent"
+        weight="bold"
+        className="mt-2 uppercase tracking-widest"
       >
         {level.label}
       </Text>

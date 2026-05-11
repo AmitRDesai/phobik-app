@@ -47,10 +47,10 @@ export function SleepIntelligenceCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text variant="caption" muted>
+        <Text size="xs" treatment="caption" tone="secondary">
           Sleep Intelligence
         </Text>
-        <Text variant="caption" className="text-accent-yellow">
+        <Text size="xs" treatment="caption" className="text-accent-yellow">
           {wearableLabel}
         </Text>
       </View>
@@ -80,10 +80,10 @@ export function SleepIntelligenceCard() {
           </IconChip>
           <View className="relative z-10 flex-1">
             <View className="mb-1 flex-row items-end justify-between">
-              <Text variant="h3" className="font-black">
+              <Text size="h3" weight="black">
                 Restorative Sleep
               </Text>
-              <Text variant="h2" className="font-black text-primary-pink">
+              <Text size="h2" tone="accent" weight="black">
                 {displayPct != null ? `${displayPct}%` : '—'}
               </Text>
             </View>
@@ -102,7 +102,11 @@ export function SleepIntelligenceCard() {
                 />
               ) : null}
             </View>
-            <Text variant="caption" className="mt-3 text-foreground/40">
+            <Text
+              size="xs"
+              treatment="caption"
+              className="mt-3 text-foreground/40"
+            >
               {summaryText(restorativePct, hasConnectedHealth)}
             </Text>
           </View>

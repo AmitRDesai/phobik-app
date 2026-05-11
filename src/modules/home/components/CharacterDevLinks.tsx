@@ -17,7 +17,12 @@ export function CharacterDevLinks() {
 
   return (
     <Card variant="elevated">
-      <Text variant="caption" className="mb-3 font-bold text-foreground/40">
+      <Text
+        size="xs"
+        treatment="caption"
+        weight="bold"
+        className="mb-3 text-foreground/40"
+      >
         Characters (dev)
       </Text>
       <View className="flex-row flex-wrap gap-2">
@@ -28,11 +33,7 @@ export function CharacterDevLinks() {
             className="rounded-full border border-foreground/10 px-4 py-2"
             style={{ backgroundColor: withAlpha(link.tint, 0.13) }}
           >
-            <Text
-              variant="sm"
-              className="font-semibold"
-              style={{ color: link.tint }}
-            >
+            <Text size="sm" weight="semibold" style={{ color: link.tint }}>
               {link.label}
             </Text>
           </Pressable>

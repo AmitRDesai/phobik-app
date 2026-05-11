@@ -56,10 +56,10 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
               <Ionicons name={iconName} size={22} color={colors.primary.pink} />
             </IconChip>
             <View className="flex-1">
-              <Text variant="lg" className="font-semibold">
+              <Text size="lg" weight="semibold">
                 {biometricType}
               </Text>
-              <Text variant="sm" className="text-foreground/55">
+              <Text size="sm" tone="secondary">
                 Quick sign-in with {biometricType}
               </Text>
             </View>
@@ -92,12 +92,14 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
           <Ionicons name={iconName} size={56} color="white" />
         </LinearGradient>
 
-        <Text variant="h1" className="text-center font-extrabold">
+        <Text size="h1" align="center" weight="extrabold">
           Enable {biometricType}
         </Text>
         <Text
-          variant="lg"
-          className="mt-3 text-center leading-relaxed text-foreground/55"
+          size="lg"
+          align="center"
+          tone="secondary"
+          className="mt-3 leading-relaxed"
         >
           Use {biometricType} to quickly sign back in without typing your
           password.

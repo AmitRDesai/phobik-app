@@ -13,9 +13,10 @@ export function ChapterQuote({ children }: ChapterQuoteProps) {
       style={{ borderLeftWidth: 4, borderLeftColor: colors.primary.pink }}
     >
       <Text
-        variant="md"
-        muted
-        className="italic leading-relaxed"
+        size="md"
+        tone="secondary"
+        italic
+        className="leading-relaxed"
         style={{ fontFamily: 'serif' }}
       >
         {children}

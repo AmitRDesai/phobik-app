@@ -14,11 +14,11 @@ export default function Movement() {
       title="4. Movement"
       duration="5-10 min target"
       intro={
-        <Text variant="lg" className="leading-6 text-foreground/70">
+        <Text size="lg" className="leading-6 text-foreground/70">
           Dedicate{' '}
           <Text
-            variant="lg"
-            className="font-bold"
+            size="lg"
+            weight="bold"
             style={{ color: accentFor(scheme, 'yellow') }}
           >
             5-10 minutes

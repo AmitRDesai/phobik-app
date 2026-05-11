@@ -78,8 +78,10 @@ export default function FeelingDetail() {
           </GradientButton>
           {feeling.ctaSubtitle ? (
             <Text
-              variant="sm"
-              className="mt-4 text-center font-medium text-foreground/50"
+              size="sm"
+              align="center"
+              weight="medium"
+              className="mt-4 text-foreground/50"
             >
               {feeling.ctaSubtitle}
             </Text>
@@ -154,22 +156,20 @@ function Hero({
             style={{ backgroundColor: subtitleColor }}
           />
           <Text
-            variant="caption"
-            className="font-bold tracking-[0.3em]"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="tracking-[0.3em]"
             style={{ color: subtitleColor, paddingRight: 3.3 }}
           >
             Emotional Regulation
           </Text>
         </View>
       ) : null}
-      <Text className="text-[44px] font-black leading-[1.05] text-foreground">
+      <Text weight="black" className="text-[44px] leading-[1.05]">
         {feeling.detailTitle}
       </Text>
-      <Text
-        variant="h3"
-        className="font-medium"
-        style={{ color: subtitleColor }}
-      >
+      <Text size="h3" weight="medium" style={{ color: subtitleColor }}>
         {feeling.detailSubtitle}
       </Text>
     </View>
@@ -189,8 +189,11 @@ function InsightCard({
     <Card variant="glass">
       {feeling.insightLabel ? (
         <Text
-          variant="caption"
-          className="mb-4 font-bold tracking-[0.25em] text-foreground/55"
+          size="xs"
+          treatment="caption"
+          tone="secondary"
+          weight="bold"
+          className="mb-4 tracking-[0.25em]"
           style={{ paddingRight: 2.75 }}
         >
           {feeling.insightLabel}
@@ -198,20 +201,20 @@ function InsightCard({
       ) : null}
 
       {style === 'continuous-bold' ? (
-        <Text variant="h2" className="font-bold leading-[1.3]">
+        <Text size="h2" className="leading-[1.3]">
           {feeling.descriptionLead}
           {feeling.descriptionEmphasis}
         </Text>
       ) : style === 'plain' ? (
-        <Text variant="lg" className="leading-relaxed text-foreground/70">
+        <Text size="lg" className="leading-relaxed text-foreground/70">
           {feeling.descriptionLead}
           {feeling.descriptionEmphasis}
         </Text>
       ) : (
         <>
-          <Text variant="lg" className="leading-7 text-foreground/70">
+          <Text size="lg" className="leading-7 text-foreground/70">
             {feeling.descriptionLead}
-            <Text variant="lg" className="font-semibold text-foreground">
+            <Text size="lg" weight="semibold">
               {feeling.descriptionEmphasis}
             </Text>
           </Text>
@@ -247,8 +250,11 @@ function CompactActionList({
     <View>
       {label ? (
         <Text
-          variant="caption"
-          className="mb-3 ml-1 font-bold tracking-[0.25em] text-foreground/55"
+          size="xs"
+          treatment="caption"
+          tone="secondary"
+          weight="bold"
+          className="mb-3 ml-1 tracking-[0.25em]"
           style={{ paddingRight: 2.75 }}
         >
           {label}
@@ -268,7 +274,7 @@ function CompactActionList({
                 color={colors.primary.pink}
               />
             </IconChip>
-            <Text variant="lg" className="flex-1 font-medium">
+            <Text size="lg" weight="medium" className="flex-1">
               {item.label}
               {item.labelItalic ? (
                 <Text style={{ color: colors.primary.pink }}>
@@ -300,7 +306,7 @@ function CompactActionRow({
           color={accent}
         />
       </IconChip>
-      <Text variant="lg" className="flex-1 font-medium">
+      <Text size="lg" weight="medium" className="flex-1">
         {item.label}
       </Text>
     </View>
@@ -322,12 +328,13 @@ function BigQuoteCard({ feeling }: { feeling: FeelingContent }) {
           bottom: 0,
         }}
       />
-      <Text variant="h2" className="font-bold leading-[1.3]">
+      <Text size="h2" className="leading-[1.3]">
         {feeling.descriptionLead}
         {'\n'}
         <Text
-          variant="h2"
-          className="font-normal leading-[1.3] text-foreground/60"
+          size="h2"
+          weight="normal"
+          className="leading-[1.3] text-foreground/60"
         >
           {feeling.descriptionEmphasis}
         </Text>
@@ -409,8 +416,9 @@ function VisualEtherealCard({
           </View>
         </LinearGradient>
         <Text
-          variant="lg"
-          className="mt-8 text-center leading-7 text-foreground/90"
+          size="lg"
+          align="center"
+          className="mt-8 leading-7 text-foreground/90"
         >
           &ldquo;{ethereal.quote}&rdquo;
         </Text>
@@ -467,11 +475,11 @@ function BentoCard({
             color={accent}
           />
           <View className="flex-1">
-            <Text variant="h3" className="font-bold">
+            <Text size="h3" weight="bold">
               {item.title ?? item.label}
             </Text>
             {item.description ? (
-              <Text variant="sm" muted className="mt-1">
+              <Text size="sm" tone="secondary" className="mt-1">
                 {item.description}
               </Text>
             ) : null}
@@ -487,11 +495,11 @@ function BentoCard({
         size={26}
         color={accent}
       />
-      <Text variant="h3" className="mt-4 font-bold leading-tight">
+      <Text size="h3" weight="bold" className="mt-4 leading-tight">
         {item.title ?? item.label}
       </Text>
       {item.description ? (
-        <Text variant="sm" muted className="mt-2">
+        <Text size="sm" tone="secondary" className="mt-2">
           {item.description}
         </Text>
       ) : null}
@@ -528,13 +536,15 @@ function VisualAnchorCard({
       />
       <View className="absolute bottom-5 left-6">
         <Text
-          variant="caption"
-          className="font-black tracking-[0.25em]"
+          size="xs"
+          treatment="caption"
+          weight="black"
+          className="tracking-[0.25em]"
           style={{ color: yellow, paddingRight: 2.5 }}
         >
           {anchor.label}
         </Text>
-        <Text variant="lg" className="mt-1 font-medium text-white/85">
+        <Text size="lg" tone="inverse" weight="medium" className="mt-1 /85">
           {anchor.title}
         </Text>
       </View>
@@ -553,8 +563,10 @@ function VisualFocusCard({ focus }: { focus: VisualFocus }) {
         />
       </View>
       <Text
-        variant="sm"
-        className="mt-4 text-center leading-6 text-foreground/55"
+        size="sm"
+        align="center"
+        tone="secondary"
+        className="mt-4 leading-6"
       >
         {focus.caption}
       </Text>
@@ -573,8 +585,9 @@ function MindfulCard({ card }: { card: MindfulCardContent }) {
         />
       </View>
       <Text
-        variant="sm"
-        className="mt-4 text-center leading-6 text-foreground/65"
+        size="sm"
+        align="center"
+        className="mt-4 leading-6 text-foreground/65"
       >
         &ldquo;{card.quote}&rdquo;
       </Text>

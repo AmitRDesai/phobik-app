@@ -35,17 +35,14 @@ export default function BreatheList() {
     <PracticeScreenShell wordmark="FLOW STUDIO">
       <View className="mb-8 mt-4">
         <View className="flex-row flex-wrap items-baseline">
-          <Text
-            variant="display"
-            className="font-extrabold uppercase leading-[1.05]"
-          >
+          <Text size="display" className="uppercase leading-[1.05]">
             BREATHE &{' '}
           </Text>
           <GradientText className="text-4xl font-extrabold uppercase leading-[1.05]">
             REGULATE
           </GradientText>
         </View>
-        <Text variant="lg" muted className="mt-3 max-w-[320px]">
+        <Text size="lg" tone="secondary" className="mt-3 max-w-[320px]">
           Steady your breath to settle your body in seconds.
         </Text>
       </View>
@@ -64,13 +61,15 @@ export default function BreatheList() {
           </IconChip>
           <View className="flex-1">
             <Text
-              variant="caption"
-              className="font-bold text-primary-pink"
+              size="xs"
+              treatment="caption"
+              tone="accent"
+              weight="bold"
               numberOfLines={1}
             >
               Unfinished
             </Text>
-            <Text variant="lg" numberOfLines={1} className="mt-0.5 font-bold">
+            <Text size="lg" numberOfLines={1} weight="bold" className="mt-0.5">
               {resumable.title}
             </Text>
           </View>
@@ -94,7 +93,7 @@ export default function BreatheList() {
 
       <View className="gap-5">
         {filteredExercises.length === 0 ? (
-          <Text variant="sm" className="py-12 text-center text-foreground/50">
+          <Text size="sm" align="center" className="py-12 text-foreground/50">
             No practices match this level.
           </Text>
         ) : (

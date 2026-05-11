@@ -228,12 +228,13 @@ function RewardCircle({
         </LinearGradient>
       </View>
       <View className="items-center">
-        <Text variant="lg" className="font-black">
+        <Text size="lg" weight="black">
           {amount}
         </Text>
         <Text
-          variant="caption"
-          className="font-bold"
+          size="xs"
+          treatment="caption"
+          weight="bold"
           style={{ color: labelColor }}
         >
           {label}
@@ -325,15 +326,19 @@ export default function Completion() {
       {/* Title */}
       <View className="mb-8 items-center gap-3">
         <Text
-          variant="h1"
-          className="text-center font-black uppercase leading-tight"
+          size="h1"
+          align="center"
+          weight="black"
+          className="uppercase leading-tight"
         >
           {'PRACTICE\nCOMPLETED!'}
         </Text>
         <Text
-          variant="sm"
-          muted
-          className="max-w-[280px] text-center font-medium"
+          size="sm"
+          tone="secondary"
+          align="center"
+          weight="medium"
+          className="max-w-[280px]"
         >
           You&apos;ve successfully completed a mindfulness session.
         </Text>
@@ -341,7 +346,13 @@ export default function Completion() {
 
       {/* Daily D.O.S.E. Rewards */}
       <View className="mb-12 w-full items-center gap-6">
-        <Text variant="caption" muted className="font-bold tracking-[0.2em]">
+        <Text
+          size="xs"
+          treatment="caption"
+          tone="secondary"
+          weight="bold"
+          className="tracking-[0.2em]"
+        >
           Daily D.O.S.E. Rewards
         </Text>
         <View className="flex-row justify-center gap-6">

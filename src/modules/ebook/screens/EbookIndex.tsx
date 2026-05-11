@@ -31,7 +31,7 @@ export default function EbookIndex() {
         style={{ paddingTop: insets.top + 8 }}
       >
         <BackButton icon="close" />
-        <Text variant="lg" className="flex-1 pr-10 text-center font-bold">
+        <Text size="lg" align="center" weight="bold" className="flex-1 pr-10">
           Table of Contents
         </Text>
       </View>
@@ -42,10 +42,10 @@ export default function EbookIndex() {
       >
         {/* Book Title */}
         <View className="mb-2 px-6 py-4 text-left">
-          <Text variant="caption" muted className="mb-1">
+          <Text size="xs" treatment="caption" tone="secondary" className="mb-1">
             E-Book
           </Text>
-          <Text variant="h1">Calm Above the Clouds</Text>
+          <Text size="h1">Calm Above the Clouds</Text>
         </View>
 
         {/* Chapter List */}
@@ -82,27 +82,33 @@ export default function EbookIndex() {
                   >
                     <View className="flex-1 pr-4">
                       <Text
-                        variant="caption"
+                        size="xs"
+                        treatment="caption"
                         className="mb-1"
                         style={{ color: colors.primary.pink }}
                       >
                         {chapter.label}
                       </Text>
-                      <Text variant="md" className="font-bold">
+                      <Text size="md" weight="bold">
                         {chapter.title}
                       </Text>
                     </View>
-                    <Text variant="xs" muted className="font-medium">
+                    <Text size="xs" tone="secondary" weight="medium">
                       Reading
                     </Text>
                   </LinearGradient>
                 ) : (
                   <View className="flex-row items-center justify-between border-b border-foreground/5 px-6 py-4">
                     <View className="flex-1 pr-4">
-                      <Text variant="caption" muted className="mb-1">
+                      <Text
+                        size="xs"
+                        treatment="caption"
+                        tone="secondary"
+                        className="mb-1"
+                      >
                         {chapter.label}
                       </Text>
-                      <Text variant="md" muted className="font-medium">
+                      <Text size="md" tone="secondary" weight="medium">
                         {chapter.title}
                       </Text>
                     </View>

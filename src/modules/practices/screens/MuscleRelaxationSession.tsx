@@ -284,10 +284,10 @@ function BiometricBadge({
   return (
     <View className="items-center rounded-2xl border border-foreground/10 bg-foreground/5 p-3">
       <MaterialIcons name={icon} size={14} color={iconColor} />
-      <Text variant="xs" className="mt-1 text-foreground/40">
+      <Text size="xs" className="mt-1 text-foreground/40">
         {label}
       </Text>
-      <Text variant="xs" className="font-bold" style={{ color: valueColor }}>
+      <Text size="xs" weight="bold" style={{ color: valueColor }}>
         {value}
       </Text>
     </View>
@@ -343,7 +343,8 @@ function MuscleGroupStep({
         </View>
       )}
       <Text
-        variant="caption"
+        size="xs"
+        treatment="caption"
         className={
           state === 'active'
             ? 'font-bold text-primary-pink'
@@ -387,20 +388,21 @@ function InstructionDisplay({
             ],
           }}
         />
-        <Text variant="caption" className="font-bold text-primary-pink">
+        <Text size="xs" treatment="caption" tone="accent" weight="bold">
           Active Focus: {groupLabel}
         </Text>
       </View>
 
       {/* Phase title */}
-      <Text variant="h2" className="mb-2 text-center font-bold leading-tight">
+      <Text size="h2" align="center" className="mb-2 leading-tight">
         {phaseLabel}
       </Text>
 
       {/* Phase instruction */}
       <Text
-        variant="sm"
-        className="px-10 text-center leading-relaxed text-foreground/50"
+        size="sm"
+        align="center"
+        className="px-10 leading-relaxed text-foreground/50"
         style={{ fontVariant: ['tabular-nums'] }}
       >
         {instructionText}
@@ -459,7 +461,7 @@ function SessionControls({
           </Animated.View>
         </View>
         <Text
-          variant="sm"
+          size="sm"
           className="text-foreground/40"
           style={{ fontVariant: ['tabular-nums'] }}
         >
@@ -660,7 +662,7 @@ export default function MuscleRelaxationSession() {
           left={<BackButton icon="close" />}
           center={
             <View className="items-center">
-              <Text variant="sm" className="font-bold text-foreground/90">
+              <Text size="sm" weight="bold" className="text-foreground/90">
                 Muscle Relaxation
               </Text>
               <View className="mt-0.5 flex-row items-center gap-1.5">
@@ -678,8 +680,11 @@ export default function MuscleRelaxationSession() {
                   }}
                 />
                 <Text
-                  variant="caption"
-                  className="font-medium tracking-wider text-primary-pink"
+                  size="xs"
+                  treatment="caption"
+                  tone="accent"
+                  weight="medium"
+                  className="tracking-wider"
                 >
                   {isLive
                     ? `HRV Live: ${Math.round(liveHrv)}ms`

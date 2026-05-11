@@ -153,7 +153,7 @@ export default function EbookLanding() {
 
           {/* Title */}
           <View className="px-4">
-            <Text variant="display" className="pt-6 text-center">
+            <Text size="display" align="center" className="pt-6">
               Calm Above the Clouds
             </Text>
           </View>
@@ -161,9 +161,10 @@ export default function EbookLanding() {
           {/* Subtitle */}
           <View className="px-8">
             <Text
-              variant="lg"
-              muted
-              className="pb-6 pt-2 text-center leading-relaxed"
+              size="lg"
+              tone="secondary"
+              align="center"
+              className="pb-6 pt-2 leading-relaxed"
             >
               The ultimate toolkit to transform flight anxiety into serenity.
             </Text>
@@ -173,8 +174,9 @@ export default function EbookLanding() {
           {!purchased && (
             <View className="px-4">
               <Text
-                variant="lg"
-                className="border-b border-foreground/10 pb-3 pt-4 font-bold leading-tight"
+                size="lg"
+                weight="bold"
+                className="border-b border-foreground/10 pb-3 pt-4 leading-tight"
               >
                 {"What's included"}
               </Text>
@@ -202,10 +204,10 @@ export default function EbookLanding() {
                 />
               </IconChip>
               <View className="flex-1">
-                <Text variant="md" className="font-semibold">
+                <Text size="md" weight="semibold">
                   The Flight Mindfulness E-Book
                 </Text>
-                <Text variant="sm" muted>
+                <Text size="sm" tone="secondary">
                   Step-by-step techniques for grounding
                 </Text>
               </View>
@@ -237,10 +239,10 @@ export default function EbookLanding() {
                 />
               </IconChip>
               <View className="flex-1">
-                <Text variant="md" className="font-semibold">
+                <Text size="md" weight="semibold">
                   Quick Flight Checklist
                 </Text>
-                <Text variant="sm" muted>
+                <Text size="sm" tone="secondary">
                   Your companion for boarding and takeoff
                 </Text>
               </View>
@@ -263,10 +265,10 @@ export default function EbookLanding() {
           style={{ paddingBottom: insets.bottom + 8 }}
         >
           <View className="flex-row items-center justify-between px-2">
-            <Text variant="caption" muted>
+            <Text size="xs" treatment="caption" tone="secondary">
               Premium Access
             </Text>
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               {priceLabel}
             </Text>
           </View>
@@ -289,16 +291,16 @@ export default function EbookLanding() {
             <Button variant="ghost" size="compact" onPress={handleRestore}>
               Restore purchase
             </Button>
-            <Text variant="xs" className="text-foreground/55">
+            <Text size="xs" tone="secondary">
               {'·'}
             </Text>
-            <Text variant="xs" className="text-foreground/55">
+            <Text size="xs" tone="secondary">
               Terms of Service
             </Text>
-            <Text variant="xs" className="text-foreground/55">
+            <Text size="xs" tone="secondary">
               {'·'}
             </Text>
-            <Text variant="xs" className="text-foreground/55">
+            <Text size="xs" tone="secondary">
               Privacy Policy
             </Text>
           </View>

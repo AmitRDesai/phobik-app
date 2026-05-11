@@ -86,7 +86,12 @@ export default function Notifications() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <NotificationItem notification={item} />}
           renderSectionHeader={({ section }) => (
-            <Text variant="caption" muted className="mb-2 mt-4 px-1">
+            <Text
+              size="xs"
+              treatment="caption"
+              tone="secondary"
+              className="mb-2 mt-4 px-1"
+            >
               {section.title}
             </Text>
           )}
@@ -107,10 +112,7 @@ export default function Notifications() {
                 size={48}
                 color={foregroundFor(scheme, 0.2)}
               />
-              <Text
-                variant="sm"
-                className="mt-4 text-center text-foreground/30"
-              >
+              <Text size="sm" align="center" tone="tertiary" className="mt-4">
                 No notifications yet.{'\n'}You're all caught up.
               </Text>
             </View>

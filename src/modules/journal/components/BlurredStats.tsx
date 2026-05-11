@@ -8,10 +8,16 @@ import { useJournalStats } from '../hooks/useJournalStats';
 function StatBox({ label, value }: { label: string; value: string | number }) {
   return (
     <Card className="flex-1 items-center p-3">
-      <Text variant="caption" className="mb-1 font-bold text-foreground/30">
+      <Text
+        size="xs"
+        treatment="caption"
+        tone="tertiary"
+        weight="bold"
+        className="mb-1"
+      >
         {label}
       </Text>
-      <Text variant="lg" className="font-bold">
+      <Text size="lg" weight="bold">
         {value}
       </Text>
     </Card>

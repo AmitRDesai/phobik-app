@@ -33,9 +33,11 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
   return (
     <View className="mt-2 w-full border-t border-foreground/10 pt-5">
       <Text
-        variant="caption"
-        muted
-        className="mb-4 text-center tracking-[0.2em]"
+        size="xs"
+        treatment="caption"
+        tone="secondary"
+        align="center"
+        className="mb-4 tracking-[0.2em]"
         style={{ paddingRight: 2.2 }}
       >
         D.O.S.E. Earned
@@ -44,15 +46,15 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
         {items.map((item) => (
           <View key={item.label} className="items-center">
             <Text
-              variant="md"
-              className="font-bold"
+              size="md"
+              weight="bold"
               style={{
                 color: item.isPink ? colors.primary.pink : colors.accent.yellow,
               }}
             >
               +{item.value}
             </Text>
-            <Text className="mt-0.5 text-[8px] uppercase text-foreground/55">
+            <Text tone="secondary" className="mt-0.5 text-[8px] uppercase">
               {item.label}
             </Text>
           </View>
@@ -92,15 +94,16 @@ export function MysteryComplete({
           />
         </LinearGradient>
 
-        <Text variant="caption" className="text-primary-pink">
+        <Text size="xs" treatment="caption" tone="accent">
           Practice Complete
         </Text>
-        <Text variant="h2" className="mt-1 text-center leading-tight">
+        <Text size="h2" align="center" className="mt-1 leading-tight">
           {challenge.title}
         </Text>
         <Text
-          variant="sm"
-          className="mt-2 text-center leading-relaxed text-primary-muted"
+          size="sm"
+          align="center"
+          className="mt-2 leading-relaxed text-primary-muted"
         >
           You spent {formatDuration(durationSeconds)} on{' '}
           {challenge.practiceLabel.toLowerCase()}. Small brave steps matter.

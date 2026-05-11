@@ -143,10 +143,10 @@ export function MorningResetCalendar() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text variant="caption" muted>
+        <Text size="xs" treatment="caption" tone="secondary">
           Morning Reset History
         </Text>
-        <Text variant="caption" className="text-foreground/60">
+        <Text size="xs" treatment="caption" className="text-foreground/60">
           {monthLabel}
         </Text>
       </View>
@@ -154,7 +154,7 @@ export function MorningResetCalendar() {
         <View className="mb-2 flex-row">
           {DAY_LABELS.map((day) => (
             <View key={day.key} className="flex-1 items-center">
-              <Text variant="caption" className="text-foreground/30">
+              <Text size="xs" treatment="caption" tone="tertiary">
                 {day.label}
               </Text>
             </View>
@@ -170,7 +170,7 @@ export function MorningResetCalendar() {
                 {cell ? (
                   <>
                     <Text
-                      variant="xs"
+                      size="xs"
                       className={clsx(
                         'font-bold',
                         cell.today
@@ -207,10 +207,10 @@ export function MorningResetCalendar() {
           </View>
         ))}
         <View className="flex-row items-center justify-between border-t border-foreground/5 pt-4">
-          <Text variant="xs" muted className="font-medium">
+          <Text size="xs" tone="secondary" weight="medium">
             Build a Steady Morning
           </Text>
-          <Text variant="caption" className="text-primary-pink">
+          <Text size="xs" treatment="caption" tone="accent">
             {completedCount}/{totalDays} Complete
           </Text>
         </View>

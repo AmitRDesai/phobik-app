@@ -46,10 +46,10 @@ export default function EmpathyChallengeCalendar() {
     >
       <View className="gap-3 py-4">
         <View className="flex-row items-end justify-between">
-          <Text variant="md" className="font-medium">
+          <Text size="md" weight="medium">
             Overall Progress
           </Text>
-          <Text variant="sm" className="font-bold text-primary-pink">
+          <Text size="sm" tone="accent" weight="bold">
             {completedCount}/7 Days
           </Text>
         </View>
@@ -119,7 +119,7 @@ export default function EmpathyChallengeCalendar() {
                     {isCompleted ? (
                       <MaterialIcons name="check" size={18} color="white" />
                     ) : (
-                      <Text variant="sm" className="font-bold text-white">
+                      <Text size="sm" tone="inverse" weight="bold">
                         {empathyDay.day}
                       </Text>
                     )}
@@ -173,10 +173,10 @@ export default function EmpathyChallengeCalendar() {
                   />
                 ) : (
                   <View className="justify-center pt-2">
-                    <Text variant="lg" className="font-semibold">
+                    <Text size="lg" weight="semibold">
                       Day {empathyDay.day}: {empathyDay.title}
                     </Text>
-                    <Text variant="sm" className="text-foreground/60">
+                    <Text size="sm" className="text-foreground/60">
                       {isCompleted
                         ? 'Completed'
                         : isWaiting
@@ -216,10 +216,10 @@ function ActiveDayCard({
       />
 
       <View className="gap-1 p-4">
-        <Text variant="h2">
+        <Text size="h2">
           Day {empathyDay.day}: {empathyDay.title}
         </Text>
-        <Text variant="sm" className="mb-4 leading-relaxed text-foreground/70">
+        <Text size="sm" className="mb-4 leading-relaxed text-foreground/70">
           {empathyDay.calendarDescription}
         </Text>
         <GradientButton

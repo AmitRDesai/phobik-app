@@ -71,8 +71,10 @@ export function TagSection({
       {hasChips && (
         <>
           <Text
-            variant="caption"
-            className="mb-3 px-1 font-bold tracking-widest text-foreground/40"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="mb-3 px-1 tracking-widest text-foreground/40"
           >
             Selected Tags
           </Text>
@@ -92,7 +94,7 @@ export function TagSection({
                   borderColor: withAlpha(colors.primary['pink-soft'], 0.5),
                 }}
               >
-                <Text className="text-xs font-bold text-primary-pink">
+                <Text tone="accent" weight="bold" size="xs">
                   {feelingLabel}
                 </Text>
                 {!readOnly && (
@@ -114,10 +116,7 @@ export function TagSection({
                   borderColor: withAlpha(yellowAccent, 0.5),
                 }}
               >
-                <Text
-                  className="text-xs font-bold"
-                  style={{ color: yellowAccent }}
-                >
+                <Text weight="bold" size="xs" style={{ color: yellowAccent }}>
                   {needLabel}
                 </Text>
                 {!readOnly && (
@@ -142,7 +141,8 @@ export function TagSection({
                   }}
                 >
                   <Text
-                    className="text-xs font-bold"
+                    weight="bold"
+                    size="xs"
                     style={{ color: tagColor.text }}
                   >
                     {tag}
@@ -198,7 +198,7 @@ export function TagSection({
                   onPress={() => onAddTag(tag.name)}
                   className="rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1"
                 >
-                  <Text variant="xs" className="text-foreground/50">
+                  <Text size="xs" className="text-foreground/50">
                     {tag.name}
                   </Text>
                 </Pressable>

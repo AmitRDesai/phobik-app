@@ -32,14 +32,16 @@ export default function CourageOptions() {
     >
       <View className="px-2 pb-2 pt-2">
         <Text
-          variant="caption"
-          className="mb-1 text-primary-pink"
+          size="xs"
+          treatment="caption"
+          tone="accent"
+          className="mb-1"
           style={{ paddingRight: 2.2 }}
         >
           Growth Hub
         </Text>
-        <Text variant="h2">Choose your path</Text>
-        <Text variant="sm" className="text-foreground/60">
+        <Text size="h2">Choose your path</Text>
+        <Text size="sm" className="text-foreground/60">
           Every small action builds a stronger you.
         </Text>
       </View>

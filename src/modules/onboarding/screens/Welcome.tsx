@@ -107,10 +107,10 @@ export default function Welcome() {
         </View>
 
         {/* Title */}
-        <Text variant="display" className="text-center tracking-tight">
+        <Text size="display" align="center" className="tracking-tight">
           Let&apos;s get to know{'\n'}your nervous system
         </Text>
-        <Text variant="lg" muted className="mt-4 text-center">
+        <Text size="lg" tone="secondary" align="center" className="mt-4">
           Phobik works best when it understands your unique stressors.
           We&apos;ll help you find your balance.
         </Text>

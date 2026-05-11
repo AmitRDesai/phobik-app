@@ -96,7 +96,7 @@ export function JournalCalendar({
   return (
     <View className="mb-4 mt-4">
       <View className="mb-3 flex-row items-center justify-between px-2">
-        <Text variant="lg" className="font-bold">
+        <Text size="lg" weight="bold">
           {MONTH_NAMES[month - 1]} {year}
         </Text>
         <View className="flex-row gap-4">
@@ -116,7 +116,11 @@ export function JournalCalendar({
       <View className="mb-1 flex-row">
         {DAY_LABELS.map((label) => (
           <View key={label} className="flex-1 items-center">
-            <Text className="text-[9px] font-bold uppercase text-foreground/30">
+            <Text
+              tone="tertiary"
+              weight="bold"
+              className="text-[9px] uppercase"
+            >
               {label}
             </Text>
           </View>

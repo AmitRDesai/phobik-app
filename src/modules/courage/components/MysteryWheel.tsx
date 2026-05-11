@@ -329,15 +329,17 @@ export function MysteryWheel({ onSpinComplete }: MysteryWheelProps) {
                 }}
               >
                 <Text
-                  variant="caption"
-                  className="text-center"
+                  size="xs"
+                  treatment="caption"
+                  align="center"
                   style={{ color: isDark ? alpha.black80 : 'white' }}
                 >
                   {challenge.wheelLabel}
                 </Text>
                 <Text
-                  variant="xs"
-                  className="mt-0.5 px-1 text-center text-[7px] leading-tight"
+                  size="xs"
+                  align="center"
+                  className="mt-0.5 px-1 text-[7px] leading-tight"
                   style={{
                     color: isDark ? alpha.black70 : foregroundFor(scheme, 0.9),
                   }}

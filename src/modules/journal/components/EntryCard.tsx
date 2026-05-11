@@ -68,8 +68,11 @@ export function EntryCard({
         <View className="rounded-2xl bg-surface-elevated p-4">
           <View className="mb-2 flex-row items-center justify-between">
             <Text
-              variant="caption"
-              className="font-bold tracking-wider text-foreground/30"
+              size="xs"
+              treatment="caption"
+              tone="tertiary"
+              weight="bold"
+              className="tracking-wider"
             >
               {timeStr}
             </Text>
@@ -80,12 +83,12 @@ export function EntryCard({
             />
           </View>
 
-          <Text variant="sm" className="font-bold">
+          <Text size="sm" weight="bold">
             {displayTitle}
           </Text>
 
           <Text
-            variant="sm"
+            size="sm"
             className="mt-1 leading-relaxed text-foreground/40"
             numberOfLines={1}
           >
@@ -113,7 +116,8 @@ export function EntryCard({
                     }}
                   >
                     <Text
-                      className="text-[9px] font-semibold"
+                      weight="semibold"
+                      className="text-[9px]"
                       style={{ color: tagColor.text }}
                     >
                       {tag}
@@ -123,7 +127,11 @@ export function EntryCard({
               })}
               {tags && tags.length > 3 && (
                 <View className="rounded-full bg-foreground/5 px-2.5 py-0.5">
-                  <Text className="text-[9px] font-semibold text-foreground/30">
+                  <Text
+                    tone="tertiary"
+                    weight="semibold"
+                    className="text-[9px]"
+                  >
                     +{tags.length - 3}
                   </Text>
                 </View>

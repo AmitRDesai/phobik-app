@@ -43,10 +43,10 @@ export function DashboardHeader() {
             }}
           />
           <View>
-            <Text variant="caption" className="font-bold text-primary-pink">
+            <Text size="xs" treatment="caption" tone="accent" weight="bold">
               Welcome back
             </Text>
-            <Text variant="h3" className="font-bold leading-tight">
+            <Text size="h3" weight="bold" className="leading-tight">
               {userName}
             </Text>
           </View>

@@ -10,12 +10,15 @@ export function ScientificInsightCard({ lowest }: ScientificInsightCardProps) {
   return (
     <Card variant="toned" tone="pink">
       <Text
-        variant="caption"
-        className="font-bold tracking-widest text-primary-pink"
+        size="xs"
+        treatment="caption"
+        tone="accent"
+        weight="bold"
+        className="tracking-widest"
       >
         Scientific Insight
       </Text>
-      <Text variant="sm" className="mt-2 text-foreground/70">
+      <Text size="sm" className="mt-2 text-foreground/70">
         {CHEMICAL_META[lowest].scientificInsight}
       </Text>
     </Card>

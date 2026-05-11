@@ -42,8 +42,9 @@ export default function PhilosophyScreen() {
             Next
           </GradientButton>
           <Text
-            variant="caption"
-            muted
+            size="xs"
+            treatment="caption"
+            tone="secondary"
             className="mt-3 tracking-[0.2em]"
             style={{ paddingRight: 2.2 }}
           >
@@ -53,10 +54,16 @@ export default function PhilosophyScreen() {
       }
       className="px-8 pt-2"
     >
-      <Text variant="display" className="text-center tracking-tight">
+      <Text size="display" align="center" className="tracking-tight">
         Phobik Philosophy
       </Text>
-      <Text variant="lg" muted className="mt-3 text-center font-medium">
+      <Text
+        size="lg"
+        tone="secondary"
+        align="center"
+        weight="medium"
+        className="mt-3"
+      >
         Phobik blends three major principles
       </Text>
       <View className="items-center justify-center py-6">
@@ -65,11 +72,11 @@ export default function PhilosophyScreen() {
       <View>
         {principles.map((p) => (
           <View key={p.number} className="mb-3 flex-row">
-            <Text variant="h3" className="mr-3 text-primary-pink">
+            <Text size="h3" tone="accent" className="mr-3">
               {p.number}
             </Text>
-            <Text variant="md" className="flex-1 text-foreground/90">
-              <Text variant="md" className="font-bold">
+            <Text size="md" className="flex-1 text-foreground/90">
+              <Text size="md" weight="bold">
                 {p.title}
               </Text>
               {' – '}

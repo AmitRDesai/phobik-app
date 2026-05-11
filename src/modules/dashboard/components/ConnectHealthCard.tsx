@@ -25,10 +25,8 @@ export function ConnectHealthCard() {
           <MaterialIcons name="watch" size={28} color={colors.primary.pink} />
         </View>
         <View className="items-center">
-          <Text variant="h2" className="font-bold">
-            Connect your wearable
-          </Text>
-          <Text variant="sm" className="mt-1 text-center text-foreground/60">
+          <Text size="h2">Connect your wearable</Text>
+          <Text size="sm" align="center" className="mt-1 text-foreground/60">
             Sleep score and live BPM/HRV start syncing the moment health data is
             connected.
           </Text>

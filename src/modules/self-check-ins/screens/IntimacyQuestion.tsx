@@ -105,7 +105,7 @@ export default function IntimacyQuestion() {
         <Header
           left={<BackButton onPress={handleBack} />}
           center={
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               Intimacy Quiz
             </Text>
           }
@@ -145,7 +145,7 @@ export default function IntimacyQuestion() {
         transition={{ type: 'timing', duration: 300 }}
       >
         {/* Question */}
-        <Text variant="h1" className="mb-10 font-bold leading-tight">
+        <Text size="h1" className="mb-10 leading-tight">
           &ldquo;{question.text}&rdquo;
         </Text>
 

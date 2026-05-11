@@ -57,7 +57,7 @@ export default function PivotPointIntro() {
         <Header
           left={<BackButton />}
           center={
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               The Pivot Point
             </Text>
           }
@@ -78,15 +78,15 @@ export default function PivotPointIntro() {
           Assessment
         </Badge>
 
-        <Text variant="h1" className="mb-2 font-bold">
+        <Text size="h1" className="mb-2">
           The Pivot Point
         </Text>
-        <Text variant="lg" className="mb-8 font-medium text-foreground/60">
+        <Text size="lg" weight="medium" className="mb-8 text-foreground/60">
           How do you respond when life gets hard?
         </Text>
 
         <Card variant="surface" className="mb-4 p-6">
-          <Text variant="md" className="leading-relaxed text-foreground/80">
+          <Text size="md" className="leading-relaxed text-foreground/80">
             When life gets stressful, we don&apos;t rise to our
             intentions&mdash;we fall back on patterns. This quick assessment
             helps you understand how you react under pressure and how you can
@@ -102,12 +102,14 @@ export default function PivotPointIntro() {
               color={colors.primary.pink}
             />
             <Text
-              variant="caption"
-              className="mt-2 font-bold tracking-wider text-foreground/60"
+              size="xs"
+              treatment="caption"
+              weight="bold"
+              className="mt-2 tracking-wider text-foreground/60"
             >
               Duration
             </Text>
-            <Text variant="lg" className="mt-1 font-bold">
+            <Text size="lg" weight="bold" className="mt-1">
               8-10 minutes
             </Text>
           </Card>
@@ -118,12 +120,14 @@ export default function PivotPointIntro() {
               color={colors.primary.pink}
             />
             <Text
-              variant="caption"
-              className="mt-2 font-bold tracking-wider text-foreground/60"
+              size="xs"
+              treatment="caption"
+              weight="bold"
+              className="mt-2 tracking-wider text-foreground/60"
             >
               Insights
             </Text>
-            <Text variant="lg" className="mt-1 text-center font-bold">
+            <Text size="lg" align="center" weight="bold" className="mt-1">
               Personalized Pattern
             </Text>
           </Card>
@@ -131,7 +135,7 @@ export default function PivotPointIntro() {
 
         <View className="flex-row items-center justify-center gap-2">
           <MaterialIcons name="lock" size={14} color={lockColor} />
-          <Text variant="sm" className="text-foreground/55">
+          <Text size="sm" tone="secondary">
             Your responses are private and encrypted.
           </Text>
         </View>

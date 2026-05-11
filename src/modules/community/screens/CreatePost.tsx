@@ -101,10 +101,8 @@ export default function CreatePost() {
     >
       {/* Heading */}
       <View className="gap-1">
-        <Text variant="h2" className="font-bold">
-          What&apos;s going on for you today?
-        </Text>
-        <Text variant="sm" muted className="leading-relaxed">
+        <Text size="h2">What&apos;s going on for you today?</Text>
+        <Text size="sm" tone="secondary" className="leading-relaxed">
           Share with awareness, not self-judgment. Your experience is valid.
         </Text>
       </View>
@@ -124,7 +122,7 @@ export default function CreatePost() {
           textAlignVertical="top"
           className="h-64 rounded-2xl border-2 border-foreground/10 bg-foreground/[0.04] p-5 text-lg leading-relaxed text-foreground"
         />
-        <Text variant="xs" muted className="mt-2 text-right">
+        <Text size="xs" tone="secondary" align="right" className="mt-2">
           {content.length} / {MAX_CHARS}
         </Text>
       </View>
@@ -132,7 +130,7 @@ export default function CreatePost() {
       {/* Image Attachments */}
       <View className="gap-3">
         <View className="flex-row items-center justify-between">
-          <Text variant="sm" className="px-1 font-bold">
+          <Text size="sm" weight="bold" className="px-1">
             Photos
           </Text>
           {imageUris.length < 5 && (
@@ -182,7 +180,7 @@ export default function CreatePost() {
 
       {/* Your Circle */}
       <View className="gap-3">
-        <Text variant="sm" className="px-1 font-bold">
+        <Text size="sm" weight="bold" className="px-1">
           Your Circle
         </Text>
         <ScrollView
@@ -205,8 +203,8 @@ export default function CreatePost() {
                 )}
               >
                 <Text
-                  variant="xs"
-                  muted={!isActive}
+                  size="xs"
+                  tone={isActive ? 'primary' : 'secondary'}
                   className={clsx('font-medium', isActive && 'font-bold')}
                 >
                   {c}
@@ -228,10 +226,10 @@ export default function CreatePost() {
             />
           </IconChip>
           <View>
-            <Text variant="sm" className="font-bold">
+            <Text size="sm" weight="bold">
               Post Anonymously
             </Text>
-            <Text variant="xs" muted>
+            <Text size="xs" tone="secondary">
               Your identity will be hidden from the wall
             </Text>
           </View>
@@ -255,7 +253,7 @@ export default function CreatePost() {
           color={yellow}
           style={{ marginTop: 2 }}
         />
-        <Text variant="xs" muted className="flex-1 leading-normal">
+        <Text size="xs" tone="secondary" className="flex-1 leading-normal">
           Your words are a reflection of your journey. Take a deep breath before
           hitting post.
         </Text>

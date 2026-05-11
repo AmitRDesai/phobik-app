@@ -56,16 +56,23 @@ function StatsCard() {
           </View>
           <View>
             <Text
-              variant="caption"
-              className="font-bold tracking-wider text-foreground/60"
+              size="xs"
+              treatment="caption"
+              weight="bold"
+              className="tracking-wider text-foreground/60"
             >
               Heart Rate
             </Text>
             <View className="flex-row items-baseline gap-1">
-              <Text variant="lg" className="font-bold tracking-tighter">
+              <Text size="lg" weight="bold" className="tracking-tighter">
                 {liveHr != null ? liveHr : '—'}
               </Text>
-              <Text variant="caption" className="font-bold text-pink-400">
+              <Text
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="text-pink-400"
+              >
                 BPM
               </Text>
             </View>
@@ -89,16 +96,23 @@ function StatsCard() {
           </View>
           <View>
             <Text
-              variant="caption"
-              className="font-bold tracking-wider text-foreground/60"
+              size="xs"
+              treatment="caption"
+              weight="bold"
+              className="tracking-wider text-foreground/60"
             >
               HRV
             </Text>
             <View className="flex-row items-baseline gap-1">
-              <Text variant="lg" className="font-bold tracking-tighter">
+              <Text size="lg" weight="bold" className="tracking-tighter">
                 {liveHrv != null ? Math.round(liveHrv) : '—'}
               </Text>
-              <Text variant="caption" className="font-bold text-yellow-400">
+              <Text
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="text-yellow-400"
+              >
                 MS
               </Text>
             </View>
@@ -293,7 +307,7 @@ export default function Lazy8BreathingSession() {
         <Header
           left={<BackButton icon="close" />}
           center={
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               Lazy 8 Breathing
             </Text>
           }
@@ -304,10 +318,10 @@ export default function Lazy8BreathingSession() {
     >
       {/* Breathing instruction — fixed height to prevent scroll jumps */}
       <View className="mb-6 mt-8 items-center" style={{ height: 90 }}>
-        <Text variant="display" className="font-semibold tracking-wider">
+        <Text size="display" weight="semibold" className="tracking-wider">
           {currentPhase}
         </Text>
-        <Text variant="xs" className="mt-3 font-medium text-foreground/60">
+        <Text size="xs" weight="medium" className="mt-3 text-foreground/60">
           Focus on the light
         </Text>
       </View>
@@ -346,8 +360,10 @@ export default function Lazy8BreathingSession() {
 
       {/* Timer */}
       <Text
-        variant="xs"
-        className="mb-6 mt-3 font-bold text-foreground/55"
+        size="xs"
+        tone="secondary"
+        weight="bold"
+        className="mb-6 mt-3"
         style={{ fontVariant: ['tabular-nums'] }}
       >
         {formatTime(elapsed)} / {formatTime(TOTAL_DURATION)}
@@ -356,8 +372,10 @@ export default function Lazy8BreathingSession() {
       {/* Instruction card */}
       <View className="mb-6 w-full max-w-sm rounded-2xl border border-foreground/10 bg-foreground/5 p-5">
         <Text
-          variant="sm"
-          className="text-center font-medium leading-relaxed text-foreground/90"
+          size="sm"
+          align="center"
+          weight="medium"
+          className="leading-relaxed text-foreground/90"
         >
           Follow the path with your eyes, inhale as it moves right, exhale as it
           moves left. Relax, breathe slowly, and repeat the loop.

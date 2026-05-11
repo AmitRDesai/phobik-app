@@ -23,14 +23,12 @@ export function MyRhythmSection() {
     <View className="gap-4">
       <View>
         <View className="flex-row items-baseline">
-          <Text variant="h1" className="font-bold">
-            My{' '}
-          </Text>
+          <Text size="h1">My </Text>
           <GradientText className="text-[28px] font-bold leading-[34px]">
             Rhythm
           </GradientText>
         </View>
-        <Text variant="sm" className="mt-1 text-foreground/55">
+        <Text size="sm" tone="secondary" className="mt-1">
           Your flow patterns this week.
         </Text>
       </View>

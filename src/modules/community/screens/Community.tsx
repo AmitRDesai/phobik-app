@@ -52,12 +52,11 @@ function JoinCommunityView() {
     <Screen className="flex-1 items-center justify-center gap-6 px-8">
       <MaterialIcons name="groups" size={64} color={yellow} />
       <View className="items-center gap-2">
-        <Text variant="h2" className="font-bold">
-          Courage Wall
-        </Text>
+        <Text size="h2">Courage Wall</Text>
         <Text
-          variant="sm"
-          className="text-center leading-relaxed text-primary-muted"
+          size="sm"
+          align="center"
+          className="leading-relaxed text-primary-muted"
         >
           A safe space to share your brave moments, support others, and grow
           together.
@@ -138,7 +137,7 @@ function CommunityFeed() {
     <Screen
       header={
         <View className="gap-3 px-4 pb-6 pt-2">
-          <Text variant="h3" className="text-center font-bold">
+          <Text size="h3" align="center" weight="bold">
             Courage Wall
           </Text>
           <SearchBar value={search} onChangeText={handleSearchChange} />
@@ -193,7 +192,7 @@ function CommunityFeed() {
                 size={48}
                 color={foregroundFor(scheme, 0.2)}
               />
-              <Text variant="sm" className="mt-4 text-foreground/30">
+              <Text size="sm" tone="tertiary" className="mt-4">
                 No posts yet. Be the first to share!
               </Text>
             </View>

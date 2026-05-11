@@ -66,7 +66,7 @@ export function AffirmationReadyCard({
           </View>
 
           <View className="flex-row flex-wrap justify-center">
-            <Text className="text-center text-xl font-light leading-relaxed text-foreground">
+            <Text align="center" className="text-xl font-light leading-relaxed">
               {'"'}
               {before}
             </Text>
@@ -75,7 +75,7 @@ export function AffirmationReadyCard({
                 {word}
               </GradientText>
             ) : null}
-            <Text className="text-center text-xl font-light leading-relaxed text-foreground">
+            <Text align="center" className="text-xl font-light leading-relaxed">
               {after}
               {'"'}
             </Text>

@@ -51,14 +51,10 @@ export default function Completion() {
               <OnboardingProgressBar step={8} />
             </View>
             <View className="mt-3 flex-row items-center justify-center gap-2">
-              <Text variant="sm" className="font-medium text-foreground/55">
+              <Text size="sm" tone="secondary" weight="medium">
                 Onboarding Complete
               </Text>
-              <Text
-                variant="sm"
-                className="font-bold"
-                style={{ color: orangeAccent }}
-              >
+              <Text size="sm" weight="bold" style={{ color: orangeAccent }}>
                 100%
               </Text>
             </View>
@@ -77,8 +73,10 @@ export default function Completion() {
             Go to Today
           </GradientButton>
           <Text
-            variant="caption"
-            className="mt-6 font-bold tracking-[0.3em] text-foreground/45"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="mt-6 tracking-[0.3em] text-foreground/45"
             style={{ paddingRight: 3.3 }}
           >
             Your journey starts now
@@ -133,12 +131,15 @@ export default function Completion() {
           <View className="absolute left-6 top-2 h-3 w-3 rounded-full bg-foreground/40" />
         </View>
 
-        <Text variant="display" className="text-center">
+        <Text size="display" align="center">
           You&apos;re set.
         </Text>
         <Text
-          variant="lg"
-          className="mt-4 max-w-[280px] text-center font-medium text-foreground/55"
+          size="lg"
+          align="center"
+          tone="secondary"
+          weight="medium"
+          className="mt-4 max-w-[280px]"
         >
           Phobik will meet you where you are and adapt as you go.
         </Text>

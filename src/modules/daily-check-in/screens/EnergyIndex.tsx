@@ -76,8 +76,10 @@ export default function EnergyIndex() {
       sticky={
         <View className="pb-4">
           <Text
-            variant="xs"
-            className="mb-6 text-center font-medium text-foreground/60"
+            size="xs"
+            align="center"
+            weight="medium"
+            className="mb-6 text-foreground/60"
           >
             {'"'}When your energy aligns, courage follows.{'"'}
           </Text>
@@ -94,12 +96,14 @@ export default function EnergyIndex() {
     >
       {/* Title */}
       <View className="items-center px-6 pt-8">
-        <Text variant="h2" className="mb-3 text-center font-bold leading-tight">
+        <Text size="h2" align="center" className="mb-3 leading-tight">
           Where does your energy need support today?
         </Text>
         <Text
-          variant="sm"
-          className="max-w-[340px] text-center leading-relaxed text-foreground/55"
+          size="sm"
+          align="center"
+          tone="secondary"
+          className="max-w-[340px] leading-relaxed"
         >
           Adjust each slider (0-25) to see your real-time total score.
         </Text>
@@ -171,8 +175,10 @@ export default function EnergyIndex() {
               }}
             >
               <Text
-                variant="caption"
-                className="mb-0.5 font-bold tracking-[3px] text-foreground/50"
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="mb-0.5 tracking-[3px] text-foreground/50"
               >
                 Energy
               </Text>
@@ -183,8 +189,10 @@ export default function EnergyIndex() {
                 {String(energyIndex)}
               </GradientText>
               <Text
-                variant="caption"
-                className="mt-1 font-bold tracking-[3px] text-foreground/50"
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="mt-1 tracking-[3px] text-foreground/50"
               >
                 Index
               </Text>
@@ -280,8 +288,10 @@ function EnergyCircle({
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
           <Text
-            variant="caption"
-            className="font-bold tracking-[2px] text-foreground/60"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="tracking-[2px] text-foreground/60"
             style={
               isVertical
                 ? { transform: [{ rotate: labelRotation }] }
@@ -336,11 +346,7 @@ function ScorePill({ value, rotation }: { value: number; rotation?: string }) {
         ...(rotation ? { transform: [{ rotate: rotation }] } : {}),
       }}
     >
-      <Text
-        variant="sm"
-        className="font-bold"
-        style={{ color: colors.primary.pink }}
-      >
+      <Text size="sm" weight="bold" style={{ color: colors.primary.pink }}>
         {value}
       </Text>
     </View>

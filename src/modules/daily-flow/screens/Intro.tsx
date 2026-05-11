@@ -88,8 +88,10 @@ export default function Intro() {
             Continue
           </GradientButton>
           <Text
-            variant="caption"
-            className="mt-5 font-bold tracking-[0.3em] text-foreground/45"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="mt-5 tracking-[0.3em] text-foreground/45"
             style={{ paddingRight: 3.3 }}
           >
             Step 1 of 4
@@ -100,8 +102,10 @@ export default function Intro() {
     >
       <View className="mb-10 items-center">
         <Text
-          variant="display"
-          className="text-center font-black leading-[1.1]"
+          size="display"
+          align="center"
+          weight="black"
+          className="leading-[1.1]"
         >
           Why you
         </Text>
@@ -127,18 +131,18 @@ export default function Intro() {
                 <MaterialIcons name={p.icon} size={20} color={accent} />
               </View>
               <Card className="mt-1 flex-1 p-5">
-                <Text variant="h2" className="font-bold">
-                  {p.title}
-                </Text>
+                <Text size="h2">{p.title}</Text>
                 {p.highlight ? (
                   <Text
-                    variant="lg"
-                    className="mt-3 font-bold leading-6 text-primary-pink-light"
+                    size="lg"
+                    tone="accent"
+                    weight="bold"
+                    className="mt-3 leading-6 -light"
                   >
                     {p.highlight}
                   </Text>
                 ) : null}
-                <Text variant="md" muted className="mt-2 leading-6">
+                <Text size="md" tone="secondary" className="mt-2 leading-6">
                   {p.body}
                 </Text>
               </Card>

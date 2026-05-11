@@ -97,9 +97,10 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
         showsVerticalScrollIndicator={false}
       >
         <View className="mb-8 items-center pt-4">
-          <Text variant="h2">Get your Daily Dose</Text>
+          <Text size="h2">Get your Daily Dose</Text>
           <Text
-            variant="caption"
+            size="xs"
+            treatment="caption"
             className="mt-1 text-foreground/40"
             style={{ paddingRight: 2.2 }}
           >
@@ -120,7 +121,7 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
               ) : (
                 <View className="h-2 w-2 rounded-full bg-primary-pink" />
               )}
-              <Text variant="caption" className="text-primary-pink">
+              <Text size="xs" treatment="caption" tone="accent">
                 {showLoading
                   ? 'Personalizing...'
                   : showAsAI
@@ -129,16 +130,16 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
               </Text>
             </View>
 
-            <Text variant="h3" className="mb-3 leading-tight">
+            <Text size="h3" className="mb-3 leading-tight">
               {displayChallenge.title}
             </Text>
-            <Text variant="md" className="leading-relaxed text-foreground/70">
+            <Text size="md" className="leading-relaxed text-foreground/70">
               Since you&apos;re feeling{' '}
-              <Text variant="md" className="font-medium text-accent-yellow">
+              <Text size="md" weight="medium" className="text-accent-yellow">
                 {emotionLabel}
               </Text>{' '}
               and need{' '}
-              <Text variant="md" className="font-medium text-primary-pink">
+              <Text size="md" tone="accent" weight="medium">
                 {needLabel}
               </Text>
               , try this:
@@ -146,8 +147,9 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
 
             <View className="mt-6 rounded-xl border border-foreground/10 bg-foreground/5 p-4">
               <Text
-                variant="sm"
-                className="italic leading-relaxed text-foreground/90"
+                size="sm"
+                italic
+                className="leading-relaxed text-foreground/90"
               >
                 &ldquo;{displayChallenge.challengeText}&rdquo;
               </Text>
@@ -160,7 +162,7 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
                   size={12}
                   color={foregroundFor(scheme, 0.3)}
                 />
-                <Text variant="xs" className="text-foreground/30">
+                <Text size="xs" tone="tertiary">
                   Tailored by AI based on your history
                 </Text>
               </View>

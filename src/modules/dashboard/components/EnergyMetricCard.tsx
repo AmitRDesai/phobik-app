@@ -27,15 +27,15 @@ export function EnergyMetricCard({
       </View>
       <View className="flex-1">
         <Text
-          variant="caption"
-          className="font-bold tracking-widest text-foreground/55"
+          size="xs"
+          treatment="caption"
+          tone="secondary"
+          weight="bold"
+          className="tracking-widest"
         >
           {label}
         </Text>
-        <Text
-          className="text-lg font-bold text-foreground"
-          allowFontScaling={false}
-        >
+        <Text weight="bold" size="lg" allowFontScaling={false}>
           {value}
         </Text>
       </View>

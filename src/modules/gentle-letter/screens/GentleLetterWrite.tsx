@@ -116,7 +116,7 @@ export default function GentleLetterWrite() {
         <Header
           left={<BackButton onPress={handleBack} />}
           center={
-            <Text variant="sm" className="font-semibold">
+            <Text size="sm" weight="semibold">
               Gentle Letter Writing
             </Text>
           }
@@ -137,21 +137,25 @@ export default function GentleLetterWrite() {
       <View className="mt-6 items-center gap-4">
         <ProgressDots total={5} current={currentStep + 1} />
         <Text
-          variant="caption"
-          className="font-medium text-primary-pink/80"
+          size="xs"
+          treatment="caption"
+          tone="accent"
+          weight="medium"
+          className="/80"
           style={{ paddingRight: 2.2 }}
         >
           Step {currentStep + 1} of 5: {stepData.label}
         </Text>
       </View>
 
-      <Text variant="h2" className="mt-8 text-center font-bold leading-tight">
+      <Text size="h2" align="center" className="mt-8 leading-tight">
         {stepData.headline}
       </Text>
 
       <Text
-        variant="md"
-        className="mt-3 text-center leading-relaxed text-foreground/60"
+        size="md"
+        align="center"
+        className="mt-3 leading-relaxed text-foreground/60"
       >
         {stepData.body}
       </Text>
@@ -175,7 +179,7 @@ export default function GentleLetterWrite() {
           size={14}
           color={foregroundFor(scheme, 0.5)}
         />
-        <Text variant="sm" className="text-center italic text-foreground/55">
+        <Text size="sm" italic align="center" tone="secondary">
           {stepData.tip}
         </Text>
       </View>
@@ -183,8 +187,11 @@ export default function GentleLetterWrite() {
       {isLastStep && (
         <View className="mt-6 gap-3">
           <Text
-            variant="caption"
-            className="text-center font-bold text-foreground/55"
+            size="xs"
+            treatment="caption"
+            align="center"
+            tone="secondary"
+            weight="bold"
           >
             What core act does this letter honor?
           </Text>
@@ -212,7 +219,7 @@ export default function GentleLetterWrite() {
                     }
                   />
                   <Text
-                    variant="sm"
+                    size="sm"
                     className={clsx(
                       'font-medium',
                       selected ? 'text-primary-pink' : 'text-foreground/60',

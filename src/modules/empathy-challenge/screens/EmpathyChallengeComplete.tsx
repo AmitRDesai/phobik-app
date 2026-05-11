@@ -27,7 +27,12 @@ export default function EmpathyChallengeComplete() {
         <Header
           variant="close"
           center={
-            <Text variant="caption" muted numberOfLines={1}>
+            <Text
+              size="xs"
+              treatment="caption"
+              tone="secondary"
+              numberOfLines={1}
+            >
               Challenge Complete
             </Text>
           }
@@ -89,12 +94,13 @@ export default function EmpathyChallengeComplete() {
         </LinearGradient>
       </View>
 
-      <Text variant="display" className="mb-4">
+      <Text size="display" className="mb-4">
         Empathy Master!
       </Text>
       <Text
-        variant="lg"
-        className="max-w-[320px] text-center leading-relaxed text-foreground/70"
+        size="lg"
+        align="center"
+        className="max-w-[320px] leading-relaxed text-foreground/70"
       >
         You&apos;ve completed 7 days of growth. Your heart is more open, and
         your connections are stronger.
@@ -106,16 +112,18 @@ export default function EmpathyChallengeComplete() {
           size={24}
           color={colors.primary.pink}
         />
-        <Text variant="caption" muted>
+        <Text size="xs" treatment="caption" tone="secondary">
           Sessions Done
         </Text>
-        <Text variant="h2">7/7</Text>
+        <Text size="h2">7/7</Text>
       </Card>
 
       <View className="mt-8 w-full gap-3 pb-8">
         <Text
-          variant="caption"
-          className="mb-1 text-center tracking-[0.2em] text-foreground/45"
+          size="xs"
+          treatment="caption"
+          align="center"
+          className="mb-1 tracking-[0.2em] text-foreground/45"
           style={{ paddingRight: 2.2 }}
         >
           Daily D.O.S.E. Reward
@@ -130,10 +138,10 @@ export default function EmpathyChallengeComplete() {
               />
             </View>
             <View>
-              <Text variant="caption" muted>
+              <Text size="xs" treatment="caption" tone="secondary">
                 Oxytocin
               </Text>
-              <Text variant="h3" className="font-bold">
+              <Text size="h3" weight="bold">
                 +10
               </Text>
             </View>
@@ -147,10 +155,10 @@ export default function EmpathyChallengeComplete() {
               />
             </View>
             <View>
-              <Text variant="caption" muted>
+              <Text size="xs" treatment="caption" tone="secondary">
                 Serotonin
               </Text>
-              <Text variant="h3" className="font-bold">
+              <Text size="h3" weight="bold">
                 +5
               </Text>
             </View>

@@ -20,10 +20,10 @@ export function InsightsHeader() {
         style={{ paddingTop: insets.top + 8 }}
       >
         <View>
-          <Text variant="h2" className="font-black">
+          <Text size="h2" weight="black">
             Insights
           </Text>
-          <Text variant="caption" className="text-primary-pink">
+          <Text size="xs" treatment="caption" tone="accent">
             Biometric Intelligence
           </Text>
         </View>

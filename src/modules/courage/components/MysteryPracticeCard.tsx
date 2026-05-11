@@ -33,9 +33,11 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
   return (
     <View className="mt-8 w-full border-t border-foreground/10 pt-6">
       <Text
-        variant="caption"
-        muted
-        className="mb-4 text-center tracking-[0.2em]"
+        size="xs"
+        treatment="caption"
+        tone="secondary"
+        align="center"
+        className="mb-4 tracking-[0.2em]"
         style={{ paddingRight: 2.2 }}
       >
         Daily D.O.S.E. Reward
@@ -44,15 +46,15 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
         {items.map((item) => (
           <View key={item.label} className="items-center">
             <Text
-              variant="sm"
-              className="font-bold"
+              size="sm"
+              weight="bold"
               style={{
                 color: item.isPink ? colors.primary.pink : colors.accent.yellow,
               }}
             >
               +{item.value}
             </Text>
-            <Text className="text-[8px] uppercase text-foreground/55">
+            <Text tone="secondary" className="text-[8px] uppercase">
               {item.label}
             </Text>
           </View>
@@ -133,14 +135,18 @@ export function MysteryPracticeCard({
         return (
           <>
             <Text
-              variant="lg"
-              className="text-center leading-snug text-foreground/90"
+              size="lg"
+              align="center"
+              className="leading-snug text-foreground/90"
             >
               {mainText}
             </Text>
             <Text
-              variant="lg"
-              className="mt-1 text-center font-bold italic leading-snug"
+              size="lg"
+              italic
+              align="center"
+              weight="bold"
+              className="mt-1 leading-snug"
               style={{ color: colors.accent.yellow }}
             >
               {quoteText}
@@ -150,8 +156,9 @@ export function MysteryPracticeCard({
       }
       return (
         <Text
-          variant="lg"
-          className="text-center leading-snug text-foreground/90"
+          size="lg"
+          align="center"
+          className="leading-snug text-foreground/90"
         >
           {practiceText}
         </Text>
@@ -162,15 +169,12 @@ export function MysteryPracticeCard({
     return (
       <>
         <Text
-          variant="lg"
-          className="text-center leading-snug text-foreground/90"
+          size="lg"
+          align="center"
+          className="leading-snug text-foreground/90"
         >
           {parts[0]}
-          <Text
-            variant="lg"
-            className="font-bold"
-            style={{ color: colors.accent.yellow }}
-          >
+          <Text size="lg" weight="bold" style={{ color: colors.accent.yellow }}>
             {highlightText}
           </Text>
           {parts[1]}
@@ -178,8 +182,11 @@ export function MysteryPracticeCard({
         {/* If highlightText is a standalone question (feelings), render it separately */}
         {challenge.type === 'feelings' && (
           <Text
-            variant="lg"
-            className="mt-2 text-center font-medium italic leading-snug"
+            size="lg"
+            italic
+            align="center"
+            weight="medium"
+            className="mt-2 leading-snug"
             style={{ color: colors.accent.yellow }}
           >
             {highlightText}
@@ -230,7 +237,7 @@ export function MysteryPracticeCard({
         </LinearGradient>
 
         {/* Practice label */}
-        <Text variant="h3" className="mb-4 font-bold">
+        <Text size="h3" weight="bold" className="mb-4">
           {challenge.practiceLabel}
         </Text>
 
@@ -263,8 +270,9 @@ export function MysteryPracticeCard({
               }}
             >
               <Text
-                variant="sm"
-                className="font-bold uppercase tracking-wider"
+                size="sm"
+                weight="bold"
+                className="uppercase tracking-wider"
                 style={{ color: colors.background.dark }}
               >
                 Start

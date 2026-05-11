@@ -67,16 +67,23 @@ function HealthHero({ pulsing }: { pulsing: boolean }) {
         </View>
       </View>
 
-      <Text variant="caption" className="mb-2 font-bold text-primary-pink">
+      <Text
+        size="xs"
+        treatment="caption"
+        tone="accent"
+        weight="bold"
+        className="mb-2"
+      >
         {pulsing ? `Connect to ${PROVIDER_LABEL}` : 'Connected'}
       </Text>
-      <Text variant="h1" className="mb-3 font-bold">
+      <Text size="h1" className="mb-3">
         {pulsing ? 'Sync Your Wearable' : "You're synced"}
       </Text>
       <Text
-        variant="sm"
-        muted
-        className="max-w-[300px] text-center leading-relaxed"
+        size="sm"
+        tone="secondary"
+        align="center"
+        className="max-w-[300px] leading-relaxed"
       >
         {pulsing
           ? `Phobik reads heart rate and HRV from ${PROVIDER_LABEL} — read-only, never written. Any wearable that syncs there (Apple Watch, Whoop, Oura, Garmin, Fitbit, Polar) works automatically.`
@@ -99,16 +106,23 @@ function MetricRow({
 }) {
   return (
     <Card className="flex-1 p-5">
-      <Text variant="caption" muted className="mb-2 font-bold">
+      <Text
+        size="xs"
+        treatment="caption"
+        tone="secondary"
+        weight="bold"
+        className="mb-2"
+      >
         {label}
       </Text>
       <View className="flex-row items-baseline gap-1.5">
-        <Text className="text-4xl font-black leading-none text-foreground">
+        <Text weight="black" className="text-4xl leading-none">
           {value}
         </Text>
         <Text
-          variant="sm"
-          className="font-bold uppercase tracking-tighter"
+          size="sm"
+          weight="bold"
+          className="uppercase tracking-tighter"
           style={{ color: unitColor }}
         >
           {unit}
@@ -163,9 +177,10 @@ export default function ConnectWearable() {
         <Header
           center={
             <Text
-              variant="sm"
-              muted
-              className="font-bold uppercase tracking-[4px]"
+              size="sm"
+              tone="secondary"
+              weight="bold"
+              className="uppercase tracking-[4px]"
               style={{ paddingRight: 4 }}
               numberOfLines={1}
             >
@@ -195,7 +210,12 @@ export default function ConnectWearable() {
             />
           </View>
           {heartRate == null && hrv == null ? (
-            <Text variant="sm" muted className="text-center leading-relaxed">
+            <Text
+              size="sm"
+              tone="secondary"
+              align="center"
+              className="leading-relaxed"
+            >
               No recent samples yet. Wear your device and sync it to{' '}
               {PROVIDER_LABEL}, then return here.
             </Text>
@@ -212,8 +232,9 @@ export default function ConnectWearable() {
       ) : isAndroidUnavailable ? (
         <View className="gap-3">
           <Text
-            variant="sm"
-            className="text-center leading-relaxed text-foreground/70"
+            size="sm"
+            align="center"
+            className="leading-relaxed text-foreground/70"
           >
             Health Connect isn&apos;t installed on this device. Install it from
             the Play Store, then return here to connect.

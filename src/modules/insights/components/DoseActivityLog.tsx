@@ -28,11 +28,11 @@ export function DoseActivityLog() {
   if (!activities.length) {
     return (
       <View className="gap-4">
-        <Text variant="h3" className="px-1">
+        <Text size="h3" className="px-1">
           Activity Log
         </Text>
         <Card className="items-center p-6">
-          <Text variant="sm" className="text-foreground/40">
+          <Text size="sm" className="text-foreground/40">
             Complete a practice to see your activity here
           </Text>
         </Card>
@@ -42,7 +42,7 @@ export function DoseActivityLog() {
 
   return (
     <View className="gap-4">
-      <Text variant="h3" className="px-1">
+      <Text size="h3" className="px-1">
         Activity Log
       </Text>
       <View className="flex-row flex-wrap gap-3">
@@ -58,10 +58,10 @@ export function DoseActivityLog() {
                 className="mb-2 h-2 w-2 rounded-full"
                 style={{ backgroundColor: display.color }}
               />
-              <Text variant="xs" muted>
+              <Text size="xs" tone="secondary">
                 {activity.practiceType}
               </Text>
-              <Text variant="sm" className="font-medium">
+              <Text size="sm" weight="medium">
                 +{dominant.value} {display.label}
               </Text>
             </Card>

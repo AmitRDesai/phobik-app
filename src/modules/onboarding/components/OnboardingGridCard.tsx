@@ -46,7 +46,7 @@ export function OnboardingGridCard({
           color={selected ? colors.primary.pink : idleIconColor}
         />
         <Text
-          variant="sm"
+          size="sm"
           className={clsx(
             'mt-2 font-bold leading-tight',
             selected ? 'text-foreground' : 'text-foreground/90',

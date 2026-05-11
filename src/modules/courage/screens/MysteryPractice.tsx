@@ -59,8 +59,10 @@ export default function MysteryPractice() {
     >
       <View className="mb-8 px-6">
         <Text
-          variant="sm"
-          className="text-center italic leading-relaxed text-foreground/60"
+          size="sm"
+          italic
+          align="center"
+          className="leading-relaxed text-foreground/60"
         >
           {challenge.description}
         </Text>
@@ -83,12 +85,13 @@ export default function MysteryPractice() {
 
       <View className="mt-8 items-center pb-10">
         <Text
-          variant="caption"
+          size="xs"
+          treatment="caption"
           style={{ color: withAlpha(colors.primary.pink, 0.6) }}
         >
           Mindful Insight
         </Text>
-        <Text variant="xs" className="mt-1 text-foreground/55">
+        <Text size="xs" tone="secondary" className="mt-1">
           Consistency is the key to neural rewiring.
         </Text>
       </View>

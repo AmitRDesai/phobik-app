@@ -46,13 +46,14 @@ export function PlanRow({
       </View>
       <View className="flex-1 justify-center px-4">
         <Text
-          variant="caption"
-          className="font-bold"
+          size="xs"
+          treatment="caption"
+          weight="bold"
           style={{ color: accentColor }}
         >
           {eyebrow}
         </Text>
-        <Text variant="h3" className="mt-1 font-bold" allowFontScaling={false}>
+        <Text size="h3" weight="bold" className="mt-1" allowFontScaling={false}>
           {title}
         </Text>
       </View>

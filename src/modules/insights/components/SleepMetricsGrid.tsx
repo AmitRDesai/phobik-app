@@ -37,10 +37,10 @@ function MetricTile({
   return (
     <View className="flex-1 items-center gap-2 rounded-xl border border-primary-pink/20 bg-primary-pink/5 p-4">
       <MaterialIcons name={icon} size={20} color={colors.primary.pink} />
-      <Text variant="md" className="font-bold">
+      <Text size="md" weight="bold">
         {value}
       </Text>
-      <Text variant="caption" muted>
+      <Text size="xs" treatment="caption" tone="secondary">
         {label}
       </Text>
     </View>

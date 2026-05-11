@@ -82,7 +82,8 @@ export function BodySilhouette({
             }}
           >
             <Text
-              variant="caption"
+              size="xs"
+              treatment="caption"
               className="text-[9px]"
               style={{ color: area.accentColor }}
             >

@@ -1,5 +1,6 @@
 import { colors } from '@/constants/colors';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 
 interface ProgressBarProps {
   current: number;
@@ -14,7 +15,12 @@ export function ProgressBar({ current, total, label }: ProgressBarProps) {
     <View className="gap-3">
       <View className="flex-row items-center justify-between">
         {label && (
-          <Text className="text-xs font-medium uppercase tracking-wider text-white/40">
+          <Text
+            tone="inverse"
+            weight="medium"
+            size="xs"
+            className="uppercase tracking-wider /40"
+          >
             {label}
           </Text>
         )}
@@ -22,7 +28,7 @@ export function ProgressBar({ current, total, label }: ProgressBarProps) {
           className="rounded-full px-3 py-1"
           style={{ backgroundColor: `${colors.primary.pink}20` }}
         >
-          <Text className="text-xs font-bold text-primary-pink">
+          <Text tone="accent" weight="bold" size="xs">
             {current} of {total}
           </Text>
         </View>

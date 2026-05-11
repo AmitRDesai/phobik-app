@@ -70,8 +70,10 @@ export default function LockedJournal() {
         <Header
           center={
             <Text
-              variant="caption"
-              className="font-bold tracking-wide text-foreground/40"
+              size="xs"
+              treatment="caption"
+              weight="bold"
+              className="tracking-wide text-foreground/40"
             >
               Secure Journal
             </Text>
@@ -93,15 +95,16 @@ export default function LockedJournal() {
         </View>
       </View>
 
-      <Text variant="h1" className="mb-2 text-center font-bold">
+      <Text size="h1" align="center" className="mb-2">
         Your Thoughts are
       </Text>
-      <Text variant="h1" className="mb-4 text-center font-bold">
+      <Text size="h1" align="center" className="mb-4">
         Protected
       </Text>
       <Text
-        variant="sm"
-        className="mx-auto mb-12 max-w-[280px] text-center leading-relaxed text-foreground/40"
+        size="sm"
+        align="center"
+        className="mx-auto mb-12 max-w-[280px] leading-relaxed text-foreground/40"
       >
         This journal is locked for your privacy. Unlock to access your
         biometric-linked emotional reflections.
@@ -125,7 +128,12 @@ export default function LockedJournal() {
           className="h-1.5 w-1.5 rounded-full"
           style={{ backgroundColor: yellow }}
         />
-        <Text variant="caption" className="font-bold" style={{ color: yellow }}>
+        <Text
+          size="xs"
+          treatment="caption"
+          weight="bold"
+          style={{ color: yellow }}
+        >
           Secure Biometric Access
         </Text>
       </View>

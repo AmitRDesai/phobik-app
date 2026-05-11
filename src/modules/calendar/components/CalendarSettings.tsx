@@ -116,13 +116,14 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
         {/* Card content */}
         <View className="w-full gap-4">
           <View>
-            <Text variant="h3" className="text-center font-bold">
+            <Text size="h3" align="center" weight="bold">
               Calendar Intelligence
             </Text>
             <Text
-              variant="sm"
-              muted
-              className="mt-2 text-center leading-relaxed"
+              size="sm"
+              tone="secondary"
+              align="center"
+              className="mt-2 leading-relaxed"
             >
               We&apos;ll scan for high-stress keywords like &quot;Performance
               Review&quot; or &quot;Public Speaking&quot; to offer pre-emptive
@@ -155,7 +156,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
 
           {!connected && denied && (
             <View className="gap-3">
-              <Text variant="sm" muted className="leading-relaxed">
+              <Text size="sm" tone="secondary" className="leading-relaxed">
                 Calendar access was denied. You can enable it in your device
                 settings to let Phobik prepare you for stressful events.
               </Text>
@@ -186,14 +187,14 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                 size={20}
                 color={colors.primary.pink}
               />
-              <Text variant="lg" className="font-bold">
+              <Text size="lg" weight="bold">
                 Which calendars to watch?
               </Text>
             </View>
             {calendars.length === 0 ? (
               <Card className="items-center p-6">
                 <ActivityIndicator color={colors.primary.pink} />
-                <Text variant="sm" muted className="mt-2">
+                <Text size="sm" tone="secondary" className="mt-2">
                   Loading calendars...
                 </Text>
               </Card>
@@ -213,18 +214,10 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                           style={{ backgroundColor: cal.color }}
                         />
                         <View className="flex-1">
-                          <Text
-                            variant="md"
-                            className="font-medium"
-                            numberOfLines={1}
-                          >
+                          <Text size="md" weight="medium" numberOfLines={1}>
                             {cal.title}
                           </Text>
-                          <Text
-                            variant="sm"
-                            className="text-foreground/55"
-                            numberOfLines={1}
-                          >
+                          <Text size="sm" tone="secondary" numberOfLines={1}>
                             {cal.sourceName}
                           </Text>
                         </View>
@@ -250,7 +243,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
 
           {/* Check-in timing */}
           <View>
-            <Text variant="lg" className="mb-3 font-bold">
+            <Text size="lg" weight="bold" className="mb-3">
               When should we check in?
             </Text>
             <SegmentedControl
@@ -262,7 +255,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
 
           {/* Support tone */}
           <View>
-            <Text variant="lg" className="mb-3 font-bold">
+            <Text size="lg" weight="bold" className="mb-3">
               Choose your support tone
             </Text>
             <View className="gap-3">

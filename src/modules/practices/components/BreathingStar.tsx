@@ -3,7 +3,8 @@ import { useScheme } from '@/hooks/useTheme';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { View } from 'react-native';
 import Animated, {
   cancelAnimation,
   Easing,
@@ -220,13 +221,18 @@ export function BreathingStar({
             color={colors.primary.pink}
           />
           <Text
-            className="text-3xl font-bold tracking-tight text-foreground"
+            weight="bold"
+            className="text-3xl tracking-tight"
             style={{ fontVariant: ['tabular-nums'] }}
           >
             72
           </Text>
         </View>
-        <Text className="text-[10px] font-bold uppercase tracking-widest text-foreground/30">
+        <Text
+          tone="tertiary"
+          weight="bold"
+          className="text-[10px] uppercase tracking-widest"
+        >
           BPM
         </Text>
       </View>

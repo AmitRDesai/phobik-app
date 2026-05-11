@@ -54,7 +54,7 @@ export default function SoundStudioCredits() {
           showsVerticalScrollIndicator={false}
         >
           {/* Hero */}
-          <Text variant="display" className="leading-tight">
+          <Text size="display" className="leading-tight">
             Refill Your
           </Text>
           <GradientText className="text-[36px] font-extrabold leading-tight">
@@ -62,9 +62,9 @@ export default function SoundStudioCredits() {
           </GradientText>
           <View className="mt-3 flex-row items-center gap-2">
             <MaterialIcons name="bolt" size={14} color={yellow} />
-            <Text variant="xs" muted>
+            <Text size="xs" tone="secondary">
               Current Balance:{' '}
-              <Text variant="xs" className="font-bold">
+              <Text size="xs" weight="bold">
                 {FAKE_BALANCE} Credits
               </Text>
             </Text>
@@ -91,8 +91,10 @@ export default function SoundStudioCredits() {
                 {plan.popular ? (
                   <View className="absolute right-5 top-5 rounded-full bg-accent-yellow px-3 py-1">
                     <Text
-                      variant="caption"
-                      className="text-on-primary-fixed font-bold"
+                      size="xs"
+                      treatment="caption"
+                      weight="bold"
+                      className="text-on-primary-fixed"
                     >
                       Most Popular
                     </Text>
@@ -105,21 +107,26 @@ export default function SoundStudioCredits() {
                     color={colors.primary.pink}
                   />
                 </IconChip>
-                <Text variant="h2" className="mt-4 font-extrabold">
+                <Text size="h2" weight="extrabold" className="mt-4">
                   {plan.name}
                 </Text>
-                <Text variant="xs" muted className="mt-1">
+                <Text size="xs" tone="secondary" className="mt-1">
                   {plan.tagline}
                 </Text>
                 <View className="mt-4 flex-row items-baseline gap-2">
-                  <Text className="text-4xl font-extrabold">
+                  <Text weight="extrabold" className="text-4xl">
                     {plan.credits}
                   </Text>
-                  <Text variant="caption" muted className="font-bold">
+                  <Text
+                    size="xs"
+                    treatment="caption"
+                    tone="secondary"
+                    weight="bold"
+                  >
                     Credits
                   </Text>
                 </View>
-                <Text variant="lg" className="mt-1 font-bold">
+                <Text size="lg" weight="bold" className="mt-1">
                   {plan.price}
                 </Text>
                 <View className="mt-5">
@@ -145,8 +152,10 @@ export default function SoundStudioCredits() {
                       }}
                     >
                       <Text
-                        variant="caption"
-                        className="text-on-primary-fixed font-bold"
+                        size="xs"
+                        treatment="caption"
+                        weight="bold"
+                        className="text-on-primary-fixed"
                         onPress={() => onPurchase(plan.name)}
                       >
                         Purchase Now
@@ -160,7 +169,7 @@ export default function SoundStudioCredits() {
 
           {/* Why use credits */}
           <Card className="mt-6 rounded-3xl p-5">
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               Why use Credits?
             </Text>
             <View className="mt-3 gap-2">
@@ -172,7 +181,11 @@ export default function SoundStudioCredits() {
                     color={yellow}
                     style={{ marginTop: 2 }}
                   />
-                  <Text variant="xs" muted className="flex-1 leading-relaxed">
+                  <Text
+                    size="xs"
+                    tone="secondary"
+                    className="flex-1 leading-relaxed"
+                  >
                     {r}
                   </Text>
                 </View>

@@ -42,17 +42,20 @@ export default function DetailedFeeling() {
         <View className="flex-row items-end justify-between">
           <View className="flex-1">
             <Text
-              variant="caption"
-              className="font-bold tracking-[0.3em] text-primary-pink"
+              size="xs"
+              treatment="caption"
+              tone="accent"
+              weight="bold"
+              className="tracking-[0.3em]"
               style={{ paddingRight: 3.3 }}
             >
               Step 02
             </Text>
-            <Text variant="h1" className="mt-2 font-black leading-tight">
+            <Text size="h1" weight="black" className="mt-2 leading-tight">
               Choose how you
             </Text>
             <View className="flex-row flex-wrap items-baseline">
-              <Text variant="h1" className="font-black leading-tight">
+              <Text size="h1" weight="black" className="leading-tight">
                 want to{' '}
               </Text>
               <GradientText className="text-3xl font-black leading-tight">
@@ -60,7 +63,7 @@ export default function DetailedFeeling() {
               </GradientText>
             </View>
           </View>
-          <Text variant="sm" className="pb-1 text-foreground/55">
+          <Text size="sm" tone="secondary" className="pb-1">
             25% Complete
           </Text>
         </View>

@@ -44,7 +44,7 @@ export default function QiGongSession() {
       wordmark="Qi Gong Shaking"
       bottom={
         <View className="items-center">
-          <Text variant="sm" className="mb-3 text-foreground/50">
+          <Text size="sm" className="mb-3 text-foreground/50">
             Let it settle... and feel the difference.
           </Text>
           <View className="w-full">
@@ -54,10 +54,10 @@ export default function QiGongSession() {
       }
     >
       <View className="items-center pt-6">
-        <Text variant="h2" className="font-extrabold">
+        <Text size="h2" weight="extrabold">
           Qi Gong Shaking
         </Text>
-        <Text variant="sm" muted className="mt-2">
+        <Text size="sm" tone="secondary" className="mt-2">
           Let your body release stored energy.
         </Text>
       </View>
@@ -77,7 +77,7 @@ export default function QiGongSession() {
               }`}
             >
               <Text
-                variant="sm"
+                size="sm"
                 className={`font-bold ${active ? 'text-primary-pink' : 'text-foreground/70'}`}
               >
                 {d}
@@ -96,7 +96,7 @@ export default function QiGongSession() {
           }}
         >
           <MaterialIcons name="air" size={56} color={yellow} />
-          <Text variant="xs" className="mt-5 text-center text-foreground/60">
+          <Text size="xs" align="center" className="mt-5 text-foreground/60">
             Flow State Active
           </Text>
         </View>
@@ -112,10 +112,10 @@ export default function QiGongSession() {
           />
         </View>
         <View className="flex-1">
-          <Text variant="lg" className="font-bold">
+          <Text size="lg" weight="bold">
             {PRIMER.title}
           </Text>
-          <Text variant="sm" className="mt-1 text-foreground/70">
+          <Text size="sm" className="mt-1 text-foreground/70">
             {PRIMER.description}
           </Text>
         </View>
@@ -139,7 +139,7 @@ export default function QiGongSession() {
                     color={colors.primary.pink}
                   />
                 </View>
-                <Text variant="sm" className="flex-1 text-foreground/50">
+                <Text size="sm" className="flex-1 text-foreground/50">
                   {step.title}
                 </Text>
               </View>
@@ -162,7 +162,7 @@ export default function QiGongSession() {
                     color={colors.primary.pink}
                   />
                 </View>
-                <Text variant="lg" className="flex-1 font-bold">
+                <Text size="lg" weight="bold" className="flex-1">
                   {step.title}
                 </Text>
               </View>
@@ -180,7 +180,7 @@ export default function QiGongSession() {
                 size={20}
                 color="rgba(127,127,127,0.4)"
               />
-              <Text variant="sm" className="flex-1 text-foreground/40">
+              <Text size="sm" className="flex-1 text-foreground/40">
                 {step.title}
               </Text>
             </View>

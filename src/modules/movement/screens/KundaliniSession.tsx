@@ -45,7 +45,7 @@ export default function KundaliniSession() {
       wordmark="Kundalini Spinal Flex"
       bottom={
         <View className="flex-row items-center justify-between">
-          <Text variant="xs" className="text-foreground/50">
+          <Text size="xs" className="text-foreground/50">
             Feel the energy in your body
           </Text>
           <GradientButton compact onPress={() => {}}>
@@ -55,10 +55,10 @@ export default function KundaliniSession() {
       }
     >
       <Card variant="glass">
-        <Text variant="h3" className="font-extrabold">
+        <Text size="h3" weight="extrabold">
           Kundalini Spinal Flex
         </Text>
-        <Text variant="sm" className="mt-1 text-foreground/70">
+        <Text size="sm" className="mt-1 text-foreground/70">
           Synchronize your movement with rhythmic exhales to unlock spinal
           energy.
         </Text>
@@ -67,7 +67,12 @@ export default function KundaliniSession() {
       {/* Duration / Pace */}
       <View className="mt-4 flex-row gap-3">
         <Card variant="glass" className="flex-1 p-4">
-          <Text variant="caption" className="font-bold text-foreground/50">
+          <Text
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="text-foreground/50"
+          >
             Duration
           </Text>
           <View className="mt-3 flex-row gap-2">
@@ -84,7 +89,8 @@ export default function KundaliniSession() {
                   }`}
                 >
                   <Text
-                    variant="caption"
+                    size="xs"
+                    treatment="caption"
                     className={`font-bold ${active ? 'text-white' : 'text-foreground/70'}`}
                   >
                     {d}
@@ -95,17 +101,23 @@ export default function KundaliniSession() {
           </View>
         </Card>
         <Card variant="glass" className="flex-1 p-4">
-          <Text variant="caption" className="font-bold text-foreground/50">
+          <Text
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="text-foreground/50"
+          >
             Pace
           </Text>
           <Text
-            variant="h1"
-            className="mt-2 font-extrabold"
+            size="h1"
+            weight="extrabold"
+            className="mt-2"
             style={{ color: yellow }}
           >
             {heartRate ?? '—'}
           </Text>
-          <Text variant="caption" className="text-foreground/50">
+          <Text size="xs" treatment="caption" className="text-foreground/50">
             BPM
           </Text>
         </Card>
@@ -115,16 +127,20 @@ export default function KundaliniSession() {
       <View className="mt-6">
         <View className="absolute left-1 top-1/2 -translate-y-1/2 z-10">
           <Text
-            variant="caption"
-            className="rotate-[-90deg] font-bold tracking-[0.4em] text-foreground/50"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="rotate-[-90deg] tracking-[0.4em] text-foreground/50"
           >
             Exhale
           </Text>
         </View>
         <View className="absolute right-1 top-1/2 -translate-y-1/2 z-10">
           <Text
-            variant="caption"
-            className="rotate-90 font-bold tracking-[0.4em]"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="rotate-90 tracking-[0.4em]"
             style={{ color: yellow }}
           >
             Inhale
@@ -158,11 +174,11 @@ export default function KundaliniSession() {
               color={colors.primary.pink}
             />
             <View className="flex-1">
-              <Text variant="lg" className="font-bold">
+              <Text size="lg" weight="bold">
                 {step.title}
               </Text>
               <Text
-                variant="sm"
+                size="sm"
                 className="mt-1 leading-relaxed text-foreground/70"
               >
                 {step.description}

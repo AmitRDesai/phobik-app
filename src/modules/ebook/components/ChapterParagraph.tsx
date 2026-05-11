@@ -9,8 +9,8 @@ interface ChapterParagraphProps {
 export function ChapterParagraph({ children, bold }: ChapterParagraphProps) {
   return (
     <Text
-      variant="md"
-      muted
+      size="md"
+      tone="secondary"
       className={clsx('mb-6 leading-relaxed', bold && 'font-semibold')}
       style={{ fontFamily: 'serif' }}
     >

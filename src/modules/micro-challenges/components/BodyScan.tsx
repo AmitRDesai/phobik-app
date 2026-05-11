@@ -24,10 +24,10 @@ export function BodyScan({ onContinue }: BodyScanProps) {
       showsVerticalScrollIndicator={false}
     >
       {/* Title */}
-      <Text variant="h1" className="mb-2 mt-6">
+      <Text size="h1" className="mb-2 mt-6">
         Where&apos;s the Sensation
       </Text>
-      <Text variant="sm" className="mb-6 leading-relaxed text-foreground/60">
+      <Text size="sm" className="mb-6 leading-relaxed text-foreground/60">
         Scan your body and notice where you feel the strongest sensation.
       </Text>
 
@@ -38,7 +38,7 @@ export function BodyScan({ onContinue }: BodyScanProps) {
       />
 
       {/* Sensation attributes */}
-      <Text variant="h2" className="mb-4 mt-6 text-center">
+      <Text size="h2" align="center" className="mb-4 mt-6">
         Ask yourself, is this sensation...
       </Text>
 
@@ -50,14 +50,19 @@ export function BodyScan({ onContinue }: BodyScanProps) {
             style={{ minWidth: '45%' }}
           >
             <Text
-              variant="caption"
-              className="mb-1 text-center text-[9px] font-black text-foreground/40"
+              size="xs"
+              treatment="caption"
+              align="center"
+              weight="black"
+              className="mb-1 text-[9px] text-foreground/40"
             >
               {attr.category}
             </Text>
             <Text
-              variant="xs"
-              className="text-center font-medium text-foreground/90"
+              size="xs"
+              align="center"
+              weight="medium"
+              className="text-foreground/90"
             >
               {attr.question}
             </Text>
@@ -68,10 +73,7 @@ export function BodyScan({ onContinue }: BodyScanProps) {
       {/* Tip */}
       <View className="mb-8 flex-row items-start gap-3 rounded-xl border border-foreground/5 bg-foreground/[0.03] p-5">
         <MaterialIcons name="touch-app" size={20} color={colors.primary.pink} />
-        <Text
-          variant="xs"
-          className="flex-1 leading-relaxed text-foreground/70"
-        >
+        <Text size="xs" className="flex-1 leading-relaxed text-foreground/70">
           Choose the strongest sensation and place your hand there. Take a few
           slow breaths into that area.
         </Text>

@@ -126,11 +126,11 @@ export default function Profile() {
           </View>
         </View>
         {uploadMutation.isPending && (
-          <Text variant="xs" muted className="mt-2">
+          <Text size="xs" tone="secondary" className="mt-2">
             Uploading...
           </Text>
         )}
-        <Text variant="sm" className="mt-2 font-medium text-primary-pink">
+        <Text size="sm" tone="accent" weight="medium" className="mt-2">
           Change Photo
         </Text>
       </Pressable>

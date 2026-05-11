@@ -25,7 +25,7 @@ export function MoodTabs({
       {label ? (
         <View className="mb-3 flex-row items-center gap-2">
           <View className="h-1.5 w-1.5 rounded-full bg-primary-pink" />
-          <Text variant="xs" muted className="font-semibold">
+          <Text size="xs" tone="secondary" weight="semibold">
             {label}
           </Text>
         </View>

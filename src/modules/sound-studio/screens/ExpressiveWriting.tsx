@@ -59,7 +59,13 @@ export default function ExpressiveWriting() {
           <GradientButton onPress={() => router.push('/sound-studio/ai/write')}>
             Start Session
           </GradientButton>
-          <Text variant="caption" muted className="mt-3 text-center">
+          <Text
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            align="center"
+            className="mt-3"
+          >
             Tap to begin the timer
           </Text>
         </View>
@@ -75,7 +81,7 @@ export default function ExpressiveWriting() {
           Step-by-Step.
         </GradientText>
       </View>
-      <Text variant="lg" className="mt-4 leading-relaxed text-foreground/70">
+      <Text size="lg" className="mt-4 leading-relaxed text-foreground/70">
         Expressive writing is an organic process. Follow the rhythm of these
         five steps to begin.
       </Text>
@@ -85,19 +91,17 @@ export default function ExpressiveWriting() {
         {STEPS.map((step) => (
           <Card key={step.number} className="rounded-3xl p-5">
             <Text
-              variant="h2"
-              className="font-extrabold tracking-widest"
+              size="h2"
+              weight="extrabold"
+              className="tracking-widest"
               style={{ color: yellow }}
             >
               {step.number}
             </Text>
-            <Text variant="h3" className="mt-1 font-bold">
+            <Text size="h3" weight="bold" className="mt-1">
               {step.title}
             </Text>
-            <Text
-              variant="sm"
-              className="mt-2 leading-relaxed text-foreground/70"
-            >
+            <Text size="sm" className="mt-2 leading-relaxed text-foreground/70">
               {step.description}
             </Text>
           </Card>

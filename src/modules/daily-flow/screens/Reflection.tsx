@@ -131,13 +131,14 @@ export default function Reflection() {
           </LinearGradient>
         </View>
 
-        <Text variant="h1" className="mt-7 font-black">
+        <Text size="h1" weight="black" className="mt-7">
           Session Complete
         </Text>
         <Text
-          variant="sm"
-          muted
-          className="mt-3 max-w-xs text-center leading-5"
+          size="sm"
+          tone="secondary"
+          align="center"
+          className="mt-3 max-w-xs leading-5"
         >
           You&rsquo;ve dedicated 10 minutes to your internal landscape. Notice
           the stillness.
@@ -149,9 +150,7 @@ export default function Reflection() {
       </View>
 
       <View className="mt-12">
-        <Text variant="h2" className="font-bold">
-          How do you feel now?
-        </Text>
+        <Text size="h2">How do you feel now?</Text>
         <View className="mt-2 h-1 w-12 rounded-full bg-primary-pink" />
       </View>
 

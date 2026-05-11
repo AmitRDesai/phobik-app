@@ -14,11 +14,11 @@ export function InsightCard({ title, body }: InsightCardProps) {
     <Card variant="elevated" className="overflow-hidden p-7">
       <View className="mb-3 flex-row items-center gap-2">
         <MaterialIcons name="lightbulb" size={18} color={colors.primary.pink} />
-        <Text variant="lg" className="font-bold text-primary-pink">
+        <Text size="lg" tone="accent" weight="bold">
           {title}
         </Text>
       </View>
-      <Text variant="md" className="leading-relaxed text-foreground/60">
+      <Text size="md" className="leading-relaxed text-foreground/60">
         {body}
       </Text>
     </Card>

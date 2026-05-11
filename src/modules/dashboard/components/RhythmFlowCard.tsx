@@ -36,16 +36,14 @@ export function RhythmFlowCard({
           }}
         />
         <View className="flex-1 justify-end p-4">
-          <Text
-            variant="h3"
-            className="font-bold text-white"
-            allowFontScaling={false}
-          >
+          <Text size="h3" tone="inverse" weight="bold" allowFontScaling={false}>
             {title}
           </Text>
           <Text
-            variant="xs"
-            className="mt-0.5 font-bold uppercase tracking-widest text-white/70"
+            size="xs"
+            tone="inverse"
+            weight="bold"
+            className="mt-0.5 uppercase tracking-widest /70"
           >
             {subtitle}
           </Text>

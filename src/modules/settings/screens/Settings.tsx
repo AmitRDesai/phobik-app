@@ -58,9 +58,9 @@ export default function Settings() {
           iconSize={36}
         />
         <View className="items-center">
-          <Text variant="h3">{userName}</Text>
+          <Text size="h3">{userName}</Text>
           {userEmail ? (
-            <Text variant="sm" muted>
+            <Text size="sm" tone="secondary">
               {userEmail}
             </Text>
           ) : null}
@@ -123,6 +123,28 @@ export default function Settings() {
           onPress={() => router.push('/settings/audio-storage')}
         />
       </View>
+
+      {__DEV__ && (
+        <View className="gap-2">
+          <Text
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            weight="bold"
+            className="px-2 tracking-widest"
+          >
+            Developer
+          </Text>
+          <SettingsMenuItem
+            icon="palette"
+            iconColor={purple}
+            iconBgColor={withAlpha(purple, scheme === 'dark' ? 0.15 : 0.12)}
+            label="Design System"
+            subtitle="Catalog of primitives & variants"
+            onPress={() => router.push('/dev/design-system')}
+          />
+        </View>
+      )}
 
       <View className="mt-4 gap-3">
         {biometricEnabled && (

@@ -11,12 +11,14 @@ export function ChapterAffirmation() {
         end={{ x: 1, y: 1 }}
         style={{ borderRadius: 16, padding: 20 }}
       >
-        <Text variant="caption" muted className="text-center">
+        <Text size="xs" treatment="caption" tone="secondary" align="center">
           Affirmation
         </Text>
         <Text
-          variant="lg"
-          className="mt-3 text-center italic leading-relaxed"
+          size="lg"
+          italic
+          align="center"
+          className="mt-3 leading-relaxed"
           style={{ fontFamily: 'serif' }}
         >
           I am safe in this moment.

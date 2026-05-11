@@ -97,34 +97,38 @@ export function RealTimeAnalysisCard() {
           <View className="mb-1 flex-row items-center gap-1.5">
             <PingDot animated={isLive} />
             <Text
-              variant="caption"
-              className="font-bold"
+              size="xs"
+              treatment="caption"
+              weight="bold"
               style={{ color: yellow }}
             >
               Real-time Analysis
             </Text>
             {hasAccess && ageLabel && (isStale || !isLive) ? (
               <Text
-                variant="caption"
-                className="font-medium tracking-wider text-foreground/40"
+                size="xs"
+                treatment="caption"
+                weight="medium"
+                className="tracking-wider text-foreground/40"
               >
                 · {ageLabel}
               </Text>
             ) : null}
           </View>
-          <Text variant="h2" className="font-bold">
+          <Text size="h2">
             {hasAccess && !hasData
               ? 'Waiting for sync'
               : (stress.label ?? 'Peaceful')}
           </Text>
           {hasAccess && !hasData ? (
-            <Text variant="xs" className="mt-1 leading-snug text-foreground/50">
+            <Text size="xs" className="mt-1 leading-snug text-foreground/50">
               Wear your device for a few minutes
             </Text>
           ) : stress.score != null ? (
             <Text
-              variant="xs"
-              className="mt-1 font-semibold tracking-wider text-foreground/40"
+              size="xs"
+              weight="semibold"
+              className="mt-1 tracking-wider text-foreground/40"
             >
               Stress {stress.score}/100
             </Text>
@@ -156,38 +160,55 @@ export function RealTimeAnalysisCard() {
 
         <View className="flex-1 justify-center gap-8">
           <View>
-            <Text variant="caption" muted className="mb-1 font-bold">
+            <Text
+              size="xs"
+              treatment="caption"
+              tone="secondary"
+              weight="bold"
+              className="mb-1"
+            >
               Heart Rate
             </Text>
             <View className="flex-row items-baseline gap-1.5">
               <Text
-                className="text-4xl font-black leading-none text-foreground"
+                weight="black"
+                className="text-4xl leading-none"
                 allowFontScaling={false}
               >
                 {heartRate != null ? heartRate : '—'}
               </Text>
               <Text
-                variant="sm"
-                className="font-bold uppercase tracking-tighter text-primary-pink"
+                size="sm"
+                tone="accent"
+                weight="bold"
+                className="uppercase tracking-tighter"
               >
                 Bpm
               </Text>
             </View>
           </View>
           <View>
-            <Text variant="caption" muted className="mb-1 font-bold">
+            <Text
+              size="xs"
+              treatment="caption"
+              tone="secondary"
+              weight="bold"
+              className="mb-1"
+            >
               HRV Balance
             </Text>
             <View className="flex-row items-baseline gap-1.5">
               <Text
-                className="text-4xl font-black leading-none text-foreground"
+                weight="black"
+                className="text-4xl leading-none"
                 allowFontScaling={false}
               >
                 {hrv != null ? hrv.toFixed(1) : '—'}
               </Text>
               <Text
-                variant="sm"
-                className="font-bold uppercase tracking-tighter"
+                size="sm"
+                weight="bold"
+                className="uppercase tracking-tighter"
                 style={{ color: yellow }}
               >
                 Ms

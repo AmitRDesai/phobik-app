@@ -87,10 +87,10 @@ export default function Health() {
             />
           </IconChip>
           <View className="flex-1">
-            <Text variant="md" className="font-semibold">
+            <Text size="md" weight="semibold">
               {hasAccess ? 'Connected' : 'Not connected'}
             </Text>
-            <Text variant="sm" muted>
+            <Text size="sm" tone="secondary">
               {hasAccess
                 ? `Reading from ${PROVIDER_LABEL}`
                 : `Connect to read HR & HRV from ${PROVIDER_LABEL}`}
@@ -101,27 +101,27 @@ export default function Health() {
         {hasAccess ? (
           <View className="mt-5 gap-2">
             <View className="flex-row justify-between">
-              <Text variant="sm" muted>
+              <Text size="sm" tone="secondary">
                 Heart rate
               </Text>
-              <Text variant="sm" className="font-semibold">
+              <Text size="sm" weight="semibold">
                 {heartRate != null ? `${heartRate} bpm` : '—'}
               </Text>
             </View>
             <View className="flex-row justify-between">
-              <Text variant="sm" muted>
+              <Text size="sm" tone="secondary">
                 HRV
               </Text>
-              <Text variant="sm" className="font-semibold">
+              <Text size="sm" weight="semibold">
                 {hrv != null ? `${hrv.toFixed(1)} ms` : '—'}
               </Text>
             </View>
             {latestAt ? (
               <View className="flex-row justify-between">
-                <Text variant="sm" muted>
+                <Text size="sm" tone="secondary">
                   Last sample
                 </Text>
-                <Text variant="sm" className="font-semibold">
+                <Text size="sm" weight="semibold">
                   {latestAt.toLocaleString()}
                 </Text>
               </View>
@@ -131,7 +131,7 @@ export default function Health() {
       </Card>
 
       {isAndroidUnavailable ? (
-        <Text variant="xs" muted className="px-2 text-center">
+        <Text size="xs" tone="secondary" align="center" className="px-2">
           Health Connect isn&apos;t installed on this device. Install it from
           the Play Store and re-open this screen.
         </Text>
@@ -152,7 +152,7 @@ export default function Health() {
         </GradientButton>
       )}
 
-      <Text variant="xs" className="px-2 text-center text-foreground/40">
+      <Text size="xs" align="center" className="px-2 text-foreground/40">
         Phobik only reads HR and HRV — it never writes data to {PROVIDER_LABEL}.
       </Text>
     </Screen>

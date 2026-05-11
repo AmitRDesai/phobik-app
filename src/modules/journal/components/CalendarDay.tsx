@@ -3,7 +3,8 @@ import { colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 
 interface CalendarDayProps {
   day: number;
@@ -55,7 +56,9 @@ export function CalendarDay({
               className="flex-1 items-center justify-center rounded-full"
               style={{ backgroundColor: innerBg }}
             >
-              <Text className="text-xs font-bold text-foreground">{day}</Text>
+              <Text weight="bold" size="xs">
+                {day}
+              </Text>
             </View>
           </LinearGradient>
         ) : (

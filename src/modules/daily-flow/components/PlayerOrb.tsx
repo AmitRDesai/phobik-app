@@ -76,8 +76,9 @@ export function PlayerOrb({ cue }: Props) {
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
           <Text
-            variant="lg"
-            className="font-black uppercase tracking-[0.2em] text-black"
+            size="lg"
+            weight="black"
+            className="uppercase tracking-[0.2em] text-black"
             style={{ paddingRight: 3.4 }}
           >
             {cue}

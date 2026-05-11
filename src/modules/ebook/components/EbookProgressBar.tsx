@@ -10,10 +10,10 @@ export function EbookProgressBar({ percent }: EbookProgressBarProps) {
   return (
     <View className="px-6 pb-4">
       <View className="mb-1.5 flex-row items-center justify-between">
-        <Text variant="xs" muted className="font-medium">
+        <Text size="xs" tone="secondary" weight="medium">
           Book Progress
         </Text>
-        <Text variant="xs" className="font-semibold">
+        <Text size="xs" weight="semibold">
           {percent}%
         </Text>
       </View>

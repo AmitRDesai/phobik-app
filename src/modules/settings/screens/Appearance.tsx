@@ -44,10 +44,10 @@ export default function Appearance() {
             />
           </View>
           <View className="flex-1">
-            <Text variant="md" className="font-semibold">
+            <Text size="md" weight="semibold">
               Theme
             </Text>
-            <Text variant="sm" muted>
+            <Text size="sm" tone="secondary">
               {themeMode === 'system'
                 ? `Following system (${scheme})`
                 : `Always ${themeMode}`}
@@ -59,7 +59,7 @@ export default function Appearance() {
           selected={themeMode}
           onSelect={setThemeMode}
         />
-        <Text variant="sm" muted className="leading-relaxed">
+        <Text size="sm" tone="secondary" className="leading-relaxed">
           Choose how Phobik appears. Pick System to follow your device&apos;s
           dark/light setting automatically.
         </Text>

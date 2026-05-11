@@ -15,11 +15,11 @@ export default function LightExposure() {
       title="1. Sunlight"
       duration="2-3 min target"
       intro={
-        <Text variant="lg" className="leading-6 text-foreground/70">
+        <Text size="lg" className="leading-6 text-foreground/70">
           Step outside within{' '}
           <Text
-            variant="lg"
-            className="font-bold"
+            size="lg"
+            weight="bold"
             style={{ color: accentFor(scheme, 'yellow') }}
           >
             30 min

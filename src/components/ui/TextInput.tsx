@@ -1,3 +1,4 @@
+import { Text } from '@/components/themed/Text';
 import { colors, withAlpha } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
@@ -5,7 +6,6 @@ import { useState, type Ref } from 'react';
 import {
   Pressable,
   TextInput as RNTextInput,
-  Text,
   View,
   type KeyboardTypeOptions,
   type ReturnKeyTypeOptions,
@@ -119,7 +119,9 @@ export function TextInput({
         )}
       </View>
       {hasError && (
-        <Text className="px-2 text-xs text-status-danger">{error}</Text>
+        <Text tone="danger" size="xs" className="px-2">
+          {error}
+        </Text>
       )}
     </View>
   );

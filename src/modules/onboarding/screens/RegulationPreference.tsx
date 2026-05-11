@@ -59,7 +59,7 @@ export default function RegulationPreference() {
       buttonDisabled={selected.length === 0}
     >
       {/* Selection limit counter */}
-      <Text variant="xs" className="mb-4 font-medium text-foreground/40">
+      <Text size="xs" weight="medium" className="mb-4 text-foreground/40">
         Selection Limit: {selected.length} / {MAX_SELECTIONS}
       </Text>
 
@@ -77,7 +77,7 @@ export default function RegulationPreference() {
         {/* Other input */}
         <View className="mt-2 w-full">
           <View className="h-12 flex-row items-center gap-2 rounded-full border border-foreground/10 bg-foreground/5 px-5">
-            <Text variant="sm" className="font-bold text-foreground/50">
+            <Text size="sm" weight="bold" className="text-foreground/50">
               Other:
             </Text>
             <TextInput
@@ -114,14 +114,10 @@ export default function RegulationPreference() {
             <MaterialIcons name="info" size={22} color="white" />
           </View>
           <View className="flex-1">
-            <Text
-              variant="sm"
-              style={{ color: orangeAccent }}
-              className="font-bold"
-            >
+            <Text size="sm" style={{ color: orangeAccent }} weight="bold">
               Why this matters
             </Text>
-            <Text variant="sm" muted className="mt-1 leading-relaxed">
+            <Text size="sm" tone="secondary" className="mt-1 leading-relaxed">
               We match your preferences with your current nervous system state
               to find your optimal stress tolerance.
             </Text>

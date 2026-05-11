@@ -46,7 +46,7 @@ export function FilterChips({ selected, onSelect }: FilterChipsProps) {
             }
           >
             <Text
-              variant="sm"
+              size="sm"
               className={clsx(
                 'font-semibold',
                 !isActive && 'text-foreground/80',

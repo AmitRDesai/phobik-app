@@ -34,11 +34,11 @@ export function SelfLeadershipPlan({
             size={14}
             color={colors.accent.gold}
           />
-          <Text variant="caption" className="text-accent-yellow">
+          <Text size="xs" treatment="caption" className="text-accent-yellow">
             Self-Leadership Check
           </Text>
         </View>
-        <Text variant="sm" className="mb-4 font-bold">
+        <Text size="sm" weight="bold" className="mb-4">
           Which strength will help you handle this stressor?
         </Text>
         <View className="flex-row flex-wrap gap-2">
@@ -62,7 +62,8 @@ export function SelfLeadershipPlan({
                 }
               >
                 <Text
-                  variant="caption"
+                  size="xs"
+                  treatment="caption"
                   className={clsx(
                     isSelected ? 'text-foreground' : 'text-foreground/70',
                   )}
@@ -77,7 +78,7 @@ export function SelfLeadershipPlan({
 
       {/* Self-Leadership Plan */}
       <View className="gap-4">
-        <Text variant="caption" className="text-foreground/60">
+        <Text size="xs" treatment="caption" className="text-foreground/60">
           Self-Leadership Plan
         </Text>
         <View className="flex-row items-center gap-2 rounded-lg border border-primary-pink/10 bg-primary-pink/5 p-2">
@@ -86,7 +87,12 @@ export function SelfLeadershipPlan({
             size={12}
             color={colors.primary['pink-soft']}
           />
-          <Text variant="caption" className="flex-1 text-primary-pink/80">
+          <Text
+            size="xs"
+            treatment="caption"
+            tone="accent"
+            className="flex-1 /80"
+          >
             Inner CEO: Choose your strength above to activate these tools.
           </Text>
         </View>
@@ -121,10 +127,10 @@ export function SelfLeadershipPlan({
               />
             </View>
             <View className="flex-1">
-              <Text variant="sm" className="font-black">
+              <Text size="sm" weight="black">
                 {ex.title}
               </Text>
-              <Text variant="xs" muted>
+              <Text size="xs" tone="secondary">
                 {ex.description}
               </Text>
             </View>
@@ -147,7 +153,7 @@ export function SelfLeadershipPlan({
                   : (ex.iconColor ?? foregroundFor(scheme, 0.4)),
               }}
             />
-            <Text variant="caption" muted>
+            <Text size="xs" treatment="caption" tone="secondary">
               Supports: {ex.supports}
             </Text>
           </View>

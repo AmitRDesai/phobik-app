@@ -53,7 +53,7 @@ function PhaseButton({
           >
             <MaterialIcons name={phase.icon} size={22} color={accent.icon} />
           </View>
-          <Text variant="lg" className="font-bold">
+          <Text size="lg" weight="bold">
             {phase.label}
           </Text>
         </View>
@@ -143,10 +143,10 @@ export default function FlightChecklistHub() {
 
       {/* Title */}
       <View className="mb-8 items-center">
-        <Text variant="display" className="mb-2 text-center uppercase">
+        <Text size="display" align="center" className="mb-2 uppercase">
           Quick Flight{'\n'}Checklist
         </Text>
-        <Text variant="sm" className="text-foreground/60">
+        <Text size="sm" className="text-foreground/60">
           Prepare your mind for a peaceful journey.
         </Text>
       </View>

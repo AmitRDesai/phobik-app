@@ -63,17 +63,22 @@ export function NotificationItem({ notification }: NotificationItemProps) {
 
       <View className="flex-1 gap-0.5">
         <View className="flex-row items-center gap-2">
-          <Text variant="sm" className="flex-1 font-semibold" numberOfLines={1}>
+          <Text
+            size="sm"
+            weight="semibold"
+            className="flex-1"
+            numberOfLines={1}
+          >
             {notification.title}
           </Text>
           {isUnread && (
             <View className="h-2 w-2 rounded-full bg-primary-pink" />
           )}
         </View>
-        <Text variant="sm" muted numberOfLines={2}>
+        <Text size="sm" tone="secondary" numberOfLines={2}>
           {notification.body}
         </Text>
-        <Text variant="xs" className="mt-1 text-foreground/30">
+        <Text size="xs" tone="tertiary" className="mt-1">
           {formatTimestamp(notification.createdAt)}
         </Text>
       </View>

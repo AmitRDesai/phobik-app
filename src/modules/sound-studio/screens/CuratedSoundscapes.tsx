@@ -12,13 +12,17 @@ export default function CuratedSoundscapes() {
     <PracticeScreenShell wordmark="Sound Studio">
       {/* Smaller hero so "CURATED SOUNDSCAPES" fits on two lines cleanly */}
       <View className="mb-8 mt-6">
-        <Text className="text-[32px] font-extrabold uppercase leading-none">
+        <Text weight="extrabold" className="text-[32px] uppercase leading-none">
           CURATED
         </Text>
         <GradientText className="text-[32px] font-extrabold uppercase leading-none">
           SOUNDSCAPES
         </GradientText>
-        <Text variant="sm" muted className="mt-3 max-w-[320px] leading-relaxed">
+        <Text
+          size="sm"
+          tone="secondary"
+          className="mt-3 max-w-[320px] leading-relaxed"
+        >
           Curated soundscapes designed to help you reset your body, settle your
           thoughts, and feel safe — fast.
         </Text>

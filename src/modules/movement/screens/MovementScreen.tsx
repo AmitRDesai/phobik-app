@@ -59,7 +59,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
             Start Session
           </GradientButton>
           {exercise.footerNote ? (
-            <Text variant="xs" className="mt-3 text-center text-foreground/50">
+            <Text size="xs" align="center" className="mt-3 text-foreground/50">
               {exercise.footerNote}
             </Text>
           ) : null}
@@ -86,8 +86,11 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
       {/* Eyebrow */}
       {exercise.eyebrow ? (
         <Text
-          variant="caption"
-          className="mt-6 text-center font-bold tracking-[0.3em] text-foreground/60"
+          size="xs"
+          treatment="caption"
+          align="center"
+          weight="bold"
+          className="mt-6 tracking-[0.3em] text-foreground/60"
         >
           {exercise.eyebrow}
         </Text>
@@ -95,7 +98,11 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
 
       {/* Title (centered, optional gradient accent line) */}
       <View className="mt-3 items-center">
-        <Text className="text-center text-[34px] font-extrabold leading-[1.1] text-foreground">
+        <Text
+          align="center"
+          weight="extrabold"
+          className="text-[34px] leading-[1.1]"
+        >
           {exercise.title}
         </Text>
         {exercise.titleAccent ? (
@@ -123,7 +130,11 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
                   size={12}
                   color={iconColor}
                 />
-                <Text variant="caption" className={`font-bold ${tone}`}>
+                <Text
+                  size="xs"
+                  treatment="caption"
+                  className={`font-bold ${tone}`}
+                >
                   {pill}
                 </Text>
               </View>
@@ -137,7 +148,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
         {exercise.body.map((p) => (
           <Text
             key={p}
-            variant="lg"
+            size="lg"
             className="leading-relaxed text-foreground/80"
           >
             {p}
@@ -156,11 +167,11 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
                   size={18}
                   color={colors.accent.yellow}
                 />
-                <Text variant="lg" className="font-bold">
+                <Text size="lg" weight="bold">
                   {b.title}
                 </Text>
               </View>
-              <Text variant="sm" className="leading-relaxed text-foreground/70">
+              <Text size="sm" className="leading-relaxed text-foreground/70">
                 {b.description}
               </Text>
             </Card>
@@ -171,8 +182,9 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
       {/* Quote */}
       {exercise.quote ? (
         <Text
-          variant="sm"
-          className="mt-6 text-center leading-relaxed text-foreground/50"
+          size="sm"
+          align="center"
+          className="mt-6 leading-relaxed text-foreground/50"
         >
           &ldquo;{exercise.quote}&rdquo;
         </Text>
@@ -183,10 +195,15 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
         <View className="mt-6 flex-row gap-3">
           {exercise.stats.map((stat) => (
             <Card key={stat.label} variant="glass" className="flex-1 px-4 py-3">
-              <Text variant="caption" className="font-bold text-foreground/50">
+              <Text
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="text-foreground/50"
+              >
                 {stat.label}
               </Text>
-              <Text variant="lg" className="mt-1 font-bold">
+              <Text size="lg" weight="bold" className="mt-1">
                 {stat.value}
               </Text>
             </Card>

@@ -55,7 +55,7 @@ function CardButton({
         style={{ borderRadius: 8, alignSelf: 'flex-start' }}
       >
         <View className="flex-row items-center gap-2 px-4 py-2">
-          <Text variant="xs" className="font-bold">
+          <Text size="xs" weight="bold">
             {label}
           </Text>
           <MaterialIcons name={icon} size={12} color="white" />
@@ -79,7 +79,7 @@ function CardButton({
         variantClasses[variant],
       )}
     >
-      <Text variant="xs" className="font-bold" style={{ color: textColor }}>
+      <Text size="xs" weight="bold" style={{ color: textColor }}>
         {label}
       </Text>
       <MaterialIcons name={icon} size={12} color={textColor} />
@@ -107,11 +107,11 @@ export function CourageOptionCard({ option, onPress }: CourageOptionCardProps) {
           <View>
             <View className="mb-1 flex-row items-center gap-2">
               <CardIcon icon={option.icon} size={20} color={option.iconColor} />
-              <Text variant="lg" className="font-bold">
+              <Text size="lg" weight="bold">
                 {option.title}
               </Text>
             </View>
-            <Text variant="xs" className="leading-snug text-foreground/60">
+            <Text size="xs" className="leading-snug text-foreground/60">
               {option.description}
             </Text>
           </View>

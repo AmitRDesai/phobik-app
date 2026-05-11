@@ -84,16 +84,16 @@ export function HrvRecoveryChart() {
     <View className="gap-4 px-4">
       <View className="flex-row items-end justify-between">
         <View>
-          <Text variant="h3" className="font-bold">
+          <Text size="h3" weight="bold">
             HRV Recovery
           </Text>
-          <Text variant="sm" muted>
+          <Text size="sm" tone="secondary">
             Heart Rate Variability trend
           </Text>
         </View>
         <View className="items-end">
           <Text
-            variant="h2"
+            size="h2"
             style={{
               color: colors.amber[400],
               textShadowColor: colors.amber[400],
@@ -102,12 +102,12 @@ export function HrvRecoveryChart() {
             }}
           >
             {latestValue != null ? latestValue.toFixed(0) : '—'}{' '}
-            <Text variant="xs">ms</Text>
+            <Text size="xs">ms</Text>
           </Text>
           {deltaPct != null ? (
             <Text
-              variant="xs"
-              className="font-bold"
+              size="xs"
+              weight="bold"
               style={{
                 color:
                   deltaPct >= 0 ? colors.status.success : colors.status.danger,
@@ -153,10 +153,20 @@ export function HrvRecoveryChart() {
             </Svg>
           ) : hasConnectedHealth ? (
             <View className="h-full w-full items-center justify-center">
-              <Text variant="caption" muted className="text-center">
+              <Text
+                size="xs"
+                treatment="caption"
+                tone="secondary"
+                align="center"
+              >
                 No data
               </Text>
-              <Text variant="caption" className="mt-1 text-foreground/30">
+              <Text
+                size="xs"
+                treatment="caption"
+                tone="tertiary"
+                className="mt-1"
+              >
                 No HRV samples in this window
               </Text>
             </View>
@@ -165,10 +175,15 @@ export function HrvRecoveryChart() {
               onPress={() => router.push('/settings/health')}
               className="h-full w-full items-center justify-center"
             >
-              <Text variant="xs" muted className="text-center">
+              <Text size="xs" tone="secondary" align="center">
                 Connect Apple Health or Health Connect for HRV trends.
               </Text>
-              <Text variant="caption" className="mt-1 text-primary-pink">
+              <Text
+                size="xs"
+                treatment="caption"
+                tone="accent"
+                className="mt-1"
+              >
                 Set up →
               </Text>
             </Pressable>
@@ -179,8 +194,9 @@ export function HrvRecoveryChart() {
             {labels.map((label) => (
               <Text
                 key={label.key}
-                variant="caption"
-                className="text-foreground/30"
+                size="xs"
+                treatment="caption"
+                tone="tertiary"
               >
                 {label.text}
               </Text>

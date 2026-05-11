@@ -43,8 +43,9 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
     >
       {/* Step label */}
       <Text
-        variant="caption"
-        muted
+        size="xs"
+        treatment="caption"
+        tone="secondary"
         className="mb-2 mt-4 tracking-[0.2em]"
         style={{ paddingRight: 2.2 }}
       >
@@ -52,7 +53,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       </Text>
 
       {/* Title */}
-      <Text variant="h1" className="mb-8">
+      <Text size="h1" className="mb-8">
         Pause and Notice
       </Text>
 
@@ -78,21 +79,22 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       </View>
 
       {/* Instruction */}
-      <Text variant="h2" className="mb-8 text-center">
+      <Text size="h2" align="center" className="mb-8">
         Take one slow breath.
       </Text>
 
       {/* Prompt card */}
       <Card className="mb-6 w-full p-6">
-        <Text variant="lg" className="mb-3 text-center text-foreground/80">
+        <Text size="lg" align="center" className="mb-3 text-foreground/80">
           Say quietly:{' '}
-          <Text variant="lg" className="font-bold">
+          <Text size="lg" weight="bold">
             &ldquo;I notice...&rdquo;
           </Text>
         </Text>
         <Text
-          variant="sm"
-          className="text-center leading-relaxed text-foreground/60"
+          size="sm"
+          align="center"
+          className="leading-relaxed text-foreground/60"
         >
           Describe what is happening in your body like you&apos;re reporting
           facts. Simply noticing helps interrupt the stress loop.
@@ -111,7 +113,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
               size={16}
               color={withAlpha(colors.primary.pink, 0.6)}
             />
-            <Text variant="sm" className="italic text-foreground/70">
+            <Text size="sm" italic className="text-foreground/70">
               &ldquo;{example}&rdquo;
             </Text>
           </View>
@@ -124,7 +126,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
       </View>
 
       {/* Footer */}
-      <Text variant="xs" className="mt-6 text-center text-foreground/55">
+      <Text size="xs" align="center" tone="secondary" className="mt-6">
         Take your time. There is no rush.
       </Text>
     </ScrollView>

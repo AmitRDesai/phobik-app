@@ -71,8 +71,9 @@ export function OnboardingLayout({
       </GradientButton>
       {showStepCounter && (
         <Text
-          variant="caption"
-          muted
+          size="xs"
+          treatment="caption"
+          tone="secondary"
           className="mt-3 tracking-[0.2em]"
           style={{ paddingRight: 2.2 }}
         >
@@ -98,15 +99,15 @@ export function OnboardingLayout({
       {headerContent && <View className="px-8 pt-4">{headerContent}</View>}
       <View className="px-8 pt-4">
         <Text
-          variant="h1"
+          size="h1"
           className={titleClassName ?? 'leading-tight font-extrabold'}
         >
           {title}
         </Text>
         {subtitle && (
           <Text
-            variant="sm"
-            muted
+            size="sm"
+            tone="secondary"
             className={subtitleClassName ?? 'mt-3 leading-relaxed font-medium'}
           >
             {subtitle}

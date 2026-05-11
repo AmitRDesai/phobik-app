@@ -150,8 +150,10 @@ export default function EnergyDetails() {
         </View>
 
         <Text
-          variant="sm"
-          className="text-center font-medium text-foreground/70"
+          size="sm"
+          align="center"
+          weight="medium"
+          className="text-foreground/70"
         >
           {insight}
         </Text>
@@ -165,14 +167,12 @@ export default function EnergyDetails() {
 
       <View className="gap-3">
         <View className="flex-row items-baseline">
-          <Text variant="h2" className="font-bold">
-            Daily{' '}
-          </Text>
+          <Text size="h2">Daily </Text>
           <GradientText className="text-[22px] font-bold leading-[28px]">
             D.O.S.E.
           </GradientText>
         </View>
-        <Text variant="sm" className="text-foreground/55">
+        <Text size="sm" tone="secondary">
           Your brain needs this right now. Micro-actions to balance your
           chemistry.
         </Text>

@@ -115,7 +115,7 @@ export default function PivotPointQuestion() {
         <Header
           left={<BackButton onPress={handleBack} />}
           center={
-            <Text variant="lg" className="font-bold">
+            <Text size="lg" weight="bold">
               The Pivot Point
             </Text>
           }
@@ -155,18 +155,21 @@ export default function PivotPointQuestion() {
         {section && (
           <View className="mb-4">
             <Text
-              variant="caption"
-              className="font-bold tracking-widest text-primary-pink"
+              size="xs"
+              treatment="caption"
+              tone="accent"
+              weight="bold"
+              className="tracking-widest"
             >
               Section {section.id}: {section.title}
             </Text>
-            <Text variant="sm" className="mt-1 text-foreground/55">
+            <Text size="sm" tone="secondary" className="mt-1">
               {section.subtitle}
             </Text>
           </View>
         )}
 
-        <Text variant="h1" className="mb-10 font-bold leading-tight">
+        <Text size="h1" className="mb-10 leading-tight">
           {question.text}
         </Text>
 
@@ -180,17 +183,16 @@ export default function PivotPointQuestion() {
         />
 
         <Text
-          variant="sm"
-          className="mt-4 text-center font-medium text-foreground/60"
+          size="sm"
+          align="center"
+          weight="medium"
+          className="mt-4 text-foreground/60"
         >
           {ratingLabel || ' '}
         </Text>
 
         <View className="mt-12 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-6">
-          <Text
-            variant="sm"
-            className="italic leading-relaxed text-foreground/55"
-          >
+          <Text size="sm" italic tone="secondary" className="leading-relaxed">
             &ldquo;The Pivot Point is that split second between a stimulus and
             your response where your freedom lies.&rdquo;
           </Text>

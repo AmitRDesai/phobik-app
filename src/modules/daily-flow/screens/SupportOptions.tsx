@@ -57,8 +57,9 @@ export default function SupportOptions() {
             Start My Shift
           </GradientButton>
           <Text
-            variant="sm"
-            className="mt-4 px-4 text-center text-foreground/50"
+            size="sm"
+            align="center"
+            className="mt-4 px-4 text-foreground/50"
           >
             Prepare for a sensory transition. Please use headphones.
           </Text>
@@ -70,17 +71,20 @@ export default function SupportOptions() {
         <View className="flex-row items-end justify-between">
           <View className="flex-1">
             <Text
-              variant="caption"
-              className="font-bold tracking-[0.3em] text-primary-pink"
+              size="xs"
+              treatment="caption"
+              tone="accent"
+              weight="bold"
+              className="tracking-[0.3em]"
               style={{ paddingRight: 3.3 }}
             >
               Step 03
             </Text>
-            <Text variant="h1" className="mt-2 font-black leading-tight">
+            <Text size="h1" weight="black" className="mt-2 leading-tight">
               Choose your sound
             </Text>
           </View>
-          <Text variant="sm" className="pb-1 text-foreground/55">
+          <Text size="sm" tone="secondary" className="pb-1">
             75% Complete
           </Text>
         </View>
@@ -102,8 +106,10 @@ export default function SupportOptions() {
 
       <View className="mt-10 items-center">
         <Text
-          variant="caption"
-          className="font-bold tracking-[0.3em] text-foreground/50"
+          size="xs"
+          treatment="caption"
+          weight="bold"
+          className="tracking-[0.3em] text-foreground/50"
           style={{ paddingRight: 3.3 }}
         >
           Enhance Your Session

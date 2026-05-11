@@ -64,7 +64,7 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
             size={20}
             color={accentFor(scheme, 'yellow')}
           />
-          <Text variant="md" className="font-semibold">
+          <Text size="md" weight="semibold">
             {selectedLabel || 'What are you needing?'}
           </Text>
         </View>
@@ -89,8 +89,8 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
               style={{ width: '48%' }}
             >
               <Text
-                variant="sm"
-                className="font-medium"
+                size="sm"
+                weight="medium"
                 style={{
                   color:
                     value === option.value

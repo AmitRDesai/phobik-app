@@ -54,10 +54,10 @@ export function AssessmentCard({
           {renderIcon(assessment)}
         </View>
         <View className="flex-1">
-          <Text variant="h3" className="font-bold">
+          <Text size="h3" weight="bold">
             {assessment.title}
           </Text>
-          <Text variant="sm" muted className="mt-1 leading-relaxed">
+          <Text size="sm" tone="secondary" className="mt-1 leading-relaxed">
             {assessment.description}
           </Text>
         </View>

@@ -2,7 +2,8 @@ import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 
 import { useEffect, useRef } from 'react';
-import { Text, useWindowDimensions, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { useWindowDimensions, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedProps,
@@ -215,12 +216,15 @@ export function BreathingCircle478({
       {/* Center countdown */}
       <View className="absolute items-center justify-center">
         <Text
-          className="text-7xl font-light tracking-tighter text-foreground"
+          className="text-7xl font-light tracking-tighter"
           style={{ fontVariant: ['tabular-nums'] }}
         >
           {phaseCountdown.toString().padStart(2, '0')}
         </Text>
-        <Text className="mt-1 text-[10px] font-black uppercase tracking-[0.4em] text-foreground/40">
+        <Text
+          weight="black"
+          className="mt-1 text-[10px] uppercase tracking-[0.4em] text-foreground/40"
+        >
           Seconds
         </Text>
       </View>

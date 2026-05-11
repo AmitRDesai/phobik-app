@@ -1,7 +1,8 @@
+import { Text } from '@/components/themed/Text';
 import { colors, withAlpha } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import Animated, {
   cancelAnimation,
   Easing,
@@ -85,7 +86,6 @@ export function BreathingBox({
         fillProgress.value = 0;
         break;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phaseIndex, isPaused, isActive]);
 
   const fillStyle = useAnimatedStyle(() => ({
@@ -253,7 +253,9 @@ export function BreathingBox({
         <View className="z-10 items-center gap-2" style={{ width: 200 }}>
           <Animated.View style={textAnimStyle}>
             <Text
-              className="text-center text-3xl font-bold text-foreground"
+              align="center"
+              weight="bold"
+              className="text-3xl"
               style={{ fontVariant: ['tabular-nums'] }}
             >
               {isActive

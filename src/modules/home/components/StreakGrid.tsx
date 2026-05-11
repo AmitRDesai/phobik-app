@@ -66,7 +66,7 @@ export function StreakGrid({ completedDates }: StreakGridProps) {
     >
       {weekDays.map((day) => (
         <View key={day.dateStr} className="items-center gap-1.5">
-          <Text className="text-[9px] font-bold text-foreground/40">
+          <Text weight="bold" className="text-[9px] text-foreground/40">
             {day.label}
           </Text>
           <View
@@ -99,7 +99,7 @@ export function StreakGrid({ completedDates }: StreakGridProps) {
               />
             ) : (
               <Text
-                className="font-semibold"
+                weight="semibold"
                 style={{
                   color: day.isToday
                     ? accentFor(scheme, 'yellow')

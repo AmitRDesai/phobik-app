@@ -17,7 +17,7 @@ export function DoseSummaryCard() {
   return (
     <View className="gap-4">
       <View className="flex-row items-center justify-between">
-        <Text variant="caption" muted>
+        <Text size="xs" treatment="caption" tone="secondary">
           Daily D.O.S.E.
         </Text>
         <Button
@@ -38,10 +38,10 @@ export function DoseSummaryCard() {
       <Pressable onPress={() => router.push('/insights/dose-tracking')}>
         <DashboardCard className="p-5">
           <View className="mb-4">
-            <Text variant="sm" className="font-black">
+            <Text size="sm" weight="black">
               Daily D.O.S.E.
             </Text>
-            <Text variant="caption" className="text-foreground/30">
+            <Text size="xs" treatment="caption" tone="tertiary">
               Neurochemical Balance
             </Text>
           </View>
@@ -62,14 +62,10 @@ export function DoseSummaryCard() {
                   />
                 </View>
                 <View>
-                  <Text variant="caption" className="text-foreground/30">
+                  <Text size="xs" treatment="caption" tone="tertiary">
                     {chem.label}
                   </Text>
-                  <Text
-                    variant="xs"
-                    className="font-black"
-                    style={{ color: chem.color }}
-                  >
+                  <Text size="xs" weight="black" style={{ color: chem.color }}>
                     {chem.coins} Coins
                   </Text>
                 </View>

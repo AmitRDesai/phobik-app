@@ -54,17 +54,21 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
       {/* Header */}
       <View className="items-center pb-2">
         <Text
-          variant="caption"
-          className="text-primary-pink font-bold tracking-[3px]"
+          size="xs"
+          treatment="caption"
+          tone="accent"
+          weight="bold"
+          className="tracking-[3px]"
         >
           PHOBIK COMMUNITY
         </Text>
-        <Text variant="h2" className="mt-1 text-center font-bold leading-tight">
+        <Text size="h2" align="center" className="mt-1 leading-tight">
           Phobik Community Principles
         </Text>
         <Text
-          variant="sm"
-          className="mt-2 text-center leading-relaxed text-primary-muted"
+          size="sm"
+          align="center"
+          className="mt-2 leading-relaxed text-primary-muted"
         >
           Kindness matters. Courage grows in Community.
         </Text>
@@ -94,10 +98,14 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
                 <MaterialIcons name={principle.icon} size={18} color="white" />
               </LinearGradient>
               <View className="flex-1">
-                <Text variant="sm" className="font-semibold">
+                <Text size="sm" weight="semibold">
                   {principle.title}
                 </Text>
-                <Text variant="xs" muted className="mt-0.5 leading-tight">
+                <Text
+                  size="xs"
+                  tone="secondary"
+                  className="mt-0.5 leading-tight"
+                >
                   {principle.description}
                 </Text>
               </View>
@@ -117,8 +125,11 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
 
       {/* Footer */}
       <Text
-        variant="caption"
-        className="text-primary-muted/50 mt-4 text-center font-medium tracking-[2px]"
+        size="xs"
+        treatment="caption"
+        align="center"
+        weight="medium"
+        className="text-primary-muted/50 mt-4 tracking-[2px]"
       >
         Safe-sharing protocol active
       </Text>

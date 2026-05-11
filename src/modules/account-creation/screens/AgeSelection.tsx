@@ -49,8 +49,9 @@ export default function AgeSelectionScreen() {
             Next
           </GradientButton>
           <Text
-            variant="caption"
-            muted
+            size="xs"
+            treatment="caption"
+            tone="secondary"
             className="mt-3 tracking-[0.2em]"
             style={{ paddingRight: 2.2 }}
           >
@@ -60,10 +61,10 @@ export default function AgeSelectionScreen() {
       }
       className="px-8 pt-2"
     >
-      <Text variant="h1" className="text-center tracking-tight">
+      <Text size="h1" align="center" className="tracking-tight">
         What age range do you fall into?
       </Text>
-      <Text variant="sm" muted className="mt-3 text-center">
+      <Text size="sm" tone="secondary" align="center" className="mt-3">
         Select your age range to personalize your journey.
       </Text>
       <View className="mt-8 gap-4">

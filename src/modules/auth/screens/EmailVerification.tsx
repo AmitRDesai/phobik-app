@@ -129,13 +129,16 @@ export default function EmailVerificationScreen() {
         </View>
 
         {/* Title */}
-        <Text variant="h1">Verify Your Email</Text>
-        <Text variant="lg" muted className="mt-3 text-center">
+        <Text size="h1">Verify Your Email</Text>
+        <Text size="lg" tone="secondary" align="center" className="mt-3">
           We sent a verification link to
         </Text>
         <Text
-          variant="lg"
-          className="mt-1 text-center font-semibold text-primary-pink"
+          size="lg"
+          align="center"
+          tone="accent"
+          weight="semibold"
+          className="mt-1"
         >
           {email}
         </Text>
@@ -159,7 +162,7 @@ export default function EmailVerificationScreen() {
         </Button>
 
         {/* Hint */}
-        <Text variant="sm" muted className="mt-10 text-center">
+        <Text size="sm" tone="secondary" align="center" className="mt-10">
           Click the link in the email, then return here.{'\n'}The app will
           detect verification automatically.
         </Text>

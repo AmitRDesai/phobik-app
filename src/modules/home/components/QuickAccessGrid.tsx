@@ -43,8 +43,10 @@ export function QuickAccessGrid() {
         >
           <MaterialIcons name={item.icon} size={22} color={iconColor} />
           <Text
-            variant="caption"
-            className="font-bold tracking-wider text-foreground/70"
+            size="xs"
+            treatment="caption"
+            weight="bold"
+            className="tracking-wider text-foreground/70"
             style={{ paddingRight: 1.1 }}
           >
             {item.label}

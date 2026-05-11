@@ -56,24 +56,24 @@ export default function AiStudioFeeling() {
       </Badge>
 
       {/* Title */}
-      <Text variant="display" className="mt-4 leading-tight">
+      <Text size="display" className="mt-4 leading-tight">
         What are you{' '}
         <Text
-          variant="display"
+          size="display"
           className="leading-tight"
           style={{ color: yellow }}
         >
           feeling?
         </Text>
       </Text>
-      <Text variant="lg" muted className="mt-3 leading-relaxed">
+      <Text size="lg" tone="secondary" className="mt-3 leading-relaxed">
         The vibe dictates the architecture. Select the emotional textures that
         define your sonic organism.
       </Text>
 
       {/* Emotional tags */}
       <Card className="mt-6 rounded-3xl p-5">
-        <Text variant="caption" muted>
+        <Text size="xs" treatment="caption" tone="secondary">
           Emotional Tags
         </Text>
         <View className="mt-3 flex-row flex-wrap gap-2">
@@ -100,13 +100,13 @@ export default function AiStudioFeeling() {
                     }}
                   >
                     <MaterialIcons name="bolt" size={12} color="black" />
-                    <Text variant="xs" className="font-bold text-black">
+                    <Text size="xs" weight="bold" className="text-black">
                       {tag}
                     </Text>
                   </LinearGradient>
                 ) : (
                   <View className="rounded-full border border-foreground/15 bg-foreground/[0.04] px-4 py-2">
-                    <Text variant="xs" className="font-semibold">
+                    <Text size="xs" weight="semibold">
                       {tag}
                     </Text>
                   </View>
@@ -119,7 +119,7 @@ export default function AiStudioFeeling() {
 
       {/* Custom mood */}
       <Card className="mt-4 rounded-3xl p-5">
-        <Text variant="caption" muted>
+        <Text size="xs" treatment="caption" tone="secondary">
           Custom Mood or Genre
         </Text>
         <TextInput
@@ -131,14 +131,14 @@ export default function AiStudioFeeling() {
           className="mt-3 min-h-[60px] text-base text-foreground"
           textAlignVertical="top"
         />
-        <Text variant="xs" className="mt-3 text-foreground/40 leading-relaxed">
+        <Text size="xs" className="mt-3 text-foreground/40 leading-relaxed">
           "A midnight drive through a neon-soaked city under a purple haze."
         </Text>
       </Card>
 
       {/* Music prompt */}
       <Card className="mt-4 rounded-3xl p-5">
-        <Text variant="caption" muted>
+        <Text size="xs" treatment="caption" tone="secondary">
           Music Prompt
         </Text>
         <TextInput
@@ -150,7 +150,7 @@ export default function AiStudioFeeling() {
           className="mt-3 min-h-[80px] text-base text-foreground"
           textAlignVertical="top"
         />
-        <Text variant="xs" className="mt-3 text-foreground/40 leading-relaxed">
+        <Text size="xs" className="mt-3 text-foreground/40 leading-relaxed">
           Example: "An cinematic orchestral piece that begins with a haunting
           cello solo and gradually swells into a triumphant hybrid-electronic
           climax with deep sub-bass and shimmering synth pads."
@@ -161,9 +161,9 @@ export default function AiStudioFeeling() {
       <View className="mt-5 flex-row items-center justify-between">
         <View className="flex-row items-center gap-2">
           <MaterialIcons name="bolt" size={14} color={yellow} />
-          <Text variant="xs" muted>
+          <Text size="xs" tone="secondary">
             Existing Credits:{' '}
-            <Text variant="xs" className="font-bold">
+            <Text size="xs" weight="bold">
               {FAKE_CREDITS}
             </Text>
           </Text>

@@ -56,13 +56,13 @@ export default function EFTTOHFocus() {
       className="px-6"
     >
       <View className="mt-2">
-        <Text className="text-[34px] font-black leading-tight text-foreground">
+        <Text weight="black" className="text-[34px] leading-tight">
           EFT Tapping
         </Text>
         <GradientText className="text-[34px] font-black leading-tight">
           Points Quick Tutorial
         </GradientText>
-        <Text variant="sm" muted className="mt-3 leading-5">
+        <Text size="sm" tone="secondary" className="mt-3 leading-5">
           Follow the sequence below to release emotional blocks and restore
           balance.
         </Text>
@@ -98,8 +98,11 @@ export default function EFTTOHFocus() {
             <CircularTappingPoint accent="pink" />
             <View className="mt-3 rounded bg-black/60 px-2 py-[2px]">
               <Text
-                variant="caption"
-                className="font-bold tracking-wider text-white"
+                size="xs"
+                treatment="caption"
+                tone="inverse"
+                weight="bold"
+                className="tracking-wider"
                 style={{ paddingRight: 1.1 }}
                 numberOfLines={1}
               >

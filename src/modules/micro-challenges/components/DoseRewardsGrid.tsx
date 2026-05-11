@@ -44,7 +44,7 @@ export function DoseRewardsGrid({ dose }: DoseRewardsGridProps) {
 
   return (
     <View>
-      <Text variant="caption" muted className="mb-4">
+      <Text size="xs" treatment="caption" tone="secondary" className="mb-4">
         Daily D.O.S.E. Rewards
       </Text>
       <View className="flex-row flex-wrap gap-3">
@@ -61,19 +61,15 @@ export function DoseRewardsGrid({ dose }: DoseRewardsGridProps) {
               bg={withAlpha(item.color, 0.08)}
               border={withAlpha(item.color, 0.2)}
             >
-              <Text
-                variant="xs"
-                className="font-bold"
-                style={{ color: item.color }}
-              >
+              <Text size="xs" weight="bold" style={{ color: item.color }}>
                 +{dose[item.key]}
               </Text>
             </IconChip>
             <View>
-              <Text variant="caption" muted>
+              <Text size="xs" treatment="caption" tone="secondary">
                 {item.label}
               </Text>
-              <Text variant="xs" className="text-foreground/70">
+              <Text size="xs" className="text-foreground/70">
                 {item.sub}
               </Text>
             </View>

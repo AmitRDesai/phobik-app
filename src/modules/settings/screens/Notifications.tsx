@@ -28,10 +28,10 @@ function ToggleRow({
   return (
     <Card className="flex-row items-center gap-3 px-4 py-3.5">
       <View className="flex-1">
-        <Text variant="md" className="font-semibold">
+        <Text size="md" weight="semibold">
           {label}
         </Text>
-        <Text variant="sm" muted>
+        <Text size="sm" tone="secondary">
           {description}
         </Text>
       </View>

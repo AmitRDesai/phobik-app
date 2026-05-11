@@ -56,13 +56,13 @@ export function RatingScale({
                     boxShadow: `0px 0px 20px ${withAlpha(colors.primary.pink, 0.4)}`,
                   }}
                 >
-                  <Text variant="h3" className="font-bold text-white">
+                  <Text size="h3" tone="inverse" weight="bold">
                     {option}
                   </Text>
                 </LinearGradient>
               ) : (
                 <View className="h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-surface">
-                  <Text variant="h3" className="font-bold text-foreground/60">
+                  <Text size="h3" weight="bold" className="text-foreground/60">
                     {option}
                   </Text>
                 </View>
@@ -70,16 +70,20 @@ export function RatingScale({
             </Pressable>
             {isFirst && (
               <Text
-                variant="caption"
-                className="font-bold tracking-wider text-foreground/45"
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="tracking-wider text-foreground/45"
               >
                 {startLabel}
               </Text>
             )}
             {isLast && (
               <Text
-                variant="caption"
-                className="font-bold tracking-wider text-foreground/45"
+                size="xs"
+                treatment="caption"
+                weight="bold"
+                className="tracking-wider text-foreground/45"
               >
                 {endLabel}
               </Text>

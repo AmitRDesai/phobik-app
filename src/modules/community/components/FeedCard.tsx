@@ -78,17 +78,17 @@ export function FeedCard({
           iconSize={22}
         />
         <View>
-          <Text variant="sm" className="font-bold text-foreground/80">
+          <Text size="sm" weight="bold" className="text-foreground/80">
             {author.name}
           </Text>
-          <Text variant="caption" muted className="font-bold">
+          <Text size="xs" treatment="caption" tone="secondary" weight="bold">
             {getRelativeTime(createdAt)}
           </Text>
         </View>
       </View>
 
       {/* Content */}
-      <Text variant="lg" className="mt-4 font-bold leading-tight">
+      <Text size="lg" weight="bold" className="mt-4 leading-tight">
         {content}
       </Text>
 
@@ -165,7 +165,7 @@ export function FeedCard({
               }
             >
               <Text
-                variant="xs"
+                size="xs"
                 className={clsx('font-bold', !isActive && 'text-foreground/80')}
               >
                 {reaction.emoji} {reaction.label}

@@ -48,14 +48,14 @@ export default function EFTGuide() {
     >
       <View className="mt-2">
         <View className="flex-row flex-wrap items-baseline">
-          <Text className="text-[34px] font-black leading-tight text-foreground">
+          <Text weight="black" className="text-[34px] leading-tight">
             EFT Tapping
           </Text>
         </View>
         <GradientText className="text-[34px] font-black leading-tight">
           Points Quick Tutorial
         </GradientText>
-        <Text variant="sm" muted className="mt-3 leading-5">
+        <Text size="sm" tone="secondary" className="mt-3 leading-5">
           Follow the sequence below to release emotional blocks and restore
           balance.
         </Text>

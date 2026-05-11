@@ -2,7 +2,8 @@ import { Card } from '@/components/ui/Card';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import * as Haptics from 'expo-haptics';
-import { Pressable, Text, View } from 'react-native';
+import { Text } from '@/components/themed/Text';
+import { Pressable, View } from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -49,10 +50,10 @@ export function AuraFilterToggle({ enabled, onToggle }: AuraFilterToggleProps) {
     <Card variant="surface" className="p-5">
       <View className="flex-row items-center justify-between">
         <View className="flex-1 gap-1">
-          <Text className="text-base font-bold text-foreground">
+          <Text weight="bold" size="md">
             Apply Aura Filter
           </Text>
-          <Text className="text-sm text-foreground/55">
+          <Text tone="secondary" size="sm">
             Enhance your photo with our signature glow
           </Text>
         </View>

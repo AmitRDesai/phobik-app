@@ -61,23 +61,30 @@ export default function ForgotPasswordScreen() {
             <Ionicons name="mail-open" size={48} color={colors.primary.pink} />
           </View>
 
-          <Text variant="h1" className="font-bold">
-            Check Your Email
-          </Text>
-          <Text variant="md" muted className="mt-3 text-center leading-relaxed">
+          <Text size="h1">Check Your Email</Text>
+          <Text
+            size="md"
+            tone="secondary"
+            align="center"
+            className="mt-3 leading-relaxed"
+          >
             We sent a password reset link to
           </Text>
           <Text
-            variant="md"
-            className="mt-1 text-center font-semibold text-primary-pink"
+            size="md"
+            align="center"
+            tone="accent"
+            weight="semibold"
+            className="mt-1"
           >
             {email}
           </Text>
 
           <Text
-            variant="sm"
-            muted
-            className="mt-10 text-center leading-relaxed"
+            size="sm"
+            tone="secondary"
+            align="center"
+            className="mt-10 leading-relaxed"
           >
             Click the link in the email to reset your password.{'\n'}If you
             don&apos;t see it, check your spam folder.
@@ -117,10 +124,13 @@ export default function ForgotPasswordScreen() {
       </View>
 
       <View className="items-center px-4">
-        <Text variant="h1" className="font-bold">
-          Forgot Password?
-        </Text>
-        <Text variant="md" muted className="mt-3 text-center leading-relaxed">
+        <Text size="h1">Forgot Password?</Text>
+        <Text
+          size="md"
+          tone="secondary"
+          align="center"
+          className="mt-3 leading-relaxed"
+        >
           Enter your email and we&apos;ll send you a link to reset your
           password.
         </Text>
@@ -158,9 +168,9 @@ export default function ForgotPasswordScreen() {
         className="mt-6 py-2"
         disabled={isLoading}
       >
-        <Text variant="sm" className="text-center text-foreground/55">
+        <Text size="sm" align="center" tone="secondary">
           Remember your password?{' '}
-          <Text variant="sm" className="font-bold text-primary-pink">
+          <Text size="sm" tone="accent" weight="bold">
             Sign In
           </Text>
         </Text>
