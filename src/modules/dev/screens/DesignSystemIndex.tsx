@@ -30,6 +30,7 @@ const SECTIONS: {
     | '/dev/design-system/audio-players'
     | '/dev/design-system/empty-states'
     | '/dev/design-system/toasts'
+    | '/dev/design-system/skeletons'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -182,6 +183,13 @@ const SECTIONS: {
     subtitle:
       'success · info · warning · error · imperative API · auto-dismiss',
     icon: 'notifications-active',
+  },
+  {
+    href: '/dev/design-system/skeletons',
+    label: 'Skeleton',
+    subtitle:
+      'rect / pill / circle · animated pulse · compositions · static mode',
+    icon: 'view-stream',
   },
   {
     href: '/dev/design-system/screens',
