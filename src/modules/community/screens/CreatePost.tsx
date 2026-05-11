@@ -14,7 +14,8 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Image, Pressable, ScrollView, Switch } from 'react-native';
+import { Image, Pressable, ScrollView } from 'react-native';
+import { Switch } from '@/components/ui/Switch';
 import { TextArea } from '@/components/ui/TextArea';
 import { useCreatePost } from '../hooks/useCommunityFeed';
 
@@ -223,15 +224,7 @@ export default function CreatePost() {
             </Text>
           </View>
         </View>
-        <Switch
-          value={isAnonymous}
-          onValueChange={setIsAnonymous}
-          trackColor={{
-            false: foregroundFor(scheme, 0.1),
-            true: colors.primary.pink,
-          }}
-          thumbColor="white"
-        />
+        <Switch value={isAnonymous} onValueChange={setIsAnonymous} />
       </Card>
 
       {/* Guidance */}

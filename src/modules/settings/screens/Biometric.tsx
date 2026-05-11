@@ -4,21 +4,19 @@ import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
+import { colors, withAlpha } from '@/constants/colors';
 import { BiometricSetup } from '@/modules/auth/components/BiometricSetup';
 import { useSignOut } from '@/hooks/auth/useAuth';
 import { useBiometricAvailability } from '@/hooks/auth/useBiometric';
 import { biometricEnabledAtom } from '@/store/auth';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtom } from 'jotai';
-import { Switch } from 'react-native';
+import { Switch } from '@/components/ui/Switch';
 
 export default function Biometric() {
   const { biometricType, isAvailable } = useBiometricAvailability();
   const [biometricEnabled, setBiometricEnabled] = useAtom(biometricEnabledAtom);
   const signOut = useSignOut();
-  const scheme = useScheme();
 
   const handleDisable = () => {
     setBiometricEnabled(false);
@@ -72,11 +70,6 @@ export default function Biometric() {
                 onValueChange={(val) => {
                   if (!val) handleDisable();
                 }}
-                trackColor={{
-                  false: foregroundFor(scheme, 0.1),
-                  true: colors.primary.pink,
-                }}
-                thumbColor="white"
               />
             </View>
           </Card>

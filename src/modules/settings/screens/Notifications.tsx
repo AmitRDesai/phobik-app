@@ -3,9 +3,7 @@ import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
-import { Switch } from 'react-native';
+import { Switch } from '@/components/ui/Switch';
 import {
   useNotificationSettings,
   useUpdateNotificationSettings,
@@ -24,7 +22,6 @@ function ToggleRow({
   value,
   onValueChange,
 }: ToggleRowProps) {
-  const scheme = useScheme();
   return (
     <Card className="flex-row items-center gap-3 px-4 py-3.5">
       <View className="flex-1">
@@ -35,15 +32,7 @@ function ToggleRow({
           {description}
         </Text>
       </View>
-      <Switch
-        value={value}
-        onValueChange={onValueChange}
-        trackColor={{
-          false: foregroundFor(scheme, 0.1),
-          true: colors.primary.pink,
-        }}
-        thumbColor="white"
-      />
+      <Switch value={value} onValueChange={onValueChange} />
     </Card>
   );
 }
