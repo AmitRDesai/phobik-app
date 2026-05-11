@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
+import { BiometricStatCard } from '@/components/ui/BiometricStatCard';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
@@ -487,14 +488,12 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
       {meditation.stats && meditation.stats.length > 0 ? (
         <View className="mt-6 flex-row gap-3">
           {meditation.stats.map((stat) => (
-            <Card key={stat.label} className="flex-1 px-4 py-3">
-              <Text size="xs" treatment="caption" weight="bold" tone="tertiary">
-                {stat.label}
-              </Text>
-              <Text size="lg" weight="bold" className="mt-1">
-                {renderStatValue(stat)}
-              </Text>
-            </Card>
+            <BiometricStatCard
+              key={stat.label}
+              className="flex-1"
+              label={stat.label}
+              value={renderStatValue(stat)}
+            />
           ))}
         </View>
       ) : null}

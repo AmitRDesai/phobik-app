@@ -5,6 +5,7 @@ import tibetanBowlAudio from '@/assets/audio/practices/tibetan-bowl.mp3';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
+import { BiometricStatCard } from '@/components/ui/BiometricStatCard';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { useNow } from '@/hooks/useNow';
@@ -274,89 +275,48 @@ export default function Breathing478Session() {
 
         {/* Stats cards row */}
         <View className="mb-4 flex-row gap-4">
-          {/* Heart Rate card */}
-          <View className="flex-1 rounded-[32px] border border-foreground/[0.08] bg-foreground/[0.04] p-5">
-            <View className="flex-row items-center gap-2">
+          <BiometricStatCard
+            className="flex-1"
+            size="md"
+            tone="pink"
+            label="Heart Rate"
+            value={liveHr != null ? String(liveHr) : '—'}
+            unit="BPM"
+            isStale={liveHr == null}
+            icon={(color) => (
               <MaterialIcons
                 name="favorite"
                 size={18}
-                color={colors.primary.pink}
+                color={color}
                 style={{
                   textShadowColor: withAlpha(colors.rose[500], 0.5),
                   textShadowOffset: { width: 0, height: 0 },
                   textShadowRadius: 10,
                 }}
               />
-              <Text
-                size="xs"
-                treatment="caption"
-                weight="bold"
-                className="tracking-[0.2em] text-foreground/50"
-                style={{ paddingRight: 1.8 }}
-              >
-                Heart Rate
-              </Text>
-            </View>
-            <View className="mt-1 flex-row items-baseline gap-1">
-              <Text
-                size="h2"
-                weight="semibold"
-                style={{ fontVariant: ['tabular-nums'] }}
-              >
-                {liveHr != null ? liveHr : '—'}
-              </Text>
-              <Text
-                size="xs"
-                treatment="caption"
-                tone="secondary"
-                weight="bold"
-              >
-                BPM
-              </Text>
-            </View>
-          </View>
-
-          {/* HRV card */}
-          <View className="flex-1 rounded-[32px] border border-foreground/[0.08] bg-foreground/[0.04] p-5">
-            <View className="flex-row items-center gap-2">
+            )}
+          />
+          <BiometricStatCard
+            className="flex-1"
+            size="md"
+            tone="yellow"
+            label="HRV"
+            value={liveHrv != null ? String(Math.round(liveHrv)) : '—'}
+            unit="MS"
+            isStale={liveHrv == null}
+            icon={(color) => (
               <MaterialIcons
                 name="monitor-heart"
                 size={18}
-                color={colors.accent.yellow}
+                color={color}
                 style={{
                   textShadowColor: withAlpha(colors.yellow[500], 0.5),
                   textShadowOffset: { width: 0, height: 0 },
                   textShadowRadius: 10,
                 }}
               />
-              <Text
-                size="xs"
-                treatment="caption"
-                weight="bold"
-                className="tracking-[0.2em] text-foreground/50"
-                style={{ paddingRight: 1.8 }}
-              >
-                HRV
-              </Text>
-            </View>
-            <View className="mt-1 flex-row items-baseline gap-1">
-              <Text
-                size="h2"
-                weight="semibold"
-                style={{ fontVariant: ['tabular-nums'] }}
-              >
-                {liveHrv != null ? Math.round(liveHrv) : '—'}
-              </Text>
-              <Text
-                size="xs"
-                treatment="caption"
-                tone="secondary"
-                weight="bold"
-              >
-                MS
-              </Text>
-            </View>
-          </View>
+            )}
+          />
         </View>
       </View>
     </Screen>

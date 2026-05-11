@@ -42,6 +42,7 @@ const SECTIONS: {
     | '/dev/design-system/social-auth-buttons'
     | '/dev/design-system/image-scrims'
     | '/dev/design-system/accent-pills'
+    | '/dev/design-system/biometric-stat-cards'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -278,6 +279,13 @@ const SECTIONS: {
     subtitle:
       'neutral / tinted / solid · status labels · category tags · corner badges · tappable toggles',
     icon: 'label-important',
+  },
+  {
+    href: '/dev/design-system/biometric-stat-cards',
+    label: 'BiometricStatCard',
+    subtitle:
+      'session stat tile · label + value + unit + icon · sm / md · isStale · tappable',
+    icon: 'monitor-heart',
   },
   {
     href: '/dev/design-system/screens',
