@@ -13,6 +13,7 @@ const SECTIONS: {
     | '/dev/design-system/badges'
     | '/dev/design-system/icon-chips'
     | '/dev/design-system/text-fields'
+    | '/dev/design-system/text-areas'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -53,6 +54,12 @@ const SECTIONS: {
     label: 'TextField',
     subtitle: 'types · sizes · label · hint · error · icon · states',
     icon: 'edit',
+  },
+  {
+    href: '/dev/design-system/text-areas',
+    label: 'TextArea',
+    subtitle: 'filled · minimal · rows · label · hint · error · counter',
+    icon: 'notes',
   },
   {
     href: '/dev/design-system/screens',
