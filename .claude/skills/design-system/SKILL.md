@@ -104,6 +104,7 @@ Every primitive lives in `src/components/ui/`. The full live catalog is browsabl
 ### Media
 
 - **`AudioPlayer`** — `variant: 'hero' | 'card' | 'mini' | 'inline'`. Presentation only — the parent owns the player hook. Hero composes back / play / forward (or `skip-next` via `skipForwardKind="instruction"`) + optional voice toggle + mute. `loadingLabel` for download-percent UX.
+- **`PlaybackControls`** — three-slot session control row: `[mute] [PLAY/PAUSE] [restart]`. Used by breathing / meditation sessions where the screen has its own real-time visualization and only needs the bottom controls. `size: 'sm' (default, 48+64px) | 'md' (56+80px)`. Layout (`justify-center gap-8` vs `justify-between px-12`) goes in `className`. Mute is optional — omit `onMuteToggle` for an invisible spacer that keeps play centered.
 - **`Glows`** (`GlowBg` for full-window + `RadialGlow` for element halos) — radial gradient decorations.
 
 ## Building a screen — the canonical recipe
@@ -158,6 +159,7 @@ export default function MyScreen() {
 | `<View className="h-10 w-10 rounded-full ...">` (icon chip) | `IconChip` with appropriate size + tone |
 | `<Pressable className="h-10 w-10 ... rounded-full"><MaterialIcons name="close" .../></Pressable>` (header close / round icon button) | `IconChip onPress={...} accessibilityLabel="..." size="md" shape="circle">{(color) => <Icon color={color} />}</IconChip>` |
 | Hand-rolled rating buttons | `Rating` primitive |
+| Hand-rolled session controls (Pressable mute + LinearGradient play + Pressable replay) | `PlaybackControls` primitive (`size: 'sm' | 'md'`, layout via `className`) |
 | Inline accordion w/ animated height + caller-supplied EXPANDED_HEIGHT | `Accordion` (auto-measures content) |
 
 ## When the primitive doesn't exist

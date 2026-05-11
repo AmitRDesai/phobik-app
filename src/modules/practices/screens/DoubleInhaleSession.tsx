@@ -6,20 +6,15 @@ import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
+import { PlaybackControls } from '@/components/ui/PlaybackControls';
 import { Screen } from '@/components/ui/Screen';
 import { useScheme } from '@/hooks/useTheme';
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
-import {
-  accentFor,
-  colors,
-  foregroundFor,
-  withAlpha,
-} from '@/constants/colors';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useState } from 'react';
-import { Pressable } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -66,74 +61,6 @@ function InstructionCard() {
           </Text>
         </View>
       </Card>
-    </View>
-  );
-}
-
-function PlaybackControls({
-  isPaused,
-  onPauseToggle,
-  isMuted,
-  onMuteToggle,
-  onRestart,
-  sessionReady,
-}: {
-  isPaused: boolean;
-  onPauseToggle: () => void;
-  isMuted: boolean;
-  onMuteToggle: () => void;
-  onRestart: () => void;
-  sessionReady: boolean;
-}) {
-  const scheme = useScheme();
-  return (
-    <View className="z-20 flex-row items-center justify-between px-12 pb-10">
-      {/* Mute button */}
-      <Pressable
-        onPress={onMuteToggle}
-        className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
-      >
-        <MaterialIcons
-          name={isMuted ? 'volume-off' : 'volume-up'}
-          size={24}
-          color={foregroundFor(scheme, 0.6)}
-        />
-      </Pressable>
-
-      {/* Pause / Play button */}
-      <Pressable onPress={onPauseToggle} className="active:scale-95">
-        <LinearGradient
-          colors={[colors.primary.pink, colors.accent.yellow]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 40,
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: `0px 4px 12px ${withAlpha(colors.primary.pink, 0.3)}`,
-          }}
-        >
-          <MaterialIcons
-            name={isPaused ? 'play-arrow' : 'pause'}
-            size={36}
-            color="white"
-          />
-        </LinearGradient>
-      </Pressable>
-
-      {/* Restart button */}
-      <Pressable
-        onPress={onRestart}
-        className="h-14 w-14 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04] active:scale-90"
-      >
-        <MaterialIcons
-          name={sessionReady ? 'replay' : 'skip-next'}
-          size={24}
-          color={foregroundFor(scheme, 0.6)}
-        />
-      </Pressable>
     </View>
   );
 }
@@ -614,6 +541,8 @@ export default function DoubleInhaleSession() {
 
       {/* Controls: mute / pause / restart */}
       <PlaybackControls
+        size="md"
+        className="z-20 justify-between px-12 pb-10"
         isPaused={isPaused}
         onPauseToggle={() => {
           setIsPaused((p) => {
