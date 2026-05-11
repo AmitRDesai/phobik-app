@@ -31,12 +31,7 @@ export default function TaiChiSession() {
     >
       <View className="items-center pt-2">
         <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
-          <Text
-            size="xs"
-            treatment="caption"
-            weight="bold"
-            className="text-foreground/70"
-          >
+          <Text size="xs" treatment="caption" weight="bold" tone="secondary">
             Active Flow: Tai Chi
           </Text>
         </View>
@@ -83,7 +78,7 @@ export default function TaiChiSession() {
                 color={colors.primary.pink}
               />
             </View>
-            <Text size="lg" className="flex-1 text-foreground/80">
+            <Text size="lg" tone="secondary" className="flex-1">
               {tip.text}
             </Text>
           </Card>

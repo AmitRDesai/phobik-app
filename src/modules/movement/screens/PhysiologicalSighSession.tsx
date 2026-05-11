@@ -5,6 +5,7 @@ import { GradientText } from '@/components/ui/GradientText';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { MovementSessionShell } from './MovementSessionShell';
@@ -53,7 +54,7 @@ export default function PhysiologicalSighSession() {
         <Text size="h2" weight="extrabold">
           Physiological Sigh + Arm Raise
         </Text>
-        <Text size="xs" className="mt-2 text-foreground/60">
+        <Text size="xs" tone="secondary" className="mt-2">
           Phase: Expansion
         </Text>
       </View>
@@ -85,7 +86,8 @@ export default function PhysiologicalSighSession() {
               <Text
                 size="xs"
                 treatment="caption"
-                className="mt-1 text-foreground/70"
+                tone="secondary"
+                className="mt-1"
               >
                 Inhale
               </Text>
@@ -101,9 +103,10 @@ export default function PhysiologicalSighSession() {
             key={step.title}
             variant="raised"
             size="lg"
-            className={`flex-row items-start gap-4 ${
-              step.active ? '' : 'opacity-50'
-            }`}
+            className={clsx(
+              'flex-row items-start gap-4',
+              !step.active && 'opacity-50',
+            )}
           >
             <View className="h-10 w-10 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10">
               <MaterialIcons
@@ -116,10 +119,7 @@ export default function PhysiologicalSighSession() {
               <Text size="lg" weight="bold">
                 {step.title}
               </Text>
-              <Text
-                size="sm"
-                className="mt-1 leading-relaxed text-foreground/70"
-              >
+              <Text size="sm" tone="secondary" className="mt-1 leading-relaxed">
                 {step.description}
               </Text>
             </View>

@@ -41,12 +41,7 @@ export default function MindfulWalkingSession() {
     >
       <View className="items-center pt-2">
         <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
-          <Text
-            size="xs"
-            treatment="caption"
-            weight="bold"
-            className="text-foreground/70"
-          >
+          <Text size="xs" treatment="caption" weight="bold" tone="secondary">
             Grounding Frequency Active
           </Text>
         </View>
@@ -99,7 +94,7 @@ export default function MindfulWalkingSession() {
             <Text size="h3" weight="bold" className="mt-1">
               {phase.title}
             </Text>
-            <Text size="sm" className="mt-2 leading-relaxed text-foreground/70">
+            <Text size="sm" tone="secondary" className="mt-2 leading-relaxed">
               {phase.description}
             </Text>
           </Card>

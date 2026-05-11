@@ -7,6 +7,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { Image } from 'expo-image';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
@@ -45,7 +46,7 @@ export default function KundaliniSession() {
       wordmark="Kundalini Spinal Flex"
       bottom={
         <View className="flex-row items-center justify-between">
-          <Text size="xs" className="text-foreground/50">
+          <Text size="xs" tone="tertiary">
             Feel the energy in your body
           </Text>
           <Button size="xs" onPress={() => {}}>
@@ -58,7 +59,7 @@ export default function KundaliniSession() {
         <Text size="h3" weight="extrabold">
           Kundalini Spinal Flex
         </Text>
-        <Text size="sm" className="mt-1 text-foreground/70">
+        <Text size="sm" tone="secondary" className="mt-1">
           Synchronize your movement with rhythmic exhales to unlock spinal
           energy.
         </Text>
@@ -67,12 +68,7 @@ export default function KundaliniSession() {
       {/* Duration / Pace */}
       <View className="mt-4 flex-row gap-3">
         <Card variant="raised" size="lg" className="flex-1 p-4">
-          <Text
-            size="xs"
-            treatment="caption"
-            weight="bold"
-            className="text-foreground/50"
-          >
+          <Text size="xs" treatment="caption" weight="bold" tone="tertiary">
             Duration
           </Text>
           <View className="mt-3 flex-row gap-2">
@@ -82,16 +78,18 @@ export default function KundaliniSession() {
                 <Pressable
                   key={d}
                   onPress={() => setDuration(d)}
-                  className={`rounded-full px-4 py-1.5 ${
+                  className={clsx(
+                    'rounded-full px-4 py-1.5',
                     active
                       ? 'bg-primary-pink'
-                      : 'border border-foreground/10 bg-foreground/5'
-                  }`}
+                      : 'border border-foreground/10 bg-foreground/5',
+                  )}
                 >
                   <Text
                     size="xs"
                     treatment="caption"
-                    className={`font-bold ${active ? 'text-white' : 'text-foreground/70'}`}
+                    weight="bold"
+                    tone={active ? 'inverse' : 'secondary'}
                   >
                     {d}
                   </Text>
@@ -101,12 +99,7 @@ export default function KundaliniSession() {
           </View>
         </Card>
         <Card variant="raised" size="lg" className="flex-1 p-4">
-          <Text
-            size="xs"
-            treatment="caption"
-            weight="bold"
-            className="text-foreground/50"
-          >
+          <Text size="xs" treatment="caption" weight="bold" tone="tertiary">
             Pace
           </Text>
           <Text
@@ -117,7 +110,7 @@ export default function KundaliniSession() {
           >
             {heartRate ?? '—'}
           </Text>
-          <Text size="xs" treatment="caption" className="text-foreground/50">
+          <Text size="xs" treatment="caption" tone="tertiary">
             BPM
           </Text>
         </Card>
@@ -130,7 +123,8 @@ export default function KundaliniSession() {
             size="xs"
             treatment="caption"
             weight="bold"
-            className="rotate-[-90deg] tracking-[0.4em] text-foreground/50"
+            tone="tertiary"
+            className="rotate-[-90deg] tracking-[0.4em]"
           >
             Exhale
           </Text>
@@ -178,10 +172,7 @@ export default function KundaliniSession() {
               <Text size="lg" weight="bold">
                 {step.title}
               </Text>
-              <Text
-                size="sm"
-                className="mt-1 leading-relaxed text-foreground/70"
-              >
+              <Text size="sm" tone="secondary" className="mt-1 leading-relaxed">
                 {step.description}
               </Text>
             </View>

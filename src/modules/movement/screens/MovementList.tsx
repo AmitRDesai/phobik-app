@@ -47,7 +47,7 @@ export default function MovementList() {
 
       <View className="gap-5">
         {filteredExercises.length === 0 ? (
-          <Text size="sm" align="center" className="py-12 text-foreground/50">
+          <Text size="sm" align="center" tone="tertiary" className="py-12">
             No practices match this mood yet.
           </Text>
         ) : (
@@ -67,7 +67,8 @@ export default function MovementList() {
       <Text
         size="sm"
         align="center"
-        className="mt-10 leading-relaxed text-foreground/40"
+        tone="tertiary"
+        className="mt-10 leading-relaxed"
       >
         The right movement can change how you feel in minutes.
       </Text>

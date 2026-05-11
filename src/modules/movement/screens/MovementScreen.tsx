@@ -59,7 +59,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
             Start Session
           </Button>
           {exercise.footerNote ? (
-            <Text size="xs" align="center" className="mt-3 text-foreground/50">
+            <Text size="xs" align="center" tone="tertiary" className="mt-3">
               {exercise.footerNote}
             </Text>
           ) : null}
@@ -90,7 +90,8 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
           treatment="caption"
           align="center"
           weight="bold"
-          className="mt-6 tracking-[0.3em] text-foreground/60"
+          tone="secondary"
+          className="mt-6 tracking-[0.3em]"
         >
           {exercise.eyebrow}
         </Text>
@@ -146,11 +147,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
       {/* Body paragraphs in a glass card */}
       <Card variant="raised" size="lg" className="mt-6 gap-3">
         {exercise.body.map((p) => (
-          <Text
-            key={p}
-            size="lg"
-            className="leading-relaxed text-foreground/80"
-          >
+          <Text key={p} size="lg" tone="secondary" className="leading-relaxed">
             {p}
           </Text>
         ))}
@@ -171,7 +168,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
                   {b.title}
                 </Text>
               </View>
-              <Text size="sm" className="leading-relaxed text-foreground/70">
+              <Text size="sm" tone="secondary" className="leading-relaxed">
                 {b.description}
               </Text>
             </Card>
@@ -184,7 +181,8 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
         <Text
           size="sm"
           align="center"
-          className="mt-6 leading-relaxed text-foreground/50"
+          tone="tertiary"
+          className="mt-6 leading-relaxed"
         >
           &ldquo;{exercise.quote}&rdquo;
         </Text>
@@ -200,12 +198,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
               size="lg"
               className="flex-1 px-4 py-3"
             >
-              <Text
-                size="xs"
-                treatment="caption"
-                weight="bold"
-                className="text-foreground/50"
-              >
+              <Text size="xs" treatment="caption" weight="bold" tone="tertiary">
                 {stat.label}
               </Text>
               <Text size="lg" weight="bold" className="mt-1">

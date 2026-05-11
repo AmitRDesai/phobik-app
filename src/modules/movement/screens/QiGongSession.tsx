@@ -2,9 +2,15 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { accentFor, colors, withAlpha } from '@/constants/colors';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { useState } from 'react';
 import { Pressable } from 'react-native';
 
@@ -44,7 +50,7 @@ export default function QiGongSession() {
       wordmark="Qi Gong Shaking"
       bottom={
         <View className="items-center">
-          <Text size="sm" className="mb-3 text-foreground/50">
+          <Text size="sm" tone="tertiary" className="mb-3">
             Let it settle... and feel the difference.
           </Text>
           <View className="w-full">
@@ -70,15 +76,17 @@ export default function QiGongSession() {
             <Pressable
               key={d}
               onPress={() => setDuration(d)}
-              className={`rounded-full px-6 py-2 ${
+              className={clsx(
+                'rounded-full px-6 py-2 border',
                 active
-                  ? 'border border-primary-pink/50 bg-primary-pink/20'
-                  : 'border border-foreground/10 bg-foreground/5'
-              }`}
+                  ? 'border-primary-pink/50 bg-primary-pink/20'
+                  : 'border-foreground/10 bg-foreground/5',
+              )}
             >
               <Text
                 size="sm"
-                className={`font-bold ${active ? 'text-primary-pink' : 'text-foreground/70'}`}
+                weight="bold"
+                tone={active ? 'accent' : 'secondary'}
               >
                 {d}
               </Text>
@@ -96,7 +104,7 @@ export default function QiGongSession() {
           }}
         >
           <MaterialIcons name="air" size={56} color={yellow} />
-          <Text size="xs" align="center" className="mt-5 text-foreground/60">
+          <Text size="xs" align="center" tone="secondary" className="mt-5">
             Flow State Active
           </Text>
         </View>
@@ -119,7 +127,7 @@ export default function QiGongSession() {
           <Text size="lg" weight="bold">
             {PRIMER.title}
           </Text>
-          <Text size="sm" className="mt-1 text-foreground/70">
+          <Text size="sm" tone="secondary" className="mt-1">
             {PRIMER.description}
           </Text>
         </View>
@@ -143,7 +151,7 @@ export default function QiGongSession() {
                     color={colors.primary.pink}
                   />
                 </View>
-                <Text size="sm" className="flex-1 text-foreground/50">
+                <Text size="sm" tone="tertiary" className="flex-1">
                   {step.title}
                 </Text>
               </View>
@@ -182,9 +190,9 @@ export default function QiGongSession() {
               <MaterialIcons
                 name="radio-button-unchecked"
                 size={20}
-                color="rgba(127,127,127,0.4)"
+                color={foregroundFor(scheme, 0.4)}
               />
-              <Text size="sm" className="flex-1 text-foreground/40">
+              <Text size="sm" tone="tertiary" className="flex-1">
                 {step.title}
               </Text>
             </View>

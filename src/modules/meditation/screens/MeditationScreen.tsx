@@ -329,11 +329,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
                   size={14}
                   color={controlIconColor}
                 />
-                <Text
-                  size="xs"
-                  treatment="caption"
-                  className="text-foreground/70"
-                >
+                <Text size="xs" treatment="caption" tone="secondary">
                   {effectiveVoice === 'female' ? 'Female' : 'Male'} voice
                 </Text>
                 <MaterialIcons
@@ -358,14 +354,14 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
             <View className="mt-2 flex-row items-center justify-between">
               <Text
                 size="xs"
-                className="text-foreground/60"
+                tone="secondary"
                 style={{ fontVariant: ['tabular-nums'] }}
               >
                 {elapsed}
               </Text>
               <Text
                 size="xs"
-                className="text-foreground/60"
+                tone="secondary"
                 style={{ fontVariant: ['tabular-nums'] }}
               >
                 {total}
@@ -482,11 +478,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
 
       <View className="mt-6 gap-3">
         {meditation.body.map((p) => (
-          <Text
-            key={p}
-            size="lg"
-            className="leading-relaxed text-foreground/75"
-          >
+          <Text key={p} size="lg" tone="secondary" className="leading-relaxed">
             {p}
           </Text>
         ))}
@@ -496,12 +488,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
         <View className="mt-6 flex-row gap-3">
           {meditation.stats.map((stat) => (
             <Card key={stat.label} className="flex-1 px-4 py-3">
-              <Text
-                size="xs"
-                treatment="caption"
-                weight="bold"
-                className="text-foreground/50"
-              >
+              <Text size="xs" treatment="caption" weight="bold" tone="tertiary">
                 {stat.label}
               </Text>
               <Text size="lg" weight="bold" className="mt-1">
