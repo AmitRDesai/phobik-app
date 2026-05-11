@@ -32,6 +32,7 @@ const SECTIONS: {
     | '/dev/design-system/toasts'
     | '/dev/design-system/skeletons'
     | '/dev/design-system/sliders'
+    | '/dev/design-system/accordions'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -198,6 +199,13 @@ const SECTIONS: {
     subtitle:
       'range + step · tones · disabled · auto-measured width · drag + tap',
     icon: 'tune',
+  },
+  {
+    href: '/dev/design-system/accordions',
+    label: 'Accordion',
+    subtitle:
+      'flat / card · sizes · controlled · auto-height · FAQ + settings patterns',
+    icon: 'expand-more',
   },
   {
     href: '/dev/design-system/screens',
