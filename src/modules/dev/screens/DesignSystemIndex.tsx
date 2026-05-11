@@ -9,7 +9,8 @@ const SECTIONS: {
   href:
     | '/dev/design-system/typography'
     | '/dev/design-system/buttons'
-    | '/dev/design-system/cards';
+    | '/dev/design-system/cards'
+    | '/dev/design-system/badges';
   label: string;
   subtitle: string;
   icon: React.ComponentProps<typeof SettingsMenuItem>['icon'];
@@ -29,8 +30,14 @@ const SECTIONS: {
   {
     href: '/dev/design-system/cards',
     label: 'Card',
-    subtitle: 'default · elevated · surface · glass · toned · shadow',
+    subtitle: 'flat · raised · toned · sizes · shadow · tone tinting',
     icon: 'view-agenda',
+  },
+  {
+    href: '/dev/design-system/badges',
+    label: 'Badge',
+    subtitle: 'tinted · outline · solid · 6 tones · with-icon · sizes',
+    icon: 'label',
   },
 ];
 

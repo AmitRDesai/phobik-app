@@ -1,4 +1,9 @@
-import { accentFor, withAlpha, type AccentHue } from '@/constants/colors';
+import {
+  accentFor,
+  readableTextOn,
+  withAlpha,
+  type AccentHue,
+} from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
@@ -55,7 +60,9 @@ export function Badge({
     variant === 'tinted' || variant === 'outline'
       ? withAlpha(accent, 0.3)
       : undefined;
-  const textColor = variant === 'solid' ? 'white' : accent;
+  // Solid badges: pick text color per accent luminance — bright accents like
+  // dark-mode yellow/cyan/gold fail contrast with white text.
+  const textColor = variant === 'solid' ? readableTextOn(accent) : accent;
   const resolvedIcon = typeof icon === 'function' ? icon(textColor) : icon;
 
   return (

@@ -108,6 +108,21 @@ export function accentFor(scheme: 'dark' | 'light', hue: AccentHue): string {
   return ACCENT_LIGHT[hue];
 }
 
+/**
+ * Picks a readable text color (near-black or white) for a given solid hex bg
+ * via perceived luminance. Use on solid-tone surfaces (e.g. solid Badge) where
+ * the accent might be bright (yellow/cyan/gold/light-purple) in dark mode — a
+ * fixed `white` fails contrast on those.
+ */
+export function readableTextOn(hex: string): string {
+  const h = hex.replace('#', '');
+  const r = parseInt(h.substring(0, 2), 16) / 255;
+  const g = parseInt(h.substring(2, 4), 16) / 255;
+  const b = parseInt(h.substring(4, 6), 16) / 255;
+  const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+  return luminance > 0.6 ? 'rgba(0,0,0,0.88)' : '#ffffff';
+}
+
 /** Opacity variants for icon/SVG props where className isn't supported */
 export const alpha = {
   white15: 'rgba(255,255,255,0.15)',

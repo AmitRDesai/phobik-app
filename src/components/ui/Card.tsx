@@ -167,14 +167,14 @@ export function Card({
     baseStyle.borderColor = withAlpha(accent, 0.3);
   }
 
-  // Background tokens — use className for theme-aware bg-surface-elevated /
-  // bg-foreground/5 (NativeWind handles theme vars). Toned sets bg inline.
-  const bgClass =
-    variant === 'raised'
-      ? 'bg-surface-elevated'
-      : variant === 'flat'
-        ? 'bg-foreground/5'
-        : ''; // toned: bg comes from inline style
+  // Background — flat sits lightly in flow; raised uses a per-scheme custom
+  // bg so it reads as elevated in both modes (white-tinted lift on dark,
+  // pure white on light to pair with the drop shadow). Toned sets bg inline.
+  const bgClass = variant === 'flat' ? 'bg-foreground/5' : '';
+  if (variant === 'raised') {
+    baseStyle.backgroundColor =
+      scheme === 'dark' ? 'rgba(255,255,255,0.05)' : '#ffffff';
+  }
 
   const shadowOverride: ViewStyle | undefined = shadow
     ? { boxShadow: buildBoxShadow(shadow) }
