@@ -1,8 +1,4 @@
-import { Text } from '@/components/themed/Text';
-import { View } from '@/components/themed/View';
-import { Card } from '@/components/ui/Card';
-import { IconChip } from '@/components/ui/IconChip';
-import { colors, withAlpha } from '@/constants/colors';
+import { InfoCallout } from '@/components/ui/InfoCallout';
 import { MaterialIcons } from '@expo/vector-icons';
 import {
   getChemicalDisplay,
@@ -21,31 +17,13 @@ export function DoseDeficiencyAlert({ totals }: DoseDeficiencyAlertProps) {
   const tip = getDeficiencyTip(lowestKey);
 
   return (
-    <Card
-      className="overflow-hidden p-5"
-      style={{ borderColor: withAlpha(colors.accent.info, 0.3) }}
-    >
-      <View className="flex-row items-center gap-4">
-        <IconChip
-          size="lg"
-          shape="circle"
-          bg={withAlpha(colors.accent.info, 0.2)}
-        >
-          <MaterialIcons
-            name="info-outline"
-            size={24}
-            color={colors.accent.info}
-          />
-        </IconChip>
-        <View className="flex-1">
-          <Text size="md" weight="semibold">
-            You&apos;re low on {display.label} today
-          </Text>
-          <Text size="sm" tone="secondary" className="mt-1">
-            Smart Tip: {tip}
-          </Text>
-        </View>
-      </View>
-    </Card>
+    <InfoCallout
+      tone="cyan"
+      title={`You're low on ${display.label} today`}
+      description={`Smart Tip: ${tip}`}
+      icon={(color) => (
+        <MaterialIcons name="info-outline" size={20} color={color} />
+      )}
+    />
   );
 }
