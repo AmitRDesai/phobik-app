@@ -17,6 +17,8 @@ const SECTIONS: {
     | '/dev/design-system/segmented-controls'
     | '/dev/design-system/selection-cards'
     | '/dev/design-system/headers'
+    | '/dev/design-system/progress-dots'
+    | '/dev/design-system/notification-badges'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -81,6 +83,18 @@ const SECTIONS: {
     label: 'Header',
     subtitle: 'back · close · wordmark · title · slots · progress · confirm',
     icon: 'view-headline',
+  },
+  {
+    href: '/dev/design-system/progress-dots',
+    label: 'ProgressDots',
+    subtitle: 'total · current · interactive · positions · in-header pattern',
+    icon: 'more-horiz',
+  },
+  {
+    href: '/dev/design-system/notification-badges',
+    label: 'NotificationBadge',
+    subtitle: 'count · overflow (9+) · anchor parents · positioning rules',
+    icon: 'circle-notifications',
   },
   {
     href: '/dev/design-system/screens',
