@@ -101,7 +101,7 @@ export default function LetterDetail() {
                 </Text>
               </View>
               <Card variant="flat" className="p-5">
-                <Text size="md" className="leading-relaxed text-foreground/80">
+                <Text size="md" tone="secondary" className="leading-relaxed">
                   {text}
                 </Text>
               </Card>

@@ -176,7 +176,7 @@ export default function EmpathyChallengeCalendar() {
                     <Text size="lg" weight="semibold">
                       Day {empathyDay.day}: {empathyDay.title}
                     </Text>
-                    <Text size="sm" className="text-foreground/60">
+                    <Text size="sm" tone="secondary">
                       {isCompleted
                         ? 'Completed'
                         : isWaiting
@@ -219,7 +219,7 @@ function ActiveDayCard({
         <Text size="h2">
           Day {empathyDay.day}: {empathyDay.title}
         </Text>
-        <Text size="sm" className="mb-4 leading-relaxed text-foreground/70">
+        <Text size="sm" tone="secondary" className="mb-4 leading-relaxed">
           {empathyDay.calendarDescription}
         </Text>
         <Button

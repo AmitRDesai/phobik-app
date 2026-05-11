@@ -265,11 +265,7 @@ export default function CompassionArchive() {
                     </Badge>
                   )}
                   <View className="mt-1 flex-row items-center gap-1">
-                    <Text
-                      size="sm"
-                      weight="medium"
-                      className="text-foreground/80"
-                    >
+                    <Text size="sm" weight="medium" tone="secondary">
                       Read reflection
                     </Text>
                     <MaterialIcons

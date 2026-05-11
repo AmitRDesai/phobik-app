@@ -85,7 +85,8 @@ export default function GentleLetterIntro() {
       <Text
         size="md"
         align="center"
-        className="mb-12 max-w-[320px] leading-relaxed text-foreground/60"
+        tone="secondary"
+        className="mb-12 max-w-[320px] leading-relaxed"
       >
         A guided exercise in self-compassion. Through 5 gentle steps, replace
         harsh self-judgment with understanding and care.

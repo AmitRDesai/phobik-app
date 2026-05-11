@@ -7,6 +7,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 import { Screen } from '@/components/ui/Screen';
 import { variantConfig } from '@/components/variant-config';
@@ -99,7 +100,8 @@ export default function EmpathyChallengeComplete() {
       <Text
         size="lg"
         align="center"
-        className="max-w-[320px] leading-relaxed text-foreground/70"
+        tone="secondary"
+        className="max-w-[320px] leading-relaxed"
       >
         You&apos;ve completed 7 days of growth. Your heart is more open, and
         your connections are stronger.
@@ -129,13 +131,17 @@ export default function EmpathyChallengeComplete() {
         </Text>
         <View className="flex-row gap-4">
           <Card className="flex-1 flex-row items-center justify-center gap-3">
-            <View className="h-8 w-8 items-center justify-center rounded-full bg-primary-pink/15">
+            <IconChip
+              size={32}
+              shape="circle"
+              bg={withAlpha(colors.primary.pink, 0.15)}
+            >
               <MaterialIcons
                 name="favorite"
                 size={18}
                 color={colors.primary.pink}
               />
-            </View>
+            </IconChip>
             <View>
               <Text size="xs" treatment="caption" tone="secondary">
                 Oxytocin
@@ -146,13 +152,17 @@ export default function EmpathyChallengeComplete() {
             </View>
           </Card>
           <Card className="flex-1 flex-row items-center justify-center gap-3">
-            <View className="h-8 w-8 items-center justify-center rounded-full bg-accent-info/15">
+            <IconChip
+              size={32}
+              shape="circle"
+              bg={withAlpha(colors.accent.info, 0.15)}
+            >
               <MaterialIcons
                 name="psychology"
                 size={18}
                 color={colors.accent.info}
               />
-            </View>
+            </IconChip>
             <View>
               <Text size="xs" treatment="caption" tone="secondary">
                 Serotonin

@@ -124,7 +124,7 @@ function GlassCard({
               {item.text}
             </Text>
             {item.description && (
-              <Text size="sm" className="mt-1 text-foreground/50">
+              <Text size="sm" tone="secondary" className="mt-1">
                 {item.description}
               </Text>
             )}
@@ -160,7 +160,7 @@ function BreathingCard() {
           <Text size="md" weight="bold">
             60-90 seconds of slow breathing
           </Text>
-          <Text size="sm" className="mt-0.5 text-foreground/50">
+          <Text size="sm" tone="secondary" className="mt-0.5">
             Regulate your nervous system before taxi.
           </Text>
         </View>
@@ -229,7 +229,7 @@ function AnchorSelection() {
               <Text
                 size="xs"
                 weight="semibold"
-                className="text-foreground/70"
+                tone="secondary"
                 numberOfLines={1}
               >
                 {opt.label}
@@ -262,7 +262,7 @@ function ExhaleCard() {
           Exhale
         </Text>
       </Text>
-      <Text size="xs" className="mt-1 text-foreground/60">
+      <Text size="xs" tone="secondary" className="mt-1">
         Current altitude: Increasing
       </Text>
     </View>
@@ -280,7 +280,7 @@ function JournalPrompt() {
       <Text size="md" weight="bold" className="mb-2">
         Journal Prompt
       </Text>
-      <Text size="sm" italic className="mb-3 text-foreground/60">
+      <Text size="sm" italic tone="secondary" className="mb-3">
         {'"What am I worried about? Fact or fiction?"'}
       </Text>
       <TextArea
@@ -356,7 +356,7 @@ export default function FlightChecklistPhase() {
 
       {/* Subtitle */}
       {phase.subtitle && (
-        <Text size="sm" className="mb-6 leading-5 text-foreground/60">
+        <Text size="sm" tone="secondary" className="mb-6 leading-5">
           {phase.subtitle}
         </Text>
       )}
@@ -406,7 +406,7 @@ export default function FlightChecklistPhase() {
             <Text size="md" weight="bold">
               Turbulence Tools
             </Text>
-            <Text size="sm" className="mt-0.5 text-foreground/50">
+            <Text size="sm" tone="secondary" className="mt-0.5">
               Practical grounding techniques
             </Text>
           </View>

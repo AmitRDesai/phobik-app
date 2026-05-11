@@ -62,7 +62,8 @@ export default function MysteryPractice() {
           size="sm"
           italic
           align="center"
-          className="leading-relaxed text-foreground/60"
+          tone="secondary"
+          className="leading-relaxed"
         >
           {challenge.description}
         </Text>

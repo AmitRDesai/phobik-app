@@ -27,7 +27,7 @@ export default function MysteryChallenge() {
             <GradientText className="text-center text-4xl font-extrabold uppercase">
               {'Daily Mystery\nChallenge'}
             </GradientText>
-            <Text size="sm" align="center" className="mt-2 text-foreground/60">
+            <Text size="sm" align="center" tone="secondary" className="mt-2">
               Get a surprise by tapping the lotus
             </Text>
           </View>
@@ -41,7 +41,7 @@ export default function MysteryChallenge() {
       </View>
 
       <View className="mt-8 pb-12">
-        <Text size="sm" italic align="center" className="text-foreground/60">
+        <Text size="sm" italic align="center" tone="secondary">
           Small steps, big transformation.
         </Text>
       </View>

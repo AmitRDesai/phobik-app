@@ -72,8 +72,9 @@ export default function LockedJournal() {
             <Text
               size="xs"
               treatment="caption"
+              tone="tertiary"
               weight="bold"
-              className="tracking-wide text-foreground/40"
+              className="tracking-wide"
             >
               Secure Journal
             </Text>
@@ -104,7 +105,8 @@ export default function LockedJournal() {
       <Text
         size="sm"
         align="center"
-        className="mx-auto mb-12 max-w-[280px] leading-relaxed text-foreground/40"
+        tone="tertiary"
+        className="mx-auto mb-12 max-w-[280px] leading-relaxed"
       >
         This journal is locked for your privacy. Unlock to access your
         biometric-linked emotional reflections.

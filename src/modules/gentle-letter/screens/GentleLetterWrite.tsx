@@ -156,7 +156,8 @@ export default function GentleLetterWrite() {
       <Text
         size="md"
         align="center"
-        className="mt-3 leading-relaxed text-foreground/60"
+        tone="secondary"
+        className="mt-3 leading-relaxed"
       >
         {stepData.body}
       </Text>

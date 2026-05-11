@@ -5,7 +5,6 @@ import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Pressable } from 'react-native';
 
 import heroImage from '@/assets/images/flight-checklist-hero.png';
 import { Text } from '@/components/themed/Text';
@@ -13,6 +12,7 @@ import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 import { Screen } from '@/components/ui/Screen';
 import { alpha, colors, foregroundFor, withAlpha } from '@/constants/colors';
@@ -44,26 +44,25 @@ function PhaseButton({
   const accent = accentColors[phase.accent];
 
   return (
-    <Pressable onPress={onPress} className="active:scale-[0.98]">
-      <View className="flex-row items-center justify-between rounded-xl border border-foreground/10 bg-foreground/5 p-5">
-        <View className="flex-row items-center gap-4">
-          <View
-            className="h-10 w-10 items-center justify-center rounded-full"
-            style={{ backgroundColor: accent.bg }}
-          >
-            <MaterialIcons name={phase.icon} size={22} color={accent.icon} />
-          </View>
-          <Text size="lg" weight="bold">
-            {phase.label}
-          </Text>
-        </View>
-        <MaterialIcons
-          name="chevron-right"
-          size={24}
-          color={foregroundFor(scheme, 0.5)}
-        />
+    <Card
+      variant="flat"
+      onPress={onPress}
+      className="flex-row items-center justify-between p-5"
+    >
+      <View className="flex-row items-center gap-4">
+        <IconChip size="md" shape="circle" bg={accent.bg}>
+          <MaterialIcons name={phase.icon} size={22} color={accent.icon} />
+        </IconChip>
+        <Text size="lg" weight="bold">
+          {phase.label}
+        </Text>
       </View>
-    </Pressable>
+      <MaterialIcons
+        name="chevron-right"
+        size={24}
+        color={foregroundFor(scheme, 0.5)}
+      />
+    </Card>
   );
 }
 
@@ -146,7 +145,7 @@ export default function FlightChecklistHub() {
         <Text size="display" align="center" className="mb-2 uppercase">
           Quick Flight{'\n'}Checklist
         </Text>
-        <Text size="sm" className="text-foreground/60">
+        <Text size="sm" tone="secondary">
           Prepare your mind for a peaceful journey.
         </Text>
       </View>

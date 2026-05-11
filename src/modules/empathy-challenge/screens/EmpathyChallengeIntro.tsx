@@ -52,7 +52,8 @@ export default function EmpathyChallengeIntro() {
         <Text
           size="lg"
           align="center"
-          className="max-w-xs leading-relaxed text-foreground/60"
+          tone="secondary"
+          className="max-w-xs leading-relaxed"
         >
           A week to strengthen awareness, connection, and compassion. Empathy
           isn&apos;t one thing — it&apos;s a skill of the mind, heart and

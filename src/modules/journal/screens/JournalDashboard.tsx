@@ -144,8 +144,9 @@ export default function JournalDashboard() {
           <Text
             size="xs"
             treatment="caption"
+            tone="secondary"
             weight="bold"
-            className="tracking-widest text-foreground/60"
+            className="tracking-widest"
           >
             {formatDateLabel(selectedDate)}
           </Text>

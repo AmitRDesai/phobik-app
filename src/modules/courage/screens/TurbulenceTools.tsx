@@ -37,7 +37,7 @@ function ToolCard({
           {title}
         </Text>
       </View>
-      <Text size="sm" className="leading-5 text-foreground/60">
+      <Text size="sm" tone="secondary" className="leading-5">
         {description}
       </Text>
       {helpText && (
@@ -120,7 +120,7 @@ export default function TurbulenceTools() {
           <Text size="lg" weight="black" className="mb-3 uppercase">
             Animated Reality
           </Text>
-          <Text size="sm" className="leading-6 text-foreground/70">
+          <Text size="sm" tone="secondary" className="leading-6">
             {
               "Next time fear pops up, immediately turn it into a ridiculous cartoon character. If you're on a plane and feel anxious, picture a tiny animated version of yourself sitting in the cockpit, pushing buttons randomly, with the plane flying just fine anyway! The more you practice, the easier it becomes to see fear as something lighthearted instead of overwhelming."
             }

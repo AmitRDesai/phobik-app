@@ -41,7 +41,7 @@ export default function CourageOptions() {
           Growth Hub
         </Text>
         <Text size="h2">Choose your path</Text>
-        <Text size="sm" className="text-foreground/60">
+        <Text size="sm" tone="secondary">
           Every small action builds a stronger you.
         </Text>
       </View>

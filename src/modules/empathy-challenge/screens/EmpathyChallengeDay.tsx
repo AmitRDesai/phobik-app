@@ -113,7 +113,7 @@ export default function EmpathyChallengeDay() {
     >
       <View className="gap-2 px-5 py-4">
         <View className="flex-row items-end justify-between">
-          <Text size="sm" weight="semibold" className="text-foreground/80">
+          <Text size="sm" weight="semibold" tone="secondary">
             7-Day Empathy Challenge
           </Text>
           <Text size="xs" treatment="caption" tone="accent">
@@ -161,7 +161,7 @@ export default function EmpathyChallengeDay() {
             <Text size="h1">
               Day {dayNum}: {empathyDay.title}
             </Text>
-            <Text size="sm" className="mt-2 text-foreground/60">
+            <Text size="sm" tone="secondary" className="mt-2">
               {empathyDay.subtitle}
             </Text>
           </View>
@@ -176,11 +176,7 @@ export default function EmpathyChallengeDay() {
             title="Intention"
           />
           <Card variant="flat" className="p-6">
-            <Text
-              size="lg"
-              italic
-              className="leading-relaxed text-foreground/85"
-            >
+            <Text size="lg" italic className="leading-relaxed">
               {empathyDay.intention}
             </Text>
           </Card>
@@ -194,7 +190,7 @@ export default function EmpathyChallengeDay() {
           />
 
           <View className="gap-6">
-            <Text size="md" className="leading-relaxed text-foreground/65">
+            <Text size="md" tone="secondary" className="leading-relaxed">
               {empathyDay.challengeText}
             </Text>
 
@@ -268,7 +264,8 @@ export default function EmpathyChallengeDay() {
                     </View>
                     <Text
                       size="sm"
-                      className="leading-relaxed text-foreground/65"
+                      tone="secondary"
+                      className="leading-relaxed"
                     >
                       {card.description}
                     </Text>
