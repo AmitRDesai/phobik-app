@@ -35,6 +35,12 @@ export interface SliderProps {
   disabled?: boolean;
   /** Suppress drag-start haptic. Default: false. */
   noHaptic?: boolean;
+  /**
+   * Hide the background (max) track. Use when the slider is overlaid on a
+   * custom-colored track underneath (e.g. a gradient backdrop). The filled
+   * (min) track + thumb still render normally.
+   */
+  transparentTrack?: boolean;
   /** Outer container className (margins, max-width). */
   className?: string;
 }
@@ -58,6 +64,7 @@ export function Slider({
   tone = 'pink',
   disabled,
   noHaptic,
+  transparentTrack,
   className,
 }: SliderProps) {
   const scheme = useScheme();
@@ -155,16 +162,18 @@ export function Slider({
         }}
       >
         {/* Background track */}
-        <View
-          style={{
-            position: 'absolute',
-            left: THUMB_SIZE / 2,
-            right: THUMB_SIZE / 2,
-            height: TRACK_HEIGHT,
-            borderRadius: TRACK_HEIGHT / 2,
-            backgroundColor: maxTrack,
-          }}
-        />
+        {transparentTrack ? null : (
+          <View
+            style={{
+              position: 'absolute',
+              left: THUMB_SIZE / 2,
+              right: THUMB_SIZE / 2,
+              height: TRACK_HEIGHT,
+              borderRadius: TRACK_HEIGHT / 2,
+              backgroundColor: maxTrack,
+            }}
+          />
+        )}
         {/* Filled track */}
         <Animated.View
           style={[

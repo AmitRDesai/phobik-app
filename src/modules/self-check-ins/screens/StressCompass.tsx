@@ -13,7 +13,7 @@ import { router } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
-import { Slider } from '../components/Slider';
+import { Slider } from '@/components/ui/Slider';
 import { STRESSOR_CATEGORIES, type StressorKey } from '../data/stressors';
 import { useSaveAnswer, useStartAssessment } from '../hooks/useSelfCheckIn';
 import { stressorRatingsAtom } from '../store/self-check-ins';
@@ -254,15 +254,17 @@ function StressorCard({
             />
           </View>
           {/* Slider overlaid on track */}
-          <View className="absolute" style={{ left: 0, right: 0 }}>
+          <View
+            className="absolute"
+            style={{ left: 0, right: 0, width: sliderWidth }}
+          >
             <Slider
               value={value}
               min={1}
               max={10}
               onValueChange={onValueChange}
-              trackWidth={sliderWidth}
-              thumbBorderColor={yellowAccent}
-              maximumTrackColor="transparent"
+              tone="yellow"
+              transparentTrack
             />
           </View>
         </View>

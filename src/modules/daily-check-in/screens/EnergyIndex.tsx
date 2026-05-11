@@ -14,8 +14,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
+import { Slider } from '@/components/ui/Slider';
 import { useWindowDimensions } from 'react-native';
-import { Slider } from '../components/Slider';
 
 interface Pillars {
   purpose: number;
@@ -323,13 +323,14 @@ function EnergyCircle({
             }
           />
         )}
-        <Slider
-          value={value}
-          min={0}
-          max={25}
-          onValueChange={onValueChange}
-          trackWidth={sliderWidth}
-        />
+        <View style={{ width: sliderWidth }}>
+          <Slider
+            value={value}
+            min={0}
+            max={25}
+            onValueChange={onValueChange}
+          />
+        </View>
         {position === 'bottom' && <ScorePill value={value} />}
       </View>
     </>
