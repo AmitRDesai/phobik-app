@@ -2,8 +2,10 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { TextInput } from '@/components/ui/TextInput';
+import { TextField } from '@/components/ui/TextField';
 import { UserAvatar } from '@/components/ui/UserAvatar';
+import { foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { useImagePicker } from '@/hooks/useImagePicker';
 import { authClient } from '@/lib/auth';
 import { useSession } from '@/hooks/auth/useAuth';
@@ -17,6 +19,7 @@ import { Button } from '@/components/ui/Button';
 import { Image, Pressable } from 'react-native';
 
 export default function Profile() {
+  const scheme = useScheme();
   const { data: session } = useSession();
   const queryClient = useQueryClient();
 
@@ -133,14 +136,18 @@ export default function Profile() {
       </Pressable>
 
       <View className="gap-4">
-        <TextInput
+        <TextField
           label="Name"
           placeholder="Your name"
           value={name}
           onChangeText={setName}
-          icon="person-outline"
-          autoCapitalize="words"
-          labelUppercase={false}
+          icon={
+            <MaterialIcons
+              name="person-outline"
+              size={18}
+              color={foregroundFor(scheme, 0.55)}
+            />
+          }
         />
       </View>
     </Screen>

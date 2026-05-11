@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Screen } from '@/components/ui/Screen';
-import { TextInput } from '@/components/ui/TextInput';
+import { TextField } from '@/components/ui/TextField';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import {
   useAppleSignIn,
@@ -205,28 +205,37 @@ export default function SignInScreen() {
       {!isSignedOut && (
         <View className="px-8 pt-8">
           <View className="gap-5">
-            <TextInput
+            <TextField
               label="Email Address"
               placeholder="your@email.com"
               value={email}
               onChangeText={setEmail}
-              icon="mail"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              labelUppercase={false}
+              type="email"
+              icon={
+                <Ionicons
+                  name="mail"
+                  size={18}
+                  color={foregroundFor(scheme, 0.55)}
+                />
+              }
               editable={!isLoading}
               returnKeyType="next"
               onSubmitEditing={() => passwordRef.current?.focus()}
             />
-            <TextInput
+            <TextField
               ref={passwordRef}
               label="Password"
               placeholder="••••••••"
               value={password}
               onChangeText={setPassword}
-              icon="lock-closed"
-              secureTextEntry
-              labelUppercase={false}
+              type="password"
+              icon={
+                <Ionicons
+                  name="lock-closed"
+                  size={18}
+                  color={foregroundFor(scheme, 0.55)}
+                />
+              }
               editable={!isLoading}
               returnKeyType="done"
               onSubmitEditing={() => {

@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Screen } from '@/components/ui/Screen';
-import { TextInput } from '@/components/ui/TextInput';
+import { TextField } from '@/components/ui/TextField';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { warmServer } from '@/lib/server-warmup';
@@ -159,7 +159,7 @@ export default function CreateAccountScreen() {
         </Text>
 
         <View className="gap-5">
-          <TextInput
+          <TextField
             label="Full Name"
             placeholder="Enter your name"
             value={name}
@@ -167,15 +167,19 @@ export default function CreateAccountScreen() {
               setName(t);
               if (fieldErrors.name) clearFieldErrors();
             }}
-            icon="person"
-            autoCapitalize="words"
-            labelUppercase={false}
+            icon={
+              <Ionicons
+                name="person"
+                size={18}
+                color={foregroundFor(scheme, 0.55)}
+              />
+            }
             editable={!isLoading}
             returnKeyType="next"
             onSubmitEditing={() => emailRef.current?.focus()}
             error={fieldErrors.name}
           />
-          <TextInput
+          <TextField
             ref={emailRef}
             label="Email Address"
             placeholder="your@email.com"
@@ -184,16 +188,20 @@ export default function CreateAccountScreen() {
               setEmail(t);
               if (fieldErrors.email) clearFieldErrors();
             }}
-            icon="mail"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            labelUppercase={false}
+            type="email"
+            icon={
+              <Ionicons
+                name="mail"
+                size={18}
+                color={foregroundFor(scheme, 0.55)}
+              />
+            }
             editable={!isLoading}
             returnKeyType="next"
             onSubmitEditing={() => passwordRef.current?.focus()}
             error={fieldErrors.email}
           />
-          <TextInput
+          <TextField
             ref={passwordRef}
             label="Password"
             placeholder="••••••••"
@@ -202,9 +210,14 @@ export default function CreateAccountScreen() {
               setPassword(t);
               if (fieldErrors.password) clearFieldErrors();
             }}
-            icon="lock-closed"
-            secureTextEntry
-            labelUppercase={false}
+            type="password"
+            icon={
+              <Ionicons
+                name="lock-closed"
+                size={18}
+                color={foregroundFor(scheme, 0.55)}
+              />
+            }
             editable={!isLoading}
             returnKeyType="done"
             onSubmitEditing={() => {

@@ -2,8 +2,9 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
-import { TextInput } from '@/components/ui/TextInput';
-import { colors, withAlpha } from '@/constants/colors';
+import { TextField } from '@/components/ui/TextField';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { authClient } from '@/lib/auth';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,6 +14,7 @@ import { Button } from '@/components/ui/Button';
 import { Pressable, TextInput as RNTextInput } from 'react-native';
 
 export default function ResetPasswordScreen() {
+  const scheme = useScheme();
   const { token, error: urlError } = useLocalSearchParams<{
     token?: string;
     error?: string;
@@ -140,27 +142,37 @@ export default function ResetPasswordScreen() {
       {/* Form */}
       <View className="px-8">
         <View className="gap-5">
-          <TextInput
+          <TextField
             label="New Password"
             placeholder="••••••••"
             value={password}
             onChangeText={setPassword}
-            icon="lock-closed"
-            secureTextEntry
-            labelUppercase={false}
+            type="password"
+            icon={
+              <Ionicons
+                name="lock-closed"
+                size={18}
+                color={foregroundFor(scheme, 0.55)}
+              />
+            }
             editable={!isLoading}
             returnKeyType="next"
             onSubmitEditing={() => confirmRef.current?.focus()}
           />
-          <TextInput
+          <TextField
             ref={confirmRef}
             label="Confirm Password"
             placeholder="••••••••"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
-            icon="lock-closed"
-            secureTextEntry
-            labelUppercase={false}
+            type="password"
+            icon={
+              <Ionicons
+                name="lock-closed"
+                size={18}
+                color={foregroundFor(scheme, 0.55)}
+              />
+            }
             editable={!isLoading}
             returnKeyType="done"
             onSubmitEditing={() => {

@@ -2,8 +2,9 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { TextInput } from '@/components/ui/TextInput';
-import { colors, withAlpha } from '@/constants/colors';
+import { TextField } from '@/components/ui/TextField';
+import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { authClient } from '@/lib/auth';
 import { dialog } from '@/utils/dialog';
 import { env } from '@/utils/env';
@@ -14,6 +15,7 @@ import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 
 export default function ForgotPasswordScreen() {
+  const scheme = useScheme();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
@@ -137,15 +139,19 @@ export default function ForgotPasswordScreen() {
 
       {/* Form */}
       <View className="px-8 pt-8">
-        <TextInput
+        <TextField
           label="Email Address"
           placeholder="your@email.com"
           value={email}
           onChangeText={setEmail}
-          icon="mail"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          labelUppercase={false}
+          type="email"
+          icon={
+            <Ionicons
+              name="mail"
+              size={18}
+              color={foregroundFor(scheme, 0.55)}
+            />
+          }
           editable={!isLoading}
           returnKeyType="done"
           onSubmitEditing={handleSubmit}
