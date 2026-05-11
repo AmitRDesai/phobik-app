@@ -24,6 +24,7 @@ const SECTIONS: {
     | '/dev/design-system/dialogs'
     | '/dev/design-system/network-banners'
     | '/dev/design-system/progress-bars'
+    | '/dev/design-system/switches'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -135,6 +136,12 @@ const SECTIONS: {
     subtitle:
       'sizes · tones · gradient · clamping · audio scrubber + upload patterns',
     icon: 'linear-scale',
+  },
+  {
+    href: '/dev/design-system/switches',
+    label: 'Switch',
+    subtitle: 'binary toggle · disabled · settings rows · form flag patterns',
+    icon: 'toggle-on',
   },
   {
     href: '/dev/design-system/screens',
