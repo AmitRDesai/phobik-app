@@ -11,7 +11,8 @@ const SECTIONS: {
     | '/dev/design-system/buttons'
     | '/dev/design-system/cards'
     | '/dev/design-system/badges'
-    | '/dev/design-system/icon-chips';
+    | '/dev/design-system/icon-chips'
+    | '/dev/design-system/text-fields';
   label: string;
   subtitle: string;
   icon: React.ComponentProps<typeof SettingsMenuItem>['icon'];
@@ -45,6 +46,12 @@ const SECTIONS: {
     label: 'IconChip',
     subtitle: 'sizes · shapes · tones · custom bg/border · render-prop icon',
     icon: 'auto-awesome',
+  },
+  {
+    href: '/dev/design-system/text-fields',
+    label: 'TextField',
+    subtitle: 'types · sizes · label · hint · error · icon · states',
+    icon: 'edit',
   },
 ];
 
