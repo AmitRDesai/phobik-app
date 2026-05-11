@@ -4,7 +4,7 @@ import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
-import { LinearGradient } from 'expo-linear-gradient';
+import { ImageScrim } from '@/components/ui/ImageScrim';
 import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import { Image } from 'react-native';
@@ -75,18 +75,7 @@ export default function EFTTOHFocus() {
             style={{ width: '100%', height: '100%' }}
             resizeMode="cover"
           />
-          <LinearGradient
-            colors={['transparent', 'transparent', 'rgba(14,14,14,0.6)']}
-            locations={[0, 0.65, 1]}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-            }}
-            pointerEvents="none"
-          />
+          <ImageScrim strength={0.6} start={0.65} />
           <View
             className="absolute left-1/2 flex-col items-center"
             style={{ top: '10%', transform: [{ translateX: -50 }], width: 100 }}

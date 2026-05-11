@@ -40,6 +40,7 @@ const SECTIONS: {
     | '/dev/design-system/inline-links'
     | '/dev/design-system/playback-controls'
     | '/dev/design-system/social-auth-buttons'
+    | '/dev/design-system/image-scrims'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -262,6 +263,13 @@ const SECTIONS: {
     subtitle:
       'round 56×56 Google / Apple chip · theme-aware icon · iOS-only apple gate',
     icon: 'fingerprint',
+  },
+  {
+    href: '/dev/design-system/image-scrims',
+    label: 'ImageScrim',
+    subtitle:
+      'bottom / top gradient scrim over images · strength + start coverage · stack for both edges',
+    icon: 'gradient',
   },
   {
     href: '/dev/design-system/screens',

@@ -107,6 +107,7 @@ Every primitive lives in `src/components/ui/`. The full live catalog is browsabl
 - **`AudioPlayer`** — `variant: 'hero' | 'card' | 'mini' | 'inline'`. Presentation only — the parent owns the player hook. Hero composes back / play / forward (or `skip-next` via `skipForwardKind="instruction"`) + optional voice toggle + mute. `loadingLabel` for download-percent UX.
 - **`PlaybackControls`** — three-slot session control row: `[mute] [PLAY/PAUSE] [restart]`. Used by breathing / meditation sessions where the screen has its own real-time visualization and only needs the bottom controls. `size: 'sm' (default, 48+64px) | 'md' (56+80px)`. Layout (`justify-center gap-8` vs `justify-between px-12`) goes in `className`. Mute is optional — omit `onMuteToggle` for an invisible spacer that keeps play centered.
 - **`Glows`** (`GlowBg` for full-window + `RadialGlow` for element halos) — radial gradient decorations.
+- **`ImageScrim`** — bottom / top darkening gradient over images. `direction: 'bottom' | 'top'` (default `bottom`), `strength: number` (0–1, default 0.7), `start: number` (0–1, default 0.4 — where the gradient begins). Drop on top of an `Image` inside an `overflow-hidden` positioned parent. Compose two (top + bottom) for double-edge contrast. Replaces hand-rolled `LinearGradient` scrims with the `transparent → rgba(14,14,14,X)` pattern.
 
 ## Building a screen — the canonical recipe
 
@@ -162,6 +163,7 @@ export default function MyScreen() {
 | Hand-rolled rating buttons | `Rating` primitive |
 | Hand-rolled session controls (Pressable mute + LinearGradient play + Pressable replay) | `PlaybackControls` primitive (`size: 'sm' | 'md'`, layout via `className`) |
 | Inline accordion w/ animated height + caller-supplied EXPANDED_HEIGHT | `Accordion` (auto-measures content) |
+| Inline `LinearGradient` `[transparent, rgba(0,0,0,0.X)]` darkening overlay on an image | `ImageScrim direction="bottom" strength={0.X} start={0.X}` |
 
 ## When the primitive doesn't exist
 

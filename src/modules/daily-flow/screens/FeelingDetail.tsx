@@ -8,6 +8,7 @@ import { variantConfig } from '@/components/variant-config';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
+import { ImageScrim } from '@/components/ui/ImageScrim';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Button } from '@/components/ui/Button';
@@ -379,17 +380,7 @@ function VisualEtherealCard({
         }}
         resizeMode="cover"
       />
-      <LinearGradient
-        colors={['transparent', 'rgba(14,14,14,0.8)']}
-        locations={[0.3, 1]}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-      />
+      <ImageScrim strength={0.8} start={0.3} />
       <View className="flex-1 items-center justify-center px-8">
         <LinearGradient
           colors={[colors.primary.pink, colors.accent.yellow]}
@@ -436,17 +427,7 @@ function VisualCloudCard({ cloud }: { cloud: VisualCloud }) {
         style={{ width: '100%', height: '100%', opacity: 0.75 }}
         resizeMode="cover"
       />
-      <LinearGradient
-        colors={['transparent', 'rgba(14,14,14,0.9)']}
-        locations={[0.5, 1]}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-      />
+      <ImageScrim strength={0.9} start={0.5} />
     </View>
   );
 }
