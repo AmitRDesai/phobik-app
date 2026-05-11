@@ -22,6 +22,7 @@ const SECTIONS: {
     | '/dev/design-system/gradient-text'
     | '/dev/design-system/glows'
     | '/dev/design-system/dialogs'
+    | '/dev/design-system/network-banners'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -119,6 +120,13 @@ const SECTIONS: {
     subtitle:
       'error · info · loading · open (custom) · buttons · async patterns',
     icon: 'chat-bubble-outline',
+  },
+  {
+    href: '/dev/design-system/network-banners',
+    label: 'NetworkBanner',
+    subtitle:
+      'auto-hide offline strip · NetInfo subscription · placement · messages',
+    icon: 'cloud-off',
   },
   {
     href: '/dev/design-system/screens',
