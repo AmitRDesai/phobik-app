@@ -41,6 +41,7 @@ const SECTIONS: {
     | '/dev/design-system/playback-controls'
     | '/dev/design-system/social-auth-buttons'
     | '/dev/design-system/image-scrims'
+    | '/dev/design-system/accent-pills'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -270,6 +271,13 @@ const SECTIONS: {
     subtitle:
       'bottom / top gradient scrim over images · strength + start coverage · stack for both edges',
     icon: 'gradient',
+  },
+  {
+    href: '/dev/design-system/accent-pills',
+    label: 'AccentPill',
+    subtitle:
+      'neutral / tinted / solid · status labels · category tags · corner badges · tappable toggles',
+    icon: 'label-important',
   },
   {
     href: '/dev/design-system/screens',

@@ -84,6 +84,7 @@ Every primitive lives in `src/components/ui/`. The full live catalog is browsabl
 ### Display
 
 - **`Badge`** — `variant: 'tinted' (default) | 'outline' | 'solid'` × `size: 'sm' | 'md'`, `tone`, optional `icon` (render-prop). Always uppercase tracked.
+- **`AccentPill`** — small rounded-full status / category pill. `variant: 'neutral' (default) | 'tinted' | 'solid'`, `tone: AccentHue`, optional `icon` + `trailingIcon` (render-prop), `size: 'sm' | 'md'`, optional `onPress` for tappable toggles. Neutral chrome is `foreground/5 + foreground/10` border; tinted uses `tone/10 + tone/25` border with tone-colored text; solid uses tone bg with dark text. Use for category tags (DOPAMINE), status labels (Active flow), biometric pills (142 BPM), corner badges (Most Popular), and inline toggles (voice swap). 1–3 word labels only.
 - **`IconChip`** — `size: 'sm' | 'md' | 'lg' | number` × `shape: 'rounded' | 'circle' | 'square'`. `tone` + render-prop icon for color-coded chips. Composable inside cards / list rows. Pass `onPress` + `accessibilityLabel` to render as a tappable icon button (haptic + `active:opacity-70` + hitSlop for sub-44pt sizes) — covers the "round close button in a Header right slot" pattern.
 - **`UserAvatar`** — `size: 'sm' | 'md' | 'lg' | 'xl' | number` (32/40/48/80/custom). Three-step fallback: `imageUri` → `name` initials → person icon. Pulls session user automatically; pass `imageUri` / `name` for other users.
 - **`Badge`** + **`IconChip`** + **`UserAvatar`** all support the render-prop icon pattern: `icon={(color) => <Ionicons ... color={color} />}` auto-colors from the resolved tone.
@@ -164,6 +165,7 @@ export default function MyScreen() {
 | Hand-rolled session controls (Pressable mute + LinearGradient play + Pressable replay) | `PlaybackControls` primitive (`size: 'sm' | 'md'`, layout via `className`) |
 | Inline accordion w/ animated height + caller-supplied EXPANDED_HEIGHT | `Accordion` (auto-measures content) |
 | Inline `LinearGradient` `[transparent, rgba(0,0,0,0.X)]` darkening overlay on an image | `ImageScrim direction="bottom" strength={0.X} start={0.X}` |
+| Inline `<View className="rounded-full ... px-3 py-1"><Text size="xs" treatment="caption">LABEL</Text></View>` status / category pill | `AccentPill label="LABEL" variant={'neutral' | 'tinted' | 'solid'} tone={hue} icon={...}` |
 
 ## When the primitive doesn't exist
 

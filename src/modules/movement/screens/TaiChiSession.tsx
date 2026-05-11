@@ -1,6 +1,7 @@
 import taiChiImg from '@/assets/images/four-pillars/movement-tai-chi.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { AccentPill } from '@/components/ui/AccentPill';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
@@ -30,11 +31,7 @@ export default function TaiChiSession() {
       }
     >
       <View className="items-center pt-2">
-        <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
-          <Text size="xs" treatment="caption" weight="bold" tone="secondary">
-            Active Flow: Tai Chi
-          </Text>
-        </View>
+        <AccentPill size="md" label="Active Flow: Tai Chi" />
       </View>
 
       <View className="mt-6 items-center">

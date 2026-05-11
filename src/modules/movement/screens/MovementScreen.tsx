@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { AccentPill } from '@/components/ui/AccentPill';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
@@ -116,31 +117,21 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
       {/* Pills */}
       {exercise.pills && exercise.pills.length > 0 ? (
         <View className="mt-4 flex-row justify-center gap-3">
-          {exercise.pills.map((pill, i) => {
-            const tone =
-              i % 2 === 0 ? 'text-primary-pink' : 'text-accent-yellow';
-            const iconColor =
-              i % 2 === 0 ? colors.primary.pink : colors.accent.yellow;
-            return (
-              <View
-                key={pill}
-                className="flex-row items-center gap-1.5 rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1.5"
-              >
+          {exercise.pills.map((pill, i) => (
+            <AccentPill
+              key={pill}
+              tone={i % 2 === 0 ? 'pink' : 'yellow'}
+              label={pill}
+              icon={(color) => (
                 <MaterialIcons
                   name={i % 2 === 0 ? 'schedule' : 'favorite'}
                   size={12}
-                  color={iconColor}
+                  color={color}
                 />
-                <Text
-                  size="xs"
-                  treatment="caption"
-                  className={`font-bold ${tone}`}
-                >
-                  {pill}
-                </Text>
-              </View>
-            );
-          })}
+              )}
+              size="md"
+            />
+          ))}
         </View>
       ) : null}
 

@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/Button';
 import mindfulWalkingImg from '@/assets/images/four-pillars/movement-mindful-walking.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { AccentPill } from '@/components/ui/AccentPill';
 import { Card } from '@/components/ui/Card';
 import { useScheme } from '@/hooks/useTheme';
 import { accentFor } from '@/constants/colors';
@@ -40,11 +41,7 @@ export default function MindfulWalkingSession() {
       bottom={<Button onPress={() => {}}>End Grounding</Button>}
     >
       <View className="items-center pt-2">
-        <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
-          <Text size="xs" treatment="caption" weight="bold" tone="secondary">
-            Grounding Frequency Active
-          </Text>
-        </View>
+        <AccentPill size="md" label="Grounding Frequency Active" />
       </View>
 
       {/* Hero image with title overlay */}
