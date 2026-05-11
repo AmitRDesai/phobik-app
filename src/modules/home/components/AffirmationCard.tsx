@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { colors, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -95,7 +95,9 @@ export function AffirmationCard() {
   };
 
   return (
-    <DashboardCard
+    <Card
+      variant="raised"
+      size="lg"
       className="min-h-[200px] items-center justify-between p-8"
       style={{
         boxShadow: `0 12px 32px ${withAlpha(colors.primary.pink, 0.15)}`,
@@ -137,6 +139,6 @@ export function AffirmationCard() {
       >
         {affirmation ? 'Change affirmation' : 'Set affirmation'}
       </Button>
-    </DashboardCard>
+    </Card>
   );
 }

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { colors, withAlpha } from '@/constants/colors';
 import {
   formatCount,
@@ -24,7 +24,17 @@ export function ChallengesCard() {
   };
 
   return (
-    <DashboardCard glow className="p-5">
+    <Card
+      variant="raised"
+      size="lg"
+      shadow={{
+        color: colors.primary.pink,
+        opacity: 0.1,
+        blur: 24,
+        offsetY: 8,
+      }}
+      className="p-5"
+    >
       <View className="mb-5 flex-row gap-4">
         <View className="justify-center border-r border-foreground/10 pr-4">
           <Text
@@ -88,6 +98,6 @@ export function ChallengesCard() {
               : "Start Today's Challenge"}
         </Button>
       </View>
-    </DashboardCard>
+    </Card>
   );
 }

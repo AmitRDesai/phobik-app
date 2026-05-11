@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { colors } from '@/constants/colors';
 import {
   STRESSOR_CATEGORIES,
@@ -86,7 +86,11 @@ export function TopStressorsRow() {
               router.push('/practices/self-check-ins/stress-compass')
             }
           >
-            <DashboardCard className="min-w-[200px] items-center justify-center p-4">
+            <Card
+              variant="raised"
+              size="lg"
+              className="min-w-[200px] items-center justify-center p-4"
+            >
               <Text className="mb-2 text-3xl">🧭</Text>
               <Text
                 size="xs"
@@ -104,7 +108,7 @@ export function TopStressorsRow() {
               >
                 Start
               </Text>
-            </DashboardCard>
+            </Card>
           </Pressable>
         ) : (
           topStressors.map((s) => (
@@ -117,7 +121,11 @@ export function TopStressorsRow() {
                 })
               }
             >
-              <DashboardCard className="min-w-[120px] items-center p-4">
+              <Card
+                variant="raised"
+                size="lg"
+                className="min-w-[120px] items-center p-4"
+              >
                 <Text className="mb-2 text-3xl">{s.emoji}</Text>
                 <Text
                   size="xs"
@@ -129,7 +137,7 @@ export function TopStressorsRow() {
                 <Text size="lg" weight="black" style={{ color: s.color }}>
                   {s.count}
                 </Text>
-              </DashboardCard>
+              </Card>
             </Pressable>
           ))
         )}

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -10,7 +10,16 @@ import { useRouter } from 'expo-router';
 export function ConnectHealthCard() {
   const router = useRouter();
   return (
-    <DashboardCard glow>
+    <Card
+      variant="raised"
+      size="lg"
+      shadow={{
+        color: colors.primary.pink,
+        opacity: 0.1,
+        blur: 24,
+        offsetY: 8,
+      }}
+    >
       <GlowBg
         centerX={1}
         centerY={0}
@@ -42,6 +51,6 @@ export function ConnectHealthCard() {
           Connect now
         </Button>
       </View>
-    </DashboardCard>
+    </Card>
   );
 }

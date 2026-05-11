@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
@@ -12,7 +12,7 @@ export function WearableValueCard() {
   const { heartRate, hrv } = useLatestBiometrics();
 
   return (
-    <DashboardCard>
+    <Card variant="raised" size="lg">
       <View className="mb-4 flex-row items-center gap-2">
         <MaterialIcons name="favorite" size={16} color={colors.primary.pink} />
         <Text
@@ -83,6 +83,6 @@ export function WearableValueCard() {
           </View>
         </View>
       </View>
-    </DashboardCard>
+    </Card>
   );
 }

@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { colors, withAlpha } from '@/constants/colors';
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
@@ -150,7 +150,7 @@ export function MorningResetCalendar() {
           {monthLabel}
         </Text>
       </View>
-      <DashboardCard className="p-5">
+      <Card variant="raised" size="lg" className="p-5">
         <View className="mb-2 flex-row">
           {DAY_LABELS.map((day) => (
             <View key={day.key} className="flex-1 items-center">
@@ -214,7 +214,7 @@ export function MorningResetCalendar() {
             {completedCount}/{totalDays} Complete
           </Text>
         </View>
-      </DashboardCard>
+      </Card>
     </View>
   );
 }

@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -55,7 +55,11 @@ export function SleepIntelligenceCard() {
         </Text>
       </View>
       <Pressable onPress={() => router.push('/insights/sleep-quality')}>
-        <DashboardCard className="flex-row items-center gap-6 overflow-hidden p-5">
+        <Card
+          variant="raised"
+          size="lg"
+          className="flex-row items-center gap-6 overflow-hidden p-5"
+        >
           <View
             className="absolute -left-10 top-0 h-32 w-32 rounded-full"
             style={{ backgroundColor: withAlpha(colors.primary.pink, 0.1) }}
@@ -110,7 +114,7 @@ export function SleepIntelligenceCard() {
               {summaryText(restorativePct, hasConnectedHealth)}
             </Text>
           </View>
-        </DashboardCard>
+        </Card>
       </Pressable>
     </View>
   );

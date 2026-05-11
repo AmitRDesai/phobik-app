@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -10,7 +10,11 @@ interface ReflectCardProps {
 
 export function ReflectCard({ question }: ReflectCardProps) {
   return (
-    <DashboardCard className="border-l-4 border-l-primary-pink p-5">
+    <Card
+      variant="raised"
+      size="lg"
+      className="border-l-4 border-l-primary-pink p-5"
+    >
       <View className="mb-2 flex-row items-center gap-2">
         <MaterialIcons
           name="psychology"
@@ -24,6 +28,6 @@ export function ReflectCard({ question }: ReflectCardProps) {
       <Text size="md" italic weight="bold" className="text-foreground/90">
         {question}
       </Text>
-    </DashboardCard>
+    </Card>
   );
 }

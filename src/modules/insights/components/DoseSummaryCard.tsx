@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -36,7 +36,7 @@ export function DoseSummaryCard() {
         </Button>
       </View>
       <Pressable onPress={() => router.push('/insights/dose-tracking')}>
-        <DashboardCard className="p-5">
+        <Card variant="raised" size="lg" className="p-5">
           <View className="mb-4">
             <Text size="sm" weight="black">
               Daily D.O.S.E.
@@ -72,7 +72,7 @@ export function DoseSummaryCard() {
               </View>
             ))}
           </View>
-        </DashboardCard>
+        </Card>
       </Pressable>
     </View>
   );

@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 
@@ -27,7 +27,11 @@ export function SelfLeadershipPlan({
   return (
     <View className="gap-6">
       {/* Self-Leadership Check */}
-      <DashboardCard className="border border-foreground/10 p-5">
+      <Card
+        variant="raised"
+        size="lg"
+        className="border border-foreground/10 p-5"
+      >
         <View className="mb-3 flex-row items-center gap-2">
           <MaterialIcons
             name="verified-user"
@@ -74,7 +78,7 @@ export function SelfLeadershipPlan({
             );
           })}
         </View>
-      </DashboardCard>
+      </Card>
 
       {/* Self-Leadership Plan */}
       <View className="gap-4">
@@ -101,12 +105,23 @@ export function SelfLeadershipPlan({
       {/* Exercises */}
       {exercises.map((ex, i) => (
         <View key={i}>
-          <DashboardCard
+          <Card
+            variant="raised"
+            size="lg"
             className={clsx(
               'flex-row items-center gap-4 overflow-hidden p-5',
               ex.highlighted && 'border-primary-pink/30',
             )}
-            glow={ex.highlighted}
+            shadow={
+              ex.highlighted
+                ? {
+                    color: colors.primary.pink,
+                    opacity: 0.1,
+                    blur: 24,
+                    offsetY: 8,
+                  }
+                : undefined
+            }
           >
             <View
               className="shrink-0 items-center justify-center rounded-2xl bg-foreground/10"
@@ -143,7 +158,7 @@ export function SelfLeadershipPlan({
             >
               {ex.buttonLabel}
             </Button>
-          </DashboardCard>
+          </Card>
           <View className="ml-4 mt-2 flex-row items-center gap-1.5">
             <View
               className="h-1 w-1 rounded-full"

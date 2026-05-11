@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 
@@ -84,7 +84,7 @@ export function EnergyIndexChart() {
           </Text>
         </View>
       </View>
-      <DashboardCard className="overflow-hidden p-6">
+      <Card variant="raised" size="lg" className="overflow-hidden p-6">
         <View className="h-[180px] w-full">
           <Svg
             width="100%"
@@ -187,7 +187,7 @@ export function EnergyIndexChart() {
             ))}
           </View>
         ) : null}
-      </DashboardCard>
+      </Card>
     </View>
   );
 }

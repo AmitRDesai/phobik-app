@@ -1,5 +1,5 @@
 import { Text } from '@/components/themed/Text';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { useSleepScoreForDate } from '../hooks/useSleepScoreForDate';
 import { ScoreRing } from './ScoreRing';
 
@@ -15,7 +15,7 @@ export function SleepScoreCard({ date }: SleepScoreCardProps) {
   const mins = totalMinutes != null ? Math.round(totalMinutes % 60) : null;
 
   return (
-    <DashboardCard className="flex-1 items-center">
+    <Card variant="raised" size="lg" className="flex-1 items-center">
       <ScoreRing
         value={score}
         gradient="yellow-pink"
@@ -36,6 +36,6 @@ export function SleepScoreCard({ date }: SleepScoreCardProps) {
       <Text size="sm" align="center" tone="secondary" className="mt-1">
         {hours != null && mins != null ? `${hours}h ${mins}m total` : 'No data'}
       </Text>
-    </DashboardCard>
+    </Card>
   );
 }

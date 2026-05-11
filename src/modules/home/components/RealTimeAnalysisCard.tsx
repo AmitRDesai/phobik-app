@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -79,7 +79,16 @@ export function RealTimeAnalysisCard() {
             : `${Math.round(ageMs / (24 * 60 * 60_000))} d ago`;
 
   return (
-    <DashboardCard glow>
+    <Card
+      variant="raised"
+      size="lg"
+      shadow={{
+        color: colors.primary.pink,
+        opacity: 0.1,
+        blur: 24,
+        offsetY: 8,
+      }}
+    >
       {/* Radial glow at top-right */}
       <GlowBg
         centerX={1}
@@ -217,6 +226,6 @@ export function RealTimeAnalysisCard() {
           </View>
         </View>
       </View>
-    </DashboardCard>
+    </Card>
   );
 }

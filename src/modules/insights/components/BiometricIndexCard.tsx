@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { DashboardCard } from '@/components/ui/DashboardCard';
+import { Card } from '@/components/ui/Card';
 import { colors } from '@/constants/colors';
 import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
 import {
@@ -65,7 +65,7 @@ export function BiometricIndexCard() {
           </View>
         </View>
       </View>
-      <DashboardCard className="p-5">
+      <Card variant="raised" size="lg" className="p-5">
         {hasData ? (
           <View className="h-24 w-full">
             <Svg
@@ -144,7 +144,7 @@ export function BiometricIndexCard() {
             </Text>
           </View>
         </View>
-      </DashboardCard>
+      </Card>
     </View>
   );
 }
