@@ -219,6 +219,64 @@ export default function IconChipShowcase() {
         </PropRow>
       </Section>
 
+      <Section title="Tappable (onPress)">
+        <Text size="sm" tone="tertiary">
+          Pass `onPress` + `accessibilityLabel` to render the chip as a tappable
+          icon button. Built-in light haptic + active:opacity-70 press feedback
+          + hitSlop padding for sub-44pt sizes (Apple accessibility minimum).
+          Covers the "round close button in a Header right slot" pattern.
+        </Text>
+        <PropRow
+          label="onPress + accessibilityLabel"
+          note="The chip becomes a Pressable; otherwise stays display-only."
+        >
+          <View className="flex-row items-center gap-3">
+            <IconChip
+              size="md"
+              shape="circle"
+              onPress={() => {}}
+              accessibilityLabel="Close"
+            >
+              {(color) => (
+                <MaterialIcons name="close" size={20} color={color} />
+              )}
+            </IconChip>
+            <IconChip
+              size="md"
+              shape="circle"
+              tone="pink"
+              onPress={() => {}}
+              accessibilityLabel="Lock journal"
+            >
+              {(color) => <MaterialIcons name="lock" size={20} color={color} />}
+            </IconChip>
+            <IconChip
+              size="md"
+              shape="rounded"
+              tone="cyan"
+              onPress={() => {}}
+              accessibilityLabel="Settings"
+            >
+              {(color) => (
+                <MaterialIcons name="settings" size={20} color={color} />
+              )}
+            </IconChip>
+          </View>
+        </PropRow>
+
+        <PropRow label="disabled" note="Rejects taps + renders at 40% opacity.">
+          <IconChip
+            size="md"
+            shape="circle"
+            onPress={() => {}}
+            accessibilityLabel="Locked action"
+            disabled
+          >
+            {(color) => <MaterialIcons name="close" size={20} color={color} />}
+          </IconChip>
+        </PropRow>
+      </Section>
+
       <Section title="Anti-patterns (don't do these)">
         <DontRow
           bad="Hardcoding bg with raw hex instead of `tone`"

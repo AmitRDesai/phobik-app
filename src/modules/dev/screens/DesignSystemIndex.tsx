@@ -37,6 +37,8 @@ const SECTIONS: {
     | '/dev/design-system/info-callouts'
     | '/dev/design-system/user-avatars'
     | '/dev/design-system/ratings'
+    | '/dev/design-system/inline-links'
+    | '/dev/design-system/playback-controls'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -238,6 +240,20 @@ const SECTIONS: {
     subtitle:
       'numeric scale · ranges · sizes · gradient / tinted · endpoint labels',
     icon: 'looks-5',
+  },
+  {
+    href: '/dev/design-system/inline-links',
+    label: 'InlineLink',
+    subtitle:
+      'tone-mixed single-row link · prefix + accent action · auth flow CTAs',
+    icon: 'link',
+  },
+  {
+    href: '/dev/design-system/playback-controls',
+    label: 'PlaybackControls',
+    subtitle:
+      'mute + play/pause + restart · sizes · session controls for breathing flows',
+    icon: 'play-circle-filled',
   },
   {
     href: '/dev/design-system/screens',
