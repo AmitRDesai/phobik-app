@@ -34,6 +34,7 @@ const SECTIONS: {
     | '/dev/design-system/sliders'
     | '/dev/design-system/accordions'
     | '/dev/design-system/floating-add-buttons'
+    | '/dev/design-system/info-callouts'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -214,6 +215,13 @@ const SECTIONS: {
     subtitle:
       'bottom-right FAB · custom icons · positioning override · accessibility',
     icon: 'add-circle',
+  },
+  {
+    href: '/dev/design-system/info-callouts',
+    label: 'InfoCallout',
+    subtitle:
+      'tinted / plain · tones · sizes · action · dismissible · inline tips',
+    icon: 'lightbulb-outline',
   },
   {
     href: '/dev/design-system/screens',
