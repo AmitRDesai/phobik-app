@@ -109,8 +109,15 @@ export default function CreateAccountScreen() {
   const handleAppleSignUp = async () => {
     try {
       await appleSignInMutation.mutateAsync();
-    } catch (error: any) {
-      if (error.code === 'ERR_REQUEST_CANCELED') return;
+    } catch (error) {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        (error as { code?: string }).code === 'ERR_REQUEST_CANCELED'
+      ) {
+        return;
+      }
       dialog.error({
         title: 'Sign Up Failed',
         message: error instanceof Error ? error.message : 'An error occurred',
@@ -146,7 +153,7 @@ export default function CreateAccountScreen() {
         <Text size="h1" tone="inverse" className="tracking-tight">
           PHOBIK
         </Text>
-        <Text size="sm" tone="inverse" className="mt-1 /80">
+        <Text size="sm" tone="inverse" className="mt-1 opacity-80">
           Biometric Mental Wellness
         </Text>
       </LinearGradient>

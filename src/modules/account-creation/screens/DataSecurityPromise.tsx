@@ -40,7 +40,8 @@ export default function DataSecurityPromiseScreen() {
   // status.success (#0bda8e) is a bright mint that washes out on white.
   // Use a deeper green-700 for light mode so both the chip tint and the
   // checkmark icon read with proper contrast against bg-surface.
-  const checkAccent = scheme === 'dark' ? colors.status.success : '#047857'; // green-700
+  const checkAccent =
+    scheme === 'dark' ? colors.status.success : colors.green[700];
   const checkBg = withAlpha(checkAccent, scheme === 'dark' ? 0.15 : 0.18);
   const checkBorder = withAlpha(checkAccent, scheme === 'dark' ? 0 : 0.4);
 

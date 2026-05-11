@@ -16,7 +16,6 @@ import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useState } from 'react';
-import { Pressable } from 'react-native';
 
 export default function TermsOfServiceScreen() {
   const { modal } = useLocalSearchParams<{ modal?: string }>();
@@ -79,16 +78,20 @@ export default function TermsOfServiceScreen() {
       }
       sticky={
         <View className="items-center">
-          <Pressable className="mb-4 flex-row items-center gap-2 py-2">
-            <Ionicons
-              name="document-text-outline"
-              size={18}
-              color={colors.primary.pink}
-            />
-            <Text size="sm" weight="semibold" tone="accent">
-              Download full Terms of Service (PDF)
-            </Text>
-          </Pressable>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mb-4"
+            prefixIcon={
+              <Ionicons
+                name="document-text-outline"
+                size={18}
+                color={colors.primary.pink}
+              />
+            }
+          >
+            Download full Terms of Service (PDF)
+          </Button>
           {!isModal && (
             <>
               <Button onPress={handleAccept} loading={isSaving}>

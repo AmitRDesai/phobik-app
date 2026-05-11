@@ -4,6 +4,7 @@ import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { authClient, getSession, useSession } from '@/lib/auth';
 import { dialog } from '@/utils/dialog';
+import { toast } from '@/utils/toast';
 import { env } from '@/utils/env';
 import { Ionicons } from '@expo/vector-icons';
 import * as IntentLauncher from 'expo-intent-launcher';
@@ -50,9 +51,9 @@ export default function EmailVerificationScreen() {
       return;
     }
     if (result.data?.user?.emailVerified) {
-      dialog.info({
-        title: 'Email Verified',
-        message: 'Your email has been verified successfully.',
+      toast.success({
+        message: 'Email Verified',
+        description: 'Your email has been verified successfully.',
       });
     }
   }, []);

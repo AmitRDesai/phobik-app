@@ -119,8 +119,15 @@ export default function SignInScreen() {
   const handleAppleSignIn = async () => {
     try {
       await appleSignInMutation.mutateAsync();
-    } catch (error: any) {
-      if (error.code === 'ERR_REQUEST_CANCELED') return;
+    } catch (error) {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        (error as { code?: string }).code === 'ERR_REQUEST_CANCELED'
+      ) {
+        return;
+      }
       dialog.error({
         title: 'Sign In Failed',
         message: error instanceof Error ? error.message : 'An error occurred',
@@ -185,14 +192,14 @@ export default function SignInScreen() {
               color={colors.primary.pink}
             />
           </Pressable>
-          <Text size="sm" className="mt-3 text-foreground/50">
+          <Text size="sm" tone="secondary" className="mt-3">
             Tap to sign in with {biometricType}
           </Text>
 
           {!isSignedOut && (
             <View className="mt-4 flex-row items-center">
               <View className="h-px flex-1 bg-foreground/15" />
-              <Text size="sm" className="mx-4 text-foreground/45">
+              <Text size="sm" tone="secondary" className="mx-4">
                 or use credentials
               </Text>
               <View className="h-px flex-1 bg-foreground/15" />
@@ -273,7 +280,7 @@ export default function SignInScreen() {
           <View className="mt-6">
             <View className="mb-4 flex-row items-center">
               <View className="h-px flex-1 bg-foreground/15" />
-              <Text size="sm" className="mx-4 text-foreground/45">
+              <Text size="sm" tone="secondary" className="mx-4">
                 or continue with
               </Text>
               <View className="h-px flex-1 bg-foreground/15" />
