@@ -10,7 +10,8 @@ const SECTIONS: {
     | '/dev/design-system/typography'
     | '/dev/design-system/buttons'
     | '/dev/design-system/cards'
-    | '/dev/design-system/badges';
+    | '/dev/design-system/badges'
+    | '/dev/design-system/icon-chips';
   label: string;
   subtitle: string;
   icon: React.ComponentProps<typeof SettingsMenuItem>['icon'];
@@ -38,6 +39,12 @@ const SECTIONS: {
     label: 'Badge',
     subtitle: 'tinted · outline · solid · 6 tones · with-icon · sizes',
     icon: 'label',
+  },
+  {
+    href: '/dev/design-system/icon-chips',
+    label: 'IconChip',
+    subtitle: 'sizes · shapes · tones · custom bg/border · render-prop icon',
+    icon: 'auto-awesome',
   },
 ];
 
