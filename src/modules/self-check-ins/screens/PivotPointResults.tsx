@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor } from '@/constants/colors';
@@ -30,9 +30,9 @@ export default function PivotPointResults() {
           <Text size="md" tone="secondary">
             Assessment incomplete.
           </Text>
-          <GradientButton onPress={() => router.back()} className="mt-4">
+          <Button onPress={() => router.back()} className="mt-4">
             Back to Assessments
-          </GradientButton>
+          </Button>
         </View>
       </Screen>
     );
@@ -56,9 +56,7 @@ export default function PivotPointResults() {
         />
       }
       sticky={
-        <GradientButton onPress={() => router.back()}>
-          Back to Assessments
-        </GradientButton>
+        <Button onPress={() => router.back()}>Back to Assessments</Button>
       }
       className="px-6"
     >
@@ -93,7 +91,7 @@ export default function PivotPointResults() {
         <PatternResultCard archetype={secondary} />
       </View>
 
-      <Card variant="surface" className="mb-4 p-6">
+      <Card variant="flat" className="mb-4 p-6">
         <View className="mb-4 flex-row items-center gap-2">
           <MaterialIcons name="auto-awesome" size={18} color={yellow} />
           <Text
@@ -120,7 +118,7 @@ export default function PivotPointResults() {
         ))}
       </Card>
 
-      <Card variant="surface" className="p-6">
+      <Card variant="flat" className="p-6">
         <Text size="sm" italic className="leading-relaxed text-foreground/60">
           Your next step isn&apos;t to become someone new&hellip; It&apos;s to
           respond just 1% differently when it matters.

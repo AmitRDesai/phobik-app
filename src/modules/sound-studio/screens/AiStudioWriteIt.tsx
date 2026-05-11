@@ -2,9 +2,7 @@ import writeVibeImg from '@/assets/images/sound-studio/write-vibe.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, foregroundFor } from '@/constants/colors';
@@ -15,6 +13,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { TextInput } from 'react-native';
 
 export default function AiStudioWriteIt() {
@@ -30,12 +29,12 @@ export default function AiStudioWriteIt() {
       scroll
       header={<PracticeStackHeader wordmark="Sonic Studio" />}
       sticky={
-        <GradientButton
+        <Button
           onPress={() => router.push('/sound-studio/ai/feeling')}
           icon={<MaterialIcons name="arrow-forward" size={18} color="white" />}
         >
           Next
-        </GradientButton>
+        </Button>
       }
       className="px-6 pt-2"
     >
@@ -70,7 +69,7 @@ export default function AiStudioWriteIt() {
         <View className="mt-4 flex-row gap-3">
           <Button
             variant="secondary"
-            size="compact"
+            size="xs"
             onPress={() =>
               dialog.info({
                 title: 'Coming soon',
@@ -85,7 +84,7 @@ export default function AiStudioWriteIt() {
           </Button>
           <Button
             variant="secondary"
-            size="compact"
+            size="xs"
             onPress={() =>
               dialog.info({
                 title: 'Coming soon',
@@ -113,7 +112,7 @@ export default function AiStudioWriteIt() {
         </Text>
         <Button
           variant="secondary"
-          size="compact"
+          size="xs"
           onPress={() =>
             dialog.info({
               title: 'Coming soon',

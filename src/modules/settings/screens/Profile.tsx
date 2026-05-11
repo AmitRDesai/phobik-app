@@ -1,7 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Header } from '@/components/ui/Header';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
 import { UserAvatar } from '@/components/ui/UserAvatar';
@@ -14,6 +13,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { File as ExpoFile } from 'expo-file-system';
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Image, Pressable } from 'react-native';
 
 export default function Profile() {
@@ -97,13 +97,13 @@ export default function Profile() {
       scroll
       keyboard
       sticky={
-        <GradientButton
+        <Button
           onPress={() => updateProfile.mutate()}
           disabled={!hasChanges || !name.trim()}
           loading={updateProfile.isPending}
         >
           Save Changes
-        </GradientButton>
+        </Button>
       }
       header={<Header title="Edit Profile" />}
       className="px-4"

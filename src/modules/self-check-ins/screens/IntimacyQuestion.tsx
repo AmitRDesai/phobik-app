@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { useScheme } from '@/hooks/useTheme';
@@ -120,9 +120,9 @@ export default function IntimacyQuestion() {
         />
       }
       sticky={
-        <GradientButton onPress={handleNext} disabled={selectedValue === null}>
+        <Button onPress={handleNext} disabled={selectedValue === null}>
           {isLastQuestion ? 'Save Response' : 'Next Question'}
-        </GradientButton>
+        </Button>
       }
       className="px-6"
       contentClassName="pb-8"

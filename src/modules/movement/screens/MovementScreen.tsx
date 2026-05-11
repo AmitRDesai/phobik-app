@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
 import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
@@ -52,12 +52,12 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
       header={<PracticeStackHeader wordmark="Movement" />}
       sticky={
         <View className="border-t border-foreground/5 px-2 pt-3">
-          <GradientButton
+          <Button
             onPress={handleStart}
             icon={<MaterialIcons name="play-arrow" size={20} color="white" />}
           >
             Start Session
-          </GradientButton>
+          </Button>
           {exercise.footerNote ? (
             <Text size="xs" align="center" className="mt-3 text-foreground/50">
               {exercise.footerNote}
@@ -144,7 +144,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
       ) : null}
 
       {/* Body paragraphs in a glass card */}
-      <Card variant="glass" className="mt-6 gap-3">
+      <Card variant="raised" size="lg" className="mt-6 gap-3">
         {exercise.body.map((p) => (
           <Text
             key={p}
@@ -160,7 +160,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
       {exercise.benefits && exercise.benefits.length > 0 ? (
         <View className="mt-4 gap-3">
           {exercise.benefits.map((b) => (
-            <Card key={b.title} variant="glass">
+            <Card key={b.title} variant="raised" size="lg">
               <View className="mb-2 flex-row items-center gap-2">
                 <MaterialIcons
                   name={b.icon}
@@ -194,7 +194,12 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
       {exercise.stats && exercise.stats.length > 0 ? (
         <View className="mt-6 flex-row gap-3">
           {exercise.stats.map((stat) => (
-            <Card key={stat.label} variant="glass" className="flex-1 px-4 py-3">
+            <Card
+              key={stat.label}
+              variant="raised"
+              size="lg"
+              className="flex-1 px-4 py-3"
+            >
               <Text
                 size="xs"
                 treatment="caption"

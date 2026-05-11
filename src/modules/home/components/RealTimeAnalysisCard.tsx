@@ -1,6 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { accentFor, colors } from '@/constants/colors';
@@ -8,6 +7,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { useTodayEnergyCheckIn } from '../hooks/useEnergyCheckIn';
@@ -137,7 +137,7 @@ export function RealTimeAnalysisCard() {
         {hasAccess ? null : (
           <Button
             variant="ghost"
-            size="compact"
+            size="xs"
             onPress={() => router.push('/connect-wearable')}
             prefixIcon={
               <MaterialIcons

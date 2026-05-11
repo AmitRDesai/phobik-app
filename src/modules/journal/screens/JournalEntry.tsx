@@ -1,7 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
@@ -11,6 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { TextInput } from 'react-native';
 import { FeelingDropdown } from '../components/FeelingDropdown';
 import { NeedDropdown } from '../components/NeedDropdown';
@@ -168,7 +167,7 @@ export default function JournalEntry() {
             isViewMode && !isEditing ? (
               <Button
                 variant="ghost"
-                size="compact"
+                size="xs"
                 onPress={() => setIsEditing(true)}
               >
                 Edit
@@ -183,14 +182,14 @@ export default function JournalEntry() {
       }
       sticky={
         !readOnly ? (
-          <GradientButton
+          <Button
             onPress={handleSave}
             loading={isSaving}
             disabled={!content.trim()}
             icon={<MaterialIcons name="check-circle" size={20} color="white" />}
           >
             Save Reflection
-          </GradientButton>
+          </Button>
         ) : undefined
       }
       className="px-6 pt-4"

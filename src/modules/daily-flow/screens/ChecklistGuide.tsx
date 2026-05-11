@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
@@ -57,12 +57,9 @@ export default function ChecklistGuide() {
       scroll
       header={<DailyFlowHeader wordmark />}
       sticky={
-        <GradientButton
-          onPress={handleContinue}
-          loading={updateSession.isPending}
-        >
+        <Button onPress={handleContinue} loading={updateSession.isPending}>
           Get Started
-        </GradientButton>
+        </Button>
       }
       className="px-6"
     >

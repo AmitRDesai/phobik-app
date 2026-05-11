@@ -18,7 +18,7 @@ export default function ColdExposure() {
         </Text>
       }
     >
-      <Card variant="glass" className="p-5">
+      <Card variant="raised" size="lg" className="p-5">
         <Text
           size="xs"
           treatment="caption"

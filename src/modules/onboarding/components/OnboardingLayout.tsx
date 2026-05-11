@@ -1,8 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { OnboardingProgressBar } from './OnboardingProgressBar';
 
@@ -52,7 +51,7 @@ export function OnboardingLayout({
         <OnboardingProgressBar step={step} totalSteps={totalSteps} />
       </View>
       {onSkip ? (
-        <Button variant="ghost" size="compact" onPress={onSkip}>
+        <Button variant="ghost" size="xs" onPress={onSkip}>
           Skip
         </Button>
       ) : null}
@@ -61,14 +60,14 @@ export function OnboardingLayout({
 
   const sticky = (
     <View className="items-center">
-      <GradientButton
+      <Button
         onPress={onButtonPress}
         disabled={buttonDisabled}
         loading={buttonLoading}
         icon={buttonIcon}
       >
         {buttonLabel}
-      </GradientButton>
+      </Button>
       {showStepCounter && (
         <Text
           size="xs"

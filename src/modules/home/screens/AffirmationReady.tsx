@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { dismissToRoot } from '@/utils/navigation';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -43,12 +43,9 @@ export default function AffirmationReady() {
       variant="default"
       header={<AffirmationHeader currentStep={2} />}
       sticky={
-        <GradientButton
-          onPress={handleSave}
-          loading={saveAffirmation.isPending}
-        >
+        <Button onPress={handleSave} loading={saveAffirmation.isPending}>
           Save to Today Dashboard
-        </GradientButton>
+        </Button>
       }
       className="px-6 pt-4"
     >

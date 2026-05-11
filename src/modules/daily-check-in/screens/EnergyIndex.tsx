@@ -1,6 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -14,6 +13,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { useWindowDimensions } from 'react-native';
 import { Slider } from '../components/Slider';
 
@@ -83,13 +83,13 @@ export default function EnergyIndex() {
           >
             {'"'}When your energy aligns, courage follows.{'"'}
           </Text>
-          <GradientButton
+          <Button
             onPress={handleSave}
             disabled={saveEnergyCheckIn.isPending}
             icon={<MaterialIcons name="check" size={20} color="white" />}
           >
             {saveEnergyCheckIn.isPending ? 'Saving...' : 'Save'}
-          </GradientButton>
+          </Button>
         </View>
       }
       className="flex-1"

@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -74,12 +74,9 @@ export default function BreatheList() {
             </Text>
           </View>
           <View>
-            <GradientButton
-              compact
-              onPress={() => router.push(resumable.introRoute)}
-            >
+            <Button size="xs" onPress={() => router.push(resumable.introRoute)}>
               Resume
-            </GradientButton>
+            </Button>
           </View>
         </Card>
       ) : null}

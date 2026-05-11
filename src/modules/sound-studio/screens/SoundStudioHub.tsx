@@ -1,9 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -12,6 +10,7 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
+import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 
 import { NOW_PLAYING_IMAGE } from '../data/sound-studio';
@@ -79,12 +78,12 @@ export default function SoundStudioHub() {
           peak relaxation and focus.
         </Text>
         <View className="mt-5">
-          <GradientButton
+          <Button
             onPress={() => router.push('/sound-studio/curated')}
             icon={<MaterialIcons name="play-arrow" size={18} color="white" />}
           >
             Start Listening
-          </GradientButton>
+          </Button>
         </View>
       </Card>
 
@@ -114,12 +113,12 @@ export default function SoundStudioHub() {
           patterns.
         </Text>
         <View className="mt-5">
-          <GradientButton
+          <Button
             onPress={() => router.push('/sound-studio/ai/write')}
             icon={<MaterialIcons name="bolt" size={18} color="white" />}
           >
             Start Creating
-          </GradientButton>
+          </Button>
         </View>
       </Card>
 
@@ -164,7 +163,7 @@ export default function SoundStudioHub() {
       {/* Open Expressive Writing practice */}
       <Button
         variant="ghost"
-        size="compact"
+        size="xs"
         onPress={() => router.push('/sound-studio/expressive-writing')}
         className="mt-3 self-center"
       >

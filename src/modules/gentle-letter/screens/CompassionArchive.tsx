@@ -3,12 +3,12 @@ import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { ActivityIndicator, Pressable } from 'react-native';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -109,7 +109,7 @@ export default function CompassionArchive() {
       header={<Header title="My Compassion Archive" />}
       className="px-4"
     >
-      <Card variant="surface">
+      <Card variant="flat">
         <View className="mb-4 flex-row items-center justify-between">
           <Pressable onPress={prevMonth} className="rounded-full p-2">
             <MaterialIcons name="chevron-left" size={24} color={chevronColor} />
@@ -210,7 +210,7 @@ export default function CompassionArchive() {
           {selectedDate && (
             <Button
               variant="ghost"
-              size="compact"
+              size="xs"
               onPress={() => setSelectedDate(null)}
             >
               Show All
@@ -221,7 +221,7 @@ export default function CompassionArchive() {
         {isLoading ? (
           <ActivityIndicator size="small" color={colors.primary.pink} />
         ) : !letters?.length ? (
-          <Card variant="surface" className="items-center p-8">
+          <Card variant="flat" className="items-center p-8">
             <MaterialIcons
               name="edit-note"
               size={40}

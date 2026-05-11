@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -15,7 +15,7 @@ export default function FeelingSelection() {
       variant="default"
       header={<AffirmationHeader currentStep={1} />}
       sticky={
-        <GradientButton
+        <Button
           onPress={() =>
             router.push({
               pathname: '/affirmation/affirmation-ready',
@@ -25,7 +25,7 @@ export default function FeelingSelection() {
           disabled={!selected}
         >
           Continue
-        </GradientButton>
+        </Button>
       }
       className="items-center justify-center px-6"
     >

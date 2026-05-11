@@ -25,7 +25,7 @@ export function NextBestBoostCard({
   const router = useRouter();
   const meta = CHEMICAL_META[lowest];
   return (
-    <Card variant="elevated" className="overflow-hidden p-0">
+    <Card variant="raised" size="lg" className="overflow-hidden p-0">
       <View className="flex-row items-center gap-4 p-4">
         <View
           style={{

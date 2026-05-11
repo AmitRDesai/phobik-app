@@ -1,8 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BlurView } from '@/components/ui/BlurView';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -22,11 +21,9 @@ export default function Welcome() {
       }
       sticky={
         <View className="items-center">
-          <GradientButton
-            onPress={() => router.push('/onboarding/life-stressors')}
-          >
+          <Button onPress={() => router.push('/onboarding/life-stressors')}>
             Start
-          </GradientButton>
+          </Button>
           <Button
             variant="ghost"
             onPress={() => router.push('/onboarding/completion?skipped=true')}

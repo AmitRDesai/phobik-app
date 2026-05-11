@@ -1,6 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
+import { Button } from '@/components/ui/Button';
 import { ScrollView } from 'react-native';
 import Animated, {
   cancelAnimation,
@@ -13,7 +14,6 @@ import Animated, {
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, withAlpha } from '@/constants/colors';
 
 interface PauseAndNoticeProps {
@@ -122,7 +122,7 @@ export function PauseAndNotice({ onContinue }: PauseAndNoticeProps) {
 
       {/* Continue button */}
       <View className="w-full">
-        <GradientButton onPress={onContinue}>Continue</GradientButton>
+        <Button onPress={onContinue}>Continue</Button>
       </View>
 
       {/* Footer */}

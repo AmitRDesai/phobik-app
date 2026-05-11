@@ -230,7 +230,7 @@ export default function BoxBreathingSession() {
 
       {/* Bottom HRV Card + Controls */}
       <View className="px-screen-x pb-6">
-        <Card variant="glass">
+        <Card variant="raised" size="lg">
           {/* HRV Header */}
           <View className="mb-6 flex-row items-center justify-between">
             <View className="flex-row items-center gap-2.5">

@@ -1,6 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
 import { colors, foregroundFor } from '@/constants/colors';
@@ -11,6 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Platform, Pressable, TextInput as RNTextInput } from 'react-native';
 import {
   useAppleSignIn,
@@ -215,13 +215,13 @@ export default function CreateAccountScreen() {
         </View>
 
         <View className="mt-8">
-          <GradientButton
+          <Button
             onPress={handleCreateAccount}
             disabled={!isValid}
             loading={isLoading}
           >
             Create Account
-          </GradientButton>
+          </Button>
           {showWarmingHint && (
             <Text size="sm" tone="secondary" align="center" className="mt-3">
               Hang tight — we&apos;re getting things ready for you.

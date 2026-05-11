@@ -23,7 +23,7 @@ export function PatternResultCard({
 
   if (!isPrimary) {
     return (
-      <Card variant="surface" className="p-5">
+      <Card variant="flat" className="p-5">
         <Text size="lg" weight="bold" className="mb-2">
           {archetype.emoji} {archetype.label}
         </Text>

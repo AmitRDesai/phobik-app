@@ -127,7 +127,8 @@ export function DoseActionRow({
   const isCritical = status === 'critical';
   return (
     <Card
-      variant="elevated"
+      variant="raised"
+      size="lg"
       className="flex-row items-center gap-4 p-4"
       style={{
         backgroundColor: withAlpha(color, isCritical ? 0.07 : 0.035),

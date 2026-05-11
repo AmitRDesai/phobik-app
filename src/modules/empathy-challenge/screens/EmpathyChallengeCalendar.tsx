@@ -1,11 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Redirect, useRouter } from 'expo-router';
+import { Button } from '@/components/ui/Button';
 import { ActivityIndicator } from 'react-native';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
@@ -222,7 +222,7 @@ function ActiveDayCard({
         <Text size="sm" className="mb-4 leading-relaxed text-foreground/70">
           {empathyDay.calendarDescription}
         </Text>
-        <GradientButton
+        <Button
           onPress={() =>
             router.push({
               pathname: '/practices/empathy-challenge/day',
@@ -231,7 +231,7 @@ function ActiveDayCard({
           }
         >
           Start Day {empathyDay.day}
-        </GradientButton>
+        </Button>
       </View>
     </View>
   );

@@ -1,8 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
@@ -14,6 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 
 const CREATIONS = [
@@ -207,7 +206,7 @@ export default function AiStudioPlayback() {
           </Text>
           <Button
             variant="ghost"
-            size="compact"
+            size="xs"
             onPress={() => onAction('View All')}
           >
             View All
@@ -249,15 +248,15 @@ export default function AiStudioPlayback() {
           Start a new session and create something unique today.
         </Text>
         <View className="mt-4">
-          <GradientButton
-            compact
+          <Button
+            size="xs"
             onPress={() => router.push('/sound-studio/ai/write')}
             icon={
               <MaterialIcons name="arrow-forward" size={14} color="white" />
             }
           >
             New Studio Session
-          </GradientButton>
+          </Button>
         </View>
       </Card>
     </Screen>

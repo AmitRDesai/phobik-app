@@ -1,8 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
@@ -64,7 +63,7 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
               </Text>
             </View>
           </View>
-          <Button variant="ghost" size="compact" onPress={handleEnable}>
+          <Button variant="ghost" size="xs" onPress={handleEnable}>
             Enable
           </Button>
         </View>
@@ -106,9 +105,7 @@ export function BiometricSetup({ mode }: BiometricSetupProps) {
         </Text>
 
         <View className="mt-10 w-full gap-3">
-          <GradientButton onPress={handleEnable}>
-            Enable {biometricType}
-          </GradientButton>
+          <Button onPress={handleEnable}>Enable {biometricType}</Button>
           <Button variant="ghost" onPress={handleSkip}>
             Skip for now
           </Button>

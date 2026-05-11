@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { SelectionCard } from '@/components/ui/SelectionCard';
@@ -90,13 +90,13 @@ export default function Reflection() {
         />
       }
       sticky={
-        <GradientButton
+        <Button
           onPress={handleFinish}
           disabled={!selected}
           loading={complete.isPending}
         >
           Back to Today
-        </GradientButton>
+        </Button>
       }
       className="px-6"
     >

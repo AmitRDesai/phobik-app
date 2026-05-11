@@ -52,7 +52,7 @@ export default function Nourishment() {
         description="Cellular reset after a night of fluid loss."
         tone="pink"
       />
-      <Card variant="glass">
+      <Card variant="raised" size="lg">
         <Text size="h3" weight="bold" className="mb-2">
           Scientific Benefits
         </Text>

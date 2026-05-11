@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { useScheme } from '@/hooks/useTheme';
@@ -246,11 +246,7 @@ export default function IntimacyResults() {
           }
         />
       }
-      sticky={
-        <GradientButton onPress={() => router.back()}>
-          Finish & Log
-        </GradientButton>
-      }
+      sticky={<Button onPress={() => router.back()}>Finish & Log</Button>}
       className="px-6"
     >
       {/* Title */}
@@ -282,7 +278,7 @@ export default function IntimacyResults() {
       </View>
 
       {/* Insight Card */}
-      <Card variant="surface" className="mb-8 p-5">
+      <Card variant="flat" className="mb-8 p-5">
         <View className="mb-3 flex-row items-center gap-2">
           <MaterialIcons name="balance" size={20} color={colors.primary.pink} />
           <Text size="lg" weight="bold">

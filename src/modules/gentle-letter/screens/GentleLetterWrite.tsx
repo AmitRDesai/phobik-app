@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/Button';
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
@@ -8,7 +9,6 @@ import { Keyboard, Pressable, TextInput } from 'react-native';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
@@ -124,13 +124,13 @@ export default function GentleLetterWrite() {
         />
       }
       sticky={
-        <GradientButton
+        <Button
           onPress={handleNext}
           loading={createLetter.isPending}
           disabled={!currentText.trim() || (isLastStep && !coreAct)}
         >
           {isLastStep ? 'Save Letter' : 'Next Step'}
-        </GradientButton>
+        </Button>
       }
       className="px-6"
     >

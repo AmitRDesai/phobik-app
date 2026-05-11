@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors, withAlpha } from '@/constants/colors';
 import {
@@ -80,7 +80,7 @@ export function ChallengesCard() {
             ? 'Great job today! Want to do another one?'
             : 'Complete one micro challenge to start building your streak.'}
         </Text>
-        <Button variant="secondary" size="compact" onPress={handlePress}>
+        <Button variant="secondary" size="xs" onPress={handlePress}>
           {hasActive
             ? 'Resume Challenge'
             : completedToday

@@ -1,7 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
@@ -12,6 +10,7 @@ import { env } from '@/utils/env';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 
 export default function ForgotPasswordScreen() {
@@ -92,7 +91,7 @@ export default function ForgotPasswordScreen() {
 
           <Button
             variant="ghost"
-            size="compact"
+            size="xs"
             onPress={() => router.back()}
             className="mt-6"
           >
@@ -153,13 +152,13 @@ export default function ForgotPasswordScreen() {
         />
 
         <View className="mt-8">
-          <GradientButton
+          <Button
             onPress={handleSubmit}
             disabled={!isValid}
             loading={isLoading}
           >
             Send Reset Link
-          </GradientButton>
+          </Button>
         </View>
       </View>
 

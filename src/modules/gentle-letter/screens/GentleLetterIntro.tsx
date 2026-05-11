@@ -1,10 +1,9 @@
+import { Button } from '@/components/ui/Button';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 import { Screen } from '@/components/ui/Screen';
@@ -31,11 +30,9 @@ export default function GentleLetterIntro() {
       }
       sticky={
         <View>
-          <GradientButton
-            onPress={() => router.push('/practices/gentle-letter/write')}
-          >
+          <Button onPress={() => router.push('/practices/gentle-letter/write')}>
             Start My Letter
-          </GradientButton>
+          </Button>
           <Button
             variant="ghost"
             onPress={() => router.push('/practices/gentle-letter/archive')}

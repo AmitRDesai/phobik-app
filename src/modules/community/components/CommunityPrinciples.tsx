@@ -1,10 +1,10 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, withAlpha } from '@/constants/colors';
 import type { CustomDialogProps } from '@/store/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Button } from '@/components/ui/Button';
 import { ScrollView } from 'react-native';
 import { useJoinCommunity } from '../hooks/useCommunity';
 
@@ -115,13 +115,13 @@ export function CommunityPrinciples({ close }: CustomDialogProps) {
       </ScrollView>
 
       {/* Join Button */}
-      <GradientButton
+      <Button
         onPress={handleJoin}
         loading={joinMutation.isPending}
         icon={<MaterialIcons name="arrow-forward" size={20} color="white" />}
       >
         I Understand & Join
-      </GradientButton>
+      </Button>
 
       {/* Footer */}
       <Text

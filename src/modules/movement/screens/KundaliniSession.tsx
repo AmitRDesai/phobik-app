@@ -2,7 +2,6 @@ import kundaliniImg from '@/assets/images/four-pillars/movement-kundalini.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { useScheme } from '@/hooks/useTheme';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
@@ -10,6 +9,7 @@ import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 
 import { MovementSessionShell } from './MovementSessionShell';
@@ -48,13 +48,13 @@ export default function KundaliniSession() {
           <Text size="xs" className="text-foreground/50">
             Feel the energy in your body
           </Text>
-          <GradientButton compact onPress={() => {}}>
+          <Button size="xs" onPress={() => {}}>
             Start
-          </GradientButton>
+          </Button>
         </View>
       }
     >
-      <Card variant="glass">
+      <Card variant="raised" size="lg">
         <Text size="h3" weight="extrabold">
           Kundalini Spinal Flex
         </Text>
@@ -66,7 +66,7 @@ export default function KundaliniSession() {
 
       {/* Duration / Pace */}
       <View className="mt-4 flex-row gap-3">
-        <Card variant="glass" className="flex-1 p-4">
+        <Card variant="raised" size="lg" className="flex-1 p-4">
           <Text
             size="xs"
             treatment="caption"
@@ -100,7 +100,7 @@ export default function KundaliniSession() {
             })}
           </View>
         </Card>
-        <Card variant="glass" className="flex-1 p-4">
+        <Card variant="raised" size="lg" className="flex-1 p-4">
           <Text
             size="xs"
             treatment="caption"
@@ -165,7 +165,8 @@ export default function KundaliniSession() {
         {STEPS.map((step) => (
           <Card
             key={step.title}
-            variant="glass"
+            variant="raised"
+            size="lg"
             className="flex-row items-start gap-3 p-4"
           >
             <MaterialIcons

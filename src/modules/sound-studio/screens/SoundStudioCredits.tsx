@@ -2,7 +2,6 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
@@ -12,6 +11,7 @@ import { PracticeStackHeader } from '@/modules/practices/components/PracticeStac
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Button } from '@/components/ui/Button';
 import { ScrollView } from 'react-native';
 
 import { CREDIT_PLANS } from '../data/sound-studio';
@@ -131,14 +131,14 @@ export default function SoundStudioCredits() {
                 </Text>
                 <View className="mt-5">
                   {plan.popular ? (
-                    <GradientButton
+                    <Button
                       onPress={() => onPurchase(plan.name)}
                       icon={
                         <MaterialIcons name="bolt" size={16} color="white" />
                       }
                     >
                       Purchase Now
-                    </GradientButton>
+                    </Button>
                   ) : (
                     <LinearGradient
                       colors={[colors.primary.pink, colors.accent.yellow]}

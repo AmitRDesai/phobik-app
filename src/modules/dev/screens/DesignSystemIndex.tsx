@@ -6,7 +6,10 @@ import { SettingsMenuItem } from '@/modules/settings/components/SettingsMenuItem
 import { useRouter } from 'expo-router';
 
 const SECTIONS: {
-  href: '/dev/design-system/typography';
+  href:
+    | '/dev/design-system/typography'
+    | '/dev/design-system/buttons'
+    | '/dev/design-system/cards';
   label: string;
   subtitle: string;
   icon: React.ComponentProps<typeof SettingsMenuItem>['icon'];
@@ -14,8 +17,20 @@ const SECTIONS: {
   {
     href: '/dev/design-system/typography',
     label: 'Typography',
-    subtitle: 'Text variants — display, h1–h3, lg/md/sm/xs, label, caption',
+    subtitle: 'size · tone · weight · align · italic · treatment',
     icon: 'text-fields',
+  },
+  {
+    href: '/dev/design-system/buttons',
+    label: 'Button',
+    subtitle: 'primary · secondary · ghost · destructive · sizes · states',
+    icon: 'smart-button',
+  },
+  {
+    href: '/dev/design-system/cards',
+    label: 'Card',
+    subtitle: 'default · elevated · surface · glass · toned · shadow',
+    icon: 'view-agenda',
   },
 ];
 

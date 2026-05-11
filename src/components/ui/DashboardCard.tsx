@@ -15,7 +15,8 @@ export function DashboardCard({
 }: DashboardCardProps) {
   return (
     <Card
-      variant="elevated"
+      variant="raised"
+      size="lg"
       className={clsx('overflow-hidden', className)}
       shadow={
         glow

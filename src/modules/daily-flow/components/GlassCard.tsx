@@ -8,7 +8,7 @@ type Props = {
 
 export function GlassCard({ children, className }: Props) {
   return (
-    <Card variant="glass" className={className}>
+    <Card variant="raised" size="lg" className={className}>
       {children}
     </Card>
   );

@@ -16,7 +16,7 @@ export function CharacterDevLinks() {
   const router = useRouter();
 
   return (
-    <Card variant="elevated">
+    <Card variant="raised" size="lg">
       <Text
         size="xs"
         treatment="caption"

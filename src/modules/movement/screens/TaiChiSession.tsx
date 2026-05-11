@@ -1,8 +1,8 @@
 import taiChiImg from '@/assets/images/four-pillars/movement-tai-chi.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -25,7 +25,7 @@ export default function TaiChiSession() {
       wordmark="Tai Chi Wave Hands"
       bottom={
         <View>
-          <GradientButton onPress={() => {}}>End Flow</GradientButton>
+          <Button onPress={() => {}}>End Flow</Button>
         </View>
       }
     >
@@ -72,7 +72,8 @@ export default function TaiChiSession() {
         {TIPS.map((tip) => (
           <Card
             key={tip.text}
-            variant="glass"
+            variant="raised"
+            size="lg"
             className="flex-row items-center gap-3 p-4"
           >
             <View className="h-10 w-10 items-center justify-center rounded-full bg-primary-pink/10">

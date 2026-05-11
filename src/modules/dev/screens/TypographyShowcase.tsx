@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/Button';
 import {
   Text,
   type TextSize,
@@ -5,7 +6,6 @@ import {
   type TextWeight,
 } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -66,7 +66,7 @@ export default function TypographyShowcase() {
       contentClassName="gap-6 pb-6"
     >
       {/* Theme toggle — instant light/dark comparison without leaving the screen */}
-      <Card variant="surface" className="gap-2 p-4">
+      <Card variant="flat" className="gap-2 p-4">
         <Text size="xs" treatment="caption" tone="tertiary">
           Scheme preview
         </Text>
@@ -169,7 +169,7 @@ export default function TypographyShowcase() {
 
       <Section title="Real-world patterns">
         <PropRow label="Card title + subtitle + meta">
-          <Card variant="surface" className="gap-1 p-4">
+          <Card variant="flat" className="gap-1 p-4">
             <Text size="h3">Daily Flow</Text>
             <Text size="sm" tone="secondary">
               Pick up where you left off
@@ -277,7 +277,7 @@ function Section({
       <Text size="xs" treatment="caption" tone="tertiary" className="px-2">
         {title}
       </Text>
-      <Card variant="surface" className="gap-5 p-5">
+      <Card variant="flat" className="gap-5 p-5">
         {children}
       </Card>
     </View>

@@ -1,9 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -12,6 +10,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Pressable, TextInput } from 'react-native';
 
 import { EMOTIONAL_TAGS, type EmotionalTag } from '../data/sound-studio';
@@ -41,12 +40,12 @@ export default function AiStudioFeeling() {
       scroll
       header={<PracticeStackHeader wordmark="Sound Studio" />}
       sticky={
-        <GradientButton
+        <Button
           onPress={() => router.push('/sound-studio/ai/express')}
           icon={<MaterialIcons name="arrow-forward" size={18} color="white" />}
         >
           Next: Express it (1 credit)
-        </GradientButton>
+        </Button>
       }
       className="px-6 pt-2"
     >
@@ -170,7 +169,7 @@ export default function AiStudioFeeling() {
         </View>
         <Button
           variant="ghost"
-          size="compact"
+          size="xs"
           onPress={() => router.push('/sound-studio/credits')}
         >
           Add credits

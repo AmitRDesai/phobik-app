@@ -1,6 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
@@ -11,6 +10,7 @@ import {
   useWindowDimensions,
   type LayoutChangeEvent,
 } from 'react-native';
+import { Button } from '@/components/ui/Button';
 import { EaseView } from 'react-native-ease';
 import Animated, {
   cancelAnimation,
@@ -283,9 +283,9 @@ export function FloatingMapper({
 
       {/* Confirm button */}
       <View className="px-6 pb-6">
-        <GradientButton onPress={onConfirm} disabled={!selectedSubItem}>
+        <Button onPress={onConfirm} disabled={!selectedSubItem}>
           {confirmLabel}
-        </GradientButton>
+        </Button>
       </View>
     </View>
   );

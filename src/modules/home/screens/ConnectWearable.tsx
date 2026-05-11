@@ -1,9 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors } from '@/constants/colors';
@@ -12,6 +10,7 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Linking, Platform } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { openHealthConnectSettings } from 'react-native-health-connect';
@@ -222,7 +221,7 @@ export default function ConnectWearable() {
           ) : null}
           <Button
             variant="ghost"
-            size="compact"
+            size="xs"
             onPress={openHealthSettings}
             className="mt-2"
           >
@@ -239,23 +238,23 @@ export default function ConnectWearable() {
             Health Connect isn&apos;t installed on this device. Install it from
             the Play Store, then return here to connect.
           </Text>
-          <GradientButton
+          <Button
             onPress={handleConnect}
             prefixIcon={
               <MaterialIcons name="cloud-download" size={18} color="white" />
             }
           >
             Install Health Connect
-          </GradientButton>
+          </Button>
         </View>
       ) : (
-        <GradientButton
+        <Button
           onPress={handleConnect}
           loading={requesting}
           prefixIcon={<MaterialIcons name="favorite" size={18} color="white" />}
         >
           Connect to {PROVIDER_LABEL}
-        </GradientButton>
+        </Button>
       )}
     </Screen>
   );

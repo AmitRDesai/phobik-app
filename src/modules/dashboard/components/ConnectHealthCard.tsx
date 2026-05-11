@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
@@ -33,7 +33,7 @@ export function ConnectHealthCard() {
         </View>
         <Button
           variant="primary"
-          size="default"
+          size="lg"
           onPress={() => router.push('/connect-wearable')}
           prefixIcon={
             <MaterialIcons name="link" size={16} color={colors.primary.pink} />

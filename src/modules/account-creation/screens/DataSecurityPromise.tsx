@@ -1,8 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
@@ -68,11 +67,11 @@ export default function DataSecurityPromiseScreen() {
       sticky={
         <View className="items-center">
           {!isModal && (
-            <GradientButton onPress={() => router.push(nextRoute)}>
+            <Button onPress={() => router.push(nextRoute)}>
               Agree and Continue
-            </GradientButton>
+            </Button>
           )}
-          <Button variant="ghost" size="compact" className="mb-1 mt-6">
+          <Button variant="ghost" size="xs" className="mb-1 mt-6">
             Download full privacy policy
           </Button>
           {!isModal && (

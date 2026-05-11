@@ -1,11 +1,11 @@
 import HAND_IMAGE from '@/assets/images/daily-flow/eft-side-of-hand.png';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { useRouter } from 'expo-router';
+import { Button } from '@/components/ui/Button';
 import { Image } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
@@ -37,12 +37,9 @@ export default function EFTGuide() {
       scroll
       header={<DailyFlowHeader title="EFT Tapping Guide" />}
       sticky={
-        <GradientButton
-          onPress={handleContinue}
-          loading={updateSession.isPending}
-        >
+        <Button onPress={handleContinue} loading={updateSession.isPending}>
           Continue
-        </GradientButton>
+        </Button>
       }
       className="px-6"
     >

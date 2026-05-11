@@ -1,8 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { SelectionCard } from '@/components/ui/SelectionCard';
 import { colors, withAlpha } from '@/constants/colors';
@@ -13,6 +11,7 @@ import { PermissionStatus } from 'expo-calendar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
+import { Button } from '@/components/ui/Button';
 import { ActivityIndicator, Linking } from 'react-native';
 import { useCalendarPermission } from '../hooks/useCalendarPermission';
 import {
@@ -133,7 +132,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
 
           {!connected && !denied && (
             <>
-              <GradientButton
+              <Button
                 onPress={handleConnect}
                 loading={loading}
                 icon={
@@ -145,7 +144,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                 }
               >
                 Connect my calendar
-              </GradientButton>
+              </Button>
               {onSkip && (
                 <Button variant="ghost" onPress={onSkip}>
                   Maybe later
@@ -160,12 +159,12 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                 Calendar access was denied. You can enable it in your device
                 settings to let Phobik prepare you for stressful events.
               </Text>
-              <GradientButton
+              <Button
                 onPress={() => Linking.openSettings()}
                 icon={<MaterialIcons name="settings" size={18} color="white" />}
               >
                 Open Settings
-              </GradientButton>
+              </Button>
               {onSkip && (
                 <Button variant="ghost" onPress={onSkip}>
                   Skip for now

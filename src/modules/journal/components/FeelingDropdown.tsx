@@ -50,7 +50,7 @@ export function FeelingDropdown({
   return (
     <View className="mb-4">
       <Card
-        variant="surface"
+        variant="flat"
         onPress={toggle}
         className="flex-row items-center justify-between border-primary-pink/40"
         style={{

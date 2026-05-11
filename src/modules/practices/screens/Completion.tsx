@@ -1,8 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { useScheme } from '@/hooks/useTheme';
@@ -295,9 +294,7 @@ export default function Completion() {
       }
       sticky={
         <View className="gap-4 px-2">
-          <GradientButton onPress={handleFinish}>
-            Collect Rewards & Finish
-          </GradientButton>
+          <Button onPress={handleFinish}>Collect Rewards & Finish</Button>
           <Button
             variant="ghost"
             onPress={() => {}}

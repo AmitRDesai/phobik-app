@@ -1,7 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { foregroundFor } from '@/constants/colors';
@@ -50,12 +49,9 @@ export default function SupportOptions() {
       header={<DailyFlowHeader wordmark />}
       sticky={
         <View className="items-center">
-          <GradientButton
-            onPress={handleContinue}
-            loading={updateSession.isPending}
-          >
+          <Button onPress={handleContinue} loading={updateSession.isPending}>
             Start My Shift
-          </GradientButton>
+          </Button>
           <Text
             size="sm"
             align="center"
@@ -147,19 +143,19 @@ function AddOnPill({
   const scheme = useScheme();
   if (on) {
     return (
-      <GradientButton
-        compact
+      <Button
+        size="xs"
         onPress={onToggle}
         prefixIcon={<MaterialIcons name={icon} size={14} color="white" />}
       >
         {label}
-      </GradientButton>
+      </Button>
     );
   }
   return (
     <Button
       variant="secondary"
-      size="compact"
+      size="xs"
       onPress={onToggle}
       prefixIcon={
         <MaterialIcons

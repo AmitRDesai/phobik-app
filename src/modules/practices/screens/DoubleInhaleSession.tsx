@@ -47,7 +47,7 @@ import { doubleInhaleSessionAtom } from '../store/session-atoms';
 function InstructionCard() {
   return (
     <View className="z-20 px-6 pb-6">
-      <Card variant="glass">
+      <Card variant="raised" size="lg">
         <View className="flex-row items-start gap-4">
           <View className="h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-pink/10">
             <MaterialIcons

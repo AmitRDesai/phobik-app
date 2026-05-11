@@ -1,8 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
@@ -54,9 +53,9 @@ export function ExerciseIntroScreen({
         </Text>
 
         <View className="w-full gap-3">
-          <GradientButton onPress={() => router.push(sessionRoute as never)}>
+          <Button onPress={() => router.push(sessionRoute as never)}>
             {hasSavedSession ? 'Resume Session' : 'Start'}
-          </GradientButton>
+          </Button>
           {hasSavedSession && (
             <Button variant="ghost" onPress={onClearSession}>
               Restart Progress

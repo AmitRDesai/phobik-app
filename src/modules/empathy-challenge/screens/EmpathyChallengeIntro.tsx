@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/Button';
 import { useRouter } from 'expo-router';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { dialog } from '@/utils/dialog';
@@ -32,9 +32,9 @@ export default function EmpathyChallengeIntro() {
       scroll
       header={<Header variant="close" />}
       sticky={
-        <GradientButton onPress={handleJoin} loading={startChallenge.isPending}>
+        <Button onPress={handleJoin} loading={startChallenge.isPending}>
           Join Challenge
-        </GradientButton>
+        </Button>
       }
       className=""
     >

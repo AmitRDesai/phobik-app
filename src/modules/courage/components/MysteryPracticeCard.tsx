@@ -1,11 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { GradientText } from '@/components/ui/GradientText';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -282,7 +282,7 @@ export function MysteryPracticeCard({
 
           <Button
             variant="secondary"
-            size="compact"
+            size="xs"
             onPress={handleDone}
             className="flex-1"
           >

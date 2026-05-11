@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors } from '@/constants/colors';
@@ -65,12 +65,9 @@ export default function TappingSession() {
       header={<DailyFlowHeader title="EFT Tapping Session" />}
       sticky={
         <View>
-          <GradientButton
-            onPress={handleNext}
-            loading={updateSession.isPending}
-          >
+          <Button onPress={handleNext} loading={updateSession.isPending}>
             {isLastPoint ? 'Finish Tapping' : 'Next Tap Point'}
-          </GradientButton>
+          </Button>
           <Text
             size="xs"
             treatment="caption"

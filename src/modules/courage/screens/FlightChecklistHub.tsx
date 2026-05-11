@@ -4,13 +4,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 
 import heroImage from '@/assets/images/flight-checklist-hero.png';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';

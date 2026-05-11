@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
@@ -48,9 +48,9 @@ export default function Landing() {
       scroll
       header={<MorningResetHeader showClose={false} />}
       sticky={
-        <GradientButton onPress={handleBegin} loading={updateSession.isPending}>
+        <Button onPress={handleBegin} loading={updateSession.isPending}>
           Begin Flow
-        </GradientButton>
+        </Button>
       }
       className="px-6"
     >
@@ -77,7 +77,7 @@ export default function Landing() {
         </Text>
       </View>
 
-      <Card variant="glass" className="mb-6">
+      <Card variant="raised" size="lg" className="mb-6">
         <Text
           size="xs"
           treatment="caption"

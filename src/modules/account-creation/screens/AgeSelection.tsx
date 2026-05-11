@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
@@ -41,13 +41,13 @@ export default function AgeSelectionScreen() {
       }
       sticky={
         <View className="items-center">
-          <GradientButton
+          <Button
             onPress={() => router.push(nextRoute)}
             disabled={selectedAge === null}
             icon={<Ionicons name="arrow-forward" size={24} color="white" />}
           >
             Next
-          </GradientButton>
+          </Button>
           <Text
             size="xs"
             treatment="caption"

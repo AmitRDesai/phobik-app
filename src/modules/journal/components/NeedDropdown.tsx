@@ -50,7 +50,7 @@ export function NeedDropdown({ value, onSelect, readOnly }: NeedDropdownProps) {
   return (
     <View className="mb-6">
       <Card
-        variant="surface"
+        variant="flat"
         onPress={toggle}
         className="flex-row items-center justify-between"
         style={{

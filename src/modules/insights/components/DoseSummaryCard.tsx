@@ -1,10 +1,10 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 import { buildDoseChemicals } from '../data/dose-config';
 import { useDailyDose } from '../hooks/useDailyDose';
@@ -22,7 +22,7 @@ export function DoseSummaryCard() {
         </Text>
         <Button
           variant="ghost"
-          size="compact"
+          size="xs"
           onPress={() => router.push('/insights/dose-tracking')}
           icon={
             <MaterialIcons

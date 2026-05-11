@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { SelectionCard } from '@/components/ui/SelectionCard';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -82,9 +82,7 @@ export function FearTriggersDialog({ close }: FearTriggersDialogProps) {
         ))}
       </View>
 
-      <GradientButton onPress={() => close()}>
-        Finish Personalizing
-      </GradientButton>
+      <Button onPress={() => close()}>Finish Personalizing</Button>
     </View>
   );
 }

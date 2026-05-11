@@ -1,6 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
@@ -19,6 +18,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 
 function formatBytes(bytes: number): string {
@@ -147,7 +147,7 @@ export default function AudioStorage() {
         {voice ? (
           <Button
             variant="ghost"
-            size="compact"
+            size="xs"
             onPress={() => setVoice(null)}
             className="mt-3 self-start"
           >

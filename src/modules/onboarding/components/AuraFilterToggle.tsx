@@ -47,7 +47,7 @@ export function AuraFilterToggle({ enabled, onToggle }: AuraFilterToggleProps) {
   }));
 
   return (
-    <Card variant="surface" className="p-5">
+    <Card variant="flat" className="p-5">
       <View className="flex-row items-center justify-between">
         <View className="flex-1 gap-1">
           <Text weight="bold" size="md">

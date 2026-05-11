@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { MandalaIcon } from '@/components/icons/MandalaIcon';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
@@ -23,12 +23,12 @@ export default function WelcomeScreen() {
           <View className="items-center">
             <ProgressDots total={7} current={1} />
           </View>
-          <GradientButton
+          <Button
             onPress={() => router.push('/account-creation/philosophy')}
             icon={<Ionicons name="chevron-forward" size={24} color="white" />}
           >
             Next
-          </GradientButton>
+          </Button>
           <Link href="/auth/sign-in" replace className="mt-2 py-2">
             <Text size="sm" tone="secondary" align="center">
               Already have an account?{' '}

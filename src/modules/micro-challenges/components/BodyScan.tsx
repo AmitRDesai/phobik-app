@@ -1,10 +1,10 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtom } from 'jotai';
+import { Button } from '@/components/ui/Button';
 import { ScrollView } from 'react-native';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 
 import { SENSATION_ATTRIBUTES } from '../data/sensation-attributes';
@@ -80,12 +80,12 @@ export function BodyScan({ onContinue }: BodyScanProps) {
       </View>
 
       {/* Continue */}
-      <GradientButton
+      <Button
         onPress={onContinue}
         icon={<MaterialIcons name="arrow-forward" size={18} color="white" />}
       >
         Continue
-      </GradientButton>
+      </Button>
     </ScrollView>
   );
 }

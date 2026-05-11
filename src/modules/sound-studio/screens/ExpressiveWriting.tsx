@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/Button';
 import expressiveImg from '@/assets/images/sound-studio/expressive-writing.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor } from '@/constants/colors';
@@ -56,9 +56,9 @@ export default function ExpressiveWriting() {
       header={<PracticeStackHeader wordmark="Session Flow" />}
       sticky={
         <View>
-          <GradientButton onPress={() => router.push('/sound-studio/ai/write')}>
+          <Button onPress={() => router.push('/sound-studio/ai/write')}>
             Start Session
-          </GradientButton>
+          </Button>
           <Text
             size="xs"
             treatment="caption"

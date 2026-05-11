@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/Button';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -5,7 +6,6 @@ import { useRouter } from 'expo-router';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
@@ -129,9 +129,7 @@ export default function TurbulenceTools() {
       </View>
 
       <View className="mt-8">
-        <GradientButton onPress={() => router.back()}>
-          Continue Session
-        </GradientButton>
+        <Button onPress={() => router.back()}>Continue Session</Button>
       </View>
     </Screen>
   );

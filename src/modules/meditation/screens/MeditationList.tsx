@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
 import { PracticeListRow } from '@/modules/practices/components/PracticeListRow';
@@ -64,12 +64,9 @@ export default function MeditationList() {
             </Text>
           </View>
           <View>
-            <GradientButton
-              compact
-              onPress={() => router.push(resumable.route)}
-            >
+            <Button size="xs" onPress={() => router.push(resumable.route)}>
               Resume
-            </GradientButton>
+            </Button>
           </View>
         </Card>
       ) : null}

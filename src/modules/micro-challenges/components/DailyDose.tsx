@@ -1,12 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef } from 'react';
+import { Button } from '@/components/ui/Button';
 import { ActivityIndicator, ScrollView } from 'react-native';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GlowBg } from '@/components/ui/GlowBg';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 
@@ -175,13 +175,13 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
         </View>
 
         <View className="mt-8">
-          <GradientButton
+          <Button
             onPress={onAccept}
             disabled={showLoading}
             loading={showLoading}
           >
             Accept & Start
-          </GradientButton>
+          </Button>
         </View>
       </ScrollView>
     </View>

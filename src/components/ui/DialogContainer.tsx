@@ -15,7 +15,6 @@ import { ActivityIndicator, BackHandler, Pressable, View } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from './Button';
-import { GradientButton } from './GradientButton';
 
 export function DialogContainer() {
   const dialogState = useAtomValue(dialogAtom);
@@ -215,7 +214,7 @@ function DialogButtonView({
   onPress: () => void;
 }) {
   if (button.variant === 'primary' || !button.variant) {
-    return <GradientButton onPress={onPress}>{button.label}</GradientButton>;
+    return <Button onPress={onPress}>{button.label}</Button>;
   }
 
   if (button.variant === 'destructive') {

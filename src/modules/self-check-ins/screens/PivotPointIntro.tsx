@@ -1,9 +1,9 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
@@ -64,12 +64,9 @@ export default function PivotPointIntro() {
         />
       }
       sticky={
-        <GradientButton
-          onPress={handleStart}
-          loading={startAssessment.isPending}
-        >
+        <Button onPress={handleStart} loading={startAssessment.isPending}>
           {isResume ? 'Resume Assessment' : 'Start Assessment'}
-        </GradientButton>
+        </Button>
       }
       className="px-6"
     >
@@ -85,7 +82,7 @@ export default function PivotPointIntro() {
           How do you respond when life gets hard?
         </Text>
 
-        <Card variant="surface" className="mb-4 p-6">
+        <Card variant="flat" className="mb-4 p-6">
           <Text size="md" className="leading-relaxed text-foreground/80">
             When life gets stressful, we don&apos;t rise to our
             intentions&mdash;we fall back on patterns. This quick assessment
@@ -95,7 +92,7 @@ export default function PivotPointIntro() {
         </Card>
 
         <View className="mb-6 flex-row gap-3">
-          <Card variant="surface" className="flex-1 items-center">
+          <Card variant="flat" className="flex-1 items-center">
             <MaterialIcons
               name="schedule"
               size={24}
@@ -113,7 +110,7 @@ export default function PivotPointIntro() {
               8-10 minutes
             </Text>
           </Card>
-          <Card variant="surface" className="flex-1 items-center">
+          <Card variant="flat" className="flex-1 items-center">
             <MaterialIcons
               name="psychology"
               size={24}

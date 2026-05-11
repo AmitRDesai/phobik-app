@@ -2,13 +2,13 @@ import BL_IMAGE from '@/assets/images/daily-flow/bilateral-tutorial.png';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { useRouter } from 'expo-router';
+import { Button } from '@/components/ui/Button';
 import { Image } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
@@ -58,12 +58,9 @@ export default function BiLateralTutorial() {
       scroll
       header={<DailyFlowHeader title="Bi-Lateral Tapping Tutorial" />}
       sticky={
-        <GradientButton
-          onPress={handleContinue}
-          loading={updateSession.isPending}
-        >
+        <Button onPress={handleContinue} loading={updateSession.isPending}>
           Continue
-        </GradientButton>
+        </Button>
       }
       className="px-6"
     >
@@ -208,7 +205,7 @@ function MiniStepCard({
   description: string;
 }) {
   return (
-    <Card variant="surface" className="p-5">
+    <Card variant="flat" className="p-5">
       <Text
         size="xs"
         treatment="caption"

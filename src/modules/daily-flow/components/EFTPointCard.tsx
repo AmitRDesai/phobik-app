@@ -14,7 +14,7 @@ export function EFTPointCard({ point }: { point: EFTPointEntry }) {
   const textOpacity = point.strong ? 1 : 0.7;
 
   return (
-    <Card variant="default">
+    <Card variant="flat">
       <View className="flex-row items-start gap-4">
         <IconChip size="md" shape="circle" tone={tone}>
           <Text

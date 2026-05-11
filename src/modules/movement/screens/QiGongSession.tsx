@@ -1,9 +1,9 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
-import { useScheme } from '@/hooks/useTheme';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Pressable } from 'react-native';
@@ -48,7 +48,7 @@ export default function QiGongSession() {
             Let it settle... and feel the difference.
           </Text>
           <View className="w-full">
-            <GradientButton onPress={() => {}}>End Session</GradientButton>
+            <Button onPress={() => {}}>End Session</Button>
           </View>
         </View>
       }
@@ -103,7 +103,11 @@ export default function QiGongSession() {
       </View>
 
       {/* Primer instruction card (icon + headline + sub-text) */}
-      <Card variant="glass" className="mt-10 flex-row items-start gap-3">
+      <Card
+        variant="raised"
+        size="lg"
+        className="mt-10 flex-row items-start gap-3"
+      >
         <View className="h-10 w-10 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10">
           <MaterialIcons
             name={PRIMER.icon}

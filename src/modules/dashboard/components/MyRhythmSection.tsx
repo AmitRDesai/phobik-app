@@ -33,7 +33,7 @@ export function MyRhythmSection() {
         </Text>
       </View>
 
-      <Card variant="elevated" className="px-3 py-5">
+      <Card variant="raised" size="lg" className="px-3 py-5">
         <WeekRhythmStrip days={days} />
       </Card>
 

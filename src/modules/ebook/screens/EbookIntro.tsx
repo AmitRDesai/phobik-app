@@ -2,7 +2,6 @@ import introHero from '@/assets/images/ebook/introduction-hero.jpg';
 import { ScrollView, Text, View } from '@/components/themed';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
 import { RadialGlow } from '@/components/ui/RadialGlow';
@@ -13,6 +12,7 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
+import { Button } from '@/components/ui/Button';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useUpdateEbookProgress } from '../hooks/useEbookProgress';
@@ -187,12 +187,12 @@ export default function EbookIntro() {
 
       {/* Bottom CTA */}
       <View className="z-10 px-6 pb-8">
-        <GradientButton
+        <Button
           onPress={handleStartReading}
           icon={<MaterialIcons name="arrow-forward" size={20} color="white" />}
         >
           Start Reading
-        </GradientButton>
+        </Button>
       </View>
     </SafeAreaView>
   );

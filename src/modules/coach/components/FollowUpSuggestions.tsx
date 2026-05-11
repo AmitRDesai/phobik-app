@@ -26,7 +26,7 @@ export function FollowUpSuggestions({
           <Button
             key={text}
             variant="secondary"
-            size="compact"
+            size="xs"
             onPress={() => onSelect(text)}
           >
             {text}

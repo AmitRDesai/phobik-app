@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { CardAura } from '@/components/ui/CardAura';
 import { colors } from '@/constants/colors';
@@ -38,7 +38,7 @@ export function AnxietyImpactCard() {
         </View>
         <Button
           variant="ghost"
-          size="compact"
+          size="xs"
           className="mt-4"
           icon={
             <MaterialIcons

@@ -1,7 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
@@ -11,6 +9,7 @@ import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useRef, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Pressable, TextInput as RNTextInput } from 'react-native';
 
 export default function ResetPasswordScreen() {
@@ -98,7 +97,7 @@ export default function ResetPasswordScreen() {
 
           <Button
             variant="ghost"
-            size="compact"
+            size="xs"
             onPress={() => router.replace('/auth/forgot-password')}
             className="mt-6"
           >
@@ -107,7 +106,7 @@ export default function ResetPasswordScreen() {
 
           <Button
             variant="ghost"
-            size="compact"
+            size="xs"
             onPress={() => router.replace('/auth/sign-in')}
             className="mt-2"
           >
@@ -183,13 +182,13 @@ export default function ResetPasswordScreen() {
         )}
 
         <View className="mt-8">
-          <GradientButton
+          <Button
             onPress={handleSubmit}
             disabled={!isValid}
             loading={isLoading}
           >
             Reset Password
-          </GradientButton>
+          </Button>
         </View>
 
         <Pressable

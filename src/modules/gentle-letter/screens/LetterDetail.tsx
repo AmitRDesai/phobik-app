@@ -100,7 +100,7 @@ export default function LetterDetail() {
                   Step {step.step}: {step.label}
                 </Text>
               </View>
-              <Card variant="surface" className="p-5">
+              <Card variant="flat" className="p-5">
                 <Text size="md" className="leading-relaxed text-foreground/80">
                   {text}
                 </Text>

@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Header } from '@/components/ui/Header';
 import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { Screen } from '@/components/ui/Screen';
@@ -299,7 +299,7 @@ function EmptyState({
           <Button
             key={text}
             variant="secondary"
-            size="compact"
+            size="xs"
             onPress={() => onSuggestion(text)}
           >
             {text}

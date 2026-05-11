@@ -2,8 +2,8 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
-import { useScheme } from '@/hooks/useTheme';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -99,7 +99,8 @@ export default function PhysiologicalSighSession() {
         {STEPS.map((step) => (
           <Card
             key={step.title}
-            variant="glass"
+            variant="raised"
+            size="lg"
             className={`flex-row items-start gap-4 ${
               step.active ? '' : 'opacity-50'
             }`}

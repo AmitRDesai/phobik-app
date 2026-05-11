@@ -11,7 +11,7 @@ interface InsightCardProps {
 
 export function InsightCard({ title, body }: InsightCardProps) {
   return (
-    <Card variant="elevated" className="overflow-hidden p-7">
+    <Card variant="raised" size="lg" className="overflow-hidden p-7">
       <View className="mb-3 flex-row items-center gap-2">
         <MaterialIcons name="lightbulb" size={18} color={colors.primary.pink} />
         <Text size="lg" tone="accent" weight="bold">

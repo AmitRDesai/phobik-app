@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { colors } from '@/constants/colors';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
@@ -64,8 +64,8 @@ export function AssessmentCard({
       </View>
 
       <View className="self-start">
-        <GradientButton
-          compact
+        <Button
+          size="xs"
           onPress={onPress}
           icon={
             <MaterialIcons
@@ -76,7 +76,7 @@ export function AssessmentCard({
           }
         >
           {isInProgress ? 'Resume' : 'Start Test'}
-        </GradientButton>
+        </Button>
       </View>
     </Card>
   );

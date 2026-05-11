@@ -1,9 +1,8 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
@@ -92,11 +91,9 @@ export default function GroundingIntro() {
           </Text>
         </View>
         <View className="gap-3">
-          <GradientButton
-            onPress={() => router.push('/practices/grounding-session')}
-          >
+          <Button onPress={() => router.push('/practices/grounding-session')}>
             {hasSavedSession ? 'Resume Session' : 'Start Session'}
-          </GradientButton>
+          </Button>
           {hasSavedSession && (
             <Button
               variant="secondary"

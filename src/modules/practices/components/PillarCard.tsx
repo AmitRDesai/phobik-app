@@ -1,11 +1,11 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image, type ImageSource } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 
 const cardShadow = {
@@ -138,8 +138,8 @@ export function PillarCard({
             ) : null}
             {cta ? (
               <View className="mt-5 self-start">
-                <GradientButton
-                  compact
+                <Button
+                  size="xs"
                   onPress={onPress}
                   icon={
                     ctaIcon ? (
@@ -148,7 +148,7 @@ export function PillarCard({
                   }
                 >
                   {cta}
-                </GradientButton>
+                </Button>
               </View>
             ) : null}
           </View>

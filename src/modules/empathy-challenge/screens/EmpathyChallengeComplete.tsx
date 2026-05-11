@@ -1,12 +1,11 @@
+import { Button } from '@/components/ui/Button';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 import { Screen } from '@/components/ui/Screen';
@@ -40,14 +39,14 @@ export default function EmpathyChallengeComplete() {
       }
       sticky={
         <View className="gap-3 self-stretch">
-          <GradientButton
+          <Button
             onPress={() => {
               // TODO: Share achievement
             }}
             prefixIcon={<MaterialIcons name="share" size={20} color="white" />}
           >
             Share Achievement
-          </GradientButton>
+          </Button>
           <Button
             variant="ghost"
             onPress={() => router.replace('/(tabs)/practices')}

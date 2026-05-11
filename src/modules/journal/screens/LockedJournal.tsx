@@ -1,6 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors } from '@/constants/colors';
@@ -9,6 +8,7 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
 import { useEffect, useRef } from 'react';
+import { Button } from '@/components/ui/Button';
 import { AppState } from 'react-native';
 import { BlurredStats } from '../components/BlurredStats';
 import { useJournalLock } from '../hooks/useJournalLock';
@@ -115,12 +115,12 @@ export default function LockedJournal() {
       </View>
 
       <View className="w-full max-w-[280px]">
-        <GradientButton
+        <Button
           onPress={handleUnlock}
           prefixIcon={<Ionicons name={biometricIcon} size={24} color="white" />}
         >
           Unlock Journal
-        </GradientButton>
+        </Button>
       </View>
 
       <View className="mt-6 flex-row items-center gap-2">

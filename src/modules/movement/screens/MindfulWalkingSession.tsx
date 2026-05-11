@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/Button';
 import mindfulWalkingImg from '@/assets/images/four-pillars/movement-mindful-walking.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { useScheme } from '@/hooks/useTheme';
 import { accentFor } from '@/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -37,7 +37,7 @@ export default function MindfulWalkingSession() {
   return (
     <MovementSessionShell
       wordmark="Mindful Walking"
-      bottom={<GradientButton onPress={() => {}}>End Grounding</GradientButton>}
+      bottom={<Button onPress={() => {}}>End Grounding</Button>}
     >
       <View className="items-center pt-2">
         <View className="rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5">
@@ -86,7 +86,7 @@ export default function MindfulWalkingSession() {
       {/* Phases */}
       <View className="mt-6 gap-3">
         {PHASES.map((phase) => (
-          <Card key={phase.number} variant="glass">
+          <Card key={phase.number} variant="raised" size="lg">
             <Text
               size="xs"
               treatment="caption"

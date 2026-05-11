@@ -1,8 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
@@ -15,6 +13,7 @@ import { File as ExpoFile } from 'expo-file-system';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { clsx } from 'clsx';
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Image, Pressable, ScrollView, Switch, TextInput } from 'react-native';
 import { useCreatePost } from '../hooks/useCommunityFeed';
 
@@ -86,14 +85,14 @@ export default function CreatePost() {
       header={<Header variant="close" title="Share Your Moment" />}
       sticky={
         <View className="px-6 pb-4">
-          <GradientButton
+          <Button
             onPress={handlePost}
             loading={createPost.isPending}
             disabled={!content.trim()}
             icon={<MaterialIcons name="send" size={20} color="white" />}
           >
             Post to Wall
-          </GradientButton>
+          </Button>
         </View>
       }
       className="px-6 py-4"
@@ -136,7 +135,7 @@ export default function CreatePost() {
           {imageUris.length < 5 && (
             <Button
               variant="ghost"
-              size="compact"
+              size="xs"
               onPress={handleAddImages}
               prefixIcon={
                 <MaterialIcons

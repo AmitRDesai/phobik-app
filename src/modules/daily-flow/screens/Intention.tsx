@@ -1,6 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
@@ -9,6 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Pressable, useWindowDimensions } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
@@ -60,12 +60,9 @@ export default function Intention() {
       header={<DailyFlowHeader wordmark />}
       sticky={
         <View className="items-center">
-          <GradientButton
-            onPress={handleContinue}
-            loading={updateSession.isPending}
-          >
+          <Button onPress={handleContinue} loading={updateSession.isPending}>
             Next
-          </GradientButton>
+          </Button>
           <Text
             size="xs"
             treatment="caption"

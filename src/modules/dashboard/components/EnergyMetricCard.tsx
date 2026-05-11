@@ -18,7 +18,11 @@ export function EnergyMetricCard({
   color,
 }: EnergyMetricCardProps) {
   return (
-    <Card variant="elevated" className="flex-1 flex-row items-center gap-3 p-4">
+    <Card
+      variant="raised"
+      size="lg"
+      className="flex-1 flex-row items-center gap-3 p-4"
+    >
       <View
         className="h-10 w-10 items-center justify-center rounded-xl"
         style={{ backgroundColor: withAlpha(color, 0.15) }}

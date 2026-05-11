@@ -51,7 +51,7 @@ export function DoseRewardsGrid({ dose }: DoseRewardsGridProps) {
         {active.map((item) => (
           <Card
             key={item.key}
-            variant="surface"
+            variant="flat"
             className="flex-1 flex-row items-center gap-3"
             style={{ minWidth: '45%' }}
           >

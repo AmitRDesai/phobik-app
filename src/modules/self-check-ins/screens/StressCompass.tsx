@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
@@ -102,7 +102,7 @@ export default function StressCompass() {
         />
       }
       sticky={
-        <GradientButton
+        <Button
           onPress={() =>
             router.replace({
               pathname: '/practices/self-check-ins/stress-signature-map',
@@ -112,7 +112,7 @@ export default function StressCompass() {
           icon={<MaterialIcons name="rocket-launch" size={20} color="white" />}
         >
           Generate My Map
-        </GradientButton>
+        </Button>
       }
       className="px-6 pt-8"
       contentClassName="pb-4"

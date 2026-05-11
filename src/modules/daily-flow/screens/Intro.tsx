@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
@@ -81,12 +81,9 @@ export default function Intro() {
       header={<DailyFlowHeader wordmark showClose={false} />}
       sticky={
         <View className="items-center">
-          <GradientButton
-            onPress={handleContinue}
-            loading={updateSession.isPending}
-          >
+          <Button onPress={handleContinue} loading={updateSession.isPending}>
             Continue
-          </GradientButton>
+          </Button>
           <Text
             size="xs"
             treatment="caption"

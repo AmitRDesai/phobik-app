@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { ProgressDots } from '@/components/ui/ProgressDots';
@@ -97,9 +97,9 @@ export function StepShell({
         </>
       }
       sticky={
-        <GradientButton onPress={handleContinue} loading={isPending}>
+        <Button onPress={handleContinue} loading={isPending}>
           {finalCtaLabel}
-        </GradientButton>
+        </Button>
       }
       className="px-6"
     >

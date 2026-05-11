@@ -69,7 +69,7 @@ export function FeedCard({
   const validImages = images.filter(Boolean) as string[];
 
   return (
-    <Card variant="elevated" className="bg-surface-elevated/80 p-5">
+    <Card variant="raised" size="lg" className="bg-surface-elevated/80 p-5">
       {/* Author row */}
       <View className="flex-row items-center gap-3">
         <UserAvatar

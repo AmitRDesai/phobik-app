@@ -1,7 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { authClient, getSession, useSession } from '@/lib/auth';
@@ -10,6 +8,7 @@ import { env } from '@/utils/env';
 import { Ionicons } from '@expo/vector-icons';
 import * as IntentLauncher from 'expo-intent-launcher';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { AppState, Linking, Platform } from 'react-native';
 
 const RESEND_COOLDOWN_SECONDS = 60;
@@ -145,9 +144,7 @@ export default function EmailVerificationScreen() {
 
         {/* Open Email Button */}
         <View className="mt-10 w-full">
-          <GradientButton onPress={handleOpenEmail}>
-            Open Email App
-          </GradientButton>
+          <Button onPress={handleOpenEmail}>Open Email App</Button>
         </View>
 
         {/* Resend Button */}

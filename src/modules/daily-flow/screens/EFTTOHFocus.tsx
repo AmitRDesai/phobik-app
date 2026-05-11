@@ -1,12 +1,12 @@
 import CHARACTER_IMAGE from '@/assets/images/daily-flow/eft-toh-head.png';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { Button } from '@/components/ui/Button';
 import { Image } from 'react-native';
 
 import { CircularTappingPoint } from '../components/CircularTappingPoint';
@@ -46,12 +46,9 @@ export default function EFTTOHFocus() {
       scroll
       header={<DailyFlowHeader title="EFT Tapping Guide" />}
       sticky={
-        <GradientButton
-          onPress={handleContinue}
-          loading={updateSession.isPending}
-        >
+        <Button onPress={handleContinue} loading={updateSession.isPending}>
           Begin Tapping
-        </GradientButton>
+        </Button>
       }
       className="px-6"
     >

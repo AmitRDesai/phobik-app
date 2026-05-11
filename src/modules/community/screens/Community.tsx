@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
@@ -63,12 +63,12 @@ function JoinCommunityView() {
         </Text>
       </View>
       <View className="w-full">
-        <GradientButton
+        <Button
           onPress={handleJoin}
           icon={<MaterialIcons name="arrow-forward" size={20} color="white" />}
         >
           Join Community
-        </GradientButton>
+        </Button>
       </View>
     </Screen>
   );

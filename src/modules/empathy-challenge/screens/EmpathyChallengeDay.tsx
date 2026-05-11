@@ -2,12 +2,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Keyboard, TextInput } from 'react-native';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
@@ -97,7 +97,7 @@ export default function EmpathyChallengeDay() {
         />
       }
       sticky={
-        <GradientButton
+        <Button
           onPress={handleComplete}
           loading={completeDay.isPending}
           disabled={!reflection.trim()}
@@ -106,7 +106,7 @@ export default function EmpathyChallengeDay() {
           }
         >
           {empathyDay.buttonLabel ?? `Complete Day ${dayNum}`}
-        </GradientButton>
+        </Button>
       }
       className=""
     >
@@ -174,7 +174,7 @@ export default function EmpathyChallengeDay() {
             iconColor={colors.primary.pink}
             title="Intention"
           />
-          <Card variant="surface" className="p-6">
+          <Card variant="flat" className="p-6">
             <Text
               size="lg"
               italic
@@ -215,7 +215,7 @@ export default function EmpathyChallengeDay() {
                 {empathyDay.challengeBullets.map((bullet) => (
                   <Card
                     key={bullet.text}
-                    variant="surface"
+                    variant="flat"
                     className="flex-row items-center gap-3 px-4 py-3.5"
                   >
                     <IconChip size="md" shape="circle">
@@ -236,11 +236,7 @@ export default function EmpathyChallengeDay() {
             {empathyDay.challengeCards && (
               <View className="gap-3">
                 {empathyDay.challengeCards.map((card, i) => (
-                  <Card
-                    key={card.title}
-                    variant="surface"
-                    className="gap-3 p-5"
-                  >
+                  <Card key={card.title} variant="flat" className="gap-3 p-5">
                     <View className="flex-row items-center gap-3">
                       <LinearGradient
                         colors={[colors.primary.pink, colors.accent.yellow]}
@@ -368,7 +364,7 @@ function DoseCard({
   label: string;
 }) {
   return (
-    <Card variant="surface" className="flex-1 flex-row items-center gap-3">
+    <Card variant="flat" className="flex-1 flex-row items-center gap-3">
       <IconChip size="md" shape="circle" bg={iconBgColor}>
         <MaterialIcons name={icon} size={20} color={iconColor} />
       </IconChip>

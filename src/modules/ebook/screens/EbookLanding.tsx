@@ -1,9 +1,7 @@
 import landingHero from '@/assets/images/ebook/landing-hero.jpg';
 import { ScrollView, Text, View } from '@/components/themed';
 import { BackButton } from '@/components/ui/BackButton';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors, withAlpha } from '@/constants/colors';
@@ -17,6 +15,7 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useCallback } from 'react';
+import { Button } from '@/components/ui/Button';
 import { ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -273,7 +272,7 @@ export default function EbookLanding() {
             </Text>
           </View>
           <View className="mt-3">
-            <GradientButton
+            <Button
               onPress={handleBuyNow}
               disabled={isPurchasing}
               prefixIcon={
@@ -285,10 +284,10 @@ export default function EbookLanding() {
               }
             >
               {isPurchasing ? 'Processing...' : 'Buy Now'}
-            </GradientButton>
+            </Button>
           </View>
           <View className="flex-row items-center justify-center gap-1 px-8 pb-2 pt-2">
-            <Button variant="ghost" size="compact" onPress={handleRestore}>
+            <Button variant="ghost" size="xs" onPress={handleRestore}>
               Restore purchase
             </Button>
             <Text size="xs" tone="secondary">

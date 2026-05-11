@@ -1,9 +1,8 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
@@ -92,9 +91,9 @@ export default function TermsOfServiceScreen() {
           </Pressable>
           {!isModal && (
             <>
-              <GradientButton onPress={handleAccept} loading={isSaving}>
+              <Button onPress={handleAccept} loading={isSaving}>
                 I Accept the Terms
-              </GradientButton>
+              </Button>
               <Button
                 variant="ghost"
                 onPress={() => router.back()}

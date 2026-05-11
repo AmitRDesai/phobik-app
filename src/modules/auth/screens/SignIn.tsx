@@ -1,7 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { TextInput } from '@/components/ui/TextInput';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
@@ -26,6 +24,7 @@ import { router } from 'expo-router';
 import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useEffect, useRef, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Platform, Pressable, TextInput as RNTextInput } from 'react-native';
 
 export default function SignInScreen() {
@@ -238,7 +237,7 @@ export default function SignInScreen() {
 
           <Button
             variant="ghost"
-            size="compact"
+            size="xs"
             className="mt-3 self-end"
             disabled={isLoading}
             onPress={() => router.push('/auth/forgot-password')}
@@ -247,13 +246,13 @@ export default function SignInScreen() {
           </Button>
 
           <View className="mt-6">
-            <GradientButton
+            <Button
               onPress={handleSignIn}
               disabled={!isValid}
               loading={isLoading}
             >
               Sign In
-            </GradientButton>
+            </Button>
             {showWarmingHint && (
               <Text size="sm" tone="secondary" align="center" className="mt-3">
                 Hang tight — we&apos;re getting things ready for you.

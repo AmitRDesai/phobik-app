@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { CardAura } from '@/components/ui/CardAura';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import {
@@ -148,12 +148,12 @@ export default function StressSignatureMap() {
         />
       }
       sticky={
-        <GradientButton
+        <Button
           onPress={handleSave}
           icon={<MaterialIcons name="insights" size={20} color="white" />}
         >
           Save to Insights
-        </GradientButton>
+        </Button>
       }
       className="px-0"
       contentClassName="pb-4"

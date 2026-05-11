@@ -1,12 +1,12 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { TextInput } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -73,12 +73,12 @@ export function ReflectWithCuriosity({ onFinish }: ReflectWithCuriosityProps) {
       />
 
       {/* Save button */}
-      <GradientButton
+      <Button
         onPress={() => onFinish(reflection.trim() || undefined)}
         icon={<MaterialIcons name="check-circle" size={20} color="white" />}
       >
         Save & Finish
-      </GradientButton>
+      </Button>
 
       {/* Completion indicator */}
       <View className="mt-6 items-center gap-3">

@@ -1,7 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { IconChip } from '@/components/ui/IconChip';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
@@ -11,6 +10,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Button } from '@/components/ui/Button';
 import { Image } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
@@ -70,12 +70,9 @@ export default function FeelingDetail() {
       header={<DailyFlowHeader wordmark />}
       sticky={
         <View className="items-center">
-          <GradientButton
-            onPress={handleContinue}
-            loading={updateSession.isPending}
-          >
+          <Button onPress={handleContinue} loading={updateSession.isPending}>
             Continue
-          </GradientButton>
+          </Button>
           {feeling.ctaSubtitle ? (
             <Text
               size="sm"
@@ -186,7 +183,7 @@ function InsightCard({
   const accent = accents[feeling.accentToken];
   const style = feeling.emphasisStyle ?? 'split-muted';
   return (
-    <Card variant="glass">
+    <Card variant="raised" size="lg">
       {feeling.insightLabel ? (
         <Text
           size="xs"
@@ -264,7 +261,8 @@ function CompactActionList({
         {items.map((item) => (
           <Card
             key={item.label}
-            variant="glass"
+            variant="raised"
+            size="lg"
             className="flex-row items-center gap-4 p-5"
           >
             <IconChip size="lg" shape="circle">
@@ -464,7 +462,8 @@ function BentoCard({
   if (item.fullWidth) {
     return (
       <Card
-        variant="glass"
+        variant="raised"
+        size="lg"
         className="overflow-hidden border-l-4"
         style={{ borderLeftColor: withAlpha(accent, 0.4) }}
       >
@@ -489,7 +488,7 @@ function BentoCard({
     );
   }
   return (
-    <Card variant="glass">
+    <Card variant="raised" size="lg">
       <MaterialIcons
         name={item.icon as keyof typeof MaterialIcons.glyphMap}
         size={26}
@@ -554,7 +553,7 @@ function VisualAnchorCard({
 
 function VisualFocusCard({ focus }: { focus: VisualFocus }) {
   return (
-    <Card variant="glass" className="overflow-hidden p-4">
+    <Card variant="raised" size="lg" className="overflow-hidden p-4">
       <View className="aspect-square w-full overflow-hidden rounded-2xl bg-black/50">
         <Image
           source={focus.image}
@@ -576,7 +575,7 @@ function VisualFocusCard({ focus }: { focus: VisualFocus }) {
 
 function MindfulCard({ card }: { card: MindfulCardContent }) {
   return (
-    <Card variant="glass">
+    <Card variant="raised" size="lg">
       <View className="aspect-square w-full overflow-hidden rounded-2xl bg-black/40">
         <Image
           source={card.image}

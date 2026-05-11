@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -63,7 +63,7 @@ export default function Completion() {
       }
       sticky={
         <View className="items-center">
-          <GradientButton
+          <Button
             onPress={handleGoToToday}
             loading={isPending}
             icon={
@@ -71,7 +71,7 @@ export default function Completion() {
             }
           >
             Go to Today
-          </GradientButton>
+          </Button>
           <Text
             size="xs"
             treatment="caption"

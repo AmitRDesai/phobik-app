@@ -1,9 +1,9 @@
+import { Button } from '@/components/ui/Button';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, withAlpha } from '@/constants/colors';
 import type { CustomDialogProps } from '@/store/dialog';
 
@@ -116,12 +116,12 @@ export function MysteryComplete({
       </View>
 
       {/* Done button */}
-      <GradientButton
+      <Button
         onPress={() => close(true)}
         icon={<MaterialIcons name="arrow-forward" size={20} color="white" />}
       >
         Done
-      </GradientButton>
+      </Button>
     </View>
   );
 }

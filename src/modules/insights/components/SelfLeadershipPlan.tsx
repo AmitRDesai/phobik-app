@@ -1,13 +1,13 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
+import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 import type { StressorExercise } from '../data/stressor-details';
 import { STRENGTHS } from '../data/stressor-details';
@@ -134,15 +134,15 @@ export function SelfLeadershipPlan({
                 {ex.description}
               </Text>
             </View>
-            <GradientButton
+            <Button
               onPress={() => {
                 if (ex.route) router.push(ex.route as never);
               }}
               disabled={!ex.route}
-              compact
+              size="xs"
             >
               {ex.buttonLabel}
-            </GradientButton>
+            </Button>
           </DashboardCard>
           <View className="ml-4 mt-2 flex-row items-center gap-1.5">
             <View

@@ -3,12 +3,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Pressable, TextInput } from 'react-native';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
@@ -438,7 +438,7 @@ export default function FlightChecklistPhase() {
 
       {/* CTA */}
       <View className="mt-12">
-        <GradientButton onPress={handleNext}>{phase.ctaLabel}</GradientButton>
+        <Button onPress={handleNext}>{phase.ctaLabel}</Button>
       </View>
     </Screen>
   );

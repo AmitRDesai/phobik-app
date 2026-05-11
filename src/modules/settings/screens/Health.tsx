@@ -1,8 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
@@ -12,6 +10,7 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Platform } from 'react-native';
 
 const PROVIDER_LABEL =
@@ -142,14 +141,14 @@ export default function Health() {
           Disconnect
         </Button>
       ) : (
-        <GradientButton
+        <Button
           onPress={handleConnect}
           loading={busy}
           disabled={isAndroidUnavailable}
           prefixIcon={<MaterialIcons name="favorite" size={18} color="white" />}
         >
           Connect to {PROVIDER_LABEL}
-        </GradientButton>
+        </Button>
       )}
 
       <Text size="xs" align="center" className="px-2 text-foreground/40">

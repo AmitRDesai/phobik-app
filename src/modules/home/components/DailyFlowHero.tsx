@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientButton } from '@/components/ui/GradientButton';
 import { isTodayLocal } from '@/modules/daily-flow/data/flow-navigation';
 import { useActiveDailyFlowSession } from '@/modules/daily-flow/hooks/useDailyFlowSession';
 import { useEnterDailyFlow } from '@/modules/daily-flow/hooks/useEnterDailyFlow';
@@ -31,7 +31,7 @@ export function DailyFlowHero() {
         {canResume ? 'Pick up where you left off' : 'Start your Daily Flow'}
       </Text>
       <View className="w-full px-6">
-        <GradientButton
+        <Button
           onPress={enterFlow}
           prefixIcon={
             <MaterialIcons
@@ -42,7 +42,7 @@ export function DailyFlowHero() {
           }
         >
           {canResume ? 'RESUME DAILY FLOW' : 'DAILY FLOW'}
-        </GradientButton>
+        </Button>
       </View>
     </View>
   );

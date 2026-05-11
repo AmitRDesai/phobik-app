@@ -1,11 +1,11 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useCallback, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Keyboard, Pressable, TextInput } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useVoiceInput } from '../hooks/useVoiceInput';
@@ -67,7 +67,7 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
           <Text size="sm" tone="secondary" className="flex-1">
             {transcript || 'Listening...'}
           </Text>
-          <Button variant="ghost" size="compact" onPress={stop}>
+          <Button variant="ghost" size="xs" onPress={stop}>
             Done
           </Button>
         </Animated.View>

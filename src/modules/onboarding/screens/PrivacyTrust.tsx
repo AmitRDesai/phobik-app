@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -126,7 +126,7 @@ export default function PrivacyTrust() {
 
       {/* Bottom links */}
       <View className="mt-6 items-center gap-3">
-        <Button variant="ghost" size="compact">
+        <Button variant="ghost" size="xs">
           Manage privacy settings
         </Button>
         <View className="flex-row items-center gap-1.5">
