@@ -12,7 +12,8 @@ const SECTIONS: {
     | '/dev/design-system/cards'
     | '/dev/design-system/badges'
     | '/dev/design-system/icon-chips'
-    | '/dev/design-system/text-fields';
+    | '/dev/design-system/text-fields'
+    | '/dev/design-system/screens';
   label: string;
   subtitle: string;
   icon: React.ComponentProps<typeof SettingsMenuItem>['icon'];
@@ -52,6 +53,12 @@ const SECTIONS: {
     label: 'TextField',
     subtitle: 'types · sizes · label · hint · error · icon · states',
     icon: 'edit',
+  },
+  {
+    href: '/dev/design-system/screens',
+    label: 'Screen',
+    subtitle: 'variants · scroll · header · sticky · keyboard · insets',
+    icon: 'fullscreen',
   },
 ];
 
