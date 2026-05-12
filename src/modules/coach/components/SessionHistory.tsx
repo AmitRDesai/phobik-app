@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { IconChip } from '@/components/ui/IconChip';
 import { accentFor, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { authClient } from '@/lib/auth';
@@ -94,12 +95,14 @@ export function SessionHistory({
             <Text size="h3" className="flex-1">
               Past Sessions
             </Text>
-            <Pressable
+            <IconChip
+              size="sm"
+              shape="circle"
               onPress={onClose}
-              className="h-8 w-8 items-center justify-center rounded-full bg-foreground/[0.04]"
+              accessibilityLabel="Close"
             >
               <Ionicons name="close" size={18} color={iconMuted} />
-            </Pressable>
+            </IconChip>
           </View>
 
           {isLoading ? (

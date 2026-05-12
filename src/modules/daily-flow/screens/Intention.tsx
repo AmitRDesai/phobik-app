@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
+import { IconChip } from '@/components/ui/IconChip';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
@@ -148,12 +149,14 @@ function IntentionCard({
         />
       </View>
 
-      <Pressable
+      <IconChip
+        shape="circle"
         onPress={onShuffle}
-        className="absolute right-6 top-6 h-10 w-10 items-center justify-center rounded-full bg-foreground/[0.08] active:scale-95"
+        accessibilityLabel="Shuffle intention"
+        className="absolute right-6 top-6"
       >
         <MaterialIcons name="refresh" size={18} color={colors.primary.pink} />
-      </Pressable>
+      </IconChip>
 
       <Text size="h1" className="leading-tight">
         {item.text}

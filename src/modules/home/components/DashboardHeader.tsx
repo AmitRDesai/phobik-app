@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BlurView } from '@/components/ui/BlurView';
+import { IconChip } from '@/components/ui/IconChip';
 import { NotificationBadge } from '@/components/ui/NotificationBadge';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { variantConfig } from '@/components/variant-config';
@@ -53,16 +54,17 @@ export function DashboardHeader() {
           </View>
         </Pressable>
         <View className="relative">
-          <Pressable
+          <IconChip
+            shape="circle"
             onPress={() => router.push('/notifications')}
-            className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
+            accessibilityLabel="Notifications"
           >
             <MaterialIcons
               name="notifications"
               size={22}
               color={accentFor(scheme, 'yellow')}
             />
-          </Pressable>
+          </IconChip>
           <NotificationBadge count={unreadCount} />
         </View>
       </View>

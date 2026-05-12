@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { Screen } from '@/components/ui/Screen';
 import {
@@ -122,9 +123,9 @@ export default function Coach() {
   const purple = accentFor(scheme, 'purple');
 
   const headerLeft = (
-    <View className="h-9 w-9 items-center justify-center rounded-full border border-foreground/10 bg-foreground/[0.08]">
+    <IconChip shape="circle">
       <MaterialIcons name="psychology" size={20} color={purple} />
-    </View>
+    </IconChip>
   );
   const headerCenter = (
     <View className="ml-3 flex-1">
@@ -138,19 +139,23 @@ export default function Coach() {
   );
   const headerRight = (
     <View className="flex-row gap-2">
-      <Pressable
+      <IconChip
+        size="sm"
+        shape="circle"
         onPress={() => setShowHistory(true)}
-        className="h-8 w-8 items-center justify-center rounded-full bg-foreground/5"
+        accessibilityLabel="Session history"
       >
         <Ionicons name="time-outline" size={16} color={iconMuted} />
-      </Pressable>
+      </IconChip>
       {messages.length > 0 && (
-        <Pressable
+        <IconChip
+          size="sm"
+          shape="circle"
           onPress={handleNewSession}
-          className="h-8 w-8 items-center justify-center rounded-full bg-foreground/5"
+          accessibilityLabel="New session"
         >
           <Ionicons name="add" size={18} color={iconMuted} />
-        </Pressable>
+        </IconChip>
       )}
     </View>
   );
