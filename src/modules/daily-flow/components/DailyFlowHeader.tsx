@@ -3,6 +3,7 @@ import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 import { dialog } from '@/utils/dialog';
 import { useRouter } from 'expo-router';
 
@@ -11,7 +12,6 @@ import {
   useActiveDailyFlowSession,
   useUpdateDailyFlowSession,
 } from '../hooks/useDailyFlowSession';
-import { DailyFlowProgressBar } from './DailyFlowProgressBar';
 
 type Props = {
   step?: string;
@@ -97,7 +97,7 @@ export function DailyFlowHeader({
       />
       {progress !== undefined ? (
         <View className="px-screen-x pb-1">
-          <DailyFlowProgressBar progress={progress} />
+          <ProgressBar progress={progress} gradient />
         </View>
       ) : null}
     </View>

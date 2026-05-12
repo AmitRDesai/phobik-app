@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -9,7 +10,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
-import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
 import { SupportOptionCard } from '../components/SupportOptionCard';
 import { SUPPORT_OPTIONS } from '../data/supportOptions';
 import type { SupportOptionId } from '../data/types';
@@ -85,7 +85,7 @@ export default function SupportOptions() {
           </Text>
         </View>
         <View className="mt-4">
-          <DailyFlowProgressBar progress={0.75} />
+          <ProgressBar progress={0.75} gradient />
         </View>
       </View>
 

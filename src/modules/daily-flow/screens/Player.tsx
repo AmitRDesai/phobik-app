@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -11,7 +12,6 @@ import { useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
-import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
 import { PlayerOrb } from '../components/PlayerOrb';
 import { getSupportOption } from '../data/supportOptions';
 import type { FlowStep } from '../data/types';
@@ -97,7 +97,7 @@ export default function Player() {
 
       <View className="gap-8 px-8 pb-10">
         <View className="h-[2px] w-full overflow-hidden rounded-full bg-foreground/10">
-          <DailyFlowProgressBar progress={progress} />
+          <ProgressBar progress={progress} gradient />
         </View>
 
         <View className="flex-row items-center justify-between px-2">

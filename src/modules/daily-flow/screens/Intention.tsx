@@ -2,6 +2,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -12,7 +13,6 @@ import { Button } from '@/components/ui/Button';
 import { Pressable, useWindowDimensions } from 'react-native';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
-import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
 import {
   INTENTIONS,
   type Intention as IntentionData,
@@ -103,7 +103,7 @@ export default function Intention() {
         </View>
 
         <View className="mt-4">
-          <DailyFlowProgressBar progress={0.02} />
+          <ProgressBar progress={0.02} gradient />
         </View>
 
         <Text size="lg" className="mt-5 leading-6 text-foreground/65">

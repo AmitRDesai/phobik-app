@@ -2,6 +2,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { FloatingMapper } from '@/modules/micro-challenges/components/FloatingMapper';
 import { EMOTIONS } from '@/modules/micro-challenges/data/emotions';
@@ -9,7 +10,6 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
-import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
 import {
   useActiveDailyFlowSession,
   useUpdateDailyFlowSession,
@@ -69,7 +69,7 @@ export default function DetailedFeeling() {
         </View>
 
         <View className="mt-4">
-          <DailyFlowProgressBar progress={0.25} />
+          <ProgressBar progress={0.25} gradient />
         </View>
       </View>
 

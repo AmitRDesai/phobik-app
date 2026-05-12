@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { SelectionCard } from '@/components/ui/SelectionCard';
 import { variantConfig } from '@/components/variant-config';
@@ -18,7 +19,6 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
 import { DailyFlowHeader } from '../components/DailyFlowHeader';
-import { DailyFlowProgressBar } from '../components/DailyFlowProgressBar';
 import { exitDailyFlow } from '../data/flow-navigation';
 import type { ReflectionAnswer } from '../data/types';
 import {
@@ -146,7 +146,7 @@ export default function Reflection() {
       </View>
 
       <View className="mt-10">
-        <DailyFlowProgressBar progress={1} />
+        <ProgressBar progress={1} gradient />
       </View>
 
       <View className="mt-12">
