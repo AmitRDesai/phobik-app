@@ -63,7 +63,7 @@ export default function ProgressRingShowcase() {
       </Section>
 
       <Section title="Sizes + stroke">
-        <View className="flex-row items-center justify-center gap-6">
+        <View className="flex-row flex-wrap items-end justify-center gap-x-6 gap-y-4">
           <View className="items-center gap-2">
             <ProgressRing
               progress={0.65}
@@ -80,24 +80,24 @@ export default function ProgressRingShowcase() {
             <ProgressRing
               progress={0.65}
               gradient
-              size={120}
+              size={96}
               strokeWidth={4}
               animated={false}
             />
             <Text size="xs" tone="tertiary">
-              120 / 4
+              96 / 4
             </Text>
           </View>
           <View className="items-center gap-2">
             <ProgressRing
               progress={0.65}
               gradient
-              size={180}
+              size={144}
               strokeWidth={8}
               animated={false}
             />
             <Text size="xs" tone="tertiary">
-              180 / 8
+              144 / 8
             </Text>
           </View>
         </View>
