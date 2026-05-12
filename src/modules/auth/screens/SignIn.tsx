@@ -1,7 +1,8 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Screen } from '@/components/ui/Screen';
+import { Divider } from '@/components/ui/Divider';
 import { InlineLink } from '@/components/ui/InlineLink';
+import { Screen } from '@/components/ui/Screen';
 import { SocialAuthButton } from '@/components/ui/SocialAuthButton';
 import { TextField } from '@/components/ui/TextField';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
@@ -197,13 +198,7 @@ export default function SignInScreen() {
           </Text>
 
           {!isSignedOut && (
-            <View className="mt-4 flex-row items-center">
-              <View className="h-px flex-1 bg-foreground/15" />
-              <Text size="sm" tone="secondary" className="mx-4">
-                or use credentials
-              </Text>
-              <View className="h-px flex-1 bg-foreground/15" />
-            </View>
+            <Divider label="or use credentials" className="mt-4" />
           )}
         </View>
       )}
@@ -278,13 +273,7 @@ export default function SignInScreen() {
 
           {/* Social Sign In */}
           <View className="mt-6">
-            <View className="mb-4 flex-row items-center">
-              <View className="h-px flex-1 bg-foreground/15" />
-              <Text size="sm" tone="secondary" className="mx-4">
-                or continue with
-              </Text>
-              <View className="h-px flex-1 bg-foreground/15" />
-            </View>
+            <Divider label="or continue with" className="mb-4" />
 
             <View className="flex-row justify-center gap-4">
               <SocialAuthButton

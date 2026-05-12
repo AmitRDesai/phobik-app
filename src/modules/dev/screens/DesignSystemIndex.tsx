@@ -43,6 +43,7 @@ const SECTIONS: {
     | '/dev/design-system/image-scrims'
     | '/dev/design-system/accent-pills'
     | '/dev/design-system/biometric-stat-cards'
+    | '/dev/design-system/dividers'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -286,6 +287,13 @@ const SECTIONS: {
     subtitle:
       'session stat tile · label + value + unit + icon · sm / md · isStale · tappable',
     icon: 'monitor-heart',
+  },
+  {
+    href: '/dev/design-system/dividers',
+    label: 'Divider',
+    subtitle:
+      'hairline section break · optional centered label · spacing via className',
+    icon: 'horizontal-rule',
   },
   {
     href: '/dev/design-system/screens',

@@ -2,6 +2,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { Divider } from '@/components/ui/Divider';
 import { Header } from '@/components/ui/Header';
 import { InlineLink } from '@/components/ui/InlineLink';
 import { Screen } from '@/components/ui/Screen';
@@ -80,13 +81,7 @@ export default function SocialAuthButtonShowcase() {
             </Text>
             <Button onPress={() => toast.success('Signed in')}>Sign In</Button>
 
-            <View className="my-2 flex-row items-center">
-              <View className="h-px flex-1 bg-foreground/10" />
-              <Text size="sm" tone="secondary" className="mx-4">
-                or continue with
-              </Text>
-              <View className="h-px flex-1 bg-foreground/10" />
-            </View>
+            <Divider label="or continue with" className="my-2" />
 
             <View className="flex-row justify-center gap-4">
               <SocialAuthButton
