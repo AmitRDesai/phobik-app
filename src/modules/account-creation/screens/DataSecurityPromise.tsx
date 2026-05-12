@@ -72,7 +72,7 @@ export default function DataSecurityPromiseScreen() {
               Agree and Continue
             </Button>
           )}
-          <Button variant="ghost" size="xs" className="mb-1 mt-6">
+          <Button variant="ghost" size="sm" className="mb-1 mt-6">
             Download full privacy policy
           </Button>
           {!isModal && (

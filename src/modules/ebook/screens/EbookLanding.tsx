@@ -289,7 +289,7 @@ export default function EbookLanding() {
             </Button>
           </View>
           <View className="flex-row items-center justify-center gap-1 px-8 pb-2 pt-2">
-            <Button variant="ghost" size="xs" onPress={handleRestore}>
+            <Button variant="ghost" size="sm" onPress={handleRestore}>
               Restore purchase
             </Button>
             <Text size="xs" tone="secondary">

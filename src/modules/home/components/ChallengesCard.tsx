@@ -90,7 +90,7 @@ export function ChallengesCard() {
             ? 'Great job today! Want to do another one?'
             : 'Complete one micro challenge to start building your streak.'}
         </Text>
-        <Button variant="secondary" size="xs" onPress={handlePress}>
+        <Button variant="secondary" size="sm" onPress={handlePress}>
           {hasActive
             ? 'Resume Challenge'
             : completedToday

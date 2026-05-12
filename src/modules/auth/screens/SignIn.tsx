@@ -1,6 +1,8 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Divider } from '@/components/ui/Divider';
+import { IconChip } from '@/components/ui/IconChip';
 import { InlineLink } from '@/components/ui/InlineLink';
 import { Screen } from '@/components/ui/Screen';
 import { SocialAuthButton } from '@/components/ui/SocialAuthButton';
@@ -27,8 +29,7 @@ import { router } from 'expo-router';
 import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useEffect, useRef, useState } from 'react';
-import { Button } from '@/components/ui/Button';
-import { Platform, Pressable, TextInput as RNTextInput } from 'react-native';
+import { Platform, TextInput as RNTextInput } from 'react-native';
 
 export default function SignInScreen() {
   const scheme = useScheme();
@@ -183,16 +184,22 @@ export default function SignInScreen() {
       {/* Biometric Quick Sign-In */}
       {showBiometric && (
         <View className="items-center px-8 pt-6">
-          <Pressable
+          <IconChip
+            size={64}
+            shape="circle"
+            tone="pink"
+            border={withAlpha(colors.primary.pink, 0.3)}
             onPress={handleBiometricSignIn}
-            className="h-16 w-16 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
+            accessibilityLabel={`Sign in with ${biometricType}`}
           >
-            <Ionicons
-              name={biometricType === 'Face ID' ? 'scan' : 'finger-print'}
-              size={32}
-              color={colors.primary.pink}
-            />
-          </Pressable>
+            {(color) => (
+              <Ionicons
+                name={biometricType === 'Face ID' ? 'scan' : 'finger-print'}
+                size={32}
+                color={color}
+              />
+            )}
+          </IconChip>
           <Text size="sm" tone="secondary" className="mt-3">
             Tap to sign in with {biometricType}
           </Text>
@@ -248,7 +255,7 @@ export default function SignInScreen() {
 
           <Button
             variant="ghost"
-            size="xs"
+            size="sm"
             className="mt-3 self-end"
             disabled={isLoading}
             onPress={() => router.push('/auth/forgot-password')}

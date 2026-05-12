@@ -126,7 +126,7 @@ export default function PrivacyTrust() {
 
       {/* Bottom links */}
       <View className="mt-6 items-center gap-3">
-        <Button variant="ghost" size="xs">
+        <Button variant="ghost" size="sm">
           Manage privacy settings
         </Button>
         <View className="flex-row items-center gap-1.5">
