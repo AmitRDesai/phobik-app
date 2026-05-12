@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Pressable, TextInput as RNTextInput } from 'react-native';
+import { TextInput as RNTextInput } from 'react-native';
 
 export default function ResetPasswordScreen() {
   const scheme = useScheme();
@@ -100,7 +100,7 @@ export default function ResetPasswordScreen() {
 
           <Button
             variant="ghost"
-            size="xs"
+            size="sm"
             onPress={() => router.replace('/auth/forgot-password')}
             className="mt-6"
           >
@@ -109,7 +109,7 @@ export default function ResetPasswordScreen() {
 
           <Button
             variant="ghost"
-            size="xs"
+            size="sm"
             onPress={() => router.replace('/auth/sign-in')}
             className="mt-2"
           >

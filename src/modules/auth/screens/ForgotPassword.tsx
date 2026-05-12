@@ -14,7 +14,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Pressable } from 'react-native';
 
 export default function ForgotPasswordScreen() {
   const scheme = useScheme();
@@ -99,7 +98,7 @@ export default function ForgotPasswordScreen() {
 
           <Button
             variant="ghost"
-            size="xs"
+            size="sm"
             onPress={() => router.back()}
             className="mt-6"
           >
