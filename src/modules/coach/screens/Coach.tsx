@@ -15,7 +15,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, FlatList, Pressable } from 'react-native';
+import { ActivityIndicator, FlatList } from 'react-native';
 import { ChatBubble } from '../components/ChatBubble';
 import { ChatInput } from '../components/ChatInput';
 import { FollowUpSuggestions } from '../components/FollowUpSuggestions';
@@ -215,7 +215,7 @@ export default function Coach() {
             <View className="flex-row items-center gap-2">
               <ActivityIndicator color={purple} size="small" />
               <Text size="sm" tone="tertiary">
-                Loading conversation...
+                Loading conversation…
               </Text>
             </View>
           </View>
@@ -271,7 +271,7 @@ function EmptyState({
   return (
     <View className="flex-1 justify-end px-5 pb-6">
       <View className="flex-1 items-center justify-center">
-        <View className="mb-5 h-16 w-16 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04]">
+        <View className="mb-5 size-16 items-center justify-center rounded-full border border-foreground/[0.08] bg-foreground/[0.04]">
           <MaterialIcons name="psychology" size={30} color={purple} />
         </View>
         {greeting ? (
@@ -306,7 +306,7 @@ function EmptyState({
           <Button
             key={text}
             variant="secondary"
-            size="xs"
+            size="sm"
             onPress={() => onSuggestion(text)}
           >
             {text}

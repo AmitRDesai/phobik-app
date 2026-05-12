@@ -220,7 +220,7 @@ export default function ConnectWearable() {
           ) : null}
           <Button
             variant="ghost"
-            size="xs"
+            size="sm"
             onPress={openHealthSettings}
             className="mt-2"
           >

@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { ImageScrim } from '@/components/ui/ImageScrim';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
@@ -72,17 +73,7 @@ export function SupportOptionCard({ option, selected, onPress }: Props) {
           className="absolute h-full w-full"
           resizeMode="cover"
         />
-        <LinearGradient
-          colors={['transparent', 'rgba(0,0,0,0.4)', 'rgba(0,0,0,0.95)']}
-          locations={[0, 0.4, 1]}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-        />
+        <ImageScrim strength={0.95} start={0.4} />
         <View className="flex-1 justify-end p-7">
           <View className="flex-row items-end justify-between">
             <View className="max-w-[80%] flex-1 pr-3">

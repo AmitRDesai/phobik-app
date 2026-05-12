@@ -145,16 +145,16 @@ export default function SoundStudioHub() {
             AI Generated • 4:20
           </Text>
         </View>
-        <Pressable className="h-9 w-9 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10">
+        <Pressable className="size-9 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10">
           <MaterialIcons name="skip-next" size={18} color={fg} />
         </Pressable>
         <View
-          className="h-9 w-9 items-center justify-center rounded-full"
+          className="size-9 items-center justify-center rounded-full"
           style={{
             boxShadow: `0 0 8px ${withAlpha(colors.primary.pink, 0.5)}`,
           }}
         >
-          <View className="h-9 w-9 items-center justify-center rounded-full bg-primary-pink">
+          <View className="size-9 items-center justify-center rounded-full bg-primary-pink">
             <MaterialIcons name="pause" size={18} color="white" />
           </View>
         </View>

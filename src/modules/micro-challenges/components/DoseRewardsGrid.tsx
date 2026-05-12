@@ -15,13 +15,13 @@ const DOSE_CONFIG = [
     key: 'serotonin' as const,
     label: 'Serotonin',
     sub: 'Mood Stabilizer',
-    color: '#60A5FA',
+    color: colors.accent.mint,
   },
   {
     key: 'oxytocin' as const,
     label: 'Oxytocin',
     sub: 'Social Safety',
-    color: colors.primary.pink,
+    color: colors.accent.info,
   },
   {
     key: 'dopamine' as const,
@@ -33,7 +33,7 @@ const DOSE_CONFIG = [
     key: 'endorphins' as const,
     label: 'Endorphins',
     sub: 'Pain Relief',
-    color: '#86EFAC',
+    color: colors.primary.pink,
   },
 ];
 

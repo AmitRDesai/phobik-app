@@ -11,6 +11,7 @@ import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import {
   accentFor,
@@ -119,18 +120,7 @@ export default function EmpathyChallengeDay() {
             Day {dayNum} of 7
           </Text>
         </View>
-        <View className="h-1.5 overflow-hidden rounded-full bg-foreground/10">
-          <LinearGradient
-            colors={[colors.primary.pink, colors.accent.yellow]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={{
-              height: 6,
-              borderRadius: 9999,
-              width: `${(dayNum / 7) * 100}%`,
-            }}
-          />
-        </View>
+        <ProgressBar progress={dayNum / 7} gradient />
       </View>
 
       <View className="px-5 py-2">

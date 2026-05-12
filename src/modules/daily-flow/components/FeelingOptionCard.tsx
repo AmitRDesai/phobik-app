@@ -1,8 +1,8 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { ImageScrim } from '@/components/ui/ImageScrim';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Image, Pressable } from 'react-native';
 
 import type { FeelingContent } from '../data/feelings';
@@ -30,20 +30,10 @@ export function FeelingOptionCard({ feeling, onPress }: Props) {
         className="absolute h-full w-full"
         resizeMode="cover"
       />
-      <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.95)']}
-        locations={[0, 0.5, 1]}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-      />
+      <ImageScrim strength={0.95} start={0} />
       <View className="flex-1 p-7">
         <View
-          className="h-14 w-14 items-center justify-center rounded-full"
+          className="size-14 items-center justify-center rounded-full"
           style={{ backgroundColor: withAlpha(accent, 0.2) }}
         >
           <MaterialIcons

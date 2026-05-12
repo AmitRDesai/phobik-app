@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/Button';
@@ -52,8 +52,8 @@ export function DoseSummaryCard() {
                 className="w-[45%] flex-row items-center gap-3"
               >
                 <View
-                  className="h-8 w-8 items-center justify-center rounded-xl"
-                  style={{ backgroundColor: chem.color + '1A' }}
+                  className="size-8 items-center justify-center rounded-xl"
+                  style={{ backgroundColor: withAlpha(chem.color, 0.1) }}
                 >
                   <MaterialIcons
                     name={chem.icon}

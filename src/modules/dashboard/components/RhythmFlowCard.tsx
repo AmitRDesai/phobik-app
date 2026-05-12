@@ -1,6 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { withAlpha } from '@/constants/colors';
 import { Image } from 'expo-image';
 import { Pressable } from 'react-native';
 
@@ -32,7 +31,7 @@ export function RhythmFlowCard({
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: withAlpha('#000000', 0.45),
+            backgroundColor: 'rgba(0,0,0,0.45)',
           }}
         />
         <View className="flex-1 justify-end p-4">

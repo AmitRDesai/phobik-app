@@ -1,6 +1,6 @@
 import { Text, View } from '@/components/themed';
 import { IconChip } from '@/components/ui/IconChip';
-import { colors } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 
 interface ChapterCalloutProps {
@@ -25,7 +25,7 @@ export function ChapterCallout({
         <IconChip
           size="md"
           shape="circle"
-          bg={`${accentColor}33`}
+          bg={withAlpha(accentColor, 0.2)}
           className="mb-3"
         >
           <MaterialIcons name={icon} size={22} color={accentColor} />

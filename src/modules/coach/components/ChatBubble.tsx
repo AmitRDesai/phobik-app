@@ -78,7 +78,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
         entering={isNew ? FadeInDown.duration(200) : undefined}
         className="mb-4 flex-row gap-3"
       >
-        <View className="mt-0.5 h-7 w-7 items-center justify-center rounded-full bg-foreground/[0.08]">
+        <View className="mt-0.5 size-7 items-center justify-center rounded-full bg-foreground/[0.08]">
           <MaterialIcons name="psychology" size={16} color={purple} />
         </View>
         <View className="flex-1 gap-2">
@@ -162,8 +162,8 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
 
 function buildMarkdownStyles(scheme: ResolvedScheme) {
   const fg = (o: number) => foregroundFor(scheme, o);
-  const accent = scheme === 'dark' ? colors.accent.purple : '#7c3aed';
-  const link = scheme === 'dark' ? colors.accent.cyan : '#0e7490';
+  const accent = accentFor(scheme, 'purple');
+  const link = accentFor(scheme, 'cyan');
   return StyleSheet.create({
     body: {
       color: fg(0.9),

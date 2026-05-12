@@ -124,7 +124,7 @@ export default function EmpathyChallengeCalendar() {
                     )}
                   </LinearGradient>
                 ) : (
-                  <View className="h-10 w-10 items-center justify-center rounded-full border-2 border-foreground/20">
+                  <View className="size-10 items-center justify-center rounded-full border-2 border-foreground/20">
                     {isWaiting ? (
                       <MaterialIcons
                         name="schedule"

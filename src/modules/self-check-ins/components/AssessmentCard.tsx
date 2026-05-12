@@ -50,7 +50,7 @@ export function AssessmentCard({
       }}
     >
       <View className="mb-5 flex-row items-center gap-4">
-        <View className="h-12 w-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10">
+        <View className="size-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10">
           {renderIcon(assessment)}
         </View>
         <View className="flex-1">
@@ -65,12 +65,12 @@ export function AssessmentCard({
 
       <View className="self-start">
         <Button
-          size="xs"
+          size="sm"
           onPress={onPress}
           icon={
             <MaterialIcons
               name={isInProgress ? 'play-arrow' : 'arrow-forward'}
-              size={14}
+              size={16}
               color="white"
             />
           }

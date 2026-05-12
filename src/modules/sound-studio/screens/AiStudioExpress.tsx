@@ -84,7 +84,7 @@ export default function AiStudioExpress() {
             contentFit="cover"
           />
           <View className="absolute inset-0 items-center justify-center">
-            <View className="h-20 w-20 items-center justify-center rounded-full border border-foreground/20 bg-surface/60">
+            <View className="size-20 items-center justify-center rounded-full border border-foreground/20 bg-surface/60">
               <MaterialIcons name="settings" size={32} color={yellow} />
             </View>
           </View>

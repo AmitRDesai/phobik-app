@@ -74,7 +74,7 @@ export default function EnergyIndex() {
     <Screen
       header={<Header title="Check In" />}
       sticky={
-        <View className="pb-4">
+        <View className="w-full items-center pb-4">
           <Text
             size="xs"
             align="center"
@@ -87,6 +87,7 @@ export default function EnergyIndex() {
             onPress={handleSave}
             disabled={saveEnergyCheckIn.isPending}
             icon={<MaterialIcons name="check" size={20} color="white" />}
+            fullWidth
           >
             {saveEnergyCheckIn.isPending ? 'Saving...' : 'Save'}
           </Button>

@@ -66,7 +66,7 @@ export default function AiStudioWriteIt() {
         <View className="mt-4 flex-row gap-3">
           <Button
             variant="secondary"
-            size="xs"
+            size="sm"
             onPress={() =>
               dialog.info({
                 title: 'Coming soon',
@@ -74,7 +74,7 @@ export default function AiStudioWriteIt() {
               })
             }
             prefixIcon={
-              <MaterialIcons name="auto-fix-high" size={14} color={fg} />
+              <MaterialIcons name="auto-fix-high" size={16} color={fg} />
             }
           >
             Polish with AI
@@ -97,7 +97,7 @@ export default function AiStudioWriteIt() {
 
       {/* From Journal sync */}
       <Card className="mt-4 rounded-3xl p-5">
-        <View className="h-12 w-12 items-center justify-center self-center rounded-2xl bg-accent-yellow/15">
+        <View className="size-12 items-center justify-center self-center rounded-2xl bg-accent-yellow/15">
           <MaterialIcons name="auto-stories" size={22} color={yellow} />
         </View>
         <Text size="lg" align="center" weight="bold" className="mt-3">
@@ -109,7 +109,7 @@ export default function AiStudioWriteIt() {
         </Text>
         <Button
           variant="secondary"
-          size="xs"
+          size="sm"
           onPress={() =>
             dialog.info({
               title: 'Coming soon',

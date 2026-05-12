@@ -3,6 +3,7 @@ import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -127,13 +128,8 @@ export default function AiStudioPlayback() {
         </Text>
 
         {/* Progress bar */}
-        <View className="mt-4 h-[3px] w-full overflow-hidden rounded-full bg-foreground/10">
-          <LinearGradient
-            colors={[colors.primary.pink, colors.accent.yellow]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={{ height: 3, width: `${PROGRESS * 100}%` }}
-          />
+        <View className="mt-4">
+          <ProgressBar progress={PROGRESS} size="sm" gradient />
         </View>
         <View className="mt-2 flex-row justify-between">
           <Text size="xs" tone="secondary">
@@ -258,10 +254,10 @@ export default function AiStudioPlayback() {
         </Text>
         <View className="mt-4">
           <Button
-            size="xs"
+            size="sm"
             onPress={() => router.push('/sound-studio/ai/write')}
             icon={
-              <MaterialIcons name="arrow-forward" size={14} color="white" />
+              <MaterialIcons name="arrow-forward" size={16} color="white" />
             }
           >
             New Studio Session

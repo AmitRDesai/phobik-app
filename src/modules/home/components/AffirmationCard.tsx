@@ -133,7 +133,7 @@ export function AffirmationCard() {
 
       <Button
         variant="secondary"
-        size="xs"
+        size="sm"
         onPress={() => router.push('/affirmation/feeling-selection')}
         className="mt-4"
       >

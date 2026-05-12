@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -53,7 +53,7 @@ export default function Completion() {
             }
             fullWidth
           >
-            Go to Today
+            Go to Dashboard
           </Button>
           <Text
             size="xs"

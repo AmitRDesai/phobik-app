@@ -251,41 +251,11 @@ export function MysteryPracticeCard({
 
         {/* Buttons */}
         <View className="mt-8 w-full flex-row gap-4">
-          <Pressable
-            onPress={handleStart}
-            disabled={isRunning}
-            className="flex-1 active:scale-95"
-            style={{ opacity: isRunning ? 0.5 : 1 }}
-          >
-            <LinearGradient
-              colors={[colors.primary.pink, colors.accent.yellow]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={{
-                borderRadius: 16,
-                paddingVertical: 16,
-                paddingHorizontal: 24,
-                alignItems: 'center',
-                boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.2)}`,
-              }}
-            >
-              <Text
-                size="sm"
-                weight="bold"
-                className="uppercase tracking-wider"
-                style={{ color: colors.background.dark }}
-              >
-                Start
-              </Text>
-            </LinearGradient>
-          </Pressable>
+          <Button onPress={handleStart} disabled={isRunning} className="flex-1">
+            Start
+          </Button>
 
-          <Button
-            variant="secondary"
-            size="xs"
-            onPress={handleDone}
-            className="flex-1"
-          >
+          <Button variant="secondary" onPress={handleDone} className="flex-1">
             Done
           </Button>
         </View>

@@ -503,16 +503,7 @@ function VisualAnchorCard({
         style={{ width: '100%', height: '100%' }}
         resizeMode="cover"
       />
-      <LinearGradient
-        colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.7)']}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-      />
+      <ImageScrim strength={0.7} start={0} />
       <View className="absolute bottom-5 left-6">
         <Text
           size="xs"

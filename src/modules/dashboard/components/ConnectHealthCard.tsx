@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
@@ -19,6 +19,7 @@ export function ConnectHealthCard() {
         blur: 24,
         offsetY: 8,
       }}
+      className="overflow-hidden"
     >
       <GlowBg
         centerX={1}
@@ -42,10 +43,9 @@ export function ConnectHealthCard() {
         </View>
         <Button
           variant="primary"
-          size="lg"
           onPress={() => router.push('/connect-wearable')}
           prefixIcon={
-            <MaterialIcons name="link" size={16} color={colors.primary.pink} />
+            <MaterialIcons name="link" size={16} color={colors.white} />
           }
         >
           Connect now
