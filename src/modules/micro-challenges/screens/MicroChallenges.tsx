@@ -10,6 +10,7 @@ import { BackButton } from '@/components/ui/BackButton';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
+import { SegmentedProgress } from '@/components/ui/SegmentedProgress';
 import { colors } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 
@@ -18,7 +19,6 @@ import { DailyDose } from '../components/DailyDose';
 import { FloatingMapper } from '../components/FloatingMapper';
 import { PauseAndNotice } from '../components/PauseAndNotice';
 import { ReflectWithCuriosity } from '../components/ReflectWithCuriosity';
-import { StepProgress } from '../components/StepProgress';
 import { EMOTIONS } from '../data/emotions';
 import { NEEDS } from '../data/needs';
 import { clearChallengeCache } from '../hooks/useAIChallenge';
@@ -278,7 +278,11 @@ export default function MicroChallenges() {
       }
       className="px-0 pt-0"
     >
-      <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} />
+      <SegmentedProgress
+        total={TOTAL_STEPS}
+        completed={step + 1}
+        className="px-6 py-3"
+      />
 
       <EaseView
         key={step}

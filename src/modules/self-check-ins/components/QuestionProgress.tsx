@@ -1,13 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { colors } from '@/constants/colors';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect } from 'react';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 
 interface QuestionProgressProps {
   current: number;
@@ -16,29 +9,15 @@ interface QuestionProgressProps {
   showPercentage?: boolean;
 }
 
-const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
-
 export function QuestionProgress({
   current,
   total,
   sectionLabel,
   showPercentage,
 }: QuestionProgressProps) {
-  const progress = (current / total) * 100;
+  const progress = current / total;
   const displayNumber = String(current).padStart(2, '0');
   const displayTotal = String(total).padStart(2, '0');
-
-  const animatedProgress = useSharedValue(0);
-
-  useEffect(() => {
-    animatedProgress.value = withTiming(progress, { duration: 400 });
-  }, [progress]);
-
-  const barStyle = useAnimatedStyle(() => ({
-    width: `${animatedProgress.value}%` as any,
-    height: '100%',
-    borderRadius: 9999,
-  }));
 
   return (
     <View className="mb-8">
@@ -49,7 +28,7 @@ export function QuestionProgress({
               Question {current} of {total}
             </Text>
             <Text size="sm" weight="bold" className="text-foreground/60">
-              {Math.round(progress)}%
+              {Math.round(progress * 100)}%
             </Text>
           </>
         ) : (
@@ -73,14 +52,7 @@ export function QuestionProgress({
           </>
         )}
       </View>
-      <View className="h-1 overflow-hidden rounded-full bg-foreground/10">
-        <AnimatedLinearGradient
-          colors={[colors.primary.pink, colors.accent.yellow]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={barStyle}
-        />
-      </View>
+      <ProgressBar progress={progress} size="sm" gradient animated />
     </View>
   );
 }

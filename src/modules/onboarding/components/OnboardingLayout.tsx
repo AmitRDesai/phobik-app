@@ -3,7 +3,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Screen } from '@/components/ui/Screen';
-import { OnboardingProgressBar } from './OnboardingProgressBar';
+import { SegmentedProgress } from '@/components/ui/SegmentedProgress';
 
 interface OnboardingLayoutProps {
   step: number;
@@ -48,7 +48,7 @@ export function OnboardingLayout({
     <View className="flex-row items-center gap-3 px-6 pb-4 pt-4">
       {onBack ? <BackButton onPress={onBack} /> : <View className="w-10" />}
       <View className="flex-1">
-        <OnboardingProgressBar step={step} totalSteps={totalSteps} />
+        <SegmentedProgress total={totalSteps ?? 8} completed={step} />
       </View>
       {onSkip ? (
         <Button variant="ghost" size="xs" onPress={onSkip}>

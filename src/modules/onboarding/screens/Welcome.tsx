@@ -3,12 +3,12 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BlurView } from '@/components/ui/BlurView';
 import { Screen } from '@/components/ui/Screen';
+import { SegmentedProgress } from '@/components/ui/SegmentedProgress';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { OnboardingProgressBar } from '../components/OnboardingProgressBar';
 
 export default function Welcome() {
   return (
@@ -16,7 +16,7 @@ export default function Welcome() {
       variant="onboarding"
       header={
         <View className="px-6 pt-4">
-          <OnboardingProgressBar step={1} />
+          <SegmentedProgress total={8} completed={1} />
         </View>
       }
       sticky={

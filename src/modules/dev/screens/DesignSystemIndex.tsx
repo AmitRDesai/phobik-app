@@ -44,6 +44,8 @@ const SECTIONS: {
     | '/dev/design-system/accent-pills'
     | '/dev/design-system/biometric-stat-cards'
     | '/dev/design-system/dividers'
+    | '/dev/design-system/segmented-progress'
+    | '/dev/design-system/progress-rings'
     | '/dev/design-system/screens';
   label: string;
   subtitle: string;
@@ -294,6 +296,20 @@ const SECTIONS: {
     subtitle:
       'hairline section break · optional centered label · spacing via className',
     icon: 'horizontal-rule',
+  },
+  {
+    href: '/dev/design-system/segmented-progress',
+    label: 'SegmentedProgress',
+    subtitle:
+      'segmented gradient bar · onboarding / micro-challenge step flows · sm / md',
+    icon: 'view-week',
+  },
+  {
+    href: '/dev/design-system/progress-rings',
+    label: 'ProgressRing',
+    subtitle:
+      'circular SVG progress · animated · gradient or single tone · custom size + stroke',
+    icon: 'donut-large',
   },
   {
     href: '/dev/design-system/screens',

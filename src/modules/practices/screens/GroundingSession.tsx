@@ -4,6 +4,7 @@ import { BackButton } from '@/components/ui/BackButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { PlaybackControls } from '@/components/ui/PlaybackControls';
+import { ProgressRing } from '@/components/ui/ProgressRing';
 import { Screen } from '@/components/ui/Screen';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { useKeepAwake } from 'expo-keep-awake';
@@ -13,7 +14,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { AudioVisualizer } from '../components/AudioVisualizer';
 import { HeartRateBadge } from '../components/HeartRateBadge';
-import { ProgressRing } from '../components/ProgressRing';
 import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
 import { formatTime } from '../lib/format';
 import { groundingSessionAtom } from '../store/grounding';
@@ -204,7 +204,7 @@ export default function GroundingSession() {
       <View className="flex-1 items-center justify-center p-6">
         {/* Progress ring with center number */}
         <View className="relative mb-12 items-center justify-center">
-          <ProgressRing progress={progress} />
+          <ProgressRing progress={progress} gradient />
           <View className="absolute items-center justify-center">
             <GradientText className="text-8xl font-bold leading-none">
               {String(currentStep.count)}

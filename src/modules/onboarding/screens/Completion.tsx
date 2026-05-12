@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Screen } from '@/components/ui/Screen';
+import { SegmentedProgress } from '@/components/ui/SegmentedProgress';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
@@ -9,7 +10,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { OnboardingProgressBar } from '../components/OnboardingProgressBar';
 import { useCompleteOnboarding } from '../hooks/useCompleteOnboarding';
 import { useSaveOnboardingAnswers } from '../hooks/useSaveOnboardingAnswers';
 import { onboardingDataAtom, resetOnboardingAtom } from '../store/onboarding';
@@ -48,7 +48,7 @@ export default function Completion() {
         !isSkipped ? (
           <>
             <View className="px-10 pt-4">
-              <OnboardingProgressBar step={8} />
+              <SegmentedProgress total={8} completed={8} />
             </View>
             <View className="mt-3 flex-row items-center justify-center gap-2">
               <Text size="sm" tone="secondary" weight="medium">

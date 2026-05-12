@@ -91,8 +91,10 @@ Every primitive lives in `src/components/ui/`. The full live catalog is browsabl
 - **`UserAvatar`** — `size: 'sm' | 'md' | 'lg' | 'xl' | number` (32/40/48/80/custom). Three-step fallback: `imageUri` → `name` initials → person icon. Pulls session user automatically; pass `imageUri` / `name` for other users.
 - **`Badge`** + **`IconChip`** + **`UserAvatar`** all support the render-prop icon pattern: `icon={(color) => <Ionicons ... color={color} />}` auto-colors from the resolved tone.
 - **`GradientText`** — pink→yellow masked text for hero / brand wordmarks. Children must be a plain string.
-- **`ProgressBar`** — horizontal continuous progress. `size: 'sm' | 'md' | 'lg'`, `tone`, `gradient` for the brand fill.
-- **`ProgressDots`** — step indicator (`current`, `total`). Use ≤ 10 dots; past that switch to a numeric counter or ProgressBar.
+- **`ProgressBar`** — horizontal continuous progress. `progress: 0..1`, `size: 'sm' | 'md' | 'lg'`, `tone`, `gradient` for the brand fill, `animated` for tweened width transitions (use for infrequent updates — question N of M, multi-step flow %; leave false for high-frequency audio scrubbers).
+- **`ProgressDots`** — step indicator (`current`, `total`). Use ≤ 10 dots; past that switch to `SegmentedProgress` or a numeric counter.
+- **`SegmentedProgress`** — gradient segmented progress bar for step flows. `total` segments side-by-side; first `completed` segments share one continuous pink→warm-orange→yellow gradient via MaskedView, rest are `foreground/10` hairlines. `size: 'sm' (4px) | 'md' (5px, default)`. Use for onboarding step bars / micro-challenge progression.
+- **`ProgressRing`** — animated SVG circular progress. `progress: 0..1`, `size` (default 256), `strokeWidth` (default 4), `tone | gradient`, `animated` (default true), `animationDuration` (default 1000ms). Use as a hero progress visualization (grounding countdown, timer ring). For ≤ 48px use ProgressBar.
 - **`NotificationBadge`** — numeric overlay on icons (auto-hides at 0, clamps to `9+` past 9). Parent needs `relative` positioning.
 
 ### Feedback / surfaces

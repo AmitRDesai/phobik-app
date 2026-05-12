@@ -132,6 +132,32 @@ export default function ProgressBarShowcase() {
         </PropRow>
       </Section>
 
+      <Section title="Animated mode">
+        <Text size="sm" tone="secondary">
+          Pass `animated` for smooth tweened width transitions when progress
+          updates infrequently (question N of M, multi-step flow completion,
+          slow polling). Default is snap-to-value for high-frequency updates
+          (audio scrubbers, frame ticks) where the 400ms tween would lag.
+        </Text>
+        <PropRow
+          label="animated (jumps between 0 / 0.4 / 0.75 / 1)"
+          note={`progress=${progress.toFixed(2)} — uses Easing.out(cubic), default duration 400ms`}
+        >
+          <ProgressBar progress={progress} gradient animated />
+        </PropRow>
+        <PropRow
+          label="animated + animationDuration={1500}"
+          note="Slower 1.5s slide. Use sparingly — long animations on each update feel sluggish."
+        >
+          <ProgressBar
+            progress={progress}
+            gradient
+            animated
+            animationDuration={1500}
+          />
+        </PropRow>
+      </Section>
+
       <Section title="Real-world patterns">
         <PropRow
           label="File upload (label + percent + bar)"
