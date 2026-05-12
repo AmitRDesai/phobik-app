@@ -76,8 +76,8 @@ export function Badge({
       )}
       style={{
         backgroundColor: bg,
-        borderWidth: variant === 'solid' ? 0 : 1,
-        borderColor,
+        borderWidth: 1,
+        borderColor: variant === 'solid' ? 'transparent' : borderColor,
       }}
     >
       {resolvedIcon}

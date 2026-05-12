@@ -49,6 +49,8 @@ export function AccentPill({
 
   const accent = tone ? accentFor(scheme, tone) : undefined;
 
+  // All variants reserve 1px of border space so toggling between them
+  // doesn't shift outer dimensions. Solid uses a transparent border.
   const containerStyle: ViewStyle | undefined =
     variant === 'tinted' && accent
       ? {
@@ -57,14 +59,18 @@ export function AccentPill({
           borderWidth: 1,
         }
       : variant === 'solid' && accent
-        ? { backgroundColor: accent }
+        ? {
+            backgroundColor: accent,
+            borderColor: 'transparent',
+            borderWidth: 1,
+          }
         : undefined;
 
   const containerClass = clsx(
-    'flex-row items-center rounded-full',
+    'flex-row items-center rounded-full border',
     sizeStyles.container,
     sizeStyles.gap,
-    variant === 'neutral' && 'border border-foreground/10 bg-foreground/5',
+    variant === 'neutral' && 'border-foreground/10 bg-foreground/5',
     onPress && 'active:opacity-70',
     className,
   );
