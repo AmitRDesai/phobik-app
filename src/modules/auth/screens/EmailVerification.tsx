@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { authClient, getSession, useSession } from '@/lib/auth';
@@ -112,8 +113,12 @@ export default function EmailVerificationScreen() {
     <Screen variant="auth" className="flex-1 items-center justify-center px-8">
       <View className="w-full items-center">
         {/* Icon */}
-        <View
-          className="mb-8 h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
+        <IconChip
+          size={112}
+          shape="circle"
+          tone="pink"
+          border={withAlpha(colors.primary.pink, 0.3)}
+          className="mb-8"
           style={{
             boxShadow: [
               {
@@ -125,8 +130,8 @@ export default function EmailVerificationScreen() {
             ],
           }}
         >
-          <Ionicons name="mail-open" size={48} color={colors.primary.pink} />
-        </View>
+          {(color) => <Ionicons name="mail-open" size={48} color={color} />}
+        </IconChip>
 
         {/* Title */}
         <Text size="h1">Verify Your Email</Text>

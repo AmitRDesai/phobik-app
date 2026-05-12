@@ -37,6 +37,10 @@ export interface IconChipProps {
   border?: string;
   /** Outer container className for spacing/margins. */
   className?: string;
+  /** Outer container style — merged on top of the chip's internal style.
+   * Use for additive properties like `boxShadow` that can't be expressed
+   * via Tailwind className. */
+  style?: ViewStyle;
   /**
    * When set, the chip renders as a Pressable with built-in light haptic +
    * active:opacity-70 feedback. `accessibilityLabel` becomes required for
@@ -66,6 +70,7 @@ export function IconChip({
   bg,
   border,
   className,
+  style,
   onPress,
   accessibilityLabel,
   disabled,
@@ -104,7 +109,7 @@ export function IconChip({
         accessibilityLabel={accessibilityLabel}
         accessibilityState={{ disabled: !!disabled }}
         className={clsx('active:opacity-70', className)}
-        style={containerStyle}
+        style={[containerStyle, style]}
         hitSlop={px < 44 ? 8 : undefined}
       >
         {content}
@@ -113,7 +118,7 @@ export function IconChip({
   }
 
   return (
-    <View className={clsx(className)} style={containerStyle}>
+    <View className={clsx(className)} style={[containerStyle, style]}>
       {content}
     </View>
   );

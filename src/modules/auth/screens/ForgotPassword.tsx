@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Header } from '@/components/ui/Header';
+import { IconChip } from '@/components/ui/IconChip';
 import { InlineLink } from '@/components/ui/InlineLink';
 import { Screen } from '@/components/ui/Screen';
 import { TextField } from '@/components/ui/TextField';
@@ -54,14 +55,18 @@ export default function ForgotPasswordScreen() {
       >
         <View className="w-full items-center">
           {/* Icon */}
-          <View
-            className="mb-8 h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
+          <IconChip
+            size={112}
+            shape="circle"
+            tone="pink"
+            border={withAlpha(colors.primary.pink, 0.3)}
+            className="mb-8"
             style={{
               boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
             }}
           >
-            <Ionicons name="mail-open" size={48} color={colors.primary.pink} />
-          </View>
+            {(color) => <Ionicons name="mail-open" size={48} color={color} />}
+          </IconChip>
 
           <Text size="h1">Check Your Email</Text>
           <Text
@@ -115,14 +120,17 @@ export default function ForgotPasswordScreen() {
       scrollViewProps={{ keyboardDismissMode: 'interactive' }}
     >
       <View className="items-center pb-8">
-        <View
-          className="h-28 w-28 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10"
+        <IconChip
+          size={112}
+          shape="circle"
+          tone="pink"
+          border={withAlpha(colors.primary.pink, 0.3)}
           style={{
             boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
         >
-          <Ionicons name="lock-open" size={48} color={colors.primary.pink} />
-        </View>
+          {(color) => <Ionicons name="lock-open" size={48} color={color} />}
+        </IconChip>
       </View>
 
       <View className="items-center px-4">
