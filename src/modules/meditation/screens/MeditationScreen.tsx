@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/Badge';
 import { BiometricStatCard } from '@/components/ui/BiometricStatCard';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
+import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import { useScheme } from '@/hooks/useTheme';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
@@ -371,18 +372,19 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
           </View>
 
           <View className="flex-row items-center justify-center gap-6">
-            <Pressable
+            <IconChip
+              size={48}
+              shape="circle"
               onPress={onReplay10}
               disabled={!isReady}
-              className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
-              style={{ opacity: isReady ? 1 : 0.4 }}
+              accessibilityLabel="Replay 10 seconds"
             >
               <MaterialIcons
                 name="replay-10"
                 size={24}
                 color={controlIconColor}
               />
-            </Pressable>
+            </IconChip>
 
             <Pressable
               onPress={onTogglePlay}
@@ -429,18 +431,19 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
               </LinearGradient>
             </Pressable>
 
-            <Pressable
+            <IconChip
+              size={48}
+              shape="circle"
               onPress={onForward30}
               disabled={!isReady}
-              className="h-12 w-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 active:scale-95"
-              style={{ opacity: isReady ? 1 : 0.4 }}
+              accessibilityLabel="Forward 30 seconds"
             >
               <MaterialIcons
                 name="forward-30"
                 size={24}
                 color={controlIconColor}
               />
-            </Pressable>
+            </IconChip>
           </View>
         </View>
       }

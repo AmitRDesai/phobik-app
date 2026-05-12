@@ -9,6 +9,7 @@ import { TextArea } from '@/components/ui/TextArea';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { AccentPill } from '@/components/ui/AccentPill';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
@@ -333,11 +334,12 @@ export default function FlightChecklistPhase() {
     <Screen variant="default" scroll header={<Header />} className="px-6">
       {/* Phase badge */}
       {phase.phaseBadge && (
-        <View className="mb-4 self-start rounded-full bg-primary-pink/10 px-3 py-1">
-          <Text size="xs" treatment="caption" tone="accent">
-            {phase.phaseBadge}
-          </Text>
-        </View>
+        <AccentPill
+          variant="tinted"
+          tone="pink"
+          label={phase.phaseBadge}
+          className="mb-4 self-start"
+        />
       )}
 
       {/* Title */}

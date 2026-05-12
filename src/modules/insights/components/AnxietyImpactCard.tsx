@@ -3,6 +3,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { CardAura } from '@/components/ui/CardAura';
+import { Divider } from '@/components/ui/Divider';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -30,7 +31,7 @@ export function AnxietyImpactCard() {
             from the afternoon stress spike delayed your REM entry by 42
             minutes.
           </Text>
-          <View className="h-px w-full bg-foreground/5" />
+          <Divider />
           <Text size="xs" tone="secondary" italic>
             &ldquo;Your deep sleep was 15% lower than your baseline. Consider a
             10-minute breathwork session before tonight&apos;s rest.&rdquo;

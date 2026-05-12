@@ -1,5 +1,6 @@
 import { Pressable, Text, View } from '@/components/themed';
-import { foregroundFor } from '@/constants/colors';
+import { IconChip } from '@/components/ui/IconChip';
+import { foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -43,12 +44,15 @@ export function EbookNavControls({
         </Text>
       </Pressable>
 
-      <Pressable
+      <IconChip
+        size={48}
+        shape="circle"
+        border={withAlpha(fg, 0.2)}
         onPress={onToc}
-        className="h-12 w-12 items-center justify-center rounded-full border border-foreground/20 bg-foreground/10 active:scale-95"
+        accessibilityLabel="Table of contents"
       >
         <MaterialIcons name="menu-book" size={24} color={fg} />
-      </Pressable>
+      </IconChip>
 
       {isLastChapter ? (
         <Pressable onPress={onFinish} className="items-center gap-1">

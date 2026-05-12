@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
+import { Divider } from '@/components/ui/Divider';
 import { useEffect, useState } from 'react';
 import { Image, type ImageSourcePropType } from 'react-native';
 import Animated, {
@@ -115,7 +116,7 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
         <Text size="lg" weight="bold" className="mt-1">
           {point.description}
         </Text>
-        <View className="my-3 h-px w-full bg-foreground/10" />
+        <Divider className="my-3" />
         <Text
           size="xs"
           treatment="caption"
