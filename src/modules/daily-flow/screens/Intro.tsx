@@ -76,7 +76,6 @@ export default function Intro() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<DailyFlowHeader wordmark showClose={false} />}
       sticky={

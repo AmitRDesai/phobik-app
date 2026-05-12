@@ -5,7 +5,7 @@ import { Screen } from '@/components/ui/Screen';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { ChakraFigure } from '../components/ChakraFigure';
-import { StepCounter } from '../components/StepCounter';
+import { StepCounter } from '@/components/ui/StepCounter';
 
 const principles = [
   {

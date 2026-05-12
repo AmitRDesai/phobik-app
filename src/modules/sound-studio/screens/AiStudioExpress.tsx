@@ -35,7 +35,6 @@ export default function AiStudioExpress() {
 
   return (
     <Screen
-      variant="default"
       header={<PracticeStackHeader wordmark="Sound Studio" />}
       className="flex-1 px-6 pt-2"
     >

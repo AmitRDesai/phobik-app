@@ -29,7 +29,6 @@ export default function PlaybackControlsShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="PlaybackControls" />}
       className="px-4"

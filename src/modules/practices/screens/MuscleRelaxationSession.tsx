@@ -656,7 +656,6 @@ export default function MuscleRelaxationSession() {
 
   return (
     <Screen
-      variant="default"
       header={
         <Header
           left={<BackButton icon="close" />}

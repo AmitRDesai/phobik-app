@@ -3,7 +3,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
 import { OnboardingGridCard } from '../components/OnboardingGridCard';
-import { OnboardingLayout } from '../components/OnboardingLayout';
+import { OnboardingQuestionShell } from '../components/OnboardingQuestionShell';
 import {
   onboardingStressorsAtom,
   type LifeStressor,
@@ -42,11 +42,10 @@ export default function LifeStressors() {
   };
 
   return (
-    <OnboardingLayout
+    <OnboardingQuestionShell
       step={2}
       title="What tends to drain you most?"
       subtitle="Select all that apply to help us personalize your nervous system recovery plan."
-      onBack={() => router.back()}
       buttonLabel="Continue"
       onButtonPress={() => router.push('/onboarding/fear-triggers')}
       buttonDisabled={selected.length === 0}
@@ -63,6 +62,6 @@ export default function LifeStressors() {
           </View>
         ))}
       </View>
-    </OnboardingLayout>
+    </OnboardingQuestionShell>
   );
 }

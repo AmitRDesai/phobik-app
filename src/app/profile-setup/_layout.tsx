@@ -1,7 +1,8 @@
 import { BackButton } from '@/components/ui/BackButton';
-import { Header } from '@/components/ui/Header';
-import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
+import { SegmentedProgress } from '@/components/ui/SegmentedProgress';
+import { variantConfig } from '@/components/variant-config';
+import { useScheme } from '@/hooks/useTheme';
 import { Stack, usePathname } from 'expo-router';
 import { View } from 'react-native';
 
@@ -21,6 +22,8 @@ export default function ProfileSetupLayout() {
   const pathname = usePathname();
   const last = pathname.split('/').pop() ?? '';
   const currentStep = STEP_MAP[last];
+  const scheme = useScheme();
+  const bgHex = variantConfig.auth[scheme].bgHex;
 
   // See account-creation/_layout.tsx for the rationale: header rendered
   // as an absolute overlay so the Stack body height stays constant
@@ -37,25 +40,22 @@ export default function ProfileSetupLayout() {
         />
         {currentStep ? (
           <View
-            pointerEvents="box-none"
+            className="px-screen-x pb-3 pt-2"
             style={{
               position: 'absolute',
               top: 0,
               left: 0,
               right: 0,
               zIndex: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: bgHex,
             }}
           >
-            <Header
-              left={<BackButton />}
-              center={
-                <ProgressDots
-                  animated
-                  total={TOTAL_STEPS}
-                  current={currentStep}
-                />
-              }
-            />
+            <BackButton />
+            <View className="ml-3 flex-1">
+              <SegmentedProgress total={TOTAL_STEPS} completed={currentStep} />
+            </View>
           </View>
         ) : null}
       </View>

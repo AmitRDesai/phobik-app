@@ -147,7 +147,6 @@ export default function BoxBreathingSession() {
 
   return (
     <Screen
-      variant="default"
       header={
         <Header
           left={<BackButton />}

@@ -23,7 +23,6 @@ export function PracticeScreenShell({
 }: PracticeScreenShellProps) {
   return (
     <Screen
-      variant="default"
       scroll
       header={
         hideHeader ? null : (

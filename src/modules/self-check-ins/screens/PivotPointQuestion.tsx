@@ -105,7 +105,6 @@ export default function PivotPointQuestion() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

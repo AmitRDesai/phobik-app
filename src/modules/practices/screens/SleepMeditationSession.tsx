@@ -226,7 +226,6 @@ export default function SleepMeditationSession() {
 
   return (
     <Screen
-      variant="default"
       header={
         <Header
           left={<BackButton />}

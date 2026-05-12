@@ -108,7 +108,6 @@ export default function ChipSelectShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="ChipSelect" />}
       className="px-4"

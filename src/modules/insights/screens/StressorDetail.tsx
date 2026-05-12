@@ -16,7 +16,6 @@ export default function StressorDetail() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <StressorHeader

@@ -161,7 +161,6 @@ export default function Breathing478Session() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

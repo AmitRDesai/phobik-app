@@ -14,14 +14,12 @@ import { useRouter } from 'expo-router';
 import type { ReactNode } from 'react';
 import { StyleSheet, View as RNView } from 'react-native';
 
-const VARIANTS: Variant[] = ['default', 'auth', 'onboarding'];
+const VARIANTS: Variant[] = ['default', 'auth'];
 
 const VARIANT_NOTES: Record<Variant, string> = {
   default:
-    'Charcoal bg + pink→yellow top glow. App chrome — dashboard, practices, journal.',
+    'Charcoal bg + pink→yellow top glow. App chrome — dashboard, practices, journal, onboarding.',
   auth: 'Near-black bg + larger pink→yellow glow. Sign-in / sign-up surfaces.',
-  onboarding:
-    'Plum bg + orange→pink glow. Questionnaire, account creation flow.',
 };
 
 export default function ScreenShowcase() {
@@ -30,7 +28,6 @@ export default function ScreenShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Screen" />}
       className="px-4"
@@ -129,7 +126,7 @@ export default function ScreenShowcase() {
         <PropRow label="Scrollable dashboard (variant + header + scroll)">
           <CodeBlock>
             {`<Screen
-  variant="default"
+ 
   scroll
   header={<ShowcaseHeader title="Today" />}
   contentClassName="gap-4 pb-6"
@@ -156,7 +153,7 @@ export default function ScreenShowcase() {
         <PropRow label="Onboarding step (variant + sticky + scroll)">
           <CodeBlock>
             {`<Screen
-  variant="onboarding"
+ 
   scroll
   header={<ProgressDots step={2} total={5} />}
   sticky={<Button onPress={next}>Next</Button>}
@@ -170,7 +167,7 @@ export default function ScreenShowcase() {
         <PropRow label="Modal sheet (presentation + no top inset header)">
           <CodeBlock>
             {`<Screen
-  variant="default"
+ 
   presentation="modal"
   scroll
   header={<Header title="Filters" close />}
@@ -188,7 +185,7 @@ export default function ScreenShowcase() {
         >
           <CodeBlock>
             {`<View className="bg-black">       ✕ defeats variant bg
-  <Screen variant="default">
+  <Screen>
     …
   </Screen>
 </View>`}
@@ -200,7 +197,7 @@ export default function ScreenShowcase() {
           good="`scroll` reserves the right bottom padding (sticky + fade) and wires the fade gradient. A raw ScrollView won't."
         >
           <CodeBlock>
-            {`<Screen variant="default">
+            {`<Screen>
   <ScrollView>            ✕ no fade, no bottom reservation
     …
   </ScrollView>
@@ -224,7 +221,7 @@ export default function ScreenShowcase() {
           good="Screen already applies the top inset. Add padding to header content, not to the body root."
         >
           <CodeBlock>
-            {`<Screen variant="default">
+            {`<Screen>
   <View style={{ paddingTop: insets.top }}>   ✕ double inset
     …
   </View>

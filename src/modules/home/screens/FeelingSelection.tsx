@@ -12,7 +12,6 @@ export default function FeelingSelection() {
 
   return (
     <Screen
-      variant="default"
       header={<AffirmationHeader currentStep={1} />}
       sticky={
         <Button

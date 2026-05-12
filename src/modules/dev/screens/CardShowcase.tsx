@@ -35,7 +35,6 @@ const TONES: AccentHue[] = [
 export default function CardShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Card" />}
       className="px-4"

@@ -40,7 +40,6 @@ export default function AffirmationReady() {
 
   return (
     <Screen
-      variant="default"
       header={<AffirmationHeader currentStep={2} />}
       sticky={
         <Button onPress={handleSave} loading={saveAffirmation.isPending}>

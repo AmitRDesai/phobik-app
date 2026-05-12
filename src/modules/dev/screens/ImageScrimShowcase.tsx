@@ -12,7 +12,6 @@ const SAMPLE_IMAGE =
 export default function ImageScrimShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="ImageScrim" />}
       className="px-4"

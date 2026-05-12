@@ -86,7 +86,6 @@ export function StepShell({
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <>

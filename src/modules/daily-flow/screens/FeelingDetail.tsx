@@ -66,7 +66,6 @@ export default function FeelingDetail() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<DailyFlowHeader wordmark />}
       sticky={

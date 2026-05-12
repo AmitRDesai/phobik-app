@@ -32,7 +32,6 @@ export function ExerciseIntroScreen({
 
   return (
     <Screen
-      variant="default"
       header={<Header left={<BackButton />} />}
       className="flex-1 items-center justify-center px-6"
     >

@@ -9,7 +9,6 @@ import { toast } from '@/utils/toast';
 export default function ToastShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Toast" />}
       className="px-4"

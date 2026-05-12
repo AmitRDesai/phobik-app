@@ -76,7 +76,7 @@ export default function AuraPictureSetup() {
 
   return (
     <Screen
-      variant="onboarding"
+      insetTop={false}
       header={
         <View className="px-6 pb-2 pt-4">
           <Text size="h3" align="center" weight="bold">
@@ -85,11 +85,20 @@ export default function AuraPictureSetup() {
         </View>
       }
       sticky={
-        <View className="items-center">
-          <Button onPress={handleConfirm} loading={uploadMutation.isPending}>
+        <View className="w-full items-center">
+          <Button
+            onPress={handleConfirm}
+            loading={uploadMutation.isPending}
+            fullWidth
+          >
             Looks Great
           </Button>
-          <Button variant="ghost" onPress={handleSkip} className="mt-2">
+          <Button
+            variant="ghost"
+            onPress={handleSkip}
+            className="mt-2"
+            fullWidth
+          >
             Maybe Later
           </Button>
         </View>

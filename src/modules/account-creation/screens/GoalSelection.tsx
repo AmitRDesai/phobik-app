@@ -10,7 +10,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
 import type { ReactNode } from 'react';
-import { StepCounter } from '../components/StepCounter';
+import { StepCounter } from '@/components/ui/StepCounter';
 
 type IconRenderProps = { size: number; color: string };
 

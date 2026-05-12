@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Screen } from '@/components/ui/Screen';
-import { SegmentedProgress } from '@/components/ui/SegmentedProgress';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
@@ -43,32 +42,16 @@ export default function Completion() {
 
   return (
     <Screen
-      variant="onboarding"
-      header={
-        !isSkipped ? (
-          <>
-            <View className="px-10 pt-4">
-              <SegmentedProgress total={8} completed={8} />
-            </View>
-            <View className="mt-3 flex-row items-center justify-center gap-2">
-              <Text size="sm" tone="secondary" weight="medium">
-                Onboarding Complete
-              </Text>
-              <Text size="sm" weight="bold" style={{ color: orangeAccent }}>
-                100%
-              </Text>
-            </View>
-          </>
-        ) : undefined
-      }
+      insetTop={false}
       sticky={
-        <View className="items-center">
+        <View className="w-full items-center">
           <Button
             onPress={handleGoToToday}
             loading={isPending}
             icon={
               <MaterialIcons name="arrow-forward" size={20} color="white" />
             }
+            fullWidth
           >
             Go to Today
           </Button>
@@ -83,8 +66,18 @@ export default function Completion() {
           </Text>
         </View>
       }
-      className=""
+      className="px-screen-x"
     >
+      {!isSkipped && (
+        <View className="flex-row items-center justify-center gap-2 pt-2">
+          <Text size="sm" tone="secondary" weight="medium">
+            Onboarding Complete
+          </Text>
+          <Text size="sm" weight="bold" style={{ color: orangeAccent }}>
+            100%
+          </Text>
+        </View>
+      )}
       <View className="flex-1 items-center justify-center px-8">
         {/* Victory circle */}
         <View className="mb-10 items-center justify-center">

@@ -38,7 +38,6 @@ const TONES: AccentHue[] = [
 export default function BadgeShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Badge" />}
       className="px-4"

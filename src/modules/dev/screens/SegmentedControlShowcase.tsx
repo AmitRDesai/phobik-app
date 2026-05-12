@@ -39,7 +39,6 @@ export default function SegmentedControlShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="SegmentedControl" />}
       className="px-4"

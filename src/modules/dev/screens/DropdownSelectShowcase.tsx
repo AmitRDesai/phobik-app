@@ -123,7 +123,6 @@ export default function DropdownSelectShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="DropdownSelect" />}
       className="px-4"

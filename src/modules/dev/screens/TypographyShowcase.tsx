@@ -52,7 +52,6 @@ const SAMPLE = 'The quick brown fox jumps over the lazy dog.';
 export default function TypographyShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Typography" />}
       className="px-4"

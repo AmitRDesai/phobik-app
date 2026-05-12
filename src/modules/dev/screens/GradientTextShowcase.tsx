@@ -9,7 +9,6 @@ import { colors } from '@/constants/colors';
 export default function GradientTextShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="GradientText" />}
       className="px-4"

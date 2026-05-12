@@ -283,7 +283,6 @@ export default function Completion() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

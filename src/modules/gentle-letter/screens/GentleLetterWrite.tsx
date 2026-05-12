@@ -110,7 +110,6 @@ export default function GentleLetterWrite() {
 
   return (
     <Screen
-      variant="default"
       scroll
       keyboard
       header={

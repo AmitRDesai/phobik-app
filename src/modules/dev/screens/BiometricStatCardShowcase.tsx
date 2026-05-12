@@ -12,7 +12,6 @@ export default function BiometricStatCardShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="BiometricStatCard" />}
       className="px-4"

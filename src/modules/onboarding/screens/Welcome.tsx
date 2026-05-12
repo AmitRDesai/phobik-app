@@ -3,7 +3,6 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BlurView } from '@/components/ui/BlurView';
 import { Screen } from '@/components/ui/Screen';
-import { SegmentedProgress } from '@/components/ui/SegmentedProgress';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
@@ -13,29 +12,28 @@ import { router } from 'expo-router';
 export default function Welcome() {
   return (
     <Screen
-      variant="onboarding"
-      header={
-        <View className="px-6 pt-4">
-          <SegmentedProgress total={8} completed={1} />
-        </View>
-      }
+      insetTop={false}
       sticky={
-        <View className="items-center">
-          <Button onPress={() => router.push('/onboarding/life-stressors')}>
+        <View className="w-full items-center">
+          <Button
+            onPress={() => router.push('/onboarding/life-stressors')}
+            fullWidth
+          >
             Start
           </Button>
           <Button
             variant="ghost"
             onPress={() => router.push('/onboarding/completion?skipped=true')}
             className="mt-2"
+            fullWidth
           >
             Skip for now
           </Button>
         </View>
       }
-      className=""
+      className="px-screen-x"
     >
-      <View className="flex-1 items-center justify-center px-8">
+      <View className="flex-1 items-center justify-center">
         {/* Circle illustration with glow behind */}
         <View className="mb-10 h-[200px] w-[200px] items-center justify-center">
           {/* Warm glow behind */}

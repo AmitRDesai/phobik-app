@@ -235,7 +235,6 @@ export default function IntimacyResults() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

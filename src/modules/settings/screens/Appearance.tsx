@@ -20,7 +20,6 @@ export default function Appearance() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Appearance" />}
       className="px-4"

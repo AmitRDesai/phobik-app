@@ -42,7 +42,6 @@ export default function IconChipShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="IconChip" />}
       className="px-4"

@@ -13,7 +13,6 @@ import { Platform } from 'react-native';
 export default function SocialAuthButtonShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="SocialAuthButton" />}
       className="px-4"

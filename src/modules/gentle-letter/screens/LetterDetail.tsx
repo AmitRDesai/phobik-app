@@ -54,7 +54,6 @@ export default function LetterDetail() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

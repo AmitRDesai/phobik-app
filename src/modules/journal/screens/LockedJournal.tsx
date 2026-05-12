@@ -65,7 +65,6 @@ export default function LockedJournal() {
 
   return (
     <Screen
-      variant="default"
       header={
         <Header
           center={

@@ -51,7 +51,6 @@ export default function PivotPointIntro() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

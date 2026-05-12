@@ -12,7 +12,6 @@ export default function SegmentedProgressShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="SegmentedProgress" />}
       className="px-4"

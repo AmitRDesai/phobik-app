@@ -119,7 +119,6 @@ export default function StressSignatureMap() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

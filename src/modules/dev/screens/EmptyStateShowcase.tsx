@@ -21,7 +21,6 @@ const TONES: AccentHue[] = ['pink', 'cyan', 'purple', 'orange', 'yellow'];
 export default function EmptyStateShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="EmptyState" />}
       className="px-4"

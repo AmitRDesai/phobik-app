@@ -10,7 +10,6 @@ import { toast } from '@/utils/toast';
 export default function InlineLinkShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="InlineLink" />}
       className="px-4"

@@ -49,7 +49,6 @@ export default function AiStudioPlayback() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<PracticeStackHeader wordmark="Aura Ai" />}
       className="px-6 pt-2"

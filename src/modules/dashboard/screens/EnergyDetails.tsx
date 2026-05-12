@@ -88,7 +88,6 @@ export default function EnergyDetails() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header variant="back" title="Synrgy Score" />}
       className="px-4 pt-2"

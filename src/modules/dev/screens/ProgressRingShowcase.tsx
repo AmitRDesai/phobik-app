@@ -16,7 +16,6 @@ export default function ProgressRingShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="ProgressRing" />}
       className="px-4"

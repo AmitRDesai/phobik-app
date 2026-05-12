@@ -80,7 +80,6 @@ export default function Reflection() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <DailyFlowHeader

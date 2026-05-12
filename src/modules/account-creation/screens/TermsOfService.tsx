@@ -15,7 +15,7 @@ import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useState } from 'react';
-import { StepCounter } from '../components/StepCounter';
+import { StepCounter } from '@/components/ui/StepCounter';
 
 export default function TermsOfServiceScreen() {
   const { modal } = useLocalSearchParams<{ modal?: string }>();

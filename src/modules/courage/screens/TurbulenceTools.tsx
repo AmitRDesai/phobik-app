@@ -62,7 +62,7 @@ export default function TurbulenceTools() {
   const router = useRouter();
 
   return (
-    <Screen variant="default" scroll header={<Header />} className="px-6">
+    <Screen scroll header={<Header />} className="px-6">
       <Text size="display" className="mb-2 uppercase">
         Turbulence Tools
       </Text>

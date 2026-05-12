@@ -93,7 +93,6 @@ export default function IntimacyIntro() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

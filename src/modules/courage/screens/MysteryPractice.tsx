@@ -43,7 +43,6 @@ export default function MysteryPractice() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <View className="px-6 py-2">

@@ -27,7 +27,6 @@ export default function SelectionCardShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="SelectionCard" />}
       className="px-4"

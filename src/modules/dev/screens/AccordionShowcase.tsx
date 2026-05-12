@@ -37,7 +37,6 @@ export default function AccordionShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Accordion" />}
       className="px-4"

@@ -28,7 +28,6 @@ export default function EmpathyChallengeIntro() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header variant="close" />}
       sticky={

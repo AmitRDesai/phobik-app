@@ -101,7 +101,6 @@ export default function JournalDashboard() {
   return (
     <>
       <Screen
-        variant="default"
         scroll
         header={
           <Header

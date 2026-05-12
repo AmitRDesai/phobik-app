@@ -48,7 +48,6 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<PracticeStackHeader wordmark="Movement" />}
       sticky={

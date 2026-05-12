@@ -12,7 +12,6 @@ import { RealTimeAnalysisCard } from '../components/RealTimeAnalysisCard';
 export default function Today() {
   return (
     <Screen
-      variant="default"
       scroll
       insetTop={false}
       header={<DashboardHeader />}

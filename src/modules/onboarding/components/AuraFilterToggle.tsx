@@ -1,51 +1,14 @@
-import { Card } from '@/components/ui/Card';
-import { colors, foregroundFor } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
-import * as Haptics from 'expo-haptics';
 import { Text } from '@/components/themed/Text';
-import { Pressable, View } from 'react-native';
-import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { Card } from '@/components/ui/Card';
+import { Switch } from '@/components/ui/Switch';
+import { View } from 'react-native';
 
 interface AuraFilterToggleProps {
   enabled: boolean;
   onToggle: () => void;
 }
 
-const TRACK_WIDTH = 51;
-const TRACK_HEIGHT = 31;
-const THUMB_SIZE = 27;
-const TRACK_PADDING = 2;
-const TRANSLATE_X = TRACK_WIDTH - THUMB_SIZE - TRACK_PADDING * 2;
-
 export function AuraFilterToggle({ enabled, onToggle }: AuraFilterToggleProps) {
-  const progress = useSharedValue(enabled ? 1 : 0);
-  const scheme = useScheme();
-  const trackOffColor = foregroundFor(scheme, { dark: 0.18, light: 0.12 });
-  const thumbColor = scheme === 'dark' ? 'white' : 'rgba(255,255,255,0.95)';
-
-  const handlePress = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    progress.value = withTiming(enabled ? 0 : 1, { duration: 250 });
-    onToggle();
-  };
-
-  const trackStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(
-      progress.value,
-      [0, 1],
-      [trackOffColor, colors.primary.pink],
-    ),
-  }));
-
-  const thumbStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: progress.value * TRANSLATE_X }],
-  }));
-
   return (
     <Card variant="flat" className="p-5">
       <View className="flex-row items-center justify-between">
@@ -57,32 +20,11 @@ export function AuraFilterToggle({ enabled, onToggle }: AuraFilterToggleProps) {
             Enhance your photo with our signature glow
           </Text>
         </View>
-        <Pressable onPress={handlePress}>
-          <Animated.View
-            style={[
-              {
-                width: TRACK_WIDTH,
-                height: TRACK_HEIGHT,
-                borderRadius: TRACK_HEIGHT / 2,
-                padding: TRACK_PADDING,
-                justifyContent: 'center',
-              },
-              trackStyle,
-            ]}
-          >
-            <Animated.View
-              style={[
-                {
-                  width: THUMB_SIZE,
-                  height: THUMB_SIZE,
-                  borderRadius: THUMB_SIZE / 2,
-                  backgroundColor: thumbColor,
-                },
-                thumbStyle,
-              ]}
-            />
-          </Animated.View>
-        </Pressable>
+        <Switch
+          value={enabled}
+          onValueChange={() => onToggle()}
+          accessibilityLabel="Apply Aura Filter"
+        />
       </View>
     </Card>
   );

@@ -15,7 +15,6 @@ export default function NetworkBannerShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="NetworkBanner" />}
       className="px-4"

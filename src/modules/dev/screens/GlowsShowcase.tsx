@@ -16,7 +16,6 @@ export default function GlowsShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Glows (GlowBg + RadialGlow)" />}
       className="px-4"

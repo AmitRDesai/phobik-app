@@ -5,7 +5,7 @@ import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
-import { OnboardingLayout } from '../components/OnboardingLayout';
+import { OnboardingQuestionShell } from '../components/OnboardingQuestionShell';
 import {
   onboardingEnergyCreativityAtom,
   onboardingEnergyDipAtom,
@@ -40,11 +40,10 @@ export default function EnergyPatterns() {
   ];
 
   return (
-    <OnboardingLayout
+    <OnboardingQuestionShell
       step={5}
       title="Understanding your energy helps PHOBIK tailor your nervous system regulation."
       titleClassName="text-[22px] font-extrabold leading-tight text-foreground"
-      onBack={() => router.back()}
       buttonLabel="Continue"
       onButtonPress={() => router.push('/onboarding/calendar-support')}
     >
@@ -69,6 +68,6 @@ export default function EnergyPatterns() {
           </View>
         ))}
       </View>
-    </OnboardingLayout>
+    </OnboardingQuestionShell>
   );
 }

@@ -21,7 +21,6 @@ export default function HeaderShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Header" />}
       className="px-4"

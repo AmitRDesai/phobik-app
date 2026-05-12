@@ -76,11 +76,7 @@ export default function Player() {
   };
 
   return (
-    <Screen
-      variant="default"
-      header={<DailyFlowHeader wordmark />}
-      className=""
-    >
+    <Screen header={<DailyFlowHeader wordmark />} className="">
       <View className="flex-1 items-center justify-center px-6">
         <PlayerOrb cue={BREATH_CUES[breathIndex] ?? 'Inhale'} />
 

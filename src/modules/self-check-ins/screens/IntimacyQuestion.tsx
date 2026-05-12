@@ -95,7 +95,6 @@ export default function IntimacyQuestion() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

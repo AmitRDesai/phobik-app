@@ -31,7 +31,6 @@ export default function ProgressBarShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="ProgressBar" />}
       className="px-4"

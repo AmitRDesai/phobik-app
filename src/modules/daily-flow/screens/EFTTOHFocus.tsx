@@ -42,7 +42,6 @@ export default function EFTTOHFocus() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<DailyFlowHeader title="EFT Tapping Guide" />}
       sticky={

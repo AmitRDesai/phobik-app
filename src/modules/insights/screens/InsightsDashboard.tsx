@@ -12,7 +12,6 @@ import { TopStressorsRow } from '../components/TopStressorsRow';
 export default function InsightsDashboard() {
   return (
     <Screen
-      variant="default"
       scroll
       insetTop={false}
       header={<InsightsHeader />}

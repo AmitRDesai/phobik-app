@@ -48,7 +48,6 @@ export default function RatingShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Rating" />}
       className="px-4"

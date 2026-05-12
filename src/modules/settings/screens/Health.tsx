@@ -66,7 +66,6 @@ export default function Health() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Health" />}
       className="px-4"

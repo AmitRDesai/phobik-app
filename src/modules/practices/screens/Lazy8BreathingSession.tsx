@@ -233,7 +233,6 @@ export default function Lazy8BreathingSession() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

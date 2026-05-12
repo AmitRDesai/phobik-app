@@ -21,7 +21,6 @@ export default function EmpathyChallengeComplete() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

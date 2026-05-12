@@ -78,7 +78,6 @@ export default function StressCompass() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

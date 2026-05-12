@@ -29,7 +29,6 @@ export default function SliderShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Slider" />}
       className="px-4"

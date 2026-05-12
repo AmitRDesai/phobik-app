@@ -45,7 +45,6 @@ export default function AudioPlayerShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="AudioPlayer" />}
       className="px-4"

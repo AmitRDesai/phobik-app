@@ -20,7 +20,6 @@ export default function SpecializedPacks() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Specialized Packs" />}
       className="px-4"

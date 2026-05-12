@@ -44,7 +44,6 @@ export default function SupportOptions() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<DailyFlowHeader wordmark />}
       sticky={

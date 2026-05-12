@@ -331,7 +331,7 @@ export default function FlightChecklistPhase() {
   if (!phase) return null;
 
   return (
-    <Screen variant="default" scroll header={<Header />} className="px-6">
+    <Screen scroll header={<Header />} className="px-6">
       {/* Phase badge */}
       {phase.phaseBadge && (
         <AccentPill

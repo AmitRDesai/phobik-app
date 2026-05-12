@@ -81,7 +81,6 @@ export default function AudioStorage() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Audio & Storage" />}
       className="px-4"

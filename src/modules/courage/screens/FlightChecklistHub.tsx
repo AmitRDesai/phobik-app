@@ -94,7 +94,6 @@ export default function FlightChecklistHub() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Flight Checklist" />}
       className="px-6"

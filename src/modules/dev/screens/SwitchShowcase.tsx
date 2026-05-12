@@ -18,7 +18,6 @@ export default function SwitchShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Switch" />}
       className="px-4"

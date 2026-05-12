@@ -14,7 +14,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtomValue } from 'jotai';
-import { OnboardingLayout } from '../components/OnboardingLayout';
+import { OnboardingQuestionShell } from '../components/OnboardingQuestionShell';
 
 const PRIVACY_FEATURES: {
   icon: React.ComponentProps<typeof MaterialIcons>['name'];
@@ -66,13 +66,12 @@ export default function PrivacyTrust() {
   };
 
   return (
-    <OnboardingLayout
+    <OnboardingQuestionShell
       step={7}
       title="Your Data, Your Sanctuary."
       titleClassName="text-[28px] font-extrabold leading-tight text-foreground text-center"
       subtitle="PHOBIK is designed to protect your privacy while mapping your nervous system."
       subtitleClassName="mt-3 text-base font-normal leading-relaxed text-foreground/60 text-center"
-      onBack={() => router.back()}
       buttonLabel="Continue"
       onButtonPress={handleContinue}
       scrollable={true}
@@ -136,6 +135,6 @@ export default function PrivacyTrust() {
           </Text>
         </View>
       </View>
-    </OnboardingLayout>
+    </OnboardingQuestionShell>
   );
 }

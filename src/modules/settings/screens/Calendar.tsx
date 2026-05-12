@@ -4,12 +4,7 @@ import { CalendarSettings } from '@/modules/calendar/components/CalendarSettings
 
 export default function Calendar() {
   return (
-    <Screen
-      variant="default"
-      scroll
-      header={<Header title="Calendar" />}
-      className="px-4"
-    >
+    <Screen scroll header={<Header title="Calendar" />} className="px-4">
       <CalendarSettings />
     </Screen>
   );

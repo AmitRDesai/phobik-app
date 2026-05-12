@@ -7,7 +7,7 @@ import { useAtom } from 'jotai';
 import { TextInput } from 'react-native';
 import { FearTriggersDialog } from '../components/FearTriggersDialog';
 import { OnboardingGridCard } from '../components/OnboardingGridCard';
-import { OnboardingLayout } from '../components/OnboardingLayout';
+import { OnboardingQuestionShell } from '../components/OnboardingQuestionShell';
 import {
   onboardingCustomTriggerAtom,
   onboardingTriggersAtom,
@@ -59,12 +59,11 @@ export default function FearTriggers() {
   };
 
   return (
-    <OnboardingLayout
+    <OnboardingQuestionShell
       step={3}
       title="Are there specific situations that spike anxiety for you?"
       titleClassName="text-[22px] font-extrabold leading-tight text-foreground"
       subtitle="Select all that apply to personalize your nervous system support."
-      onBack={() => router.back()}
       buttonLabel="Continue"
       onButtonPress={handleContinue}
     >
@@ -96,6 +95,6 @@ export default function FearTriggers() {
           </View>
         </View>
       </View>
-    </OnboardingLayout>
+    </OnboardingQuestionShell>
   );
 }

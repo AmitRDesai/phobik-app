@@ -39,7 +39,6 @@ export default function EmpathyChallengeCalendar() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Empathy Challenge" />}
       className="px-4"

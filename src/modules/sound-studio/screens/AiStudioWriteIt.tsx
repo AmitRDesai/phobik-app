@@ -25,7 +25,6 @@ export default function AiStudioWriteIt() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<PracticeStackHeader wordmark="Sonic Studio" />}
       sticky={

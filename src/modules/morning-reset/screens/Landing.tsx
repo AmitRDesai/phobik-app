@@ -44,7 +44,6 @@ export default function Landing() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<MorningResetHeader showClose={false} />}
       sticky={

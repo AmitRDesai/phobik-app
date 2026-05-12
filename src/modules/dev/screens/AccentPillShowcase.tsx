@@ -22,7 +22,6 @@ export default function AccentPillShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="AccentPill" />}
       className="px-4"

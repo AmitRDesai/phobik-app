@@ -25,7 +25,6 @@ export default function CourageOptions() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Courage Practices" />}
       className="px-4"

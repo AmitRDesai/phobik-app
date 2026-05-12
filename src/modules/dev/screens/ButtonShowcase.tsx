@@ -29,7 +29,6 @@ const SIZE_NOTES: Record<ButtonSize, string> = {
 export default function ButtonShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Button" />}
       className="px-4"

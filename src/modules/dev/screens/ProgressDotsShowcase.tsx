@@ -13,7 +13,6 @@ export default function ProgressDotsShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="ProgressDots" />}
       className="px-4"

@@ -492,7 +492,6 @@ export default function DoubleInhaleSession() {
 
   return (
     <Screen
-      variant="default"
       header={
         <Header
           left={<BackButton icon="close" />}

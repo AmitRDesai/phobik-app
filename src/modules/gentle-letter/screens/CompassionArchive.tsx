@@ -105,7 +105,6 @@ export default function CompassionArchive() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="My Compassion Archive" />}
       className="px-4"

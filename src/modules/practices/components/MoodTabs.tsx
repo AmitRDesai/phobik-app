@@ -1,7 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { SelectableChip } from '@/modules/onboarding/components/SelectableChip';
-import { ScrollView } from 'react-native';
+import { ChipSelect } from '@/components/ui/ChipSelect';
 
 type MoodTabsProps = {
   label?: string;
@@ -30,29 +29,22 @@ export function MoodTabs({
           </Text>
         </View>
       ) : null}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerClassName="gap-2"
-      >
-        {options.map((option) => {
-          const isActive = option === active;
-          return (
-            <SelectableChip
-              key={option}
-              label={option}
-              selected={isActive}
-              onPress={() => {
-                if (isActive) {
-                  if (allowDeselect) onChange(null);
-                  return;
-                }
-                onChange(option);
-              }}
-            />
-          );
-        })}
-      </ScrollView>
+      <ChipSelect
+        options={options.map((o) => ({ value: o, label: o }))}
+        value={active ? [active] : []}
+        onChange={(next) => {
+          // single-select: ChipSelect emits [] when re-tapping the active
+          // chip. Respect allowDeselect — if false, ignore that empty next.
+          if (next.length === 0) {
+            if (allowDeselect) onChange(null);
+            return;
+          }
+          onChange(next[0]);
+        }}
+        multi={false}
+        variant="gradient"
+        layout="scroll"
+      />
     </View>
   );
 }

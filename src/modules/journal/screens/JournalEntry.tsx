@@ -156,7 +156,6 @@ export default function JournalEntry() {
 
   return (
     <Screen
-      variant="default"
       scroll
       keyboard
       header={

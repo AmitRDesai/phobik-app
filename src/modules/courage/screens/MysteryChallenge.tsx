@@ -18,7 +18,6 @@ export default function MysteryChallenge() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <View className="px-6 py-2">

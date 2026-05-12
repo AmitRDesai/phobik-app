@@ -57,7 +57,6 @@ export default function Intention() {
 
   return (
     <Screen
-      variant="default"
       header={<DailyFlowHeader wordmark />}
       sticky={
         <View className="items-center">

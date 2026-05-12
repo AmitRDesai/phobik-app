@@ -37,7 +37,6 @@ export default function AiStudioFeeling() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<PracticeStackHeader wordmark="Sound Studio" />}
       sticky={

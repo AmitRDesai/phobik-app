@@ -12,7 +12,6 @@ export default function FourPillars() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <View className="flex-row items-center justify-between px-6 pb-4 pt-2">

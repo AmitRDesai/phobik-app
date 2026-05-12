@@ -10,7 +10,6 @@ export default function Dashboard() {
 
   return (
     <Screen
-      variant="default"
       scroll
       insetTop={false}
       header={<DashboardHeader />}

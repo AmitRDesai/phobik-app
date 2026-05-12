@@ -8,7 +8,6 @@ import { Screen } from '@/components/ui/Screen';
 export default function DividerShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Divider" />}
       className="px-4"

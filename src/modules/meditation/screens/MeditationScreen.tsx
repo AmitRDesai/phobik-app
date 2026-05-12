@@ -314,7 +314,6 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<PracticeStackHeader wordmark="Meditation" />}
       sticky={

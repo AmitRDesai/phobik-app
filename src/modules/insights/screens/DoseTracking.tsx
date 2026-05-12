@@ -15,7 +15,6 @@ export default function DoseTracking() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Daily D.O.S.E." />}
       className="px-6"

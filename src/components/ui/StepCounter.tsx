@@ -6,10 +6,10 @@ export interface StepCounterProps {
 }
 
 /**
- * "Step X of Y" caption rendered under the sticky CTA across the
- * account-creation / profile-setup flows. Uppercase + wide tracking to
- * match the eyebrow style; small right padding compensates for the
- * Android letter-spacing clip on the last character.
+ * "Step X of Y" caption rendered under the sticky CTA across multi-step
+ * flows (account-creation, profile-setup, onboarding). Uppercase + wide
+ * tracking to match the eyebrow style; small right padding compensates
+ * for the Android letter-spacing clip on the last character.
  */
 export function StepCounter({ current, total }: StepCounterProps) {
   return (

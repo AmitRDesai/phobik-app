@@ -47,7 +47,6 @@ export default function TextAreaShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="TextArea" />}
       className="px-4"

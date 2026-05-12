@@ -8,7 +8,6 @@ import { Skeleton } from '@/components/ui/Skeleton';
 export default function SkeletonShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="Skeleton" />}
       className="px-4"

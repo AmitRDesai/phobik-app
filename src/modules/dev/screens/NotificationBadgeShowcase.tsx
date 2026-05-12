@@ -19,7 +19,6 @@ export default function NotificationBadgeShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="NotificationBadge" />}
       className="px-4"

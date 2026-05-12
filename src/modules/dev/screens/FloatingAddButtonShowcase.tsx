@@ -11,7 +11,6 @@ import type { ReactNode } from 'react';
 export default function FloatingAddButtonShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="FloatingAddButton" />}
       className="px-4"

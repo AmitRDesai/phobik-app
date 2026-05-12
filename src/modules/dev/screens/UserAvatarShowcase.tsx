@@ -21,7 +21,6 @@ const SIZE_NOTES: Record<UserAvatarSize, string> = {
 export default function UserAvatarShowcase() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="UserAvatar" />}
       className="px-4"

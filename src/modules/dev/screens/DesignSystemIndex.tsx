@@ -343,7 +343,6 @@ export default function DesignSystemIndex() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Design System" right={<SchemeToggle />} />}
       className="px-4"

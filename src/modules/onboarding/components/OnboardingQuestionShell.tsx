@@ -1,18 +1,16 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { BackButton } from '@/components/ui/BackButton';
 import { Screen } from '@/components/ui/Screen';
-import { SegmentedProgress } from '@/components/ui/SegmentedProgress';
+import { StepCounter } from '@/components/ui/StepCounter';
 
-interface OnboardingLayoutProps {
+interface OnboardingQuestionShellProps {
   step: number;
   totalSteps?: number;
   title: string;
   subtitle?: string;
   titleClassName?: string;
   subtitleClassName?: string;
-  onBack?: () => void;
   onSkip?: () => void;
   buttonLabel: string;
   onButtonPress: () => void;
@@ -25,14 +23,19 @@ interface OnboardingLayoutProps {
   scrollable?: boolean;
 }
 
-export function OnboardingLayout({
+/**
+ * Shared body shell for the questionnaire steps in /onboarding. The
+ * persistent header (BackButton + SegmentedProgress) is owned by
+ * `app/onboarding/_layout.tsx` and rendered as an absolute overlay —
+ * this shell only handles the per-screen title/subtitle/body + sticky CTA.
+ */
+export function OnboardingQuestionShell({
   step,
   totalSteps = 8,
   title,
   subtitle,
   titleClassName,
   subtitleClassName,
-  onBack,
   onSkip,
   buttonLabel,
   onButtonPress,
@@ -43,44 +46,21 @@ export function OnboardingLayout({
   headerContent,
   children,
   scrollable = true,
-}: OnboardingLayoutProps) {
-  const header = (
-    <View className="flex-row items-center gap-3 px-6 pb-4 pt-4">
-      {onBack ? <BackButton onPress={onBack} /> : <View className="w-10" />}
-      <View className="flex-1">
-        <SegmentedProgress total={totalSteps ?? 8} completed={step} />
-      </View>
-      {onSkip ? (
-        <Button variant="ghost" size="xs" onPress={onSkip}>
-          Skip
-        </Button>
-      ) : null}
-    </View>
-  );
-
+}: OnboardingQuestionShellProps) {
   const sticky = (
-    <View className="items-center">
+    <View className="w-full items-center">
       <Button
         onPress={onButtonPress}
         disabled={buttonDisabled}
         loading={buttonLoading}
         icon={buttonIcon}
+        fullWidth
       >
         {buttonLabel}
       </Button>
-      {showStepCounter && (
-        <Text
-          size="xs"
-          treatment="caption"
-          tone="secondary"
-          className="mt-3 tracking-[0.2em]"
-          style={{ paddingRight: 2.2 }}
-        >
-          Step {step} of {totalSteps}
-        </Text>
-      )}
+      {showStepCounter && <StepCounter current={step} total={totalSteps} />}
       {onSkip && (
-        <Button variant="ghost" onPress={onSkip} className="mt-2">
+        <Button variant="ghost" onPress={onSkip} className="mt-2" fullWidth>
           Skip for now
         </Button>
       )}
@@ -89,14 +69,14 @@ export function OnboardingLayout({
 
   return (
     <Screen
-      variant="onboarding"
       scroll={scrollable}
-      header={header}
+      keyboard
+      insetTop={false}
       sticky={sticky}
-      className=""
+      className="px-screen-x"
     >
-      {headerContent && <View className="px-8 pt-4">{headerContent}</View>}
-      <View className="px-8 pt-4">
+      {headerContent && <View className="pt-4">{headerContent}</View>}
+      <View className="pt-4">
         <Text
           size="h1"
           className={titleClassName ?? 'leading-tight font-extrabold'}
@@ -113,7 +93,7 @@ export function OnboardingLayout({
           </Text>
         )}
       </View>
-      <View className="mt-6 flex-1 px-8">{children}</View>
+      <View className="mt-6 flex-1">{children}</View>
     </Screen>
   );
 }

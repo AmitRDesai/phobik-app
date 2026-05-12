@@ -54,7 +54,6 @@ export default function BiLateralTutorial() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<DailyFlowHeader title="Bi-Lateral Tapping Tutorial" />}
       sticky={

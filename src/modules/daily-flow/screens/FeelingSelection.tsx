@@ -34,12 +34,7 @@ export default function FeelingSelection() {
   };
 
   return (
-    <Screen
-      variant="default"
-      scroll
-      header={<DailyFlowHeader wordmark />}
-      className="px-6"
-    >
+    <Screen scroll header={<DailyFlowHeader wordmark />} className="px-6">
       <View className="mb-8 mt-2">
         <Text weight="black" className="text-[42px] leading-[1.05]">
           How are you

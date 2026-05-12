@@ -308,7 +308,6 @@ export default function StarBreathingSession() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { ChipSelect } from '@/components/ui/ChipSelect';
 import { accentFor, alpha, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -7,8 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
 import { TextInput } from 'react-native';
-import { OnboardingLayout } from '../components/OnboardingLayout';
-import { SelectableChip } from '../components/SelectableChip';
+import { OnboardingQuestionShell } from '../components/OnboardingQuestionShell';
 import {
   onboardingCustomToolAtom,
   onboardingRegulationToolsAtom,
@@ -39,21 +39,19 @@ export default function RegulationPreference() {
   const orangeAccent = accentFor(scheme, 'orange');
   const yellowAccent = accentFor(scheme, 'yellow');
 
-  const toggle = (id: RegulationTool) => {
-    if (selected.includes(id)) {
-      setSelected(selected.filter((t) => t !== id));
-    } else if (selected.length < MAX_SELECTIONS) {
-      setSelected([...selected, id]);
-    }
+  // ChipSelect calls onChange with the next array. Reject updates that
+  // would exceed MAX_SELECTIONS — the chip stays unselected because
+  // ChipSelect is controlled by `value`.
+  const handleChange = (next: RegulationTool[]) => {
+    if (next.length <= MAX_SELECTIONS) setSelected(next);
   };
 
   return (
-    <OnboardingLayout
+    <OnboardingQuestionShell
       step={4}
       title="When you're stressed, what helps most?"
       subtitle="Select options to help us personalize your tools."
       subtitleClassName="mt-3 text-base font-medium leading-relaxed text-foreground/60"
-      onBack={() => router.back()}
       buttonLabel="Continue"
       onButtonPress={() => router.push('/onboarding/energy-patterns')}
       buttonDisabled={selected.length === 0}
@@ -64,16 +62,16 @@ export default function RegulationPreference() {
       </Text>
 
       {/* Chip grid */}
-      <View className="mb-6 flex-row flex-wrap gap-2.5">
-        {TOOLS.map((tool) => (
-          <SelectableChip
-            key={tool.id}
-            label={tool.label}
-            selected={selected.includes(tool.id)}
-            onPress={() => toggle(tool.id)}
-          />
-        ))}
+      <ChipSelect
+        options={TOOLS.map((t) => ({ value: t.id, label: t.label }))}
+        value={selected}
+        onChange={handleChange}
+        variant="gradient"
+        layout="wrap"
+        className="mb-6"
+      />
 
+      <View className="mb-6 flex-row flex-wrap gap-2.5">
         {/* Other input */}
         <View className="mt-2 w-full">
           <View className="h-12 flex-row items-center gap-2 rounded-full border border-foreground/10 bg-foreground/5 px-5">
@@ -124,6 +122,6 @@ export default function RegulationPreference() {
           </View>
         </View>
       </View>
-    </OnboardingLayout>
+    </OnboardingQuestionShell>
   );
 }

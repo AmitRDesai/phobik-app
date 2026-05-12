@@ -17,7 +17,6 @@ export default function GentleLetterIntro() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

@@ -11,7 +11,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
-import { StepCounter } from '../components/StepCounter';
+import { StepCounter } from '@/components/ui/StepCounter';
 
 const SECURITY_POINTS = [
   {

@@ -23,7 +23,6 @@ export function MovementSessionShell({
 }: MovementSessionShellProps) {
   return (
     <Screen
-      variant="default"
       scroll
       header={<PracticeStackHeader wordmark={wordmark} />}
       sticky={

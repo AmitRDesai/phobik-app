@@ -7,7 +7,7 @@ import { type AgeRange, questionnaireAgeAtom } from '@/store/onboarding';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
-import { StepCounter } from '../components/StepCounter';
+import { StepCounter } from '@/components/ui/StepCounter';
 
 const AGE_OPTIONS: { value: AgeRange; label: string }[] = [
   { value: '18-24', label: '18–24' },

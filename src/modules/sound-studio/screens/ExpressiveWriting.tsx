@@ -51,7 +51,6 @@ export default function ExpressiveWriting() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<PracticeStackHeader wordmark="Session Flow" />}
       sticky={

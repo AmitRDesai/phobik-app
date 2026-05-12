@@ -183,7 +183,7 @@ export default function MicroChallenges() {
 
   if (!isInitialized || isLoadingChallenge || !challengeId) {
     return (
-      <Screen variant="default">
+      <Screen>
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator color={colors.primary.pink} />
         </View>
@@ -248,7 +248,6 @@ export default function MicroChallenges() {
 
   return (
     <Screen
-      variant="default"
       header={
         <Header
           left={<BackButton onPress={handleBack} />}

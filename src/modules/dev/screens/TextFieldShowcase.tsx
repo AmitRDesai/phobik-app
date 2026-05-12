@@ -47,7 +47,6 @@ export default function TextFieldShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="TextField" />}
       className="px-4"

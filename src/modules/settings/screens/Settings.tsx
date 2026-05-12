@@ -46,7 +46,6 @@ export default function Settings() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Settings" />}
       className="px-4"

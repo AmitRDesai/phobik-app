@@ -43,7 +43,6 @@ export default function Notifications() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Notifications" />}
       className="px-4"

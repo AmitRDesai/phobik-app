@@ -28,7 +28,6 @@ export default function Biometric() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Biometric Login" />}
       className="px-4"

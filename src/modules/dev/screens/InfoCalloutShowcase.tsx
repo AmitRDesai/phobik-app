@@ -27,7 +27,6 @@ export default function InfoCalloutShowcase() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<ShowcaseHeader title="InfoCallout" />}
       className="px-4"

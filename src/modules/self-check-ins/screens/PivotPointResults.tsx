@@ -25,7 +25,7 @@ export default function PivotPointResults() {
 
   if (!results) {
     return (
-      <Screen variant="default" className="px-6">
+      <Screen className="px-6">
         <View className="flex-1 items-center justify-center">
           <Text size="md" tone="secondary">
             Assessment incomplete.
@@ -43,7 +43,6 @@ export default function PivotPointResults() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

@@ -22,7 +22,6 @@ export default function GroundingIntro() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

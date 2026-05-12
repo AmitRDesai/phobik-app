@@ -170,7 +170,6 @@ export default function ConnectWearable() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={
         <Header

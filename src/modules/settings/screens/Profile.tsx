@@ -94,7 +94,6 @@ export default function Profile() {
 
   return (
     <Screen
-      variant="default"
       scroll
       keyboard
       sticky={

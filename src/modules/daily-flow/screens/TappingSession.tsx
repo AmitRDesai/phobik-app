@@ -60,7 +60,6 @@ export default function TappingSession() {
 
   return (
     <Screen
-      variant="default"
       scroll
       header={<DailyFlowHeader title="EFT Tapping Session" />}
       sticky={

@@ -84,7 +84,6 @@ export default function EmpathyChallengeDay() {
 
   return (
     <Screen
-      variant="default"
       scroll
       keyboard
       header={

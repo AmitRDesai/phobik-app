@@ -9,7 +9,6 @@ import { SleepScoreHeader } from '../components/SleepScoreHeader';
 export default function SleepQualityInsights() {
   return (
     <Screen
-      variant="default"
       scroll
       header={<Header title="Sleep Quality Insights" />}
       className=""
