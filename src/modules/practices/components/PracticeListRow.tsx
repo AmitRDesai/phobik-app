@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { AccentPill } from '@/components/ui/AccentPill';
 import { colors } from '@/constants/colors';
 import { Image, type ImageSource } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -61,24 +62,14 @@ export function PracticeListRow({
           <View className="flex-1 justify-end p-7">
             {tags && tags.length > 0 ? (
               <View className="mb-3 flex-row gap-2">
-                {tags.map((tag, i) => {
-                  const tone =
-                    i % 2 === 0
-                      ? 'bg-primary-pink/20 text-primary-pink'
-                      : 'bg-accent-yellow/20 text-accent-yellow';
-                  const [bg, text] = tone.split(' ');
-                  return (
-                    <View key={tag} className={`rounded-full px-3 py-1 ${bg}`}>
-                      <Text
-                        size="xs"
-                        treatment="caption"
-                        className={`font-bold ${text}`}
-                      >
-                        {tag}
-                      </Text>
-                    </View>
-                  );
-                })}
+                {tags.map((tag, i) => (
+                  <AccentPill
+                    key={tag}
+                    variant="tinted"
+                    tone={i % 2 === 0 ? 'pink' : 'yellow'}
+                    label={tag}
+                  />
+                ))}
               </View>
             ) : null}
             <Text size="h2" tone="inverse" className="leading-tight">

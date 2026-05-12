@@ -1,6 +1,7 @@
 import expressImg from '@/assets/images/sound-studio/express-analyzing.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { AccentPill } from '@/components/ui/AccentPill';
 import { Badge } from '@/components/ui/Badge';
 import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
@@ -91,11 +92,7 @@ export default function AiStudioExpress() {
         </View>
 
         {/* Status pill */}
-        <View className="absolute right-2 top-4 rounded-full border border-foreground/15 bg-foreground/10 px-3 py-1">
-          <Text size="xs" treatment="caption" weight="bold">
-            Analyzing
-          </Text>
-        </View>
+        <AccentPill label="Analyzing" className="absolute right-2 top-4" />
       </View>
 
       {/* Progress */}

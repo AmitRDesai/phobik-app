@@ -147,30 +147,40 @@ export default function AiStudioPlayback() {
 
         {/* Controls + share */}
         <View className="mt-4 flex-row items-center gap-3">
-          <Pressable
+          <IconChip
+            shape="circle"
             onPress={() => onAction('Shuffle')}
-            className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/[0.04]"
+            accessibilityLabel="Shuffle"
           >
-            <MaterialIcons name="shuffle" size={18} color={fg} />
-          </Pressable>
-          <Pressable
+            {(color) => (
+              <MaterialIcons name="shuffle" size={18} color={color} />
+            )}
+          </IconChip>
+          <IconChip
+            shape="circle"
             onPress={() => onAction('Previous')}
-            className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/[0.04]"
+            accessibilityLabel="Previous"
           >
-            <MaterialIcons name="skip-previous" size={20} color={fg} />
-          </Pressable>
-          <Pressable
+            {(color) => (
+              <MaterialIcons name="skip-previous" size={20} color={color} />
+            )}
+          </IconChip>
+          <IconChip
+            shape="circle"
             onPress={() => onAction('Next')}
-            className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/[0.04]"
+            accessibilityLabel="Next"
           >
-            <MaterialIcons name="skip-next" size={20} color={fg} />
-          </Pressable>
-          <Pressable
+            {(color) => (
+              <MaterialIcons name="skip-next" size={20} color={color} />
+            )}
+          </IconChip>
+          <IconChip
+            shape="circle"
             onPress={() => onAction('Repeat')}
-            className="h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/[0.04]"
+            accessibilityLabel="Repeat"
           >
-            <MaterialIcons name="repeat" size={18} color={fg} />
-          </Pressable>
+            {(color) => <MaterialIcons name="repeat" size={18} color={color} />}
+          </IconChip>
           <View className="flex-1" />
           <Pressable
             onPress={() => onAction('Share to Community')}

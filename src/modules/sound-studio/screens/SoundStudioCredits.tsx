@@ -1,5 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { AccentPill } from '@/components/ui/AccentPill';
 import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { GradientText } from '@/components/ui/GradientText';
@@ -89,16 +90,12 @@ export default function SoundStudioCredits() {
                 }
               >
                 {plan.popular ? (
-                  <View className="absolute right-5 top-5 rounded-full bg-accent-yellow px-3 py-1">
-                    <Text
-                      size="xs"
-                      treatment="caption"
-                      weight="bold"
-                      className="text-on-primary-fixed"
-                    >
-                      Most Popular
-                    </Text>
-                  </View>
+                  <AccentPill
+                    variant="solid"
+                    tone="yellow"
+                    label="Most Popular"
+                    className="absolute right-5 top-5"
+                  />
                 ) : null}
                 <IconChip size="lg" shape="rounded" tone="pink">
                   <MaterialIcons
