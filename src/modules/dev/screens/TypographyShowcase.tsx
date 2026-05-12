@@ -9,8 +9,6 @@ import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { SegmentedControl } from '@/components/ui/SegmentedControl';
-import { useTheme, type ThemeMode } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 
 type SizeRowData = { size: TextSize; metrics: string; notes: string };
@@ -49,16 +47,9 @@ const WEIGHTS: TextWeight[] = [
   'black',
 ];
 
-const THEME_OPTIONS: { label: string; value: ThemeMode }[] = [
-  { label: 'System', value: 'system' },
-  { label: 'Light', value: 'light' },
-  { label: 'Dark', value: 'dark' },
-];
-
 const SAMPLE = 'The quick brown fox jumps over the lazy dog.';
 
 export default function TypographyShowcase() {
-  const { mode, setMode } = useTheme();
   return (
     <Screen
       variant="default"
@@ -67,18 +58,6 @@ export default function TypographyShowcase() {
       className="px-4"
       contentClassName="gap-6 pb-6"
     >
-      {/* Theme toggle — instant light/dark comparison without leaving the screen */}
-      <Card variant="flat" className="gap-2 p-4">
-        <Text size="xs" treatment="caption" tone="tertiary">
-          Scheme preview
-        </Text>
-        <SegmentedControl
-          options={THEME_OPTIONS}
-          selected={mode}
-          onSelect={setMode}
-        />
-      </Card>
-
       <Section title="Size scale">
         {SIZES.map((row) => (
           <SizeRowView key={row.size} row={row} />

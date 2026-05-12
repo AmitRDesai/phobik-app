@@ -1,9 +1,17 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Card } from '@/components/ui/Card';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
+import { SegmentedControl } from '@/components/ui/SegmentedControl';
+import { TextField } from '@/components/ui/TextField';
+import { foregroundFor } from '@/constants/colors';
+import { useScheme, useTheme, type ThemeMode } from '@/hooks/useTheme';
 import { SettingsMenuItem } from '@/modules/settings/components/SettingsMenuItem';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useMemo, useState } from 'react';
 
 const SECTIONS: {
   href:
@@ -319,15 +327,35 @@ const SECTIONS: {
   },
 ];
 
+const THEME_OPTIONS: { label: string; value: ThemeMode }[] = [
+  { label: 'System', value: 'system' },
+  { label: 'Light', value: 'light' },
+  { label: 'Dark', value: 'dark' },
+];
+
 export default function DesignSystemIndex() {
   const router = useRouter();
+  const scheme = useScheme();
+  const { mode, setMode } = useTheme();
+  const [query, setQuery] = useState('');
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return SECTIONS;
+    return SECTIONS.filter(
+      (s) =>
+        s.label.toLowerCase().includes(q) ||
+        s.subtitle.toLowerCase().includes(q),
+    );
+  }, [query]);
+
   return (
     <Screen
       variant="default"
       scroll
       header={<Header title="Design System" />}
       className="px-4"
-      contentClassName="gap-6"
+      contentClassName="gap-4"
     >
       <View className="px-2 pt-2">
         <Text size="sm" tone="secondary" className="leading-relaxed">
@@ -336,17 +364,54 @@ export default function DesignSystemIndex() {
         </Text>
       </View>
 
-      <View className="gap-2">
-        {SECTIONS.map((s) => (
-          <SettingsMenuItem
-            key={s.href}
-            icon={s.icon}
-            label={s.label}
-            subtitle={s.subtitle}
-            onPress={() => router.push(s.href)}
+      {/* Scheme preview — applies globally so every showcase reflects it */}
+      <Card variant="flat" className="gap-2 p-4">
+        <Text size="xs" treatment="caption" tone="tertiary">
+          Scheme preview
+        </Text>
+        <SegmentedControl
+          options={THEME_OPTIONS}
+          selected={mode}
+          onSelect={setMode}
+        />
+      </Card>
+
+      <TextField
+        value={query}
+        onChangeText={setQuery}
+        placeholder="Search primitives…"
+        icon={
+          <MaterialIcons
+            name="search"
+            size={18}
+            color={foregroundFor(scheme, 0.55)}
           />
-        ))}
-      </View>
+        }
+        returnKeyType="search"
+      />
+
+      {filtered.length === 0 ? (
+        <EmptyState
+          size="md"
+          title="No primitives match"
+          description={`Nothing matches “${query.trim()}”. Try a shorter term or clear the search.`}
+          icon={(color) => (
+            <MaterialIcons name="search-off" size={32} color={color} />
+          )}
+        />
+      ) : (
+        <View className="gap-2">
+          {filtered.map((s) => (
+            <SettingsMenuItem
+              key={s.href}
+              icon={s.icon}
+              label={s.label}
+              subtitle={s.subtitle}
+              onPress={() => router.push(s.href)}
+            />
+          ))}
+        </View>
+      )}
     </Screen>
   );
 }
