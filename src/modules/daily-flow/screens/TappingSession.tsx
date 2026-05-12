@@ -8,7 +8,6 @@ import { useScheme } from '@/hooks/useTheme';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { TappingAnimation } from '../components/TappingAnimation';
 import { getFeeling } from '../data/feelings';
 import { TAPPING_POINTS } from '../data/tappingPoints';
@@ -61,10 +60,14 @@ export default function TappingSession() {
   return (
     <Screen
       scroll
-      header={<DailyFlowHeader title="EFT Tapping Session" />}
+      insetTop={false}
       sticky={
-        <View>
-          <Button onPress={handleNext} loading={updateSession.isPending}>
+        <View className="w-full items-center">
+          <Button
+            onPress={handleNext}
+            loading={updateSession.isPending}
+            fullWidth
+          >
             {isLastPoint ? 'Finish Tapping' : 'Next Tap Point'}
           </Button>
           <Text

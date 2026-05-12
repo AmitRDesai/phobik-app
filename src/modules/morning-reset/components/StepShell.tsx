@@ -3,7 +3,6 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
-import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -12,29 +11,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { ReactNode } from 'react';
 
-import {
-  STEP_ROUTES,
-  getNextStep,
-  getPreviousStep,
-} from '../data/flow-navigation';
+import { STEP_ROUTES, getNextStep } from '../data/flow-navigation';
 import type { FlowStep } from '../data/types';
 import {
   useActiveMorningResetSession,
   useCompleteMorningResetSession,
   useUpdateMorningResetSession,
 } from '../hooks/useMorningResetSession';
-import { MorningResetHeader } from './MorningResetHeader';
-
-const STEP_INDEX: Record<FlowStep, number> = {
-  landing: 0,
-  light_exposure: 1,
-  stillness: 2,
-  mental_reset: 3,
-  movement: 4,
-  cold_exposure: 5,
-  nourishment: 6,
-  deep_focus: 7,
-};
 
 type Props = {
   step: Exclude<FlowStep, 'landing'>;
@@ -47,13 +30,13 @@ type Props = {
 };
 
 export function StepShell({
-  step,
   habitLabel,
   title,
   duration,
   intro,
   children,
   ctaLabel,
+  step,
 }: Props) {
   const router = useRouter();
   const scheme = useScheme();
@@ -63,7 +46,6 @@ export function StepShell({
 
   if (isLoading || !session) return <LoadingScreen />;
 
-  const currentIndex = STEP_INDEX[step];
   const nextStep = getNextStep(step);
   const isFinal = nextStep === null;
 
@@ -82,23 +64,17 @@ export function StepShell({
 
   const finalCtaLabel = ctaLabel ?? (isFinal ? 'Finish Session' : 'Next Step');
   const isPending = updateSession.isPending || completeSession.isPending;
-  const previousStep = getPreviousStep(step);
 
   return (
     <Screen
       scroll
-      header={
-        <>
-          <MorningResetHeader showBack={previousStep !== null} />
-          <View className="items-center pb-2 pt-1">
-            <ProgressDots total={7} current={currentIndex} />
-          </View>
-        </>
-      }
+      insetTop={false}
       sticky={
-        <Button onPress={handleContinue} loading={isPending}>
-          {finalCtaLabel}
-        </Button>
+        <View className="w-full items-center">
+          <Button onPress={handleContinue} loading={isPending} fullWidth>
+            {finalCtaLabel}
+          </Button>
+        </View>
       }
       className="px-6"
     >

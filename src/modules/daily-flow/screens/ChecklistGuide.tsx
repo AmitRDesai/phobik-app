@@ -7,7 +7,6 @@ import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { useRouter } from 'expo-router';
 
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import {
   useActiveDailyFlowSession,
   useUpdateDailyFlowSession,
@@ -54,7 +53,7 @@ export default function ChecklistGuide() {
   return (
     <Screen
       scroll
-      header={<DailyFlowHeader wordmark />}
+      insetTop={false}
       sticky={
         <Button onPress={handleContinue} loading={updateSession.isPending}>
           Get Started

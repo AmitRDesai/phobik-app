@@ -13,7 +13,6 @@ import { useCallback, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Pressable, useWindowDimensions } from 'react-native';
 
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import {
   INTENTIONS,
   type Intention as IntentionData,
@@ -57,10 +56,14 @@ export default function Intention() {
 
   return (
     <Screen
-      header={<DailyFlowHeader wordmark />}
+      insetTop={false}
       sticky={
-        <View className="items-center">
-          <Button onPress={handleContinue} loading={updateSession.isPending}>
+        <View className="w-full items-center">
+          <Button
+            onPress={handleContinue}
+            loading={updateSession.isPending}
+            fullWidth
+          >
             Next
           </Button>
           <Text

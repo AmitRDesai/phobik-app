@@ -11,7 +11,6 @@ import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import { Image } from 'react-native';
 
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { getFeeling } from '../data/feelings';
 import type { FlowStep } from '../data/types';
 import {
@@ -55,7 +54,7 @@ export default function BiLateralTutorial() {
   return (
     <Screen
       scroll
-      header={<DailyFlowHeader title="Bi-Lateral Tapping Tutorial" />}
+      insetTop={false}
       sticky={
         <Button onPress={handleContinue} loading={updateSession.isPending}>
           Continue

@@ -1,15 +1,16 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
+import { Header } from '@/components/ui/Header';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-import { MorningResetHeader } from '../components/MorningResetHeader';
 import {
   useActiveMorningResetSession,
   useUpdateMorningResetSession,
@@ -45,11 +46,27 @@ export default function Landing() {
   return (
     <Screen
       scroll
-      header={<MorningResetHeader showClose={false} />}
+      insetTop={false}
+      header={
+        <Header
+          left={<BackButton />}
+          center={
+            <Text size="lg" weight="bold">
+              Morning Flow
+            </Text>
+          }
+        />
+      }
       sticky={
-        <Button onPress={handleBegin} loading={updateSession.isPending}>
-          Begin Flow
-        </Button>
+        <View className="w-full items-center">
+          <Button
+            onPress={handleBegin}
+            loading={updateSession.isPending}
+            fullWidth
+          >
+            Begin Flow
+          </Button>
+        </View>
       }
       className="px-6"
     >

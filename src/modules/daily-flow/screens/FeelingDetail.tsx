@@ -14,7 +14,6 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import { Image } from 'react-native';
 
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import {
   getFeeling,
   type AccentToken,
@@ -67,10 +66,14 @@ export default function FeelingDetail() {
   return (
     <Screen
       scroll
-      header={<DailyFlowHeader wordmark />}
+      insetTop={false}
       sticky={
-        <View className="items-center">
-          <Button onPress={handleContinue} loading={updateSession.isPending}>
+        <View className="w-full items-center">
+          <Button
+            onPress={handleContinue}
+            loading={updateSession.isPending}
+            fullWidth
+          >
             Continue
           </Button>
           {feeling.ctaSubtitle ? (

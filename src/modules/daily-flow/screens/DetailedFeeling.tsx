@@ -9,7 +9,6 @@ import { EMOTIONS } from '@/modules/micro-challenges/data/emotions';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import {
   useActiveDailyFlowSession,
   useUpdateDailyFlowSession,
@@ -33,7 +32,7 @@ export default function DetailedFeeling() {
   };
 
   return (
-    <Screen header={<DailyFlowHeader wordmark />} className="">
+    <Screen insetTop={false} className="">
       <View className="px-6">
         <View className="flex-row items-end justify-between">
           <View className="flex-1">

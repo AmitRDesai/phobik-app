@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/Button';
 import { Image } from 'react-native';
 
 import { CircularTappingPoint } from '../components/CircularTappingPoint';
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { EFTPointCard } from '../components/EFTPointCard';
 import { EFT_POINTS } from '../data/eftPoints';
 import { getFeeling } from '../data/feelings';
@@ -43,7 +42,7 @@ export default function EFTTOHFocus() {
   return (
     <Screen
       scroll
-      header={<DailyFlowHeader title="EFT Tapping Guide" />}
+      insetTop={false}
       sticky={
         <Button onPress={handleContinue} loading={updateSession.isPending}>
           Begin Tapping

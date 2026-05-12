@@ -1,8 +1,9 @@
-import { View } from '@/components/themed/View';
+import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { uuid } from '@/lib/crypto';
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
-import { useRouter } from 'expo-router';
+import { CommonActions } from '@react-navigation/native';
+import { useNavigation, useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 
 import {
@@ -10,55 +11,46 @@ import {
   isTodayLocal,
   resolveStepRoute,
 } from '../data/flow-navigation';
-import type { FlowStep } from '../data/types';
+import { useActiveDailyFlowSession } from '../hooks/useDailyFlowSession';
 
-type AddOns = { eft: boolean; bilateral: boolean };
+// Strip the `/daily-flow/` prefix — the nested Stack's route name is the
+// file basename (e.g. `intro`, `feeling-detail`).
+function toRouteName(pathname: string): string {
+  return pathname.replace(/^\/daily-flow\//, '');
+}
 
 export default function ResumeDispatcher() {
   const router = useRouter();
+  const navigation = useNavigation();
   const userId = useUserId();
+  const { session, isLoading } = useActiveDailyFlowSession();
   const dispatched = useRef(false);
 
   useEffect(() => {
-    if (!userId || dispatched.current) return;
+    if (!userId || isLoading || dispatched.current) return;
     dispatched.current = true;
 
     (async () => {
       try {
-        const rows = await db
-          .selectFrom('daily_flow_session')
-          .selectAll()
-          .where('user_id', '=', userId)
-          .where('status', '=', 'in_progress')
-          .orderBy('started_at', 'desc')
-          .limit(1)
-          .execute();
-
-        const session = rows[0] as
-          | {
-              id: string;
-              current_step: FlowStep;
-              started_at: string;
-              feeling: string | null;
-              add_ons: string | null;
-            }
-          | undefined;
-
-        if (session && isTodayLocal(session.started_at)) {
-          const addOns: AddOns = session.add_ons
-            ? (JSON.parse(session.add_ons) as AddOns)
-            : { eft: false, bilateral: false };
-          const path = buildStepPath(session.current_step, addOns);
-
-          const [first, ...rest] = path;
-          if (!first) {
-            router.replace('/daily-flow/intro');
-            return;
-          }
-          router.replace(resolveStepRoute(first, session.feeling) as never);
-          for (const step of rest) {
-            router.push(resolveStepRoute(step, session.feeling) as never);
-          }
+        if (session && isTodayLocal(session.startedAt)) {
+          const path = buildStepPath(session.currentStep, session.addOns);
+          // Atomic stack reset — no per-step push animation, and the
+          // resulting back-stack matches the user's forward path so
+          // `router.back()` from the layout's BackButton pops with the
+          // native pop animation.
+          const routes = path.map((step) => {
+            const { pathname, params } = resolveStepRoute(
+              step,
+              session.feeling,
+            );
+            return { name: toRouteName(pathname), params };
+          });
+          navigation.dispatch(
+            CommonActions.reset({
+              index: routes.length - 1,
+              routes,
+            }),
+          );
           return;
         }
 
@@ -95,7 +87,7 @@ export default function ResumeDispatcher() {
         router.replace('/daily-flow/intro');
       }
     })();
-  }, [userId, router]);
+  }, [userId, isLoading, session, router, navigation]);
 
-  return <View className="flex-1 bg-surface" />;
+  return <LoadingScreen />;
 }

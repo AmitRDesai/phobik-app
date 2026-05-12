@@ -18,7 +18,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { exitDailyFlow } from '../data/flow-navigation';
 import type { ReflectionAnswer } from '../data/types';
 import {
@@ -81,13 +80,7 @@ export default function Reflection() {
   return (
     <Screen
       scroll
-      header={
-        <DailyFlowHeader
-          wordmark
-          showBack={false}
-          onClose={() => exitDailyFlow(router)}
-        />
-      }
+      insetTop={false}
       sticky={
         <Button
           onPress={handleFinish}

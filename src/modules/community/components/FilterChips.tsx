@@ -1,10 +1,9 @@
-import { Text } from '@/components/themed/Text';
-import { colors, withAlpha } from '@/constants/colors';
-import { clsx } from 'clsx';
-import { Pressable, ScrollView } from 'react-native';
+import { ChipSelect } from '@/components/ui/ChipSelect';
+
+const ALL = 'all';
 
 const CIRCLES = [
-  { label: 'All Stories', value: undefined },
+  { label: 'All Stories', value: ALL },
   { label: '18-24', value: '18-24' },
   { label: '25-34', value: '25-34' },
   { label: '35-44', value: '35-44' },
@@ -19,44 +18,13 @@ interface FilterChipsProps {
 
 export function FilterChips({ selected, onSelect }: FilterChipsProps) {
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      className="-mx-4"
-      contentContainerClassName="gap-2 px-4"
-    >
-      {CIRCLES.map((circle) => {
-        const isActive = selected === circle.value;
-        return (
-          <Pressable
-            key={circle.label}
-            onPress={() => onSelect(circle.value)}
-            className={clsx(
-              'h-9 items-center justify-center rounded-full px-5',
-              isActive
-                ? 'bg-primary-pink'
-                : 'border border-primary-pink/10 bg-surface-elevated',
-            )}
-            style={
-              isActive
-                ? {
-                    boxShadow: `0px 2px 8px ${withAlpha(colors.gradient.magenta, 0.3)}`,
-                  }
-                : undefined
-            }
-          >
-            <Text
-              size="sm"
-              className={clsx(
-                'font-semibold',
-                !isActive && 'text-foreground/80',
-              )}
-            >
-              {circle.label}
-            </Text>
-          </Pressable>
-        );
-      })}
-    </ScrollView>
+    <ChipSelect
+      options={[...CIRCLES]}
+      value={[selected ?? ALL]}
+      onChange={(next) => onSelect(next[0] === ALL ? undefined : next[0])}
+      multi={false}
+      layout="scroll"
+      variant="gradient"
+    />
   );
 }

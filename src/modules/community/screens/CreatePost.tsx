@@ -1,6 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
+import { ChipSelect } from '@/components/ui/ChipSelect';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
@@ -11,7 +12,6 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { File as ExpoFile } from 'expo-file-system';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { clsx } from 'clsx';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Image, Pressable, ScrollView } from 'react-native';
@@ -149,7 +149,7 @@ export default function CreatePost() {
           >
             {imageUris.map((uri, index) => (
               <View key={uri} className="relative mr-1">
-                <View className="h-24 w-24 overflow-hidden rounded-2xl">
+                <View className="size-24 overflow-hidden rounded-2xl">
                   <Image
                     source={{ uri }}
                     className="h-full w-full"
@@ -158,7 +158,7 @@ export default function CreatePost() {
                 </View>
                 <Pressable
                   onPress={() => handleRemoveImage(index)}
-                  className="absolute -right-2 -top-2 z-10 h-6 w-6 items-center justify-center rounded-full bg-red-500"
+                  className="absolute -right-2 -top-2 z-10 size-6 items-center justify-center rounded-full bg-red-500"
                 >
                   <MaterialIcons name="close" size={14} color="white" />
                 </Pressable>
@@ -173,36 +173,12 @@ export default function CreatePost() {
         <Text size="sm" weight="bold" className="px-1">
           Your Circle
         </Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          className="-mx-6"
-          contentContainerClassName="gap-3 px-6"
-        >
-          {CIRCLES.map((c) => {
-            const isActive = circle === c;
-            return (
-              <Pressable
-                key={c}
-                onPress={() => setCircle(isActive ? undefined : c)}
-                className={clsx(
-                  'rounded-full px-4 py-2',
-                  isActive
-                    ? 'border border-primary-pink bg-primary-pink/10'
-                    : 'border border-foreground/10 bg-foreground/[0.04]',
-                )}
-              >
-                <Text
-                  size="xs"
-                  tone={isActive ? 'primary' : 'secondary'}
-                  className={clsx('font-medium', isActive && 'font-bold')}
-                >
-                  {c}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
+        <ChipSelect
+          options={CIRCLES.map((c) => ({ label: c, value: c }))}
+          value={circle ? [circle] : []}
+          onChange={(next) => setCircle(next[0] as Circle | undefined)}
+          multi={false}
+        />
       </View>
 
       {/* Post Anonymously */}

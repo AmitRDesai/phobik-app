@@ -5,7 +5,8 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
 import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { Screen } from '@/components/ui/Screen';
-import { accentFor, colors } from '@/constants/colors';
+import { TextField } from '@/components/ui/TextField';
+import { accentFor, colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -16,7 +17,6 @@ import { ActivityIndicator, FlatList, RefreshControl } from 'react-native';
 import { CommunityPrinciples } from '../components/CommunityPrinciples';
 import { FeedCard } from '../components/FeedCard';
 import { FilterChips } from '../components/FilterChips';
-import { SearchBar } from '../components/SearchBar';
 import { useCommunityMember } from '../hooks/useCommunity';
 import { useCommunityPosts } from '../hooks/useCommunityFeed';
 import {
@@ -77,6 +77,7 @@ function JoinCommunityView() {
 }
 
 function CommunityFeed() {
+  const scheme = useScheme();
   const router = useRouter();
   const [search, setSearch] = useAtom(communitySearchAtom);
   const [circle, setCircle] = useAtom(communityCircleFilterAtom);
@@ -141,7 +142,19 @@ function CommunityFeed() {
           <Text size="h3" align="center" weight="bold">
             Courage Wall
           </Text>
-          <SearchBar value={search} onChangeText={handleSearchChange} />
+          <TextField
+            value={search}
+            onChangeText={handleSearchChange}
+            placeholder="Find inspiration…"
+            size="compact"
+            icon={
+              <MaterialIcons
+                name="search"
+                size={22}
+                color={foregroundFor(scheme, 0.5)}
+              />
+            }
+          />
           <FilterChips selected={circle} onSelect={setCircle} />
           <NetworkBanner message="You're offline. Posts will load when you reconnect." />
         </View>

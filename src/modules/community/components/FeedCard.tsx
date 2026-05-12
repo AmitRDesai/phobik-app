@@ -2,11 +2,10 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
+import { ChipSelect } from '@/components/ui/ChipSelect';
 import { ImageViewer } from '@/components/ui/ImageViewer';
 import { UserAvatar } from '@/components/ui/UserAvatar';
-import { colors, withAlpha } from '@/constants/colors';
 import { formatCount } from '@/modules/practices/lib/format';
-import { clsx } from 'clsx';
 import { useState } from 'react';
 import { Image, Pressable, ScrollView } from 'react-native';
 import { useToggleReaction } from '../hooks/useCommunityFeed';
@@ -137,45 +136,28 @@ export function FeedCard({
       )}
 
       {/* Reactions */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        className="-mx-5 mt-4"
-        contentContainerClassName="gap-2 px-5"
-      >
-        {REACTIONS.map((reaction) => {
-          const isActive = userReactions.includes(reaction.type);
-          const reactionCount = reactions[reaction.type] ?? 0;
-
-          return (
-            <Pressable
-              key={reaction.type}
-              onPress={() => handleReaction(reaction.type)}
-              className={clsx(
-                'flex-row items-center rounded-full px-4 py-2',
-                isActive
-                  ? 'bg-primary-pink'
-                  : 'border border-primary-pink/10 bg-surface-elevated',
-              )}
-              style={
-                isActive
-                  ? {
-                      boxShadow: `0px 2px 8px ${withAlpha(colors.gradient.magenta, 0.3)}`,
-                    }
-                  : undefined
-              }
-            >
-              <Text
-                size="xs"
-                className={clsx('font-bold', !isActive && 'text-foreground/80')}
-              >
-                {reaction.emoji} {reaction.label}
-                {reactionCount > 0 ? ` ${formatCount(reactionCount)}` : ''}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
+      <View className="-mx-5 mt-4">
+        <ChipSelect
+          options={REACTIONS.map((r) => {
+            const count = reactions[r.type] ?? 0;
+            return {
+              value: r.type,
+              label: count > 0 ? `${r.label} ${formatCount(count)}` : r.label,
+              icon: <Text>{r.emoji}</Text>,
+            };
+          })}
+          value={userReactions}
+          onChange={(next) => {
+            const toggled =
+              next.find((t) => !userReactions.includes(t)) ??
+              userReactions.find((t) => !next.includes(t));
+            if (toggled) handleReaction(toggled);
+          }}
+          layout="scroll"
+          variant="gradient"
+          className="px-5"
+        />
+      </View>
     </Card>
   );
 }

@@ -11,7 +11,6 @@ import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { TimelineConnector } from '../components/TimelineConnector';
 import {
   useActiveDailyFlowSession,
@@ -77,10 +76,14 @@ export default function Intro() {
   return (
     <Screen
       scroll
-      header={<DailyFlowHeader wordmark showClose={false} />}
+      insetTop={false}
       sticky={
-        <View className="items-center">
-          <Button onPress={handleContinue} loading={updateSession.isPending}>
+        <View className="w-full items-center">
+          <Button
+            onPress={handleContinue}
+            loading={updateSession.isPending}
+            fullWidth
+          >
             Continue
           </Button>
           <Text

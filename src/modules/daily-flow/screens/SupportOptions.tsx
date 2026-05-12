@@ -9,7 +9,6 @@ import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { SupportOptionCard } from '../components/SupportOptionCard';
 import { SUPPORT_OPTIONS } from '../data/supportOptions';
 import type { SupportOptionId } from '../data/types';
@@ -45,10 +44,14 @@ export default function SupportOptions() {
   return (
     <Screen
       scroll
-      header={<DailyFlowHeader wordmark />}
+      insetTop={false}
       sticky={
-        <View className="items-center">
-          <Button onPress={handleContinue} loading={updateSession.isPending}>
+        <View className="w-full items-center">
+          <Button
+            onPress={handleContinue}
+            loading={updateSession.isPending}
+            fullWidth
+          >
             Start My Shift
           </Button>
           <Text

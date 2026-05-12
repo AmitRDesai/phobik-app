@@ -8,7 +8,6 @@ import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import { Image } from 'react-native';
 
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { EFTPointCard } from '../components/EFTPointCard';
 import { EFT_POINTS } from '../data/eftPoints';
 import {
@@ -34,7 +33,7 @@ export default function EFTGuide() {
   return (
     <Screen
       scroll
-      header={<DailyFlowHeader title="EFT Tapping Guide" />}
+      insetTop={false}
       sticky={
         <Button onPress={handleContinue} loading={updateSession.isPending}>
           Continue

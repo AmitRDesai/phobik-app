@@ -1,12 +1,1 @@
-import { Stack } from 'expo-router';
-
-export default function DailyFlowLayout() {
-  return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: { backgroundColor: 'transparent' },
-      }}
-    />
-  );
-}
+export { default } from '@/modules/daily-flow/screens/Layout';

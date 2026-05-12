@@ -11,7 +11,6 @@ import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
 
-import { DailyFlowHeader } from '../components/DailyFlowHeader';
 import { PlayerOrb } from '../components/PlayerOrb';
 import { getSupportOption } from '../data/supportOptions';
 import type { FlowStep } from '../data/types';
@@ -76,7 +75,7 @@ export default function Player() {
   };
 
   return (
-    <Screen header={<DailyFlowHeader wordmark />} className="">
+    <Screen insetTop={false} className="">
       <View className="flex-1 items-center justify-center px-6">
         <PlayerOrb cue={BREATH_CUES[breathIndex] ?? 'Inhale'} />
 
