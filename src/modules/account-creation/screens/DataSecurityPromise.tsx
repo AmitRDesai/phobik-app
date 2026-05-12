@@ -5,13 +5,13 @@ import { BackButton } from '@/components/ui/BackButton';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
-import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
+import { StepCounter } from '../components/StepCounter';
 
 const SECURITY_POINTS = [
   {
@@ -55,15 +55,10 @@ export default function DataSecurityPromiseScreen() {
     <Screen
       variant="auth"
       scroll
+      presentation={isModal ? 'modal' : undefined}
+      insetTop={isModal ? undefined : false}
       header={
-        <Header
-          left={<BackButton icon={isModal ? 'close' : 'arrow-back'} />}
-          center={
-            !isModal ? (
-              <ProgressDots total={totalSteps} current={currentStep} />
-            ) : null
-          }
-        />
+        isModal ? <Header left={<BackButton icon="close" />} /> : undefined
       }
       sticky={
         <View className="w-full items-center">
@@ -75,20 +70,10 @@ export default function DataSecurityPromiseScreen() {
           <Button variant="ghost" size="sm" className="mb-1 mt-6">
             Download full privacy policy
           </Button>
-          {!isModal && (
-            <Text
-              size="xs"
-              treatment="caption"
-              tone="secondary"
-              className="mt-3 tracking-[0.2em]"
-              style={{ paddingRight: 2.2 }}
-            >
-              Step {currentStep} of {totalSteps}
-            </Text>
-          )}
+          {!isModal && <StepCounter current={currentStep} total={totalSteps} />}
         </View>
       }
-      className="px-8 pt-2"
+      className={isModal ? 'px-screen-x pt-2' : 'px-screen-x pt-[68px]'}
     >
       <Text
         size="xs"
@@ -113,7 +98,10 @@ export default function DataSecurityPromiseScreen() {
         <View className="absolute h-32 w-32 rounded-full border border-foreground/20" />
         <View className="h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-foreground/20">
           <LinearGradient
-            colors={[`${colors.primary.pink}33`, `${colors.accent.yellow}33`]}
+            colors={[
+              withAlpha(colors.primary.pink, 0.2),
+              withAlpha(colors.accent.yellow, 0.2),
+            ]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={{ position: 'absolute', width: '100%', height: '100%' }}

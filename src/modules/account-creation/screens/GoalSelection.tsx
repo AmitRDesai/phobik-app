@@ -1,8 +1,6 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Header } from '@/components/ui/Header';
-import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { SelectionCard } from '@/components/ui/SelectionCard';
 import { foregroundFor } from '@/constants/colors';
@@ -12,6 +10,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
 import type { ReactNode } from 'react';
+import { StepCounter } from '../components/StepCounter';
 
 type IconRenderProps = { size: number; color: string };
 
@@ -84,11 +83,7 @@ export default function GoalSelectionScreen() {
     <Screen
       variant="auth"
       scroll
-      header={
-        <Header
-          center={<ProgressDots total={totalSteps} current={currentStep} />}
-        />
-      }
+      insetTop={false}
       sticky={
         <View className="w-full items-center">
           <Button
@@ -99,18 +94,10 @@ export default function GoalSelectionScreen() {
           >
             Continue
           </Button>
-          <Text
-            size="xs"
-            treatment="caption"
-            tone="secondary"
-            className="mt-3 tracking-[0.2em]"
-            style={{ paddingRight: 2.2 }}
-          >
-            Step {currentStep} of {totalSteps}
-          </Text>
+          <StepCounter current={currentStep} total={totalSteps} />
         </View>
       }
-      className="px-8 pt-2"
+      className="px-screen-x pt-[68px]"
     >
       <Text size="h1" align="center" className="tracking-tight">
         What brings you here?

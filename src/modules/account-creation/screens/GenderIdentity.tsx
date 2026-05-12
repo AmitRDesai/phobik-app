@@ -1,8 +1,6 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Header } from '@/components/ui/Header';
-import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { SelectionCard } from '@/components/ui/SelectionCard';
 import { colors } from '@/constants/colors';
@@ -13,6 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { router, usePathname } from 'expo-router';
 import { useAtom } from 'jotai';
+import { StepCounter } from '../components/StepCounter';
 
 const GENDER_OPTIONS: {
   value: GenderIdentity;
@@ -44,11 +43,7 @@ export default function GenderIdentityScreen() {
     <Screen
       variant="auth"
       scroll
-      header={
-        <Header
-          center={<ProgressDots total={totalSteps} current={currentStep} />}
-        />
-      }
+      insetTop={false}
       sticky={
         <View className="w-full items-center">
           <Button
@@ -59,22 +54,14 @@ export default function GenderIdentityScreen() {
           >
             Continue
           </Button>
-          <Text
-            size="xs"
-            treatment="caption"
-            tone="secondary"
-            className="mt-3 tracking-[0.2em]"
-            style={{ paddingRight: 2.2 }}
-          >
-            Step {currentStep} of {totalSteps}
-          </Text>
+          <StepCounter current={currentStep} total={totalSteps} />
           <Text size="sm" tone="secondary" align="center" className="mt-3">
             PHOBIK values your privacy. Your data is encrypted and used only to
             enhance your experience.
           </Text>
         </View>
       }
-      className="px-8 pt-2"
+      className="px-screen-x pt-[68px]"
     >
       <Text size="h1" align="center" className="tracking-tight">
         How do you identify?

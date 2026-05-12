@@ -4,7 +4,6 @@ import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
-import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { useSaveProfile } from '@/hooks/auth/useProfile';
@@ -16,6 +15,7 @@ import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { useState } from 'react';
+import { StepCounter } from '../components/StepCounter';
 
 export default function TermsOfServiceScreen() {
   const { modal } = useLocalSearchParams<{ modal?: string }>();
@@ -66,15 +66,10 @@ export default function TermsOfServiceScreen() {
     <Screen
       variant="auth"
       scroll
+      presentation={isModal ? 'modal' : undefined}
+      insetTop={isModal ? undefined : false}
       header={
-        <Header
-          left={<BackButton icon={isModal ? 'close' : 'arrow-back'} />}
-          center={
-            !isModal ? (
-              <ProgressDots total={totalSteps} current={currentStep} />
-            ) : null
-          }
-        />
+        isModal ? <Header left={<BackButton icon="close" />} /> : undefined
       }
       sticky={
         <View className="w-full items-center">
@@ -106,20 +101,12 @@ export default function TermsOfServiceScreen() {
               >
                 Decline
               </Button>
-              <Text
-                size="xs"
-                treatment="caption"
-                tone="secondary"
-                className="mt-3 tracking-[0.2em]"
-                style={{ paddingRight: 2.2 }}
-              >
-                Step {currentStep} of {totalSteps}
-              </Text>
+              <StepCounter current={currentStep} total={totalSteps} />
             </>
           )}
         </View>
       }
-      className="px-8"
+      className={isModal ? 'px-screen-x' : 'px-screen-x pt-[68px]'}
     >
       <View className="mb-4 items-center">
         <LinearGradient

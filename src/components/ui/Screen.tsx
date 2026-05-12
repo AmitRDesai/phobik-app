@@ -9,6 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useSegments } from 'expo-router';
 import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import {
+  Platform,
   ScrollView,
   StyleSheet,
   View,
@@ -74,7 +75,7 @@ export function Screen({
   header,
   sticky,
   fade,
-  insetTop = true,
+  insetTop,
   insetBottom,
   presentation,
   className,
@@ -87,11 +88,21 @@ export function Screen({
   const isModal = presentation === 'modal';
 
   const resolvedInsetBottom = insetBottom ?? (!inTabs && !isModal);
+  // iOS modal sheets render below the status bar with their own drag-handle
+  // chrome — applying the status-bar inset there double-pads the top.
+  // Android `presentation: 'modal'` is full-screen-ish, so the inset is
+  // still needed there.
+  const isIosModal = isModal && Platform.OS === 'ios';
+  const resolvedInsetTop = insetTop ?? !isIosModal;
   const showFade = fade ?? scroll;
 
   const scheme = useScheme();
   const v = variantConfig[variant][scheme];
   const insets = useSafeAreaInsets();
+  // Topmost reservation: full safe-area inset when needed, or a small
+  // breathing-room cushion for iOS modal sheets (so the close button
+  // doesn't hug the card's top edge). Zero otherwise.
+  const topPadding = resolvedInsetTop ? insets.top : isIosModal ? 12 : 0;
 
   // Sticky height is measured at runtime so scroll content reserves the
   // exact amount needed — no fixed estimate, no last-row clipping.
@@ -131,9 +142,9 @@ export function Screen({
       styles.root,
       { backgroundColor: v.bgHex },
       v.vars,
-      insetTop && { paddingTop: insets.top },
+      topPadding > 0 && { paddingTop: topPadding },
     ],
-    [v.bgHex, v.vars, insetTop, insets.top],
+    [v.bgHex, v.vars, topPadding],
   );
 
   const fadeStyle = useMemo(

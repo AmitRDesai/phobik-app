@@ -3,11 +3,12 @@ import { MandalaIcon } from '@/components/icons/MandalaIcon';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
+import { InlineLink } from '@/components/ui/InlineLink';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { warmServer } from '@/lib/server-warmup';
 import { Ionicons } from '@expo/vector-icons';
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 import { useEffect } from 'react';
 
 export default function WelcomeScreen() {
@@ -18,6 +19,7 @@ export default function WelcomeScreen() {
   return (
     <Screen
       variant="auth"
+      insetTop={false}
       sticky={
         <View className="w-full max-w-sm gap-6 self-center">
           <View className="items-center">
@@ -26,20 +28,18 @@ export default function WelcomeScreen() {
           <Button
             onPress={() => router.push('/account-creation/philosophy')}
             icon={<Ionicons name="chevron-forward" size={24} color="white" />}
+            fullWidth
           >
-            Next
+            Get Started
           </Button>
-          <Link href="/auth/sign-in" replace className="mt-2 py-2">
-            <Text size="sm" tone="secondary" align="center">
-              Already have an account?{' '}
-              <Text size="sm" tone="accent" weight="bold">
-                Sign In
-              </Text>
-            </Text>
-          </Link>
+          <InlineLink
+            prefix="Already have an account?"
+            action="Sign In"
+            onPress={() => router.replace('/auth/sign-in')}
+          />
         </View>
       }
-      className="flex-1 items-center justify-center px-8"
+      className="flex-1 items-center justify-center px-screen-x"
     >
       <View className="items-center">
         <View className="mb-12">
