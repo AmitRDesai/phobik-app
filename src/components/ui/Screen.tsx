@@ -25,6 +25,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export interface ScreenProps {
   /** Background variant. Default: 'default'. */
   variant?: Variant;
+  /**
+   * Skip painting the root background so the parent (a wrapping screen,
+   * tab, or stack chrome) shows through. The variant's bgHex is still
+   * used by the scroll fade and sticky-CTA seam so scrolled content
+   * doesn't bleed through where it would clash with the CTA.
+   */
+  transparent?: boolean;
   /** Wrap body in a ScrollView. Default: false. */
   scroll?: boolean;
   /** Wrap body in KeyboardAvoidingView. Default: false. */
@@ -70,6 +77,7 @@ const DEFAULT_BODY_PADDING = 'px-screen-x pt-screen-y';
  */
 export function Screen({
   variant = 'default',
+  transparent = false,
   scroll = false,
   keyboard = false,
   header,
@@ -94,10 +102,10 @@ export function Screen({
   // still needed there.
   const isIosModal = isModal && Platform.OS === 'ios';
   const resolvedInsetTop = insetTop ?? !isIosModal;
-  const showFade = fade ?? scroll;
 
   const scheme = useScheme();
   const v = variantConfig[variant][scheme];
+  const showFade = fade ?? scroll;
   const insets = useSafeAreaInsets();
   // Topmost reservation: full safe-area inset when needed, or a small
   // breathing-room cushion for iOS modal sheets (so the close button
@@ -140,11 +148,11 @@ export function Screen({
   const rootStyle = useMemo(
     () => [
       styles.root,
-      { backgroundColor: v.bgHex },
+      !transparent && { backgroundColor: v.bgHex },
       v.vars,
       topPadding > 0 && { paddingTop: topPadding },
     ],
-    [v.bgHex, v.vars, topPadding],
+    [transparent, v.bgHex, v.vars, topPadding],
   );
 
   const fadeStyle = useMemo(
@@ -156,7 +164,8 @@ export function Screen({
     () => ({
       paddingBottom: (resolvedInsetBottom ? insets.bottom : 0) || 16,
       // Solid bg matching the variant so scrolled content doesn't bleed
-      // through the translucent sticky CTA at the seam.
+      // through the translucent sticky CTA at the seam — used even when
+      // the root is `transparent`, so the CTA is always readable.
       backgroundColor: v.bgHex,
     }),
     [resolvedInsetBottom, insets.bottom, v.bgHex],

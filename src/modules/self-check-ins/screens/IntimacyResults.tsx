@@ -1,17 +1,17 @@
-import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { useScheme } from '@/hooks/useTheme';
 import {
   accentFor,
   colors,
   foregroundFor,
   withAlpha,
 } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
@@ -236,6 +236,7 @@ export default function IntimacyResults() {
   return (
     <Screen
       scroll
+      insetTop={false}
       header={
         <Header
           left={<BackButton onPress={() => router.back()} />}

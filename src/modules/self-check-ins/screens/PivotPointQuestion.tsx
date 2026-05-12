@@ -1,19 +1,12 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { BackButton } from '@/components/ui/BackButton';
-import { Header } from '@/components/ui/Header';
-import { IconChip } from '@/components/ui/IconChip';
-import { Screen } from '@/components/ui/Screen';
-import { dialog } from '@/utils/dialog';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { useAtom } from 'jotai';
-import { useState } from 'react';
-import { EaseView } from 'react-native-ease';
-
-import { QuestionProgress } from '../components/QuestionProgress';
 import { Rating } from '@/components/ui/Rating';
+import { Screen } from '@/components/ui/Screen';
+import { CommonActions } from '@react-navigation/native';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
+import { useAtom } from 'jotai';
+
 import {
   PIVOT_QUESTIONS,
   PIVOT_RATING_LABELS,
@@ -25,56 +18,31 @@ import {
   useInProgressAssessment,
   useSaveAnswer,
 } from '../hooks/useSelfCheckIn';
-import {
-  pivotPointAnswersAtom,
-  pivotPointCurrentQuestionAtom,
-} from '../store/self-check-ins';
+import { pivotPointAnswersAtom } from '../store/self-check-ins';
 
 export default function PivotPointQuestion() {
   const router = useRouter();
-  const [currentIndex, setCurrentIndex] = useAtom(
-    pivotPointCurrentQuestionAtom,
+  const navigation = useNavigation();
+  const { index } = useLocalSearchParams<{ index?: string }>();
+  const currentIndex = Math.min(
+    TOTAL_PIVOT_QUESTIONS - 1,
+    Math.max(0, Number(index) || 0),
   );
   const [answers, setAnswers] = useAtom(pivotPointAnswersAtom);
-
   const saveAnswer = useSaveAnswer();
   const completeAssessment = useCompleteAssessment();
   const inProgress = useInProgressAssessment('pivot-point');
 
-  const [direction, setDirection] = useState<'forward' | 'back'>('forward');
   const question = PIVOT_QUESTIONS[currentIndex];
   const section = PIVOT_SECTIONS.find((s) => s.id === question.sectionId);
   const selectedValue = answers[question.id] ?? null;
   const isLastQuestion = currentIndex === TOTAL_PIVOT_QUESTIONS - 1;
 
-  const handleClose = async () => {
-    const result = await dialog.info({
-      title: 'Quit Assessment?',
-      message: 'Your progress will be saved.',
-      buttons: [
-        { label: 'Quit', value: 'quit', variant: 'primary' },
-        { label: 'Continue', value: 'continue', variant: 'secondary' },
-      ],
-    });
-    if (result === 'quit') {
-      router.back();
-    }
-  };
-
-  const handleBack = async () => {
-    if (currentIndex > 0) {
-      setDirection('back');
-      setCurrentIndex((i) => i - 1);
-      return;
-    }
-    await handleClose();
-  };
-
   const handleRatingChange = (value: number) => {
     setAnswers({ ...answers, [question.id]: value });
   };
 
-  const handleNext = async () => {
+  const handleNext = () => {
     if (selectedValue === null) return;
 
     if (inProgress) {
@@ -91,11 +59,19 @@ export default function PivotPointQuestion() {
       if (inProgress) {
         completeAssessment.mutate({ id: inProgress.id });
       }
-      router.replace('/practices/self-check-ins/pivot-point-results');
-    } else {
-      setDirection('forward');
-      setCurrentIndex((i) => i + 1);
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: 'index' }, { name: 'pivot-point-results' }],
+        }),
+      );
+      return;
     }
+
+    router.push({
+      pathname: '/practices/self-check-ins/pivot-point-question',
+      params: { index: String(currentIndex + 1) },
+    });
   };
 
   const ratingLabel =
@@ -106,28 +82,8 @@ export default function PivotPointQuestion() {
   return (
     <Screen
       scroll
-      header={
-        <Header
-          left={<BackButton onPress={handleBack} />}
-          center={
-            <Text size="lg" weight="bold">
-              The Pivot Point
-            </Text>
-          }
-          right={
-            <IconChip
-              size="md"
-              shape="circle"
-              onPress={handleClose}
-              accessibilityLabel="Quit assessment"
-            >
-              {(color) => (
-                <MaterialIcons name="close" size={20} color={color} />
-              )}
-            </IconChip>
-          }
-        />
-      }
+      transparent
+      insetTop={false}
       sticky={
         <Button onPress={handleNext} disabled={selectedValue === null}>
           {isLastQuestion ? 'See Results' : 'Next Question'}
@@ -135,68 +91,51 @@ export default function PivotPointQuestion() {
       }
       className="px-6"
     >
-      <QuestionProgress
-        current={currentIndex + 1}
-        total={TOTAL_PIVOT_QUESTIONS}
-        showPercentage
-      />
-
-      <EaseView
-        key={currentIndex}
-        className="flex-1"
-        initialAnimate={{
-          opacity: 0,
-          translateX: direction === 'forward' ? 40 : -40,
-        }}
-        animate={{ opacity: 1, translateX: 0 }}
-        transition={{ type: 'timing', duration: 300 }}
-      >
-        {section && (
-          <View className="mb-4">
-            <Text
-              size="xs"
-              treatment="caption"
-              tone="accent"
-              weight="bold"
-              className="tracking-widest"
-            >
-              Section {section.id}: {section.title}
-            </Text>
-            <Text size="sm" tone="secondary" className="mt-1">
-              {section.subtitle}
-            </Text>
-          </View>
-        )}
-
-        <Text size="h1" className="mb-10 leading-tight">
-          {question.text}
-        </Text>
-
-        <Rating
-          min={1}
-          max={5}
-          value={selectedValue}
-          onChange={handleRatingChange}
-          startLabel="Not like me"
-          endLabel="Very much like me"
-        />
-
-        <Text
-          size="sm"
-          align="center"
-          weight="medium"
-          className="mt-4 text-foreground/60"
-        >
-          {ratingLabel || ' '}
-        </Text>
-
-        <View className="mt-12 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-6">
-          <Text size="sm" italic tone="secondary" className="leading-relaxed">
-            &ldquo;The Pivot Point is that split second between a stimulus and
-            your response where your freedom lies.&rdquo;
+      {section && (
+        <View className="mb-4">
+          <Text
+            size="xs"
+            treatment="caption"
+            tone="accent"
+            weight="bold"
+            className="tracking-widest"
+          >
+            Section {section.id}: {section.title}
+          </Text>
+          <Text size="sm" tone="secondary" className="mt-1">
+            {section.subtitle}
           </Text>
         </View>
-      </EaseView>
+      )}
+
+      <Text size="h1" className="mb-10 leading-tight">
+        {question.text}
+      </Text>
+
+      <Rating
+        min={1}
+        max={5}
+        value={selectedValue}
+        onChange={handleRatingChange}
+        startLabel="Not like me"
+        endLabel="Very much like me"
+      />
+
+      <Text
+        size="sm"
+        align="center"
+        weight="medium"
+        className="mt-4 text-foreground/60"
+      >
+        {ratingLabel || ' '}
+      </Text>
+
+      <View className="mt-12 rounded-2xl border border-foreground/5 bg-foreground/[0.03] p-6">
+        <Text size="sm" italic tone="secondary" className="leading-relaxed">
+          &ldquo;The Pivot Point is that split second between a stimulus and
+          your response where your freedom lies.&rdquo;
+        </Text>
+      </View>
     </Screen>
   );
 }

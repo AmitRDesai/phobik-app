@@ -10,8 +10,6 @@ export const intimacyAnswersAtom = atomWithStorage<Record<number, number>>(
   storage,
 );
 
-export const intimacyCurrentQuestionAtom = atom<number>(0);
-
 // --- The Pivot Point ---
 export const pivotPointAnswersAtom = atomWithStorage<Record<number, number>>(
   'self-check-ins:pivot-point-answers',
@@ -19,17 +17,13 @@ export const pivotPointAnswersAtom = atomWithStorage<Record<number, number>>(
   storage,
 );
 
-export const pivotPointCurrentQuestionAtom = atom<number>(0);
-
 // --- Reset actions ---
 export const resetIntimacyAtom = atom(null, (_get, set) => {
   set(intimacyAnswersAtom, {});
-  set(intimacyCurrentQuestionAtom, 0);
 });
 
 export const resetPivotPointAtom = atom(null, (_get, set) => {
   set(pivotPointAnswersAtom, {});
-  set(pivotPointCurrentQuestionAtom, 0);
 });
 
 // --- Stress Compass ---

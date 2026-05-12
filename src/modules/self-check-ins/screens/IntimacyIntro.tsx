@@ -1,18 +1,19 @@
-import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
+import { Button } from '@/components/ui/Button';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { useScheme } from '@/hooks/useTheme';
 import {
   accentFor,
   colors,
   foregroundFor,
   withAlpha,
 } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { CommonActions } from '@react-navigation/native';
+import { useNavigation } from 'expo-router';
 import { useSetAtom } from 'jotai';
 import Svg, { Defs, Ellipse, RadialGradient, Stop } from 'react-native-svg';
 
@@ -20,10 +21,7 @@ import {
   useInProgressAssessment,
   useStartAssessment,
 } from '../hooks/useSelfCheckIn';
-import {
-  intimacyAnswersAtom,
-  intimacyCurrentQuestionAtom,
-} from '../store/self-check-ins';
+import { intimacyAnswersAtom } from '../store/self-check-ins';
 
 type Instruction = {
   number: string;
@@ -50,11 +48,10 @@ const INSTRUCTIONS: Instruction[] = [
 ];
 
 export default function IntimacyIntro() {
-  const router = useRouter();
+  const navigation = useNavigation();
   const scheme = useScheme();
   const yellow = accentFor(scheme, 'yellow');
   const setAnswers = useSetAtom(intimacyAnswersAtom);
-  const setCurrentQuestion = useSetAtom(intimacyCurrentQuestionAtom);
   const startAssessment = useStartAssessment();
   const inProgress = useInProgressAssessment('intimacy');
 
@@ -74,7 +71,7 @@ export default function IntimacyIntro() {
   const handleBeginQuiz = async () => {
     const result = await startAssessment.mutateAsync({ type: 'intimacy' });
 
-    // Restore state from API response
+    // Restore answers from API response
     const answers: Record<number, number> = {};
     if (result.answers) {
       for (const [key, value] of Object.entries(
@@ -84,9 +81,21 @@ export default function IntimacyIntro() {
       }
     }
     setAnswers(answers);
-    setCurrentQuestion(result.currentQuestion);
 
-    router.replace('/practices/self-check-ins/intimacy-question');
+    // Build the back-stack [Q0, …, QcurrentIndex] (no hub — intimacy is
+    // launched from Relationship-Based Regulation, not the assessment
+    // hub, so back from Q0 pops out of this nested stack back to the
+    // pillar screen).
+    const currentIdx = Number(result.currentQuestion) || 0;
+    navigation.dispatch(
+      CommonActions.reset({
+        index: currentIdx,
+        routes: Array.from({ length: currentIdx + 1 }, (_, i) => ({
+          name: 'intimacy-question',
+          params: { index: String(i) },
+        })),
+      }),
+    );
   };
 
   const isResume = !!inProgress;
@@ -94,6 +103,7 @@ export default function IntimacyIntro() {
   return (
     <Screen
       scroll
+      insetTop={false}
       header={
         <Header
           left={<BackButton />}

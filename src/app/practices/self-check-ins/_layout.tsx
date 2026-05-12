@@ -1,12 +1,1 @@
-import { Stack } from 'expo-router';
-
-export default function SelfCheckInsLayout() {
-  return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: { backgroundColor: 'transparent' },
-      }}
-    />
-  );
-}
+export { default } from '@/modules/self-check-ins/screens/Layout';

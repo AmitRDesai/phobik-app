@@ -9,24 +9,21 @@ import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { CommonActions } from '@react-navigation/native';
+import { useNavigation } from 'expo-router';
 import { useSetAtom } from 'jotai';
 
 import {
   useInProgressAssessment,
   useStartAssessment,
 } from '../hooks/useSelfCheckIn';
-import {
-  pivotPointAnswersAtom,
-  pivotPointCurrentQuestionAtom,
-} from '../store/self-check-ins';
+import { pivotPointAnswersAtom } from '../store/self-check-ins';
 
 export default function PivotPointIntro() {
-  const router = useRouter();
+  const navigation = useNavigation();
   const scheme = useScheme();
   const lockColor = foregroundFor(scheme, 0.3);
   const setAnswers = useSetAtom(pivotPointAnswersAtom);
-  const setCurrentQuestion = useSetAtom(pivotPointCurrentQuestionAtom);
   const startAssessment = useStartAssessment();
   const inProgress = useInProgressAssessment('pivot-point');
 
@@ -42,9 +39,20 @@ export default function PivotPointIntro() {
       }
     }
     setAnswers(answers);
-    setCurrentQuestion(result.currentQuestion);
 
-    router.replace('/practices/self-check-ins/pivot-point-question');
+    const currentIdx = Number(result.currentQuestion) || 0;
+    navigation.dispatch(
+      CommonActions.reset({
+        index: currentIdx + 1,
+        routes: [
+          { name: 'index' },
+          ...Array.from({ length: currentIdx + 1 }, (_, i) => ({
+            name: 'pivot-point-question',
+            params: { index: String(i) },
+          })),
+        ],
+      }),
+    );
   };
 
   const isResume = !!inProgress;
