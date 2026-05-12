@@ -148,13 +148,12 @@ export function ChipSelect<T extends string = string>({
     const pill = (
       <View
         className={clsx(
-          'flex-row items-center gap-1.5 rounded-full',
-          gradientMode ? '' : 'border',
+          'flex-row items-center gap-1.5 rounded-full border',
           SIZE_PILL[size],
         )}
         style={
           gradientMode
-            ? undefined
+            ? { borderColor: 'transparent' }
             : {
                 backgroundColor: selected
                   ? withAlpha(accent, 0.15)
