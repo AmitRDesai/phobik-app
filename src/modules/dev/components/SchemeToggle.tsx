@@ -1,47 +1,36 @@
 import { IconChip } from '@/components/ui/IconChip';
 import { foregroundFor } from '@/constants/colors';
-import { useScheme, useTheme, type ThemeMode } from '@/hooks/useTheme';
+import { useScheme, useTheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const NEXT: Record<ThemeMode, ThemeMode> = {
-  system: 'light',
-  light: 'dark',
-  dark: 'system',
-};
-
-const ICON: Record<ThemeMode, keyof typeof MaterialIcons.glyphMap> = {
-  system: 'brightness-auto',
-  light: 'light-mode',
-  dark: 'dark-mode',
-};
-
-const LABEL: Record<ThemeMode, string> = {
-  system: 'Scheme: System (tap for Light)',
-  light: 'Scheme: Light (tap for Dark)',
-  dark: 'Scheme: Dark (tap for System)',
-};
-
 /**
- * Cycling scheme toggle for the Design System catalog headers.
- * Tap cycles System → Light → Dark → System. The icon reflects the
- * current mode so the toggle is self-documenting.
+ * Scheme toggle for the Design System catalog headers — flips between
+ * Light and Dark. Icon (light-mode / dark-mode) reflects the current
+ * mode so the toggle is self-documenting.
  *
  * Dev-only — never use outside the Design System catalog. End-user
  * scheme switching lives in Settings.
  */
 export function SchemeToggle() {
-  const { mode, setMode } = useTheme();
+  const { setMode } = useTheme();
   const scheme = useScheme();
+  const isDark = scheme === 'dark';
   const iconColor = foregroundFor(scheme, 0.7);
 
   return (
     <IconChip
       size="md"
       shape="circle"
-      onPress={() => setMode(NEXT[mode])}
-      accessibilityLabel={LABEL[mode]}
+      onPress={() => setMode(isDark ? 'light' : 'dark')}
+      accessibilityLabel={
+        isDark ? 'Scheme: Dark (tap for Light)' : 'Scheme: Light (tap for Dark)'
+      }
     >
-      <MaterialIcons name={ICON[mode]} size={20} color={iconColor} />
+      <MaterialIcons
+        name={isDark ? 'dark-mode' : 'light-mode'}
+        size={20}
+        color={iconColor}
+      />
     </IconChip>
   );
 }
