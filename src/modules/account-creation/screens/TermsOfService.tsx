@@ -77,7 +77,7 @@ export default function TermsOfServiceScreen() {
         />
       }
       sticky={
-        <View className="items-center">
+        <View className="w-full items-center">
           <Button
             variant="ghost"
             size="sm"
@@ -94,7 +94,7 @@ export default function TermsOfServiceScreen() {
           </Button>
           {!isModal && (
             <>
-              <Button onPress={handleAccept} loading={isSaving}>
+              <Button onPress={handleAccept} loading={isSaving} fullWidth>
                 I Accept the Terms
               </Button>
               <Button
@@ -102,6 +102,7 @@ export default function TermsOfServiceScreen() {
                 onPress={() => router.back()}
                 disabled={isSaving}
                 className="mt-2"
+                fullWidth
               >
                 Decline
               </Button>

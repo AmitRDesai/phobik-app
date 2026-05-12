@@ -50,11 +50,12 @@ export default function GenderIdentityScreen() {
         />
       }
       sticky={
-        <View className="items-center">
+        <View className="w-full items-center">
           <Button
             onPress={() => router.push(nextRoute)}
             disabled={selectedGender === null}
             icon={<Ionicons name="arrow-forward" size={24} color="white" />}
+            fullWidth
           >
             Continue
           </Button>

@@ -90,11 +90,12 @@ export default function GoalSelectionScreen() {
         />
       }
       sticky={
-        <View className="items-center">
+        <View className="w-full items-center">
           <Button
             onPress={() => router.push(nextRoute)}
             disabled={selectedGoals.length === 0}
             icon={<Ionicons name="arrow-forward" size={24} color="white" />}
+            fullWidth
           >
             Continue
           </Button>

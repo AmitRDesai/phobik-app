@@ -40,11 +40,12 @@ export default function AgeSelectionScreen() {
         />
       }
       sticky={
-        <View className="items-center">
+        <View className="w-full items-center">
           <Button
             onPress={() => router.push(nextRoute)}
             disabled={selectedAge === null}
             icon={<Ionicons name="arrow-forward" size={24} color="white" />}
+            fullWidth
           >
             Next
           </Button>

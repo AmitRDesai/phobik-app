@@ -34,10 +34,11 @@ export default function PhilosophyScreen() {
       scroll
       header={<Header center={<ProgressDots total={7} current={2} />} />}
       sticky={
-        <View className="items-center">
+        <View className="w-full items-center">
           <Button
             onPress={() => router.push('/account-creation/age-selection')}
             icon={<Ionicons name="arrow-forward" size={24} color="white" />}
+            fullWidth
           >
             Next
           </Button>

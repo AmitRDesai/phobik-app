@@ -66,9 +66,9 @@ export default function DataSecurityPromiseScreen() {
         />
       }
       sticky={
-        <View className="items-center">
+        <View className="w-full items-center">
           {!isModal && (
-            <Button onPress={() => router.push(nextRoute)}>
+            <Button onPress={() => router.push(nextRoute)} fullWidth>
               Agree and Continue
             </Button>
           )}
