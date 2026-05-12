@@ -2,7 +2,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BiometricStatCard } from '@/components/ui/BiometricStatCard';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
@@ -14,7 +14,7 @@ export default function BiometricStatCardShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="BiometricStatCard" />}
+      header={<ShowcaseHeader title="BiometricStatCard" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

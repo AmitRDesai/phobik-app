@@ -3,7 +3,7 @@ import { View } from '@/components/themed/View';
 import { Accordion, type AccordionVariant } from '@/components/ui/Accordion';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { Switch } from '@/components/ui/Switch';
 import { colors } from '@/constants/colors';
@@ -39,7 +39,7 @@ export default function AccordionShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="Accordion" />}
+      header={<ShowcaseHeader title="Accordion" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

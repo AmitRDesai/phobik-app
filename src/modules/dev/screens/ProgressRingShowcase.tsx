@@ -3,7 +3,7 @@ import { View } from '@/components/themed/View';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { ProgressRing } from '@/components/ui/ProgressRing';
 import { Screen } from '@/components/ui/Screen';
 import { type AccentHue } from '@/constants/colors';
@@ -18,7 +18,7 @@ export default function ProgressRingShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="ProgressRing" />}
+      header={<ShowcaseHeader title="ProgressRing" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

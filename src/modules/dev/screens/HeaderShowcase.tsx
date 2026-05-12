@@ -4,6 +4,7 @@ import { BackButton } from '@/components/ui/BackButton';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -22,7 +23,7 @@ export default function HeaderShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="Header" />}
+      header={<ShowcaseHeader title="Header" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

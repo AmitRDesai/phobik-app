@@ -2,7 +2,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
 
@@ -11,7 +11,7 @@ export default function GradientTextShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="GradientText" />}
+      header={<ShowcaseHeader title="GradientText" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

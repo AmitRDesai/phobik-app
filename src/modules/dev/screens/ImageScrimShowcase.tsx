@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { ImageScrim } from '@/components/ui/ImageScrim';
 import { Screen } from '@/components/ui/Screen';
 import { Image } from 'react-native';
@@ -14,7 +14,7 @@ export default function ImageScrimShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="ImageScrim" />}
+      header={<ShowcaseHeader title="ImageScrim" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

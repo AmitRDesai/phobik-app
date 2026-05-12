@@ -3,7 +3,7 @@ import { View } from '@/components/themed/View';
 import { BackButton } from '@/components/ui/BackButton';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { IconChip } from '@/components/ui/IconChip';
 import { NotificationBadge } from '@/components/ui/NotificationBadge';
 import { Screen } from '@/components/ui/Screen';
@@ -21,7 +21,7 @@ export default function NotificationBadgeShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="NotificationBadge" />}
+      header={<ShowcaseHeader title="NotificationBadge" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

@@ -6,7 +6,7 @@ import {
   type ButtonVariant,
 } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -31,7 +31,7 @@ export default function ButtonShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="Button" />}
+      header={<ShowcaseHeader title="Button" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

@@ -3,6 +3,7 @@ import { View } from '@/components/themed/View';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
 import { useState } from 'react';
@@ -14,7 +15,7 @@ export default function ProgressDotsShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="ProgressDots" />}
+      header={<ShowcaseHeader title="ProgressDots" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

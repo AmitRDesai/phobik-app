@@ -1,17 +1,16 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Card } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { TextField } from '@/components/ui/TextField';
 import { foregroundFor } from '@/constants/colors';
-import { useScheme, useTheme, type ThemeMode } from '@/hooks/useTheme';
+import { useScheme } from '@/hooks/useTheme';
 import { SettingsMenuItem } from '@/modules/settings/components/SettingsMenuItem';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
+import { SchemeToggle } from '../components/SchemeToggle';
 
 const SECTIONS: {
   href:
@@ -327,16 +326,9 @@ const SECTIONS: {
   },
 ];
 
-const THEME_OPTIONS: { label: string; value: ThemeMode }[] = [
-  { label: 'System', value: 'system' },
-  { label: 'Light', value: 'light' },
-  { label: 'Dark', value: 'dark' },
-];
-
 export default function DesignSystemIndex() {
   const router = useRouter();
   const scheme = useScheme();
-  const { mode, setMode } = useTheme();
   const [query, setQuery] = useState('');
 
   const filtered = useMemo(() => {
@@ -353,7 +345,7 @@ export default function DesignSystemIndex() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="Design System" />}
+      header={<Header title="Design System" right={<SchemeToggle />} />}
       className="px-4"
       contentClassName="gap-4"
     >
@@ -363,18 +355,6 @@ export default function DesignSystemIndex() {
           regressions are caught visually.
         </Text>
       </View>
-
-      {/* Scheme preview — applies globally so every showcase reflects it */}
-      <Card variant="flat" className="gap-2 p-4">
-        <Text size="xs" treatment="caption" tone="tertiary">
-          Scheme preview
-        </Text>
-        <SegmentedControl
-          options={THEME_OPTIONS}
-          selected={mode}
-          onSelect={setMode}
-        />
-      </Card>
 
       <TextField
         value={query}

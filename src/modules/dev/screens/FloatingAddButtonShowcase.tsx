@@ -2,7 +2,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { FloatingAddButton } from '@/components/ui/FloatingAddButton';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { toast } from '@/utils/toast';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -13,7 +13,7 @@ export default function FloatingAddButtonShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="FloatingAddButton" />}
+      header={<ShowcaseHeader title="FloatingAddButton" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

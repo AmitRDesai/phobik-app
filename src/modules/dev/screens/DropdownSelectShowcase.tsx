@@ -5,7 +5,7 @@ import {
   DropdownSelect,
   type DropdownOption,
 } from '@/components/ui/DropdownSelect';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -125,7 +125,7 @@ export default function DropdownSelectShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="DropdownSelect" />}
+      header={<ShowcaseHeader title="DropdownSelect" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { UserAvatar, type UserAvatarSize } from '@/components/ui/UserAvatar';
 import { colors, withAlpha } from '@/constants/colors';
@@ -23,7 +23,7 @@ export default function UserAvatarShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="UserAvatar" />}
+      header={<ShowcaseHeader title="UserAvatar" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

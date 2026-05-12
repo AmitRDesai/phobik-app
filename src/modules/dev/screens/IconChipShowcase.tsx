@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import {
   IconChip,
   type IconChipShape,
@@ -44,7 +44,7 @@ export default function IconChipShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="IconChip" />}
+      header={<ShowcaseHeader title="IconChip" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

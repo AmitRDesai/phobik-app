@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import {
   Rating,
   type RatingSize,
@@ -50,7 +50,7 @@ export default function RatingShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="Rating" />}
+      header={<ShowcaseHeader title="Rating" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

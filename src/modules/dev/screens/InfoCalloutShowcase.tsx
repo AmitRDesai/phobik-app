@@ -2,7 +2,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import {
   InfoCallout,
   type InfoCalloutVariant,
@@ -29,7 +29,7 @@ export default function InfoCalloutShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="InfoCallout" />}
+      header={<ShowcaseHeader title="InfoCallout" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

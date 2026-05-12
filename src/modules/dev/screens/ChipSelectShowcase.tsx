@@ -7,7 +7,7 @@ import {
   type ChipSelectSize,
   type ChipSelectVariant,
 } from '@/components/ui/ChipSelect';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { type AccentHue } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -110,7 +110,7 @@ export default function ChipSelectShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="ChipSelect" />}
+      header={<ShowcaseHeader title="ChipSelect" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

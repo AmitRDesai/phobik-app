@@ -3,7 +3,7 @@ import { View } from '@/components/themed/View';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { EmptyState, type EmptyStateSize } from '@/components/ui/EmptyState';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { type AccentHue } from '@/constants/colors';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
@@ -23,7 +23,7 @@ export default function EmptyStateShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="EmptyState" />}
+      header={<ShowcaseHeader title="EmptyState" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

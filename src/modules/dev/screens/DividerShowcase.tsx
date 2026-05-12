@@ -2,7 +2,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { Divider } from '@/components/ui/Divider';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 
 export default function DividerShowcase() {
@@ -10,7 +10,7 @@ export default function DividerShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="Divider" />}
+      header={<ShowcaseHeader title="Divider" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

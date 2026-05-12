@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { variantConfig, type Variant } from '@/components/variant-config';
 import { withAlpha } from '@/constants/colors';
@@ -31,7 +32,7 @@ export default function ScreenShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="Screen" />}
+      header={<ShowcaseHeader title="Screen" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >
@@ -130,7 +131,7 @@ export default function ScreenShowcase() {
             {`<Screen
   variant="default"
   scroll
-  header={<Header title="Today" />}
+  header={<ShowcaseHeader title="Today" />}
   contentClassName="gap-4 pb-6"
 >
   {/* cards */}

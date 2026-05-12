@@ -5,7 +5,7 @@ import {
   type AudioPlayerVariant,
 } from '@/components/ui/AudioPlayer';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { type AccentHue } from '@/constants/colors';
 import { useEffect, useState } from 'react';
@@ -47,7 +47,7 @@ export default function AudioPlayerShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="AudioPlayer" />}
+      header={<ShowcaseHeader title="AudioPlayer" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

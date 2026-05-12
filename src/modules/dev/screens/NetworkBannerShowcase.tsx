@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { NetworkBanner } from '@/components/ui/NetworkBanner';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
@@ -17,7 +17,7 @@ export default function NetworkBannerShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="NetworkBanner" />}
+      header={<ShowcaseHeader title="NetworkBanner" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >

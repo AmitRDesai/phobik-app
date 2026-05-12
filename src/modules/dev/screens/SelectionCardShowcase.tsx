@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/ui/Header';
+import { ShowcaseHeader } from '../components/ShowcaseHeader';
 import { Screen } from '@/components/ui/Screen';
 import { SelectionCard } from '@/components/ui/SelectionCard';
 import { colors } from '@/constants/colors';
@@ -29,7 +29,7 @@ export default function SelectionCardShowcase() {
     <Screen
       variant="default"
       scroll
-      header={<Header title="SelectionCard" />}
+      header={<ShowcaseHeader title="SelectionCard" />}
       className="px-4"
       contentClassName="gap-6 pb-6"
     >
