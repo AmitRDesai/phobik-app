@@ -3,6 +3,7 @@ import { ScrollView, Text, View } from '@/components/themed';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
+import { ImageScrim } from '@/components/ui/ImageScrim';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -136,12 +137,7 @@ export default function EbookLanding() {
                 contentFit="cover"
               />
               {/* Bottom gradient overlay */}
-              <LinearGradient
-                colors={['transparent', colors.background.charcoal]}
-                start={{ x: 0.5, y: 0.4 }}
-                end={{ x: 0.5, y: 1 }}
-                style={{ position: 'absolute', inset: 0, opacity: 0.8 }}
-              />
+              <ImageScrim direction="bottom" strength={0.8} start={0.4} />
               {/* Pink top overlay */}
               <LinearGradient
                 colors={[withAlpha(colors.primary.pink, 0.2), 'transparent']}

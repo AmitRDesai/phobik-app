@@ -1,9 +1,11 @@
 import introHero from '@/assets/images/ebook/introduction-hero.jpg';
 import { ScrollView, Text, View } from '@/components/themed';
+import { AccentPill } from '@/components/ui/AccentPill';
 import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
+import { ImageScrim } from '@/components/ui/ImageScrim';
 import { RadialGlow } from '@/components/ui/RadialGlow';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { colors, withAlpha } from '@/constants/colors';
@@ -43,11 +45,7 @@ export default function EbookIntro() {
       {/* Top Navigation */}
       <View className="z-10 flex-row items-center justify-between px-6 pt-2">
         <BackButton />
-        <View className="rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1">
-          <Text size="xs" treatment="caption" tone="secondary">
-            Introduction
-          </Text>
-        </View>
+        <AccentPill label="Introduction" />
         <View className="h-10 w-10" />
       </View>
 
@@ -70,12 +68,7 @@ export default function EbookIntro() {
                 style={{ position: 'absolute', inset: 0 }}
                 contentFit="cover"
               />
-              <LinearGradient
-                colors={['transparent', colors.background.charcoal]}
-                start={{ x: 0.5, y: 0.4 }}
-                end={{ x: 0.5, y: 1 }}
-                style={{ position: 'absolute', inset: 0 }}
-              />
+              <ImageScrim direction="bottom" strength={1} start={0.4} />
               {/* Badge */}
               <View className="absolute bottom-4 left-4 z-20">
                 <LinearGradient
