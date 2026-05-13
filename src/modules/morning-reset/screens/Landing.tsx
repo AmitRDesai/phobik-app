@@ -5,12 +5,22 @@ import { BackButton } from '@/components/ui/BackButton';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
+import { uuid } from '@/lib/crypto';
+import { db } from '@/lib/powersync/database';
+import { useUserId } from '@/lib/powersync/useUserId';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { CommonActions } from '@react-navigation/native';
+import { useNavigation, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 
+import {
+  STEP_ROUTES,
+  buildStepPath,
+  isTodayLocal,
+} from '../data/flow-navigation';
+import type { FlowStep } from '../data/types';
 import {
   useActiveMorningResetSession,
   useUpdateMorningResetSession,
@@ -28,14 +38,106 @@ const HABITS: { icon: HabitIcon; title: string; duration: string }[] = [
   { icon: 'psychology', title: 'Deep focus', duration: '60–120 min' },
 ];
 
+// Map a FlowStep to the nested Stack's route name (file basename).
+function toRouteName(step: FlowStep): string {
+  if (step === 'landing') return 'index';
+  return STEP_ROUTES[step].replace(/^\/morning-reset\//, '');
+}
+
 export default function Landing() {
   const router = useRouter();
+  const navigation = useNavigation();
+  const userId = useUserId();
   const { session, isLoading } = useActiveMorningResetSession();
   const updateSession = useUpdateMorningResetSession();
+  // State (not ref) so the render-time `showLoading` check reflects the
+  // post-handled state — a ref would keep `isResumingPastLanding` true
+  // forever (session.currentStep is never reset on back-nav), leaving
+  // Landing stuck on the spinner when the user pops back to it.
+  const [handled, setHandled] = useState(false);
 
-  if (isLoading || !session) return <LoadingScreen />;
+  // Single mount-time handler: seed a fresh session if needed, OR
+  // atomically rebuild the back-stack for a resumable same-day session.
+  useEffect(() => {
+    if (handled || isLoading || !userId) return;
+
+    // Flip `handled` once up front; each branch below performs its
+    // own side-effect without re-touching React state.
+    setHandled(true);
+
+    const hasResumable = !!session && isTodayLocal(session.startedAt);
+    const isPastLanding = hasResumable && session!.currentStep !== 'landing';
+
+    if (isPastLanding) {
+      const path = buildStepPath(session!.currentStep);
+      // Preserve Landing's existing key in the reset so React Navigation
+      // doesn't remount this component — a remount resets `handled` and
+      // the effect re-fires the reset, looping forever.
+      const landingKey = navigation
+        .getState()
+        ?.routes.find((r) => r.name === 'index')?.key;
+      const routes = path.map((step, i) => ({
+        name: toRouteName(step),
+        key: i === 0 ? landingKey : undefined,
+      }));
+      navigation.dispatch(
+        CommonActions.reset({
+          index: routes.length - 1,
+          routes,
+        }),
+      );
+      return;
+    }
+
+    if (hasResumable) {
+      // Active today's session already pinned to landing — nothing to
+      // do beyond marking the mount handled.
+      return;
+    }
+
+    // Fresh start — abandon any stale row and seed a new one.
+    (async () => {
+      if (session) {
+        await db
+          .updateTable('morning_reset_session')
+          .set({ status: 'abandoned', updated_at: new Date().toISOString() })
+          .where('id', '=', session.id)
+          .execute();
+      }
+      const id = uuid();
+      const now = new Date().toISOString();
+      await db
+        .insertInto('morning_reset_session')
+        .values({
+          id,
+          user_id: userId,
+          status: 'in_progress',
+          current_step: 'landing',
+          started_at: now,
+          created_at: now,
+          updated_at: now,
+        })
+        .execute();
+    })();
+  }, [handled, isLoading, session, userId, navigation]);
+
+  // Wait for the session bootstrap before showing the intro. Resume
+  // case also stays in loading so the dispatch fires under cover —
+  // both flows use Screen's `loading` prop so the variant bg is
+  // continuous with the rest of the flow.
+  //
+  // `isResumingPastLanding` is gated by `!handled`: once the mount-time
+  // dispatch has fired, subsequent re-renders of Landing (e.g. when the
+  // user pops back to it from a step) should NOT show the spinner —
+  // session.currentStep is never reset on back-nav, so without this
+  // gate Landing would be permanently stuck on the loader.
+  const hasResumable = !!session && isTodayLocal(session.startedAt);
+  const isResumingPastLanding =
+    hasResumable && session!.currentStep !== 'landing' && !handled;
+  const showLoading = isLoading || !session || isResumingPastLanding;
 
   const handleBegin = async () => {
+    if (!session) return;
     await updateSession.mutateAsync({
       id: session.id,
       currentStep: 'light_exposure',
@@ -45,6 +147,7 @@ export default function Landing() {
 
   return (
     <Screen
+      loading={showLoading}
       scroll
       insetTop={false}
       header={

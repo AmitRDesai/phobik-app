@@ -15,10 +15,7 @@ import { View } from 'react-native';
 
 import { QuestionProgress } from '../components/QuestionProgress';
 import { INTIMACY_QUESTIONS } from '../data/intimacy-questions';
-import {
-  PIVOT_QUESTIONS,
-  TOTAL_PIVOT_QUESTIONS,
-} from '../data/pivot-point-questions';
+import { TOTAL_PIVOT_QUESTIONS } from '../data/pivot-point-questions';
 
 function clampIndex(raw: string | string[] | undefined, max: number): number {
   const n = Number(Array.isArray(raw) ? raw[0] : raw);
@@ -117,6 +114,7 @@ export default function SelfCheckInsLayout() {
           screenOptions={{
             headerShown: false,
             contentStyle: { backgroundColor: 'transparent' },
+            animation: 'slide_from_right',
           }}
         />
       </View>

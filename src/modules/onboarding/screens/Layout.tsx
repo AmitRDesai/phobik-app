@@ -42,10 +42,7 @@ export default function OnboardingLayout() {
   return (
     <Screen insetBottom={false} className="">
       {showHeader ? (
-        <View
-          className="px-screen-x pb-3 pt-2"
-          style={{ flexDirection: 'row', alignItems: 'center' }}
-        >
+        <View className="px-screen-x flex-row items-center pb-3 pt-2">
           <BackButton />
           <View className="ml-3 flex-1">
             <SegmentedProgress total={TOTAL_STEPS} completed={currentStep} />
@@ -56,7 +53,7 @@ export default function OnboardingLayout() {
         <Stack
           screenOptions={{
             headerShown: false,
-            gestureEnabled: false,
+            contentStyle: { backgroundColor: 'transparent' },
             animation: 'slide_from_right',
           }}
         />

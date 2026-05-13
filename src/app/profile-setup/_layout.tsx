@@ -1,8 +1,6 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
-import { SegmentedProgress } from '@/components/ui/SegmentedProgress';
-import { variantConfig } from '@/components/variant-config';
-import { useScheme } from '@/hooks/useTheme';
 import { Stack, usePathname } from 'expo-router';
 import { View } from 'react-native';
 
@@ -22,42 +20,29 @@ export default function ProfileSetupLayout() {
   const pathname = usePathname();
   const last = pathname.split('/').pop() ?? '';
   const currentStep = STEP_MAP[last];
-  const scheme = useScheme();
-  const bgHex = variantConfig.auth[scheme].bgHex;
 
-  // See account-creation/_layout.tsx for the rationale: header rendered
-  // as an absolute overlay so the Stack body height stays constant
-  // across routes — prevents content from shifting on push transitions.
+  // Header rendered as a flex sibling above the Stack. Sub-screens use
+  // `transparent` so their bg layer doesn't slide off with the screen on
+  // back; the Stack's contentStyle is transparent so the layout's bg
+  // paints continuously across step transitions.
   return (
-    <Screen variant="auth" insetBottom={false} className="">
+    <Screen insetBottom={false} className="">
+      {currentStep ? (
+        <View className="px-screen-x flex-row items-center pb-3 pt-2">
+          <BackButton />
+          <View className="flex-1 items-center">
+            <ProgressDots total={TOTAL_STEPS} current={currentStep} />
+          </View>
+        </View>
+      ) : null}
       <View style={{ flex: 1 }}>
         <Stack
           screenOptions={{
             headerShown: false,
-            gestureEnabled: false,
+            contentStyle: { backgroundColor: 'transparent' },
             animation: 'slide_from_right',
           }}
         />
-        {currentStep ? (
-          <View
-            className="px-screen-x pb-3 pt-2"
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              zIndex: 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: bgHex,
-            }}
-          >
-            <BackButton />
-            <View className="ml-3 flex-1">
-              <SegmentedProgress total={TOTAL_STEPS} completed={currentStep} />
-            </View>
-          </View>
-        ) : null}
       </View>
     </Screen>
   );

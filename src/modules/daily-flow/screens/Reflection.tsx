@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { SelectionCard } from '@/components/ui/SelectionCard';
@@ -62,7 +61,7 @@ export default function Reflection() {
   const complete = useCompleteDailyFlowSession();
   const [selected, setSelected] = useState<ReflectionAnswer | null>(null);
 
-  if (isLoading || !session) return <LoadingScreen />;
+  const showLoading = isLoading || !session;
 
   const optionColor = (a: Option['accent']): string => {
     if (a === 'pink') return colors.primary.pink;
@@ -72,14 +71,16 @@ export default function Reflection() {
   };
 
   const handleFinish = async () => {
-    if (!selected) return;
+    if (!session || !selected) return;
     await complete.mutateAsync({ id: session.id, reflection: selected });
     exitDailyFlow(router);
   };
 
   return (
     <Screen
+      loading={showLoading}
       scroll
+      transparent
       insetTop={false}
       sticky={
         <Button

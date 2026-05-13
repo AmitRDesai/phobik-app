@@ -64,7 +64,7 @@ export default function TermsOfServiceScreen() {
 
   return (
     <Screen
-      variant="auth"
+      transparent={!isModal}
       scroll
       presentation={isModal ? 'modal' : undefined}
       insetTop={isModal ? undefined : false}
@@ -106,7 +106,7 @@ export default function TermsOfServiceScreen() {
           )}
         </View>
       }
-      className={isModal ? 'px-screen-x' : 'px-screen-x pt-[68px]'}
+      className="px-screen-x"
     >
       <View className="mb-4 items-center">
         <LinearGradient

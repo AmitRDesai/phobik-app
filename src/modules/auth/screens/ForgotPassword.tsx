@@ -48,10 +48,7 @@ export default function ForgotPasswordScreen() {
 
   if (isSent) {
     return (
-      <Screen
-        variant="auth"
-        className="flex-1 items-center justify-center px-8"
-      >
+      <Screen className="flex-1 items-center justify-center px-8">
         <View className="w-full items-center">
           {/* Icon */}
           <IconChip
@@ -111,7 +108,6 @@ export default function ForgotPasswordScreen() {
 
   return (
     <Screen
-      variant="auth"
       scroll
       keyboard
       header={<Header variant="back" />}

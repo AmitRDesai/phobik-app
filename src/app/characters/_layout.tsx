@@ -9,6 +9,7 @@ export default function CharactersLayout() {
         // through. Legacy layouts hardcoded colors.background.dashboard which
         // breaks light mode.
         contentStyle: { backgroundColor: 'transparent' },
+        animation: 'slide_from_right',
       }}
     />
   );

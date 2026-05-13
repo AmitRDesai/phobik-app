@@ -42,6 +42,7 @@ export default function Completion() {
 
   return (
     <Screen
+      transparent
       insetTop={false}
       sticky={
         <View className="w-full items-center">

@@ -1,7 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { useRouter } from 'expo-router';
 
@@ -18,9 +17,10 @@ export default function FeelingSelection() {
   const { session, isLoading } = useActiveDailyFlowSession();
   const updateSession = useUpdateDailyFlowSession();
 
-  if (isLoading || !session) return <LoadingScreen />;
+  const showLoading = isLoading || !session;
 
   const handleSelect = async (feelingId: FeelingId) => {
+    if (!session) return;
     await updateSession.mutateAsync({
       id: session.id,
       feeling: feelingId,
@@ -33,7 +33,13 @@ export default function FeelingSelection() {
   };
 
   return (
-    <Screen scroll insetTop={false} className="px-6">
+    <Screen
+      loading={showLoading}
+      scroll
+      transparent
+      insetTop={false}
+      className="px-6"
+    >
       <View className="mb-8 mt-2">
         <Text weight="black" className="text-[42px] leading-[1.05]">
           How are you

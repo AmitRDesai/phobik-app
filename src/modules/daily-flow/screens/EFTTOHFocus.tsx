@@ -2,7 +2,6 @@ import CHARACTER_IMAGE from '@/assets/images/daily-flow/eft-toh-head.png';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { ImageScrim } from '@/components/ui/ImageScrim';
 import { useRouter } from 'expo-router';
@@ -23,9 +22,10 @@ export default function EFTTOHFocus() {
   const { session, isLoading } = useActiveDailyFlowSession();
   const updateSession = useUpdateDailyFlowSession();
 
-  if (isLoading || !session) return <LoadingScreen />;
+  const showLoading = isLoading || !session;
 
   const handleContinue = async () => {
+    if (!session) return;
     const tappingId = session.feeling
       ? getFeeling(session.feeling)?.tappingFeelingId
       : undefined;
@@ -41,7 +41,9 @@ export default function EFTTOHFocus() {
 
   return (
     <Screen
+      loading={showLoading}
       scroll
+      transparent
       insetTop={false}
       sticky={
         <Button onPress={handleContinue} loading={updateSession.isPending}>

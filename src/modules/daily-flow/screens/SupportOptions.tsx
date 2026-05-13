@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { foregroundFor } from '@/constants/colors';
@@ -29,9 +28,10 @@ export default function SupportOptions() {
     session?.addOns?.bilateral ?? false,
   );
 
-  if (isLoading || !session) return <LoadingScreen />;
+  const showLoading = isLoading || !session;
 
   const handleContinue = async () => {
+    if (!session) return;
     await updateSession.mutateAsync({
       id: session.id,
       supportOption: selected,
@@ -43,7 +43,9 @@ export default function SupportOptions() {
 
   return (
     <Screen
+      loading={showLoading}
       scroll
+      transparent
       insetTop={false}
       sticky={
         <View className="w-full items-center">

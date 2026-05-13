@@ -1,7 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { FloatingMapper } from '@/modules/micro-challenges/components/FloatingMapper';
@@ -21,9 +20,10 @@ export default function DetailedFeeling() {
   const [selectedEmotion, setSelectedEmotion] = useState<string>('happy');
   const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
 
-  if (isLoading || !session) return <LoadingScreen />;
+  const showLoading = isLoading || !session;
 
   const handleConfirm = async () => {
+    if (!session) return;
     await updateSession.mutateAsync({
       id: session.id,
       currentStep: 'support_options',
@@ -32,7 +32,7 @@ export default function DetailedFeeling() {
   };
 
   return (
-    <Screen insetTop={false} className="">
+    <Screen loading={showLoading} transparent insetTop={false} className="">
       <View className="px-6">
         <View className="flex-row items-end justify-between">
           <View className="flex-1">

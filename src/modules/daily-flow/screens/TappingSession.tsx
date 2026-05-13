@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -33,10 +32,10 @@ export default function TappingSession() {
   const updateSession = useUpdateDailyFlowSession();
   const [pointIndex, setPointIndex] = useState(0);
 
-  if (isLoading || !session) return <LoadingScreen />;
+  const showLoading = isLoading || !session;
 
   const tappingId = resolveTappingId(
-    params.feelingId ?? session.feeling ?? undefined,
+    params.feelingId ?? session?.feeling ?? undefined,
   );
   const content = getTappingSession(tappingId);
   const accentColor =
@@ -50,6 +49,7 @@ export default function TappingSession() {
       setPointIndex((i) => i + 1);
       return;
     }
+    if (!session) return;
     await updateSession.mutateAsync({
       id: session.id,
       currentStep: 'reflection',
@@ -59,7 +59,9 @@ export default function TappingSession() {
 
   return (
     <Screen
+      loading={showLoading}
       scroll
+      transparent
       insetTop={false}
       sticky={
         <View className="w-full items-center">

@@ -1,11 +1,11 @@
-import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
+import { StepCounter } from '@/components/ui/StepCounter';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { ChakraFigure } from '../components/ChakraFigure';
-import { StepCounter } from '@/components/ui/StepCounter';
 
 const principles = [
   {
@@ -29,7 +29,7 @@ const principles = [
 export default function PhilosophyScreen() {
   return (
     <Screen
-      variant="auth"
+      transparent
       scroll
       insetTop={false}
       sticky={
@@ -44,7 +44,7 @@ export default function PhilosophyScreen() {
           <StepCounter current={2} total={7} />
         </View>
       }
-      className="px-screen-x pt-[68px]"
+      className="px-screen-x"
     >
       <Text size="display" align="center" className="tracking-tight">
         Phobik Philosophy

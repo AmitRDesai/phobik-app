@@ -128,7 +128,6 @@ export default function CreateAccountScreen() {
 
   return (
     <Screen
-      variant="auth"
       scroll
       keyboard
       insetTop={false}

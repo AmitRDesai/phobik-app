@@ -30,7 +30,7 @@ export default function AgeSelectionScreen() {
 
   return (
     <Screen
-      variant="auth"
+      transparent
       scroll
       insetTop={false}
       sticky={
@@ -46,7 +46,7 @@ export default function AgeSelectionScreen() {
           <StepCounter current={currentStep} total={totalSteps} />
         </View>
       }
-      className="px-screen-x pt-[68px]"
+      className="px-screen-x"
     >
       <Text size="h1" align="center" className="tracking-tight">
         What age range do you fall into?

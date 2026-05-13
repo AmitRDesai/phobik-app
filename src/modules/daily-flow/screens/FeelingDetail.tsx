@@ -2,7 +2,6 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { variantConfig } from '@/components/variant-config';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
@@ -53,9 +52,10 @@ export default function FeelingDetail() {
     | undefined;
   const feeling = feelingId ? getFeeling(feelingId) : undefined;
 
-  if (isLoading || !session || !feeling) return <LoadingScreen />;
+  const showLoading = isLoading || !session || !feeling;
 
   const handleContinue = async () => {
+    if (!session) return;
     await updateSession.mutateAsync({
       id: session.id,
       currentStep: 'guide',
@@ -65,75 +65,85 @@ export default function FeelingDetail() {
 
   return (
     <Screen
+      loading={showLoading}
       scroll
+      transparent
       insetTop={false}
       sticky={
-        <View className="w-full items-center">
-          <Button
-            onPress={handleContinue}
-            loading={updateSession.isPending}
-            fullWidth
-          >
-            Continue
-          </Button>
-          {feeling.ctaSubtitle ? (
-            <Text
-              size="sm"
-              align="center"
-              weight="medium"
-              className="mt-4 text-foreground/50"
+        feeling ? (
+          <View className="w-full items-center">
+            <Button
+              onPress={handleContinue}
+              loading={updateSession.isPending}
+              fullWidth
             >
-              {feeling.ctaSubtitle}
-            </Text>
-          ) : null}
-        </View>
+              Continue
+            </Button>
+            {feeling.ctaSubtitle ? (
+              <Text
+                size="sm"
+                align="center"
+                weight="medium"
+                className="mt-4 text-foreground/50"
+              >
+                {feeling.ctaSubtitle}
+              </Text>
+            ) : null}
+          </View>
+        ) : null
       }
       className="px-6"
       contentClassName="gap-8 pb-4"
     >
-      <Hero feeling={feeling} accents={accents} />
+      {feeling && (
+        <>
+          <Hero feeling={feeling} accents={accents} />
 
-      {feeling.actionItemStyle === 'bento' ? (
-        <BigQuoteCard feeling={feeling} />
-      ) : (
-        <InsightCard feeling={feeling} accents={accents} />
+          {feeling.actionItemStyle === 'bento' ? (
+            <BigQuoteCard feeling={feeling} />
+          ) : (
+            <InsightCard feeling={feeling} accents={accents} />
+          )}
+
+          {feeling.actionItemStyle === 'bento' ? (
+            <BentoGrid items={feeling.actionItems} accents={accents} />
+          ) : null}
+
+          {feeling.actionItemStyle === 'compact' &&
+          feeling.actionItems.length > 0 ? (
+            <CompactActionList
+              items={feeling.actionItems}
+              label={feeling.actionsLabel}
+            />
+          ) : null}
+
+          {feeling.visualAnchor ? (
+            <VisualAnchorCard
+              anchor={feeling.visualAnchor}
+              yellow={accents.secondary}
+            />
+          ) : null}
+
+          {feeling.visualFocus ? (
+            <VisualFocusCard focus={feeling.visualFocus} />
+          ) : null}
+
+          {feeling.visualCloud ? (
+            <VisualCloudCard cloud={feeling.visualCloud} />
+          ) : null}
+
+          {feeling.visualEthereal ? (
+            <VisualEtherealCard
+              ethereal={feeling.visualEthereal}
+              variantBg={variantConfig.default[scheme].bgHex}
+            />
+          ) : null}
+
+          {feeling.mindfulCard ? (
+            <MindfulCard card={feeling.mindfulCard} />
+          ) : null}
+        </>
       )}
-
-      {feeling.actionItemStyle === 'bento' ? (
-        <BentoGrid items={feeling.actionItems} accents={accents} />
-      ) : null}
-
-      {feeling.actionItemStyle === 'compact' &&
-      feeling.actionItems.length > 0 ? (
-        <CompactActionList
-          items={feeling.actionItems}
-          label={feeling.actionsLabel}
-        />
-      ) : null}
-
-      {feeling.visualAnchor ? (
-        <VisualAnchorCard
-          anchor={feeling.visualAnchor}
-          yellow={accents.secondary}
-        />
-      ) : null}
-
-      {feeling.visualFocus ? (
-        <VisualFocusCard focus={feeling.visualFocus} />
-      ) : null}
-
-      {feeling.visualCloud ? (
-        <VisualCloudCard cloud={feeling.visualCloud} />
-      ) : null}
-
-      {feeling.visualEthereal ? (
-        <VisualEtherealCard
-          ethereal={feeling.visualEthereal}
-          variantBg={variantConfig.default[scheme].bgHex}
-        />
-      ) : null}
-
-      {feeling.mindfulCard ? <MindfulCard card={feeling.mindfulCard} /> : null}
     </Screen>
   );
 }

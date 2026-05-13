@@ -6,6 +6,7 @@ export default function AffirmationStackLayout() {
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: 'transparent' },
+        animation: 'slide_from_right',
       }}
     />
   );

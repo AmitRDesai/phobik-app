@@ -1,8 +1,7 @@
-import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { GradientText } from '@/components/ui/GradientText';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -44,7 +43,7 @@ export function StepShell({
   const updateSession = useUpdateMorningResetSession();
   const completeSession = useCompleteMorningResetSession();
 
-  if (isLoading || !session) return <LoadingScreen />;
+  if (isLoading || !session) return <Screen loading insetTop={false} />;
 
   const nextStep = getNextStep(step);
   const isFinal = nextStep === null;
@@ -69,6 +68,7 @@ export function StepShell({
     <Screen
       scroll
       insetTop={false}
+      transparent
       sticky={
         <View className="w-full items-center">
           <Button onPress={handleContinue} loading={isPending} fullWidth>

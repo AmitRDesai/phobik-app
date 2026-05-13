@@ -1,6 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
@@ -53,14 +52,15 @@ export default function Player() {
     };
   }, [playing]);
 
-  if (isLoading || !session) return <LoadingScreen />;
+  const showLoading = isLoading || !session;
 
-  const option = session.supportOption
+  const option = session?.supportOption
     ? getSupportOption(session.supportOption)
     : undefined;
   const progress = Math.min(1, elapsed / TOTAL_SECONDS);
 
   const handleContinue = async () => {
+    if (!session) return;
     let next: FlowStep = 'reflection';
     let route = '/daily-flow/reflection';
     if (session.addOns?.bilateral) {
@@ -75,11 +75,11 @@ export default function Player() {
   };
 
   return (
-    <Screen insetTop={false} className="">
+    <Screen loading={showLoading} transparent insetTop={false} className="">
       <View className="flex-1 items-center justify-center px-6">
         <PlayerOrb cue={BREATH_CUES[breathIndex] ?? 'Inhale'} />
 
-        {session.intention ? (
+        {session?.intention ? (
           <Text
             size="h2"
             align="center"

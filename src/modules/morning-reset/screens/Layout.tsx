@@ -3,8 +3,11 @@ import { BackButton } from '@/components/ui/BackButton';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { SegmentedProgress } from '@/components/ui/SegmentedProgress';
-import { Stack, usePathname } from 'expo-router';
+import { dialog } from '@/utils/dialog';
+import { Stack, usePathname, useRouter } from 'expo-router';
 import { View } from 'react-native';
+
+import { exitMorningReset } from '../data/flow-navigation';
 
 const TOTAL_STEPS = 7;
 
@@ -22,6 +25,25 @@ const STEP_MAP: Record<string, number> = {
   'deep-focus': 7,
 };
 
+function MorningResetCloseButton() {
+  const router = useRouter();
+
+  const handleClose = async () => {
+    const result = await dialog.info<'leave' | 'stay'>({
+      title: 'Leave Morning Flow?',
+      message:
+        'Your progress is saved. You can pick up where you left off later today.',
+      buttons: [
+        { label: 'Stay', value: 'stay', variant: 'secondary' },
+        { label: 'Leave', value: 'leave', variant: 'primary' },
+      ],
+    });
+    if (result === 'leave') exitMorningReset(router);
+  };
+
+  return <BackButton icon="close" onPress={handleClose} />;
+}
+
 export default function MorningResetLayout() {
   const pathname = usePathname();
   const last = pathname.split('/').pop() ?? '';
@@ -34,6 +56,7 @@ export default function MorningResetLayout() {
         <View>
           <Header
             left={<BackButton />}
+            right={<MorningResetCloseButton />}
             center={
               <Text size="lg" weight="bold">
                 Morning Flow
@@ -49,7 +72,7 @@ export default function MorningResetLayout() {
         <Stack
           screenOptions={{
             headerShown: false,
-            gestureEnabled: false,
+            contentStyle: { backgroundColor: 'transparent' },
             animation: 'slide_from_right',
           }}
         />

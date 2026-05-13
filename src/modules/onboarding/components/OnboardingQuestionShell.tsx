@@ -69,6 +69,7 @@ export function OnboardingQuestionShell({
 
   return (
     <Screen
+      transparent
       scroll={scrollable}
       keyboard
       insetTop={false}

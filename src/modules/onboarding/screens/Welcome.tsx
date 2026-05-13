@@ -12,6 +12,7 @@ import { router } from 'expo-router';
 export default function Welcome() {
   return (
     <Screen
+      transparent
       insetTop={false}
       sticky={
         <View className="w-full items-center">

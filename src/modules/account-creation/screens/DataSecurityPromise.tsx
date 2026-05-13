@@ -53,7 +53,7 @@ export default function DataSecurityPromiseScreen() {
 
   return (
     <Screen
-      variant="auth"
+      transparent={!isModal}
       scroll
       presentation={isModal ? 'modal' : undefined}
       insetTop={isModal ? undefined : false}
@@ -73,7 +73,7 @@ export default function DataSecurityPromiseScreen() {
           {!isModal && <StepCounter current={currentStep} total={totalSteps} />}
         </View>
       }
-      className={isModal ? 'px-screen-x pt-2' : 'px-screen-x pt-[68px]'}
+      className={isModal ? 'px-screen-x pt-2' : 'px-screen-x'}
     >
       <Text
         size="xs"

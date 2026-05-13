@@ -18,7 +18,7 @@ export default function WelcomeScreen() {
 
   return (
     <Screen
-      variant="auth"
+      transparent
       insetTop={false}
       sticky={
         <View className="w-full max-w-sm gap-6 self-center">

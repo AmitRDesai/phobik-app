@@ -41,7 +41,7 @@ export default function GenderIdentityScreen() {
 
   return (
     <Screen
-      variant="auth"
+      transparent
       scroll
       insetTop={false}
       sticky={
@@ -61,7 +61,7 @@ export default function GenderIdentityScreen() {
           </Text>
         </View>
       }
-      className="px-screen-x pt-[68px]"
+      className="px-screen-x"
     >
       <Text size="h1" align="center" className="tracking-tight">
         How do you identify?

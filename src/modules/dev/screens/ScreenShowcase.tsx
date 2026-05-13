@@ -14,12 +14,11 @@ import { useRouter } from 'expo-router';
 import type { ReactNode } from 'react';
 import { StyleSheet, View as RNView } from 'react-native';
 
-const VARIANTS: Variant[] = ['default', 'auth'];
+const VARIANTS: Variant[] = ['default'];
 
 const VARIANT_NOTES: Record<Variant, string> = {
   default:
-    'Charcoal bg + pink→yellow top glow. App chrome — dashboard, practices, journal, onboarding.',
-  auth: 'Near-black bg + larger pink→yellow glow. Sign-in / sign-up surfaces.',
+    'Charcoal bg + pink→yellow top glow. App chrome — dashboard, practices, journal, onboarding, auth.',
 };
 
 export default function ScreenShowcase() {
@@ -139,7 +138,6 @@ export default function ScreenShowcase() {
         <PropRow label="Auth form (variant + keyboard + sticky CTA)">
           <CodeBlock>
             {`<Screen
-  variant="auth"
   keyboard
   header={<Header backOnly />}
   sticky={<Button onPress={onSubmit}>Continue</Button>}

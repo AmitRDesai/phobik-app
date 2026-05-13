@@ -1,4 +1,4 @@
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
+import { Screen } from '@/components/ui/Screen';
 import { uuid } from '@/lib/crypto';
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
@@ -89,5 +89,5 @@ export default function ResumeDispatcher() {
     })();
   }, [userId, isLoading, session, router, navigation]);
 
-  return <LoadingScreen />;
+  return <Screen loading transparent insetTop={false} />;
 }

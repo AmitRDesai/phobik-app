@@ -3,7 +3,6 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { useRouter } from 'expo-router';
 
@@ -40,9 +39,10 @@ export default function ChecklistGuide() {
   const { session, isLoading } = useActiveDailyFlowSession();
   const updateSession = useUpdateDailyFlowSession();
 
-  if (isLoading || !session) return <LoadingScreen />;
+  const showLoading = isLoading || !session;
 
   const handleContinue = async () => {
+    if (!session) return;
     await updateSession.mutateAsync({
       id: session.id,
       currentStep: 'intention',
@@ -52,7 +52,9 @@ export default function ChecklistGuide() {
 
   return (
     <Screen
+      loading={showLoading}
       scroll
+      transparent
       insetTop={false}
       sticky={
         <Button onPress={handleContinue} loading={updateSession.isPending}>

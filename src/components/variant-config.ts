@@ -1,7 +1,7 @@
 import { colors } from '@/constants/colors';
 import { vars } from 'nativewind';
 
-export type Variant = 'default' | 'auth';
+export type Variant = 'default';
 
 export interface VariantGlow {
   centerX: number;
@@ -51,35 +51,6 @@ export const variantConfig: Record<
         centerY: 0.25,
         intensity: 0.5,
         radius: 0.35,
-        startColor: colors.primary.pink,
-        endColor: colors.accent.yellow,
-      },
-    },
-    light: {
-      vars: vars({
-        '--variant-bg': '250 250 250',
-        '--variant-card': '255 255 255',
-        '--variant-fade': '250 250 250',
-        '--variant-accent': '255 77 148',
-      }),
-      bgHex: '#FAFAFA',
-      glow: NULL_GLOW,
-    },
-  },
-  auth: {
-    dark: {
-      vars: vars({
-        '--variant-bg': '5 5 5',
-        '--variant-card': '26 19 24',
-        '--variant-fade': '5 5 5',
-        '--variant-accent': '255 77 148',
-      }),
-      bgHex: '#050505',
-      glow: {
-        centerX: 0.5,
-        centerY: 0.3,
-        intensity: 0.5,
-        radius: 0.5,
         startColor: colors.primary.pink,
         endColor: colors.accent.yellow,
       },

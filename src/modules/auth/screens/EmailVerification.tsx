@@ -110,7 +110,7 @@ export default function EmailVerificationScreen() {
   }, [email, resendCooldown, isSending, startCooldown]);
 
   return (
-    <Screen variant="auth" className="flex-1 items-center justify-center px-8">
+    <Screen className="flex-1 items-center justify-center px-8">
       <View className="w-full items-center">
         {/* Icon */}
         <IconChip

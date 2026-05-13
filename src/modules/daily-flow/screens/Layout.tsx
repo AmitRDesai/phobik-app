@@ -92,6 +92,7 @@ export default function DailyFlowLayout() {
           screenOptions={{
             headerShown: false,
             contentStyle: { backgroundColor: 'transparent' },
+            animation: 'slide_from_right',
           }}
         />
       </View>

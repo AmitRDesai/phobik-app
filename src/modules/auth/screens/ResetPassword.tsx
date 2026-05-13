@@ -68,10 +68,7 @@ export default function ResetPasswordScreen() {
 
   if (hasTokenError) {
     return (
-      <Screen
-        variant="auth"
-        className="flex-1 items-center justify-center px-8"
-      >
+      <Screen className="flex-1 items-center justify-center px-8">
         <View className="w-full items-center">
           <IconChip
             size={112}
@@ -122,7 +119,6 @@ export default function ResetPasswordScreen() {
 
   return (
     <Screen
-      variant="auth"
       scroll
       keyboard
       className="grow justify-center"

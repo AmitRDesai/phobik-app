@@ -3,7 +3,6 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
@@ -25,9 +24,10 @@ export default function BiLateralTutorial() {
   const { session, isLoading } = useActiveDailyFlowSession();
   const updateSession = useUpdateDailyFlowSession();
 
-  if (isLoading || !session) return <LoadingScreen />;
+  const showLoading = isLoading || !session;
 
   const handleContinue = async () => {
+    if (!session) return;
     let next: FlowStep = 'reflection';
     let route = '/daily-flow/reflection';
     const tappingId = session.feeling
@@ -53,7 +53,9 @@ export default function BiLateralTutorial() {
 
   return (
     <Screen
+      loading={showLoading}
       scroll
+      transparent
       insetTop={false}
       sticky={
         <Button onPress={handleContinue} loading={updateSession.isPending}>

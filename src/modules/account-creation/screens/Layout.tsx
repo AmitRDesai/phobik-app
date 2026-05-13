@@ -1,8 +1,6 @@
 import { BackButton } from '@/components/ui/BackButton';
+import { ProgressDots } from '@/components/ui/ProgressDots';
 import { Screen } from '@/components/ui/Screen';
-import { SegmentedProgress } from '@/components/ui/SegmentedProgress';
-import { variantConfig } from '@/components/variant-config';
-import { useScheme } from '@/hooks/useTheme';
 import { Stack, usePathname } from 'expo-router';
 import { View } from 'react-native';
 
@@ -24,48 +22,34 @@ export default function AccountCreationLayout() {
   const pathname = usePathname();
   const last = pathname.split('/').pop() ?? '';
   const currentStep = STEP_MAP[last];
-  const scheme = useScheme();
-  const bgHex = variantConfig.auth[scheme].bgHex;
 
-  // The header is rendered as an absolute overlay rather than a flex
-  // sibling above the Stack. With a flex sibling, the Stack body would
-  // shrink by header-height the moment the header conditionally appeared
-  // on Welcome→Philosophy push, which dragged Welcome's still-mounted
-  // content downward in lockstep with the body's top edge. With an
-  // overlay the Stack body height stays constant across every route in
-  // the flow; the header just paints on top when present.
+  // Header rendered as a flex sibling above the Stack. Sub-screens use
+  // `transparent` so their bg layer doesn't slide off with the screen on
+  // back, and the Stack's contentStyle is transparent so the layout's
+  // variant bg paints continuously across step transitions.
   return (
-    <Screen variant="auth" insetBottom={false} className="">
+    <Screen insetBottom={false} className="">
+      {currentStep ? (
+        <View className="px-screen-x flex-row items-center pb-3 pt-2">
+          <BackButton />
+          <View className="flex-1 items-center">
+            <ProgressDots total={TOTAL_STEPS} current={currentStep} />
+          </View>
+          {/* 40x40 spacer balancing the BackButton so ProgressDots stays
+              optically centered on the screen. */}
+          <View className="size-10" />
+        </View>
+      ) : (
+        <View className="h-16" />
+      )}
       <View style={{ flex: 1 }}>
         <Stack
           screenOptions={{
             headerShown: false,
-            gestureEnabled: false,
+            contentStyle: { backgroundColor: 'transparent' },
             animation: 'slide_from_right',
           }}
         />
-        {currentStep ? (
-          <View
-            className="px-screen-x pb-3 pt-2"
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              zIndex: 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-              // Solid bg so scrolled content gets hidden behind the
-              // overlay instead of bleeding through the transparent gap.
-              backgroundColor: bgHex,
-            }}
-          >
-            <BackButton />
-            <View className="ml-3 flex-1">
-              <SegmentedProgress total={TOTAL_STEPS} completed={currentStep} />
-            </View>
-          </View>
-        ) : null}
       </View>
     </Screen>
   );

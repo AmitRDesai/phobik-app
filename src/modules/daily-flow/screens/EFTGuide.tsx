@@ -2,7 +2,6 @@ import HAND_IMAGE from '@/assets/images/daily-flow/eft-side-of-hand.png';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { Screen } from '@/components/ui/Screen';
 import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/Button';
@@ -20,9 +19,10 @@ export default function EFTGuide() {
   const { session, isLoading } = useActiveDailyFlowSession();
   const updateSession = useUpdateDailyFlowSession();
 
-  if (isLoading || !session) return <LoadingScreen />;
+  const showLoading = isLoading || !session;
 
   const handleContinue = async () => {
+    if (!session) return;
     await updateSession.mutateAsync({
       id: session.id,
       currentStep: 'eft_toh_focus',
@@ -32,7 +32,9 @@ export default function EFTGuide() {
 
   return (
     <Screen
+      loading={showLoading}
       scroll
+      transparent
       insetTop={false}
       sticky={
         <Button onPress={handleContinue} loading={updateSession.isPending}>

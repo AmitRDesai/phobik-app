@@ -2,13 +2,14 @@ import { GlowBg } from '@/components/ui/GlowBg';
 import { FADE_HEIGHT } from '@/components/ui/ScrollFade';
 import { variantConfig, type Variant } from '@/components/variant-config';
 import { VariantProvider } from '@/components/variant-context';
-import { withAlpha } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSegments } from 'expo-router';
 import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import {
+  ActivityIndicator,
   Platform,
   ScrollView,
   StyleSheet,
@@ -32,6 +33,13 @@ export interface ScreenProps {
    * doesn't bleed through where it would clash with the CTA.
    */
   transparent?: boolean;
+  /**
+   * When true, replaces the body / header / sticky with a centered
+   * animated mandala on the variant background. Use for in-flow loading
+   * states so the chrome stays continuous with the rest of the flow
+   * (no jarring bg flip to the standalone `LoadingScreen`).
+   */
+  loading?: boolean;
   /** Wrap body in a ScrollView. Default: false. */
   scroll?: boolean;
   /** Wrap body in KeyboardAvoidingView. Default: false. */
@@ -57,7 +65,7 @@ export interface ScreenProps {
     ScrollViewProps,
     'contentContainerStyle' | 'contentContainerClassName'
   >;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const DEFAULT_BODY_PADDING = 'px-screen-x pt-screen-y';
@@ -78,6 +86,7 @@ const DEFAULT_BODY_PADDING = 'px-screen-x pt-screen-y';
 export function Screen({
   variant = 'default',
   transparent = false,
+  loading = false,
   scroll = false,
   keyboard = false,
   header,
@@ -198,6 +207,18 @@ export function Screen({
   ) : (
     body
   );
+
+  if (loading) {
+    return (
+      <VariantProvider variant={variant}>
+        <View style={rootStyle}>
+          <View className="flex-1 items-center justify-center">
+            <ActivityIndicator size="large" color={colors.primary.pink} />
+          </View>
+        </View>
+      </VariantProvider>
+    );
+  }
 
   return (
     <VariantProvider variant={variant}>

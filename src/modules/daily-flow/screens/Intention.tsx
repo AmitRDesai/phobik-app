@@ -2,7 +2,6 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
-import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
@@ -41,9 +40,10 @@ export default function Intention() {
     });
   }, []);
 
-  if (isLoading || !session) return <LoadingScreen />;
+  const showLoading = isLoading || !session;
 
   const handleContinue = async () => {
+    if (!session) return;
     const chosen = INTENTIONS[activeIndex];
     if (!chosen) return;
     await updateSession.mutateAsync({
@@ -56,6 +56,8 @@ export default function Intention() {
 
   return (
     <Screen
+      loading={showLoading}
+      transparent
       insetTop={false}
       sticky={
         <View className="w-full items-center">

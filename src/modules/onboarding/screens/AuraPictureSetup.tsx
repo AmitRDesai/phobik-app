@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { useImagePicker } from '@/hooks/useImagePicker';
 import { useSession } from '@/lib/auth';
@@ -76,6 +76,7 @@ export default function AuraPictureSetup() {
 
   return (
     <Screen
+      transparent
       insetTop={false}
       header={
         <View className="px-6 pb-2 pt-4">
