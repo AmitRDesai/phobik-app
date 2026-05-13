@@ -11,6 +11,7 @@ import {
 import { biometricPromptShownAtom, isSignedOutAtom } from '@/store/auth';
 import { isReturningUserAtom } from '@/store/user';
 import { dialog } from '@/utils/dialog';
+import { toast } from '@/utils/toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Linking from 'expo-linking';
 import * as SplashScreen from 'expo-splash-screen';
@@ -139,21 +140,29 @@ const useAppInitializer = () => {
   }, [versionCheck.result, setUpdateRequired]);
 
   // OTA-ready prompt (non-dismissable) — shown FIRST so a downloaded OTA wins
-  // over a force-update push to the App Store.
+  // over a force-update push to the App Store. Whole IIFE is wrapped so an
+  // unexpected throw never surfaces an unhandled rejection to the user.
   useEffect(() => {
     if (!isReady || !ota.isUpdateReady || otaDialogShownRef.current) return;
     otaDialogShownRef.current = true;
     (async () => {
-      await dialog.info({
-        title: 'Restart to apply update',
-        message: 'A new version is ready. Restart to keep going.',
-        buttons: [{ label: 'Restart', value: 'restart', variant: 'primary' }],
-      });
-      await ota.applyUpdate();
+      try {
+        await dialog.info({
+          title: 'Restart to apply update',
+          message: 'A new version is ready. Restart to keep going.',
+          buttons: [{ label: 'Restart', value: 'restart', variant: 'primary' }],
+        });
+        await ota.applyUpdate();
+      } catch {
+        // Best-effort — never block or alert the user from this background
+        // flow. Next cold start will re-check and re-prompt.
+      }
     })();
   }, [isReady, ota]);
 
-  // Soft-update prompt — dismissable, once per `latestVersion`.
+  // Soft-update prompt — dismissable, once per `latestVersion`. AsyncStorage
+  // and dialog calls are wrapped so a corrupted storage row or dialog error
+  // never bubbles up to the user.
   useEffect(() => {
     if (!isReady) return;
     if (versionCheck.result.action !== 'soft-update') return;
@@ -161,20 +170,31 @@ const useAppInitializer = () => {
     softDialogShownRef.current = true;
     const { storeUrl, latestVersion } = versionCheck.result;
     (async () => {
-      const dismissedFor = await AsyncStorage.getItem(SOFT_DISMISS_STORAGE_KEY);
-      if (dismissedFor === latestVersion) return;
-      const choice = await dialog.info({
-        title: 'Update available',
-        message: 'A newer version of Phobik is ready in the App Store.',
-        buttons: [
-          { label: 'Later', value: 'later', variant: 'secondary' },
-          { label: 'Update Now', value: 'update', variant: 'primary' },
-        ],
-      });
-      if (choice === 'update') {
-        Linking.openURL(storeUrl).catch(() => {});
-      } else {
-        await AsyncStorage.setItem(SOFT_DISMISS_STORAGE_KEY, latestVersion);
+      try {
+        const dismissedFor = await AsyncStorage.getItem(
+          SOFT_DISMISS_STORAGE_KEY,
+        ).catch(() => null);
+        if (dismissedFor === latestVersion) return;
+        const choice = await dialog.info({
+          title: 'Update available',
+          message: 'A newer version of Phobik is ready in the App Store.',
+          buttons: [
+            { label: 'Later', value: 'later', variant: 'secondary' },
+            { label: 'Update Now', value: 'update', variant: 'primary' },
+          ],
+        });
+        if (choice === 'update') {
+          Linking.openURL(storeUrl).catch(() => {
+            toast.error("Couldn't open the App Store. Please try again.");
+          });
+        } else {
+          await AsyncStorage.setItem(
+            SOFT_DISMISS_STORAGE_KEY,
+            latestVersion,
+          ).catch(() => {});
+        }
+      } catch {
+        // Same rule as OTA: this is a best-effort UX nudge, never block.
       }
     })();
   }, [isReady, versionCheck.result]);

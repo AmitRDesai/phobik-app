@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
+import { toast } from '@/utils/toast';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAtomValue } from 'jotai';
 import { Linking } from 'react-native';
@@ -41,7 +42,10 @@ export default function UpdateRequired() {
 
       <Button
         onPress={() => {
-          if (storeUrl) Linking.openURL(storeUrl);
+          if (!storeUrl) return;
+          Linking.openURL(storeUrl).catch(() => {
+            toast.error("Couldn't open the App Store. Please try again.");
+          });
         }}
         prefixIcon={
           <MaterialIcons name="open-in-new" size={20} color="white" />

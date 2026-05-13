@@ -53,7 +53,13 @@ export function useOtaUpdate(): OtaState {
   }, [runCheck]);
 
   const applyUpdate = useCallback(async () => {
-    await Updates.reloadAsync();
+    try {
+      await Updates.reloadAsync();
+    } catch {
+      // Best-effort — if reload fails the next cold start will pick up the
+      // downloaded bundle. Surfacing this to the user would be worse UX than
+      // the dialog quietly dismissing.
+    }
   }, []);
 
   return { isUpdateReady, isCheckComplete, applyUpdate };
