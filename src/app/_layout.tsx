@@ -75,6 +75,11 @@ function RootNavigator() {
         <Stack.Screen name="update-required" />
       </Stack.Protected>
 
+      {/* OTA-restart gate — full-screen lockout when a downloaded JS bundle is ready to apply */}
+      <Stack.Protected guard={activeStack === 'ota-restart'}>
+        <Stack.Screen name="ota-restart" />
+      </Stack.Protected>
+
       {/* Auth screens — outer guard covers all unauthenticated states.
           Inner nested guard (!isReturningUser) makes account-creation the
           initial screen for new users. When returning, account-creation is

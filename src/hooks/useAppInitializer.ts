@@ -2,7 +2,7 @@ import { useSession } from '@/hooks/auth/useAuth';
 import { connectPowerSync, disconnectPowerSync } from '@/lib/powersync';
 import { useBiometricAvailability } from '@/hooks/auth/useBiometric';
 import { useProfileStatus } from '@/hooks/auth/useProfile';
-import { updateRequiredAtom } from '@/modules/app-update/store/app-update';
+import { useAppUpdateGate } from '@/modules/app-update/hooks/useAppUpdateGate';
 import {
   identifyUser,
   initRevenueCat,
@@ -10,16 +10,10 @@ import {
 } from '@/modules/purchases/lib/revenue-cat';
 import { biometricPromptShownAtom, isSignedOutAtom } from '@/store/auth';
 import { isReturningUserAtom } from '@/store/user';
-import { dialog } from '@/utils/dialog';
-import { toast } from '@/utils/toast';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Linking from 'expo-linking';
 import * as SplashScreen from 'expo-splash-screen';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
-import { useAppVersionCheck } from './useAppVersionCheck';
-import { useOtaUpdate } from './useOtaUpdate';
 import { useProfileAutoRecovery } from './useProfileAutoRecovery';
 import '../../global.css';
 
@@ -30,9 +24,8 @@ type ActiveStack =
   | 'onboarding'
   | 'biometric-setup'
   | 'home'
-  | 'update-required';
-
-const SOFT_DISMISS_STORAGE_KEY = 'app-update:soft-dismissed';
+  | 'update-required'
+  | 'ota-restart';
 
 const useAppInitializer = () => {
   const { data: session, isPending: isSessionLoading } = useSession();
@@ -104,16 +97,6 @@ const useAppInitializer = () => {
     hasProfile,
   });
 
-  // OTA + binary-version gates run in the background — splash does NOT wait
-  // on them. When they resolve they fire dialogs / switch activeStack on top
-  // of the already-rendered app. Holding the splash on a remote round-trip
-  // would block every cold-start on network latency for no good reason.
-  const ota = useOtaUpdate();
-  const versionCheck = useAppVersionCheck();
-  const setUpdateRequired = useSetAtom(updateRequiredAtom);
-  const otaDialogShownRef = useRef(false);
-  const softDialogShownRef = useRef(false);
-
   const dataResolved =
     !isSessionLoading &&
     (!isAuthenticated || !isProfileChecking) &&
@@ -126,81 +109,16 @@ const useAppInitializer = () => {
     }
   }, [dataResolved]);
 
-  // Publish the force-update payload into the atom that the
-  // /update-required screen consumes.
-  useEffect(() => {
-    if (versionCheck.result.action === 'force-update') {
-      setUpdateRequired({
-        storeUrl: versionCheck.result.storeUrl,
-        minimumVersion: versionCheck.result.minimumVersion,
-      });
-    } else {
-      setUpdateRequired(null);
-    }
-  }, [versionCheck.result, setUpdateRequired]);
-
-  // OTA-ready prompt (non-dismissable) — shown FIRST so a downloaded OTA wins
-  // over a force-update push to the App Store. Whole IIFE is wrapped so an
-  // unexpected throw never surfaces an unhandled rejection to the user.
-  useEffect(() => {
-    if (!isReady || !ota.isUpdateReady || otaDialogShownRef.current) return;
-    otaDialogShownRef.current = true;
-    (async () => {
-      try {
-        await dialog.info({
-          title: 'Restart to apply update',
-          message: 'A new version is ready. Restart to keep going.',
-          buttons: [{ label: 'Restart', value: 'restart', variant: 'primary' }],
-        });
-        await ota.applyUpdate();
-      } catch {
-        // Best-effort — never block or alert the user from this background
-        // flow. Next cold start will re-check and re-prompt.
-      }
-    })();
-  }, [isReady, ota]);
-
-  // Soft-update prompt — dismissable, once per `latestVersion`. AsyncStorage
-  // and dialog calls are wrapped so a corrupted storage row or dialog error
-  // never bubbles up to the user.
-  useEffect(() => {
-    if (!isReady) return;
-    if (versionCheck.result.action !== 'soft-update') return;
-    if (softDialogShownRef.current) return;
-    softDialogShownRef.current = true;
-    const { storeUrl, latestVersion } = versionCheck.result;
-    (async () => {
-      try {
-        const dismissedFor = await AsyncStorage.getItem(
-          SOFT_DISMISS_STORAGE_KEY,
-        ).catch(() => null);
-        if (dismissedFor === latestVersion) return;
-        const choice = await dialog.info({
-          title: 'Update available',
-          message: 'A newer version of Phobik is ready in the App Store.',
-          buttons: [
-            { label: 'Later', value: 'later', variant: 'secondary' },
-            { label: 'Update Now', value: 'update', variant: 'primary' },
-          ],
-        });
-        if (choice === 'update') {
-          Linking.openURL(storeUrl).catch(() => {
-            toast.error("Couldn't open the App Store. Please try again.");
-          });
-        } else {
-          await AsyncStorage.setItem(
-            SOFT_DISMISS_STORAGE_KEY,
-            latestVersion,
-          ).catch(() => {});
-        }
-      } catch {
-        // Same rule as OTA: this is a best-effort UX nudge, never block.
-      }
-    })();
-  }, [isReady, versionCheck.result]);
+  // OTA + binary-version gates run in the background — splash does NOT wait
+  // on them. The gate hook owns the dialogs, the atom publish, and the
+  // soft-dismiss dedup; it just tells us when to take over the boot stack.
+  // Precedence: force-update beats OTA-restart (an OTA bundle for an
+  // incompatible runtime would be useless; push the user to the App Store).
+  const { isForceUpdate, isOtaRestartNeeded } = useAppUpdateGate({ isReady });
 
   const rawActiveStack = ((): ActiveStack => {
-    if (versionCheck.result.action === 'force-update') return 'update-required';
+    if (isForceUpdate) return 'update-required';
+    if (isOtaRestartNeeded) return 'ota-restart';
     if (!isAuthenticated) return 'auth';
     if (!hasProfile) return 'profile-setup';
     if (!emailVerified) return 'email-verification';
