@@ -1,6 +1,6 @@
 import type { Href } from 'expo-router';
 
-export type Chemical = 'dopamine' | 'oxytocin' | 'serotonin' | 'endorphins';
+export type { Chemical } from '@/constants/dose-chemicals';
 
 export type ChemicalMeta = {
   /** Pillar label paired with this chemical in the EnergyDetails design. */

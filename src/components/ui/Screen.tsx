@@ -56,6 +56,13 @@ export interface ScreenProps {
   insetBottom?: boolean;
   /** Modal presentation tweaks bottom inset behavior. */
   presentation?: 'modal';
+  /**
+   * Skip the default body padding. Use when the screen body manages its
+   * own horizontal padding via inner Views (e.g. a wrapping
+   * `<View className="px-4">`), so the default `px-screen-x` isn't
+   * double-applied on top.
+   */
+  noPadding?: boolean;
   /** Body padding/layout className. Default: 'px-screen-x pt-screen-y'. */
   className?: string;
   /** ScrollView contentContainer className when scroll is true. */
@@ -95,6 +102,7 @@ export function Screen({
   insetTop,
   insetBottom,
   presentation,
+  noPadding = false,
   className,
   contentClassName,
   scrollViewProps,
@@ -145,7 +153,7 @@ export function Screen({
       : 0;
   const bottomReserve = scroll ? stickyHeight + FADE_HEIGHT : baseReserve;
 
-  const bodyPaddingClass = className ?? DEFAULT_BODY_PADDING;
+  const bodyPaddingClass = noPadding ? '' : (className ?? DEFAULT_BODY_PADDING);
 
   // Stable references — both contentContainerStyle and the root style array
   // are re-checked by identity by their consumers.

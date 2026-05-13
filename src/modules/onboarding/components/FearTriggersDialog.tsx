@@ -34,7 +34,7 @@ export function FearTriggersDialog({ close }: FearTriggersDialogProps) {
       label: 'Yes, send me reminders',
       description: 'Proactive support for your triggers',
       icon: 'notifications-active',
-      iconColor: colors.gradient.magenta,
+      iconColor: colors.primary.pink,
     },
     {
       value: 'high-stress-only',

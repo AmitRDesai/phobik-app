@@ -40,7 +40,7 @@ export default function OnboardingLayout() {
   // across all in-flow routes (and AuraPictureSetup, which is outside
   // the flow, simply has no header by virtue of being at /onboarding).
   return (
-    <Screen insetBottom={false} className="">
+    <Screen insetBottom={false} noPadding>
       {showHeader ? (
         <View className="px-screen-x flex-row items-center pb-3 pt-2">
           <BackButton />

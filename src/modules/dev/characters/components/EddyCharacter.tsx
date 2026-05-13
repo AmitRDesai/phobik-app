@@ -1,4 +1,3 @@
-import { withAlpha } from '@/constants/colors';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import Animated, {
@@ -107,7 +106,10 @@ function EddyIdle() {
                 left: 16,
                 width: BODY_W,
                 height: BODY_H,
-                boxShadow: `0px 10px 30px ${withAlpha('#FF4500', 0.4)}`,
+                shadowColor: '#FF4500',
+                shadowOffset: { width: 0, height: 10 },
+                shadowOpacity: 0.4,
+                shadowRadius: 30,
               },
               jiggleStyle,
             ]}
@@ -198,7 +200,10 @@ function EddyCelebrating({ fading }: { fading: boolean }) {
             {
               width: BODY_W,
               height: BODY_H,
-              boxShadow: `0px 10px 30px ${withAlpha('#FF4500', 0.4)}`,
+              shadowColor: '#FF4500',
+              shadowOffset: { width: 0, height: 10 },
+              shadowOpacity: 0.4,
+              shadowRadius: 30,
             },
             bodyStyle,
           ]}

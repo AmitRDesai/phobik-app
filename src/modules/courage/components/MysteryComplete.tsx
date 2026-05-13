@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { colors, withAlpha } from '@/constants/colors';
+import { CHEMICAL_COLORS } from '@/constants/dose-chemicals';
 import type { CustomDialogProps } from '@/store/dialog';
 
 import type { DoseReward, MysteryChallenge } from '../data/mystery-challenges';
@@ -24,10 +25,26 @@ function formatDuration(totalSeconds: number) {
 
 function DoseGrid({ dose }: { dose: DoseReward }) {
   const items = [
-    { label: 'Dopamine', value: dose.dopamine, isPink: true },
-    { label: 'Oxytocin', value: dose.oxytocin, isPink: false },
-    { label: 'Serotonin', value: dose.serotonin, isPink: true },
-    { label: 'Endorphins', value: dose.endorphins, isPink: false },
+    {
+      label: 'Dopamine',
+      value: dose.dopamine,
+      color: CHEMICAL_COLORS.dopamine,
+    },
+    {
+      label: 'Oxytocin',
+      value: dose.oxytocin,
+      color: CHEMICAL_COLORS.oxytocin,
+    },
+    {
+      label: 'Serotonin',
+      value: dose.serotonin,
+      color: CHEMICAL_COLORS.serotonin,
+    },
+    {
+      label: 'Endorphins',
+      value: dose.endorphins,
+      color: CHEMICAL_COLORS.endorphins,
+    },
   ];
 
   return (
@@ -45,13 +62,7 @@ function DoseGrid({ dose }: { dose: DoseReward }) {
       <View className="flex-row justify-between">
         {items.map((item) => (
           <View key={item.label} className="items-center">
-            <Text
-              size="md"
-              weight="bold"
-              style={{
-                color: item.isPink ? colors.primary.pink : colors.accent.yellow,
-              }}
-            >
+            <Text size="md" weight="bold" style={{ color: item.color }}>
               +{item.value}
             </Text>
             <Text tone="secondary" className="mt-0.5 text-[8px] uppercase">

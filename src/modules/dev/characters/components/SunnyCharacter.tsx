@@ -1,4 +1,3 @@
-import { withAlpha } from '@/constants/colors';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -160,7 +159,10 @@ function SunnyIdle() {
               {
                 width: BODY_W,
                 height: BODY_H,
-                boxShadow: `0px 0px 15px ${withAlpha('#FFD700', 0.6)}`,
+                shadowColor: '#FFD700',
+                shadowOffset: { width: 0, height: 0 },
+                shadowOpacity: 0.6,
+                shadowRadius: 15,
               },
               jiggleStyle,
             ]}
@@ -234,7 +236,10 @@ function SunnyCelebrating({ fading }: { fading: boolean }) {
           {
             width: BODY_W,
             height: BODY_H,
-            boxShadow: `0px 0px 20px ${withAlpha('#FFD700', 0.6)}`,
+            shadowColor: '#FFD700',
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.6,
+            shadowRadius: 20,
           },
           bodyStyle,
         ]}

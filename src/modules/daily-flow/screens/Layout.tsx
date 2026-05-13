@@ -75,7 +75,7 @@ export default function DailyFlowLayout() {
   const showHeader = isStepRoute(pathname);
 
   return (
-    <Screen insetBottom={false} className="">
+    <Screen insetBottom={false} noPadding>
       {showHeader ? (
         <Header
           left={<DailyFlowBackButton />}

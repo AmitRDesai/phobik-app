@@ -133,6 +133,14 @@ export default function Settings() {
             subtitle="Catalog of primitives & variants"
             onPress={() => router.push('/dev/design-system')}
           />
+          <SettingsMenuItem
+            icon="face"
+            iconColor={purple}
+            iconBgColor={withAlpha(purple, scheme === 'dark' ? 0.15 : 0.12)}
+            label="Characters"
+            subtitle="Sunny, Olive, Eddy, Dash"
+            onPress={() => router.push('/dev/characters')}
+          />
         </View>
       )}
 

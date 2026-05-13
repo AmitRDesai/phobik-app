@@ -19,6 +19,7 @@ import {
   foregroundFor,
   withAlpha,
 } from '@/constants/colors';
+import { CHEMICAL_COLORS } from '@/constants/dose-chemicals';
 import { useScheme } from '@/hooks/useTheme';
 import { scheduleEmpathyChallengeReminder } from '@/lib/notifications';
 import { dialog } from '@/utils/dialog';
@@ -109,7 +110,7 @@ export default function EmpathyChallengeDay() {
           {empathyDay.buttonLabel ?? `Complete Day ${dayNum}`}
         </Button>
       }
-      className=""
+      noPadding
     >
       <View className="gap-2 px-5 py-4">
         <View className="flex-row items-end justify-between">
@@ -294,15 +295,15 @@ export default function EmpathyChallengeDay() {
           <View className="flex-row gap-3">
             <DoseCard
               icon="favorite"
-              iconBgColor={withAlpha(colors.primary.pink, 0.2)}
-              iconColor={colors.primary.pink}
+              iconBgColor={withAlpha(CHEMICAL_COLORS.oxytocin, 0.2)}
+              iconColor={CHEMICAL_COLORS.oxytocin}
               value="+10"
               label="Oxytocin"
             />
             <DoseCard
               icon="wb-sunny"
-              iconBgColor={withAlpha(yellow, 0.2)}
-              iconColor={yellow}
+              iconBgColor={withAlpha(CHEMICAL_COLORS.serotonin, 0.2)}
+              iconColor={CHEMICAL_COLORS.serotonin}
               value="+5"
               label="Serotonin"
             />

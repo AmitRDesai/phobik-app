@@ -51,7 +51,7 @@ export default function MorningResetLayout() {
   const showHeader = !!currentStep;
 
   return (
-    <Screen insetBottom={false} className="">
+    <Screen insetBottom={false} noPadding>
       {showHeader ? (
         <View>
           <Header

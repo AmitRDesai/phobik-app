@@ -12,6 +12,7 @@ import { RadialGlow } from '@/components/ui/RadialGlow';
 import { Screen } from '@/components/ui/Screen';
 import { variantConfig } from '@/components/variant-config';
 import { colors, withAlpha } from '@/constants/colors';
+import { CHEMICAL_COLORS } from '@/constants/dose-chemicals';
 import { useScheme } from '@/hooks/useTheme';
 
 export default function EmpathyChallengeComplete() {
@@ -56,7 +57,7 @@ export default function EmpathyChallengeComplete() {
         </View>
       }
       contentClassName="items-center px-6"
-      className=""
+      noPadding
     >
       <View className="relative mb-12 mt-8 items-center justify-center">
         <RadialGlow
@@ -133,12 +134,12 @@ export default function EmpathyChallengeComplete() {
             <IconChip
               size={32}
               shape="circle"
-              bg={withAlpha(colors.primary.pink, 0.15)}
+              bg={withAlpha(CHEMICAL_COLORS.oxytocin, 0.15)}
             >
               <MaterialIcons
                 name="favorite"
                 size={18}
-                color={colors.primary.pink}
+                color={CHEMICAL_COLORS.oxytocin}
               />
             </IconChip>
             <View>
@@ -154,12 +155,12 @@ export default function EmpathyChallengeComplete() {
             <IconChip
               size={32}
               shape="circle"
-              bg={withAlpha(colors.accent.info, 0.15)}
+              bg={withAlpha(CHEMICAL_COLORS.serotonin, 0.15)}
             >
               <MaterialIcons
-                name="psychology"
+                name="wb-sunny"
                 size={18}
-                color={colors.accent.info}
+                color={CHEMICAL_COLORS.serotonin}
               />
             </IconChip>
             <View>

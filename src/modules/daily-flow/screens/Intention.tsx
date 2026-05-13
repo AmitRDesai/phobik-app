@@ -78,7 +78,7 @@ export default function Intention() {
           </Text>
         </View>
       }
-      className=""
+      noPadding
     >
       <View className="px-6">
         <View className="flex-row items-end justify-between">

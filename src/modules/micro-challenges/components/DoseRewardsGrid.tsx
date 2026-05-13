@@ -2,7 +2,8 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
-import { colors, withAlpha } from '@/constants/colors';
+import { withAlpha } from '@/constants/colors';
+import { CHEMICAL_COLORS } from '@/constants/dose-chemicals';
 
 import type { DoseReward } from '@/modules/courage/data/mystery-challenges';
 
@@ -15,25 +16,25 @@ const DOSE_CONFIG = [
     key: 'serotonin' as const,
     label: 'Serotonin',
     sub: 'Mood Stabilizer',
-    color: colors.accent.mint,
+    color: CHEMICAL_COLORS.serotonin,
   },
   {
     key: 'oxytocin' as const,
     label: 'Oxytocin',
     sub: 'Social Safety',
-    color: colors.accent.info,
+    color: CHEMICAL_COLORS.oxytocin,
   },
   {
     key: 'dopamine' as const,
     label: 'Dopamine',
     sub: 'Reward Drive',
-    color: colors.accent.yellow,
+    color: CHEMICAL_COLORS.dopamine,
   },
   {
     key: 'endorphins' as const,
     label: 'Endorphins',
     sub: 'Pain Relief',
-    color: colors.primary.pink,
+    color: CHEMICAL_COLORS.endorphins,
   },
 ];
 

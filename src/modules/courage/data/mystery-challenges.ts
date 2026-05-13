@@ -99,7 +99,7 @@ export const MYSTERY_CHALLENGES: MysteryChallenge[] = [
     practiceText:
       '\u201CIdentify one physical or emotional need you are currently suppressing and name one small action to meet it.\u201D',
     dose: { dopamine: 0, oxytocin: 5, serotonin: 10, endorphins: 0 },
-    wheelGradient: [colors.gradient['warm-orange'], colors.primary.pink],
+    wheelGradient: [colors.accent.orange, colors.primary.pink],
     wheelLabel: 'Needs',
     wheelSubtext: 'figure out what your current needs are',
   },
@@ -113,7 +113,7 @@ export const MYSTERY_CHALLENGES: MysteryChallenge[] = [
     practiceText:
       '\u201CPick one small task you\u2019ve been avoiding and finish it in the next 10 minutes.\u201D',
     dose: { dopamine: 10, oxytocin: 0, serotonin: 5, endorphins: 0 },
-    wheelGradient: [colors.accent.yellow, colors.gradient['light-gold']],
+    wheelGradient: [colors.accent.yellow, colors.accent.gold],
     wheelLabel: 'Wants',
     wheelSubtext: 'determine what you would like to achieve',
   },

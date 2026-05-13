@@ -4,7 +4,9 @@ import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
+import { CHEMICAL_COLORS, CHEMICAL_ICONS } from '@/constants/dose-chemicals';
 import { useLastNightRestingHr } from '@/modules/insights/hooks/useSleepHistory';
+import type { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
 import { CenterScoreCircle } from '../components/CenterScoreCircle';
@@ -24,7 +26,7 @@ type ChemicalRender = {
   pillarLabel: string;
   chemicalLabel: string;
   color: string;
-  icon: 'bolt' | 'auto-awesome' | 'wb-sunny' | 'favorite';
+  icon: keyof typeof MaterialIcons.glyphMap;
 };
 
 const CHEMICAL_RENDER: Record<Chemical, ChemicalRender> = {
@@ -32,29 +34,29 @@ const CHEMICAL_RENDER: Record<Chemical, ChemicalRender> = {
     chemical: 'endorphins',
     pillarLabel: 'BODY',
     chemicalLabel: 'Endorphins',
-    color: colors.primary.pink,
-    icon: 'bolt',
+    color: CHEMICAL_COLORS.endorphins,
+    icon: CHEMICAL_ICONS.endorphins,
   },
   dopamine: {
     chemical: 'dopamine',
     pillarLabel: 'MIND',
     chemicalLabel: 'Dopamine',
-    color: colors.accent.orange,
-    icon: 'auto-awesome',
+    color: CHEMICAL_COLORS.dopamine,
+    icon: CHEMICAL_ICONS.dopamine,
   },
   serotonin: {
     chemical: 'serotonin',
     pillarLabel: 'EMOTION',
     chemicalLabel: 'Serotonin',
-    color: colors.accent.yellow,
-    icon: 'wb-sunny',
+    color: CHEMICAL_COLORS.serotonin,
+    icon: CHEMICAL_ICONS.serotonin,
   },
   oxytocin: {
     chemical: 'oxytocin',
     pillarLabel: 'CONNECTION',
     chemicalLabel: 'Oxytocin',
-    color: colors.primary['pink-dark'],
-    icon: 'favorite',
+    color: CHEMICAL_COLORS.oxytocin,
+    icon: CHEMICAL_ICONS.oxytocin,
   },
 };
 

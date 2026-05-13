@@ -35,7 +35,7 @@ export function PlanRow({
   return (
     <Pressable
       onPress={() => router.push(route)}
-      className="h-24 flex-row items-stretch overflow-hidden rounded-3xl border border-foreground/[0.08] bg-surface-elevated active:scale-[0.98]"
+      className="h-24 flex-row items-stretch overflow-hidden rounded-3xl border border-foreground/[0.08] bg-foreground/5 active:scale-[0.98]"
     >
       <View className="h-full w-24 overflow-hidden">
         <Image

@@ -1,4 +1,3 @@
-import { withAlpha } from '@/constants/colors';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -105,7 +104,10 @@ function OliveIdle() {
                 marginTop: 16,
                 width: BODY_W,
                 height: BODY_H,
-                boxShadow: `0px 0px 15px ${withAlpha('#FF9ECD', 0.6)}`,
+                shadowColor: '#FF9ECD',
+                shadowOffset: { width: 0, height: 0 },
+                shadowOpacity: 0.6,
+                shadowRadius: 15,
               },
               jiggleStyle,
             ]}
@@ -167,7 +169,10 @@ function OliveCelebrating({ fading }: { fading: boolean }) {
             marginTop: 16,
             width: BODY_W,
             height: BODY_H,
-            boxShadow: `0px 0px 20px ${withAlpha('#FF9ECD', 0.6)}`,
+            shadowColor: '#FF9ECD',
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.6,
+            shadowRadius: 20,
           }}
         >
           <OliveBody />
@@ -210,7 +215,10 @@ function TrustRing() {
         borderWidth: 2,
         borderColor: 'rgba(224, 176, 255, 0.4)',
         borderStyle: 'dashed',
-        boxShadow: `0px 0px 30px ${withAlpha('#FF9ECD', 0.2)}`,
+        shadowColor: '#FF9ECD',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.2,
+        shadowRadius: 30,
       }}
       initialAnimate={{ rotate: 0 }}
       animate={{ rotate: 360 }}
@@ -318,7 +326,10 @@ function HeartPendant() {
         style={{
           width: 40,
           height: 40,
-          boxShadow: `0px 4px 6px ${withAlpha('#000', 0.2)}`,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.2,
+          shadowRadius: 6,
         }}
       >
         <Text style={{ fontSize: 18, color: '#EC4899' }}>♥</Text>

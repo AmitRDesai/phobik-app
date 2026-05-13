@@ -26,7 +26,7 @@ export default function ProfileSetupLayout() {
   // back; the Stack's contentStyle is transparent so the layout's bg
   // paints continuously across step transitions.
   return (
-    <Screen insetBottom={false} className="">
+    <Screen insetBottom={false} noPadding>
       {currentStep ? (
         <View className="px-screen-x flex-row items-center pb-3 pt-2">
           <BackButton />

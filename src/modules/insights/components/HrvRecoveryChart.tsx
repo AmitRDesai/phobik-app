@@ -1,6 +1,8 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { colors } from '@/constants/colors';
+import { Card } from '@/components/ui/Card';
+import { accentFor, colors } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
 import {
   useBiometricHistory,
@@ -54,8 +56,6 @@ function timeLabels(
             .replace(' ', '')
       : (d: Date) =>
           d.toLocaleDateString([], { month: 'short', day: 'numeric' });
-  // Pick up to 5 evenly spaced labels. The `key` is the source bucket id,
-  // which is stable per data point and never reorders.
   const target = Math.min(5, points.length);
   const step = (points.length - 1) / Math.max(1, target - 1);
   const out: { key: string; text: string }[] = [];
@@ -68,6 +68,8 @@ function timeLabels(
 }
 
 export function HrvRecoveryChart() {
+  const scheme = useScheme();
+  const accent = accentFor(scheme, 'yellow');
   const range = useAtomValue(timeRangeAtom);
   const hasConnectedHealth = useAtomValue(hasConnectedHealthAtom);
   const hrv = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], range);
@@ -81,7 +83,7 @@ export function HrvRecoveryChart() {
       : null;
 
   return (
-    <View className="gap-4 px-4">
+    <View className="gap-4">
       <View className="flex-row items-end justify-between">
         <View>
           <Text size="h3" weight="bold">
@@ -92,18 +94,14 @@ export function HrvRecoveryChart() {
           </Text>
         </View>
         <View className="items-end">
-          <Text
-            size="h2"
-            style={{
-              color: colors.amber[400],
-              textShadowColor: colors.amber[400],
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 4,
-            }}
-          >
-            {latestValue != null ? latestValue.toFixed(0) : '—'}{' '}
-            <Text size="xs">ms</Text>
-          </Text>
+          <View className="flex-row items-baseline">
+            <Text size="h2" weight="bold" style={{ color: accent }}>
+              {latestValue != null ? latestValue.toFixed(0) : '—'}
+            </Text>
+            <Text size="xs" tone="secondary" className="ml-1">
+              ms
+            </Text>
+          </View>
           {deltaPct != null ? (
             <Text
               size="xs"
@@ -119,7 +117,7 @@ export function HrvRecoveryChart() {
           ) : null}
         </View>
       </View>
-      <View className="overflow-hidden rounded-xl border border-foreground/10 bg-foreground/5 p-4">
+      <Card variant="flat" size="md">
         <View className="h-[160px] w-full">
           {line ? (
             <Svg
@@ -130,23 +128,15 @@ export function HrvRecoveryChart() {
             >
               <Defs>
                 <LinearGradient id="hrvGrad" x1="0" y1="0" x2="0" y2="1">
-                  <Stop
-                    offset="0%"
-                    stopColor={colors.amber[400]}
-                    stopOpacity={0.3}
-                  />
-                  <Stop
-                    offset="100%"
-                    stopColor={colors.amber[400]}
-                    stopOpacity={0}
-                  />
+                  <Stop offset="0%" stopColor={accent} stopOpacity={0.3} />
+                  <Stop offset="100%" stopColor={accent} stopOpacity={0} />
                 </LinearGradient>
               </Defs>
               <Path d={area} fill="url(#hrvGrad)" />
               <Path
                 d={line}
                 fill="none"
-                stroke={colors.amber[400]}
+                stroke={accent}
                 strokeWidth="3"
                 strokeLinecap="round"
               />
@@ -203,7 +193,7 @@ export function HrvRecoveryChart() {
             ))}
           </View>
         ) : null}
-      </View>
+      </Card>
     </View>
   );
 }

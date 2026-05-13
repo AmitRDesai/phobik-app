@@ -65,7 +65,7 @@ export function SegmentedProgress({
           <LinearGradient
             colors={[
               colors.primary.pink,
-              colors.gradient['warm-orange'],
+              colors.accent.orange,
               colors.accent.yellow,
             ]}
             start={{ x: 0, y: 0 }}

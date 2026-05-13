@@ -32,7 +32,7 @@ export default function DetailedFeeling() {
   };
 
   return (
-    <Screen loading={showLoading} transparent insetTop={false} className="">
+    <Screen loading={showLoading} transparent insetTop={false} noPadding>
       <View className="px-6">
         <View className="flex-row items-end justify-between">
           <View className="flex-1">

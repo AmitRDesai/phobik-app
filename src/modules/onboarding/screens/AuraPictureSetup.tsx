@@ -104,7 +104,7 @@ export default function AuraPictureSetup() {
           </Button>
         </View>
       }
-      className=""
+      noPadding
     >
       <View className="px-8 pt-8">
         <Text size="h1" align="center">

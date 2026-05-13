@@ -1,10 +1,9 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { colors, withAlpha } from '@/constants/colors';
+import { ScoreRing } from '@/modules/dashboard/components/ScoreRing';
 import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
 import { useSleepHistory } from '@/modules/insights/hooks/useSleepHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue } from 'jotai';
 
 function scoreLabel(score: number | null): string {
@@ -33,41 +32,23 @@ export function SleepScoreHeader() {
   const { lastNightScore } = useSleepHistory(range);
 
   return (
-    <View className="items-center px-4 py-8">
-      <View className="relative mb-6 h-40 w-40 items-center justify-center">
-        <LinearGradient
-          colors={[colors.primary.pink, colors.accent.yellow]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{
-            width: 160,
-            height: 160,
-            borderRadius: 80,
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.4)}`,
-          }}
-        >
-          <View
-            className="absolute rounded-full bg-surface"
-            style={{
-              width: 144,
-              height: 144,
-              transform: [{ translateX: 16 }, { translateY: -8 }],
-            }}
-          />
-          <View className="z-10 items-center">
-            <Text size="display">
-              {lastNightScore != null ? lastNightScore : '—'}
-            </Text>
-            <Text size="xs" treatment="caption" className="text-foreground/80">
-              Score
-            </Text>
-          </View>
-        </LinearGradient>
-      </View>
-      <Text size="h2">{scoreLabel(lastNightScore)}</Text>
-      <Text size="md" tone="accent" weight="medium" className="mt-1 /80">
+    <View className="items-center pt-4">
+      <ScoreRing
+        value={lastNightScore}
+        gradient="yellow-pink"
+        size={176}
+        strokeWidth={14}
+        caption="LAST NIGHT"
+      />
+      <Text size="h2" align="center" className="mt-5">
+        {scoreLabel(lastNightScore)}
+      </Text>
+      <Text
+        size="sm"
+        tone="secondary"
+        align="center"
+        className="mt-1 max-w-[300px]"
+      >
         {scoreSubtitle(lastNightScore, hasConnectedHealth)}
       </Text>
     </View>

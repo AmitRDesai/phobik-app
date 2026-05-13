@@ -48,12 +48,7 @@ module.exports = {
           warning: '#f59e0b',
         },
         gradient: {
-          'warm-orange': '#FF8D5C',
-          'bright-orange': '#FF8C37',
           'hot-pink': '#FF3B8E',
-          'light-gold': '#FFD64D',
-          'soft-pink': '#ff4b8b',
-          magenta: '#f4258c',
           amber: '#ffb800',
         },
         chakra: {

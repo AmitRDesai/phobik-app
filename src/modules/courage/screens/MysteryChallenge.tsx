@@ -33,7 +33,7 @@ export default function MysteryChallenge() {
         </View>
       }
       contentClassName="flex-grow items-center"
-      className=""
+      noPadding
     >
       <View className="my-4">
         <MysteryWheel onSpinComplete={handleSpinComplete} />

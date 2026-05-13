@@ -111,7 +111,6 @@ function RootNavigator() {
         <Stack.Screen name="community/create" />
         <Stack.Screen name="notifications" />
         <Stack.Screen name="daily-flow" />
-        <Stack.Screen name="characters" />
       </Stack.Protected>
     </Stack>
   );

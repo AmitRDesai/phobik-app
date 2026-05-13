@@ -1,4 +1,8 @@
-import { colors } from '@/constants/colors';
+import {
+  CHEMICAL_COLORS,
+  CHEMICAL_ICONS,
+  type Chemical,
+} from '@/constants/dose-chemicals';
 import type { MaterialIcons } from '@expo/vector-icons';
 import type { ComponentProps } from 'react';
 import type { DoseTotals } from '../hooks/useDailyDose';
@@ -6,7 +10,7 @@ import type { DoseTotals } from '../hooks/useDailyDose';
 type IconName = ComponentProps<typeof MaterialIcons>['name'];
 
 export interface DoseChemical {
-  key: keyof DoseTotals;
+  key: Chemical;
   label: string;
   subtitle: string;
   icon: IconName;
@@ -15,38 +19,40 @@ export interface DoseChemical {
   maxCoins: number;
 }
 
-/** Display config for each chemical — labels, icons, colors, max target */
+/** Display config for each chemical — labels + insights-specific subtitle + max target.
+ * Color and icon come from the canonical `@/constants/dose-chemicals` map so the
+ * same chemical reads identically on dashboard and insights surfaces. */
 const DOSE_DISPLAY: Omit<DoseChemical, 'coins'>[] = [
   {
     key: 'dopamine',
     label: 'Dopamine',
     subtitle: 'Progress & Momentum',
-    icon: 'bolt',
-    color: colors.accent.yellow,
+    icon: CHEMICAL_ICONS.dopamine,
+    color: CHEMICAL_COLORS.dopamine,
     maxCoins: 25,
   },
   {
     key: 'oxytocin',
     label: 'Oxytocin',
     subtitle: 'Connection & Safety',
-    icon: 'favorite',
-    color: colors.accent.info,
+    icon: CHEMICAL_ICONS.oxytocin,
+    color: CHEMICAL_COLORS.oxytocin,
     maxCoins: 25,
   },
   {
     key: 'serotonin',
     label: 'Serotonin',
     subtitle: 'Confidence & Stability',
-    icon: 'eco',
-    color: colors.accent.mint,
+    icon: CHEMICAL_ICONS.serotonin,
+    color: CHEMICAL_COLORS.serotonin,
     maxCoins: 25,
   },
   {
     key: 'endorphins',
     label: 'Endorphins',
     subtitle: 'Stress Relief & Resilience',
-    icon: 'fitness-center',
-    color: colors.primary.pink,
+    icon: CHEMICAL_ICONS.endorphins,
+    color: CHEMICAL_COLORS.endorphins,
     maxCoins: 25,
   },
 ];

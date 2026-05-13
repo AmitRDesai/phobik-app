@@ -41,7 +41,7 @@ export default function Welcome() {
           <View
             className="absolute h-[160px] w-[160px] rounded-full"
             style={{
-              boxShadow: `0 0 50px ${withAlpha(colors.gradient['warm-orange'], 0.25)}`,
+              boxShadow: `0 0 50px ${withAlpha(colors.accent.orange, 0.25)}`,
             }}
           />
 
@@ -63,7 +63,7 @@ export default function Welcome() {
               <LinearGradient
                 colors={[
                   colors.primary.pink,
-                  colors.gradient['warm-orange'],
+                  colors.accent.orange,
                   colors.accent.yellow,
                 ]}
                 start={{ x: 0, y: 1 }}

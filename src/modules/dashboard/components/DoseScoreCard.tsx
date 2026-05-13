@@ -1,6 +1,5 @@
 import { Text } from '@/components/themed/Text';
 import { Card } from '@/components/ui/Card';
-import { GlowBg } from '@/components/ui/GlowBg';
 import { colors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { useDoseScore } from '../hooks/useDoseScore';
@@ -17,7 +16,7 @@ export function DoseScoreCard({ date }: DoseScoreCardProps) {
   return (
     <Card
       variant="raised"
-      size="lg"
+      size="md"
       shadow={{
         color: colors.primary.pink,
         opacity: 0.1,
@@ -25,28 +24,17 @@ export function DoseScoreCard({ date }: DoseScoreCardProps) {
         offsetY: 8,
       }}
       onPress={() => router.push({ pathname: '/energy', params: { date } })}
-      className="flex-1 items-center overflow-hidden"
+      className="flex-1 items-center"
     >
-      <GlowBg
-        centerX={0.5}
-        centerY={0}
-        intensity={0.8}
-        radius={0.5}
-        startColor={colors.primary.pink}
-        endColor={colors.accent.yellow}
-        bgClassName="bg-transparent"
-      />
       <ScoreRing
         value={total}
         gradient="pink-yellow"
-        size={144}
+        size={112}
+        strokeWidth={10}
         caption={level.label.toUpperCase()}
       />
-      <Text size="h2" align="center" className="mt-5">
+      <Text size="h3" align="center" className="mt-3">
         Synrgy Score
-      </Text>
-      <Text size="sm" align="center" tone="secondary" className="mt-1">
-        {level.message}
       </Text>
     </Card>
   );

@@ -85,7 +85,7 @@ export default function Completion() {
           <View
             className="absolute h-64 w-64 rounded-full border"
             style={{
-              borderColor: withAlpha(colors.gradient['bright-orange'], 0.2),
+              borderColor: withAlpha(colors.accent.orange, 0.2),
             }}
           />
           <View className="absolute h-52 w-52 rounded-full border border-primary-pink/10" />
@@ -93,8 +93,8 @@ export default function Completion() {
           <LinearGradient
             colors={[
               colors.gradient['hot-pink'],
-              colors.gradient['bright-orange'],
-              colors.gradient['light-gold'],
+              colors.accent.orange,
+              colors.accent.gold,
             ]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
@@ -104,7 +104,7 @@ export default function Completion() {
               borderRadius: 9999,
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: `0 0 60px ${withAlpha(colors.gradient['bright-orange'], 0.5)}`,
+              boxShadow: `0 0 60px ${withAlpha(colors.accent.orange, 0.5)}`,
             }}
           >
             <View className="h-40 w-40 items-center justify-center rounded-full border-2 border-foreground/30 bg-foreground/5">

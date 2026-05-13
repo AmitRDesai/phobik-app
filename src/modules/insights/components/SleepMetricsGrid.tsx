@@ -1,6 +1,8 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { colors } from '@/constants/colors';
+import { Card } from '@/components/ui/Card';
+import { type AccentHue, accentFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import {
   useLastNightRestingHr,
   useSleepHistory,
@@ -29,21 +31,27 @@ function MetricTile({
   icon,
   value,
   label,
+  tone,
 }: {
   icon: 'schedule' | 'nights-stay' | 'favorite';
   value: string;
   label: string;
+  tone: AccentHue;
 }) {
+  const scheme = useScheme();
+  const accent = accentFor(scheme, tone);
   return (
-    <View className="flex-1 items-center gap-2 rounded-xl border border-primary-pink/20 bg-primary-pink/5 p-4">
-      <MaterialIcons name={icon} size={20} color={colors.primary.pink} />
-      <Text size="md" weight="bold">
-        {value}
-      </Text>
-      <Text size="xs" treatment="caption" tone="secondary">
-        {label}
-      </Text>
-    </View>
+    <Card variant="toned" tone={tone} size="md" className="flex-1 items-center">
+      <View className="items-center gap-2">
+        <MaterialIcons name={icon} size={22} color={accent} />
+        <Text size="h2" weight="bold" allowFontScaling={false}>
+          {value}
+        </Text>
+        <Text size="xs" treatment="caption" tone="secondary">
+          {label}
+        </Text>
+      </View>
+    </Card>
   );
 }
 
@@ -56,11 +64,12 @@ export function SleepMetricsGrid() {
   );
 
   return (
-    <View className="flex-row gap-3 px-4">
+    <View className="flex-row gap-3">
       <MetricTile
         icon="schedule"
         value={formatDuration(lastNight?.totalMinutes ?? null)}
         label="Asleep"
+        tone="cyan"
       />
       <MetricTile
         icon="nights-stay"
@@ -69,11 +78,13 @@ export function SleepMetricsGrid() {
           lastNight?.totalMinutes ?? 0,
         )}
         label="Deep"
+        tone="purple"
       />
       <MetricTile
         icon="favorite"
         value={restingHr != null ? String(restingHr) : '—'}
         label="BPM"
+        tone="pink"
       />
     </View>
   );

@@ -107,7 +107,7 @@ export default function SelfCheckInsLayout() {
   }
 
   return (
-    <Screen insetBottom={false} className="">
+    <Screen insetBottom={false} noPadding>
       {questionChrome}
       <View style={{ flex: 1 }}>
         <Stack

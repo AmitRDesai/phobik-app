@@ -75,7 +75,7 @@ export default function Player() {
   };
 
   return (
-    <Screen loading={showLoading} transparent insetTop={false} className="">
+    <Screen loading={showLoading} transparent insetTop={false} noPadding>
       <View className="flex-1 items-center justify-center px-6">
         <PlayerOrb cue={BREATH_CUES[breathIndex] ?? 'Inhale'} />
 

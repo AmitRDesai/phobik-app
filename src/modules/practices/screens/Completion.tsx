@@ -6,6 +6,7 @@ import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { useScheme } from '@/hooks/useTheme';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { CHEMICAL_COLORS } from '@/constants/dose-chemicals';
 import {
   DOSE_REWARDS,
   getActiveDoseRewards,
@@ -38,28 +39,28 @@ const REWARD_STYLES: Record<
   { gradient: [string, string]; glow: string; shadow: string; label: string }
 > = {
   dopamine: {
-    gradient: [colors.accent.yellow, colors.accent.gold],
-    glow: withAlpha(colors.accent.yellow, 0.2),
-    shadow: colors.accent.yellow,
-    label: colors.accent.yellow,
+    gradient: [CHEMICAL_COLORS.dopamine, colors.gradient.amber],
+    glow: withAlpha(CHEMICAL_COLORS.dopamine, 0.2),
+    shadow: CHEMICAL_COLORS.dopamine,
+    label: CHEMICAL_COLORS.dopamine,
   },
   oxytocin: {
-    gradient: [colors.accent.purple, colors.primary.pink],
-    glow: withAlpha(colors.accent.purple, 0.2),
-    shadow: colors.accent.purple,
-    label: colors.accent.purple,
+    gradient: [CHEMICAL_COLORS.oxytocin, colors.primary.pink],
+    glow: withAlpha(CHEMICAL_COLORS.oxytocin, 0.2),
+    shadow: CHEMICAL_COLORS.oxytocin,
+    label: CHEMICAL_COLORS.oxytocin,
   },
   serotonin: {
-    gradient: [colors.blue[500], colors.cyan[400]],
-    glow: withAlpha(colors.blue[400], 0.2),
-    shadow: colors.blue[500],
-    label: colors.blue[400],
+    gradient: [CHEMICAL_COLORS.serotonin, colors.accent.gold],
+    glow: withAlpha(CHEMICAL_COLORS.serotonin, 0.2),
+    shadow: CHEMICAL_COLORS.serotonin,
+    label: CHEMICAL_COLORS.serotonin,
   },
   endorphins: {
-    gradient: [colors.primary.pink, colors.gradient['soft-pink']],
-    glow: withAlpha(colors.gradient['hot-pink'], 0.2),
-    shadow: colors.primary.pink,
-    label: colors.primary.pink,
+    gradient: [CHEMICAL_COLORS.endorphins, colors.primary['pink-soft']],
+    glow: withAlpha(CHEMICAL_COLORS.endorphins, 0.2),
+    shadow: CHEMICAL_COLORS.endorphins,
+    label: CHEMICAL_COLORS.endorphins,
   },
 };
 

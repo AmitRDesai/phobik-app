@@ -5,7 +5,7 @@ import { Pressable } from 'react-native';
 
 interface RhythmFlowCardProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   image: number;
   onPress?: () => void;
 }
@@ -17,8 +17,8 @@ export function RhythmFlowCard({
   onPress,
 }: RhythmFlowCardProps) {
   return (
-    <Pressable onPress={onPress} className="flex-1 active:scale-[0.98]">
-      <View className="h-40 overflow-hidden rounded-3xl border border-foreground/[0.08]">
+    <Pressable onPress={onPress} className="h-40 active:scale-[0.98]">
+      <View className="flex-1 overflow-hidden rounded-3xl border border-foreground/[0.08]">
         <Image
           source={image}
           contentFit="cover"
@@ -38,14 +38,16 @@ export function RhythmFlowCard({
           <Text size="h3" tone="inverse" weight="bold" allowFontScaling={false}>
             {title}
           </Text>
-          <Text
-            size="xs"
-            tone="inverse"
-            weight="bold"
-            className="mt-0.5 uppercase tracking-widest /70"
-          >
-            {subtitle}
-          </Text>
+          {subtitle ? (
+            <Text
+              size="xs"
+              tone="inverse"
+              weight="bold"
+              className="mt-0.5 uppercase tracking-widest /70"
+            >
+              {subtitle}
+            </Text>
+          ) : null}
         </View>
       </View>
     </Pressable>

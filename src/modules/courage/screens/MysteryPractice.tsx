@@ -54,7 +54,7 @@ export default function MysteryPractice() {
           </View>
         </View>
       }
-      className=""
+      noPadding
     >
       <View className="mb-8 px-6">
         <Text

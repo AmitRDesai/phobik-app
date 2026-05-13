@@ -31,12 +31,7 @@ type CustomColors = {
     warning: string;
   };
   gradient: {
-    'warm-orange': string;
-    'bright-orange': string;
     'hot-pink': string;
-    'light-gold': string;
-    'soft-pink': string;
-    magenta: string;
     amber: string;
   };
   chakra: {

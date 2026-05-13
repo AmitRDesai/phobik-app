@@ -1,39 +1,62 @@
+import morningResetImage from '@/assets/images/daily-flow/support-amber-glow.png';
+import dailyFlowImage from '@/assets/images/daily-flow/support-neural-bloom.png';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { GradientText } from '@/components/ui/GradientText';
-import { useDailyPlan } from '../hooks/useDailyPlan';
+import { colors } from '@/constants/colors';
+import { isTodayLocal } from '@/modules/daily-flow/data/flow-navigation';
+import { useActiveDailyFlowSession } from '@/modules/daily-flow/hooks/useDailyFlowSession';
+import { useActiveMorningResetSession } from '@/modules/morning-reset/hooks/useMorningResetSession';
 import { PlanRow } from './PlanRow';
 
 export function MyPlanSection() {
-  const plan = useDailyPlan();
+  const { session: dailyFlowSession } = useActiveDailyFlowSession();
+  const { session: morningResetSession } = useActiveMorningResetSession();
 
-  if (plan.length === 0) return null;
+  const canResumeDailyFlow =
+    !!dailyFlowSession && isTodayLocal(dailyFlowSession.startedAt);
+  const canResumeMorningReset =
+    !!morningResetSession && isTodayLocal(morningResetSession.startedAt);
 
   return (
     <View className="gap-4">
-      <View>
+      <View className="flex-row items-baseline justify-between">
         <View className="flex-row items-baseline">
           <Text size="h1">My </Text>
           <GradientText className="text-[28px] font-bold leading-[34px]">
             Plan
           </GradientText>
         </View>
-        <Text size="sm" tone="secondary" className="mt-1">
-          Build your best self with focused micro-habits.
+        <Text
+          size="xs"
+          treatment="caption"
+          weight="bold"
+          tone="secondary"
+          className="uppercase tracking-widest"
+        >
+          Today's Focus
         </Text>
       </View>
 
       <View className="gap-3">
-        {plan.map((entry) => (
-          <PlanRow
-            key={entry.id}
-            title={entry.item.title}
-            eyebrow={entry.pillarLabel}
-            image={entry.item.image}
-            route={entry.item.route!}
-            accentColor={entry.item.accentColor}
-          />
-        ))}
+        <PlanRow
+          title="Morning Reset"
+          eyebrow={canResumeMorningReset ? 'RESUME' : 'MORNING'}
+          image={morningResetImage}
+          route="/morning-reset"
+          accentColor={
+            canResumeMorningReset ? colors.accent.yellow : colors.primary.pink
+          }
+        />
+        <PlanRow
+          title="Daily Flow"
+          eyebrow={canResumeDailyFlow ? 'RESUME' : 'ONGOING'}
+          image={dailyFlowImage}
+          route="/daily-flow"
+          accentColor={
+            canResumeDailyFlow ? colors.accent.yellow : colors.accent.orange
+          }
+        />
       </View>
     </View>
   );

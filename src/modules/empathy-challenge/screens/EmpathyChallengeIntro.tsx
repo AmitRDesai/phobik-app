@@ -35,7 +35,7 @@ export default function EmpathyChallengeIntro() {
           Join Challenge
         </Button>
       }
-      className=""
+      noPadding
     >
       <View className="h-16" />
 
