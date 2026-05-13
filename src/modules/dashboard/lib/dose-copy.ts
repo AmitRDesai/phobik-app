@@ -1,6 +1,7 @@
+import type { Chemical } from '@/constants/dose-chemicals';
 import type { Href } from 'expo-router';
 
-export type { Chemical } from '@/constants/dose-chemicals';
+export type { Chemical };
 
 export type ChemicalMeta = {
   /** Pillar label paired with this chemical in the EnergyDetails design. */

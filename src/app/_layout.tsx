@@ -70,6 +70,11 @@ function RootNavigator() {
         },
       }}
     >
+      {/* Force-update gate — wins over every other stack when the binary is below minimum version */}
+      <Stack.Protected guard={activeStack === 'update-required'}>
+        <Stack.Screen name="update-required" />
+      </Stack.Protected>
+
       {/* Auth screens — outer guard covers all unauthenticated states.
           Inner nested guard (!isReturningUser) makes account-creation the
           initial screen for new users. When returning, account-creation is
