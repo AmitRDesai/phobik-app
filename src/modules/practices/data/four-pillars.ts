@@ -143,7 +143,7 @@ export const BODY_SUBMENU: PillarSubMenu = {
       title: 'BREATHE',
       subtitle: 'Direct nervous system downshifting.',
       image: bodyBreatheImg,
-      route: '/practices/body/breathe',
+      route: '/breathe',
       icon: 'air',
       accentColor: colors.accent.yellow,
     },

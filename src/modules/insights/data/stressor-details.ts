@@ -65,7 +65,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Physiological Sigh to reset',
         supports: 'Calm & Clarity',
         buttonLabel: 'Start',
-        route: '/practices/double-inhale-intro',
+        route: '/breathe/double-inhale-intro',
       },
       {
         icon: 'grid-view',
@@ -74,7 +74,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'For mental focus',
         supports: 'Focus & Calm',
         buttonLabel: 'Start',
-        route: '/practices/box-breathing-intro',
+        route: '/breathe/box-breathing-intro',
       },
       {
         icon: 'accessibility-new',
@@ -307,7 +307,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Calm the nervous system',
         supports: 'Resilience',
         buttonLabel: 'Start',
-        route: '/practices/478-breathing-intro',
+        route: '/breathe/478-breathing-intro',
       },
       {
         icon: 'edit-note',
@@ -355,7 +355,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Return to the present moment',
         supports: 'Calm',
         buttonLabel: 'Start',
-        route: '/practices/grounding-intro',
+        route: '/breathe/grounding-intro',
       },
       {
         icon: 'lightbulb',
@@ -440,7 +440,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: '4-4-4-4 technique for focus',
         supports: 'Calm',
         buttonLabel: 'Start',
-        route: '/practices/box-breathing-intro',
+        route: '/breathe/box-breathing-intro',
       },
       {
         icon: 'checklist',
@@ -486,7 +486,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: '4-7-8 technique for calm',
         supports: 'Regulation',
         buttonLabel: 'Start',
-        route: '/practices/478-breathing-intro',
+        route: '/breathe/478-breathing-intro',
       },
       {
         icon: 'edit-note',
@@ -503,7 +503,7 @@ export const STRESSOR_DETAILS: Record<StressorKey, StressorDetailData> = {
         description: 'Safety visualization exercise',
         supports: 'Grounding',
         buttonLabel: 'Start',
-        route: '/practices/grounding-intro',
+        route: '/breathe/grounding-intro',
       },
     ],
   },

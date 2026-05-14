@@ -29,7 +29,7 @@ import Animated, {
 
 import { CompletionBadge } from '../components/CompletionBadge';
 import { useRecordPracticeCompletion } from '../hooks/usePracticeCompletion';
-import { groundingSessionAtom } from '../store/grounding';
+import { groundingSessionAtom } from '@/modules/breathe/store/grounding';
 
 const CONFETTI_COLORS = [colors.primary.pink, colors.accent.yellow, 'white'];
 const CONFETTI_COUNT = 24;
