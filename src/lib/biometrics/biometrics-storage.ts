@@ -67,9 +67,20 @@ export async function persistReadings(
     });
   }
   if (rows.length === 0) return;
-  await db
-    .insertInto('biometric_reading')
-    .values(rows)
-    .onConflict((oc) => oc.column('id').doNothing())
+  // PowerSync's synced tables are SQLite views — ON CONFLICT clauses are
+  // rejected ("cannot UPSERT a view"). Pre-filter by querying which deterministic
+  // ids already exist, then insert only the new rows.
+  const existing = await db
+    .selectFrom('biometric_reading')
+    .select('id')
+    .where(
+      'id',
+      'in',
+      rows.map((r) => r.id),
+    )
     .execute();
+  const existingIds = new Set(existing.map((r) => r.id));
+  const newRows = rows.filter((r) => !existingIds.has(r.id));
+  if (newRows.length === 0) return;
+  await db.insertInto('biometric_reading').values(newRows).execute();
 }
