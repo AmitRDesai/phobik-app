@@ -3,7 +3,8 @@ import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export function HeartRateBadge() {
-  const { heartRate } = useLatestBiometrics();
+  const { heartRate, hasAccess } = useLatestBiometrics();
+  if (!hasAccess) return null;
   const display = heartRate != null ? `${heartRate} BPM` : '— BPM';
 
   return (

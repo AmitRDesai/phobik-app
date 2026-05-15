@@ -4,7 +4,12 @@ import type { TimeRange } from '@/modules/insights/store/insights';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { sql } from 'kysely';
 
-export type BiometricMetric = 'heart_rate' | 'hrv_sdnn' | 'hrv_rmssd';
+export type BiometricMetric =
+  | 'heart_rate'
+  | 'hrv_sdnn'
+  | 'hrv_rmssd'
+  | 'resting_hr'
+  | 'respiratory_rate';
 
 export type BiometricHistoryPoint = {
   bucket: string; // ISO-ish bucket key — '2026-04-25' (daily) or '2026-04-25 14' (hourly)

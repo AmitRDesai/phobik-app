@@ -5,7 +5,7 @@ import { AccentPill } from '@/components/ui/AccentPill';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
-import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
+import { Header } from '@/components/ui/Header';
 import { colors, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -21,7 +21,7 @@ type MovementScreenProps = {
 /**
  * Unified Movement intro screen — single consistent template for all 6 exercises.
  * Layout:
- *  - Fixed top: PracticeStackHeader (wordmark "Movement")
+ *  - Fixed top: Header (title "Movement")
  *  - Scrollable middle: circular hero, eyebrow, title, pills, body, optional benefits/stats/quote
  *  - Fixed bottom: gradient CTA + optional footer note
  *
@@ -49,7 +49,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
   return (
     <Screen
       scroll
-      header={<PracticeStackHeader wordmark="Movement" />}
+      header={<Header variant="back" title="Movement" />}
       sticky={
         <View className="border-t border-foreground/5 px-2 pt-3">
           <Button

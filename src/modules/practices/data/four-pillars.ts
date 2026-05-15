@@ -24,6 +24,8 @@ import emotionSoundStudioImg from '@/assets/images/four-pillars/emotion-sound-st
 import relationshipEmpathyImg from '@/assets/images/four-pillars/relationship-empathy.jpg';
 import relationshipIntimacyImg from '@/assets/images/four-pillars/relationship-intimacy.jpg';
 
+import relationshipExpressYourselfImg from '@/assets/images/express-yourself/waves-artwork.jpg';
+
 export type PillarId = 'body' | 'mind' | 'emotion' | 'relationship';
 
 export type PillarHubCard = {
@@ -288,6 +290,18 @@ export const RELATIONSHIP_SUBMENU: PillarSubMenu = {
       accentColor: colors.accent.yellow,
       cta: 'Take Test',
       ctaIcon: 'analytics',
+    },
+    {
+      id: 'express-yourself',
+      title: 'EXPRESS YOURSELF',
+      subtitle:
+        'Turn a poem or letter into a custom song for someone you love.',
+      badge: 'New',
+      image: relationshipExpressYourselfImg,
+      route: '/practices/express-yourself',
+      accentColor: colors.primary.pink,
+      cta: 'Start Writing',
+      ctaIcon: 'edit-note',
     },
   ],
 };

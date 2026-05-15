@@ -55,6 +55,8 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         return this.handleJournalTag(op);
       case 'gentle_letter':
         return this.handleGentleLetter(op);
+      case 'song':
+        return this.handleSong(op);
       case 'empathy_challenge':
         return this.handleEmpathyChallenge(op, database);
       case 'empathy_challenge_day':
@@ -157,6 +159,27 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         title: d?.title as string,
         entryDate: d?.entry_date as string,
       });
+    }
+  }
+
+  private async handleSong(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op === 'PUT' || op.op === 'PATCH') {
+      // Server-only fields (status='generating'/'ready'/'failed', audio_key, etc.) are
+      // written by the backend and replicate down — don't echo them back up.
+      const status = d?.status as string | undefined;
+      if (status && status !== 'draft') return;
+
+      await rpcClient.song.upsert({
+        id: op.id,
+        prompt: (d?.prompt as string) ?? '',
+        style: d?.style !== undefined ? (d.style as string) : undefined,
+        isFavorite:
+          d?.is_favorite !== undefined ? Boolean(d.is_favorite) : undefined,
+        title: d?.title !== undefined ? (d.title as string | null) : undefined,
+      });
+    } else if (op.op === 'DELETE') {
+      await rpcClient.song.delete({ id: op.id });
     }
   }
 

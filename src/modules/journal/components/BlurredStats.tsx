@@ -2,7 +2,9 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BlurView } from '@/components/ui/BlurView';
 import { Card } from '@/components/ui/Card';
+import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
 import { useBiometricHistory } from '@/modules/insights/hooks/useBiometricHistory';
+import { useAtomValue } from 'jotai';
 import { useJournalStats } from '../hooks/useJournalStats';
 
 function StatBox({ label, value }: { label: string; value: string | number }) {
@@ -26,6 +28,7 @@ function StatBox({ label, value }: { label: string; value: string | number }) {
 
 export function BlurredStats() {
   const { data } = useJournalStats();
+  const hasConnectedHealth = useAtomValue(hasConnectedHealthAtom);
   const hrv = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], 'Week');
 
   return (
@@ -33,10 +36,12 @@ export function BlurredStats() {
       <View className="flex-row gap-3">
         <StatBox label="Entries" value={data?.totalEntries ?? 0} />
         <StatBox label="Streak" value={data?.streak ?? 0} />
-        <StatBox
-          label="Avg HRV"
-          value={hrv.avg != null ? Math.round(hrv.avg) : '—'}
-        />
+        {hasConnectedHealth ? (
+          <StatBox
+            label="Avg HRV"
+            value={hrv.avg != null ? Math.round(hrv.avg) : '—'}
+          />
+        ) : null}
       </View>
       <BlurView
         intensity={8}

@@ -33,8 +33,8 @@ export function SleepScoreCard({ date }: SleepScoreCardProps) {
       <ScoreRing
         value={score}
         gradient="yellow-pink"
-        size={112}
-        strokeWidth={10}
+        size={160}
+        strokeWidth={14}
         caption={
           score == null
             ? 'No data'

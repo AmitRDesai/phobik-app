@@ -1,6 +1,6 @@
 import { View } from '@/components/themed/View';
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
 
 type MovementSessionShellProps = {
   wordmark: string;
@@ -12,7 +12,7 @@ type MovementSessionShellProps = {
 
 /**
  * Shared shell for every movement session screen.
- *  - Top: PracticeStackHeader with the exercise's title as the wordmark
+ *  - Top: Header with the exercise's title
  *  - Middle: scrollable body with bottom fade hint
  *  - Bottom: optional pinned slab (CTA, progress dots, footer note)
  */
@@ -24,7 +24,7 @@ export function MovementSessionShell({
   return (
     <Screen
       scroll
-      header={<PracticeStackHeader wordmark={wordmark} />}
+      header={<Header variant="back" title={wordmark} />}
       sticky={
         bottom ? (
           <View className="border-t border-foreground/5 px-2 pt-3">

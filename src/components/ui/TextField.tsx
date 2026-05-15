@@ -128,7 +128,7 @@ export function TextField({
       ) : null}
       <View
         className={clsx(
-          'flex-row items-center rounded-full border bg-surface-input',
+          'flex-row items-center rounded-full border bg-foreground/5',
           sizeStyles[size],
         )}
         style={{

@@ -5,7 +5,14 @@ import { View } from 'react-native';
 import { PillarCard } from '../components/PillarCard';
 import { PillarHeroHeader } from '../components/PillarHeroHeader';
 import { PracticeScreenShell } from '../components/PracticeScreenShell';
-import type { PillarSubMenu } from '../data/four-pillars';
+import type { PillarId, PillarSubMenu } from '../data/four-pillars';
+
+const HEADER_TITLE: Record<PillarId, string> = {
+  body: 'Body',
+  mind: 'Mind',
+  emotion: 'Emotion',
+  relationship: 'Relationship',
+};
 
 type PillarSubMenuScreenProps = {
   submenu: PillarSubMenu;
@@ -30,7 +37,7 @@ export function PillarSubMenuScreen({
   };
 
   return (
-    <PracticeScreenShell wordmark="FOUR PILLARS">
+    <PracticeScreenShell wordmark={HEADER_TITLE[submenu.id]}>
       <PillarHeroHeader
         title={submenu.title}
         accent={submenu.accent}

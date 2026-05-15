@@ -32,7 +32,7 @@ export default function BreatheList() {
   }, [filter]);
 
   return (
-    <PracticeScreenShell wordmark="FLOW STUDIO">
+    <PracticeScreenShell wordmark="Breathe">
       <View className="mb-8 mt-4">
         <View className="flex-row flex-wrap items-baseline">
           <Text size="display" className="uppercase leading-[1.05]">

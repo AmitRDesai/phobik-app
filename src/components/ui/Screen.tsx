@@ -239,11 +239,16 @@ export function Screen({
         {header}
         {bodyWithKeyboard}
         {showFade && (
-          <LinearGradient
-            colors={[withAlpha(v.bgHex, 0), v.bgHex]}
-            pointerEvents="none"
+          <KeyboardStickyView
+            offset={{ closed: 0, opened: 0 }}
             style={fadeStyle}
-          />
+            pointerEvents="none"
+          >
+            <LinearGradient
+              colors={[withAlpha(v.bgHex, 0), v.bgHex]}
+              style={StyleSheet.absoluteFill}
+            />
+          </KeyboardStickyView>
         )}
         {sticky && (
           <KeyboardStickyView

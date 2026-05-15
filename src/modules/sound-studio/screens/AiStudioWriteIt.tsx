@@ -7,7 +7,7 @@ import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
+import { Header } from '@/components/ui/Header';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
@@ -26,7 +26,7 @@ export default function AiStudioWriteIt() {
   return (
     <Screen
       scroll
-      header={<PracticeStackHeader wordmark="Sonic Studio" />}
+      header={<Header variant="back" title="Sonic Studio" />}
       sticky={
         <Button
           onPress={() => router.push('/sound-studio/ai/feeling')}

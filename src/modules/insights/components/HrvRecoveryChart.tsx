@@ -149,15 +149,18 @@ export function HrvRecoveryChart() {
                 tone="secondary"
                 align="center"
               >
-                No data
+                {hrv.points.length > 0 ? 'Need more readings' : 'No data'}
               </Text>
               <Text
                 size="xs"
                 treatment="caption"
                 tone="tertiary"
+                align="center"
                 className="mt-1"
               >
-                No HRV samples in this window
+                {hrv.points.length > 0
+                  ? `At least 2 HRV samples in different ${hrv.bucketLabel === 'hour' ? 'hours' : 'days'} to draw a trend`
+                  : 'No HRV samples in this window'}
               </Text>
             </View>
           ) : (

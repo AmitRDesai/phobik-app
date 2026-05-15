@@ -10,7 +10,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { audioVoiceAtom, type AudioVoice } from '@/lib/audio/voice';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
-import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
+import { Header } from '@/components/ui/Header';
 import { useSaveOnLeave } from '@/modules/practices/hooks/useSaveOnLeave';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
@@ -82,7 +82,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
   const savedSession = sessions[meditationId];
   const didResumeRef = useRef(false);
 
-  const { heartRate, hrv } = useLatestBiometrics();
+  const { heartRate, hrv, hasAccess } = useLatestBiometrics();
 
   const audioKey =
     meditation?.audioBaseKey && effectiveVoice
@@ -315,7 +315,7 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
   return (
     <Screen
       scroll
-      header={<PracticeStackHeader wordmark="Meditation" />}
+      header={<Header variant="back" title="Meditation" />}
       sticky={
         <View className="gap-7 border-t border-foreground/5 px-2 pt-4">
           {/* Voice toggle (only once a voice is in effect) */}
@@ -487,18 +487,25 @@ export function MeditationScreen({ meditationId }: MeditationScreenProps) {
         ))}
       </View>
 
-      {meditation.stats && meditation.stats.length > 0 ? (
-        <View className="mt-6 flex-row gap-3">
-          {meditation.stats.map((stat) => (
-            <BiometricStatCard
-              key={stat.label}
-              className="flex-1"
-              label={stat.label}
-              value={renderStatValue(stat)}
-            />
-          ))}
-        </View>
-      ) : null}
+      {(() => {
+        const visibleStats = (meditation.stats ?? []).filter(
+          (stat) =>
+            hasAccess || (stat.live !== 'heart_rate' && stat.live !== 'hrv'),
+        );
+        if (visibleStats.length === 0) return null;
+        return (
+          <View className="mt-6 flex-row gap-3">
+            {visibleStats.map((stat) => (
+              <BiometricStatCard
+                key={stat.label}
+                className="flex-1"
+                label={stat.label}
+                value={renderStatValue(stat)}
+              />
+            ))}
+          </View>
+        );
+      })()}
     </Screen>
   );
 }

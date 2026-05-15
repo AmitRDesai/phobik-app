@@ -7,7 +7,7 @@ import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
+import { Header } from '@/components/ui/Header';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -35,7 +35,7 @@ export default function AiStudioExpress() {
 
   return (
     <Screen
-      header={<PracticeStackHeader wordmark="Sound Studio" />}
+      header={<Header variant="back" title="Sound Studio" />}
       className="flex-1 px-6 pt-2"
     >
       {/* Step indicator */}

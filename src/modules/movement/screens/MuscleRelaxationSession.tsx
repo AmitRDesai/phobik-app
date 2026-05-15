@@ -21,8 +21,8 @@ import { Pressable, ScrollView } from 'react-native';
 import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
 import Svg, { Circle, Path } from 'react-native-svg';
 
-import { useSaveOnLeave } from '../hooks/useSaveOnLeave';
-import { formatTime } from '../lib/format';
+import { useSaveOnLeave } from '@/modules/practices/hooks/useSaveOnLeave';
+import { formatTime } from '@/modules/practices/lib/format';
 import { muscleRelaxationSessionAtom } from '../store/muscle-relaxation';
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -664,34 +664,34 @@ export default function MuscleRelaxationSession() {
               <Text size="sm" weight="bold" className="text-foreground/90">
                 Muscle Relaxation
               </Text>
-              <View className="mt-0.5 flex-row items-center gap-1.5">
-                <View
-                  className="h-1.5 w-1.5 rounded-full bg-primary-pink"
-                  style={{
-                    boxShadow: [
-                      {
-                        offsetX: 0,
-                        offsetY: 0,
-                        blurRadius: 8,
-                        color: withAlpha(colors.primary.pink, 0.6),
-                      },
-                    ],
-                  }}
-                />
-                <Text
-                  size="xs"
-                  treatment="caption"
-                  tone="accent"
-                  weight="medium"
-                  className="tracking-wider"
-                >
-                  {isLive
-                    ? `HRV Live: ${Math.round(liveHrv)}ms`
-                    : hasAccess
-                      ? 'HRV: No recent data'
-                      : 'HRV: Not connected'}
-                </Text>
-              </View>
+              {hasAccess ? (
+                <View className="mt-0.5 flex-row items-center gap-1.5">
+                  <View
+                    className="h-1.5 w-1.5 rounded-full bg-primary-pink"
+                    style={{
+                      boxShadow: [
+                        {
+                          offsetX: 0,
+                          offsetY: 0,
+                          blurRadius: 8,
+                          color: withAlpha(colors.primary.pink, 0.6),
+                        },
+                      ],
+                    }}
+                  />
+                  <Text
+                    size="xs"
+                    treatment="caption"
+                    tone="accent"
+                    weight="medium"
+                    className="tracking-wider"
+                  >
+                    {isLive
+                      ? `HRV Live: ${Math.round(liveHrv)}ms`
+                      : 'HRV: No recent data'}
+                  </Text>
+                </View>
+              ) : null}
             </View>
           }
         />

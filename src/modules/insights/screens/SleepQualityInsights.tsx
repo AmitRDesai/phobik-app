@@ -12,7 +12,7 @@ export default function SleepQualityInsights() {
   return (
     <Screen
       scroll
-      header={<Header title="Sleep Quality Insights" />}
+      header={<Header title="Sleep Quality" />}
       contentClassName="gap-6 pb-6"
     >
       <SleepScoreHeader />

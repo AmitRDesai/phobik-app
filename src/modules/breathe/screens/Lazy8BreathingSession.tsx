@@ -31,13 +31,16 @@ const TOTAL_DURATION = CYCLE_DURATION * 5; // 5 cycles = 40s
 const INHALE_END = 4;
 
 function StatsCard() {
-  const { heartRate, hrv, heartRateAt, hrvAt } = useLatestBiometrics();
+  const { heartRate, hrv, hasAccess, heartRateAt, hrvAt } =
+    useLatestBiometrics();
   const FRESH_MS = 30 * 60 * 1000;
   const now = useNow();
   const isFresh = (at: Date | null) =>
     at != null && now - at.getTime() < FRESH_MS;
   const liveHr = isFresh(heartRateAt) ? heartRate : null;
   const liveHrv = isFresh(hrvAt) ? hrv : null;
+
+  if (!hasAccess) return null;
 
   return (
     <View className="w-full max-w-sm rounded-3xl border border-foreground/10 bg-foreground/5 p-4">

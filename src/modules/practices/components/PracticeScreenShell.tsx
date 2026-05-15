@@ -1,11 +1,10 @@
+import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { type ScrollViewProps } from 'react-native';
 
-import { PracticeStackHeader } from './PracticeStackHeader';
-
 type PracticeScreenShellProps = {
-  /** Brand wordmark or screen title shown in the top header */
-  wordmark?: string;
+  /** Title rendered in the top Header. Required — pick a screen-specific title; no global fallback. */
+  wordmark: string;
   hideHeader?: boolean;
   hideBack?: boolean;
   children: React.ReactNode;
@@ -14,7 +13,7 @@ type PracticeScreenShellProps = {
 };
 
 export function PracticeScreenShell({
-  wordmark = 'FOUR PILLARS',
+  wordmark,
   hideHeader,
   hideBack,
   children,
@@ -26,7 +25,11 @@ export function PracticeScreenShell({
       scroll
       header={
         hideHeader ? null : (
-          <PracticeStackHeader wordmark={wordmark} hideBack={hideBack} />
+          <Header
+            variant="back"
+            title={wordmark}
+            left={hideBack ? <></> : undefined}
+          />
         )
       }
       className="px-6"

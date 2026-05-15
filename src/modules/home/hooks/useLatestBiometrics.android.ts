@@ -9,7 +9,7 @@ import { readSleepSessionsInWindow } from '@/lib/biometrics/sleep-reader';
 import { persistSleepSessions } from '@/lib/biometrics/sleep-storage';
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 import {
   getGrantedPermissions,
@@ -130,39 +130,49 @@ export function useLatestBiometrics(): LatestBiometrics {
     },
   });
 
+  // Keep refetch in a ref so the effects below don't depend on `query`, which
+  // is a new object reference on every render. Without this, the AppState
+  // listener and 90s polling interval get torn down + recreated each render —
+  // the polling interval is reset before it can fire, and battery drains.
+  const refetchRef = useRef(query.refetch);
+  refetchRef.current = query.refetch;
+
   useEffect(() => {
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') query.refetch();
+      if (state === 'active') refetchRef.current();
     });
     return () => sub.remove();
-  }, [query]);
+  }, []);
 
   // Health Connect has no native subscription API — poll every 90s while
   // the app is foregrounded so the dashboard stays near-realtime.
   useEffect(() => {
     if (!hasConnectedHealth) return;
     const interval = setInterval(() => {
-      if (AppState.currentState === 'active') query.refetch();
+      if (AppState.currentState === 'active') refetchRef.current();
     }, POLL_INTERVAL_MS);
     return () => clearInterval(interval);
-  }, [hasConnectedHealth, query]);
+  }, [hasConnectedHealth]);
 
   // Revoke detection — see iOS hook header for context. On Android we can
   // detect this reliably because getGrantedPermissions returns the truth.
+  const isFetched = query.isFetched;
+  const sdkAvailable = query.data?.sdkAvailable;
+  const hasReadAccess = query.data?.hasReadAccess;
   useEffect(() => {
     if (
       hasConnectedHealth &&
-      query.isFetched &&
-      query.data?.sdkAvailable === true &&
-      query.data?.hasReadAccess === false
+      isFetched &&
+      sdkAvailable === true &&
+      hasReadAccess === false
     ) {
       setHasConnectedHealth(false);
     }
   }, [
     hasConnectedHealth,
-    query.isFetched,
-    query.data?.sdkAvailable,
-    query.data?.hasReadAccess,
+    isFetched,
+    sdkAvailable,
+    hasReadAccess,
     setHasConnectedHealth,
   ]);
 
@@ -200,13 +210,13 @@ export function useLatestBiometrics(): LatestBiometrics {
             persistSleepSessions(userId, sleepSessions),
           ]);
         }
-        await query.refetch();
+        await refetchRef.current();
       }
       return ok;
     } catch {
       return false;
     }
-  }, [setHasConnectedHealth, query, userId]);
+  }, [setHasConnectedHealth, userId]);
 
   const disconnect = useCallback(async () => {
     setHasConnectedHealth(false);

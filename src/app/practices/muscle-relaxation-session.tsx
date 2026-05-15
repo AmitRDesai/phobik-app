@@ -1,1 +1,1 @@
-export { default } from '@/modules/practices/screens/MuscleRelaxationSession';
+export { default } from '@/modules/movement/screens/MuscleRelaxationSession';

@@ -151,7 +151,8 @@ export default function Breathing478Session() {
   };
 
   // Live HR / HRV from connected wearable (Apple Health / Health Connect).
-  const { heartRate, hrv, heartRateAt, hrvAt } = useLatestBiometrics();
+  const { heartRate, hrv, hasAccess, heartRateAt, hrvAt } =
+    useLatestBiometrics();
   const FRESH_MS = 30 * 60 * 1000;
   const now = useNow();
   const isFresh = (at: Date | null) =>
@@ -226,50 +227,52 @@ export default function Breathing478Session() {
         />
 
         {/* Stats cards row */}
-        <View className="mb-4 flex-row gap-4">
-          <BiometricStatCard
-            className="flex-1"
-            size="md"
-            tone="pink"
-            label="Heart Rate"
-            value={liveHr != null ? String(liveHr) : '—'}
-            unit="BPM"
-            isStale={liveHr == null}
-            icon={(color) => (
-              <MaterialIcons
-                name="favorite"
-                size={18}
-                color={color}
-                style={{
-                  textShadowColor: withAlpha(colors.rose[500], 0.5),
-                  textShadowOffset: { width: 0, height: 0 },
-                  textShadowRadius: 10,
-                }}
-              />
-            )}
-          />
-          <BiometricStatCard
-            className="flex-1"
-            size="md"
-            tone="yellow"
-            label="HRV"
-            value={liveHrv != null ? String(Math.round(liveHrv)) : '—'}
-            unit="MS"
-            isStale={liveHrv == null}
-            icon={(color) => (
-              <MaterialIcons
-                name="monitor-heart"
-                size={18}
-                color={color}
-                style={{
-                  textShadowColor: withAlpha(colors.yellow[500], 0.5),
-                  textShadowOffset: { width: 0, height: 0 },
-                  textShadowRadius: 10,
-                }}
-              />
-            )}
-          />
-        </View>
+        {hasAccess ? (
+          <View className="mb-4 flex-row gap-4">
+            <BiometricStatCard
+              className="flex-1"
+              size="md"
+              tone="pink"
+              label="Heart Rate"
+              value={liveHr != null ? String(liveHr) : '—'}
+              unit="BPM"
+              isStale={liveHr == null}
+              icon={(color) => (
+                <MaterialIcons
+                  name="favorite"
+                  size={18}
+                  color={color}
+                  style={{
+                    textShadowColor: withAlpha(colors.rose[500], 0.5),
+                    textShadowOffset: { width: 0, height: 0 },
+                    textShadowRadius: 10,
+                  }}
+                />
+              )}
+            />
+            <BiometricStatCard
+              className="flex-1"
+              size="md"
+              tone="yellow"
+              label="HRV"
+              value={liveHrv != null ? String(Math.round(liveHrv)) : '—'}
+              unit="MS"
+              isStale={liveHrv == null}
+              icon={(color) => (
+                <MaterialIcons
+                  name="monitor-heart"
+                  size={18}
+                  color={color}
+                  style={{
+                    textShadowColor: withAlpha(colors.yellow[500], 0.5),
+                    textShadowOffset: { width: 0, height: 0 },
+                    textShadowRadius: 10,
+                  }}
+                />
+              )}
+            />
+          </View>
+        ) : null}
       </View>
     </Screen>
   );

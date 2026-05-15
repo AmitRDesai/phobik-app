@@ -42,7 +42,8 @@ export function BiometricIndexCard() {
   const hr = useBiometricHistory('heart_rate', range);
   const hrv = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], range);
 
-  const hasData = hr.points.length > 0 || hrv.points.length > 0;
+  const canDrawTrend = hr.points.length > 1 || hrv.points.length > 1;
+  const hasAnySample = hr.points.length > 0 || hrv.points.length > 0;
 
   return (
     <View className="gap-4">
@@ -66,7 +67,7 @@ export function BiometricIndexCard() {
         </View>
       </View>
       <Card variant="raised" size="lg" className="p-5">
-        {hasData ? (
+        {canDrawTrend ? (
           <View className="h-24 w-full">
             <Svg
               width="100%"
@@ -96,10 +97,12 @@ export function BiometricIndexCard() {
         ) : hasConnectedHealth ? (
           <View className="h-24 w-full items-center justify-center">
             <Text size="xs" treatment="caption" tone="secondary" align="center">
-              No data
+              {hasAnySample ? 'Need more readings' : 'No data'}
             </Text>
-            <Text size="xs" tone="tertiary" className="mt-1">
-              No HR or HRV samples in this window
+            <Text size="xs" tone="tertiary" align="center" className="mt-1">
+              {hasAnySample
+                ? `At least 2 samples in different ${range === 'Day' ? 'hours' : 'days'} to draw a trend`
+                : 'No HR or HRV samples in this window'}
             </Text>
           </View>
         ) : (

@@ -5,6 +5,7 @@ import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 export function WearableValueCard() {
   const scheme = useScheme();
@@ -12,7 +13,11 @@ export function WearableValueCard() {
   const { heartRate, hrv } = useLatestBiometrics();
 
   return (
-    <Card variant="raised" size="lg">
+    <Card
+      variant="raised"
+      size="lg"
+      onPress={() => router.push('/insights/health')}
+    >
       <View className="mb-4 flex-row items-center gap-2">
         <MaterialIcons name="favorite" size={16} color={colors.primary.pink} />
         <Text

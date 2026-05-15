@@ -7,7 +7,7 @@ import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
+import { Header } from '@/components/ui/Header';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 
@@ -52,7 +52,7 @@ export default function ExpressiveWriting() {
   return (
     <Screen
       scroll
-      header={<PracticeStackHeader wordmark="Session Flow" />}
+      header={<Header variant="back" title="Session Flow" />}
       sticky={
         <View>
           <Button onPress={() => router.push('/sound-studio/ai/write')}>

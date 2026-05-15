@@ -15,6 +15,7 @@ import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
+import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useState } from 'react';
@@ -228,132 +229,137 @@ export default function BoxBreathingSession() {
       {/* Bottom HRV Card + Controls */}
       <View className="px-screen-x pb-6">
         <Card variant="raised" size="lg">
-          {/* HRV Header */}
-          <View className="mb-6 flex-row items-center justify-between">
-            <View className="flex-row items-center gap-2.5">
-              <View
-                className="h-8 w-8 items-center justify-center rounded-lg"
-                style={{ backgroundColor: withAlpha(colors.pink[400], 0.1) }}
-              >
-                <MaterialIcons
-                  name="monitor-heart"
-                  size={18}
-                  color={colors.primary.pink}
-                />
-              </View>
-              <View>
-                <Text size="sm" weight="bold">
-                  HRV Tracking
-                </Text>
-                <Text
-                  size="xs"
-                  treatment="caption"
-                  className="leading-none text-foreground/40"
-                  style={{ paddingRight: 1.1 }}
-                >
-                  {hasLiveData
-                    ? 'Wearable Streaming'
-                    : hasAccess
-                      ? 'No recent samples'
-                      : 'Wearable Not Connected'}
-                </Text>
-              </View>
-            </View>
-            <View
-              className={`flex-row items-center gap-2 rounded-full border px-2.5 py-1 ${
-                hasLiveData
-                  ? 'border-green-500/20 bg-green-500/10'
-                  : 'border-foreground/10 bg-foreground/5'
-              }`}
-            >
-              <View
-                className={`h-1.5 w-1.5 rounded-full ${
-                  hasLiveData ? 'bg-green-500' : 'bg-foreground/30'
-                }`}
-              />
-              <Text
-                size="xs"
-                treatment="caption"
-                className={`font-bold ${
-                  hasLiveData ? 'text-green-500' : 'text-foreground/40'
-                }`}
-                style={{ paddingRight: 1.1 }}
-              >
-                {hasLiveData ? 'Synced' : 'Idle'}
-              </Text>
-            </View>
-          </View>
-
-          {/* HRV Stats Grid */}
-          <View className="flex-row gap-6">
-            {/* Variability */}
-            <View className="flex-1 gap-2">
-              <View className="flex-row items-baseline gap-1.5">
-                <Text size="h1">{hrvMs != null ? hrvMs : '—'}</Text>
-                <Text
-                  size="xs"
-                  treatment="caption"
-                  tone="accent"
-                  weight="medium"
-                  className="tracking-tighter"
-                >
-                  ms
-                </Text>
-              </View>
-              <View className="h-1.5 overflow-hidden rounded-full bg-foreground/5">
-                <LinearGradient
-                  colors={[colors.primary.pink, colors.accent.yellow]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={{
-                    height: '100%',
-                    width: `${Math.min(100, hrvMs ?? 0)}%`,
-                    borderRadius: 99,
-                  }}
-                />
-              </View>
-              <Text size="xs" treatment="caption" tone="tertiary">
-                Variability
-              </Text>
-            </View>
-
-            {/* Heart Rate */}
-            <View className="flex-1 items-end gap-2">
-              <View className="flex-row items-baseline gap-1.5">
-                <Text size="h1">
-                  {heartRateBpm != null ? heartRateBpm : '—'}
-                </Text>
-                <Text
-                  size="xs"
-                  treatment="caption"
-                  weight="medium"
-                  className="tracking-tighter text-accent-yellow"
-                >
-                  bpm
-                </Text>
-              </View>
-              <View className="h-1.5 w-full overflow-hidden rounded-full bg-foreground/5">
-                <View className="flex-1 flex-row justify-end">
-                  <LinearGradient
-                    colors={[colors.primary.pink, colors.accent.yellow]}
-                    start={{ x: 1, y: 0 }}
-                    end={{ x: 0, y: 0 }}
+          {hasAccess ? (
+            <>
+              {/* HRV Header */}
+              <View className="mb-6 flex-row items-center justify-between">
+                <View className="flex-row items-center gap-2.5">
+                  <View
+                    className="h-8 w-8 items-center justify-center rounded-lg"
                     style={{
-                      height: '100%',
-                      width: `${Math.min(100, heartRateBpm ?? 0)}%`,
-                      borderRadius: 99,
+                      backgroundColor: withAlpha(colors.pink[400], 0.1),
                     }}
+                  >
+                    <MaterialIcons
+                      name="monitor-heart"
+                      size={18}
+                      color={colors.primary.pink}
+                    />
+                  </View>
+                  <View>
+                    <Text size="sm" weight="bold">
+                      HRV Tracking
+                    </Text>
+                    <Text
+                      size="xs"
+                      treatment="caption"
+                      className="leading-none text-foreground/40"
+                      style={{ paddingRight: 1.1 }}
+                    >
+                      {hasLiveData ? 'Wearable Streaming' : 'No recent samples'}
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  className={`flex-row items-center gap-2 rounded-full border px-2.5 py-1 ${
+                    hasLiveData
+                      ? 'border-green-500/20 bg-green-500/10'
+                      : 'border-foreground/10 bg-foreground/5'
+                  }`}
+                >
+                  <View
+                    className={`h-1.5 w-1.5 rounded-full ${
+                      hasLiveData ? 'bg-green-500' : 'bg-foreground/30'
+                    }`}
                   />
+                  <Text
+                    size="xs"
+                    treatment="caption"
+                    className={`font-bold ${
+                      hasLiveData ? 'text-green-500' : 'text-foreground/40'
+                    }`}
+                    style={{ paddingRight: 1.1 }}
+                  >
+                    {hasLiveData ? 'Synced' : 'Idle'}
+                  </Text>
                 </View>
               </View>
-              <Text size="xs" treatment="caption" tone="tertiary">
-                Heart Rate
-              </Text>
-            </View>
-          </View>
+
+              {/* HRV Stats Grid */}
+              <View className="flex-row gap-6">
+                {/* Variability */}
+                <View className="flex-1 gap-2">
+                  <View className="flex-row items-baseline gap-1.5">
+                    <Text size="h1">{hrvMs != null ? hrvMs : '—'}</Text>
+                    <Text
+                      size="xs"
+                      treatment="caption"
+                      tone="accent"
+                      weight="medium"
+                      className="tracking-tighter"
+                    >
+                      ms
+                    </Text>
+                  </View>
+                  <View className="h-1.5 overflow-hidden rounded-full bg-foreground/5">
+                    <LinearGradient
+                      colors={[colors.primary.pink, colors.accent.yellow]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                      style={{
+                        height: '100%',
+                        width: `${Math.min(100, hrvMs ?? 0)}%`,
+                        borderRadius: 99,
+                      }}
+                    />
+                  </View>
+                  <Text size="xs" treatment="caption" tone="tertiary">
+                    Variability
+                  </Text>
+                </View>
+
+                {/* Heart Rate */}
+                <View className="flex-1 items-end gap-2">
+                  <View className="flex-row items-baseline gap-1.5">
+                    <Text size="h1">
+                      {heartRateBpm != null ? heartRateBpm : '—'}
+                    </Text>
+                    <Text
+                      size="xs"
+                      treatment="caption"
+                      weight="medium"
+                      className="tracking-tighter text-accent-yellow"
+                    >
+                      bpm
+                    </Text>
+                  </View>
+                  <View className="h-1.5 w-full overflow-hidden rounded-full bg-foreground/5">
+                    <View className="flex-1 flex-row justify-end">
+                      <LinearGradient
+                        colors={[colors.primary.pink, colors.accent.yellow]}
+                        start={{ x: 1, y: 0 }}
+                        end={{ x: 0, y: 0 }}
+                        style={{
+                          height: '100%',
+                          width: `${Math.min(100, heartRateBpm ?? 0)}%`,
+                          borderRadius: 99,
+                        }}
+                      />
+                    </View>
+                  </View>
+                  <Text size="xs" treatment="caption" tone="tertiary">
+                    Heart Rate
+                  </Text>
+                </View>
+              </View>
+            </>
+          ) : null}
 
           <PlaybackControls
-            className="mt-8 justify-between border-t border-foreground/5 px-6 pt-6"
+            className={clsx(
+              'justify-between px-6',
+              hasAccess && 'mt-8 border-t border-foreground/5 pt-6',
+            )}
             size="md"
             isPaused={isPaused}
             onPauseToggle={() => setIsPaused((p) => !p)}

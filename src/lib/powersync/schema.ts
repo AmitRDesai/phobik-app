@@ -83,6 +83,33 @@ const gentle_letter = new Table(
   { indexes: { user_date: ['user_id', 'entry_date'] } },
 );
 
+const song = new Table(
+  {
+    user_id: column.text,
+    prompt: column.text,
+    style: column.text,
+    status: column.text, // 'draft' | 'generating' | 'ready' | 'failed'
+    generation_stage: column.text, // 'queued' | 'text' | 'first' | 'complete' | null
+    provider_job_id: column.text,
+    audio_key: column.text, // S3 storage key — fetch playback URL via getPlaybackUrl
+    artwork_key: column.text, // S3 storage key — presigned URL also comes via getPlaybackUrl
+    title: column.text,
+    composition_number: column.integer,
+    duration_seconds: column.integer,
+    analysis_tags: column.text, // JSON string[] — parsed via toCamel({ analysisTags: true })
+    is_favorite: column.integer, // 0 / 1
+    error_message: column.text,
+    created_at: column.text,
+    updated_at: column.text,
+  },
+  {
+    indexes: {
+      user_status: ['user_id', 'status'],
+      user_created: ['user_id', 'created_at'],
+    },
+  },
+);
+
 const empathy_challenge = new Table(
   {
     user_id: column.text,
@@ -348,6 +375,7 @@ export const AppSchema = new Schema({
   journal_entry,
   journal_tag,
   gentle_letter,
+  song,
   empathy_challenge,
   empathy_challenge_day,
   micro_challenge,
@@ -373,6 +401,7 @@ export type CalendarPreferencesRecord = Database['calendar_preferences'];
 export type JournalEntryRecord = Database['journal_entry'];
 export type JournalTagRecord = Database['journal_tag'];
 export type GentleLetterRecord = Database['gentle_letter'];
+export type SongRecord = Database['song'];
 export type EmpathyChallengeRecord = Database['empathy_challenge'];
 export type EmpathyChallengeDayRecord = Database['empathy_challenge_day'];
 export type MicroChallengeRecord = Database['micro_challenge'];

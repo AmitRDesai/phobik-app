@@ -49,7 +49,9 @@ function StatsCard() {
     liveHrv != null && baselineHrv != null && baselineHrv > 0
       ? ((liveHrv - baselineHrv) / baselineHrv) * 100
       : null;
-  const isLive = hasAccess && liveHrv != null;
+  const isLive = liveHrv != null;
+
+  if (!hasAccess) return null;
 
   return (
     <View className="mb-6 w-full rounded-[32px] border border-foreground/[0.08] bg-foreground/[0.03] p-6">
@@ -189,7 +191,7 @@ function StatsCard() {
               }
             />
             <Text size="sm" weight="semibold">
-              {isLive ? 'Live Tracking' : hasAccess ? 'Idle' : 'Not Connected'}
+              {isLive ? 'Live Tracking' : 'Idle'}
             </Text>
           </View>
         </View>

@@ -29,8 +29,8 @@ export function DoseScoreCard({ date }: DoseScoreCardProps) {
       <ScoreRing
         value={total}
         gradient="pink-yellow"
-        size={112}
-        strokeWidth={10}
+        size={160}
+        strokeWidth={14}
         caption={level.label.toUpperCase()}
       />
       <Text size="h3" align="center" className="mt-3">

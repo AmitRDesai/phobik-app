@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
+import { Header } from '@/components/ui/Header';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -38,7 +38,7 @@ export default function AiStudioFeeling() {
   return (
     <Screen
       scroll
-      header={<PracticeStackHeader wordmark="Sound Studio" />}
+      header={<Header variant="back" title="Sound Studio" />}
       sticky={
         <Button
           onPress={() => router.push('/sound-studio/ai/express')}

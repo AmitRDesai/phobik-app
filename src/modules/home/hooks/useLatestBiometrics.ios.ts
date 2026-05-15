@@ -16,7 +16,7 @@ import {
 } from '@kingstinct/react-native-healthkit';
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { AppState, Linking } from 'react-native';
 
 import type { LatestBiometrics } from './useLatestBiometrics';
@@ -91,12 +91,19 @@ export function useLatestBiometrics(): LatestBiometrics {
     },
   });
 
+  // Keep refetch in a ref so the effects below don't depend on `query`, which
+  // is a new object reference on every render. Without this, the HealthKit
+  // observer subscriptions tear down + re-register 5x per render and fire a
+  // refetch loop that pegs the CPU and overheats the device.
+  const refetchRef = useRef(query.refetch);
+  refetchRef.current = query.refetch;
+
   useEffect(() => {
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') query.refetch();
+      if (state === 'active') refetchRef.current();
     });
     return () => sub.remove();
-  }, [query]);
+  }, []);
 
   // Reactive: HealthKit fires `subscribeToChanges` when the watch syncs new
   // samples, giving us "near-realtime" without needing periodic polling.
@@ -104,13 +111,13 @@ export function useLatestBiometrics(): LatestBiometrics {
     if (!hasConnectedHealth) return;
     const subs = READ_TYPES.map((id) =>
       subscribeToChanges(id, () => {
-        query.refetch();
+        refetchRef.current();
       }),
     );
     return () => {
       for (const s of subs) s.remove();
     };
-  }, [hasConnectedHealth, query]);
+  }, [hasConnectedHealth]);
 
   // Enable HealthKit background delivery once we have a connection. This
   // tells iOS to wake the app (briefly) when a new HR/HRV sample arrives, so
@@ -148,13 +155,13 @@ export function useLatestBiometrics(): LatestBiometrics {
             persistSleepSessions(userId, sleepSessions),
           ]);
         }
-        await query.refetch();
+        await refetchRef.current();
       }
       return completed;
     } catch {
       return false;
     }
-  }, [setHasConnectedHealth, query, userId]);
+  }, [setHasConnectedHealth, userId]);
 
   const disconnect = useCallback(async () => {
     setHasConnectedHealth(false);

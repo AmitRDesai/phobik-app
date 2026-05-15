@@ -39,7 +39,7 @@ export default function KundaliniSession() {
   const scheme = useScheme();
   const yellow = accentFor(scheme, 'yellow');
   const [duration, setDuration] = useState('3 min');
-  const { heartRate } = useLatestBiometrics();
+  const { heartRate, hasAccess } = useLatestBiometrics();
 
   return (
     <MovementSessionShell
@@ -98,22 +98,24 @@ export default function KundaliniSession() {
             })}
           </View>
         </Card>
-        <Card variant="raised" size="lg" className="flex-1 p-4">
-          <Text size="xs" treatment="caption" weight="bold" tone="tertiary">
-            Pace
-          </Text>
-          <Text
-            size="h1"
-            weight="extrabold"
-            className="mt-2"
-            style={{ color: yellow }}
-          >
-            {heartRate ?? '—'}
-          </Text>
-          <Text size="xs" treatment="caption" tone="tertiary">
-            BPM
-          </Text>
-        </Card>
+        {hasAccess ? (
+          <Card variant="raised" size="lg" className="flex-1 p-4">
+            <Text size="xs" treatment="caption" weight="bold" tone="tertiary">
+              Pace
+            </Text>
+            <Text
+              size="h1"
+              weight="extrabold"
+              className="mt-2"
+              style={{ color: yellow }}
+            >
+              {heartRate ?? '—'}
+            </Text>
+            <Text size="xs" treatment="caption" tone="tertiary">
+              BPM
+            </Text>
+          </Card>
+        ) : null}
       </View>
 
       {/* Hero with INHALE/EXHALE labels */}

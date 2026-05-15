@@ -32,7 +32,7 @@ export default function MeditationList() {
   }, [sessions]);
 
   return (
-    <PracticeScreenShell wordmark="FLOW STUDIO">
+    <PracticeScreenShell wordmark="Meditation">
       <View className="mb-8 mt-4">
         <GradientText className="text-4xl font-extrabold leading-[1.05]">
           Meditations

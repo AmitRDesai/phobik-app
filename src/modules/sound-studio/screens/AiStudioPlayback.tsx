@@ -7,7 +7,7 @@ import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { colors, foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
+import { Header } from '@/components/ui/Header';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -51,7 +51,7 @@ export default function AiStudioPlayback() {
   return (
     <Screen
       scroll
-      header={<PracticeStackHeader wordmark="Aura Ai" />}
+      header={<Header variant="back" title="Aura Ai" />}
       className="px-6 pt-2"
     >
       {/* Hero copy */}

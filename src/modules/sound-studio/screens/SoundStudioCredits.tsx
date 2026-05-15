@@ -8,7 +8,7 @@ import { IconChip } from '@/components/ui/IconChip';
 import { FADE_HEIGHT, ScrollFade } from '@/components/ui/ScrollFade';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { PracticeStackHeader } from '@/modules/practices/components/PracticeStackHeader';
+import { Header } from '@/components/ui/Header';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -45,7 +45,7 @@ export default function SoundStudioCredits() {
         intensity={0.5}
         bgClassName="bg-surface"
       />
-      <PracticeStackHeader wordmark="Sound Studio" />
+      <Header variant="back" title="Sound Studio" />
 
       <ScrollFade>
         <ScrollView
