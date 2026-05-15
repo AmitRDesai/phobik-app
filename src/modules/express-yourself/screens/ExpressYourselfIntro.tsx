@@ -8,6 +8,8 @@ import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { InfoCallout } from '@/components/ui/InfoCallout';
 import { Screen } from '@/components/ui/Screen';
+import { foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
@@ -20,6 +22,7 @@ const RECENT_LIMIT = 3;
 
 export default function ExpressYourselfIntro() {
   const router = useRouter();
+  const scheme = useScheme();
   const { data: songs } = useListSongs();
   const ready = useMemo(
     () => (songs ?? []).filter((s) => s.status === 'ready'),
@@ -76,26 +79,29 @@ export default function ExpressYourselfIntro() {
 
       {inFlight ? (
         <InfoCallout
-          tone="pink"
+          tone="purple"
           variant="tinted"
           title="A song is being created"
           description="Hang tight — we'll notify you when it's ready. Tap to follow along."
-          icon={(c) => (
-            <MaterialIcons name="auto-awesome" size={18} color={c} />
-          )}
+          icon={(c) => <MaterialIcons name="graphic-eq" size={18} color={c} />}
           action={
             <Button
+              variant="secondary"
               size="sm"
               onPress={() =>
                 router.push(
                   `/practices/express-yourself/generating?id=${inFlight.id}`,
                 )
               }
-              prefixIcon={
-                <MaterialIcons name="arrow-forward" size={14} color="white" />
+              icon={
+                <MaterialIcons
+                  name="arrow-forward"
+                  size={14}
+                  color={foregroundFor(scheme, 1)}
+                />
               }
             >
-              View Progress
+              View
             </Button>
           }
         />

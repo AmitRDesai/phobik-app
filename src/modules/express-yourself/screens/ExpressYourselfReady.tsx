@@ -1,9 +1,9 @@
 import wavesArtworkImg from '@/assets/images/express-yourself/waves-artwork.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { Accordion } from '@/components/ui/Accordion';
 import { AudioPlayer } from '@/components/ui/AudioPlayer';
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
@@ -254,23 +254,22 @@ export default function ExpressYourselfReady() {
         </View>
       </View>
 
-      {song?.prompt ? (
-        <Accordion
-          variant="flat"
-          title="Your message"
-          defaultExpanded={isFreshFromGeneration}
-          icon={
+      {song?.prompt?.trim() ? (
+        <Card variant="flat" size="md" className="gap-2">
+          <View className="flex-row items-center gap-2">
             <MaterialIcons
               name="format-quote"
-              size={18}
-              color={foregroundFor(scheme, 0.6)}
+              size={16}
+              color={foregroundFor(scheme, 0.55)}
             />
-          }
-        >
+            <Text size="xs" treatment="caption" tone="secondary">
+              Your message
+            </Text>
+          </View>
           <Text size="sm" tone="body" italic>
             {song.prompt}
           </Text>
-        </Accordion>
+        </Card>
       ) : null}
     </Screen>
   );

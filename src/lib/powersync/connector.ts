@@ -172,7 +172,10 @@ export class PhobikConnector implements PowerSyncBackendConnector {
 
       await rpcClient.song.upsert({
         id: op.id,
-        prompt: (d?.prompt as string) ?? '',
+        // Only forward fields that actually changed — sending `prompt: ''`
+        // on a partial PATCH (e.g. favorite toggle) would overwrite the
+        // stored poem with empty string on the backend.
+        prompt: d?.prompt !== undefined ? (d.prompt as string) : undefined,
         style: d?.style !== undefined ? (d.style as string) : undefined,
         isFavorite:
           d?.is_favorite !== undefined ? Boolean(d.is_favorite) : undefined,
