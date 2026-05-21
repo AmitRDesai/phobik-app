@@ -177,7 +177,7 @@ export default function ExpressYourselfReady() {
             ? `Composition No. ${song.compositionNumber}`
             : undefined
         }
-        artworkUri={playback?.artworkUrl ?? FALLBACK_ARTWORK_URI}
+        artwork={playback?.artworkUrl ?? FALLBACK_ARTWORK_URI}
         progress={progress}
         duration={duration}
         playing={isPlaying}

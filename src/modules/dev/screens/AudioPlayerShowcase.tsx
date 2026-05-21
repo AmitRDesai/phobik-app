@@ -75,7 +75,7 @@ export default function AudioPlayerShowcase() {
           variant="hero"
           title="Loving Kindness"
           subtitle="10-minute guided meditation"
-          artworkUri={SAMPLE_ARTWORK}
+          artwork={SAMPLE_ARTWORK}
           progress={meditation.progress}
           duration={TRACK_DURATION}
           playing={meditation.playing}
@@ -100,7 +100,7 @@ export default function AudioPlayerShowcase() {
           variant="hero"
           title="Sleep Meditation"
           subtitle="20-minute wind-down"
-          artworkUri={SAMPLE_ARTWORK}
+          artwork={SAMPLE_ARTWORK}
           progress={sleep.progress}
           duration={1200}
           playing={sleep.playing}
@@ -123,7 +123,7 @@ export default function AudioPlayerShowcase() {
           variant="hero"
           title="Box Breathing"
           subtitle="4-4-4-4 · phase 2 of 4"
-          artworkUri={SAMPLE_ARTWORK}
+          artwork={SAMPLE_ARTWORK}
           progress={instruction.progress}
           duration={TRACK_DURATION}
           playing={instruction.playing}
@@ -146,7 +146,7 @@ export default function AudioPlayerShowcase() {
           variant="hero"
           title="Forest Soundscape"
           subtitle="Background loop"
-          artworkUri={SAMPLE_ARTWORK}
+          artwork={SAMPLE_ARTWORK}
           progress={ambient.progress}
           duration={TRACK_DURATION}
           playing={ambient.playing}
@@ -168,7 +168,7 @@ export default function AudioPlayerShowcase() {
             variant="hero"
             title="Buffering download"
             subtitle="Downloading 67%"
-            artworkUri={SAMPLE_ARTWORK}
+            artwork={SAMPLE_ARTWORK}
             progress={0.1}
             duration={TRACK_DURATION}
             playing={false}
@@ -203,7 +203,7 @@ export default function AudioPlayerShowcase() {
             variant="hero"
             title="Full control set"
             subtitle="Skip + forward + mute"
-            artworkUri={SAMPLE_ARTWORK}
+            artwork={SAMPLE_ARTWORK}
             progress={meditation.progress}
             duration={TRACK_DURATION}
             playing={meditation.playing}
@@ -224,7 +224,7 @@ export default function AudioPlayerShowcase() {
           variant="card"
           title="Yoga Nidra"
           subtitle="Guided sleep meditation · 24 min"
-          artworkUri={SAMPLE_ARTWORK}
+          artwork={SAMPLE_ARTWORK}
           progress={card1.progress}
           duration={1440}
           playing={card1.playing}
@@ -234,7 +234,7 @@ export default function AudioPlayerShowcase() {
           variant="card"
           title="Loving Kindness"
           subtitle="Phobik · 10 min"
-          artworkUri={SAMPLE_ARTWORK}
+          artwork={SAMPLE_ARTWORK}
           progress={card2.progress}
           duration={600}
           playing={card2.playing}
@@ -261,7 +261,7 @@ export default function AudioPlayerShowcase() {
           variant="mini"
           title="Body Scan — gentle reset"
           subtitle="Phobik · 4:00"
-          artworkUri={SAMPLE_ARTWORK}
+          artwork={SAMPLE_ARTWORK}
           progress={mini.progress}
           duration={TRACK_DURATION}
           playing={mini.playing}
@@ -314,7 +314,7 @@ export default function AudioPlayerShowcase() {
             variant="hero"
             title="Calm Reset"
             subtitle="Cyan-toned meditation"
-            artworkUri={SAMPLE_ARTWORK}
+            artwork={SAMPLE_ARTWORK}
             progress={tonedHero.progress}
             duration={TRACK_DURATION}
             playing={tonedHero.playing}

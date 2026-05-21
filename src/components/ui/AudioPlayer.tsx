@@ -19,6 +19,7 @@ import {
   Pressable,
   View,
   type GestureResponderEvent,
+  type ImageSourcePropType,
   type LayoutChangeEvent,
 } from 'react-native';
 
@@ -31,8 +32,8 @@ export interface AudioPlayerProps {
   title: string;
   /** Artist / narrator / subtitle line. */
   subtitle?: string;
-  /** Cover artwork (rendered on hero + mini). */
-  artworkUri?: string;
+  /** Cover artwork — URI string or bundled `require()`. Rendered on hero / card / mini. */
+  artwork?: ImageSourcePropType | string;
   /** 0..1 normalized progress. Clamped if out of range. */
   progress: number;
   /** Total duration in seconds. */
@@ -111,7 +112,7 @@ export interface AudioPlayerProps {
 export function AudioPlayer({
   title,
   subtitle,
-  artworkUri,
+  artwork,
   progress,
   duration,
   playing,
@@ -137,6 +138,8 @@ export function AudioPlayer({
   const accent = accentFor(scheme, tone);
   const clamped = Math.max(0, Math.min(1, isFinite(progress) ? progress : 0));
   const currentSec = clamped * duration;
+  const artworkSource: ImageSourcePropType | undefined =
+    typeof artwork === 'string' ? { uri: artwork } : artwork;
 
   const handlePlayPause = useCallback(() => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -146,10 +149,10 @@ export function AudioPlayer({
   if (variant === 'hero') {
     return (
       <View className={clsx('gap-6', className)}>
-        {artworkUri ? (
+        {artworkSource ? (
           <View className="aspect-square w-full overflow-hidden rounded-3xl">
             <Image
-              source={{ uri: artworkUri }}
+              source={artworkSource!}
               style={{ width: '100%', height: '100%' }}
               resizeMode="cover"
             />
@@ -224,9 +227,9 @@ export function AudioPlayer({
         )}
       >
         <View className="flex-row items-center gap-3 p-3">
-          {artworkUri ? (
+          {artworkSource ? (
             <Image
-              source={{ uri: artworkUri }}
+              source={artworkSource!}
               style={{ width: 48, height: 48, borderRadius: 12 }}
               resizeMode="cover"
             />
@@ -280,9 +283,9 @@ export function AudioPlayer({
           className,
         )}
       >
-        {artworkUri ? (
+        {artworkSource ? (
           <Image
-            source={{ uri: artworkUri }}
+            source={artworkSource!}
             style={{ width: 64, height: 64, borderRadius: 14 }}
             resizeMode="cover"
           />

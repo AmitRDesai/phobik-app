@@ -151,24 +151,6 @@ export default function ExpressYourselfCompose() {
           progress={{ current: 1, total: 3 }}
         />
       }
-      sticky={
-        <View className="items-center gap-2">
-          <Button
-            onPress={handleGenerate}
-            disabled={poem.trim().length < MIN_POEM_LENGTH}
-            loading={generateMutation.isPending || upsertMutation.isPending}
-            icon={
-              <MaterialIcons name="arrow-forward" size={18} color="white" />
-            }
-            fullWidth
-          >
-            Continue to Song Generation
-          </Button>
-          <Text size="xs" treatment="caption" tone="tertiary">
-            Step 1 of 3 · Emotional Mapping
-          </Text>
-        </View>
-      }
       contentClassName="gap-5 pb-6"
     >
       <View>
@@ -232,6 +214,21 @@ export default function ExpressYourselfCompose() {
           placeholder={STYLE_PLACEHOLDER}
         />
       </Card>
+
+      <View className="items-center gap-2">
+        <Button
+          onPress={handleGenerate}
+          disabled={poem.trim().length < MIN_POEM_LENGTH}
+          loading={generateMutation.isPending || upsertMutation.isPending}
+          icon={<MaterialIcons name="arrow-forward" size={18} color="white" />}
+          fullWidth
+        >
+          Continue to Song Generation
+        </Button>
+        <Text size="xs" treatment="caption" tone="tertiary">
+          Step 1 of 3 · Emotional Mapping
+        </Text>
+      </View>
 
       {hasDraftContent ? (
         <Button

@@ -103,7 +103,6 @@ export default function IntimacyIntro() {
   return (
     <Screen
       scroll
-      insetTop={false}
       header={
         <Header
           left={<BackButton />}

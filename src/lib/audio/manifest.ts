@@ -8,6 +8,14 @@ export type AudioManifestEntry = {
   size: number;
   durationMs: number;
   contentType: string;
+  /**
+   * Optional paired artwork. Present when the backend has an image for the
+   * asset; absent when the audio has no per-track image (UI falls back to a
+   * bundled mood-level image).
+   */
+  imageSha256?: string | null;
+  imageSize?: number | null;
+  imageContentType?: string | null;
 };
 
 const API_URL = env.get('API_URL');
@@ -101,7 +109,10 @@ async function fetchManifest(): Promise<AudioManifestEntry[]> {
 
 export function useAudioManifest() {
   return useQuery({
-    queryKey: ['audio-manifest'],
+    // Versioned key — bump when the manifest response shape changes so the
+    // persisted React Query cache from older builds doesn't shadow the new
+    // payload (e.g. v2 added imageSha256/imageSize/imageContentType).
+    queryKey: ['audio-manifest', 'v2'],
     queryFn: fetchManifest,
     staleTime: 24 * 60 * 60 * 1000, // 24h
     gcTime: Infinity,
@@ -130,4 +141,14 @@ const EXT_BY_CONTENT_TYPE: Record<string, string> = {
 
 export function extForContentType(contentType: string): string {
   return EXT_BY_CONTENT_TYPE[contentType] ?? 'bin';
+}
+
+const IMAGE_EXT_BY_CONTENT_TYPE: Record<string, string> = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+};
+
+export function extForImageContentType(contentType: string): string {
+  return IMAGE_EXT_BY_CONTENT_TYPE[contentType] ?? 'bin';
 }

@@ -236,7 +236,6 @@ export default function IntimacyResults() {
   return (
     <Screen
       scroll
-      insetTop={false}
       header={
         <Header
           left={<BackButton onPress={() => router.back()} />}

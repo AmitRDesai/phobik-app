@@ -12,6 +12,7 @@ import {
 } from 'expo-router';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { QuestionProgress } from '../components/QuestionProgress';
 import { INTIMACY_QUESTIONS } from '../data/intimacy-questions';
@@ -24,6 +25,7 @@ function clampIndex(raw: string | string[] | undefined, max: number): number {
 }
 
 export default function SelfCheckInsLayout() {
+  const insets = useSafeAreaInsets();
   const pathname = usePathname();
   // useGlobalSearchParams (not useLocalSearchParams) — when this layout
   // renders, the params from the currently active nested route need to
@@ -107,8 +109,10 @@ export default function SelfCheckInsLayout() {
   }
 
   return (
-    <Screen insetBottom={false} noPadding>
-      {questionChrome}
+    <Screen insetBottom={false} insetTop={false} noPadding>
+      {questionChrome ? (
+        <View style={{ paddingTop: insets.top }}>{questionChrome}</View>
+      ) : null}
       <View style={{ flex: 1 }}>
         <Stack
           screenOptions={{
