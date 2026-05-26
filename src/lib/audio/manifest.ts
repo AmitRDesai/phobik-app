@@ -1,4 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useMemo } from 'react';
+import { migrateLegacyCacheDirs, pruneOrphans } from '@/lib/media/cache';
 import { authClient } from '@/lib/auth';
 import { env } from '@/utils/env';
 
@@ -108,18 +110,41 @@ async function fetchManifest(): Promise<AudioManifestEntry[]> {
 }
 
 export function useAudioManifest() {
-  return useQuery({
+  const query = useQuery({
     // Versioned key — bump when the manifest response shape changes so the
     // persisted React Query cache from older builds doesn't shadow the new
-    // payload (e.g. v2 added imageSha256/imageSize/imageContentType).
-    queryKey: ['audio-manifest', 'v2'],
+    // payload. v3 unifies audio + image cache directories.
+    queryKey: ['audio-manifest', 'v3'],
     queryFn: fetchManifest,
-    staleTime: 24 * 60 * 60 * 1000, // 24h
+    // 5 min stale — content updates (replaced track artwork, new audio
+    // sha256) propagate within minutes instead of next-day. The underlying
+    // sha256-keyed media cache handles the actual file-level reuse so
+    // refetches are cheap (manifest payload, not the audio bytes).
+    staleTime: 5 * 60 * 1000,
     gcTime: Infinity,
-    // Retry once on transient failures, but don't loop forever — the
-    // useAudioSource error path surfaces a "Try again" UI.
     retry: 1,
   });
+
+  // Auto-prune any cached file whose sha256 isn't referenced by the current
+  // manifest (content was replaced server-side, or removed). One-shot legacy
+  // dir cleanup runs the first time the hook fires after upgrade.
+  const sha256Sig = useMemo(() => {
+    if (!query.data) return '';
+    const set = new Set<string>();
+    for (const e of query.data) {
+      set.add(e.sha256);
+      if (e.imageSha256) set.add(e.imageSha256);
+    }
+    return Array.from(set).sort().join('|');
+  }, [query.data]);
+
+  useEffect(() => {
+    if (!sha256Sig) return;
+    migrateLegacyCacheDirs();
+    pruneOrphans(sha256Sig.split('|'));
+  }, [sha256Sig]);
+
+  return query;
 }
 
 export function findManifestEntry(
