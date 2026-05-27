@@ -1,68 +1,69 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { GradientText } from '@/components/ui/GradientText';
-import {
-  BODY_SUBMENU,
-  EMOTION_SUBMENU,
-} from '@/modules/practices/data/four-pillars';
-import { useRouter } from 'expo-router';
-import { ScrollView } from 'react-native';
-import { RhythmFlowCard } from './RhythmFlowCard';
+import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+import { ConnectHealthCard } from './ConnectHealthCard';
+import { DayNavigator } from './DayNavigator';
+import { DoseScoreCard } from './DoseScoreCard';
+import { SectionTitle } from './SectionTitle';
+import { SleepScoreCard } from './SleepScoreCard';
+import { WearableValueCard } from './WearableValueCard';
 
-const soundStudio = EMOTION_SUBMENU.items.find((i) => i.id === 'sound-studio')!;
-const meditation = BODY_SUBMENU.items.find((i) => i.id === 'meditation')!;
-const breathe = BODY_SUBMENU.items.find((i) => i.id === 'breathe')!;
+interface MyRhythmSectionProps {
+  date: string;
+  isToday: boolean;
+  canGoForward: boolean;
+  onBack: () => void;
+  onForward: () => void;
+}
 
-const CARDS = [soundStudio, meditation, breathe];
-const CARD_WIDTH = 160;
-const CARD_GAP = 12;
-
-export function MyRhythmSection() {
-  const router = useRouter();
+/**
+ * Section title + day navigator + two ring cards (Sleep + D.O.S.E.) on one
+ * row + full-width Wearable raw-values card. D.O.S.E. always renders.
+ * When health is not connected, Sleep + Wearable collapse to a Connect CTA.
+ */
+export function MyRhythmSection({
+  date,
+  isToday,
+  canGoForward,
+  onBack,
+  onForward,
+}: MyRhythmSectionProps) {
+  const { hasAccess } = useLatestBiometrics();
 
   return (
     <View className="gap-4">
-      <View className="flex-row items-baseline justify-between">
-        <View className="flex-row items-baseline">
-          <Text size="h1">My </Text>
-          <GradientText className="text-[28px] font-bold leading-[34px]">
-            Rhythm
-          </GradientText>
-        </View>
-        <Text
-          size="xs"
-          treatment="caption"
-          weight="bold"
-          tone="secondary"
-          className="uppercase tracking-widest"
-        >
-          Flow States
-        </Text>
-      </View>
+      <SectionTitle
+        prefix="My"
+        accent="Rhythm"
+        eyebrow={
+          <Text size="xs" treatment="caption" weight="bold" tone="secondary">
+            Real time analysis
+          </Text>
+        }
+      />
 
-      {/* Horizontal scroll so each card gets a comfortable width on phones —
-          a sliver of the next card hints at scrollability. The negative
-          margin cancels the Dashboard's body padding so cards can bleed
-          to the screen edges, then the inner padding re-applies on the
-          scroll content so the first card lines up with surrounding rows. */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        className="-mx-4"
-        contentContainerClassName="px-4 gap-3"
-        decelerationRate="fast"
-        snapToInterval={CARD_WIDTH + CARD_GAP}
-      >
-        {CARDS.map((card) => (
-          <View key={card.id} style={{ width: CARD_WIDTH }}>
-            <RhythmFlowCard
-              title={card.title}
-              image={card.image}
-              onPress={() => router.push(card.route!)}
-            />
+      <DayNavigator
+        date={date}
+        isToday={isToday}
+        canGoForward={canGoForward}
+        onBack={onBack}
+        onForward={onForward}
+      />
+
+      {hasAccess ? (
+        <>
+          <View className="flex-row gap-3">
+            <SleepScoreCard date={date} />
+            <DoseScoreCard date={date} />
           </View>
-        ))}
-      </ScrollView>
+          <WearableValueCard />
+        </>
+      ) : (
+        <>
+          <DoseScoreCard date={date} />
+          <ConnectHealthCard />
+        </>
+      )}
     </View>
   );
 }

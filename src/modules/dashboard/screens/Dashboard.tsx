@@ -1,8 +1,8 @@
 import { Screen } from '@/components/ui/Screen';
 import { DashboardHeader } from '@/modules/home/components/DashboardHeader';
-import { MyPlanSection } from '../components/MyPlanSection';
+import { MyJourneySection } from '../components/MyJourneySection';
 import { MyRhythmSection } from '../components/MyRhythmSection';
-import { RealTimeAnalysisSection } from '../components/RealTimeAnalysisSection';
+import { MyVibeSection } from '../components/MyVibeSection';
 import { useSelectedDashboardDate } from '../hooks/useSelectedDashboardDate';
 
 export default function Dashboard() {
@@ -16,15 +16,15 @@ export default function Dashboard() {
       className="px-4 pt-4"
       contentClassName="gap-8"
     >
-      <RealTimeAnalysisSection
+      <MyRhythmSection
         date={nav.date}
         isToday={nav.isToday}
         canGoForward={nav.canGoForward}
         onBack={nav.goBack}
         onForward={nav.goForward}
       />
-      <MyRhythmSection />
-      <MyPlanSection />
+      <MyJourneySection />
+      <MyVibeSection />
     </Screen>
   );
 }
