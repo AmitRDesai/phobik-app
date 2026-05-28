@@ -1,151 +1,175 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { PlaybackControls } from '@/components/ui/PlaybackControls';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
-import { MaterialIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
+import { colors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
+import Svg, {
+  Circle,
+  Defs,
+  LinearGradient as SvgLinearGradient,
+  Stop,
+} from 'react-native-svg';
+import { StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
-import { Pressable } from 'react-native';
 
-import { PlayerOrb } from '../components/PlayerOrb';
-import { getSupportOption } from '../data/supportOptions';
-import type { FlowStep } from '../data/types';
+import { buildAnalysisResult } from '../data/flowRecommendations';
 import {
   useActiveDailyFlowSession,
   useUpdateDailyFlowSession,
 } from '../hooks/useDailyFlowSession';
 
-const BREATH_CUES = ['Inhale', 'Hold', 'Exhale', 'Rest'] as const;
-const TOTAL_SECONDS = 12 * 60;
+const QUOTE = 'Find the stillness within the flow.';
 
 function formatTime(seconds: number) {
-  const remaining = Math.max(0, TOTAL_SECONDS - seconds);
-  const m = Math.floor(remaining / 60);
-  const s = remaining % 60;
-  return `${m}:${String(s).padStart(2, '0')}`;
+  const m = Math.floor(seconds / 60);
+  const s = Math.max(0, Math.floor(seconds % 60));
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 }
 
 export default function Player() {
   const router = useRouter();
-  const scheme = useScheme();
-  const transportIcon = foregroundFor(scheme, 0.5);
   const { session, isLoading } = useActiveDailyFlowSession();
   const updateSession = useUpdateDailyFlowSession();
   const [playing, setPlaying] = useState(true);
-  const [elapsed, setElapsed] = useState(0);
-  const [breathIndex, setBreathIndex] = useState(0);
+  const [stepIndex, setStepIndex] = useState(0);
+  const [stepElapsed, setStepElapsed] = useState(0);
+
+  const analysis =
+    session?.analysisResult ??
+    buildAnalysisResult(session?.timeOption ?? 'balanced_flow');
+  const flow = analysis.flow;
+  const currentStep = flow[stepIndex] ?? flow[0];
+  const remaining = Math.max(0, currentStep.durationSeconds - stepElapsed);
 
   useEffect(() => {
     if (!playing) return;
-    const breathTimer = setInterval(() => {
-      setBreathIndex((i) => (i + 1) % BREATH_CUES.length);
-    }, 3500);
-    const elapsedTimer = setInterval(() => {
-      setElapsed((e) => e + 1);
-    }, 1000);
-    return () => {
-      clearInterval(breathTimer);
-      clearInterval(elapsedTimer);
-    };
+    const id = setInterval(() => setStepElapsed((e) => e + 1), 1000);
+    return () => clearInterval(id);
   }, [playing]);
+
+  useEffect(() => {
+    if (stepElapsed < currentStep.durationSeconds) return;
+    if (stepIndex < flow.length - 1) {
+      setStepIndex((i) => i + 1);
+      setStepElapsed(0);
+    }
+  }, [stepElapsed, stepIndex, flow.length, currentStep.durationSeconds]);
 
   const showLoading = isLoading || !session;
 
-  const option = session?.supportOption
-    ? getSupportOption(session.supportOption)
-    : undefined;
-  const progress = Math.min(1, elapsed / TOTAL_SECONDS);
-
-  const handleContinue = async () => {
-    if (!session) return;
-    let next: FlowStep = 'reflection';
-    let route = '/daily-flow/reflection';
-    if (session.addOns?.bilateral) {
-      next = 'bi_lateral_tutorial';
-      route = '/daily-flow/bi-lateral-tutorial';
-    } else if (session.addOns?.eft) {
-      next = 'eft_guide';
-      route = '/daily-flow/eft-guide';
+  const handleNext = async () => {
+    if (stepIndex < flow.length - 1) {
+      setStepIndex((i) => i + 1);
+      setStepElapsed(0);
+      return;
     }
-    await updateSession.mutateAsync({ id: session.id, currentStep: next });
-    router.push(route as never);
+    if (!session) return;
+    await updateSession.mutateAsync({
+      id: session.id,
+      currentStep: 'reflection',
+    });
+    router.replace('/daily-flow/reflection');
   };
 
   return (
     <Screen loading={showLoading} transparent insetTop={false} noPadding>
-      <View className="flex-1 items-center justify-center px-6">
-        <PlayerOrb cue={BREATH_CUES[breathIndex] ?? 'Inhale'} />
+      <View className="flex-1 items-center justify-center gap-8 px-6">
+        <View className="w-full items-center justify-center rounded-3xl border border-foreground/10 p-6">
+          <View className="relative h-56 w-56 items-center justify-center">
+            <Svg
+              viewBox="0 0 100 100"
+              style={StyleSheet.absoluteFill}
+              pointerEvents="none"
+            >
+              <Defs>
+                <SvgLinearGradient id="timerRing" x1="0" y1="0" x2="1" y2="1">
+                  <Stop offset="0" stopColor={colors.primary.pink} />
+                  <Stop offset="0.5" stopColor={colors.accent.orange} />
+                  <Stop offset="1" stopColor={colors.accent.yellow} />
+                </SvgLinearGradient>
+              </Defs>
+              <Circle
+                cx="50"
+                cy="50"
+                r="49"
+                stroke="url(#timerRing)"
+                strokeWidth="1"
+                fill="none"
+              />
+            </Svg>
+            <Text
+              weight="bold"
+              align="center"
+              className="text-[36px] leading-[42px] tracking-tight"
+            >
+              {formatTime(remaining)}
+            </Text>
+            <Text
+              size="xs"
+              treatment="caption"
+              weight="bold"
+              tone="secondary"
+              className="mt-1 tracking-[0.3em]"
+            >
+              Remain
+            </Text>
+          </View>
+        </View>
 
-        {session?.intention ? (
-          <Text
-            size="h2"
-            align="center"
-            className="mt-10 px-2 font-light leading-9 text-foreground/60"
-          >
-            &ldquo;{session.intention}&rdquo;
-          </Text>
-        ) : null}
+        <Text size="md" tone="secondary" italic align="center">
+          “{QUOTE}”
+        </Text>
+
+        <View className="w-full gap-3">
+          <View className="flex-row gap-1">
+            {flow.map((step, i) => (
+              <ProgressBar
+                key={step.id}
+                progress={
+                  i < stepIndex
+                    ? 1
+                    : i === stepIndex
+                      ? stepElapsed / currentStep.durationSeconds
+                      : 0
+                }
+                gradient={i === stepIndex}
+                size="sm"
+                className="flex-1"
+              />
+            ))}
+          </View>
+          <View className="flex-row gap-1">
+            {flow.map((step, i) => {
+              const [stepPhase] = (step.label ?? '').split(' · ');
+              return (
+                <Text
+                  key={step.id}
+                  size="xs"
+                  treatment="caption"
+                  weight="bold"
+                  tone={i === stepIndex ? 'accent' : 'tertiary'}
+                  align="center"
+                  className="flex-1"
+                >
+                  {stepPhase}
+                </Text>
+              );
+            })}
+          </View>
+        </View>
       </View>
 
-      <View className="gap-8 px-8 pb-10">
-        <View className="h-[2px] w-full overflow-hidden rounded-full bg-foreground/10">
-          <ProgressBar progress={progress} gradient />
-        </View>
-
-        <View className="flex-row items-center justify-between px-2">
-          <Pressable className="p-2">
-            <MaterialIcons name="fast-rewind" size={28} color={transportIcon} />
-          </Pressable>
-
-          <Pressable
-            onPress={() => setPlaying((p) => !p)}
-            style={{
-              borderRadius: 32,
-              boxShadow: `0 0 24px ${withAlpha(colors.primary.pink, 0.5)}`,
-            }}
-          >
-            <LinearGradient
-              colors={[colors.primary.pink, colors.accent.yellow]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: 32,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <MaterialIcons
-                name={playing ? 'pause' : 'play-arrow'}
-                size={32}
-                color={colors.background.charcoal}
-              />
-            </LinearGradient>
-          </Pressable>
-
-          <Pressable onPress={handleContinue} className="p-2">
-            <MaterialIcons
-              name="fast-forward"
-              size={28}
-              color={transportIcon}
-            />
-          </Pressable>
-        </View>
-
-        <Text
-          size="xs"
-          treatment="caption"
-          align="center"
-          weight="bold"
-          className="tracking-[0.3em] text-foreground/45"
-          style={{ paddingRight: 3.3 }}
-        >
-          Ritual: {option?.title ?? 'Session'} · {formatTime(elapsed)} left
-        </Text>
+      <View className="px-6 pb-10 pt-6">
+        <PlaybackControls
+          isPaused={!playing}
+          onPauseToggle={() => setPlaying((p) => !p)}
+          onRestart={handleNext}
+          sessionReady={false}
+          size="md"
+          className="justify-center gap-8"
+        />
       </View>
     </Screen>
   );

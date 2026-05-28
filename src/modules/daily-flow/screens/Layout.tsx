@@ -30,9 +30,7 @@ function DailyFlowBackButton() {
   // navigation, so `router.back()` always plays the native pop animation
   // and lands on the right previous step.
   const handleBack = async () => {
-    const previousStep = session
-      ? getPreviousStep(session.currentStep, session.addOns)
-      : null;
+    const previousStep = session ? getPreviousStep(session.currentStep) : null;
 
     if (session && previousStep) {
       await updateSession.mutateAsync({

@@ -283,11 +283,13 @@ const daily_flow_session = new Table(
     current_step: column.text,
     started_at: column.text,
     completed_at: column.text,
-    feeling: column.text,
-    intention: column.text,
-    support_option: column.text,
-    add_ons: column.text, // JSONB as JSON string
-    reflection: column.text,
+    time_option: column.text,
+    emotional_families: column.text, // JSONB as JSON string
+    body_regions: column.text, // JSONB as JSON string
+    sensations: column.text, // JSONB as JSON string
+    analysis_result: column.text, // JSONB as JSON string
+    effect_rating: column.text,
+    reflection_text: column.text,
     created_at: column.text,
     updated_at: column.text,
   },

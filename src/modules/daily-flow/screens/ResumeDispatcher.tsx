@@ -7,14 +7,14 @@ import { useNavigation, useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 
 import {
+  STEP_ROUTES,
   buildStepPath,
   isTodayLocal,
-  resolveStepRoute,
 } from '../data/flow-navigation';
 import { useActiveDailyFlowSession } from '../hooks/useDailyFlowSession';
 
 // Strip the `/daily-flow/` prefix — the nested Stack's route name is the
-// file basename (e.g. `intro`, `feeling-detail`).
+// file basename (e.g. `intro`, `feeling`).
 function toRouteName(pathname: string): string {
   return pathname.replace(/^\/daily-flow\//, '');
 }
@@ -32,19 +32,42 @@ export default function ResumeDispatcher() {
 
     (async () => {
       try {
-        if (session && isTodayLocal(session.startedAt)) {
-          const path = buildStepPath(session.currentStep, session.addOns);
-          // Atomic stack reset — no per-step push animation, and the
-          // resulting back-stack matches the user's forward path so
-          // `router.back()` from the layout's BackButton pops with the
-          // native pop animation.
-          const routes = path.map((step) => {
-            const { pathname, params } = resolveStepRoute(
-              step,
-              session.feeling,
-            );
-            return { name: toRouteName(pathname), params };
-          });
+        // Direct SQL probe — bypasses the watched query so we never decide
+        // based on a stale-cache miss right after navigation. Also lets us
+        // detect duplicate in_progress rows and abandon them defensively.
+        const rows = await db
+          .selectFrom('daily_flow_session')
+          .selectAll()
+          .where('user_id', '=', userId)
+          .where('status', '=', 'in_progress')
+          .orderBy('started_at', 'desc')
+          .execute();
+
+        const today = rows.find(
+          (r) => r.started_at && isTodayLocal(r.started_at),
+        );
+        const stale = rows.filter((r) => r.id !== today?.id);
+
+        if (today) {
+          if (stale.length) {
+            await db
+              .updateTable('daily_flow_session')
+              .set({
+                status: 'abandoned',
+                updated_at: new Date().toISOString(),
+              })
+              .where(
+                'id',
+                'in',
+                stale.map((r) => r.id),
+              )
+              .execute();
+          }
+
+          const path = buildStepPath(today.current_step as never);
+          const routes = path.map((step) => ({
+            name: toRouteName(STEP_ROUTES[step]),
+          }));
           navigation.dispatch(
             CommonActions.reset({
               index: routes.length - 1,
@@ -54,14 +77,18 @@ export default function ResumeDispatcher() {
           return;
         }
 
-        if (session) {
+        if (stale.length) {
           await db
             .updateTable('daily_flow_session')
             .set({
               status: 'abandoned',
               updated_at: new Date().toISOString(),
             })
-            .where('id', '=', session.id)
+            .where(
+              'id',
+              'in',
+              stale.map((r) => r.id),
+            )
             .execute();
         }
 
@@ -75,7 +102,9 @@ export default function ResumeDispatcher() {
             status: 'in_progress',
             current_step: 'intro',
             started_at: now,
-            add_ons: JSON.stringify({ eft: false, bilateral: false }),
+            emotional_families: JSON.stringify([]),
+            body_regions: JSON.stringify([]),
+            sensations: JSON.stringify([]),
             created_at: now,
             updated_at: now,
           })

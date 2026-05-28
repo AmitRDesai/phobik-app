@@ -1,42 +1,65 @@
 export type FlowStep =
   | 'intro'
   | 'feeling'
-  | 'feeling_detail'
-  | 'guide'
-  | 'intention'
-  | 'detailed_feeling'
-  | 'support_options'
+  | 'body_map'
+  | 'body_sensations'
+  | 'ai_analysis'
+  | 'body_insight'
   | 'player'
-  | 'bi_lateral_tutorial'
-  | 'eft_guide'
-  | 'eft_toh_focus'
-  | 'tapping'
   | 'reflection';
 
-export type FeelingId =
-  | 'overwhelmed'
-  | 'low'
-  | 'anxious'
-  | 'drained'
-  | 'disconnected';
+export type TimeOptionId =
+  | 'quick_reset'
+  | 'short_flow'
+  | 'balanced_flow'
+  | 'deep_flow'
+  | 'full_reset';
 
-export type TappingFeelingId =
-  | 'overstimulated'
-  | 'unsteady'
-  | 'triggered'
-  | 'drained'
-  | 'disconnected';
+export type EmotionalFamilyId =
+  | 'activated'
+  | 'heavy'
+  | 'mixed'
+  | 'grounded'
+  | 'energized'
+  | 'connected';
 
-export type ReflectionAnswer =
-  | 'more_steady'
-  | 'a_little_better'
-  | 'same'
-  | 'need_reset';
+export type BodyRegionId =
+  | 'head_mind'
+  | 'shoulders_neck'
+  | 'chest_breath'
+  | 'heart_space'
+  | 'back'
+  | 'stomach_gut'
+  | 'hands_arms'
+  | 'legs_feet'
+  | 'whole_body';
 
-export type SupportOptionId =
-  | 'neural_bloom'
-  | 'vibrational_salt'
-  | 'amber_glow';
+export type SensationCategoryId =
+  | 'tension'
+  | 'activation'
+  | 'calm'
+  | 'movement'
+  | 'low_energy';
+
+export type EffectRating = 'worse' | 'same' | 'better';
+
+export interface AnalysisObservation {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+export interface FlowStepTemplate {
+  id: string;
+  label: string;
+  durationSeconds: number;
+}
+
+export interface AnalysisResult {
+  theme: string;
+  observations: AnalysisObservation[];
+  flow: FlowStepTemplate[];
+}
 
 export type DailyFlowSession = {
   id: string;
@@ -45,11 +68,13 @@ export type DailyFlowSession = {
   currentStep: FlowStep;
   startedAt: string;
   completedAt: string | null;
-  feeling: FeelingId | null;
-  intention: string | null;
-  supportOption: SupportOptionId | null;
-  addOns: { eft: boolean; bilateral: boolean };
-  reflection: ReflectionAnswer | null;
+  timeOption: TimeOptionId | null;
+  emotionalFamilies: EmotionalFamilyId[];
+  bodyRegions: BodyRegionId[];
+  sensations: string[];
+  analysisResult: AnalysisResult | null;
+  effectRating: EffectRating | null;
+  reflectionText: string | null;
   createdAt: string;
   updatedAt: string;
 };

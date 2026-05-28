@@ -18,17 +18,9 @@ export default function MyJourney() {
   return (
     <Screen
       scroll
-      header={<Header variant="back" />}
+      header={<Header variant="back" title="My Journey" />}
       contentClassName="gap-6 pb-6"
     >
-      <View className="flex-row items-baseline">
-        <Text size="display" weight="extrabold">
-          MY{' '}
-        </Text>
-        <GradientText className="text-[36px] font-extrabold leading-[40px]">
-          JOURNEY
-        </GradientText>
-      </View>
       <View className="gap-1">
         {TAGLINE_LINES.map(({ prefix, accent, suffix }) => (
           <View key={accent} className="flex-row items-baseline">

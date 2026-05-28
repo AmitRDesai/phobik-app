@@ -1,78 +1,50 @@
-import { Button } from '@/components/ui/Button';
+import reflectionWaveform from '@/assets/images/daily-flow/reflection-waveform.png';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
-import { ProgressBar } from '@/components/ui/ProgressBar';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
-import { SelectionCard } from '@/components/ui/SelectionCard';
-import { variantConfig } from '@/components/variant-config';
-import {
-  accentFor,
-  colors,
-  foregroundFor,
-  withAlpha,
-} from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
-import { MaterialIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
+import { Slider } from '@/components/ui/Slider';
+import { TextArea } from '@/components/ui/TextArea';
+import { colors, withAlpha } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { Image } from 'react-native';
 
-import { exitDailyFlow } from '../data/flow-navigation';
-import type { ReflectionAnswer } from '../data/types';
+import { exitDailyFlow, isTodayLocal } from '../data/flow-navigation';
+import type { EffectRating } from '../data/types';
 import {
   useActiveDailyFlowSession,
   useCompleteDailyFlowSession,
 } from '../hooks/useDailyFlowSession';
 
-type Option = {
-  id: ReflectionAnswer;
-  icon: keyof typeof MaterialIcons.glyphMap;
-  label: string;
-  accent: 'pink' | 'yellow' | 'neutral' | 'danger';
-};
-
-const OPTIONS: Option[] = [
-  {
-    id: 'more_steady',
-    icon: 'water-drop',
-    label: 'More steady',
-    accent: 'pink',
-  },
-  {
-    id: 'a_little_better',
-    icon: 'wb-sunny',
-    label: 'A little better',
-    accent: 'yellow',
-  },
-  { id: 'same', icon: 'drag-handle', label: 'Same', accent: 'neutral' },
-  {
-    id: 'need_reset',
-    icon: 'replay',
-    label: 'Need another reset',
-    accent: 'danger',
-  },
-];
+const RATING_LABELS: { value: number; label: string; rating: EffectRating }[] =
+  [
+    { value: 0, label: 'Worse', rating: 'worse' },
+    { value: 1, label: 'Same', rating: 'same' },
+    { value: 2, label: 'Better', rating: 'better' },
+  ];
 
 export default function Reflection() {
   const router = useRouter();
-  const scheme = useScheme();
-  const variantBg = variantConfig.default[scheme].bgHex;
   const { session, isLoading } = useActiveDailyFlowSession();
-  const complete = useCompleteDailyFlowSession();
-  const [selected, setSelected] = useState<ReflectionAnswer | null>(null);
+  const completeSession = useCompleteDailyFlowSession();
+  const [rating, setRating] = useState<number>(1);
+  const [reflectionText, setReflectionText] = useState<string>('');
 
   const showLoading = isLoading || !session;
+  const isResumed = !!session?.startedAt && !isTodayLocal(session.startedAt);
 
-  const optionColor = (a: Option['accent']): string => {
-    if (a === 'pink') return colors.primary.pink;
-    if (a === 'yellow') return accentFor(scheme, 'yellow');
-    if (a === 'danger') return colors.status.danger;
-    return foregroundFor(scheme, 0.55);
-  };
-
-  const handleFinish = async () => {
-    if (!session || !selected) return;
-    await complete.mutateAsync({ id: session.id, reflection: selected });
+  const handleComplete = async () => {
+    if (!session || isResumed) return;
+    const effectRating =
+      RATING_LABELS.find((r) => r.value === rating)?.rating ?? 'same';
+    await completeSession.mutateAsync({
+      id: session.id,
+      effectRating,
+      reflectionText,
+    });
     exitDailyFlow(router);
   };
 
@@ -84,86 +56,73 @@ export default function Reflection() {
       insetTop={false}
       sticky={
         <Button
-          onPress={handleFinish}
-          disabled={!selected}
-          loading={complete.isPending}
+          onPress={handleComplete}
+          loading={completeSession.isPending}
+          disabled={isResumed}
+          fullWidth
         >
-          Back to Today
+          Complete Check-In
         </Button>
       }
-      className="px-6"
+      contentClassName="gap-6 pb-4"
     >
-      <View className="mt-4 items-center">
-        <View
-          className="h-24 w-24 rounded-full p-[2px]"
-          style={{
-            boxShadow: `0 0 25px ${withAlpha(colors.primary.pink, 0.45)}`,
-          }}
-        >
-          <LinearGradient
-            colors={[colors.primary.pink, colors.accent.yellow]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{
-              width: '100%',
-              height: '100%',
-              borderRadius: 999,
-              padding: 2,
-            }}
-          >
-            <View
-              className="h-full w-full items-center justify-center rounded-full"
-              style={{ backgroundColor: variantBg }}
+      <View className="items-center gap-2">
+        <GradientText className="text-[28px] font-extrabold leading-[34px]">
+          What shifted?
+        </GradientText>
+        <Text size="sm" tone="secondary" align="center">
+          Take a moment to observe the resonance of your practice.
+        </Text>
+      </View>
+
+      <View
+        className="aspect-[16/10] w-full overflow-hidden rounded-3xl border border-foreground/10"
+        style={{
+          boxShadow: `0 0 40px ${withAlpha(colors.primary.pink, 0.25)}`,
+        }}
+      >
+        <Image
+          source={reflectionWaveform}
+          resizeMode="cover"
+          accessibilityIgnoresInvertColors
+          accessibilityLabel="Sonic organism waveform"
+          className="h-full w-full"
+        />
+      </View>
+
+      <Card variant="raised" size="lg" className="gap-3">
+        <View className="flex-row justify-between">
+          {RATING_LABELS.map((r) => (
+            <Text
+              key={r.value}
+              size="xs"
+              treatment="caption"
+              weight="bold"
+              tone={rating === r.value ? 'accent' : 'secondary'}
             >
-              <MaterialIcons
-                name="auto-awesome"
-                size={32}
-                color={accentFor(scheme, 'yellow')}
-              />
-            </View>
-          </LinearGradient>
+              {r.label}
+            </Text>
+          ))}
         </View>
+        <Slider
+          value={rating}
+          min={0}
+          max={2}
+          step={1}
+          onValueChange={setRating}
+          tone="pink"
+        />
+      </Card>
 
-        <Text size="h1" weight="black" className="mt-7">
-          Session Complete
-        </Text>
-        <Text
-          size="sm"
-          tone="secondary"
-          align="center"
-          className="mt-3 max-w-xs leading-5"
-        >
-          You&rsquo;ve dedicated 10 minutes to your internal landscape. Notice
-          the stillness.
-        </Text>
-      </View>
-
-      <View className="mt-10">
-        <ProgressBar progress={1} gradient />
-      </View>
-
-      <View className="mt-12">
-        <Text size="h2">How do you feel now?</Text>
-        <View className="mt-2 h-1 w-12 rounded-full bg-primary-pink" />
-      </View>
-
-      <View className="mt-6 gap-3">
-        {OPTIONS.map((option) => {
-          const color = optionColor(option.accent);
-          return (
-            <SelectionCard
-              key={option.id}
-              label={option.label}
-              icon={
-                <MaterialIcons name={option.icon} size={20} color={color} />
-              }
-              selected={selected === option.id}
-              onPress={() => setSelected(option.id)}
-              variant="radio"
-            />
-          );
-        })}
-      </View>
+      <TextArea
+        label="What do you notice now?"
+        labelUppercase
+        placeholder="Describe the sensations or thoughts that are present…"
+        value={reflectionText}
+        onChangeText={setReflectionText}
+        rows="sm"
+        variant="filled"
+      />
     </Screen>
   );
 }
