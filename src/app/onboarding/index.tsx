@@ -1,1 +1,1 @@
-export { default } from '@/modules/onboarding/screens/AuraPictureSetup';
+export { default } from '@/modules/onboarding/screens/Welcome';

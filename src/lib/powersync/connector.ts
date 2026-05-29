@@ -1,5 +1,15 @@
 import { env } from '@/utils/env';
 import type {
+  ActivityLevel,
+  AgeRange,
+  EmotionalState,
+  FoodPreference,
+  GenderIdentity,
+  Goal,
+  SedentaryTime,
+  SleepQuality,
+} from '@/store/onboarding';
+import type {
   AbstractPowerSyncDatabase,
   CrudEntry,
   PowerSyncBackendConnector,
@@ -439,28 +449,39 @@ export class PhobikConnector implements PowerSyncBackendConnector {
       if (
         d?.age_range !== undefined ||
         d?.gender_identity !== undefined ||
-        d?.goals !== undefined
+        d?.goals !== undefined ||
+        d?.terms_accepted_at !== undefined ||
+        d?.privacy_accepted_at !== undefined
       ) {
         await rpcClient.profile.saveProfile({
-          ageRange: d?.age_range as string,
-          genderIdentity: d?.gender_identity as string,
-          goals: parseJSON<string[]>(d?.goals as string) ?? [],
-          termsAcceptedAt: d?.terms_accepted_at as string,
-          privacyAcceptedAt: d?.privacy_accepted_at as string,
+          ageRange: (d?.age_range as AgeRange) ?? null,
+          genderIdentity: (d?.gender_identity as GenderIdentity) ?? null,
+          goals: parseJSON<Goal[]>(d?.goals as string) ?? [],
+          termsAcceptedAt: (d?.terms_accepted_at as string) ?? null,
+          privacyAcceptedAt: (d?.privacy_accepted_at as string) ?? null,
         });
       }
-      if (d?.stressors !== undefined || d?.triggers !== undefined) {
+      if (
+        d?.emotional_state !== undefined ||
+        d?.sleep_quality !== undefined ||
+        d?.activity_level !== undefined ||
+        d?.sedentary_time !== undefined ||
+        d?.food_preferences !== undefined ||
+        d?.habit_ratings !== undefined ||
+        d?.goal_details !== undefined
+      ) {
         await rpcClient.profile.saveOnboardingAnswers({
-          stressors: parseJSON<string[]>(d?.stressors as string) ?? [],
-          triggers: parseJSON<string[]>(d?.triggers as string) ?? [],
-          customTrigger: (d?.custom_trigger as string) ?? '',
-          reminderPreference: (d?.reminder_preference as string) || null,
-          regulationTools:
-            parseJSON<string[]>(d?.regulation_tools as string) ?? [],
-          customTool: (d?.custom_tool as string) ?? '',
-          energyFocus: (d?.energy_focus as string) || null,
-          energyCreativity: (d?.energy_creativity as string) || null,
-          energyDip: (d?.energy_dip as string) || null,
+          goalDetails: (d?.goal_details as string) ?? '',
+          emotionalState:
+            parseJSON<EmotionalState[]>(d?.emotional_state as string) ?? [],
+          sleepQuality: (d?.sleep_quality as SleepQuality) || null,
+          activityLevel: (d?.activity_level as ActivityLevel) || null,
+          sedentaryTime: (d?.sedentary_time as SedentaryTime) || null,
+          foodPreferences:
+            parseJSON<FoodPreference[]>(d?.food_preferences as string) ?? [],
+          foodPreferencesOther: (d?.food_preferences_other as string) ?? '',
+          habitRatings:
+            parseJSON<Record<string, number>>(d?.habit_ratings as string) ?? {},
         });
       }
       if (d?.onboarding_completed_at !== undefined) {

@@ -2,8 +2,9 @@ import { uuid } from '@/lib/crypto';
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { toJSON } from '@/lib/powersync/utils';
+import type { OnboardingAnswers } from '@/store/onboarding';
 import { useQuery } from '@powersync/tanstack-react-query';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 const PROFILE_STATUS_KEY = 'profile-status';
@@ -41,36 +42,55 @@ export function useProfileStatus(enabled: boolean) {
   };
 }
 
+/**
+ * Flush the full set of onboarding answers to the local `user_profile` row.
+ * Idempotent (updates the row when it already exists, inserts otherwise) so it
+ * is safe to call from either onboarding path. PowerSync uploads the change to
+ * the backend's two upsert procedures (saveProfile + saveOnboardingAnswers).
+ */
 export function useSaveProfile() {
   const userId = useUserId();
 
   return useMutation({
-    mutationFn: async (input: {
-      ageRange: string | null;
-      genderIdentity: string | null;
-      goals: string[];
-      termsAcceptedAt: string | null;
-      privacyAcceptedAt: string | null;
-    }) => {
+    mutationFn: async (answers: OnboardingAnswers) => {
       if (!userId) throw new Error('Not authenticated');
 
-      const id = uuid();
       const now = new Date().toISOString();
+      const columns = {
+        age_range: answers.age,
+        gender_identity: answers.gender,
+        goals: toJSON(answers.goals),
+        goal_details: answers.goalDetails,
+        emotional_state: toJSON(answers.emotionalState),
+        sleep_quality: answers.sleepQuality,
+        activity_level: answers.activityLevel,
+        sedentary_time: answers.sedentaryTime,
+        food_preferences: toJSON(answers.foodPreferences),
+        food_preferences_other: answers.foodPreferencesOther,
+        habit_ratings: toJSON(answers.habitRatings),
+        terms_accepted_at: answers.termsAcceptedAt,
+        privacy_accepted_at: answers.privacyAcceptedAt,
+        updated_at: now,
+      };
 
-      await db
-        .insertInto('user_profile')
-        .values({
-          id,
-          user_id: userId,
-          age_range: input.ageRange,
-          gender_identity: input.genderIdentity,
-          goals: toJSON(input.goals),
-          terms_accepted_at: input.termsAcceptedAt,
-          privacy_accepted_at: input.privacyAcceptedAt,
-          created_at: now,
-          updated_at: now,
-        })
-        .execute();
+      const existing = await db
+        .selectFrom('user_profile')
+        .select('id')
+        .where('user_id', '=', userId)
+        .executeTakeFirst();
+
+      if (existing) {
+        await db
+          .updateTable('user_profile')
+          .set(columns)
+          .where('user_id', '=', userId)
+          .execute();
+      } else {
+        await db
+          .insertInto('user_profile')
+          .values({ id: uuid(), user_id: userId, created_at: now, ...columns })
+          .execute();
+      }
     },
   });
 }

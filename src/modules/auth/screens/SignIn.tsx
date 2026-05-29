@@ -21,13 +21,11 @@ import { useScheme } from '@/hooks/useTheme';
 import { useSession as useBetterAuthSession } from '@/lib/auth';
 import { warmServer } from '@/lib/server-warmup';
 import { biometricEnabledAtom, isSignedOutAtom } from '@/store/auth';
-import { questionnaireAtom } from '@/store/onboarding';
 import { isReturningUserAtom } from '@/store/user';
 import { dialog } from '@/utils/dialog';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAtomValue, useSetAtom, useStore } from 'jotai';
-import { RESET } from 'jotai/utils';
 import { useEffect, useRef, useState } from 'react';
 import { Platform, TextInput as RNTextInput } from 'react-native';
 
@@ -78,23 +76,14 @@ export default function SignInScreen() {
     }
   };
 
-  const handleSignUp = async () => {
-    const questionnaire = await store.get(questionnaireAtom);
-    if (questionnaire.termsAcceptedAt !== null) {
-      // User completed ALL questions (terms is set in step 7/7), go to create-account
-      router.replace('/auth/create-account');
-    } else {
-      // Hasn't completed flow (or atoms were cleared after account creation) → start fresh.
-      // Set isReturningUser=false so the nested guard makes account-creation accessible.
-      store.set(isReturningUserAtom, false);
-      store.set(questionnaireAtom, RESET);
-      router.replace('/account-creation');
-    }
+  const handleSignUp = () => {
+    // New users go through the unified onboarding flow (signup is its final
+    // step). Setting isReturningUser=false makes the nested guard expose the
+    // onboarding stack while still unauthenticated. The on-device answer draft
+    // is preserved so a partially-completed flow resumes.
+    store.set(isReturningUserAtom, false);
+    router.replace('/onboarding');
   };
-
-  // Profile saving handled centrally in useAppInitializer.
-  // On sign-in, clear questionnaire to prevent overwriting existing profile.
-  // On social auth, don't clear — useAppInitializer checks hasSynced first.
 
   const handleSignIn = async () => {
     try {

@@ -4,34 +4,21 @@ import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
+import { useFlushOnboarding } from '@/modules/onboarding/hooks/useFlushOnboarding';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useLocalSearchParams } from 'expo-router';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { useCompleteOnboarding } from '../hooks/useCompleteOnboarding';
-import { useSaveOnboardingAnswers } from '../hooks/useSaveOnboardingAnswers';
-import { onboardingDataAtom, resetOnboardingAtom } from '../store/onboarding';
 
 export default function Completion() {
   const scheme = useScheme();
   const orangeAccent = accentFor(scheme, 'orange');
-  const completeOnboarding = useCompleteOnboarding();
-  const saveOnboardingAnswers = useSaveOnboardingAnswers();
-  const onboardingData = useAtomValue(onboardingDataAtom);
-  const resetOnboarding = useSetAtom(resetOnboardingAtom);
+  const flush = useFlushOnboarding();
 
-  const { skipped } = useLocalSearchParams();
-  const isSkipped = skipped === 'true';
-
-  const isPending =
-    saveOnboardingAnswers.isPending || completeOnboarding.isPending;
-
+  // Persisting onboarding sets `onboarding_completed_at`; the root navigation
+  // guard reacts to that and routes the user onward (biometric setup / home).
   const handleGoToToday = async () => {
     try {
-      await saveOnboardingAnswers.mutateAsync(onboardingData);
-      await completeOnboarding.mutateAsync({});
-      resetOnboarding();
+      await flush.mutateAsync();
     } catch {
       dialog.error({
         title: 'Something went wrong',
@@ -48,7 +35,7 @@ export default function Completion() {
         <View className="w-full items-center">
           <Button
             onPress={handleGoToToday}
-            loading={isPending}
+            loading={flush.isPending}
             icon={
               <MaterialIcons name="arrow-forward" size={20} color="white" />
             }
@@ -69,24 +56,19 @@ export default function Completion() {
       }
       className="px-screen-x"
     >
-      {!isSkipped && (
-        <View className="flex-row items-center justify-center gap-2 pt-2">
-          <Text size="sm" tone="secondary" weight="medium">
-            Onboarding Complete
-          </Text>
-          <Text size="sm" weight="bold" style={{ color: orangeAccent }}>
-            100%
-          </Text>
-        </View>
-      )}
+      <View className="flex-row items-center justify-center gap-2 pt-2">
+        <Text size="sm" tone="secondary" weight="medium">
+          Onboarding Complete
+        </Text>
+        <Text size="sm" weight="bold" style={{ color: orangeAccent }}>
+          100%
+        </Text>
+      </View>
       <View className="flex-1 items-center justify-center px-8">
-        {/* Victory circle */}
         <View className="mb-10 items-center justify-center">
           <View
             className="absolute h-64 w-64 rounded-full border"
-            style={{
-              borderColor: withAlpha(colors.accent.orange, 0.2),
-            }}
+            style={{ borderColor: withAlpha(colors.accent.orange, 0.2) }}
           />
           <View className="absolute h-52 w-52 rounded-full border border-primary-pink/10" />
 
@@ -126,7 +108,7 @@ export default function Completion() {
         </View>
 
         <Text size="display" align="center">
-          You&apos;re set.
+          You&apos;re all set.
         </Text>
         <Text
           size="lg"
@@ -135,7 +117,7 @@ export default function Completion() {
           weight="medium"
           className="mt-4 max-w-[280px]"
         >
-          Phobik will meet you where you are and adapt as you go.
+          Let us walk you through a few features to help you get up and running.
         </Text>
       </View>
     </Screen>

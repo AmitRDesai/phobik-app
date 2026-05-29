@@ -246,7 +246,7 @@ export default function ScreenShowcase() {
           <Button
             variant="secondary"
             size="sm"
-            onPress={() => router.push('/account-creation')}
+            onPress={() => router.push('/onboarding')}
           >
             Open onboarding
           </Button>

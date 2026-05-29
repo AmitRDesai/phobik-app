@@ -20,7 +20,6 @@ import '../../global.css';
 type ActiveStack =
   | 'auth'
   | 'email-verification'
-  | 'profile-setup'
   | 'onboarding'
   | 'biometric-setup'
   | 'home'
@@ -91,7 +90,7 @@ const useAppInitializer = () => {
   const hasProfile = profileStatus?.hasProfile ?? false;
   const onboardingCompleted = profileStatus?.onboardingCompleted ?? false;
 
-  // Auto-save questionnaire data after signup (separate hook for clarity)
+  // Hold splash until first sync settles so the guard sees a synced profile.
   const { isPending: isAutoRecoveryPending } = useProfileAutoRecovery({
     isAuthenticated,
     hasProfile,
@@ -120,8 +119,9 @@ const useAppInitializer = () => {
     if (isForceUpdate) return 'update-required';
     if (isOtaRestartNeeded) return 'ota-restart';
     if (!isAuthenticated) return 'auth';
-    if (!hasProfile) return 'profile-setup';
     if (!emailVerified) return 'email-verification';
+    // Profile is created inside onboarding now (no separate profile-setup) —
+    // a social login without a completed profile lands here too.
     if (!onboardingCompleted) return 'onboarding';
     if (!biometricPromptShown && biometricAvailable) return 'biometric-setup';
     return 'home';

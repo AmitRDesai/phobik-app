@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 import {
   KeyboardAvoidingView,
+  KeyboardAwareScrollView,
   KeyboardStickyView,
 } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -188,17 +189,30 @@ export function Screen({
     [resolvedInsetBottom, insets.bottom, v.bgHex],
   );
 
+  const scrollProps = {
+    className: 'flex-1',
+    contentContainerClassName: clsx(bodyPaddingClass, contentClassName),
+    contentContainerStyle: scrollContentStyle,
+    keyboardShouldPersistTaps: 'handled' as const,
+    showsVerticalScrollIndicator: false,
+    ...scrollViewProps,
+  };
+
+  // Scroll + keyboard: KeyboardAwareScrollView auto-scrolls the focused input
+  // above the keyboard. `bottomOffset` clears the sticky CTA (which itself
+  // rises with the keyboard) plus a small margin, so a field at the bottom of
+  // the body isn't trapped behind the CTA. Scroll-only: a plain ScrollView.
   const body = scroll ? (
-    <ScrollView
-      className="flex-1"
-      contentContainerClassName={clsx(bodyPaddingClass, contentClassName)}
-      contentContainerStyle={scrollContentStyle}
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-      {...scrollViewProps}
-    >
-      {children}
-    </ScrollView>
+    keyboard ? (
+      <KeyboardAwareScrollView
+        bottomOffset={stickyHeight + 24}
+        {...scrollProps}
+      >
+        {children}
+      </KeyboardAwareScrollView>
+    ) : (
+      <ScrollView {...scrollProps}>{children}</ScrollView>
+    )
   ) : (
     <View
       className={clsx('flex-1', bodyPaddingClass)}
@@ -208,13 +222,16 @@ export function Screen({
     </View>
   );
 
-  const bodyWithKeyboard = keyboard ? (
-    <KeyboardAvoidingView behavior="padding" className="flex-1">
-      {body}
-    </KeyboardAvoidingView>
-  ) : (
-    body
-  );
+  // KeyboardAwareScrollView already handles keyboard avoidance for scroll
+  // bodies; only non-scroll bodies need the KeyboardAvoidingView wrapper.
+  const bodyWithKeyboard =
+    keyboard && !scroll ? (
+      <KeyboardAvoidingView behavior="padding" className="flex-1">
+        {body}
+      </KeyboardAvoidingView>
+    ) : (
+      body
+    );
 
   if (loading) {
     return (

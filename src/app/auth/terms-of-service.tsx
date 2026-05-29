@@ -1,1 +1,1 @@
-export { default } from '@/modules/account-creation/screens/TermsOfService';
+export { default } from '@/modules/auth/screens/TermsModal';

@@ -1,1 +1,1 @@
-export { default } from '@/modules/account-creation/screens/DataSecurityPromise';
+export { default } from '@/modules/auth/screens/PrivacyModal';

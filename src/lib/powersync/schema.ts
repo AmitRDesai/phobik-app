@@ -11,16 +11,15 @@ const user_profile = new Table(
     user_id: column.text,
     age_range: column.text,
     gender_identity: column.text,
-    goals: column.text,
-    stressors: column.text,
-    triggers: column.text,
-    custom_trigger: column.text,
-    reminder_preference: column.text,
-    regulation_tools: column.text,
-    custom_tool: column.text,
-    energy_focus: column.text,
-    energy_creativity: column.text,
-    energy_dip: column.text,
+    goals: column.text, // JSON string[]
+    goal_details: column.text,
+    emotional_state: column.text, // JSON string[]
+    sleep_quality: column.text,
+    activity_level: column.text,
+    sedentary_time: column.text,
+    food_preferences: column.text, // JSON string[]
+    food_preferences_other: column.text,
+    habit_ratings: column.text, // JSON Record<category, 1-5>
     terms_accepted_at: column.text,
     privacy_accepted_at: column.text,
     onboarding_completed_at: column.text,

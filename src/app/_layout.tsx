@@ -80,31 +80,30 @@ function RootNavigator() {
         <Stack.Screen name="ota-restart" />
       </Stack.Protected>
 
-      {/* Auth screens — outer guard covers all unauthenticated states.
-          Inner nested guard (!isReturningUser) makes account-creation the
-          initial screen for new users. When returning, account-creation is
-          removed and auth (Sign In) becomes the fallback. "Sign Up" on
-          Sign In sets isReturningUserAtom=false to re-enable account-creation. */}
+      {/* Unified onboarding — dual-mode. Shown pre-signup for new users
+          (nested under !isReturningUser within the unauthenticated state; its
+          final step is Create Account) and post-auth until onboarding is
+          complete (social logins / interrupted email flow). Declared before
+          `auth` so a brand-new user lands on Welcome while Sign In stays
+          reachable. "Sign Up" on Sign In sets isReturningUser=false. */}
+      <Stack.Protected
+        guard={
+          activeStack === 'onboarding' ||
+          (activeStack === 'auth' && !isReturningUser)
+        }
+      >
+        <Stack.Screen name="onboarding" />
+      </Stack.Protected>
+
+      {/* Auth screens — covers all unauthenticated states. Returning /
+          signed-out users land here (Sign In, with Google/Apple). */}
       <Stack.Protected guard={activeStack === 'auth'}>
-        <Stack.Protected guard={!isReturningUser}>
-          <Stack.Screen name="account-creation" />
-        </Stack.Protected>
         <Stack.Screen name="auth" />
       </Stack.Protected>
 
-      {/* Email verification - after signup, before profile/biometric/home */}
+      {/* Email verification - after signup, before onboarding/biometric/home */}
       <Stack.Protected guard={activeStack === 'email-verification'}>
         <Stack.Screen name="email-verification" />
-      </Stack.Protected>
-
-      {/* Profile setup - social auth users without profile */}
-      <Stack.Protected guard={activeStack === 'profile-setup'}>
-        <Stack.Screen name="profile-setup" />
-      </Stack.Protected>
-
-      {/* Onboarding - after profile setup, before biometric */}
-      <Stack.Protected guard={activeStack === 'onboarding'}>
-        <Stack.Screen name="onboarding" />
       </Stack.Protected>
 
       {/* Biometric setup - one-time after first auth */}

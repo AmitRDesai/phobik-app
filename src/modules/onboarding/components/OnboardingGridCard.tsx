@@ -34,7 +34,9 @@ export function OnboardingGridCard({
             : 'border-transparent bg-foreground/5',
         )}
         style={{
-          minHeight: height,
+          // Fixed height (not minHeight) so every card in a grid is uniform
+          // regardless of how many lines its label wraps to.
+          height,
           ...(selected && {
             boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.3)}`,
           }),
