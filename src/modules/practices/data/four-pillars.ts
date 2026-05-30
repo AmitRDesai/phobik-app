@@ -30,9 +30,12 @@ export type PillarId = 'body' | 'mind' | 'emotion' | 'relationship';
 
 export type PillarHubCard = {
   id: PillarId;
-  eyebrow: string;
-  title: string;
-  subtitle: string;
+  /** Single-word category name (e.g. "BODY"). */
+  label: string;
+  /** Short one-line description of the category. */
+  tagline: string;
+  /** Preview list of the practices inside this category. */
+  practices: string[];
   image: number;
   route: Href;
   icon: keyof typeof MaterialIcons.glyphMap;
@@ -79,22 +82,29 @@ export const PILLAR_HUB: {
   cards: [
     {
       id: 'body',
-      eyebrow:
-        'Goal: rapidly downshift physiological arousal (Fight/Flight to Calm)',
-      title: 'BODY-BASED REGULATION',
-      subtitle:
-        'Best for panic spikes, physical anxiety, racing heart or shallow breathing.',
+      label: 'BODY',
+      tagline: 'Regulate through physiology.',
+      practices: ['Breath', 'Movement', 'Sleep', 'Meditation'],
       image: bodyBg,
       route: '/practices/body-regulation',
-      icon: 'self-improvement',
+      icon: 'air',
       accentColor: colors.primary.pink,
     },
     {
       id: 'mind',
-      eyebrow: 'Goal: Quiet mental loops + regain cognitive control',
-      title: 'MIND-BASED REGULATION',
-      subtitle:
-        'Best for rumination, overthinking & catastrophic thinking loops.',
+      label: 'MIND',
+      tagline: 'Train your attention and thinking.',
+      practices: [
+        'Meditation',
+        'Affirmations',
+        'Micro-challenges',
+        'EFT Tapping',
+        'Mystery Challenge',
+        'Specialized Packs',
+        'Self Check In Hub',
+        'Pivot Point',
+        'Stress Compass',
+      ],
       image: mindBg,
       route: '/practices/mind-regulation',
       icon: 'psychology',
@@ -102,10 +112,15 @@ export const PILLAR_HUB: {
     },
     {
       id: 'emotion',
-      eyebrow: 'Goal: Safely process & release emotional intensity',
-      title: 'EMOTION-BASED REGULATION',
-      subtitle:
-        'Best for emotional overwhelm, sadness, fear, grief or feeling emotionally stuck.',
+      label: 'EMOTIONS',
+      tagline: 'Understand what you are feeling.',
+      practices: [
+        'Journal',
+        'Self Compassion',
+        'Sound Studio',
+        'Feel Your Feelings',
+        'Gratitude',
+      ],
       image: emotionBg,
       route: '/practices/emotion-regulation',
       icon: 'favorite',
@@ -113,10 +128,16 @@ export const PILLAR_HUB: {
     },
     {
       id: 'relationship',
-      eyebrow: 'Goal: Create safety, connection, and grounded presence',
-      title: 'RELATIONSHIP-BASED REGULATION',
-      subtitle:
-        'Best for loneliness, nervous system dysregulation, need for comfort or safety.',
+      label: 'RELATIONSHIPS',
+      tagline: 'Strengthen connection and belonging.',
+      practices: [
+        '7 Day Empathy Challenge',
+        'Intimacy Test',
+        'Express Yourself',
+        'Co Regulation',
+        'Relationship Tools',
+        'Love Languages',
+      ],
       image: relationshipBg,
       route: '/practices/relationship-regulation',
       icon: 'groups',
