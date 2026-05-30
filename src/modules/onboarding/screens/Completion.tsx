@@ -36,6 +36,7 @@ export default function Completion() {
           <Button
             onPress={handleGoToToday}
             loading={flush.isPending}
+            disabled={flush.isPending || flush.isSuccess}
             icon={
               <MaterialIcons name="arrow-forward" size={20} color="white" />
             }

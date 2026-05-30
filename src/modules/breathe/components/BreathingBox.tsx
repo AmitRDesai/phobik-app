@@ -130,6 +130,7 @@ export function BreathingBox({
       false,
     );
     return () => {
+      cancelAnimation(glowOpacity);
       glowOpacity.value = 0.15;
     };
   }, [isPaused]);
@@ -154,6 +155,7 @@ export function BreathingBox({
       false,
     );
     return () => {
+      cancelAnimation(textScale);
       textScale.value = 0.96;
     };
   }, [isPaused]);

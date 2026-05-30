@@ -34,7 +34,7 @@ export function useStartAssessment() {
   const userId = useUserId();
 
   return useMutation({
-    mutationFn: async (input: { type: AssessmentType }) => {
+    mutationFn: async (input: { type: AssessmentType; id?: string }) => {
       if (!userId) throw new Error('Not authenticated');
 
       const existing = await db
@@ -47,7 +47,7 @@ export function useStartAssessment() {
 
       if (existing) return toCamel(existing, ASSESSMENT_JSON);
 
-      const id = uuid();
+      const id = input.id ?? uuid();
       const now = new Date().toISOString();
 
       await db

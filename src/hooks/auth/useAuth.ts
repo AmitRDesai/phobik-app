@@ -1,7 +1,7 @@
 import { authClient } from '@/lib/auth';
 import { useCachedSession } from '@/hooks/useCachedSession';
 import { getDeviceId } from '@/lib/device-id';
-import { powersync } from '@/lib/powersync';
+import { disconnectPowerSync, powersync } from '@/lib/powersync';
 import { rpcClient } from '@/lib/rpc';
 import { withTimeoutAndRetry } from '@/lib/server-warmup';
 import { dialog } from '@/utils/dialog';
@@ -175,6 +175,14 @@ export function useSignOut() {
 
         // Full sign-out: destroy session, reset biometric so it's offered again
         await authClient.signOut();
+        // Tear down PowerSync inline (not via a deferred render effect) so the
+        // previous user's local SQLite is wiped immediately — otherwise their
+        // data stays live during the gap before the auth-state effect reacts.
+        try {
+          await disconnectPowerSync();
+        } catch {
+          // Best-effort: don't let a disconnect failure skip the cleanup below
+        }
         setIsSignedOut(false);
         setBiometricEnabled(false);
         setBiometricPromptShown(false);

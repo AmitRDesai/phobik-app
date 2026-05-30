@@ -47,19 +47,19 @@ export function useDailyDose() {
       FROM (
         SELECT dose_dopamine, dose_oxytocin, dose_serotonin, dose_endorphins
         FROM practice_session
-        WHERE user_id = ? AND date(completed_at) = ?
+        WHERE user_id = ? AND date(completed_at, 'localtime') = ?
         UNION ALL
         SELECT dose_dopamine, dose_oxytocin, dose_serotonin, dose_endorphins
         FROM mystery_challenge
-        WHERE user_id = ? AND date(completed_at) = ?
+        WHERE user_id = ? AND date(completed_at, 'localtime') = ?
         UNION ALL
         SELECT 0 as dose_dopamine, dose_oxytocin, dose_serotonin, 0 as dose_endorphins
         FROM empathy_challenge_day
-        WHERE user_id = ? AND date(completed_at) = ?
+        WHERE user_id = ? AND date(completed_at, 'localtime') = ?
         UNION ALL
         SELECT dose_dopamine, dose_oxytocin, dose_serotonin, dose_endorphins
         FROM micro_challenge
-        WHERE user_id = ? AND status = 'completed' AND date(completed_at) = ?
+        WHERE user_id = ? AND status = 'completed' AND date(completed_at, 'localtime') = ?
       )
     `,
     parameters: [userId, today, userId, today, userId, today, userId, today],

@@ -200,6 +200,11 @@ export function useCoachChat() {
             if (!line.startsWith('data: ')) continue;
             const data = line.slice(6);
             if (data === '[DONE]') break;
+            if (data === '[ERROR]') {
+              throw new Error(
+                'The coach ran into a problem responding. Please try again.',
+              );
+            }
             const text = JSON.parse(data) as string;
             setMessages((prev) =>
               prev.map((msg) =>

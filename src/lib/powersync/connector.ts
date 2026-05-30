@@ -24,13 +24,25 @@ export class PhobikConnector implements PowerSyncBackendConnector {
     const cookies = authClient.getCookie();
     if (!cookies) return null;
 
+    // Network failures (offline, DNS, TLS) reject here and propagate to
+    // PowerSync, which retries — we never want to silently halt sync on a
+    // transient error by returning null (that reads as "not authenticated").
     const { fetch } = await import('expo/fetch');
     const res = await fetch(`${env.get('API_URL')}/api/powersync/token`, {
       headers: { Cookie: cookies },
       credentials: 'omit',
     });
 
-    if (!res.ok) return null;
+    // Only a genuine "not authenticated" response (401) maps to null, which
+    // tells PowerSync to stop until the session is restored. A 5xx (or any
+    // other non-ok status) is transient — throw so PowerSync retries instead
+    // of stalling on a stale/empty token.
+    if (res.status === 401) return null;
+    if (!res.ok) {
+      throw new Error(
+        `[PowerSync] token endpoint returned ${res.status} ${res.statusText}`,
+      );
+    }
 
     const { token, endpoint } = (await res.json()) as {
       token: string;
@@ -58,6 +70,13 @@ export class PhobikConnector implements PowerSyncBackendConnector {
   private async processOp(op: CrudEntry, database: AbstractPowerSyncDatabase) {
     const { table, opData, id } = op;
 
+    // Each handler below forwards only the ops that have a matching oRPC
+    // procedure. Ops with no handler branch (e.g. a DELETE on an append-only
+    // table) are intentionally not synced: gentle_letter, mystery_challenge,
+    // user_affirmation, energy_check_in, and practice_session have no delete
+    // feature, so the missing DELETE branches are deliberate — there is no
+    // backend procedure to call. Do NOT invent handlers for non-existent
+    // procedures (e.g. gentleLetter.deleteLetter does not exist).
     switch (table) {
       case 'journal_entry':
         return this.handleJournalEntry(op);
@@ -104,6 +123,7 @@ export class PhobikConnector implements PowerSyncBackendConnector {
       case 'sleep_session':
         return this.handleSleepSession(op);
       default:
+        // No upload handler for this table — intentionally not synced upward.
         console.warn(`[PowerSync] Skipping unknown table: ${table}`);
     }
   }
@@ -223,10 +243,13 @@ export class PhobikConnector implements PowerSyncBackendConnector {
       const status = d?.status as string;
       if (status === 'in_progress') {
         await rpcClient.empathyChallenge.startDay({ dayId: op.id });
-      } else if (status === 'completed' && d?.reflection) {
+      } else if (status === 'completed') {
+        // Complete on any 'completed' PATCH — gating on a truthy reflection
+        // silently dropped completions with an empty reflection, leaving the
+        // day stuck in_progress forever. completeDay accepts an empty string.
         await rpcClient.empathyChallenge.completeDay({
           dayId: op.id,
-          reflection: d.reflection as string,
+          reflection: (d?.reflection as string) ?? '',
         });
       }
     }
@@ -300,14 +323,20 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         const answers =
           parseJSON<Record<string, number>>(d.answers as string) ?? {};
         const currentQuestion = (d?.current_question as number) ?? 0;
-        // Find the latest answer to send
-        const questionIds = Object.keys(answers).map(Number);
-        const latestQ = Math.max(...questionIds, 0);
-        if (latestQ > 0) {
+        // Send the FULL answers map, not just the latest question. When
+        // multiple answers are coalesced into one PATCH (offline batching),
+        // sending only Math.max(questionId) drops the rest — real data loss.
+        // saveAnswer merges into the server answers JSON and is idempotent,
+        // so re-sending the cumulative set ascending is safe.
+        const questionIds = Object.keys(answers)
+          .map(Number)
+          .filter((q) => q > 0)
+          .sort((a, b) => a - b);
+        for (const questionId of questionIds) {
           await rpcClient.selfCheckIn.saveAnswer({
             id: op.id,
-            questionId: latestQ,
-            answer: answers[String(latestQ)] ?? 0,
+            questionId,
+            answer: answers[String(questionId)] ?? 0,
             currentQuestion,
           });
         }

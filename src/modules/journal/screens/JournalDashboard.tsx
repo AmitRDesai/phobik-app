@@ -61,12 +61,14 @@ export default function JournalDashboard() {
   const { lock } = useJournalLock();
   const isUnlocked = useAtomValue(journalUnlockedAtom);
 
-  // Redirect to lock screen when journal gets locked (e.g. app backgrounded)
+  // Redirect to lock screen when journal gets locked (e.g. app backgrounded).
+  // Depends on isUnlocked so the redirect re-fires whenever it flips false —
+  // the target (/journal) is a different route, so this cannot loop.
   useEffect(() => {
     if (!isUnlocked) {
       router.replace('/journal?autoUnlock=1');
     }
-  }, []);
+  }, [isUnlocked, router]);
 
   const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
   const [month, setMonth] = useAtom(selectedMonthAtom);

@@ -32,8 +32,19 @@ const useAppInitializer = () => {
   const isReturningUser = useAtomValue(isReturningUserAtom);
   const setIsReturningUser = useSetAtom(isReturningUserAtom);
   const biometricPromptShown = useAtomValue(biometricPromptShownAtom);
-  const { isAvailable: biometricAvailable } = useBiometricAvailability();
+  const { isAvailable: biometricAvailable, resolved: biometricResolved } =
+    useBiometricAvailability();
   const [isReady, setIsReady] = useState(false);
+
+  // Safety valve: never block the boot stack indefinitely on the biometric
+  // availability check. It resolves quickly in practice, but if the native
+  // module ever hangs we proceed after a short grace period.
+  const [biometricGraceElapsed, setBiometricGraceElapsed] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setBiometricGraceElapsed(true), 2000);
+    return () => clearTimeout(t);
+  }, []);
+  const biometricGate = biometricResolved || biometricGraceElapsed;
 
   const hasSession = !!session?.session;
   const isAuthenticated = hasSession && !isSignedOut;
@@ -96,10 +107,21 @@ const useAppInitializer = () => {
     hasProfile,
   });
 
+  // The biometric-setup decision (biometricPromptShown && biometricAvailable)
+  // is only reachable once the user is authenticated, email-verified, and has
+  // completed onboarding. Only then must we wait on the availability check —
+  // otherwise we'd delay splash for users who can never reach that branch.
+  const needsBiometricGate =
+    isAuthenticated &&
+    emailVerified &&
+    onboardingCompleted &&
+    !biometricPromptShown;
+
   const dataResolved =
     !isSessionLoading &&
     (!isAuthenticated || !isProfileChecking) &&
-    !isAutoRecoveryPending;
+    !isAutoRecoveryPending &&
+    (!needsBiometricGate || biometricGate);
 
   useEffect(() => {
     if (dataResolved) {

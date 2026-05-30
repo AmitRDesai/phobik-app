@@ -68,19 +68,19 @@ export function useDoseActivityLog() {
     query: `
       SELECT 'practice' as source, practice_type, dose_dopamine, dose_oxytocin, dose_serotonin, dose_endorphins, completed_at
       FROM practice_session
-      WHERE user_id = ? AND date(completed_at) = ?
+      WHERE user_id = ? AND date(completed_at, 'localtime') = ?
       UNION ALL
       SELECT 'mystery' as source, challenge_type as practice_type, dose_dopamine, dose_oxytocin, dose_serotonin, dose_endorphins, completed_at
       FROM mystery_challenge
-      WHERE user_id = ? AND date(completed_at) = ?
+      WHERE user_id = ? AND date(completed_at, 'localtime') = ?
       UNION ALL
       SELECT 'empathy' as source, 'empathy-day' as practice_type, 0 as dose_dopamine, dose_oxytocin, dose_serotonin, 0 as dose_endorphins, completed_at
       FROM empathy_challenge_day
-      WHERE user_id = ? AND date(completed_at) = ? AND status = 'completed'
+      WHERE user_id = ? AND date(completed_at, 'localtime') = ? AND status = 'completed'
       UNION ALL
       SELECT 'micro' as source, 'micro-challenge' as practice_type, dose_dopamine, dose_oxytocin, dose_serotonin, dose_endorphins, completed_at
       FROM micro_challenge
-      WHERE user_id = ? AND status = 'completed' AND date(completed_at) = ?
+      WHERE user_id = ? AND status = 'completed' AND date(completed_at, 'localtime') = ?
       ORDER BY completed_at DESC
     `,
     parameters: [userId, today, userId, today, userId, today, userId, today],

@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors, foregroundFor } from '@/constants/colors';
+import { uuid } from '@/lib/crypto';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -27,21 +28,42 @@ export default function StressCompass() {
 
   const startAssessment = useStartAssessment();
   const saveAnswer = useSaveAnswer();
-  const [assessmentId, setAssessmentId] = useState<string | null>(null);
+  // Generate the assessment id synchronously up front so answers made before
+  // the insert resolves are persisted against a stable id (no early-return).
+  const [assessmentId, setAssessmentId] = useState<string>(() => uuid());
   const startedRef = useRef(false);
+  // Ratings the user has actively saved this session, keyed by questionId.
+  // Used to re-persist any in-flight answers if the resume case adopts a
+  // different (existing) row id after the start round-trip resolves.
+  const collectedRef = useRef<Record<number, number>>({});
 
   useEffect(() => {
     if (startedRef.current) return;
     startedRef.current = true;
     startAssessment.mutate(
-      { type: 'stress-compass' },
+      { type: 'stress-compass', id: assessmentId },
       {
         onSuccess: (result) => {
           const record = result as {
             id: string;
             answers?: Record<string, number>;
           };
-          setAssessmentId(record.id);
+          // Resume case: an existing in-progress row wins — adopt its id.
+          if (record.id !== assessmentId) {
+            setAssessmentId(record.id);
+            // Any answers saved during the start round-trip were written
+            // against the local uuid (a row that never existed) and dropped.
+            // Re-persist them against the adopted id so nothing is lost.
+            for (const [qid, answer] of Object.entries(collectedRef.current)) {
+              const questionId = Number(qid);
+              saveAnswer.mutate({
+                id: record.id,
+                questionId,
+                answer,
+                currentQuestion: questionId,
+              });
+            }
+          }
           // Pre-seed ratings from any persisted answers (resume case)
           const answers = record.answers ?? {};
           if (Object.keys(answers).length > 0) {
@@ -63,9 +85,9 @@ export default function StressCompass() {
   const updateRating = useCallback(
     (key: StressorKey, value: number) => {
       setRatings((prev) => ({ ...prev, [key]: value }));
-      if (!assessmentId) return;
       const questionId = STRESSOR_CATEGORIES.findIndex((s) => s.key === key);
       if (questionId < 0) return;
+      collectedRef.current[questionId] = value;
       saveAnswer.mutate({
         id: assessmentId,
         questionId,

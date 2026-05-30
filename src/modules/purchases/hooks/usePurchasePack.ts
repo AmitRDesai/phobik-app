@@ -53,7 +53,19 @@ export function usePurchasePack() {
         throw new Error('Purchase could not be verified');
       }
 
-      // 4. Record in local PowerSync DB (syncs to backend automatically)
+      // 4. Record in local PowerSync DB (syncs to backend automatically).
+      // PowerSync's `user_pack` index is non-unique, so `onConflict` can't be
+      // relied on — guard idempotency with an existence check so a retry after
+      // a partial failure doesn't insert a duplicate (user_id, pack_id) row.
+      const existing = await db
+        .selectFrom('pack_purchase')
+        .select('id')
+        .where('user_id', '=', userId)
+        .where('pack_id', '=', packId)
+        .executeTakeFirst();
+
+      if (existing) return;
+
       const now = new Date().toISOString();
       await db
         .insertInto('pack_purchase')

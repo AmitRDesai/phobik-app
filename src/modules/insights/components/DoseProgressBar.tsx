@@ -16,7 +16,11 @@ interface DoseProgressBarProps {
 }
 
 export function DoseProgressBar({ chemical, index = 0 }: DoseProgressBarProps) {
-  const progress = (chemical.coins / chemical.maxCoins) * 100;
+  const progress =
+    chemical.maxCoins > 0
+      ? Math.min(100, Math.max(0, (chemical.coins / chemical.maxCoins) * 100))
+      : 0;
+  const displayCoins = Math.min(chemical.coins, chemical.maxCoins);
   const wavePath = WAVE_PATHS[index % WAVE_PATHS.length];
 
   return (
@@ -31,7 +35,7 @@ export function DoseProgressBar({ chemical, index = 0 }: DoseProgressBarProps) {
           </Text>
         </View>
         <Text size="lg" weight="bold" style={{ color: chemical.color }}>
-          {chemical.coins} Coins
+          {displayCoins} Coins
         </Text>
       </View>
       <View className="h-12 w-full overflow-hidden rounded-2xl bg-foreground/5">

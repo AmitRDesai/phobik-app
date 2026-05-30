@@ -4,12 +4,13 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { sql } from 'kysely';
 
 export function useTodaysChallenge() {
   const userId = useUserId();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = dayjs().format('YYYY-MM-DD');
 
   const { data, ...rest } = useQuery({
     queryKey: ['mystery-challenge-today', userId, today],
@@ -17,7 +18,7 @@ export function useTodaysChallenge() {
       .selectFrom('mystery_challenge')
       .selectAll()
       .where('user_id', '=', userId ?? '')
-      .where(sql`date(completed_at)`, '=', today)
+      .where(sql`date(completed_at, 'localtime')`, '=', today)
       .orderBy('completed_at', 'desc')
       .limit(1),
     enabled: !!userId,
