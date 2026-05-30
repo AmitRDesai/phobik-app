@@ -12,7 +12,7 @@ import {
 } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions } from 'expo-router/react-navigation';
 import { useNavigation } from 'expo-router';
 import { useSetAtom } from 'jotai';
 import Svg, { Defs, Ellipse, RadialGradient, Stop } from 'react-native-svg';

@@ -150,6 +150,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-image',
       'expo-font',
       'expo-web-browser',
+      'expo-status-bar',
     ],
     experiments: {
       typedRoutes: true,

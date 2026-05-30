@@ -74,10 +74,10 @@ export default function Privacy() {
         </GradientText>
       </View>
       <View className="mb-14 items-center justify-center py-8">
-        <View className="absolute h-56 w-56 rounded-full border border-foreground/10" />
-        <View className="absolute h-44 w-44 rounded-full border border-foreground/15" />
-        <View className="absolute h-32 w-32 rounded-full border border-foreground/20" />
-        <View className="h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-foreground/20">
+        <View className="absolute size-56 rounded-full border border-foreground/10" />
+        <View className="absolute size-44 rounded-full border border-foreground/15" />
+        <View className="absolute size-32 rounded-full border border-foreground/20" />
+        <View className="size-20 items-center justify-center overflow-hidden rounded-full border border-foreground/20">
           <LinearGradient
             colors={[
               withAlpha(colors.primary.pink, 0.2),

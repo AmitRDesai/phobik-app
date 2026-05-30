@@ -2,7 +2,7 @@ import { Screen } from '@/components/ui/Screen';
 import { uuid } from '@/lib/crypto';
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions } from 'expo-router/react-navigation';
 import { useNavigation, useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 

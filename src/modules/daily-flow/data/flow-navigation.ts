@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import type { Router } from 'expo-router';
+import type { ImperativeRouter } from 'expo-router';
 
 import type { FlowStep } from './types';
 
@@ -45,7 +45,7 @@ export function getNextStep(current: FlowStep): FlowStep | null {
  * Replace-navigate to a flow step. Uses router.replace so the stack only ever
  * contains [Today, currentFlowScreen] — no duplicates across back/forward.
  */
-export function navigateToStep(router: Router, step: FlowStep) {
+export function navigateToStep(router: ImperativeRouter, step: FlowStep) {
   router.replace(STEP_ROUTES[step] as never);
 }
 

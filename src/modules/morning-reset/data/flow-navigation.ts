@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import type { Router } from 'expo-router';
+import type { ImperativeRouter } from 'expo-router';
 
 import type { FlowStep } from './types';
 
@@ -46,7 +46,7 @@ export function getPreviousStep(current: FlowStep): FlowStep | null {
  * contains [Today, currentStep] across forward navigation. On resume
  * we explicitly stack prior steps via buildStepPath so back unwinds.
  */
-export function navigateToStep(router: Router, step: FlowStep) {
+export function navigateToStep(router: ImperativeRouter, step: FlowStep) {
   router.replace(STEP_ROUTES[step] as never);
 }
 

@@ -3,7 +3,7 @@ import { View } from '@/components/themed/View';
 import { Button } from '@/components/ui/Button';
 import { Rating } from '@/components/ui/Rating';
 import { Screen } from '@/components/ui/Screen';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions } from 'expo-router/react-navigation';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
 

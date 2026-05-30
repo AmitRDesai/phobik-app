@@ -7,7 +7,7 @@ import { colors, withAlpha } from '@/constants/colors';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
-import { PermissionStatus } from 'expo-calendar';
+import { PermissionStatus } from 'expo';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';

@@ -289,7 +289,7 @@ export default function Philosophy() {
                   key={factor}
                   className="w-1/2 flex-row items-center gap-2 pr-2"
                 >
-                  <View className="h-1.5 w-1.5 rounded-full bg-primary-pink" />
+                  <View className="size-1.5 rounded-full bg-primary-pink" />
                   <Text size="sm" tone="secondary" className="flex-1">
                     {factor}
                   </Text>
@@ -324,7 +324,7 @@ export default function Philosophy() {
             <View className="gap-2.5">
               {STRESS_INFLUENCES.map((item) => (
                 <View key={item} className="flex-row items-center gap-3">
-                  <View className="h-1.5 w-1.5 rounded-full bg-primary-pink" />
+                  <View className="size-1.5 rounded-full bg-primary-pink" />
                   <Text size="md">{item}</Text>
                 </View>
               ))}

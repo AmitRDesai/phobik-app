@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { GradientText } from '@/components/ui/GradientText';
 import { InlineLink } from '@/components/ui/InlineLink';
 import { Screen } from '@/components/ui/Screen';
+import { useProfileStatus } from '@/hooks/auth/useProfile';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { warmServer } from '@/lib/server-warmup';
 import { onboardingTermsAcceptedAtAtom } from '@/store/onboarding';
@@ -16,15 +17,20 @@ import { useEffect } from 'react';
 export default function Welcome() {
   const userId = useUserId();
   const termsAcceptedAt = useAtomValue(onboardingTermsAcceptedAtAtom);
+  const { data: profileStatus } = useProfileStatus(!!userId);
 
   useEffect(() => {
     warmServer();
   }, []);
 
-  // Resume the completion screen for a user who finished the questionnaire
-  // before authenticating (email path) and has since signed up + verified.
-  if (userId && termsAcceptedAt) {
-    return <Redirect href="/onboarding/completion" />;
+  // An authenticated user should never see the pre-signup Welcome hero.
+  if (userId) {
+    // Onboarding just finished — render nothing while the root guard routes
+    // to the dashboard, so the Welcome hero doesn't flash during teardown.
+    if (profileStatus.onboardingCompleted) return null;
+    // Finished the questionnaire before authenticating (email path) and has
+    // since signed up + verified — resume at the completion screen.
+    if (termsAcceptedAt) return <Redirect href="/onboarding/completion" />;
   }
 
   return (

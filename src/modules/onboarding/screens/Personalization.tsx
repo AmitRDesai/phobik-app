@@ -22,15 +22,15 @@ export default function Personalization() {
       className="px-screen-x"
     >
       <View className="flex-1 items-center justify-center">
-        <View className="mb-10 h-[200px] w-[200px] items-center justify-center">
+        <View className="mb-10 size-[200px] items-center justify-center">
           <View
-            className="absolute h-[160px] w-[160px] rounded-full"
+            className="absolute size-[160px] rounded-full"
             style={{
               boxShadow: `0 0 50px ${withAlpha(colors.accent.orange, 0.25)}`,
             }}
           />
           <View
-            className="h-[128px] w-[128px] items-center justify-center overflow-hidden rounded-full"
+            className="size-[128px] items-center justify-center overflow-hidden rounded-full"
             style={{
               borderWidth: 1.5,
               borderColor: withAlpha('#c8a064', 0.3),
@@ -60,16 +60,16 @@ export default function Personalization() {
             style={{ right: 14, top: 16 }}
           >
             <View
-              className="absolute h-[20px] w-[20px] rounded-full"
+              className="absolute size-[20px] rounded-full"
               style={{ backgroundColor: `${colors.accent.yellow}50` }}
             />
             <View
-              className="h-[10px] w-[10px] rounded-full"
+              className="size-[10px] rounded-full"
               style={{ backgroundColor: colors.accent.yellow }}
             />
           </View>
           <View
-            className="absolute h-[8px] w-[8px] rounded-full"
+            className="absolute size-[8px] rounded-full"
             style={{
               backgroundColor: colors.primary.pink,
               left: 18,

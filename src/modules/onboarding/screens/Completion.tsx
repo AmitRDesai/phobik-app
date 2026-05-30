@@ -67,10 +67,10 @@ export default function Completion() {
       <View className="flex-1 items-center justify-center px-8">
         <View className="mb-10 items-center justify-center">
           <View
-            className="absolute h-64 w-64 rounded-full border"
+            className="absolute size-64 rounded-full border"
             style={{ borderColor: withAlpha(colors.accent.orange, 0.2) }}
           />
-          <View className="absolute h-52 w-52 rounded-full border border-primary-pink/10" />
+          <View className="absolute size-52 rounded-full border border-primary-pink/10" />
 
           <LinearGradient
             colors={[
@@ -89,22 +89,22 @@ export default function Completion() {
               boxShadow: `0 0 60px ${withAlpha(colors.accent.orange, 0.5)}`,
             }}
           >
-            <View className="h-40 w-40 items-center justify-center rounded-full border-2 border-foreground/30 bg-foreground/5">
-              <View className="h-32 w-32 items-center justify-center rounded-full border border-foreground/20">
+            <View className="size-40 items-center justify-center rounded-full border-2 border-foreground/30 bg-foreground/5">
+              <View className="size-32 items-center justify-center rounded-full border border-foreground/20">
                 <MaterialIcons name="check-circle" size={64} color="white" />
               </View>
             </View>
           </LinearGradient>
 
           <View
-            className="absolute -right-2 top-8 h-4 w-4 rounded-full"
+            className="absolute -right-2 top-8 size-4 rounded-full"
             style={{ backgroundColor: `${colors.accent.yellow}66` }}
           />
           <View
-            className="absolute -left-1 bottom-12 h-6 w-6 rounded-full"
+            className="absolute -left-1 bottom-12 size-6 rounded-full"
             style={{ backgroundColor: `${colors.primary.pink}4D` }}
           />
-          <View className="absolute left-6 top-2 h-3 w-3 rounded-full bg-foreground/40" />
+          <View className="absolute left-6 top-2 size-3 rounded-full bg-foreground/40" />
         </View>
 
         <Text size="display" align="center">

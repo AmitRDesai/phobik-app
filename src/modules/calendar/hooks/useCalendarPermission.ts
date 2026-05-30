@@ -1,3 +1,4 @@
+import { PermissionStatus } from 'expo';
 import * as Calendar from 'expo-calendar';
 import { useCallback, useState } from 'react';
 import { Platform } from 'react-native';
@@ -9,7 +10,7 @@ const EXCLUDED_TYPES = new Set([
   Calendar.CalendarType.SUBSCRIBED,
 ]);
 
-function mapCalendars(raw: Calendar.Calendar[]): DeviceCalendar[] {
+function mapCalendars(raw: Calendar.ExpoCalendar[]): DeviceCalendar[] {
   return raw
     .filter((cal) => {
       // On iOS, filter out birthday/subscription calendars
@@ -34,20 +35,18 @@ function mapCalendars(raw: Calendar.Calendar[]): DeviceCalendar[] {
 
 export function useCalendarPermission() {
   const [calendars, setCalendars] = useState<DeviceCalendar[]>([]);
-  const [status, setStatus] = useState<Calendar.PermissionStatus | null>(null);
+  const [status, setStatus] = useState<PermissionStatus | null>(null);
   const [loading, setLoading] = useState(false);
 
   const requestPermission = useCallback(async () => {
     setLoading(true);
     try {
       const { status: permStatus } =
-        await Calendar.requestCalendarPermissionsAsync();
+        await Calendar.requestCalendarPermissions();
       setStatus(permStatus);
 
-      if (permStatus === Calendar.PermissionStatus.GRANTED) {
-        const raw = await Calendar.getCalendarsAsync(
-          Calendar.EntityTypes.EVENT,
-        );
+      if (permStatus === PermissionStatus.GRANTED) {
+        const raw = await Calendar.getCalendars(Calendar.EntityTypes.EVENT);
         setCalendars(mapCalendars(raw));
       }
 

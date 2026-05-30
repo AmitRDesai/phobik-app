@@ -1,4 +1,4 @@
-import type { Router } from 'expo-router';
+import type { ImperativeRouter } from 'expo-router';
 
 /**
  * Unwind a nested stack back to the root route. dismissTo pops every
@@ -7,7 +7,7 @@ import type { Router } from 'expo-router';
  * Kept in a plain module fn so try/catch doesn't block React Compiler
  * from optimizing calling components.
  */
-export function dismissToRoot(router: Router) {
+export function dismissToRoot(router: ImperativeRouter) {
   try {
     const dismissTo = router.dismissTo as ((href: string) => void) | undefined;
     if (typeof dismissTo === 'function') {

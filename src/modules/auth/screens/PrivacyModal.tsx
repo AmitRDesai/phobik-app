@@ -61,7 +61,7 @@ export default function PrivacyModal() {
         </GradientText>
       </View>
       <View className="mb-8 items-center justify-center py-8">
-        <View className="h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-foreground/20">
+        <View className="size-20 items-center justify-center overflow-hidden rounded-full border border-foreground/20">
           <LinearGradient
             colors={[
               withAlpha(colors.primary.pink, 0.2),
