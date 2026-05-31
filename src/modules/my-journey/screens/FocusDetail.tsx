@@ -48,7 +48,7 @@ export default function FocusDetail() {
       }
     >
       <View className="items-center gap-4 py-6">
-        <View className="h-20 w-20 items-center justify-center rounded-full bg-primary-pink/15">
+        <View className="size-20 items-center justify-center rounded-full bg-primary-pink/15">
           <Ionicons
             name={path.icon}
             size={36}

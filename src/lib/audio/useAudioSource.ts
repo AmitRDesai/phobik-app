@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNetInfo } from '@react-native-community/netinfo';
 import {
   AudioFetchError,
@@ -32,7 +32,7 @@ export type UseAudioSourceResult = {
   retry: () => void;
 };
 
-function describeError(err: unknown): string {
+export function describeError(err: unknown): string {
   if (err instanceof AudioFetchError) {
     if (err.kind === 'timeout') {
       return "Server didn't respond. Check your connection and try again.";
@@ -88,10 +88,10 @@ export function useAudioSource(key: string | null): UseAudioSourceResult {
   // we don't flash an "offline" state on launch when the device is in fact up.
   const isOnline = isConnected !== false;
 
-  const retry = useCallback(() => {
+  const retry = () => {
     void refetchManifest();
     setRetryCount((c) => c + 1);
-  }, [refetchManifest]);
+  };
 
   useEffect(() => {
     abortRef.current?.abort();

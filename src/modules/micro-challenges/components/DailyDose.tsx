@@ -119,7 +119,7 @@ export function DailyDose({ onAccept, onAIResponse }: DailyDoseProps) {
               {showLoading ? (
                 <ActivityIndicator size={10} color={colors.primary.pink} />
               ) : (
-                <View className="h-2 w-2 rounded-full bg-primary-pink" />
+                <View className="size-2 rounded-full bg-primary-pink" />
               )}
               <Text size="xs" treatment="caption" tone="accent">
                 {showLoading

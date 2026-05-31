@@ -2,15 +2,7 @@ import { ScrollView, Text, View } from '@/components/themed';
 import { foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import {
-  lazy,
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -93,20 +85,14 @@ export default function EbookChapter() {
   const updateProgress = useUpdateEbookProgress();
   const completedChapters = progress.completedChapters;
 
-  const chapterInfo = useMemo(
-    () => EBOOK_CHAPTERS.find((c) => c.id === chapterId),
-    [chapterId],
-  );
+  const chapterInfo = EBOOK_CHAPTERS.find((c) => c.id === chapterId);
 
-  const chapterIndex = useMemo(
-    () => EBOOK_CHAPTERS.findIndex((c) => c.id === chapterId),
-    [chapterId],
-  );
+  const chapterIndex = EBOOK_CHAPTERS.findIndex((c) => c.id === chapterId);
 
-  const progressPercent = useMemo(() => {
-    if (chapterIndex < 0) return 0;
-    return Math.round(((chapterIndex + 1) / TOTAL_CHAPTERS) * 100);
-  }, [chapterIndex]);
+  const progressPercent =
+    chapterIndex < 0
+      ? 0
+      : Math.round(((chapterIndex + 1) / TOTAL_CHAPTERS) * 100);
 
   const hasPrev = chapterIndex > 0;
   const hasNext = chapterIndex < EBOOK_CHAPTERS.length - 1;
@@ -115,22 +101,19 @@ export default function EbookChapter() {
     updateProgress.mutate({ lastChapterId: chapterId });
   }, [chapterId]);
 
-  const markCompleted = useCallback(() => {
+  const markCompleted = () => {
     if (!completedChapters.includes(chapterId)) {
       updateProgress.mutate({
         completedChapters: [...completedChapters, chapterId],
       });
     }
-  }, [chapterId, completedChapters, updateProgress]);
+  };
 
-  const navigateToChapter = useCallback(
-    (targetId: number) => {
-      markCompleted();
-      pendingChapterId.current = targetId;
-      setVisible(false);
-    },
-    [markCompleted],
-  );
+  const navigateToChapter = (targetId: number) => {
+    markCompleted();
+    pendingChapterId.current = targetId;
+    setVisible(false);
+  };
 
   // When fade-out completes, swap the chapter and fade back in
   useEffect(() => {
@@ -144,27 +127,27 @@ export default function EbookChapter() {
     }
   }, [visible, router]);
 
-  const handlePrev = useCallback(() => {
+  const handlePrev = () => {
     if (!hasPrev) return;
     const prevChapter = EBOOK_CHAPTERS[chapterIndex - 1];
     navigateToChapter(prevChapter.id);
-  }, [hasPrev, chapterIndex, navigateToChapter]);
+  };
 
-  const handleNext = useCallback(() => {
+  const handleNext = () => {
     if (!hasNext) return;
     const nextChapter = EBOOK_CHAPTERS[chapterIndex + 1];
     navigateToChapter(nextChapter.id);
-  }, [hasNext, chapterIndex, navigateToChapter]);
+  };
 
-  const handleBack = useCallback(() => {
+  const handleBack = () => {
     markCompleted();
     router.back();
-  }, [router, markCompleted]);
+  };
 
-  const handleToc = useCallback(() => {
+  const handleToc = () => {
     markCompleted();
     router.back();
-  }, [router, markCompleted]);
+  };
 
   const Screen = CHAPTER_SCREENS[chapterId];
 

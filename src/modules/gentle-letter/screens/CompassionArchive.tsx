@@ -128,7 +128,7 @@ export default function CompassionArchive() {
 
         <View className="mb-2 flex-row">
           {DAY_LABELS.map((label, i) => (
-            <View key={`day-${i}`} className="flex-1 items-center">
+            <View key={`day-${i}-${label}`} className="flex-1 items-center">
               <Text
                 size="xs"
                 treatment="caption"
@@ -161,7 +161,7 @@ export default function CompassionArchive() {
                       !isFuture && setSelectedDate(isSelected ? null : dateStr)
                     }
                     disabled={isFuture}
-                    className="relative h-10 w-10 items-center justify-center"
+                    className="relative size-10 items-center justify-center"
                     style={{ opacity: isFuture ? 0.3 : 1 }}
                   >
                     {isSelected ? (
@@ -192,7 +192,7 @@ export default function CompassionArchive() {
                     )}
                   </Pressable>
                 ) : (
-                  <View className="h-10 w-10" />
+                  <View className="size-10" />
                 )}
               </View>
             );

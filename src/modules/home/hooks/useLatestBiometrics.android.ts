@@ -9,7 +9,7 @@ import { readSleepSessionsInWindow } from '@/lib/biometrics/sleep-reader';
 import { persistSleepSessions } from '@/lib/biometrics/sleep-storage';
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 import {
   getGrantedPermissions,
@@ -176,7 +176,7 @@ export function useLatestBiometrics(): LatestBiometrics {
     setHasConnectedHealth,
   ]);
 
-  const requestAccess = useCallback(async () => {
+  const requestAccess = async () => {
     try {
       const status = await getSdkStatus();
       if (status !== SdkAvailabilityStatus.SDK_AVAILABLE) return false;
@@ -216,16 +216,16 @@ export function useLatestBiometrics(): LatestBiometrics {
     } catch {
       return false;
     }
-  }, [setHasConnectedHealth, userId]);
+  };
 
-  const disconnect = useCallback(async () => {
+  const disconnect = async () => {
     setHasConnectedHealth(false);
     try {
       openHealthConnectSettings();
     } catch {
       // best effort
     }
-  }, [setHasConnectedHealth]);
+  };
 
   return {
     heartRate: query.data?.heartRate ?? null,

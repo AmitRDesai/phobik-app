@@ -59,7 +59,7 @@ function FrequencyBandDetailInner({ band }: { band: FrequencyBandMeta }) {
 
           <View className="absolute right-5 top-5 flex-row items-center gap-2 rounded-full bg-black/45 px-3 py-1.5">
             <View
-              className="h-1.5 w-1.5 rounded-full"
+              className="size-1.5 rounded-full"
               style={{ backgroundColor: colors.primary.pink }}
             />
             <Text
@@ -194,7 +194,7 @@ function BandTrackRow({ row, onPress }: BandTrackRowProps) {
   return (
     <Pressable onPress={onPress} className="active:scale-[0.98]">
       <View className="flex-row items-center gap-4 rounded-3xl border border-foreground/10 bg-foreground/[0.03] p-3">
-        <View className="h-20 w-20 overflow-hidden rounded-2xl">
+        <View className="size-20 overflow-hidden rounded-2xl">
           <Image
             source={artwork}
             style={{ width: '100%', height: '100%' }}

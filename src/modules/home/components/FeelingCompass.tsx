@@ -20,6 +20,27 @@ const RADIUS = 120;
 const NODE_SIZE = 56;
 const HUB_SIZE = 80;
 
+const styles = StyleSheet.create({
+  hub: {
+    position: 'absolute',
+    left: CENTER - HUB_SIZE / 2,
+    top: CENTER - HUB_SIZE / 2,
+    width: HUB_SIZE,
+    height: HUB_SIZE,
+    borderRadius: HUB_SIZE / 2,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
+  },
+  nodeContainer: {
+    position: 'absolute',
+    width: 80,
+    alignItems: 'center',
+    zIndex: 20,
+  },
+});
+
 const FEELINGS = [
   {
     id: 'courage',
@@ -128,20 +149,13 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
       )}
 
       <View
-        style={{
-          position: 'absolute',
-          left: CENTER - HUB_SIZE / 2,
-          top: CENTER - HUB_SIZE / 2,
-          width: HUB_SIZE,
-          height: HUB_SIZE,
-          borderRadius: HUB_SIZE / 2,
-          backgroundColor: foregroundFor(scheme, 0.05),
-          borderWidth: 1,
-          borderColor: foregroundFor(scheme, 0.2),
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 10,
-        }}
+        style={[
+          styles.hub,
+          {
+            backgroundColor: foregroundFor(scheme, 0.05),
+            borderColor: foregroundFor(scheme, 0.2),
+          },
+        ]}
       >
         <Text
           size="xs"
@@ -164,14 +178,10 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
         return (
           <View
             key={feeling.id}
-            style={{
-              position: 'absolute',
-              left: x - 40,
-              top: y - NODE_SIZE / 2,
-              width: 80,
-              alignItems: 'center',
-              zIndex: 20,
-            }}
+            style={[
+              styles.nodeContainer,
+              { left: x - 40, top: y - NODE_SIZE / 2 },
+            ]}
           >
             <Pressable onPress={() => handleSelect(feeling.id)}>
               {isSelected ? (

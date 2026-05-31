@@ -1,7 +1,6 @@
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { useQuery } from '@powersync/tanstack-react-query';
-import { useMemo } from 'react';
 
 /** Check if a single pack is purchased (offline-safe, reactive) */
 export function usePackPurchased(packId: string): boolean {
@@ -34,11 +33,7 @@ export function usePackPurchases(): Set<string> {
     enabled: !!userId,
   });
 
-  return useMemo(
-    () =>
-      new Set(
-        data?.map((r) => r.pack_id).filter((id): id is string => !!id) ?? [],
-      ),
-    [data],
+  return new Set(
+    data?.map((r) => r.pack_id).filter((id): id is string => !!id) ?? [],
   );
 }

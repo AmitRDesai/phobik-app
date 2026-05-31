@@ -12,7 +12,7 @@ import { dialog } from '@/utils/dialog';
 import { toast } from '@/utils/toast';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   MIN_POEM_LENGTH,
   POEM_PLACEHOLDER,
@@ -32,27 +32,18 @@ export default function ExpressYourselfCompose() {
   const [poem, setPoem] = useState('');
   const [style, setStyle] = useState('');
   const hydratedRef = useRef(false);
-  const wordCount = useMemo(
-    () => poem.trim().split(/\s+/).filter(Boolean).length,
-    [poem],
-  );
+  const wordCount = poem.trim().split(/\s+/).filter(Boolean).length;
 
   const upsertMutation = useUpsertSong();
   const generateMutation = useGenerateSong();
   const deleteMutation = useDeleteSong();
   const { data: songs } = useListSongs();
 
-  const inFlightSong = useMemo(
-    () =>
-      (songs ?? []).find((s) => s.status === 'generating' && s.id !== songId) ??
-      null,
-    [songs, songId],
-  );
+  const inFlightSong =
+    (songs ?? []).find((s) => s.status === 'generating' && s.id !== songId) ??
+    null;
 
-  const existingDraft = useMemo(
-    () => (songs ?? []).find((s) => s.id === songId) ?? null,
-    [songs, songId],
-  );
+  const existingDraft = (songs ?? []).find((s) => s.id === songId) ?? null;
 
   useEffect(() => {
     if (hydratedRef.current) return;

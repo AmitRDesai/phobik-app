@@ -2,6 +2,7 @@ import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import type { TimeRange } from '@/modules/insights/store/insights';
 import { useQuery } from '@powersync/tanstack-react-query';
+import { useMemo } from 'react';
 
 export type SleepSession = {
   id: string;
@@ -82,9 +83,13 @@ export function computeSleepScore(s: SleepSession | null): number | null {
 
 export function useSleepHistory(range: TimeRange): SleepHistoryStats {
   const userId = useUserId();
-  const startIso = new Date(
-    Date.now() - RANGE_DAYS[range] * 24 * 60 * 60 * 1000,
-  ).toISOString();
+  const startIso = useMemo(
+    () =>
+      new Date(
+        Date.now() - RANGE_DAYS[range] * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+    [range],
+  );
 
   const { data, isLoading } = useQuery({
     queryKey: ['sleep-history', userId, range],

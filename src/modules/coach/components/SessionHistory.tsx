@@ -7,7 +7,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { authClient } from '@/lib/auth';
 import { env } from '@/utils/env';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Modal, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -37,6 +37,71 @@ function formatDate(dateStr: string): string {
   return d.toLocaleDateString([], { month: 'short', day: 'numeric' });
 }
 
+type ThreadRowProps = {
+  item: Thread;
+  isCurrent: boolean;
+  purple: string;
+  iconDim: string;
+  iconFaint: string;
+  bgDefault: string;
+  borderDefault: string;
+  onPress: (id: string) => void;
+};
+
+function ThreadRow({
+  item,
+  isCurrent,
+  purple,
+  iconDim,
+  iconFaint,
+  bgDefault,
+  borderDefault,
+  onPress,
+}: ThreadRowProps) {
+  return (
+    <Pressable
+      onPress={() => onPress(item.id)}
+      className="mb-2 flex-row items-center gap-3 rounded-2xl border px-4 py-3.5"
+      style={{
+        backgroundColor: isCurrent ? withAlpha(purple, 0.15) : bgDefault,
+        borderColor: isCurrent ? withAlpha(purple, 0.3) : borderDefault,
+      }}
+    >
+      <View className="size-9 items-center justify-center rounded-full bg-foreground/[0.08]">
+        <MaterialIcons
+          name="psychology"
+          size={18}
+          color={isCurrent ? purple : iconDim}
+        />
+      </View>
+      <View className="flex-1">
+        <Text
+          size="sm"
+          weight="medium"
+          className="text-foreground/80"
+          numberOfLines={1}
+        >
+          {item.title || 'Untitled session'}
+        </Text>
+        <Text size="xs" tone="tertiary">
+          {formatDate(item.createdAt)}
+        </Text>
+      </View>
+      {isCurrent && (
+        <View
+          className="rounded-full px-2 py-0.5"
+          style={{ backgroundColor: withAlpha(purple, 0.2) }}
+        >
+          <Text size="xs" weight="medium" style={{ color: purple }}>
+            Active
+          </Text>
+        </View>
+      )}
+      <Ionicons name="chevron-forward" size={16} color={iconFaint} />
+    </Pressable>
+  );
+}
+
 export function SessionHistory({
   visible,
   onClose,
@@ -51,6 +116,8 @@ export function SessionHistory({
   const iconMuted = foregroundFor(scheme, 0.5);
   const iconDim = foregroundFor(scheme, 0.4);
   const iconFaint = foregroundFor(scheme, 0.2);
+  const bgDefault = foregroundFor(scheme, 0.03);
+  const borderDefault = foregroundFor(scheme, 0.05);
 
   useEffect(() => {
     if (!visible) return;
@@ -80,6 +147,38 @@ export function SessionHistory({
       }
     })();
   }, [visible]);
+
+  const handleSelectThread = useCallback(
+    (id: string) => {
+      onSelectThread(id);
+      onClose();
+    },
+    [onSelectThread, onClose],
+  );
+
+  const renderItem = useCallback(
+    ({ item }: { item: Thread }) => (
+      <ThreadRow
+        item={item}
+        isCurrent={item.id === currentThreadId}
+        purple={purple}
+        iconDim={iconDim}
+        iconFaint={iconFaint}
+        bgDefault={bgDefault}
+        borderDefault={borderDefault}
+        onPress={handleSelectThread}
+      />
+    ),
+    [
+      currentThreadId,
+      purple,
+      iconDim,
+      iconFaint,
+      bgDefault,
+      borderDefault,
+      handleSelectThread,
+    ],
+  );
 
   return (
     <Modal
@@ -128,68 +227,7 @@ export function SessionHistory({
               data={threads}
               keyExtractor={(item) => item.id}
               contentContainerClassName="px-4 pt-3 pb-4"
-              renderItem={({ item }) => {
-                const isCurrent = item.id === currentThreadId;
-                return (
-                  <Pressable
-                    onPress={() => {
-                      onSelectThread(item.id);
-                      onClose();
-                    }}
-                    className="mb-2 flex-row items-center gap-3 rounded-2xl border px-4 py-3.5"
-                    style={{
-                      backgroundColor: isCurrent
-                        ? withAlpha(purple, 0.15)
-                        : foregroundFor(scheme, 0.03),
-                      borderColor: isCurrent
-                        ? withAlpha(purple, 0.3)
-                        : foregroundFor(scheme, 0.05),
-                    }}
-                  >
-                    <View className="h-9 w-9 items-center justify-center rounded-full bg-foreground/[0.08]">
-                      <MaterialIcons
-                        name="psychology"
-                        size={18}
-                        color={isCurrent ? purple : iconDim}
-                      />
-                    </View>
-                    <View className="flex-1">
-                      <Text
-                        size="sm"
-                        weight="medium"
-                        className="text-foreground/80"
-                        numberOfLines={1}
-                      >
-                        {item.title || 'Untitled session'}
-                      </Text>
-                      <Text size="xs" tone="tertiary">
-                        {formatDate(item.createdAt)}
-                      </Text>
-                    </View>
-                    {isCurrent && (
-                      <View
-                        className="rounded-full px-2 py-0.5"
-                        style={{
-                          backgroundColor: withAlpha(purple, 0.2),
-                        }}
-                      >
-                        <Text
-                          size="xs"
-                          weight="medium"
-                          style={{ color: purple }}
-                        >
-                          Active
-                        </Text>
-                      </View>
-                    )}
-                    <Ionicons
-                      name="chevron-forward"
-                      size={16}
-                      color={iconFaint}
-                    />
-                  </Pressable>
-                );
-              }}
+              renderItem={renderItem}
             />
           )}
         </SafeAreaView>

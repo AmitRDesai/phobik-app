@@ -13,7 +13,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useCallback } from 'react';
 import { Button } from '@/components/ui/Button';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -23,10 +22,10 @@ export default function EbookIntro() {
   const router = useRouter();
   const updateProgress = useUpdateEbookProgress();
 
-  const handleStartReading = useCallback(() => {
+  const handleStartReading = () => {
     updateProgress.mutate({ introSeen: true });
     router.replace('/practices/ebook-index');
-  }, [updateProgress, router]);
+  };
 
   return (
     <SafeAreaView edges={['top']} className="flex-1 bg-surface">
@@ -46,7 +45,7 @@ export default function EbookIntro() {
       <View className="z-10 flex-row items-center justify-between px-6 pt-2">
         <BackButton />
         <AccentPill label="Introduction" />
-        <View className="h-10 w-10" />
+        <View className="size-10" />
       </View>
 
       <ScrollFade>

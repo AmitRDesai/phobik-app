@@ -12,6 +12,13 @@ type StreamedOptions = {
   volume?: number;
   /** Forwarded to `useAudioPlayer`. */
   player?: AudioPlayerOptions;
+  /**
+   * Suppress this player's offline / error dialog. Set when the screen
+   * pre-caches all clips via `useAudioPrefetch` (which owns the single global
+   * dialog) — after prefetch the source resolves instantly from cache, so this
+   * per-step dialog is redundant and would otherwise clobber the prefetch one.
+   */
+  suppressDialog?: boolean;
 };
 
 /**
@@ -26,7 +33,7 @@ export function useStreamedAudioPlayer(
   key: string | null,
   options: StreamedOptions = {},
 ) {
-  const { volume = 1, player: playerOptions } = options;
+  const { volume = 1, player: playerOptions, suppressDialog = false } = options;
   const {
     source,
     isDownloading,
@@ -39,8 +46,11 @@ export function useStreamedAudioPlayer(
   const player = useAudioPlayer(null, playerOptions);
   const status = useAudioPlayerStatus(player);
 
-  // Surface offline / network-error state via the shared dialog.
+  // Surface offline / network-error state via the shared dialog. When
+  // `suppressDialog` is set, the dialog is disabled so the prefetch hook
+  // remains the sole dialog owner.
   useAudioStatusDialog({
+    enabled: !suppressDialog,
     isReady: !!source,
     isOffline,
     errorMessage,
@@ -62,6 +72,9 @@ export function useStreamedAudioPlayer(
   return {
     player,
     status,
+    /** Resolved local `file://` URI of the current clip, or `null`. Changes
+     *  after `player.replace()` runs, so screens can key playback off it. */
+    source,
     isReady: !!source,
     isDownloading,
     progress,

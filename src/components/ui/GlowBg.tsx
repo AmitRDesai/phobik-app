@@ -1,6 +1,5 @@
 import { colors } from '@/constants/colors';
 import { clsx } from 'clsx';
-import { memo } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import Svg, {
   Circle,
@@ -29,7 +28,7 @@ interface GlowBgProps {
   bgClassName?: string;
 }
 
-export const GlowBg = memo(function GlowBg({
+export function GlowBg({
   centerX: centerXFraction = 0.5,
   centerY: centerYFraction = 0.5,
   intensity = 1,
@@ -87,4 +86,4 @@ export const GlowBg = memo(function GlowBg({
       )}
     </View>
   );
-});
+}

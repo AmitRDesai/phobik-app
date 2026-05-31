@@ -16,7 +16,7 @@ import {
 } from '@kingstinct/react-native-healthkit';
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { AppState, Linking } from 'react-native';
 
 import type { LatestBiometrics } from './useLatestBiometrics';
@@ -130,7 +130,7 @@ export function useLatestBiometrics(): LatestBiometrics {
     }
   }, [hasConnectedHealth]);
 
-  const requestAccess = useCallback(async () => {
+  const requestAccess = async () => {
     try {
       const completed = await requestAuthorization({ toRead: READ_TYPES });
       if (completed) {
@@ -161,12 +161,12 @@ export function useLatestBiometrics(): LatestBiometrics {
     } catch {
       return false;
     }
-  }, [setHasConnectedHealth, userId]);
+  };
 
-  const disconnect = useCallback(async () => {
+  const disconnect = async () => {
     setHasConnectedHealth(false);
     Linking.openURL('x-apple-health://').catch(() => {});
-  }, [setHasConnectedHealth]);
+  };
 
   return {
     heartRate: query.data?.heartRate ?? null,

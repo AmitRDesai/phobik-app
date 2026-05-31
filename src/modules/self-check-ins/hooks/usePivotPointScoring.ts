@@ -1,5 +1,4 @@
 import { useAtomValue } from 'jotai';
-import { useCallback } from 'react';
 
 import { PATTERN_ARCHETYPES } from '../data/pivot-point-patterns';
 import {
@@ -31,7 +30,7 @@ export function usePivotPointScoring() {
 
   const isComplete = Object.keys(answers).length >= TOTAL_PIVOT_QUESTIONS;
 
-  const computeResults = useCallback((): PivotPointResults | null => {
+  const computeResults = (): PivotPointResults | null => {
     if (Object.keys(answers).length < TOTAL_PIVOT_QUESTIONS) return null;
 
     const scores = {} as Record<PivotPattern, number>;
@@ -64,7 +63,7 @@ export function usePivotPointScoring() {
       regulationScore: percentages.regulator,
       archetypes: PATTERN_ARCHETYPES,
     };
-  }, [answers]);
+  };
 
   return { isComplete, computeResults };
 }

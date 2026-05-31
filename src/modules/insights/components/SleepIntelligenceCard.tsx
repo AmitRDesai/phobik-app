@@ -61,7 +61,7 @@ export function SleepIntelligenceCard() {
           className="flex-row items-center gap-6 overflow-hidden p-5"
         >
           <View
-            className="absolute -left-10 top-0 h-32 w-32 rounded-full"
+            className="absolute -left-10 top-0 size-32 rounded-full"
             style={{ backgroundColor: withAlpha(colors.primary.pink, 0.1) }}
           />
           <IconChip

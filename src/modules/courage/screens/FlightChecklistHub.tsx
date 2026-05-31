@@ -3,7 +3,6 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
-import { useCallback } from 'react';
 import { Button } from '@/components/ui/Button';
 
 import heroImage from '@/assets/images/flight-checklist-hero.png';
@@ -71,14 +70,11 @@ export default function FlightChecklistHub() {
   const [checkedItems, setCheckedItems] = useAtom(flightChecklistAtom);
   const hasProgress = checkedItems.size > 0;
 
-  const handlePhasePress = useCallback(
-    (phaseId: string) => {
-      router.push(`/practices/flight-checklist-phase?phaseId=${phaseId}`);
-    },
-    [router],
-  );
+  const handlePhasePress = (phaseId: string) => {
+    router.push(`/practices/flight-checklist-phase?phaseId=${phaseId}`);
+  };
 
-  const handleQuickReset = useCallback(async () => {
+  const handleQuickReset = async () => {
     const result = await dialog.info({
       title: 'Quick Reset',
       message: 'This will clear all your checklist progress. Are you sure?',
@@ -90,7 +86,7 @@ export default function FlightChecklistHub() {
     if (result === 'reset') {
       setCheckedItems(new Set());
     }
-  }, [setCheckedItems]);
+  };
 
   return (
     <Screen

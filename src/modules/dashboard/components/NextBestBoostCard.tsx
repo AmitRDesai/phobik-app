@@ -38,7 +38,7 @@ export function NextBestBoostCard({
           }}
         />
         <View
-          className="ml-2 h-12 w-12 items-center justify-center rounded-full"
+          className="ml-2 size-12 items-center justify-center rounded-full"
           style={{ backgroundColor: withAlpha(color, 0.2) }}
         >
           <MaterialIcons name={icon} size={22} color={color} />

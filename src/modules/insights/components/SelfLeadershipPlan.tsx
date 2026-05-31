@@ -103,8 +103,8 @@ export function SelfLeadershipPlan({
       </View>
 
       {/* Exercises */}
-      {exercises.map((ex, i) => (
-        <View key={i}>
+      {exercises.map((ex) => (
+        <View key={ex.title}>
           <Card
             variant="raised"
             size="lg"
@@ -161,7 +161,7 @@ export function SelfLeadershipPlan({
           </Card>
           <View className="ml-4 mt-2 flex-row items-center gap-1.5">
             <View
-              className="h-1 w-1 rounded-full"
+              className="size-1 rounded-full"
               style={{
                 backgroundColor: ex.highlighted
                   ? colors.primary['pink-soft']

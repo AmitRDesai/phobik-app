@@ -94,7 +94,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
       <Card className="items-center gap-4 p-6">
         {/* Centered gradient icon — matches RegulationPreference info chip pattern */}
         <View
-          className="h-16 w-16 items-center justify-center overflow-hidden rounded-full"
+          className="size-16 items-center justify-center overflow-hidden rounded-full"
           style={{
             boxShadow: `0 0 24px ${withAlpha(colors.primary.pink, 0.35)}`,
           }}
@@ -209,7 +209,7 @@ export function CalendarSettings({ onSkip }: CalendarSettingsProps) {
                     >
                       <View className="flex-1 flex-row items-center gap-3">
                         <View
-                          className="h-3 w-3 rounded-full"
+                          className="size-3 rounded-full"
                           style={{ backgroundColor: cal.color }}
                         />
                         <View className="flex-1">

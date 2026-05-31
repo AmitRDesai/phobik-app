@@ -7,7 +7,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSegments } from 'expo-router';
-import { useCallback, useMemo, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   ActivityIndicator,
   Platform,
@@ -133,10 +133,10 @@ export function Screen({
   // Sticky height is measured at runtime so scroll content reserves the
   // exact amount needed — no fixed estimate, no last-row clipping.
   const [stickyHeight, setStickyHeight] = useState(0);
-  const onStickyLayout = useCallback((e: LayoutChangeEvent) => {
+  const onStickyLayout = (e: LayoutChangeEvent) => {
     const h = e.nativeEvent.layout.height;
     setStickyHeight((prev) => (prev === h ? prev : h));
-  }, []);
+  };
 
   // Bottom reservation:
   //  - Scroll bodies: stickyHeight + FADE_HEIGHT. The fade gradient sits
@@ -158,36 +158,24 @@ export function Screen({
 
   // Stable references — both contentContainerStyle and the root style array
   // are re-checked by identity by their consumers.
-  const scrollContentStyle = useMemo(
-    () => ({ paddingBottom: bottomReserve }),
-    [bottomReserve],
-  );
+  const scrollContentStyle = { paddingBottom: bottomReserve };
 
-  const rootStyle = useMemo(
-    () => [
-      styles.root,
-      !transparent && { backgroundColor: v.bgHex },
-      v.vars,
-      topPadding > 0 && { paddingTop: topPadding },
-    ],
-    [transparent, v.bgHex, v.vars, topPadding],
-  );
+  const rootStyle = [
+    styles.root,
+    !transparent && { backgroundColor: v.bgHex },
+    v.vars,
+    topPadding > 0 && { paddingTop: topPadding },
+  ];
 
-  const fadeStyle = useMemo(
-    () => [styles.fade, { bottom: stickyHeight }],
-    [stickyHeight],
-  );
+  const fadeStyle = [styles.fade, { bottom: stickyHeight }];
 
-  const stickyInnerStyle = useMemo(
-    () => ({
-      paddingBottom: (resolvedInsetBottom ? insets.bottom : 0) || 16,
-      // Solid bg matching the variant so scrolled content doesn't bleed
-      // through the translucent sticky CTA at the seam — used even when
-      // the root is `transparent`, so the CTA is always readable.
-      backgroundColor: v.bgHex,
-    }),
-    [resolvedInsetBottom, insets.bottom, v.bgHex],
-  );
+  const stickyInnerStyle = {
+    paddingBottom: (resolvedInsetBottom ? insets.bottom : 0) || 16,
+    // Solid bg matching the variant so scrolled content doesn't bleed
+    // through the translucent sticky CTA at the seam — used even when
+    // the root is `transparent`, so the CTA is always readable.
+    backgroundColor: v.bgHex,
+  };
 
   const scrollProps = {
     className: 'flex-1',

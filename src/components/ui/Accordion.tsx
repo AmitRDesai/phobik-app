@@ -4,13 +4,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Pressable, View, type LayoutChangeEvent } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import Animated, {
@@ -85,22 +79,19 @@ export function Accordion({
   const measured = useRef(0);
   const hasMeasured = useRef(false);
 
-  const onContentLayout = useCallback(
-    (e: LayoutChangeEvent) => {
-      const h = e.nativeEvent.layout.height;
-      if (h <= 0) return;
-      measured.current = h;
-      if (!hasMeasured.current) {
-        hasMeasured.current = true;
-        // Snap to current state on first measure (no animation).
-        height.value = open ? h : 0;
-      } else if (open) {
-        // Content height changed while open — re-sync without animation.
-        height.value = h;
-      }
-    },
-    [open, height],
-  );
+  const onContentLayout = (e: LayoutChangeEvent) => {
+    const h = e.nativeEvent.layout.height;
+    if (h <= 0) return;
+    measured.current = h;
+    if (!hasMeasured.current) {
+      hasMeasured.current = true;
+      // Snap to current state on first measure (no animation).
+      height.value = open ? h : 0;
+    } else if (open) {
+      // Content height changed while open — re-sync without animation.
+      height.value = h;
+    }
+  };
 
   useEffect(() => {
     if (!hasMeasured.current) return;

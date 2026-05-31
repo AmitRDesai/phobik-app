@@ -5,7 +5,7 @@ import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, RefreshControl, SectionList } from 'react-native';
 import { NotificationItem } from '../components/NotificationItem';
 import {
@@ -17,6 +17,14 @@ import {
 interface Section {
   title: string;
   data: NotificationItemType[];
+}
+
+function renderNotificationItem({
+  item,
+}: {
+  item: NotificationItemType;
+}): React.ReactElement {
+  return <NotificationItem notification={item} />;
 }
 
 function startOfDay(d: Date): Date {
@@ -65,13 +73,13 @@ export default function Notifications() {
     markAllRead();
   }, [markAllRead]);
 
-  const sections = useMemo(() => groupByDate(data), [data]);
+  const sections = groupByDate(data);
 
-  const handleRefresh = useCallback(() => {
+  const handleRefresh = () => {
     // PowerSync is reactive — refresh is a no-op visual cue.
     setRefreshing(true);
     setTimeout(() => setRefreshing(false), 600);
-  }, []);
+  };
 
   return (
     <Screen header={<Header title="Notifications" />} className="flex-1">
@@ -83,7 +91,7 @@ export default function Notifications() {
         <SectionList
           sections={sections}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <NotificationItem notification={item} />}
+          renderItem={renderNotificationItem}
           renderSectionHeader={({ section }) => (
             <Text
               size="xs"

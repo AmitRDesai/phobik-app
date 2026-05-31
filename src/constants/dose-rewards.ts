@@ -71,11 +71,16 @@ export const DOSE_REWARDS: Record<PracticeType, DoseReward> = {
 /** Get active D.O.S.E. rewards (non-zero values) for display */
 export function getActiveDoseRewards(type: PracticeType) {
   const rewards = DOSE_REWARDS[type];
-  return Object.entries(rewards)
-    .filter(([, value]) => value > 0)
-    .map(([chemical, value]) => ({
-      chemical: chemical as keyof DoseReward,
-      value,
-      label: chemical.charAt(0).toUpperCase() + chemical.slice(1),
-    }));
+  const result: { chemical: keyof DoseReward; value: number; label: string }[] =
+    [];
+  for (const [chemical, value] of Object.entries(rewards)) {
+    if (value > 0) {
+      result.push({
+        chemical: chemical as keyof DoseReward,
+        value,
+        label: chemical.charAt(0).toUpperCase() + chemical.slice(1),
+      });
+    }
+  }
+  return result;
 }

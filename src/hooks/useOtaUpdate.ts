@@ -1,5 +1,5 @@
 import * as Updates from 'expo-updates';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { AppState, type AppStateStatus } from 'react-native';
 
 type OtaState = {
@@ -29,7 +29,7 @@ type OtaState = {
 export function useOtaUpdate(): OtaState {
   const { isUpdatePending, isChecking, isDownloading } = Updates.useUpdates();
 
-  const runCheck = useCallback(async () => {
+  const runCheck = async () => {
     if (__DEV__ || !Updates.isEnabled) return;
     try {
       const result = await Updates.checkForUpdateAsync();
@@ -40,11 +40,11 @@ export function useOtaUpdate(): OtaState {
       // Best-effort — the binary-version gate handles forced upgrades when
       // OTA check / fetch fails.
     }
-  }, []);
+  };
 
   useEffect(() => {
     runCheck();
-  }, [runCheck]);
+  }, []);
 
   useEffect(() => {
     const onChange = (state: AppStateStatus) => {
@@ -52,16 +52,16 @@ export function useOtaUpdate(): OtaState {
     };
     const sub = AppState.addEventListener('change', onChange);
     return () => sub.remove();
-  }, [runCheck]);
+  }, []);
 
-  const applyUpdate = useCallback(async () => {
+  const applyUpdate = async () => {
     try {
       await Updates.reloadAsync();
     } catch {
       // Best-effort — if reload fails the next cold start will pick up the
       // downloaded bundle.
     }
-  }, []);
+  };
 
   const isCheckComplete = !isChecking && !isDownloading;
 

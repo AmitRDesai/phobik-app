@@ -3,7 +3,6 @@ import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 export type NotificationSettings = {
   dailyReminders: boolean;
@@ -31,15 +30,14 @@ export function useNotificationSettings() {
     enabled: !!userId,
   });
 
-  const settings = useMemo<NotificationSettings>(() => {
-    const row = data?.[0];
-    if (!row) return DEFAULT_SETTINGS;
-    return {
-      dailyReminders: Boolean(row.daily_reminders),
-      checkInReminders: Boolean(row.check_in_reminders),
-      challengeNotifications: Boolean(row.challenge_notifications),
-    };
-  }, [data]);
+  const row = data?.[0];
+  const settings: NotificationSettings = row
+    ? {
+        dailyReminders: Boolean(row.daily_reminders),
+        checkInReminders: Boolean(row.check_in_reminders),
+        challengeNotifications: Boolean(row.challenge_notifications),
+      }
+    : DEFAULT_SETTINGS;
 
   return { data: settings, isLoading, error };
 }

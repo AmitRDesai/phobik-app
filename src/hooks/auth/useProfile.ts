@@ -5,7 +5,6 @@ import { toJSON } from '@/lib/powersync/utils';
 import type { OnboardingAnswers } from '@/store/onboarding';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 const PROFILE_STATUS_KEY = 'profile-status';
 
@@ -27,13 +26,11 @@ export function useProfileStatus(enabled: boolean) {
     enabled: enabled && !!userId,
   });
 
-  const profileStatus = useMemo(() => {
-    const row = data?.[0];
-    return {
-      hasProfile: !!row,
-      onboardingCompleted: !!row?.onboarding_completed_at,
-    };
-  }, [data]);
+  const row = data?.[0];
+  const profileStatus = {
+    hasProfile: !!row,
+    onboardingCompleted: !!row?.onboarding_completed_at,
+  };
 
   return {
     data: profileStatus,

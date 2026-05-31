@@ -71,9 +71,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
           >
             {notification.title}
           </Text>
-          {isUnread && (
-            <View className="h-2 w-2 rounded-full bg-primary-pink" />
-          )}
+          {isUnread && <View className="size-2 rounded-full bg-primary-pink" />}
         </View>
         <Text size="sm" tone="secondary" numberOfLines={2}>
           {notification.body}

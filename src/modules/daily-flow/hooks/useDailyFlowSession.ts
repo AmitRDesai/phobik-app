@@ -4,7 +4,6 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 import type {
   AnalysisResult,
@@ -38,11 +37,10 @@ export function useActiveDailyFlowSession() {
     enabled: !!userId,
   });
 
-  const session = useMemo<DailyFlowSession | null>(() => {
-    const row = data?.[0];
-    if (!row) return null;
-    return toCamel(row, SESSION_JSON) as DailyFlowSession;
-  }, [data]);
+  const row = data?.[0];
+  const session: DailyFlowSession | null = row
+    ? (toCamel(row, SESSION_JSON) as DailyFlowSession)
+    : null;
 
   return { session, isLoading, ...rest };
 }

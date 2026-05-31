@@ -5,7 +5,6 @@ import { parseJSON, toCamel, toJSON } from '@/lib/powersync/utils';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 const ENTRY_JSON = { tags: true } as const;
 
@@ -23,10 +22,7 @@ export function useJournalEntriesForDate(date: string) {
     enabled: !!userId,
   });
 
-  const transformed = useMemo(
-    () => data?.map((r) => toCamel(r, ENTRY_JSON)),
-    [data],
-  );
+  const transformed = data?.map((r) => toCamel(r, ENTRY_JSON));
   return { data: transformed, isLoading, isPending: isLoading, error };
 }
 
@@ -46,7 +42,7 @@ export function useEntryDatesForMonth(month: number, year: number) {
     enabled: !!userId,
   });
 
-  const transformed = useMemo(() => data?.map((r) => r.entry_date), [data]);
+  const transformed = data?.map((r) => r.entry_date);
   return { data: transformed, isLoading, isPending: isLoading, error };
 }
 
@@ -60,10 +56,7 @@ export function useJournalEntry(id: string | undefined) {
     enabled: !!id,
   });
 
-  const entry = useMemo(
-    () => (data?.[0] ? toCamel(data[0], ENTRY_JSON) : null),
-    [data],
-  );
+  const entry = data?.[0] ? toCamel(data[0], ENTRY_JSON) : null;
   return { data: entry, isLoading, isPending: isLoading, error };
 }
 

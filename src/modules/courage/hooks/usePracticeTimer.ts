@@ -1,23 +1,23 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function usePracticeTimer() {
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const start = useCallback(() => {
+  const start = () => {
     if (isRunning) return;
     setIsRunning(true);
-  }, [isRunning]);
+  };
 
-  const stop = useCallback(() => {
+  const stop = () => {
     setIsRunning(false);
-  }, []);
+  };
 
-  const reset = useCallback(() => {
+  const reset = () => {
     setIsRunning(false);
     setSeconds(0);
-  }, []);
+  };
 
   useEffect(() => {
     if (isRunning) {

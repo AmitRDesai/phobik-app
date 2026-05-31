@@ -55,7 +55,7 @@ export function DoseActivityLog() {
               className="w-[47%]"
             >
               <View
-                className="mb-2 h-2 w-2 rounded-full"
+                className="mb-2 size-2 rounded-full"
                 style={{ backgroundColor: display.color }}
               />
               <Text size="xs" tone="secondary">

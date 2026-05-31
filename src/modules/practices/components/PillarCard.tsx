@@ -86,7 +86,7 @@ export function PillarCard({
             ) : null}
             {icon && !eyebrow ? (
               <View
-                className="mb-4 h-12 w-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10"
+                className="mb-4 size-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10"
                 style={{
                   boxShadow: `0 0 12px ${withAlpha(
                     accentColor ?? colors.primary.pink,

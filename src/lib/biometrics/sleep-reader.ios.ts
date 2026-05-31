@@ -56,75 +56,75 @@ function collapseSamples(samples: readonly RawSample[]): SleepSessionInput[] {
   }
   groups.push(current);
 
-  return groups
-    .map((group) => {
-      const session = emptySession(group[0]!.startDate);
-      let firstStart = group[0]!.startDate.getTime();
-      let lastSampleEnd = group[0]!.endDate.getTime();
-      let hasStageBreakdown = false;
-      let asleepUnspecifiedMinutes = 0;
-      let deep = 0;
-      let rem = 0;
-      let light = 0;
-      let awake = 0;
-      let inBedExplicit = 0;
+  const result: SleepSessionInput[] = [];
+  for (const group of groups) {
+    const session = emptySession(group[0]!.startDate);
+    let firstStart = group[0]!.startDate.getTime();
+    let lastSampleEnd = group[0]!.endDate.getTime();
+    let hasStageBreakdown = false;
+    let asleepUnspecifiedMinutes = 0;
+    let deep = 0;
+    let rem = 0;
+    let light = 0;
+    let awake = 0;
+    let inBedExplicit = 0;
 
-      for (const s of group) {
-        firstStart = Math.min(firstStart, s.startDate.getTime());
-        lastSampleEnd = Math.max(lastSampleEnd, s.endDate.getTime());
-        const dur = durationMinutes(s);
-        switch (s.value) {
-          case CategoryValueSleepAnalysis.inBed:
-            inBedExplicit += dur;
-            break;
-          case CategoryValueSleepAnalysis.awake:
-            awake += dur;
-            break;
-          case CategoryValueSleepAnalysis.asleepCore:
-            light += dur;
-            hasStageBreakdown = true;
-            break;
-          case CategoryValueSleepAnalysis.asleepDeep:
-            deep += dur;
-            hasStageBreakdown = true;
-            break;
-          case CategoryValueSleepAnalysis.asleepREM:
-            rem += dur;
-            hasStageBreakdown = true;
-            break;
-          case CategoryValueSleepAnalysis.asleepUnspecified:
-            // value === 1 covers both "asleep" and "asleepUnspecified" in
-            // older HealthKit data — treat as undifferentiated asleep time.
-            asleepUnspecifiedMinutes += dur;
-            break;
-          default:
-            break;
-        }
+    for (const s of group) {
+      firstStart = Math.min(firstStart, s.startDate.getTime());
+      lastSampleEnd = Math.max(lastSampleEnd, s.endDate.getTime());
+      const dur = durationMinutes(s);
+      switch (s.value) {
+        case CategoryValueSleepAnalysis.inBed:
+          inBedExplicit += dur;
+          break;
+        case CategoryValueSleepAnalysis.awake:
+          awake += dur;
+          break;
+        case CategoryValueSleepAnalysis.asleepCore:
+          light += dur;
+          hasStageBreakdown = true;
+          break;
+        case CategoryValueSleepAnalysis.asleepDeep:
+          deep += dur;
+          hasStageBreakdown = true;
+          break;
+        case CategoryValueSleepAnalysis.asleepREM:
+          rem += dur;
+          hasStageBreakdown = true;
+          break;
+        case CategoryValueSleepAnalysis.asleepUnspecified:
+          // value === 1 covers both "asleep" and "asleepUnspecified" in
+          // older HealthKit data — treat as undifferentiated asleep time.
+          asleepUnspecifiedMinutes += dur;
+          break;
+        default:
+          break;
       }
+    }
 
-      const totalMinutes = deep + rem + light + asleepUnspecifiedMinutes;
-      // If we have explicit "in bed" samples use them; otherwise approximate
-      // from start→end span minus awake (Apple Watch users typically have
-      // implicit in-bed coverage from asleep + awake samples).
-      const spanMinutes = (lastSampleEnd - firstStart) / 60_000;
-      const inBedMinutes =
-        inBedExplicit > 0 ? inBedExplicit : Math.max(spanMinutes, totalMinutes);
+    const totalMinutes = deep + rem + light + asleepUnspecifiedMinutes;
+    // Filter: skip sessions with no tracked sleep time.
+    if (totalMinutes <= 0) continue;
 
-      session.startTime = new Date(firstStart);
-      session.endTime = new Date(lastSampleEnd);
-      session.inBedMinutes = inBedMinutes;
-      session.totalMinutes = totalMinutes;
-      session.deepMinutes = hasStageBreakdown ? deep : null;
-      session.remMinutes = hasStageBreakdown ? rem : null;
-      session.lightMinutes = hasStageBreakdown ? light : null;
-      session.awakeMinutes = awake > 0 ? awake : null;
+    // If we have explicit "in bed" samples use them; otherwise approximate
+    // from start→end span minus awake (Apple Watch users typically have
+    // implicit in-bed coverage from asleep + awake samples).
+    const spanMinutes = (lastSampleEnd - firstStart) / 60_000;
+    const inBedMinutes =
+      inBedExplicit > 0 ? inBedExplicit : Math.max(spanMinutes, totalMinutes);
 
-      return {
-        ...session,
-        source: 'apple_health' as const,
-      };
-    })
-    .filter((s) => s.totalMinutes > 0);
+    session.startTime = new Date(firstStart);
+    session.endTime = new Date(lastSampleEnd);
+    session.inBedMinutes = inBedMinutes;
+    session.totalMinutes = totalMinutes;
+    session.deepMinutes = hasStageBreakdown ? deep : null;
+    session.remMinutes = hasStageBreakdown ? rem : null;
+    session.lightMinutes = hasStageBreakdown ? light : null;
+    session.awakeMinutes = awake > 0 ? awake : null;
+
+    result.push({ ...session, source: 'apple_health' as const });
+  }
+  return result;
 }
 
 export async function readSleepSessionsInWindow(

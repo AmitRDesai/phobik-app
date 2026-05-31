@@ -16,7 +16,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { ActivityIndicator, Image } from 'react-native';
 import { useDownloadSong } from '../hooks/useDownloadSong';
 import { usePlaybackUrl } from '../hooks/usePlaybackUrl';
@@ -77,18 +77,11 @@ export default function ExpressYourselfReady() {
     );
   };
 
-  const source = useMemo(
-    () => (playback?.url ? { uri: playback.url } : null),
-    [playback?.url],
-  );
+  const source = playback?.url ? { uri: playback.url } : null;
 
   const player = useAudioPlayer(source);
   const status = useAudioPlayerStatus(player);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  useEffect(() => {
-    setIsPlaying(status.playing);
-  }, [status.playing]);
+  const isPlaying = status.playing;
 
   useEffect(() => {
     if (!status.playing) return;
@@ -99,20 +92,17 @@ export default function ExpressYourselfReady() {
     };
   }, [status.playing]);
 
-  const togglePlay = useCallback(() => {
+  const togglePlay = () => {
     if (status.playing) {
       player.pause();
     } else {
       player.play();
     }
-  }, [player, status.playing]);
+  };
 
-  const handleSeek = useCallback(
-    (seconds: number) => {
-      player.seekTo(seconds);
-    },
-    [player],
-  );
+  const handleSeek = (seconds: number) => {
+    player.seekTo(seconds);
+  };
 
   const duration = song?.durationSeconds ?? status.duration ?? 0;
   const progress =

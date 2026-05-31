@@ -162,7 +162,7 @@ export default function IntimacyIntro() {
           />
         </Svg>
 
-        <View className="relative h-56 w-56 items-center justify-center">
+        <View className="relative size-56 items-center justify-center">
           <View
             className="absolute inset-0 rounded-full"
             style={{
@@ -215,7 +215,7 @@ export default function IntimacyIntro() {
           return (
             <View key={item.number} className="flex-row items-start gap-4">
               <View
-                className="h-8 w-8 items-center justify-center rounded-full"
+                className="size-8 items-center justify-center rounded-full"
                 style={{ backgroundColor: tone.bg }}
               >
                 <Text size="sm" weight="bold" style={{ color: tone.text }}>

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -34,16 +34,16 @@ export function useSelectedDashboardDate(
   const today = todayLocal();
   const isToday = date === today;
 
-  const goBack = useCallback(() => {
+  const goBack = () => {
     setDate((d) => dayjs(d).subtract(1, 'day').format(DATE_FORMAT));
-  }, []);
+  };
 
-  const goForward = useCallback(() => {
+  const goForward = () => {
     setDate((d) => {
       const next = dayjs(d).add(1, 'day').format(DATE_FORMAT);
       return next > todayLocal() ? d : next;
     });
-  }, []);
+  };
 
   return {
     date,

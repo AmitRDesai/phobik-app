@@ -4,7 +4,7 @@ import { foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Pressable,
   useWindowDimensions,
@@ -132,10 +132,7 @@ export function FloatingMapper({
   const canvasW = canvasLayout?.width ?? width;
   const canvasH = canvasLayout?.height ?? height - 220;
 
-  const bgSlots = useMemo(
-    () => generateBgSlots(items.length, canvasW, canvasH),
-    [items.length, canvasW, canvasH],
-  );
+  const bgSlots = generateBgSlots(items.length, canvasW, canvasH);
 
   const centerLeft = canvasW / 2 - SPHERE_SIZE / 2;
   const centerTop = canvasH / 2 - SPHERE_SIZE / 2;

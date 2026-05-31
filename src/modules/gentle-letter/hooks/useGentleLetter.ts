@@ -4,7 +4,6 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel, toJSON } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 const LETTER_JSON = { content: true } as const;
 
@@ -72,10 +71,7 @@ export function useListLetters() {
     enabled: !!userId,
   });
 
-  const transformed = useMemo(
-    () => data?.map((r) => toCamel(r, LETTER_JSON)),
-    [data],
-  );
+  const transformed = data?.map((r) => toCamel(r, LETTER_JSON));
   return { data: transformed, ...rest };
 }
 
@@ -93,10 +89,7 @@ export function useLettersForDate(date: string | null) {
     enabled: !!userId && !!date,
   });
 
-  const transformed = useMemo(
-    () => data?.map((r) => toCamel(r, LETTER_JSON)),
-    [data],
-  );
+  const transformed = data?.map((r) => toCamel(r, LETTER_JSON));
   return { data: transformed, ...rest };
 }
 
@@ -110,10 +103,7 @@ export function useGetLetter(id: string | undefined) {
     enabled: !!id,
   });
 
-  const letter = useMemo(
-    () => (data?.[0] ? toCamel(data[0], LETTER_JSON) : null),
-    [data],
-  );
+  const letter = data?.[0] ? toCamel(data[0], LETTER_JSON) : null;
   return { data: letter, ...rest };
 }
 

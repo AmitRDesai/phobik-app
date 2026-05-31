@@ -14,7 +14,7 @@ import {
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
 import { ChatBubble } from '../components/ChatBubble';
 import { ChatInput } from '../components/ChatInput';
@@ -29,6 +29,17 @@ const FOLLOW_UP_SUGGESTIONS = [
   'Try a different approach',
   'Guide me through it step by step',
 ];
+
+const HEADER_CENTER = (
+  <View className="ml-3 flex-1">
+    <Text size="md" weight="semibold">
+      Coach
+    </Text>
+    <Text size="xs" tone="tertiary">
+      Powered by AI
+    </Text>
+  </View>
+);
 
 export default function Coach() {
   const scheme = useScheme();
@@ -81,25 +92,22 @@ export default function Coach() {
     }
   };
 
-  const scrollToBottom = useCallback(() => {
+  const scrollToBottom = () => {
     flatListRef.current?.scrollToEnd({ animated: true });
-  }, []);
+  };
 
-  const handleScroll = useCallback(
-    (e: {
-      nativeEvent: {
-        contentOffset: { y: number };
-        contentSize: { height: number };
-        layoutMeasurement: { height: number };
-      };
-    }) => {
-      const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
-      const distanceFromBottom =
-        contentSize.height - layoutMeasurement.height - contentOffset.y;
-      setShowScrollButton(distanceFromBottom > 100);
-    },
-    [],
-  );
+  const handleScroll = (e: {
+    nativeEvent: {
+      contentOffset: { y: number };
+      contentSize: { height: number };
+      layoutMeasurement: { height: number };
+    };
+  }) => {
+    const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
+    const distanceFromBottom =
+      contentSize.height - layoutMeasurement.height - contentOffset.y;
+    setShowScrollButton(distanceFromBottom > 100);
+  };
 
   // Track new messages for animation (in effect to avoid ref access during render)
   const [isNewMessage, setIsNewMessage] = useState(false);
@@ -108,15 +116,18 @@ export default function Coach() {
     messageCountRef.current = messages.length;
   }, [messages.length]);
 
-  const renderMessage = useCallback(
-    ({ item, index }: { item: (typeof messages)[number]; index: number }) => (
-      <ChatBubble
-        message={item}
-        onRetry={retry}
-        isNew={isNewMessage && index >= messages.length - 2}
-      />
-    ),
-    [retry, isNewMessage, messages.length],
+  const renderMessage = ({
+    item,
+    index,
+  }: {
+    item: (typeof messages)[number];
+    index: number;
+  }) => (
+    <ChatBubble
+      message={item}
+      onRetry={retry}
+      isNew={isNewMessage && index >= messages.length - 2}
+    />
   );
 
   const iconMuted = foregroundFor(scheme, 0.5);
@@ -126,16 +137,6 @@ export default function Coach() {
     <IconChip shape="circle">
       <MaterialIcons name="psychology" size={20} color={purple} />
     </IconChip>
-  );
-  const headerCenter = (
-    <View className="ml-3 flex-1">
-      <Text size="md" weight="semibold">
-        Coach
-      </Text>
-      <Text size="xs" tone="tertiary">
-        Powered by AI
-      </Text>
-    </View>
   );
   const headerRight = (
     <View className="flex-row gap-2">
@@ -167,7 +168,7 @@ export default function Coach() {
         header={
           <Header
             left={headerLeft}
-            center={headerCenter}
+            center={HEADER_CENTER}
             right={headerRight}
             className="border-b border-foreground/5"
           />

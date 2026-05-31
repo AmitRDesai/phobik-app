@@ -15,7 +15,7 @@ import { toast } from '@/utils/toast';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { File as ExpoFile } from 'expo-file-system';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Image, Pressable } from 'react-native';
 
@@ -30,12 +30,10 @@ export default function Profile() {
   const uploadMutation = useUploadProfilePicture();
 
   // Sync name from session when it arrives (adjusting state during render)
-  const [prevSessionName, setPrevSessionName] = useState<string | undefined>(
-    undefined,
-  );
+  const prevSessionNameRef = useRef<string | undefined>(undefined);
   const sessionName = session?.user?.name;
-  if (sessionName && sessionName !== prevSessionName) {
-    setPrevSessionName(sessionName);
+  if (sessionName && sessionName !== prevSessionNameRef.current) {
+    prevSessionNameRef.current = sessionName;
     setName(sessionName);
   }
 
@@ -112,13 +110,13 @@ export default function Profile() {
       <Pressable onPress={handleChangePhoto} className="items-center py-4">
         <View className="relative">
           {imageUri ? (
-            <View className="h-24 w-24 overflow-hidden rounded-full border-2 border-primary-pink/40 bg-foreground/10">
+            <View className="size-24 overflow-hidden rounded-full border-2 border-primary-pink/40 bg-foreground/10">
               <Image source={{ uri: imageUri }} className="h-full w-full" />
             </View>
           ) : (
             <UserAvatar size={96} className="border-2 border-primary-pink/40" />
           )}
-          <View className="absolute bottom-0 right-0 h-8 w-8 items-center justify-center rounded-full border-2 border-surface bg-primary-pink">
+          <View className="absolute bottom-0 right-0 size-8 items-center justify-center rounded-full border-2 border-surface bg-primary-pink">
             <MaterialIcons name="camera-alt" size={16} color="white" />
           </View>
         </View>

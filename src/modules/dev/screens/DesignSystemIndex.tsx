@@ -9,7 +9,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { SettingsMenuItem } from '@/modules/settings/components/SettingsMenuItem';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { SchemeToggle } from '../components/SchemeToggle';
 
 const SECTIONS: {
@@ -331,15 +331,14 @@ export default function DesignSystemIndex() {
   const scheme = useScheme();
   const [query, setQuery] = useState('');
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return SECTIONS;
-    return SECTIONS.filter(
-      (s) =>
-        s.label.toLowerCase().includes(q) ||
-        s.subtitle.toLowerCase().includes(q),
-    );
-  }, [query]);
+  const q = query.trim().toLowerCase();
+  const filtered = q
+    ? SECTIONS.filter(
+        (s) =>
+          s.label.toLowerCase().includes(q) ||
+          s.subtitle.toLowerCase().includes(q),
+      )
+    : SECTIONS;
 
   return (
     <Screen

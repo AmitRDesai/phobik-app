@@ -8,9 +8,9 @@ import { starBreathingSessionAtom } from '../store/session-atoms';
 
 function StarIcon() {
   return (
-    <View className="relative h-16 w-16 items-center justify-center">
+    <View className="relative size-16 items-center justify-center">
       <View
-        className="absolute h-16 w-16 rounded-full"
+        className="absolute size-16 rounded-full"
         style={{
           backgroundColor: withAlpha(colors.pink[400], 0.15),
           boxShadow: `0px 0px 30px ${withAlpha(colors.primary.pink, 0.5)}`,

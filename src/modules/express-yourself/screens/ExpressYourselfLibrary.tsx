@@ -15,7 +15,7 @@ import { uuid } from '@/lib/crypto';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { SongListRow } from '../components/SongListRow';
 import { useDeleteSong } from '../hooks/useDeleteSong';
 import { useGenerateSong } from '../hooks/useGenerateSong';
@@ -39,7 +39,7 @@ export default function ExpressYourselfLibrary() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<LibraryFilter>('all');
 
-  const filtered = useMemo(() => {
+  const filtered = (() => {
     const base = songs ?? [];
     let list: SongRecord[];
     if (filter === 'favorites') {
@@ -56,9 +56,9 @@ export default function ExpressYourselfLibrary() {
         .filter(Boolean)
         .some((v) => v!.toLowerCase().includes(q)),
     );
-  }, [songs, filter, query]);
+  })();
 
-  const counts = useMemo(() => {
+  const counts = (() => {
     const base = songs ?? [];
     return {
       ready: base.filter((s) => s.status === 'ready').length,
@@ -66,7 +66,7 @@ export default function ExpressYourselfLibrary() {
         .length,
       failed: base.filter((s) => s.status === 'failed').length,
     };
-  }, [songs]);
+  })();
 
   const handleRetry = async (failed: SongRecord) => {
     const choice = await dialog.info({

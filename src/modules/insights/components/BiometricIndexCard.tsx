@@ -53,13 +53,13 @@ export function BiometricIndexCard() {
         </Text>
         <View className="flex-row gap-3">
           <View className="flex-row items-center gap-1">
-            <View className="h-1.5 w-1.5 rounded-full bg-foreground" />
+            <View className="size-1.5 rounded-full bg-foreground" />
             <Text size="xs" treatment="caption">
               HR
             </Text>
           </View>
           <View className="flex-row items-center gap-1">
-            <View className="h-1.5 w-1.5 rounded-full bg-primary-pink" />
+            <View className="size-1.5 rounded-full bg-primary-pink" />
             <Text size="xs" treatment="caption">
               HRV
             </Text>

@@ -16,7 +16,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useCallback } from 'react';
 import { Button } from '@/components/ui/Button';
 import { ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -36,7 +35,7 @@ export default function EbookLanding() {
   const restorePurchases = useRestorePurchases();
   const { data: offering } = usePackOffering(PACK_ID);
 
-  const handleBuyNow = useCallback(async () => {
+  const handleBuyNow = async () => {
     try {
       await purchasePack.mutateAsync(PACK_ID);
       dialog.info({
@@ -61,9 +60,9 @@ export default function EbookLanding() {
             : 'Something went wrong. Please try again.',
       });
     }
-  }, [purchasePack]);
+  };
 
-  const handleRestore = useCallback(async () => {
+  const handleRestore = async () => {
     try {
       const close = dialog.loading({ message: 'Restoring purchases...' });
       const result = await restorePurchases.mutateAsync();
@@ -85,21 +84,21 @@ export default function EbookLanding() {
         message: 'Could not restore purchases. Please try again.',
       });
     }
-  }, [restorePurchases]);
+  };
 
-  const handleEbookPress = useCallback(() => {
+  const handleEbookPress = () => {
     if (!purchased) return;
     if (introSeen) {
       router.push('/practices/ebook-index');
     } else {
       router.push('/practices/ebook-intro');
     }
-  }, [purchased, introSeen, router]);
+  };
 
-  const handleChecklistPress = useCallback(() => {
+  const handleChecklistPress = () => {
     if (!purchased) return;
     router.push('/practices/flight-checklist-hub');
-  }, [purchased, router]);
+  };
 
   const priceLabel = offering?.priceString ?? '$9.99';
   const isPurchasing = purchasePack.isPending;

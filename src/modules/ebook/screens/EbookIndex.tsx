@@ -5,7 +5,6 @@ import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useCallback } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { EBOOK_CHAPTERS } from '../data/ebook-chapters';
@@ -18,12 +17,9 @@ export default function EbookIndex() {
   const { data: progress } = useEbookProgress();
   const { completedChapters, lastChapterId: lastChapter } = progress;
 
-  const handleChapterPress = useCallback(
-    (chapterId: number) => {
-      router.push(`/practices/ebook-chapter?chapter=${chapterId}`);
-    },
-    [router],
-  );
+  const handleChapterPress = (chapterId: number) => {
+    router.push(`/practices/ebook-chapter?chapter=${chapterId}`);
+  };
 
   return (
     <View className="flex-1 bg-surface">

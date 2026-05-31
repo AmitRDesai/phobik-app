@@ -49,6 +49,10 @@ interface BreathingStarProps {
   onPhaseChange?: (phase: string) => void;
   /** Starting elapsed time in seconds (for resuming sessions) */
   initialElapsed?: number;
+  /** Live heart rate (BPM) for the center readout; `null` shows a dash. */
+  heartRate?: number | null;
+  /** Whether to show the center heart-rate readout at all (health connected). */
+  showHeartRate?: boolean;
 }
 
 function easeInOutQuad(t: number): number {
@@ -85,6 +89,8 @@ export function BreathingStar({
   isPaused = false,
   onPhaseChange,
   initialElapsed = 0,
+  heartRate = null,
+  showHeartRate = false,
 }: BreathingStarProps) {
   const scheme = useScheme();
   const elapsed = useSharedValue(initialElapsed);
@@ -212,30 +218,32 @@ export function BreathingStar({
         <AnimatedCircle fill="white" animatedProps={orbProps} />
       </Svg>
 
-      {/* Center BPM display */}
-      <View className="absolute items-center justify-center">
-        <View className="mb-0.5 flex-row items-center justify-center gap-1">
-          <MaterialIcons
-            name="favorite"
-            size={14}
-            color={colors.primary.pink}
-          />
+      {/* Center BPM display — only when a health source is connected */}
+      {showHeartRate ? (
+        <View className="absolute items-center justify-center">
+          <View className="mb-0.5 flex-row items-center justify-center gap-1">
+            <MaterialIcons
+              name="favorite"
+              size={14}
+              color={colors.primary.pink}
+            />
+            <Text
+              weight="bold"
+              className="text-3xl tracking-tight"
+              style={{ fontVariant: ['tabular-nums'] }}
+            >
+              {heartRate != null ? heartRate : '—'}
+            </Text>
+          </View>
           <Text
+            tone="tertiary"
             weight="bold"
-            className="text-3xl tracking-tight"
-            style={{ fontVariant: ['tabular-nums'] }}
+            className="text-[10px] uppercase tracking-widest"
           >
-            72
+            BPM
           </Text>
         </View>
-        <Text
-          tone="tertiary"
-          weight="bold"
-          className="text-[10px] uppercase tracking-widest"
-        >
-          BPM
-        </Text>
-      </View>
+      ) : null}
     </View>
   );
 }

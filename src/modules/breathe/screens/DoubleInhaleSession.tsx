@@ -9,6 +9,8 @@ import { Header } from '@/components/ui/Header';
 import { PlaybackControls } from '@/components/ui/PlaybackControls';
 import { Screen } from '@/components/ui/Screen';
 import { useScheme } from '@/hooks/useTheme';
+import { replayCue } from '@/lib/audio/replayCue';
+import { useCuesReady } from '@/lib/audio/useCuesReady';
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -44,7 +46,7 @@ function InstructionCard() {
     <View className="z-20 px-6 pb-6">
       <Card variant="raised" size="lg">
         <View className="flex-row items-start gap-4">
-          <View className="h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-pink/10">
+          <View className="size-8 shrink-0 items-center justify-center rounded-full bg-primary-pink/10">
             <MaterialIcons
               name="record-voice-over"
               size={18}
@@ -430,25 +432,24 @@ export default function DoubleInhaleSession() {
     volume: isMuted ? 0 : 0.8,
   });
 
+  // Hold the first cue until every bundled clip has decoded, so the opening
+  // inhale isn't played as a silent no-op.
+  const cuesReady = useCuesReady([inhalePlayer, exhalePlayer, bowlPlayer]);
+
   // Play phase audio on phase changes + tibetan bowl at cycle start
   useEffect(() => {
-    if (!sessionReady || isPaused) return;
+    if (!sessionReady || isPaused || !cuesReady) return;
 
-    // Play inhale only on first inhale (phase 0), exhale on phase 2
+    const cancels: (() => void)[] = [];
+    // Play inhale + tibetan bowl at the start of each cycle (phase 0), exhale on phase 2
     if (phaseIndex === 0) {
-      inhalePlayer.seekTo(0);
-      inhalePlayer.play();
+      cancels.push(replayCue(inhalePlayer), replayCue(bowlPlayer));
     } else if (phaseIndex === 2) {
-      exhalePlayer.seekTo(0);
-      exhalePlayer.play();
+      cancels.push(replayCue(exhalePlayer));
     }
 
-    // Play tibetan bowl at the start of each cycle
-    if (phaseIndex === 0) {
-      bowlPlayer.seekTo(0);
-      bowlPlayer.play();
-    }
-  }, [phaseIndex, sessionReady, isPaused]);
+    return () => cancels.forEach((cancel) => cancel());
+  }, [phaseIndex, sessionReady, isPaused, cuesReady]);
 
   // Save state on back navigation (only if session has started)
   useSaveOnLeave({

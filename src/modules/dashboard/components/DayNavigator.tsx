@@ -36,7 +36,7 @@ export function DayNavigator({
         <Pressable
           onPress={onBack}
           hitSlop={8}
-          className="h-7 w-7 items-center justify-center"
+          className="size-7 items-center justify-center"
         >
           <MaterialIcons name="chevron-left" size={22} color={fg} />
         </Pressable>
@@ -52,7 +52,7 @@ export function DayNavigator({
           onPress={canGoForward ? onForward : undefined}
           disabled={!canGoForward}
           hitSlop={8}
-          className="h-7 w-7 items-center justify-center"
+          className="size-7 items-center justify-center"
         >
           <MaterialIcons
             name="chevron-right"

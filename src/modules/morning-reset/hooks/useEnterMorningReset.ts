@@ -1,5 +1,4 @@
 import { useRouter } from 'expo-router';
-import { useCallback } from 'react';
 
 /**
  * Enter the Morning Reset from Home. Just pushes `/morning-reset`;
@@ -10,7 +9,7 @@ import { useCallback } from 'react';
  */
 export function useEnterMorningReset() {
   const router = useRouter();
-  return useCallback(() => {
+  return () => {
     router.push('/morning-reset');
-  }, [router]);
+  };
 }

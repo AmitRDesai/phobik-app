@@ -12,7 +12,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Slider } from '@/components/ui/Slider';
 import { useWindowDimensions } from 'react-native';
@@ -37,7 +37,7 @@ export default function EnergyIndex() {
   const { data: todayRecord, isLoading } = useTodayEnergyCheckIn();
   const saveEnergyCheckIn = useSaveEnergyCheckIn();
   const [pillars, setPillars] = useState<Pillars>(DEFAULT_PILLARS);
-  const [initialized, setInitialized] = useState(false);
+  const initializedRef = useRef(false);
   const { width: screenWidth } = useWindowDimensions();
 
   const containerSize = Math.min(screenWidth - 48, 340);
@@ -49,7 +49,7 @@ export default function EnergyIndex() {
 
   // Pre-populate from today's saved record (once)
   useEffect(() => {
-    if (initialized || isLoading) return;
+    if (initializedRef.current || isLoading) return;
     if (todayRecord) {
       setPillars({
         purpose: todayRecord.purpose as number,
@@ -58,12 +58,12 @@ export default function EnergyIndex() {
         relationship: todayRecord.relationship as number,
       });
     }
-    setInitialized(true);
-  }, [todayRecord, isLoading, initialized]);
+    initializedRef.current = true;
+  }, [todayRecord, isLoading]);
 
-  const updatePillar = useCallback((key: PillarKey, value: number) => {
+  const updatePillar = (key: PillarKey, value: number) => {
     setPillars((prev) => ({ ...prev, [key]: value }));
-  }, []);
+  };
 
   const handleSave = async () => {
     await saveEnergyCheckIn.mutateAsync(pillars);

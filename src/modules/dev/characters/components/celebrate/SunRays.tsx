@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import Animated, {
   Easing,
@@ -16,6 +16,7 @@ import Svg, {
 } from 'react-native-svg';
 
 type Ray = {
+  id: string;
   angle: number;
   distance: number;
   height: number;
@@ -29,15 +30,25 @@ type Props = {
 };
 
 export function SunRays({ active, count }: Props) {
-  const rays = useMemo<Ray[]>(() => {
-    if (!active) return [];
-    return Array.from({ length: count }, (_, i) => ({
-      angle: (i / count) * 360,
-      distance: 200 + Math.random() * 150,
-      height: 20 + Math.random() * 40,
-      durationMs: 400 + Math.random() * 300,
-      repeatDelayMs: Math.random() * 1500,
-    }));
+  const [rays, setRays] = useState<Ray[]>([]);
+  const activeRef = useRef(active);
+
+  useEffect(() => {
+    if (active && !activeRef.current) {
+      setRays(
+        Array.from({ length: count }, (_, i) => ({
+          id: `ray-${i}`,
+          angle: (i / count) * 360,
+          distance: 200 + Math.random() * 150,
+          height: 20 + Math.random() * 40,
+          durationMs: 400 + Math.random() * 300,
+          repeatDelayMs: Math.random() * 1500,
+        })),
+      );
+    } else if (!active) {
+      setRays([]);
+    }
+    activeRef.current = active;
   }, [active, count]);
 
   if (!active) return null;
@@ -53,8 +64,8 @@ export function SunRays({ active, count }: Props) {
         height: 0,
       }}
     >
-      {rays.map((r, i) => (
-        <Ray key={i} ray={r} />
+      {rays.map((r) => (
+        <Ray key={r.id} ray={r} />
       ))}
     </View>
   );

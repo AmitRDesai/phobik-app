@@ -1,5 +1,4 @@
 import { useRouter } from 'expo-router';
-import { useCallback } from 'react';
 
 /**
  * Enter the Daily Flow from Home. Defers all resume / fresh-start logic
@@ -10,7 +9,7 @@ import { useCallback } from 'react';
  */
 export function useEnterDailyFlow() {
   const router = useRouter();
-  return useCallback(() => {
+  return () => {
     router.push('/daily-flow');
-  }, [router]);
+  };
 }

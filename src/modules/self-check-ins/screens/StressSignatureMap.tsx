@@ -16,7 +16,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useMemo } from 'react';
 import { useWindowDimensions } from 'react-native';
 import Svg, {
   Circle,
@@ -46,6 +45,10 @@ const CARD_AURA_LABELS = [
   'Cognitive Load',
 ] as const;
 
+function sortRing(a: { rating: number }, b: { rating: number }) {
+  return a.rating - b.rating;
+}
+
 function useAuraColors(): string[] {
   const scheme = useScheme();
   return [
@@ -67,21 +70,17 @@ export default function StressSignatureMap() {
   const reset = useSetAtom(resetStressCompassAtom);
   const { width: screenWidth } = useWindowDimensions();
 
-  const assessment = useMemo(
-    () =>
-      assessmentId
-        ? (
-            assessments as
-              | { id: string; answers?: Record<string, number> }[]
-              | undefined
-          )?.find((a) => a.id === assessmentId)
-        : undefined,
-    [assessments, assessmentId],
-  );
+  const assessment = assessmentId
+    ? (
+        assessments as
+          | { id: string; answers?: Record<string, number> }[]
+          | undefined
+      )?.find((a) => a.id === assessmentId)
+    : undefined;
 
   // Derive ratings from persisted assessment if present, otherwise fall back to live atom
-  const allRatings = useMemo<Record<StressorKey, number>>(() => {
-    if (!assessment) return atomRatings;
+  let allRatings: Record<StressorKey, number> = atomRatings;
+  if (assessment) {
     const next = { ...atomRatings };
     const answers = (assessment.answers ?? {}) as Record<string, number>;
     for (const [qid, value] of Object.entries(answers)) {
@@ -89,17 +88,13 @@ export default function StressSignatureMap() {
       const stressor = STRESSOR_CATEGORIES[idx];
       if (stressor) next[stressor.key] = value;
     }
-    return next;
-  }, [assessment, atomRatings]);
+    allRatings = next;
+  }
 
-  const topStressors = useMemo(
-    () =>
-      (Object.entries(allRatings) as [StressorKey, number][])
-        .sort((a, b) => a[1] - b[1])
-        .slice(0, 3)
-        .map(([key, rating]) => ({ key, rating })),
-    [allRatings],
-  );
+  const topStressors = (Object.entries(allRatings) as [StressorKey, number][])
+    .sort((a, b) => a[1] - b[1])
+    .slice(0, 3)
+    .map(([key, rating]) => ({ key, rating }));
 
   const handleSave = async () => {
     if (assessmentId) {
@@ -251,11 +246,6 @@ function OrbitMap({ ratings, screenWidth, stressorMap }: OrbitMapProps) {
       };
     });
   };
-
-  // Sort within each ring by rating so the layout feels deterministic
-  // and visually clustered (strongest pattern at the top of each ring).
-  const sortRing = (a: { rating: number }, b: { rating: number }) =>
-    a.rating - b.rating;
 
   const innerNodes = placeEvenly(
     bucketed.filter((s) => s.ring === 'inner').sort(sortRing),

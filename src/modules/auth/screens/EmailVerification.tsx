@@ -1,16 +1,16 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
 import { authClient, getSession, useSession } from '@/lib/auth';
 import { dialog } from '@/utils/dialog';
-import { toast } from '@/utils/toast';
 import { env } from '@/utils/env';
+import { toast } from '@/utils/toast';
 import { Ionicons } from '@expo/vector-icons';
 import * as IntentLauncher from 'expo-intent-launcher';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button } from '@/components/ui/Button';
+import { useEffect, useRef, useState } from 'react';
 import { AppState, Linking, Platform } from 'react-native';
 
 const RESEND_COOLDOWN_SECONDS = 60;
@@ -22,7 +22,7 @@ export default function EmailVerificationScreen() {
   const [isSending, setIsSending] = useState(false);
   const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const startCooldown = useCallback(() => {
+  const startCooldown = () => {
     setResendCooldown(RESEND_COOLDOWN_SECONDS);
     if (cooldownRef.current) clearInterval(cooldownRef.current);
     cooldownRef.current = setInterval(() => {
@@ -34,7 +34,7 @@ export default function EmailVerificationScreen() {
         return prev - 1;
       });
     }, 1000);
-  }, []);
+  };
 
   useEffect(
     () => () => {
@@ -43,7 +43,7 @@ export default function EmailVerificationScreen() {
     [],
   );
 
-  const checkVerification = useCallback(async () => {
+  const checkVerification = async () => {
     let result;
     try {
       result = await getSession({ query: { disableCookieCache: true } });
@@ -57,7 +57,7 @@ export default function EmailVerificationScreen() {
         description: 'Your email has been verified successfully.',
       });
     }
-  }, []);
+  };
 
   // Foreground return — detect when user switches back to app
   useEffect(() => {
@@ -65,9 +65,10 @@ export default function EmailVerificationScreen() {
       if (state === 'active') checkVerification();
     });
     return () => sub.remove();
-  }, [checkVerification]);
+    // checkVerification has no external deps — stable to mount once
+  }, []);
 
-  const handleOpenEmail = useCallback(async () => {
+  const handleOpenEmail = async () => {
     if (Platform.OS === 'ios') {
       try {
         const canOpen = await Linking.canOpenURL('message://');
@@ -94,9 +95,9 @@ export default function EmailVerificationScreen() {
         flags: 268435456, // FLAG_ACTIVITY_NEW_TASK
       });
     }
-  }, []);
+  };
 
-  const handleResend = useCallback(async () => {
+  const handleResend = async () => {
     if (resendCooldown > 0 || isSending) return;
     setIsSending(true);
     const callbackURL = `${env.get('APP_SCHEME')}://email-verification`;
@@ -107,7 +108,7 @@ export default function EmailVerificationScreen() {
       // Silently fail — user can try again
     }
     setIsSending(false);
-  }, [email, resendCooldown, isSending, startCooldown]);
+  };
 
   return (
     <Screen className="flex-1 items-center justify-center px-8">

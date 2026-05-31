@@ -78,13 +78,13 @@ export function CalendarDay({
       </Pressable>
       {hasEntry ? (
         <View
-          className="mt-0.5 h-1 w-1 rounded-full bg-primary-pink"
+          className="mt-0.5 size-1 rounded-full bg-primary-pink"
           style={{
             boxShadow: `0 0 4px ${withAlpha(colors.primary.pink, 0.8)}`,
           }}
         />
       ) : (
-        <View className="mt-0.5 h-1 w-1" />
+        <View className="mt-0.5 size-1" />
       )}
     </View>
   );

@@ -8,7 +8,7 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { TextArea } from '@/components/ui/TextArea';
 import { FeelingDropdown } from '../components/FeelingDropdown';
@@ -120,7 +120,7 @@ export default function JournalEntry() {
     };
   }, [form, isViewMode, isInitialized, setDraft]);
 
-  const handleSave = useCallback(async () => {
+  const handleSave = async () => {
     if (!form.content.trim()) return;
 
     const mutation =
@@ -150,7 +150,7 @@ export default function JournalEntry() {
         message: 'Could not save your entry. Please try again.',
       });
     }
-  }, [form, isViewMode, id, createEntry, updateEntry, setDraft, router]);
+  };
 
   const isSaving = createEntry.isPending || updateEntry.isPending;
 

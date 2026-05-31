@@ -4,7 +4,6 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { parseJSON, toJSON } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 export type EbookProgress = {
   purchased: boolean;
@@ -34,17 +33,16 @@ export function useEbookProgress() {
     enabled: !!userId,
   });
 
-  const progress = useMemo<EbookProgress>(() => {
-    const row = data?.[0];
-    if (!row) return DEFAULT_PROGRESS;
-    return {
-      purchased: Boolean(row.purchased),
-      introSeen: Boolean(row.intro_seen),
-      lastChapterId: row.last_chapter_id ?? null,
-      completedChapters:
-        parseJSON<number[]>(row.completed_chapters as string) ?? [],
-    };
-  }, [data]);
+  const row = data?.[0];
+  const progress: EbookProgress = !row
+    ? DEFAULT_PROGRESS
+    : {
+        purchased: Boolean(row.purchased),
+        introSeen: Boolean(row.intro_seen),
+        lastChapterId: row.last_chapter_id ?? null,
+        completedChapters:
+          parseJSON<number[]>(row.completed_chapters as string) ?? [],
+      };
 
   return { data: progress, isLoading, error };
 }

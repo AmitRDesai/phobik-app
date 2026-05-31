@@ -155,7 +155,7 @@ function MoodTile({ mood, sampleCount, onPress }: MoodTileProps) {
 
         <View className="flex-1 justify-end p-6">
           <View
-            className="mb-4 h-12 w-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10"
+            className="mb-4 size-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10"
             style={{
               boxShadow: `0 0 12px ${withAlpha(colors.primary.pink, 0.5)}`,
             }}
@@ -224,7 +224,7 @@ function FrequencyEducationCard({
         <View className="absolute inset-0 p-5">
           <View className="flex-row items-start justify-between">
             <View
-              className="h-11 w-11 items-center justify-center rounded-full"
+              className="size-11 items-center justify-center rounded-full"
               style={{ backgroundColor: withAlpha('#ffffff', 0.18) }}
             >
               <MaterialIcons name={band.icon} size={20} color="white" />

@@ -8,7 +8,6 @@ import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useMemo } from 'react';
 
 import { SENSATION_CATEGORIES } from '../data/sensations';
 import {
@@ -20,6 +19,15 @@ import {
 const SOMATIC_TAG = 'Somatic Awareness';
 const SOMATIC_TAGLINE = 'Your body is your guide';
 
+const OPTIONS_BY_CATEGORY = SENSATION_CATEGORIES.map((cat) => ({
+  category: cat,
+  options: cat.chips.map<ChipOption<string>>((chip) => ({
+    label: chip,
+    value: `${cat.id}:${chip}`,
+    tone: cat.tone,
+  })),
+}));
+
 export default function BodySensations() {
   const router = useRouter();
   const { session, isLoading } = useActiveDailyFlowSession();
@@ -28,18 +36,7 @@ export default function BodySensations() {
   const selected = session?.sensations ?? [];
   const showLoading = isLoading || !session;
 
-  const optionsByCategory = useMemo(
-    () =>
-      SENSATION_CATEGORIES.map((cat) => ({
-        category: cat,
-        options: cat.chips.map<ChipOption<string>>((chip) => ({
-          label: chip,
-          value: `${cat.id}:${chip}`,
-          tone: cat.tone,
-        })),
-      })),
-    [],
-  );
+  const optionsByCategory = OPTIONS_BY_CATEGORY;
 
   const handleChange = async (next: string[]) => {
     if (!session) return;

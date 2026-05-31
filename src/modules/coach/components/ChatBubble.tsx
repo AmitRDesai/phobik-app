@@ -12,7 +12,6 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { useMemo } from 'react';
 import { Pressable, Share, StyleSheet } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import Animated, { FadeInDown, FadeInRight } from 'react-native-reanimated';
@@ -33,7 +32,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
   const scheme = useScheme();
   const isUser = message.role === 'user';
   const router = useRouter();
-  const markdownStyles = useMemo(() => buildMarkdownStyles(scheme), [scheme]);
+  const markdownStyles = buildMarkdownStyles(scheme);
   const iconMuted = foregroundFor(scheme, 0.2);
   const purple = accentFor(scheme, 'purple');
 
@@ -135,7 +134,7 @@ export function ChatBubble({ message, onRetry, isNew }: ChatBubbleProps) {
       entering={isNew ? FadeInDown.duration(250) : undefined}
       className="mb-4 flex-row gap-3"
     >
-      <View className="mt-0.5 h-7 w-7 items-center justify-center rounded-full bg-foreground/[0.08]">
+      <View className="mt-0.5 size-7 items-center justify-center rounded-full bg-foreground/[0.08]">
         <MaterialIcons name="psychology" size={16} color={purple} />
       </View>
       <View className="flex-1">

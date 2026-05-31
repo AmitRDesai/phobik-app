@@ -7,7 +7,7 @@ import { Screen } from '@/components/ui/Screen';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { useKeepAwake } from 'expo-keep-awake';
 import { Redirect, useLocalSearchParams } from 'expo-router';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { BAND_BY_ID, MOOD_BY_ID } from '../data/sound-studio';
 import { useSoundscapePlayback } from '../hooks/useSoundscapePlayback';
@@ -50,29 +50,26 @@ function SoundscapePlayerInner({
     player.play();
   }, [autoplay, isReady, player]);
 
-  const onTogglePlay = useCallback(() => {
+  const onTogglePlay = () => {
     if (!isReady) return;
     if (status.playing) player.pause();
     else player.play();
-  }, [isReady, player, status.playing]);
+  };
 
-  const onSeek = useCallback(
-    (seconds: number) => {
-      if (!isReady || status.duration <= 0) return;
-      player.seekTo(Math.max(0, Math.min(status.duration, seconds)));
-    },
-    [isReady, player, status.duration],
-  );
+  const onSeek = (seconds: number) => {
+    if (!isReady || status.duration <= 0) return;
+    player.seekTo(Math.max(0, Math.min(status.duration, seconds)));
+  };
 
-  const onSkipBack = useCallback(() => {
+  const onSkipBack = () => {
     if (!isReady) return;
     player.seekTo(Math.max(0, status.currentTime - 15));
-  }, [isReady, player, status.currentTime]);
+  };
 
-  const onSkipForward = useCallback(() => {
+  const onSkipForward = () => {
     if (!isReady || status.duration <= 0) return;
     player.seekTo(Math.min(status.duration, status.currentTime + 30));
-  }, [isReady, player, status.currentTime, status.duration]);
+  };
 
   if (isLoadingDetail || !soundscape) {
     return (

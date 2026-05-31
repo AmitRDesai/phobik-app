@@ -2,6 +2,12 @@ import { dialog } from '@/utils/dialog';
 import { useEffect, useRef } from 'react';
 
 type Args = {
+  /**
+   * When `false`, this consumer is muted — no dialog is shown and any dialog it
+   * owns is closed. Use when another hook (e.g. `useAudioPrefetch`) owns the
+   * single global dialog for the screen. Defaults to `true`.
+   */
+  enabled?: boolean;
   /** When `true`, no dialog is shown — audio is ready to play. */
   isReady: boolean;
   /** No network — show "will download when online" message. */
@@ -23,6 +29,7 @@ type ShownState = 'offline' | 'error' | null;
  * than the underlying fetch error. Auto-closes on unmount.
  */
 export function useAudioStatusDialog({
+  enabled = true,
   isReady,
   isOffline,
   errorMessage,
@@ -40,7 +47,7 @@ export function useAudioStatusDialog({
   }, [onRetry]);
 
   useEffect(() => {
-    if (isReady) {
+    if (!enabled || isReady) {
       if (shownRef.current) {
         dialog.close();
         shownRef.current = null;
@@ -88,13 +95,16 @@ export function useAudioStatusDialog({
       dialog.close();
       shownRef.current = null;
     }
-  }, [isReady, isOffline, errorMessage]);
+  }, [enabled, isReady, isOffline, errorMessage]);
 
   // Defensive: close on unmount so a backgrounded screen doesn't leave its
   // dialog floating over the next screen.
   useEffect(() => {
     return () => {
-      if (shownRef.current) {
+      // Copy ref.current to a local variable so the cleanup captures the value
+      // at effect teardown time, not whenever the cleanup eventually runs.
+      const shown = shownRef.current;
+      if (shown) {
         dialog.close();
         shownRef.current = null;
       }

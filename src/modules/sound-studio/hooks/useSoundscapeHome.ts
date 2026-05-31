@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import {
   CURATED_SOUNDSCAPES,
   type SoundscapeTrack,
@@ -13,22 +11,26 @@ export type MoodGroup = {
   soundscapes: SoundscapeTrack[];
 };
 
+function buildGroupedByMood(): MoodGroup[] {
+  const byMood = new Map<SoundscapeMood, SoundscapeTrack[]>();
+  for (const row of CURATED_SOUNDSCAPES) {
+    const list = byMood.get(row.mood) ?? [];
+    list.push(row);
+    byMood.set(row.mood, list);
+  }
+  for (const list of byMood.values()) {
+    list.sort((a, b) => a.orderInMood - b.orderInMood);
+  }
+  return MOODS.map((m) => ({
+    mood: m.id,
+    soundscapes: byMood.get(m.id) ?? [],
+  }));
+}
+
+const GROUPED_BY_MOOD = buildGroupedByMood();
+
 export function useSoundscapeHome() {
-  const groupedByMood = useMemo<MoodGroup[]>(() => {
-    const byMood = new Map<SoundscapeMood, SoundscapeTrack[]>();
-    for (const row of CURATED_SOUNDSCAPES) {
-      const list = byMood.get(row.mood) ?? [];
-      list.push(row);
-      byMood.set(row.mood, list);
-    }
-    for (const list of byMood.values()) {
-      list.sort((a, b) => a.orderInMood - b.orderInMood);
-    }
-    return MOODS.map((m) => ({
-      mood: m.id,
-      soundscapes: byMood.get(m.id) ?? [],
-    }));
-  }, []);
+  const groupedByMood = GROUPED_BY_MOOD;
 
   return {
     soundscapes: CURATED_SOUNDSCAPES,

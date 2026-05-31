@@ -20,7 +20,7 @@ export function ConnectHealthCard() {
       }}
     >
       <View className="items-center gap-4 py-2">
-        <View className="h-14 w-14 items-center justify-center rounded-2xl bg-foreground/5">
+        <View className="size-14 items-center justify-center rounded-2xl bg-foreground/5">
           <MaterialIcons name="watch" size={28} color={colors.primary.pink} />
         </View>
         <View className="items-center">

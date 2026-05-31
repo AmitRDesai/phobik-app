@@ -9,7 +9,6 @@ import { PracticeScreenShell } from '@/modules/practices/components/PracticeScre
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
-import { useMemo } from 'react';
 
 import { MEDITATIONS } from '../data/meditations';
 import { meditationSessionsAtom } from '../store/sessions';
@@ -20,16 +19,12 @@ export default function MeditationList() {
 
   // Most recently updated saved session (if any) — surfaces the "Unfinished
   // session" card matching the BreatheList resume pattern.
-  const resumable = useMemo(() => {
-    const entries = Object.entries(sessions);
-    if (entries.length === 0) return null;
-    entries.sort(([, a], [, b]) => b.updatedAt - a.updatedAt);
-    const first = entries[0];
-    if (!first) return null;
-    const [id] = first;
-    const meditation = MEDITATIONS.find((m) => m.id === id);
-    return meditation ?? null;
-  }, [sessions]);
+  const entries = Object.entries(sessions);
+  entries.sort(([, a], [, b]) => b.updatedAt - a.updatedAt);
+  const firstEntry = entries[0];
+  const resumable = firstEntry
+    ? (MEDITATIONS.find((m) => m.id === firstEntry[0]) ?? null)
+    : null;
 
   return (
     <PracticeScreenShell wordmark="Meditation">

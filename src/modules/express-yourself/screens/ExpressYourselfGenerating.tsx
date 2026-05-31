@@ -81,14 +81,16 @@ export default function ExpressYourselfGenerating() {
   // Creep the bar a little within each stage so it doesn't visibly freeze
   // while we wait for the next webhook. Resets every time the stage changes.
   const [creep, setCreep] = useState(0);
-  const stageEnteredAt = useRef(Date.now());
+  const stageEnteredAt = useRef<number | null>(null);
+  if (stageEnteredAt.current === null) stageEnteredAt.current = Date.now();
   useEffect(() => {
     stageEnteredAt.current = Date.now();
     setCreep(0);
   }, [stage]);
   useEffect(() => {
     const tick = setInterval(() => {
-      const elapsed = Date.now() - stageEnteredAt.current;
+      const enteredAt = stageEnteredAt.current ?? Date.now();
+      const elapsed = Date.now() - enteredAt;
       const ratio = Math.min(1, elapsed / STAGE_CREEP_DURATION_MS);
       setCreep(ratio * STAGE_CREEP_AMOUNT);
     }, 300);

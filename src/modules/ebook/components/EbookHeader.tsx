@@ -18,7 +18,7 @@ export function EbookHeader({ label, onBack }: EbookHeaderProps) {
           {label}
         </Text>
       </View>
-      <View className="h-10 w-10" />
+      <View className="size-10" />
     </View>
   );
 }

@@ -3,7 +3,6 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 export type NotificationType =
   | 'system'
@@ -42,13 +41,10 @@ export function useNotifications() {
     enabled: !!userId,
   });
 
-  const items = useMemo(
-    () =>
-      data?.map(
-        (r) => toCamel(r, NOTIFICATION_JSON) as unknown as NotificationItem,
-      ) ?? [],
-    [data],
-  );
+  const items =
+    data?.map(
+      (r) => toCamel(r, NOTIFICATION_JSON) as unknown as NotificationItem,
+    ) ?? [];
 
   return { data: items, isLoading, error };
 }

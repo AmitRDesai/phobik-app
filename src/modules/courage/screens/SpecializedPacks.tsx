@@ -1,5 +1,4 @@
 import { useRouter } from 'expo-router';
-import { useCallback } from 'react';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
@@ -14,9 +13,9 @@ export default function SpecializedPacks() {
   const router = useRouter();
   const purchasedPacks = usePackPurchases();
 
-  const handleNavigateToLanding = useCallback(() => {
+  const handleNavigateToLanding = () => {
     router.push('/practices/ebook-landing');
-  }, [router]);
+  };
 
   return (
     <Screen

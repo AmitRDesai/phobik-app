@@ -16,7 +16,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSetAtom } from 'jotai';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -136,19 +136,15 @@ function Confetti() {
     })),
   );
 
-  const pieces = useMemo(
-    () =>
-      randoms.map((r, i) => ({
-        id: i,
-        color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-        startX: r.x * width,
-        startY: r.y * height * 0.6,
-        delay: r.delay * 600,
-        rotation: r.rotation * 360,
-        size: 6 + r.size * 6,
-      })),
-    [width, height, randoms],
-  );
+  const pieces = randoms.map((r, i) => ({
+    id: i,
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+    startX: r.x * width,
+    startY: r.y * height * 0.6,
+    delay: r.delay * 600,
+    rotation: r.rotation * 360,
+    size: 6 + r.size * 6,
+  }));
 
   return (
     <View className="pointer-events-none absolute inset-0">
@@ -202,7 +198,7 @@ function RewardCircle({
 }) {
   return (
     <View className="items-center gap-3">
-      <View className="relative h-16 w-16 items-center justify-center">
+      <View className="relative size-16 items-center justify-center">
         <PulsingGlow color={glowColor} />
         <LinearGradient
           colors={gradientColors}
@@ -255,16 +251,13 @@ export default function Completion() {
   const recordCompletion = useRecordPracticeCompletion();
   const hasRecorded = useRef(false);
 
-  const activeRewards = useMemo(
-    () =>
-      practiceType && practiceType in DOSE_REWARDS
-        ? getActiveDoseRewards(practiceType as PracticeType)
-        : [
-            { chemical: 'endorphins' as const, value: 10, label: 'Endorphins' },
-            { chemical: 'serotonin' as const, value: 5, label: 'Serotonin' },
-          ],
-    [practiceType],
-  );
+  const activeRewards =
+    practiceType && practiceType in DOSE_REWARDS
+      ? getActiveDoseRewards(practiceType as PracticeType)
+      : [
+          { chemical: 'endorphins' as const, value: 10, label: 'Endorphins' },
+          { chemical: 'serotonin' as const, value: 5, label: 'Serotonin' },
+        ];
 
   useEffect(() => {
     setGroundingSession(null);

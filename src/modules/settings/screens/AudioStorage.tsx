@@ -17,7 +17,7 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
 import { useAtom } from 'jotai';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 
@@ -49,15 +49,13 @@ export default function AudioStorage() {
   const scheme = useScheme();
   const cyan = accentFor(scheme, 'cyan');
 
-  const refresh = useCallback(() => {
+  const refresh = () => {
     setCacheBytes(getCacheSizeBytes());
-  }, []);
+  };
 
-  useFocusEffect(
-    useCallback(() => {
-      refresh();
-    }, [refresh]),
-  );
+  useFocusEffect(() => {
+    refresh();
+  });
 
   const handleClear = async () => {
     if (cacheBytes === 0) return;
@@ -89,7 +87,7 @@ export default function AudioStorage() {
       <Text size="xs" treatment="caption" tone="tertiary" className="px-2">
         Voice
       </Text>
-      <Card className="px-4 py-4">
+      <Card className="p-4">
         <View className="flex-row items-center gap-3">
           <IconChip size="md" shape="rounded" tone="pink">
             <MaterialIcons
@@ -115,7 +113,7 @@ export default function AudioStorage() {
               <Pressable
                 key={choice.value}
                 onPress={() => setVoice(choice.value)}
-                className="flex-1 flex-row items-center justify-center gap-2 rounded-xl border px-3 py-3 active:opacity-70"
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-xl border p-3 active:opacity-70"
                 style={{
                   borderColor: isSelected
                     ? withAlpha(colors.primary.pink, 0.45)
@@ -208,7 +206,7 @@ export default function AudioStorage() {
       <Text size="xs" treatment="caption" tone="tertiary" className="px-2">
         About
       </Text>
-      <Card className="px-4 py-4">
+      <Card className="p-4">
         <View className="flex-row items-start gap-3">
           <MaterialIcons
             name="info"

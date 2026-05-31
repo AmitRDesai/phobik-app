@@ -112,7 +112,7 @@ function RadioIndicator({ selected }: { selected: boolean }) {
         selected ? 'border-primary-pink' : 'border-foreground/25',
       )}
     >
-      {selected && <View className="h-3 w-3 rounded-full bg-primary-pink" />}
+      {selected && <View className="size-3 rounded-full bg-primary-pink" />}
     </View>
   );
 }

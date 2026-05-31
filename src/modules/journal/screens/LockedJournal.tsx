@@ -83,14 +83,14 @@ export default function LockedJournal() {
       className="items-center justify-center px-8"
     >
       <View className="relative mb-12">
-        <View className="h-40 w-40 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5">
+        <View className="size-40 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5">
           <MaterialIcons
             name="favorite"
             size={80}
             color={colors.primary.pink}
           />
         </View>
-        <View className="absolute -bottom-2 -right-2 h-12 w-12 items-center justify-center rounded-full border border-foreground/20 bg-surface-elevated">
+        <View className="absolute -bottom-2 -right-2 size-12 items-center justify-center rounded-full border border-foreground/20 bg-surface-elevated">
           <MaterialIcons name="lock" size={24} color={yellow} />
         </View>
       </View>
@@ -126,7 +126,7 @@ export default function LockedJournal() {
 
       <View className="mt-6 flex-row items-center gap-2">
         <View
-          className="h-1.5 w-1.5 rounded-full"
+          className="size-1.5 rounded-full"
           style={{ backgroundColor: yellow }}
         />
         <Text

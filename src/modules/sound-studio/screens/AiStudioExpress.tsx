@@ -73,7 +73,7 @@ export default function AiStudioExpress() {
       {/* Analyzing wheel */}
       <View className="mt-10 items-center">
         <View
-          className="h-[260px] w-[260px] items-center justify-center overflow-hidden rounded-full"
+          className="size-[260px] items-center justify-center overflow-hidden rounded-full"
           style={{
             boxShadow: `0 0 40px ${withAlpha(colors.accent.yellow, 0.5)}`,
           }}

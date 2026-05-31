@@ -6,7 +6,7 @@ import { GradientText } from '@/components/ui/GradientText';
 import { IconChip } from '@/components/ui/IconChip';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { MoodTabs } from '@/modules/practices/components/MoodTabs';
 import { PracticeListRow } from '@/modules/practices/components/PracticeListRow';
@@ -24,12 +24,12 @@ export default function BreatheList() {
   const [filter, setFilter] = useState<BreatheLevelFilter>('All');
   const resumable = useResumableBreatheSession();
 
-  const filteredExercises = useMemo(() => {
-    if (filter === 'All') return BREATHE_EXERCISES;
-    return BREATHE_EXERCISES.filter((e) =>
-      e.levels.includes(filter as AnxietyLevel),
-    );
-  }, [filter]);
+  const filteredExercises =
+    filter === 'All'
+      ? BREATHE_EXERCISES
+      : BREATHE_EXERCISES.filter((e) =>
+          e.levels.includes(filter as AnxietyLevel),
+        );
 
   return (
     <PracticeScreenShell wordmark="Breathe">

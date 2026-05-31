@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 import { TextArea } from '@/components/ui/TextArea';
@@ -204,7 +204,7 @@ function AnchorSelection() {
             className="active:scale-95"
           >
             <View
-              className="items-center gap-1 rounded-xl px-3 py-3"
+              className="items-center gap-1 rounded-xl p-3"
               style={{
                 backgroundColor:
                   selectedAnchor === opt.id
@@ -304,21 +304,18 @@ export default function FlightChecklistPhase() {
 
   const phase = phaseId ? PHASE_CHECKLISTS[phaseId] : undefined;
 
-  const toggleItem = useCallback(
-    (itemId: string) => {
-      const key = `${phaseId}:${itemId}`;
-      const next = new Set(checkedItems);
-      if (next.has(key)) {
-        next.delete(key);
-      } else {
-        next.add(key);
-      }
-      setCheckedItems(next);
-    },
-    [phaseId, checkedItems, setCheckedItems],
-  );
+  const toggleItem = (itemId: string) => {
+    const key = `${phaseId}:${itemId}`;
+    const next = new Set(checkedItems);
+    if (next.has(key)) {
+      next.delete(key);
+    } else {
+      next.add(key);
+    }
+    setCheckedItems(next);
+  };
 
-  const handleNext = useCallback(() => {
+  const handleNext = () => {
     if (phase?.nextPhase) {
       router.replace(
         `/practices/flight-checklist-phase?phaseId=${phase.nextPhase}`,
@@ -326,7 +323,7 @@ export default function FlightChecklistPhase() {
     } else {
       router.back();
     }
-  }, [phase, router]);
+  };
 
   if (!phase) return null;
 

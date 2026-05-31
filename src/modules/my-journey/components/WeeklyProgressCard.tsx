@@ -26,7 +26,7 @@ export function WeeklyProgressCard() {
         {BARS.map((bar, i) =>
           bar.hero ? (
             <LinearGradient
-              key={i}
+              key={`hero-${bar.height}-${i}`}
               colors={[colors.primary.pink, colors.accent.yellow]}
               start={{ x: 0, y: 1 }}
               end={{ x: 0, y: 0 }}
@@ -39,7 +39,7 @@ export function WeeklyProgressCard() {
             />
           ) : (
             <View
-              key={i}
+              key={`bar-${bar.height}-${i}`}
               className="rounded-full bg-primary-pink/30"
               style={{ width: 6, height: bar.height }}
             />

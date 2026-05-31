@@ -6,13 +6,15 @@ import { Header } from '@/components/ui/Header';
 import { PlaybackControls } from '@/components/ui/PlaybackControls';
 import { ProgressRing } from '@/components/ui/ProgressRing';
 import { Screen } from '@/components/ui/Screen';
+import { useAudioPrefetch } from '@/lib/audio/useAudioPrefetch';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { useKeepAwake } from 'expo-keep-awake';
 import { useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { AudioVisualizer } from '@/modules/practices/components/AudioVisualizer';
+import { SessionPreparing } from '@/modules/practices/components/SessionPreparing';
 import { HeartRateBadge } from '../components/HeartRateBadge';
 import { useSaveOnLeave } from '@/modules/practices/hooks/useSaveOnLeave';
 import { formatTime } from '@/modules/practices/lib/format';
@@ -74,6 +76,10 @@ const AUDIO_KEYS: Record<number, string> = {
   1: 'grounding-1',
 };
 
+// Every clip a full run needs — pre-cached before the timer starts so no
+// per-step download can lag and skip its cue mid-session.
+const GROUNDING_KEYS = Object.values(AUDIO_KEYS);
+
 function parseInstruction(text: string) {
   const parts = text.split(/\*\*(.*?)\*\*/);
   return parts.map((part, i) =>
@@ -99,44 +105,63 @@ export default function GroundingSession() {
   const progress = elapsedInTotal / TOTAL_DURATION;
 
   // Derive current step from elapsed time so we never `setState` in an effect
-  const currentStepIndex = useMemo(() => {
+  let currentStepIndex = STEPS.length - 1;
+  {
     let accumulated = 0;
     for (let i = 0; i < STEPS.length; i++) {
       accumulated += STEPS[i].durationSec;
-      if (elapsedInTotal < accumulated) return i;
+      if (elapsedInTotal < accumulated) {
+        currentStepIndex = i;
+        break;
+      }
     }
-    return STEPS.length - 1;
-  }, [elapsedInTotal]);
+  }
   const currentStep = STEPS[currentStepIndex];
 
+  // Pre-download every clip before the session begins (see SessionPreparing).
+  const prefetch = useAudioPrefetch(GROUNDING_KEYS);
+
   // Audio player — source resolves async per current step (cached on disk).
-  // 100ms status updates keep the visualizer smooth.
-  const { player, status, isReady } = useStreamedAudioPlayer(
-    AUDIO_KEYS[currentStep.count],
-    { volume: isMuted ? 0 : 1, player: { updateInterval: 100 } },
+  // Keyed `null` until prefetch completes so nothing plays behind the loader
+  // and the per-step player only ever hits the warm cache. 100ms status
+  // updates keep the visualizer smooth.
+  const { player, status, source } = useStreamedAudioPlayer(
+    prefetch.ready ? AUDIO_KEYS[currentStep.count] : null,
+    {
+      volume: isMuted ? 0 : 1,
+      player: { updateInterval: 100 },
+      suppressDialog: true,
+    },
   );
 
   // Generate visualizer levels from audio playback position
-  const audioLevels = useMemo(() => {
+  const audioLevels = (() => {
     if (!status.playing || isMuted) return null;
     const t = status.currentTime;
     return Array.from({ length: 6 }, (_, i) => {
       const v = Math.abs(Math.sin(t * (3 + i * 1.7) + i * 2.1));
       return v * 0.6 + 0.15;
     });
-  }, [status.playing, status.currentTime, isMuted]);
+  })();
 
-  // Start playback once the current step's audio is ready.
-  // `useStreamedAudioPlayer` swaps the player's source automatically when
-  // `currentStep.count` changes, so we just respond to ready+pause state.
+  // Play each step's cue from the top once its clip is loaded. Keyed on
+  // `source` (the resolved URI) — not the step index — because every clip is
+  // pre-cached and resolves synchronously, so `source` changes *after*
+  // `useStreamedAudioPlayer` has called `player.replace()`. Keying on the step
+  // index would fire before the swap and replay the previous clip.
+  const lastSourceRef = useRef<string | null>(null);
   useEffect(() => {
-    if (!isReady) return;
+    if (!source) return;
     if (isPaused) {
       player.pause();
-    } else {
-      player.play();
+      return;
     }
-  }, [isReady, isPaused, player, currentStep.count]);
+    if (lastSourceRef.current !== source) {
+      lastSourceRef.current = source;
+      player.seekTo(0);
+    }
+    player.play();
+  }, [source, isPaused, player]);
 
   const handleRestart = () => {
     setTimeRemaining(TOTAL_DURATION);
@@ -165,7 +190,7 @@ export default function GroundingSession() {
   }, [timeRemaining, setGroundingSession, router]);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || !prefetch.ready) return;
 
     intervalRef.current = setInterval(() => {
       setTimeRemaining((prev) => {
@@ -180,25 +205,33 @@ export default function GroundingSession() {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPaused]);
+  }, [isPaused, prefetch.ready]);
 
   const instructionParts = parseInstruction(currentStep.instruction);
 
-  return (
-    <Screen
-      header={
-        <Header
-          left={<BackButton icon="close" />}
-          center={
-            <Text size="lg" weight="bold">
-              5-4-3-2-1 Session
-            </Text>
-          }
-          right={<HeartRateBadge />}
-        />
+  const header = (
+    <Header
+      left={<BackButton icon="close" />}
+      center={
+        <Text size="lg" weight="bold">
+          5-4-3-2-1 Session
+        </Text>
       }
-      className="flex-1"
-    >
+      right={<HeartRateBadge />}
+    />
+  );
+
+  // Hold the session behind a loader until every clip is cached.
+  if (!prefetch.ready) {
+    return (
+      <Screen header={header} className="flex-1">
+        <SessionPreparing progress={prefetch.progress} />
+      </Screen>
+    );
+  }
+
+  return (
+    <Screen header={header} className="flex-1">
       {/* Main content */}
       <View className="flex-1 items-center justify-center p-6">
         {/* Progress ring with center number */}
@@ -223,17 +256,17 @@ export default function GroundingSession() {
           style={{ minHeight: 120 }}
         >
           <View className="flex-row flex-wrap items-center justify-center">
-            {instructionParts.map((part, i) =>
+            {instructionParts.map((part) =>
               part.gradient ? (
                 <GradientText
-                  key={i}
+                  key={part.text}
                   className="text-2xl font-bold leading-tight"
                 >
                   {part.text}
                 </GradientText>
               ) : (
                 <Text
-                  key={i}
+                  key={part.text}
                   size="h2"
                   align="center"
                   className="leading-tight"

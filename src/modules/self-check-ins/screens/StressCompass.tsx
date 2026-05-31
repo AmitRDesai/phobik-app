@@ -12,7 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { Slider } from '@/components/ui/Slider';
 import { STRESSOR_CATEGORIES, type StressorKey } from '../data/stressors';
@@ -82,21 +82,18 @@ export default function StressCompass() {
     );
   }, []);
 
-  const updateRating = useCallback(
-    (key: StressorKey, value: number) => {
-      setRatings((prev) => ({ ...prev, [key]: value }));
-      const questionId = STRESSOR_CATEGORIES.findIndex((s) => s.key === key);
-      if (questionId < 0) return;
-      collectedRef.current[questionId] = value;
-      saveAnswer.mutate({
-        id: assessmentId,
-        questionId,
-        answer: value,
-        currentQuestion: questionId,
-      });
-    },
-    [setRatings, assessmentId, saveAnswer],
-  );
+  const updateRating = (key: StressorKey, value: number) => {
+    setRatings((prev) => ({ ...prev, [key]: value }));
+    const questionId = STRESSOR_CATEGORIES.findIndex((s) => s.key === key);
+    if (questionId < 0) return;
+    collectedRef.current[questionId] = value;
+    saveAnswer.mutate({
+      id: assessmentId,
+      questionId,
+      answer: value,
+      currentQuestion: questionId,
+    });
+  };
 
   return (
     <Screen

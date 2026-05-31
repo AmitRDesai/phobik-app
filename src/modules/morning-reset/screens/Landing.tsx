@@ -208,12 +208,12 @@ export default function Landing() {
           Your Morning Flow
         </Text>
         <View className="gap-1">
-          {HABITS.map((habit, idx) => (
+          {HABITS.map((habit) => (
             <View
-              key={idx}
+              key={habit.title}
               className="flex-row items-center gap-4 rounded-xl py-2.5"
             >
-              <View className="h-10 w-10 items-center justify-center rounded-full border border-primary-pink/25 bg-primary-pink/10">
+              <View className="size-10 items-center justify-center rounded-full border border-primary-pink/25 bg-primary-pink/10">
                 <MaterialIcons
                   name={habit.icon}
                   size={18}

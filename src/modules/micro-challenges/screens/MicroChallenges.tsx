@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { EaseView } from 'react-native-ease';
 
 import { Text } from '@/components/themed/Text';
@@ -61,45 +61,30 @@ export default function MicroChallenges() {
     }
   }, [isLoadingChallenge, isInitialized, challenge, startChallenge]);
 
-  const setStep = useCallback(
-    (newStep: number) => {
-      if (!challengeId) return;
-      updateChallenge.mutate({ id: challengeId, currentStep: newStep });
-    },
-    [challengeId, updateChallenge],
-  );
+  const setStep = (newStep: number) => {
+    if (!challengeId) return;
+    updateChallenge.mutate({ id: challengeId, currentStep: newStep });
+  };
 
-  const setSelectedEmotion = useCallback(
-    (emotionId: string | null) => {
-      if (!challengeId || !emotionId) return;
-      updateChallenge.mutate({ id: challengeId, emotionId, feeling: '' });
-    },
-    [challengeId, updateChallenge],
-  );
+  const setSelectedEmotion = (emotionId: string | null) => {
+    if (!challengeId || !emotionId) return;
+    updateChallenge.mutate({ id: challengeId, emotionId, feeling: '' });
+  };
 
-  const setSelectedNeed = useCallback(
-    (needId: string | null) => {
-      if (!challengeId || !needId) return;
-      updateChallenge.mutate({ id: challengeId, needId, need: '' });
-    },
-    [challengeId, updateChallenge],
-  );
+  const setSelectedNeed = (needId: string | null) => {
+    if (!challengeId || !needId) return;
+    updateChallenge.mutate({ id: challengeId, needId, need: '' });
+  };
 
-  const setSelectedFeeling = useCallback(
-    (feeling: string) => {
-      if (!challengeId) return;
-      updateChallenge.mutate({ id: challengeId, feeling });
-    },
-    [challengeId, updateChallenge],
-  );
+  const setSelectedFeeling = (feeling: string) => {
+    if (!challengeId) return;
+    updateChallenge.mutate({ id: challengeId, feeling });
+  };
 
-  const setSelectedNeedItem = useCallback(
-    (need: string) => {
-      if (!challengeId) return;
-      updateChallenge.mutate({ id: challengeId, need });
-    },
-    [challengeId, updateChallenge],
-  );
+  const setSelectedNeedItem = (need: string) => {
+    if (!challengeId) return;
+    updateChallenge.mutate({ id: challengeId, need });
+  };
 
   const handleBack = async () => {
     if (step > 0) {
@@ -154,32 +139,29 @@ export default function MicroChallenges() {
   };
 
   // Save AI response + dose to DB when DailyDose generates them
-  const handleAIResponse = useCallback(
-    (data: {
-      title: string;
-      prompt: string;
-      challengeText: string;
-      doseDopamine: number;
-      doseOxytocin: number;
-      doseSerotonin: number;
-      doseEndorphins: number;
-    }) => {
-      if (!challengeId) return;
-      updateChallenge.mutate({
-        id: challengeId,
-        aiResponse: {
-          title: data.title,
-          prompt: data.prompt,
-          challengeText: data.challengeText,
-        },
-        doseDopamine: data.doseDopamine,
-        doseOxytocin: data.doseOxytocin,
-        doseSerotonin: data.doseSerotonin,
-        doseEndorphins: data.doseEndorphins,
-      });
-    },
-    [challengeId, updateChallenge],
-  );
+  const handleAIResponse = (data: {
+    title: string;
+    prompt: string;
+    challengeText: string;
+    doseDopamine: number;
+    doseOxytocin: number;
+    doseSerotonin: number;
+    doseEndorphins: number;
+  }) => {
+    if (!challengeId) return;
+    updateChallenge.mutate({
+      id: challengeId,
+      aiResponse: {
+        title: data.title,
+        prompt: data.prompt,
+        challengeText: data.challengeText,
+      },
+      doseDopamine: data.doseDopamine,
+      doseOxytocin: data.doseOxytocin,
+      doseSerotonin: data.doseSerotonin,
+      doseEndorphins: data.doseEndorphins,
+    });
+  };
 
   if (!isInitialized || isLoadingChallenge || !challengeId) {
     return (

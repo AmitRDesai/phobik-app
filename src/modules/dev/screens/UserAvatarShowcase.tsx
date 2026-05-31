@@ -148,7 +148,7 @@ export default function UserAvatarShowcase() {
           <View className="relative" style={{ width: 80, height: 80 }}>
             <UserAvatar size="xl" imageUri={SAMPLE_IMAGE} />
             <View
-              className="absolute h-5 w-5 rounded-full border-2 border-surface bg-status-success"
+              className="absolute size-5 rounded-full border-2 border-surface bg-status-success"
               style={{ bottom: 0, right: 0 }}
             />
           </View>

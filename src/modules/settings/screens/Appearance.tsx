@@ -28,7 +28,7 @@ export default function Appearance() {
       <Card className="gap-4 p-5">
         <View className="flex-row items-center gap-3">
           <View
-            className="h-10 w-10 items-center justify-center rounded-xl"
+            className="size-10 items-center justify-center rounded-xl"
             style={{
               backgroundColor: withAlpha(
                 yellow,

@@ -5,7 +5,6 @@ import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
 
 /** Returns YYYY-MM-DD in local time (not UTC) */
 function todayLocal(): string {
@@ -29,10 +28,7 @@ export function useTodayAffirmation() {
     enabled: !!userId,
   });
 
-  const affirmation = useMemo(
-    () => (data?.[0] ? toCamel(data[0]) : null),
-    [data],
-  );
+  const affirmation = data?.[0] ? toCamel(data[0]) : null;
 
   return { data: affirmation, isLoading, error };
 }
@@ -52,7 +48,7 @@ export function useAffirmationHistory() {
     enabled: !!userId,
   });
 
-  const history = useMemo(() => data?.map((r) => toCamel(r)), [data]);
+  const history = data?.map((r) => toCamel(r));
   return { data: history, isLoading, error };
 }
 

@@ -52,7 +52,7 @@ function TrailingAction({
   if (status === 'check') {
     return (
       <View
-        className="h-9 w-9 items-center justify-center rounded-full"
+        className="size-9 items-center justify-center rounded-full"
         style={{ backgroundColor: withAlpha(color, 0.18) }}
       >
         <MaterialIcons name="check" size={18} color={color} />
@@ -61,7 +61,7 @@ function TrailingAction({
   }
 
   return (
-    <View className="h-9 w-9 items-center justify-center rounded-full bg-foreground/[0.06]">
+    <View className="size-9 items-center justify-center rounded-full bg-foreground/[0.06]">
       <MaterialIcons
         name="bolt"
         size={16}
@@ -126,14 +126,14 @@ export function DoseActionRow({
         backgroundColor: withAlpha(color, isCritical ? 0.1 : 0.05),
       }}
     >
-      <View className="relative h-12 w-12 items-center justify-center">
+      <View className="relative size-12 items-center justify-center">
         <MiniRing score={score} color={color} />
         <View
           className="absolute inset-0 items-center justify-center"
           pointerEvents="none"
         >
           <View
-            className="h-9 w-9 items-center justify-center rounded-full"
+            className="size-9 items-center justify-center rounded-full"
             style={{ backgroundColor: withAlpha(color, 0.14) }}
           >
             <MaterialIcons name={icon} size={16} color={color} />

@@ -99,9 +99,9 @@ export default function BodyMap() {
           />
         </View>
         <View className="w-full gap-3 py-6">
-          {LAYOUT_ROWS.map((row, i) => (
+          {LAYOUT_ROWS.map((row) => (
             <View
-              key={i}
+              key={row.regions.join(',')}
               className={clsx(
                 'flex-row gap-2',
                 row.align === 'left'

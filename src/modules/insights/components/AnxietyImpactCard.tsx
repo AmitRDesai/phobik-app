@@ -9,7 +9,7 @@ export function AnxietyImpactCard() {
   return (
     <Card size="lg">
       <View className="mb-4 flex-row items-center gap-2">
-        <View className="h-8 w-8 items-center justify-center rounded-full bg-primary-pink/15">
+        <View className="size-8 items-center justify-center rounded-full bg-primary-pink/15">
           <MaterialIcons
             name="psychology"
             size={18}
@@ -29,7 +29,7 @@ export function AnxietyImpactCard() {
         from the afternoon stress spike delayed your REM entry by 42 minutes.
       </Text>
 
-      <View className="mt-4 rounded-2xl border-l-2 border-primary-pink bg-foreground/[0.04] px-4 py-3">
+      <View className="mt-4 rounded-2xl border-b border-primary-pink/30 bg-foreground/[0.04] px-4 py-3">
         <Text size="xs" tone="secondary" italic>
           &ldquo;Your deep sleep was 15% lower than your baseline. Consider a
           10-minute breathwork session before tonight&apos;s rest.&rdquo;

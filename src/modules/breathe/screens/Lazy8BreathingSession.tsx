@@ -10,6 +10,8 @@ import { Screen } from '@/components/ui/Screen';
 import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
 import { useNow } from '@/hooks/useNow';
 import { useScheme } from '@/hooks/useTheme';
+import { replayCue } from '@/lib/audio/replayCue';
+import { useCuesReady } from '@/lib/audio/useCuesReady';
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
@@ -48,7 +50,7 @@ function StatsCard() {
         {/* Heart Rate */}
         <View className="flex-row items-center gap-3">
           <View
-            className="h-10 w-10 items-center justify-center rounded-2xl"
+            className="size-10 items-center justify-center rounded-2xl"
             style={{
               backgroundColor: withAlpha(colors.rose[500], 0.2),
               borderWidth: 1,
@@ -88,7 +90,7 @@ function StatsCard() {
         {/* HRV */}
         <View className="flex-row items-center gap-3">
           <View
-            className="h-10 w-10 items-center justify-center rounded-2xl"
+            className="size-10 items-center justify-center rounded-2xl"
             style={{
               backgroundColor: withAlpha(colors.yellow[500], 0.2),
               borderWidth: 1,
@@ -197,21 +199,24 @@ export default function Lazy8BreathingSession() {
     volume: isMuted ? 0 : 0.8,
   });
 
+  // Hold the first cue until every bundled clip has decoded, so the opening
+  // inhale isn't played as a silent no-op.
+  const cuesReady = useCuesReady([inhalePlayer, exhalePlayer, bowlPlayer]);
+
   // Play phase audio on phase changes + tibetan bowl at cycle start
   useEffect(() => {
-    if (!sessionReady || isPaused) return;
+    if (!sessionReady || isPaused || !cuesReady) return;
 
     const players = [inhalePlayer, exhalePlayer];
-    const currentPlayer = players[phaseIndex];
-    currentPlayer.seekTo(0);
-    currentPlayer.play();
+    const cancels = [replayCue(players[phaseIndex])];
 
     // Play tibetan bowl at the start of each cycle
     if (phaseIndex === 0) {
-      bowlPlayer.seekTo(0);
-      bowlPlayer.play();
+      cancels.push(replayCue(bowlPlayer));
     }
-  }, [phaseIndex, sessionReady, isPaused]);
+
+    return () => cancels.forEach((cancel) => cancel());
+  }, [phaseIndex, sessionReady, isPaused, cuesReady]);
 
   // Save state on back navigation (only if session has started)
   useSaveOnLeave({

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { migrateLegacyCacheDirs, pruneOrphans } from '@/lib/media/cache';
 import { authClient } from '@/lib/auth';
 import { env } from '@/utils/env';
@@ -128,7 +128,7 @@ export function useAudioManifest() {
   // Auto-prune any cached file whose sha256 isn't referenced by the current
   // manifest (content was replaced server-side, or removed). One-shot legacy
   // dir cleanup runs the first time the hook fires after upgrade.
-  const sha256Sig = useMemo(() => {
+  const sha256Sig = (() => {
     if (!query.data) return '';
     const set = new Set<string>();
     for (const e of query.data) {
@@ -136,7 +136,7 @@ export function useAudioManifest() {
       if (e.imageSha256) set.add(e.imageSha256);
     }
     return Array.from(set).sort().join('|');
-  }, [query.data]);
+  })();
 
   useEffect(() => {
     if (!sha256Sig) return;

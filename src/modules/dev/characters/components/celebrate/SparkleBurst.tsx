@@ -32,7 +32,10 @@ export function SparkleBurst({
 }: Props) {
   if (!active) return null;
 
-  const items = Array.from({ length: count }, (_, i) => i);
+  const items = Array.from({ length: count }, (_, i) => ({
+    i,
+    angle: (i * (360 / count) * Math.PI) / 180,
+  }));
 
   return (
     <View
@@ -45,13 +48,12 @@ export function SparkleBurst({
         height: 0,
       }}
     >
-      {items.map((i) => {
-        const angle = (i * (360 / count) * Math.PI) / 180;
+      {items.map(({ i, angle }) => {
         const dx = Math.cos(angle) * radius;
         const dy = Math.sin(angle) * radius;
         return (
           <Sparkle
-            key={i}
+            key={`sparkle-${i}`}
             dx={dx}
             dy={dy}
             char={char}

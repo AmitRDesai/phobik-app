@@ -8,7 +8,6 @@ import {
 } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useMemo } from 'react';
 import { ScrollView } from 'react-native';
 
 const DAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -53,10 +52,7 @@ function getCurrentWeekDays(completedDates?: Set<string>): StreakDay[] {
 
 export function StreakGrid({ completedDates }: StreakGridProps) {
   const scheme = useScheme();
-  const weekDays = useMemo(
-    () => getCurrentWeekDays(completedDates),
-    [completedDates],
-  );
+  const weekDays = getCurrentWeekDays(completedDates);
 
   return (
     <ScrollView

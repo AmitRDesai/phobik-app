@@ -116,7 +116,7 @@ export default function QiGongSession() {
         size="lg"
         className="mt-10 flex-row items-start gap-3"
       >
-        <View className="h-10 w-10 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10">
+        <View className="size-10 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10">
           <MaterialIcons
             name={PRIMER.icon}
             size={20}
@@ -144,7 +144,7 @@ export default function QiGongSession() {
                 key={step.id}
                 className="flex-row items-center gap-3 rounded-3xl border border-foreground/5 bg-foreground/5 px-5 py-3"
               >
-                <View className="h-6 w-6 items-center justify-center rounded-full bg-primary-pink/20">
+                <View className="size-6 items-center justify-center rounded-full bg-primary-pink/20">
                   <MaterialIcons
                     name="check"
                     size={14}
@@ -167,7 +167,7 @@ export default function QiGongSession() {
                   boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
                 }}
               >
-                <View className="h-7 w-7 items-center justify-center rounded-full">
+                <View className="size-7 items-center justify-center rounded-full">
                   <MaterialIcons
                     name="radio-button-checked"
                     size={24}

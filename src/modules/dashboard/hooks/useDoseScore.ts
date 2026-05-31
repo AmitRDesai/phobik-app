@@ -1,6 +1,5 @@
 import { useUserId } from '@/lib/powersync/useUserId';
 import { useQuery } from '@powersync/tanstack-react-query';
-import { useMemo } from 'react';
 import {
   CHEMICAL_META,
   levelForScore,
@@ -86,64 +85,67 @@ export function useDoseScore(date: string): DoseScore {
     enabled: !!userId,
   });
 
-  return useMemo<DoseScore>(() => {
-    const row = data?.[0];
-    const raw = {
-      dopamine: Number(row?.dopamine) || 0,
-      oxytocin: Number(row?.oxytocin) || 0,
-      serotonin: Number(row?.serotonin) || 0,
-      endorphins: Number(row?.endorphins) || 0,
-    };
+  const row = data?.[0];
+  const raw = {
+    dopamine: Number(row?.dopamine) || 0,
+    oxytocin: Number(row?.oxytocin) || 0,
+    serotonin: Number(row?.serotonin) || 0,
+    endorphins: Number(row?.endorphins) || 0,
+  };
 
-    const cap = (v: number) => Math.max(0, Math.min(PER_CHEMICAL_MAX, v));
-    const dopamine = cap(raw.dopamine);
-    const oxytocin = cap(raw.oxytocin);
-    const serotonin = cap(raw.serotonin);
-    const endorphins = cap(raw.endorphins);
-    const total = dopamine + oxytocin + serotonin + endorphins;
+  const cap = (v: number) => Math.max(0, Math.min(PER_CHEMICAL_MAX, v));
+  const dopamine = cap(raw.dopamine);
+  const oxytocin = cap(raw.oxytocin);
+  const serotonin = cap(raw.serotonin);
+  const endorphins = cap(raw.endorphins);
+  const total = dopamine + oxytocin + serotonin + endorphins;
 
-    const breakdown: ChemicalBreakdown[] = (
-      Object.keys(CHEMICAL_META) as Chemical[]
-    ).map((chemical) => {
-      const score =
-        chemical === 'dopamine'
-          ? dopamine
-          : chemical === 'oxytocin'
-            ? oxytocin
-            : chemical === 'serotonin'
-              ? serotonin
-              : endorphins;
-      const rawScore =
-        chemical === 'dopamine'
-          ? raw.dopamine
-          : chemical === 'oxytocin'
-            ? raw.oxytocin
-            : chemical === 'serotonin'
-              ? raw.serotonin
-              : raw.endorphins;
-      return { chemical, score, rawScore };
-    });
+  const breakdown: ChemicalBreakdown[] = (
+    Object.keys(CHEMICAL_META) as Chemical[]
+  ).map((chemical) => {
+    const score =
+      chemical === 'dopamine'
+        ? dopamine
+        : chemical === 'oxytocin'
+          ? oxytocin
+          : chemical === 'serotonin'
+            ? serotonin
+            : endorphins;
+    const rawScore =
+      chemical === 'dopamine'
+        ? raw.dopamine
+        : chemical === 'oxytocin'
+          ? raw.oxytocin
+          : chemical === 'serotonin'
+            ? raw.serotonin
+            : raw.endorphins;
+    return { chemical, score, rawScore };
+  });
 
-    let lowest: Chemical = TIE_BREAK_ORDER[0]!;
-    let lowestScore = Infinity;
-    for (const c of TIE_BREAK_ORDER) {
-      const s = breakdown.find((b) => b.chemical === c)!.score;
-      if (s < lowestScore) {
-        lowestScore = s;
-        lowest = c;
-      }
+  // Build a O(1) lookup map to avoid find() inside the TIE_BREAK_ORDER loop
+  const breakdownMap = new Map<Chemical, number>(
+    breakdown.map((b) => [b.chemical, b.score]),
+  );
+
+  let lowest: Chemical = TIE_BREAK_ORDER[0]!;
+  let lowestScore = Infinity;
+  for (const c of TIE_BREAK_ORDER) {
+    const s = breakdownMap.get(c) ?? 0;
+    if (s < lowestScore) {
+      lowestScore = s;
+      lowest = c;
     }
+  }
 
-    return {
-      total,
-      dopamine,
-      oxytocin,
-      serotonin,
-      endorphins,
-      breakdown,
-      level: levelForScore(total),
-      lowest,
-      isLoading,
-    };
-  }, [data, isLoading]);
+  return {
+    total,
+    dopamine,
+    oxytocin,
+    serotonin,
+    endorphins,
+    breakdown,
+    level: levelForScore(total),
+    lowest,
+    isLoading,
+  };
 }

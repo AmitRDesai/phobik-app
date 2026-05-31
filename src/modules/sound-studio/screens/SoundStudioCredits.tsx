@@ -25,15 +25,16 @@ const REASONS = [
   'Export commercial-ready masters with no royalty fees.',
 ];
 
+function onPurchase(planName: string) {
+  return dialog.info({
+    title: 'Coming soon',
+    message: `Purchasing the ${planName} plan will be available soon.`,
+  });
+}
+
 export default function SoundStudioCredits() {
   const scheme = useScheme();
   const yellow = accentFor(scheme, 'yellow');
-
-  const onPurchase = (planName: string) =>
-    dialog.info({
-      title: 'Coming soon',
-      message: `Purchasing the ${planName} plan will be available soon.`,
-    });
 
   return (
     <View className="flex-1 bg-surface">
@@ -51,7 +52,7 @@ export default function SoundStudioCredits() {
         <ScrollView
           className="flex-1"
           contentContainerClassName="px-6 pt-2 pb-12"
-          contentContainerStyle={{ paddingBottom: FADE_HEIGHT }}
+          contentInset={{ bottom: FADE_HEIGHT }}
           showsVerticalScrollIndicator={false}
         >
           {/* Hero */}

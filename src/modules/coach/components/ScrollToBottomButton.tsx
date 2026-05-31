@@ -24,7 +24,7 @@ export function ScrollToBottomButton({
     >
       <Pressable
         onPress={onPress}
-        className="h-9 w-9 items-center justify-center rounded-full border border-foreground/10 bg-surface-elevated"
+        className="size-9 items-center justify-center rounded-full border border-foreground/10 bg-surface-elevated"
         style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)' }}
       >
         <Ionicons

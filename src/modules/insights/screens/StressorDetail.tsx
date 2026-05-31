@@ -28,7 +28,7 @@ export default function StressorDetail() {
     >
       <View className="items-center gap-3">
         <View
-          className="h-28 w-28 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
+          className="size-28 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5"
           style={{
             boxShadow: `0 0 12px ${withAlpha(colors.primary['pink-soft'], 0.2)}`,
           }}

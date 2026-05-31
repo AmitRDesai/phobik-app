@@ -54,7 +54,7 @@ export default function GentleLetterIntro() {
           style={{ top: -60, left: -60 }}
         />
         <View
-          className="h-32 w-32 items-center justify-center rounded-full border border-foreground/10 bg-primary-pink/10"
+          className="size-32 items-center justify-center rounded-full border border-foreground/10 bg-primary-pink/10"
           style={{
             boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}

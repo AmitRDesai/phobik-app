@@ -142,11 +142,11 @@ export default function CreateAccountScreen() {
         style={GRADIENT_HEADER_STYLE}
       >
         {/* Decorative blur circles — sit on fixed gradient bg, theme-independent */}
-        <View className="absolute -right-10 -top-10 h-40 w-40 rounded-[80px] bg-white/10" />
-        <View className="absolute -bottom-[30px] -left-[30px] h-[120px] w-[120px] rounded-[60px] bg-black/10" />
+        <View className="absolute -right-10 -top-10 size-40 rounded-[80px] bg-white/10" />
+        <View className="absolute -bottom-[30px] -left-[30px] size-[120px] rounded-[60px] bg-black/10" />
 
         {/* Fingerprint icon in frosted glass */}
-        <View className="mb-4 h-20 w-20 items-center justify-center rounded-3xl border border-white/30 bg-white/20">
+        <View className="mb-4 size-20 items-center justify-center rounded-3xl border border-white/30 bg-white/20">
           <Ionicons name="finger-print" size={40} color="white" />
         </View>
 

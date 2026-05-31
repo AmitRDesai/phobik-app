@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   ExpoSpeechRecognitionModule,
   useSpeechRecognitionEvent,
@@ -12,11 +12,9 @@ type UseVoiceInputOptions = {
 export function useVoiceInput({ onResult }: UseVoiceInputOptions) {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
-  const [isAvailable, setIsAvailable] = useState(false);
-
-  useEffect(() => {
-    setIsAvailable(ExpoSpeechRecognitionModule.isRecognitionAvailable());
-  }, []);
+  const [isAvailable] = useState(() =>
+    ExpoSpeechRecognitionModule.isRecognitionAvailable(),
+  );
 
   useSpeechRecognitionEvent('start', () => {
     setIsListening(true);
@@ -41,7 +39,7 @@ export function useVoiceInput({ onResult }: UseVoiceInputOptions) {
     setTranscript('');
   });
 
-  const start = useCallback(async () => {
+  const start = async () => {
     const { granted } =
       await ExpoSpeechRecognitionModule.requestPermissionsAsync();
     if (!granted) return;
@@ -54,12 +52,12 @@ export function useVoiceInput({ onResult }: UseVoiceInputOptions) {
       interimResults: true,
       continuous: false,
     });
-  }, []);
+  };
 
-  const stop = useCallback(() => {
+  const stop = () => {
     ExpoSpeechRecognitionModule.stop();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  }, []);
+  };
 
   return {
     isListening,

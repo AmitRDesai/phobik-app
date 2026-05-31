@@ -8,7 +8,6 @@ import {
 } from '@/modules/self-check-ins/data/stressors';
 import { useAssessmentList } from '@/modules/self-check-ins/hooks/useSelfCheckIn';
 import { useRouter } from 'expo-router';
-import { useMemo } from 'react';
 import { Pressable, ScrollView } from 'react-native';
 
 const ACCENT_COLORS = [
@@ -36,11 +35,11 @@ export function TopStressorsRow() {
   const router = useRouter();
   const { data: assessments } = useAssessmentList();
 
-  const topStressors = useMemo<StressorCardData[]>(() => {
-    const list = assessments as CompletedAssessment[] | undefined;
-    const latest = list?.find(
-      (a) => a.type === 'stress-compass' && a.status === 'completed',
-    );
+  const list = assessments as CompletedAssessment[] | undefined;
+  const latest = list?.find(
+    (a) => a.type === 'stress-compass' && a.status === 'completed',
+  );
+  const topStressors: StressorCardData[] = (() => {
     if (!latest) return [];
 
     const answers = (latest.answers ?? {}) as Record<string, number>;
@@ -63,7 +62,7 @@ export function TopStressorsRow() {
           color: ACCENT_COLORS[i] ?? colors.white,
         };
       });
-  }, [assessments]);
+  })();
 
   return (
     <View className="-mx-5 gap-4">

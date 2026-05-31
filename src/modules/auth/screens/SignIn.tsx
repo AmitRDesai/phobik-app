@@ -138,25 +138,25 @@ export default function SignInScreen() {
       <View className="android:pt-10 ios:pt-16 relative items-center pb-8">
         {/* Pink glow behind avatar */}
         <View
-          className="absolute top-[30px] h-[280px] w-[280px] rounded-[140px] bg-primary-pink opacity-[0.08]"
+          className="absolute top-[30px] size-[280px] rounded-[140px] bg-primary-pink opacity-[0.08]"
           style={{
             boxShadow: `0 0 60px ${withAlpha(colors.primary.pink, 0.15)}`,
           }}
         />
         {/* Yellow inner glow */}
         <View
-          className="absolute top-[70px] h-[200px] w-[200px] rounded-full bg-accent-yellow opacity-[0.04]"
+          className="absolute top-[70px] size-[200px] rounded-full bg-accent-yellow opacity-[0.04]"
           style={{
             boxShadow: `0 0 40px ${withAlpha(colors.accent.yellow, 0.08)}`,
           }}
         />
 
         {/* Decorative dots */}
-        <View className="absolute right-[60px] top-[60px] h-2 w-2 rounded-full bg-accent-yellow" />
-        <View className="absolute bottom-[40px] left-[60px] h-1.5 w-1.5 rounded-[3px] bg-primary-pink" />
+        <View className="absolute right-[60px] top-[60px] size-2 rounded-full bg-accent-yellow" />
+        <View className="absolute bottom-[40px] left-[60px] size-1.5 rounded-[3px] bg-primary-pink" />
 
         {/* Avatar circle */}
-        <View className="h-[180px] w-[180px] items-center justify-center rounded-[90px] border-2 border-foreground/10 bg-foreground/10">
+        <View className="size-[180px] items-center justify-center rounded-[90px] border-2 border-foreground/10 bg-foreground/10">
           <Ionicons name="person" size={72} color={avatarIconColor} />
         </View>
       </View>

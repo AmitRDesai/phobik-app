@@ -46,7 +46,7 @@ export default function TaiChiSession() {
       {/* Hero with figure */}
       <View className="mt-8 items-center">
         <View
-          className="h-[280px] w-[280px] items-center justify-center overflow-hidden rounded-full border border-foreground/10"
+          className="size-[280px] items-center justify-center overflow-hidden rounded-full border border-foreground/10"
           style={{
             boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
@@ -68,7 +68,7 @@ export default function TaiChiSession() {
             size="lg"
             className="flex-row items-center gap-3 p-4"
           >
-            <View className="h-10 w-10 items-center justify-center rounded-full bg-primary-pink/10">
+            <View className="size-10 items-center justify-center rounded-full bg-primary-pink/10">
               <MaterialIcons
                 name={tip.icon}
                 size={18}

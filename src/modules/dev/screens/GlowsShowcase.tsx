@@ -127,7 +127,7 @@ export default function GlowsShowcase() {
               <GlowStage square>
                 <RadialGlow color={opt.color} size={160} />
                 <View
-                  className="h-8 w-8 rounded-full"
+                  className="size-8 rounded-full"
                   style={{ backgroundColor: opt.color }}
                 />
               </GlowStage>

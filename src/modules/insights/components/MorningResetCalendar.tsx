@@ -7,7 +7,6 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
 
 const DAY_LABELS = [
   { key: 'mon', label: 'M' },
@@ -106,13 +105,11 @@ function buildTwoWeekGrid(completedDays: Set<string>): {
 export function MorningResetCalendar() {
   const userId = useUserId();
 
-  const rangeStart = useMemo(() => {
-    const today = new Date();
-    const start = new Date(today);
-    start.setDate(today.getDate() - toMonIndex(today.getDay()) - 7);
-    start.setHours(0, 0, 0, 0);
-    return start.toISOString();
-  }, []);
+  const today = new Date();
+  const rangeStartDate = new Date(today);
+  rangeStartDate.setDate(today.getDate() - toMonIndex(today.getDay()) - 7);
+  rangeStartDate.setHours(0, 0, 0, 0);
+  const rangeStart = rangeStartDate.toISOString();
 
   const { data } = useQuery({
     queryKey: ['morning-reset-completed', userId, rangeStart],
@@ -125,7 +122,7 @@ export function MorningResetCalendar() {
     enabled: !!userId,
   });
 
-  const completedDays = useMemo(() => {
+  const completedDays = (() => {
     const set = new Set<string>();
     for (const row of data ?? []) {
       if (row.completed_at) {
@@ -133,12 +130,10 @@ export function MorningResetCalendar() {
       }
     }
     return set;
-  }, [data]);
+  })();
 
-  const { rows, monthLabel, completedCount, totalDays } = useMemo(
-    () => buildTwoWeekGrid(completedDays),
-    [completedDays],
-  );
+  const { rows, monthLabel, completedCount, totalDays } =
+    buildTwoWeekGrid(completedDays);
 
   return (
     <View className="gap-4">
@@ -160,8 +155,11 @@ export function MorningResetCalendar() {
             </View>
           ))}
         </View>
-        {rows.map((row, ri) => (
-          <View key={`row-${ri}`} className="mb-4 flex-row">
+        {rows.map((row) => (
+          <View
+            key={`week-${row.find((c) => c != null)?.day ?? 'empty'}`}
+            className="mb-4 flex-row"
+          >
             {row.map((cell, ci) => (
               <View
                 key={cell ? `day-${cell.day}` : `empty-${ci}`}
@@ -184,7 +182,7 @@ export function MorningResetCalendar() {
                     </Text>
                     {cell.completed && (
                       <View
-                        className="h-1.5 w-1.5 rounded-full bg-primary-pink"
+                        className="size-1.5 rounded-full bg-primary-pink"
                         style={{
                           boxShadow: [
                             {

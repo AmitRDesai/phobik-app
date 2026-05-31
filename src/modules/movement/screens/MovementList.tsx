@@ -5,7 +5,7 @@ import { MoodTabs } from '@/modules/practices/components/MoodTabs';
 import { PracticeListRow } from '@/modules/practices/components/PracticeListRow';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import {
   MOVEMENT_EXERCISES,
@@ -17,10 +17,9 @@ export default function MovementList() {
   const router = useRouter();
   const [mood, setMood] = useState<MovementMood | null>(null);
 
-  const filteredExercises = useMemo(() => {
-    if (!mood) return MOVEMENT_EXERCISES;
-    return MOVEMENT_EXERCISES.filter((e) => e.moods.includes(mood));
-  }, [mood]);
+  const filteredExercises = mood
+    ? MOVEMENT_EXERCISES.filter((e) => e.moods.includes(mood))
+    : MOVEMENT_EXERCISES;
 
   return (
     <PracticeScreenShell wordmark="Movement">

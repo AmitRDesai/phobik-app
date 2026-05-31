@@ -12,7 +12,7 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useCallback, useState } from 'react';
+import { useRef } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -141,10 +141,10 @@ export function AudioPlayer({
   const artworkSource: ImageSourcePropType | undefined =
     typeof artwork === 'string' ? { uri: artwork } : artwork;
 
-  const handlePlayPause = useCallback(() => {
+  const handlePlayPause = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     onTogglePlay();
-  }, [onTogglePlay]);
+  };
 
   if (variant === 'hero') {
     return (
@@ -691,22 +691,19 @@ function Scrubber({
   onSeek?: (seconds: number) => void;
   compact?: boolean;
 }) {
-  const [trackWidth, setTrackWidth] = useState(0);
+  const trackWidthRef = useRef(0);
 
-  const handleLayout = useCallback((e: LayoutChangeEvent) => {
-    setTrackWidth(e.nativeEvent.layout.width);
-  }, []);
+  const handleLayout = (e: LayoutChangeEvent) => {
+    trackWidthRef.current = e.nativeEvent.layout.width;
+  };
 
-  const handlePress = useCallback(
-    (e: GestureResponderEvent) => {
-      if (!onSeek || trackWidth <= 0 || duration <= 0) return;
-      const x = e.nativeEvent.locationX;
-      const ratio = Math.max(0, Math.min(1, x / trackWidth));
-      Haptics.selectionAsync();
-      onSeek(ratio * duration);
-    },
-    [onSeek, trackWidth, duration],
-  );
+  const handlePress = (e: GestureResponderEvent) => {
+    if (!onSeek || trackWidthRef.current <= 0 || duration <= 0) return;
+    const x = e.nativeEvent.locationX;
+    const ratio = Math.max(0, Math.min(1, x / trackWidthRef.current));
+    Haptics.selectionAsync();
+    onSeek(ratio * duration);
+  };
 
   const bar = (
     <View onLayout={handleLayout}>

@@ -1,6 +1,5 @@
 import { useSession } from '@/lib/auth';
 import * as SecureStore from 'expo-secure-store';
-import { useMemo } from 'react';
 
 type LiveReturn = ReturnType<typeof useSession>;
 type SessionData = LiveReturn['data'];
@@ -29,20 +28,18 @@ function readCachedSession(): SessionData {
 export function useCachedSession(): LiveReturn {
   const live = useSession();
 
-  return useMemo<LiveReturn>(() => {
-    if (live.data) return live;
-    // Only fall back to the cached session while the live session is still loading.
-    // Once Better Auth has resolved (logout, 401, or genuine no-session), trust it.
-    if (!live.isPending) return live;
+  if (live.data) return live;
+  // Only fall back to the cached session while the live session is still loading.
+  // Once Better Auth has resolved (logout, 401, or genuine no-session), trust it.
+  if (!live.isPending) return live;
 
-    const cached = readCachedSession();
-    if (cached) {
-      return {
-        ...live,
-        data: cached,
-        isPending: false,
-      };
-    }
-    return live;
-  }, [live]);
+  const cached = readCachedSession();
+  if (cached) {
+    return {
+      ...live,
+      data: cached,
+      isPending: false,
+    };
+  }
+  return live;
 }

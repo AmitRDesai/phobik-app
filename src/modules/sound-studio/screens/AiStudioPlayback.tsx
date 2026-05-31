@@ -1,19 +1,18 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
+import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
-import { colors, foregroundFor } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
-import { Header } from '@/components/ui/Header';
+import { colors } from '@/constants/colors';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Button } from '@/components/ui/Button';
 import { Pressable } from 'react-native';
 
 const CREATIONS = [
@@ -36,17 +35,16 @@ const CREATIONS = [
 
 const PROGRESS = 0.16;
 
+function onAction(label: string) {
+  return dialog.info({
+    title: label,
+    message: 'Audio playback will be available soon.',
+  });
+}
+
 export default function AiStudioPlayback() {
   const router = useRouter();
-  const scheme = useScheme();
-  const fg = foregroundFor(scheme, 1);
   const [isPlaying, setIsPlaying] = useState(true);
-
-  const onAction = (label: string) =>
-    dialog.info({
-      title: label,
-      message: 'Audio playback will be available soon.',
-    });
 
   return (
     <Screen

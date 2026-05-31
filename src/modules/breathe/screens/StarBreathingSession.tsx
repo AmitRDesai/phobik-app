@@ -10,6 +10,8 @@ import { Screen } from '@/components/ui/Screen';
 import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
 import { useNow } from '@/hooks/useNow';
 import { useScheme } from '@/hooks/useTheme';
+import { replayCue } from '@/lib/audio/replayCue';
+import { useCuesReady } from '@/lib/audio/useCuesReady';
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { useStressScore } from '@/modules/home/hooks/useStressScore';
@@ -277,21 +279,34 @@ export default function StarBreathingSession() {
     volume: isMuted ? 0 : 1,
   });
 
+  // Hold the first cue until every bundled clip has decoded, so the opening
+  // inhale isn't played as a silent no-op.
+  const cuesReady = useCuesReady([inhalePlayer, holdPlayer, exhalePlayer]);
+
   // Play phase audio on phase changes
   useEffect(() => {
-    if (!sessionReady || isPaused) return;
+    if (!sessionReady || isPaused || !cuesReady) return;
 
     const players = [inhalePlayer, holdPlayer, exhalePlayer];
-    const currentPlayer = players[phaseIndex];
-    currentPlayer.seekTo(0);
-    currentPlayer.play();
-  }, [phaseIndex, sessionReady, isPaused]);
+    const cancel = replayCue(players[phaseIndex]);
+    return cancel;
+  }, [phaseIndex, sessionReady, isPaused, cuesReady]);
 
   // Save state on back navigation (only if session has started)
   useSaveOnLeave({
     save: () => setSession({ timeRemaining }),
     canSave: sessionReady && timeRemaining > 0,
   });
+
+  // Live heart rate for the star center — same 30-min freshness as the other
+  // breathing screens. The readout is hidden when no health source is connected.
+  const { heartRate, heartRateAt, hasAccess } = useLatestBiometrics();
+  const now = useNow();
+  const FRESH_MS = 30 * 60 * 1000;
+  const liveHr =
+    heartRateAt != null && now - heartRateAt.getTime() < FRESH_MS
+      ? heartRate
+      : null;
 
   const [restartKey, setRestartKey] = useState(0);
 
@@ -363,6 +378,8 @@ export default function StarBreathingSession() {
           initialElapsed={
             savedState ? TOTAL_DURATION - initialTimeRemaining : 0
           }
+          heartRate={liveHr}
+          showHeartRate={hasAccess}
         />
       </View>
 

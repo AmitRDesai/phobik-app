@@ -39,7 +39,7 @@ export default function PhysiologicalSighSession() {
           </Text>
           <View className="mt-4 flex-row gap-2">
             <View
-              className="h-1.5 w-1.5 rounded-full"
+              className="size-1.5 rounded-full"
               style={{ backgroundColor: yellow }}
             />
             <View className="h-1.5 w-1.5 rounded-full bg-foreground/20" />
@@ -62,7 +62,7 @@ export default function PhysiologicalSighSession() {
       {/* Breathing circle */}
       <View className="mt-10 items-center">
         <View
-          className="h-[220px] w-[220px] items-center justify-center rounded-full"
+          className="size-[220px] items-center justify-center rounded-full"
           style={{
             boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}
@@ -79,7 +79,7 @@ export default function PhysiologicalSighSession() {
               justifyContent: 'center',
             }}
           >
-            <View className="h-[200px] w-[200px] items-center justify-center rounded-full border border-foreground/20 bg-surface/40">
+            <View className="size-[200px] items-center justify-center rounded-full border border-foreground/20 bg-surface/40">
               <Text size="h1" weight="extrabold">
                 4s
               </Text>
@@ -108,7 +108,7 @@ export default function PhysiologicalSighSession() {
               !step.active && 'opacity-50',
             )}
           >
-            <View className="h-10 w-10 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10">
+            <View className="size-10 items-center justify-center rounded-full border border-primary-pink/30 bg-primary-pink/10">
               <MaterialIcons
                 name={step.icon}
                 size={20}

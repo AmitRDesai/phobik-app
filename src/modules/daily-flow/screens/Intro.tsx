@@ -7,7 +7,6 @@ import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useMemo } from 'react';
 import { Image } from 'react-native';
 
 import { TIME_OPTIONS } from '../data/timeOptions';
@@ -17,20 +16,18 @@ import {
   useUpdateDailyFlowSession,
 } from '../hooks/useDailyFlowSession';
 
+const TIME_CHIP_OPTIONS: ChipOption<TimeOptionId>[] = TIME_OPTIONS.map((t) => ({
+  label: t.label,
+  value: t.id,
+  icon: (color: string) => <Ionicons name={t.icon} size={12} color={color} />,
+}));
+
 export default function Intro() {
   const router = useRouter();
   const { session, isLoading } = useActiveDailyFlowSession();
   const updateSession = useUpdateDailyFlowSession();
 
-  const options = useMemo<ChipOption<TimeOptionId>[]>(
-    () =>
-      TIME_OPTIONS.map((t) => ({
-        label: t.label,
-        value: t.id,
-        icon: (color) => <Ionicons name={t.icon} size={12} color={color} />,
-      })),
-    [],
-  );
+  const options = TIME_CHIP_OPTIONS;
 
   const selected = session?.timeOption ?? null;
   const showLoading = isLoading || !session;
@@ -77,7 +74,7 @@ export default function Intro() {
         resizeMode="contain"
         accessibilityIgnoresInvertColors
         accessibilityLabel="Vibrant energy pulse core"
-        className="my-2 h-72 w-72"
+        className="my-2 size-72"
       />
 
       <View className="w-full items-center gap-3">

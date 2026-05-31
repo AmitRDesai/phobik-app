@@ -2,7 +2,6 @@ import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
-import { useMemo } from 'react';
 
 const SONG_JSON = { analysis_tags: true } as const;
 
@@ -36,11 +35,9 @@ export function useSong(id: string | undefined) {
     enabled: !!id,
   });
 
-  const song = useMemo(
-    () =>
-      data?.[0] ? (toCamel(data[0], SONG_JSON) as unknown as SongRecord) : null,
-    [data],
-  );
+  const song = data?.[0]
+    ? (toCamel(data[0], SONG_JSON) as unknown as SongRecord)
+    : null;
   return { data: song, ...rest };
 }
 
@@ -58,10 +55,7 @@ export function useListSongs() {
     enabled: !!userId,
   });
 
-  const songs = useMemo(
-    () =>
-      data?.map((r) => toCamel(r, SONG_JSON) as unknown as SongRecord) ?? null,
-    [data],
-  );
+  const songs =
+    data?.map((r) => toCamel(r, SONG_JSON) as unknown as SongRecord) ?? null;
   return { data: songs, ...rest };
 }

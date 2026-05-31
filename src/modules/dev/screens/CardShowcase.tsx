@@ -1,3 +1,4 @@
+import type React from 'react';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Button } from '@/components/ui/Button';
@@ -41,22 +42,26 @@ export default function CardShowcase() {
       contentClassName="gap-6 pb-6"
     >
       <Section title="Variants — default size (md)">
-        {VARIANTS.filter((v) => v !== 'toned').map((variant) => (
-          <PropRow
-            key={variant}
-            label={`variant="${variant}"`}
-            note={VARIANT_NOTES[variant]}
-          >
-            <Card variant={variant}>
-              <Text size="md" weight="semibold">
-                {variant.charAt(0).toUpperCase() + variant.slice(1)} card
-              </Text>
-              <Text size="sm" tone="secondary" className="mt-1">
-                Short body copy describing the card content.
-              </Text>
-            </Card>
-          </PropRow>
-        ))}
+        {VARIANTS.reduce<React.ReactElement[]>((acc, variant) => {
+          if (variant === 'toned') return acc;
+          acc.push(
+            <PropRow
+              key={variant}
+              label={`variant="${variant}"`}
+              note={VARIANT_NOTES[variant]}
+            >
+              <Card variant={variant}>
+                <Text size="md" weight="semibold">
+                  {variant.charAt(0).toUpperCase() + variant.slice(1)} card
+                </Text>
+                <Text size="sm" tone="secondary" className="mt-1">
+                  Short body copy describing the card content.
+                </Text>
+              </Card>
+            </PropRow>,
+          );
+          return acc;
+        }, [])}
         <PropRow label='variant="toned" tone="pink"' note={VARIANT_NOTES.toned}>
           <Card variant="toned" tone="pink">
             <Text size="md" weight="semibold">
@@ -143,7 +148,7 @@ export default function CardShowcase() {
         <PropRow label="flat + onPress">
           <Card onPress={() => {}}>
             <View className="flex-row items-center gap-3">
-              <View className="h-10 w-10 items-center justify-center rounded-full bg-foreground/10">
+              <View className="size-10 items-center justify-center rounded-full bg-foreground/10">
                 <MaterialIcons
                   name="favorite"
                   size={20}
@@ -221,7 +226,7 @@ export default function CardShowcase() {
         <PropRow label="List row (flat + onPress + chevron)">
           <Card onPress={() => {}}>
             <View className="flex-row items-center gap-3">
-              <View className="h-10 w-10 items-center justify-center rounded-full bg-primary-pink/15">
+              <View className="size-10 items-center justify-center rounded-full bg-primary-pink/15">
                 <MaterialIcons
                   name="lock"
                   size={20}

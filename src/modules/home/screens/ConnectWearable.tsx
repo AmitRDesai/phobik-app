@@ -22,13 +22,21 @@ const PROVIDER_LABEL =
 const HEALTH_CONNECT_PLAY_STORE_URL =
   'https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata';
 
+function openHealthSettings() {
+  if (Platform.OS === 'ios') {
+    Linking.openURL('x-apple-health://').catch(() => {});
+  } else {
+    openHealthConnectSettings();
+  }
+}
+
 function HealthHero({ pulsing }: { pulsing: boolean }) {
   const scheme = useScheme();
   const yellow = accentFor(scheme, 'yellow');
   return (
     <View className="mb-10 mt-6 items-center">
       <View className="relative mb-6 items-center justify-center">
-        <View className="absolute h-24 w-24 overflow-hidden rounded-full">
+        <View className="absolute size-24 overflow-hidden rounded-full">
           <GlowBg
             centerX={0.5}
             centerY={0.5}
@@ -39,7 +47,7 @@ function HealthHero({ pulsing }: { pulsing: boolean }) {
             bgClassName="bg-transparent"
           />
         </View>
-        <View className="h-24 w-24 items-center justify-center rounded-full border-2 border-primary-pink/30">
+        <View className="size-24 items-center justify-center rounded-full border-2 border-primary-pink/30">
           {pulsing ? (
             <EaseView
               initialAnimate={{ scale: 0.8, opacity: 0.5 }}
@@ -50,14 +58,14 @@ function HealthHero({ pulsing }: { pulsing: boolean }) {
                 easing: [0.455, 0.03, 0.515, 0.955],
                 loop: 'reverse',
               }}
-              className="h-16 w-16 items-center justify-center rounded-full"
+              className="size-16 items-center justify-center rounded-full"
               style={{ borderWidth: 2, borderColor: yellow }}
             >
               <MaterialIcons name="favorite" size={28} color={yellow} />
             </EaseView>
           ) : (
             <View
-              className="h-16 w-16 items-center justify-center rounded-full"
+              className="size-16 items-center justify-center rounded-full"
               style={{ borderWidth: 2, borderColor: yellow }}
             >
               <MaterialIcons name="check" size={32} color={yellow} />
@@ -157,14 +165,6 @@ export default function ConnectWearable() {
         title: 'Permission needed',
         message: `Phobik needs read access to heart rate and HRV in ${PROVIDER_LABEL}. Open ${PROVIDER_LABEL} settings to grant access.`,
       });
-    }
-  };
-
-  const openHealthSettings = () => {
-    if (Platform.OS === 'ios') {
-      Linking.openURL('x-apple-health://').catch(() => {});
-    } else {
-      openHealthConnectSettings();
     }
   };
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { authClient } from '@/lib/auth';
 import { env } from '@/utils/env';
 import { getChallenge, type MicroChallengeResult } from '../data/challenges';
@@ -102,7 +102,7 @@ export function useAIChallenge({ emotionId, needId }: UseAIChallengeOptions) {
     };
   }, [emotionId, needId]);
 
-  const regenerate = useCallback(() => {
+  const regenerate = () => {
     cachedEntry = null;
     fetchedKeyRef.current = '';
     setIsLoading(true);
@@ -124,7 +124,7 @@ export function useAIChallenge({ emotionId, needId }: UseAIChallengeOptions) {
         setIsLoading(false);
       }
     })();
-  }, [emotionId, needId]);
+  };
 
   return { challenge, isLoading, isAI, regenerate };
 }

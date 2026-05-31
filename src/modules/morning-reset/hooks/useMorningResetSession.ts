@@ -4,7 +4,6 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 import type { FlowStep, MorningResetSession } from '../data/types';
 
@@ -23,11 +22,10 @@ export function useActiveMorningResetSession() {
     enabled: !!userId,
   });
 
-  const session = useMemo<MorningResetSession | null>(() => {
-    const row = data?.[0];
-    if (!row) return null;
-    return toCamel(row) as MorningResetSession;
-  }, [data]);
+  const row = data?.[0];
+  const session: MorningResetSession | null = row
+    ? (toCamel(row) as MorningResetSession)
+    : null;
 
   return { session, isLoading, ...rest };
 }

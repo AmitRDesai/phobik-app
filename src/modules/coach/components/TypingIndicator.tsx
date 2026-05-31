@@ -44,14 +44,20 @@ export function TypingIndicator() {
 
   return (
     <View className="mb-4 flex-row gap-3">
-      <View className="mt-0.5 h-7 w-7 items-center justify-center rounded-full bg-foreground/[0.08]">
+      <View className="mt-0.5 size-7 items-center justify-center rounded-full bg-foreground/[0.08]">
         <MaterialIcons name="psychology" size={16} color={purple} />
       </View>
       <View className="flex-row items-center gap-1.5 pt-2">
-        {[style1, style2, style3].map((style, i) => (
+        {(
+          [
+            ['dot1', style1],
+            ['dot2', style2],
+            ['dot3', style3],
+          ] as const
+        ).map(([key, style]) => (
           <Animated.View
-            key={i}
-            className="h-[6px] w-[6px] rounded-full"
+            key={key}
+            className="size-[6px] rounded-full"
             style={[{ backgroundColor: purple }, style]}
           />
         ))}

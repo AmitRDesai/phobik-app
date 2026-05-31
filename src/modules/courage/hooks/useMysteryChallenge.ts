@@ -5,7 +5,6 @@ import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
 import { sql } from 'kysely';
 
 export function useTodaysChallenge() {
@@ -79,6 +78,6 @@ export function useChallengeHistory() {
     enabled: !!userId,
   });
 
-  const transformed = useMemo(() => data?.map((r) => toCamel(r)), [data]);
+  const transformed = data?.map((r) => toCamel(r));
   return { data: transformed, ...rest };
 }

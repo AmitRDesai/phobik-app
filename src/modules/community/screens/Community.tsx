@@ -12,7 +12,7 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useAtom } from 'jotai';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, RefreshControl } from 'react-native';
 import { CommunityPrinciples } from '../components/CommunityPrinciples';
 import { FeedCard } from '../components/FeedCard';
@@ -23,6 +23,10 @@ import {
   communityCircleFilterAtom,
   communitySearchAtom,
 } from '../store/community';
+
+function openCommunityPrinciples() {
+  dialog.open({ component: CommunityPrinciples });
+}
 
 export default function Community() {
   const { data: memberData, isLoading: isMemberLoading } = useCommunityMember();
@@ -45,9 +49,6 @@ export default function Community() {
 function JoinCommunityView() {
   const scheme = useScheme();
   const yellow = accentFor(scheme, 'yellow');
-  const handleJoin = () => {
-    dialog.open({ component: CommunityPrinciples });
-  };
 
   return (
     <Screen className="flex-1 items-center justify-center gap-6 px-8">
@@ -66,7 +67,7 @@ function JoinCommunityView() {
       </View>
       <View className="w-full">
         <Button
-          onPress={handleJoin}
+          onPress={openCommunityPrinciples}
           icon={<MaterialIcons name="arrow-forward" size={20} color="white" />}
         >
           Join Community
@@ -84,18 +85,15 @@ function CommunityFeed() {
 
   // Debounce search
   const [debouncedSearch, setDebouncedSearch] = useState(search);
-  const [debounceTimer, setDebounceTimer] =
-    useState<ReturnType<typeof setTimeout>>();
-
-  const handleSearchChange = useCallback(
-    (text: string) => {
-      setSearch(text);
-      if (debounceTimer) clearTimeout(debounceTimer);
-      const timer = setTimeout(() => setDebouncedSearch(text), 300);
-      setDebounceTimer(timer);
-    },
-    [debounceTimer, setSearch],
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
   );
+
+  const handleSearchChange = (text: string) => {
+    setSearch(text);
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    debounceTimerRef.current = setTimeout(() => setDebouncedSearch(text), 300);
+  };
 
   const {
     data,
@@ -111,29 +109,40 @@ function CommunityFeed() {
 
   // Manual pull-to-refresh state
   const [refreshing, setRefreshing] = useState(false);
-  const handleRefresh = useCallback(async () => {
+  const handleRefresh = async () => {
     setRefreshing(true);
     await refetch();
     setRefreshing(false);
-  }, [refetch]);
+  };
 
   // Auto-refresh when tab becomes active
   const isFirstMount = useRef(true);
-  useFocusEffect(
-    useCallback(() => {
-      if (isFirstMount.current) {
-        isFirstMount.current = false;
-        return;
-      }
-      refetch();
-    }, [refetch]),
-  );
+  useFocusEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+    refetch();
+  });
 
   const handleEndReached = () => {
     if (!isFetching && hasNextPage) {
       fetchNextPage();
     }
   };
+
+  const renderPost = ({ item }: { item: (typeof posts)[number] }) => (
+    <FeedCard
+      id={item.id}
+      content={item.content}
+      images={item.images}
+      author={item.author}
+      createdAt={item.createdAt}
+      reactions={item.reactions}
+      userReactions={item.userReactions}
+      circle={item.circle}
+    />
+  );
 
   return (
     <Screen
@@ -169,18 +178,7 @@ function CommunityFeed() {
         <FlatList
           data={posts}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <FeedCard
-              id={item.id}
-              content={item.content}
-              images={item.images}
-              author={item.author}
-              createdAt={item.createdAt}
-              reactions={item.reactions}
-              userReactions={item.userReactions}
-              circle={item.circle}
-            />
-          )}
+          renderItem={renderPost}
           contentContainerClassName="px-4 pb-24 gap-6"
           showsVerticalScrollIndicator={false}
           onEndReached={handleEndReached}

@@ -4,7 +4,6 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { parseJSON, toCamel, toJSON } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 type AssessmentType = 'intimacy' | 'pivot-point' | 'stress-compass';
 
@@ -23,10 +22,7 @@ export function useAssessmentList() {
     enabled: !!userId,
   });
 
-  const transformed = useMemo(
-    () => data?.map((r) => toCamel(r, ASSESSMENT_JSON)),
-    [data],
-  );
+  const transformed = data?.map((r) => toCamel(r, ASSESSMENT_JSON));
   return { data: transformed, ...rest };
 }
 

@@ -1,6 +1,6 @@
 import { PermissionStatus } from 'expo';
 import * as Calendar from 'expo-calendar';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Platform } from 'react-native';
 import { calendarStableId, type DeviceCalendar } from '../types';
 
@@ -11,15 +11,13 @@ const EXCLUDED_TYPES = new Set([
 ]);
 
 function mapCalendars(raw: Calendar.ExpoCalendar[]): DeviceCalendar[] {
-  return raw
-    .filter((cal) => {
-      // On iOS, filter out birthday/subscription calendars
-      if (Platform.OS === 'ios' && cal.type && EXCLUDED_TYPES.has(cal.type)) {
-        return false;
-      }
-      return true;
-    })
-    .map((cal) => ({
+  const result: DeviceCalendar[] = [];
+  for (const cal of raw) {
+    // On iOS, filter out birthday/subscription calendars
+    if (Platform.OS === 'ios' && cal.type && EXCLUDED_TYPES.has(cal.type)) {
+      continue;
+    }
+    result.push({
       id: cal.id,
       stableId: calendarStableId(
         cal.source?.type ?? 'unknown',
@@ -30,7 +28,9 @@ function mapCalendars(raw: Calendar.ExpoCalendar[]): DeviceCalendar[] {
       color: cal.color ?? '#888888',
       sourceName: cal.source?.name ?? 'Local',
       sourceType: cal.source?.type ?? 'unknown',
-    }));
+    });
+  }
+  return result;
 }
 
 export function useCalendarPermission() {
@@ -38,7 +38,7 @@ export function useCalendarPermission() {
   const [status, setStatus] = useState<PermissionStatus | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const requestPermission = useCallback(async () => {
+  const requestPermission = async () => {
     setLoading(true);
     try {
       const { status: permStatus } =
@@ -54,7 +54,7 @@ export function useCalendarPermission() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   return { calendars, status, requestPermission, loading };
 }

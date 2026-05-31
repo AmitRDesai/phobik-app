@@ -1,7 +1,6 @@
 import { useUserId } from '@/lib/powersync/useUserId';
 import { db } from '@/lib/powersync/database';
 import { useQuery } from '@powersync/tanstack-react-query';
-import { useMemo } from 'react';
 import { sql } from 'kysely';
 
 export function useJournalStats() {
@@ -29,27 +28,23 @@ export function useJournalStats() {
 
   const totalEntries = countData?.[0]?.total ?? 0;
 
-  const streak = useMemo(() => {
-    if (!dateData) return 0;
-
-    let count = 0;
+  let streak = 0;
+  if (dateData) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     for (const row of dateData) {
       const expected = new Date(today);
-      expected.setDate(expected.getDate() - count);
+      expected.setDate(expected.getDate() - streak);
       const expectedStr = expected.toISOString().slice(0, 10);
 
       if (row.entry_date === expectedStr) {
-        count++;
+        streak++;
       } else {
         break;
       }
     }
-
-    return count;
-  }, [dateData]);
+  }
 
   return {
     data: { totalEntries, streak },

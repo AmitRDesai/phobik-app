@@ -8,7 +8,6 @@ import { CHEMICAL_COLORS, CHEMICAL_ICONS } from '@/constants/dose-chemicals';
 import { useLastNightRestingHr } from '@/modules/insights/hooks/useSleepHistory';
 import type { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
-import { useMemo } from 'react';
 import { CenterScoreCircle } from '../components/CenterScoreCircle';
 import { ChemicalPetal } from '../components/ChemicalPetal';
 import { DayNavigator } from '../components/DayNavigator';
@@ -83,10 +82,12 @@ export default function EnergyDetails() {
   const lowestRender = CHEMICAL_RENDER[dose.lowest];
   const insight = CHEMICAL_META[dose.lowest].insight;
 
-  const orderedChemicals: Chemical[] = useMemo(
-    () => ['endorphins', 'dopamine', 'serotonin', 'oxytocin'],
-    [],
-  );
+  const orderedChemicals: Chemical[] = [
+    'endorphins',
+    'dopamine',
+    'serotonin',
+    'oxytocin',
+  ];
 
   return (
     <Screen

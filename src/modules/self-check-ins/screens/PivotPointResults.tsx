@@ -109,7 +109,7 @@ export default function PivotPointResults() {
         </Text>
         {primary.recommendations.map((rec) => (
           <View key={rec} className="mb-3 flex-row items-start gap-3">
-            <View className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary-pink" />
+            <View className="mt-1.5 size-1.5 rounded-full bg-primary-pink" />
             <Text size="sm" className="flex-1">
               {rec}
             </Text>

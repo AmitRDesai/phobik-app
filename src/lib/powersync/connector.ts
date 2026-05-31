@@ -328,10 +328,12 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         // sending only Math.max(questionId) drops the rest — real data loss.
         // saveAnswer merges into the server answers JSON and is idempotent,
         // so re-sending the cumulative set ascending is safe.
-        const questionIds = Object.keys(answers)
-          .map(Number)
-          .filter((q) => q > 0)
-          .sort((a, b) => a - b);
+        const questionIds: number[] = [];
+        for (const k of Object.keys(answers)) {
+          const q = Number(k);
+          if (q > 0) questionIds.push(q);
+        }
+        questionIds.sort((a, b) => a - b);
         for (const questionId of questionIds) {
           await rpcClient.selfCheckIn.saveAnswer({
             id: op.id,

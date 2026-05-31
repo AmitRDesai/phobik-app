@@ -4,7 +4,6 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 export function useActiveChallenge() {
   const userId = useUserId();
@@ -34,13 +33,9 @@ export function useActiveChallenge() {
 
   const challenge = challenges?.[0];
 
-  const data = useMemo(
-    () =>
-      challenge
-        ? { ...toCamel(challenge), days: (days ?? []).map((d) => toCamel(d)) }
-        : null,
-    [challenge, days],
-  );
+  const data = challenge
+    ? { ...toCamel(challenge), days: (days ?? []).map((d) => toCamel(d)) }
+    : null;
 
   // Treat as loading when no data found yet but a refetch is in progress —
   // prevents routing decisions based on stale cached empty results

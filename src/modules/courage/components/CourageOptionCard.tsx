@@ -37,6 +37,12 @@ interface CourageOptionCardProps {
   onPress?: () => void;
 }
 
+const VARIANT_CLASSES = {
+  pink: 'bg-primary-pink',
+  yellow: 'bg-accent-yellow',
+  ghost: 'border border-foreground/20 bg-foreground/10',
+} as const;
+
 function CardButton({
   variant,
   label,
@@ -64,19 +70,13 @@ function CardButton({
     );
   }
 
-  const variantClasses = {
-    pink: 'bg-primary-pink',
-    yellow: 'bg-accent-yellow',
-    ghost: 'border border-foreground/20 bg-foreground/10',
-  } as const;
-
   const textColor = variant === 'yellow' ? colors.background.charcoal : 'white';
 
   return (
     <View
       className={clsx(
         'flex-row items-center gap-2 self-start rounded-lg px-4 py-2',
-        variantClasses[variant],
+        VARIANT_CLASSES[variant],
       )}
     >
       <Text size="xs" weight="bold" style={{ color: textColor }}>
@@ -124,7 +124,7 @@ export function CourageOptionCard({ option, onPress }: CourageOptionCardProps) {
         </View>
 
         {/* Right decorative icon area */}
-        <View className="h-24 w-24 shrink-0 overflow-hidden rounded-lg">
+        <View className="size-24 shrink-0 overflow-hidden rounded-lg">
           <LinearGradient
             colors={option.decorativeGradientColors}
             start={option.decorativeGradientDirection.start}

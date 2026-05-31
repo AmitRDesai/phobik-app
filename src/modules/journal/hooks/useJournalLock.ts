@@ -3,7 +3,7 @@ import {
   useBiometricAvailability,
 } from '@/hooks/auth/useBiometric';
 import { useAtom } from 'jotai';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 import { journalUnlockedAtom } from '../store/journal';
 
@@ -28,18 +28,18 @@ export function useJournalLock() {
     return () => subscription.remove();
   }, [setUnlocked]);
 
-  const unlock = useCallback(async () => {
+  const unlock = async () => {
     const result = await authenticate('Unlock your journal');
     if (result.success) {
       setUnlocked(true);
       return true;
     }
     return false;
-  }, [authenticate, setUnlocked]);
+  };
 
-  const lock = useCallback(() => {
+  const lock = () => {
     setUnlocked(false);
-  }, [setUnlocked]);
+  };
 
   const biometricIcon =
     biometricType === 'Face ID' ? ('scan' as const) : ('finger-print' as const);

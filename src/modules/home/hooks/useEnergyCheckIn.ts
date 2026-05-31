@@ -5,7 +5,6 @@ import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -36,10 +35,7 @@ export function useTodayEnergyCheckIn() {
     enabled: !!userId,
   });
 
-  const energyCheckIn = useMemo(
-    () => (data?.[0] ? toCamel(data[0]) : null),
-    [data],
-  );
+  const energyCheckIn = data?.[0] ? toCamel(data[0]) : null;
 
   return { data: energyCheckIn, isLoading, error };
 }
@@ -105,7 +101,7 @@ export function useEnergyCheckInHistory(days: number) {
     enabled: !!userId,
   });
 
-  const { series, average } = useMemo(() => {
+  const { series, average } = (() => {
     if (!data || data.length === 0) {
       return { series: [] as { date: string; value: number }[], average: null };
     }
@@ -133,7 +129,7 @@ export function useEnergyCheckInHistory(days: number) {
           );
 
     return { series, average };
-  }, [data]);
+  })();
 
   return { series, average, isLoading, error };
 }

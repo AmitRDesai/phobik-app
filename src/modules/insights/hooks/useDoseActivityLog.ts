@@ -1,7 +1,6 @@
 import { useUserId } from '@/lib/powersync/useUserId';
 import { useQuery } from '@powersync/tanstack-react-query';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
 
 export type DoseActivity = {
   source: string;
@@ -87,19 +86,15 @@ export function useDoseActivityLog() {
     enabled: !!userId,
   });
 
-  const activities: DoseActivity[] = useMemo(
-    () =>
-      (data ?? []).map((row) => ({
-        source: row.source,
-        practiceType: formatPracticeType(row.source, row.practice_type),
-        dopamine: Number(row.dose_dopamine) || 0,
-        oxytocin: Number(row.dose_oxytocin) || 0,
-        serotonin: Number(row.dose_serotonin) || 0,
-        endorphins: Number(row.dose_endorphins) || 0,
-        completedAt: row.completed_at,
-      })),
-    [data],
-  );
+  const activities: DoseActivity[] = (data ?? []).map((row) => ({
+    source: row.source,
+    practiceType: formatPracticeType(row.source, row.practice_type),
+    dopamine: Number(row.dose_dopamine) || 0,
+    oxytocin: Number(row.dose_oxytocin) || 0,
+    serotonin: Number(row.dose_serotonin) || 0,
+    endorphins: Number(row.dose_endorphins) || 0,
+    completedAt: row.completed_at,
+  }));
 
   return { data: activities, isLoading, error };
 }

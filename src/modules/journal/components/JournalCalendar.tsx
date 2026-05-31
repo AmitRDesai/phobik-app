@@ -3,6 +3,7 @@ import { View } from '@/components/themed/View';
 import { foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
+import type React from 'react';
 import { Pressable } from 'react-native';
 import { CalendarDay } from './CalendarDay';
 
@@ -67,11 +68,12 @@ export function JournalCalendar({
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const cells: React.ReactNode[] = [];
+  type CellEntry = { key: string; node: React.ReactNode };
+  const cells: CellEntry[] = [];
 
   // Empty cells for days before the 1st
   for (let i = 0; i < firstDayOfWeek; i++) {
-    cells.push(<View key={`empty-${i}`} />);
+    cells.push({ key: `empty-${i}`, node: <View /> });
   }
 
   // Day cells
@@ -80,17 +82,19 @@ export function JournalCalendar({
     const dayDate = new Date(year, month - 1, day);
     dayDate.setHours(0, 0, 0, 0);
 
-    cells.push(
-      <CalendarDay
-        key={day}
-        day={day}
-        isSelected={dateStr === selectedDate}
-        hasEntry={entryDateSet.has(dateStr)}
-        isToday={dateStr === todayStr}
-        isFuture={dayDate > today}
-        onPress={() => onSelectDate(dateStr)}
-      />,
-    );
+    cells.push({
+      key: dateStr,
+      node: (
+        <CalendarDay
+          day={day}
+          isSelected={dateStr === selectedDate}
+          hasEntry={entryDateSet.has(dateStr)}
+          isToday={dateStr === todayStr}
+          isFuture={dayDate > today}
+          onPress={() => onSelectDate(dateStr)}
+        />
+      ),
+    });
   }
 
   return (
@@ -128,13 +132,13 @@ export function JournalCalendar({
       </View>
 
       <View className="flex-row flex-wrap">
-        {cells.map((cell, idx) => (
+        {cells.map(({ key, node }) => (
           <View
-            key={idx}
+            key={key}
             className="items-center py-1"
             style={{ width: '14.28%' }}
           >
-            {cell}
+            {node}
           </View>
         ))}
       </View>

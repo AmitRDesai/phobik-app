@@ -2,22 +2,40 @@ import { Text } from '@/components/themed/Text';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import {
-  Dimensions,
   FlatList,
   Image,
   Modal,
   Pressable,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface ImageViewerProps {
   images: string[];
   initialIndex: number;
   visible: boolean;
   onClose: () => void;
+}
+
+function ImageItem({
+  item,
+  width,
+  height,
+}: {
+  item: string;
+  width: number;
+  height: number;
+}) {
+  return (
+    <View style={{ width, height }} className="items-center justify-center">
+      <Image
+        source={{ uri: item }}
+        style={{ width, height: height * 0.7 }}
+        resizeMode="contain"
+      />
+    </View>
+  );
 }
 
 export function ImageViewer({
@@ -27,6 +45,7 @@ export function ImageViewer({
   onClose,
 }: ImageViewerProps) {
   const insets = useSafeAreaInsets();
+  const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const [activeIndex, setActiveIndex] = useState(initialIndex);
 
   return (
@@ -37,11 +56,11 @@ export function ImageViewer({
       statusBarTranslucent
       onRequestClose={onClose}
     >
-      <View className="flex-1 bg-black">
+      <View className="flex-1 bg-gray-950">
         {/* Close button */}
         <Pressable
           onPress={onClose}
-          className="absolute z-10 h-10 w-10 items-center justify-center rounded-full bg-white/10"
+          className="absolute z-10 size-10 items-center justify-center rounded-full bg-white/10"
           style={{ top: insets.top + 8, right: 16 }}
         >
           <MaterialIcons name="close" size={24} color="white" />
@@ -67,28 +86,19 @@ export function ImageViewer({
           showsHorizontalScrollIndicator={false}
           initialScrollIndex={initialIndex}
           getItemLayout={(_, index) => ({
-            length: SCREEN_WIDTH,
-            offset: SCREEN_WIDTH * index,
+            length: screenWidth,
+            offset: screenWidth * index,
             index,
           })}
           onMomentumScrollEnd={(e) => {
             const index = Math.round(
-              e.nativeEvent.contentOffset.x / SCREEN_WIDTH,
+              e.nativeEvent.contentOffset.x / screenWidth,
             );
             setActiveIndex(index);
           }}
           keyExtractor={(_, index) => String(index)}
           renderItem={({ item }) => (
-            <View
-              style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}
-              className="items-center justify-center"
-            >
-              <Image
-                source={{ uri: item }}
-                style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.7 }}
-                resizeMode="contain"
-              />
-            </View>
+            <ImageItem item={item} width={screenWidth} height={screenHeight} />
           )}
         />
       </View>

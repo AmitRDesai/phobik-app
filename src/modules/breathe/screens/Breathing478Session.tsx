@@ -10,6 +10,8 @@ import { Header } from '@/components/ui/Header';
 import { PlaybackControls } from '@/components/ui/PlaybackControls';
 import { Screen } from '@/components/ui/Screen';
 import { useNow } from '@/hooks/useNow';
+import { replayCue } from '@/lib/audio/replayCue';
+import { useCuesReady } from '@/lib/audio/useCuesReady';
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { colors, withAlpha } from '@/constants/colors';
@@ -106,21 +108,29 @@ export default function Breathing478Session() {
     volume: isMuted ? 0 : 0.8,
   });
 
+  // Hold the first cue until every bundled clip has decoded, so the opening
+  // inhale isn't played as a silent no-op.
+  const cuesReady = useCuesReady([
+    inhalePlayer,
+    holdPlayer,
+    exhalePlayer,
+    bowlPlayer,
+  ]);
+
   // Play phase audio on phase changes + tibetan bowl at cycle start
   useEffect(() => {
-    if (!sessionReady || isPaused) return;
+    if (!sessionReady || isPaused || !cuesReady) return;
 
     const players = [inhalePlayer, holdPlayer, exhalePlayer];
-    const player = players[phaseIndex];
-    player.seekTo(0);
-    player.play();
+    const cancels = [replayCue(players[phaseIndex])];
 
     // Play tibetan bowl at the start of each cycle
     if (phaseIndex === 0) {
-      bowlPlayer.seekTo(0);
-      bowlPlayer.play();
+      cancels.push(replayCue(bowlPlayer));
     }
-  }, [phaseIndex, sessionReady, isPaused]);
+
+    return () => cancels.forEach((cancel) => cancel());
+  }, [phaseIndex, sessionReady, isPaused, cuesReady]);
 
   // Pause phase audio when session is paused
   useEffect(() => {

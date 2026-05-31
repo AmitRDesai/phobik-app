@@ -61,7 +61,7 @@ export function PracticeCategoryCard({
             {practices.map((practice) => (
               <View key={practice} className="flex-row items-center gap-3">
                 <View
-                  className="h-1.5 w-1.5 rounded-full"
+                  className="size-1.5 rounded-full"
                   style={{ backgroundColor: dotColor }}
                 />
                 <Text size="sm" tone="body">

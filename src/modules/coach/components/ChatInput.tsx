@@ -4,7 +4,7 @@ import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Keyboard, Pressable, TextInput } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
@@ -23,22 +23,22 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
   const micIdleColor = foregroundFor(scheme, 0.4);
   const sendDisabledIcon = foregroundFor(scheme, 0.3);
 
-  const handleSend = useCallback(() => {
+  const handleSend = () => {
     if (!text.trim() || isLoading) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     onSend(text.trim());
     setText('');
     Keyboard.dismiss();
-  }, [text, isLoading, onSend]);
+  };
 
-  const handleStop = useCallback(() => {
+  const handleStop = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     onStop();
-  }, [onStop]);
+  };
 
-  const handleVoiceResult = useCallback((voiceText: string) => {
+  const handleVoiceResult = (voiceText: string) => {
     setText((prev) => (prev ? `${prev} ${voiceText}` : voiceText));
-  }, []);
+  };
 
   const { isListening, transcript, isAvailable, start, stop } = useVoiceInput({
     onResult: handleVoiceResult,
@@ -61,7 +61,7 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
           }}
         >
           <View
-            className="h-2 w-2 rounded-full"
+            className="size-2 rounded-full"
             style={{ backgroundColor: colors.accent.purple }}
           />
           <Text size="sm" tone="secondary" className="flex-1">
@@ -89,7 +89,7 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
         {isAvailable && !canSend && !isLoading && (
           <Pressable
             onPress={isListening ? stop : start}
-            className="mr-1 h-9 w-9 items-center justify-center rounded-full"
+            className="mr-1 size-9 items-center justify-center rounded-full"
             style={{
               backgroundColor: isListening
                 ? withAlpha(colors.accent.purple, 0.2)
@@ -107,15 +107,15 @@ export function ChatInput({ onSend, isLoading, onStop }: ChatInputProps) {
         {isLoading ? (
           <Pressable
             onPress={handleStop}
-            className="h-9 w-9 items-center justify-center rounded-full border-[1.5px] border-foreground/15 bg-surface-elevated"
+            className="size-9 items-center justify-center rounded-full border-[1.5px] border-foreground/15 bg-surface-elevated"
           >
-            <View className="h-3 w-3 rounded-sm bg-foreground" />
+            <View className="size-3 rounded-sm bg-foreground" />
           </Pressable>
         ) : (
           <Pressable
             onPress={handleSend}
             disabled={!canSend}
-            className="h-9 w-9 items-center justify-center rounded-full"
+            className="size-9 items-center justify-center rounded-full"
             style={{
               backgroundColor: canSend
                 ? colors.primary.pink

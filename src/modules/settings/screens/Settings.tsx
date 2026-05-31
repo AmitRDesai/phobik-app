@@ -16,6 +16,26 @@ import { useRouter } from 'expo-router';
 import { useAtomValue } from 'jotai';
 import { SettingsMenuItem } from '../components/SettingsMenuItem';
 
+async function handleResetLocalDb() {
+  const choice = await dialog.error({
+    title: 'Reset local database?',
+    message:
+      'Wipes all data on this device (journal drafts, in-progress flows, cached affirmations, etc.). Synced data will redownload from the server on next launch. Use this after schema changes.',
+    buttons: [
+      { label: 'Reset', value: 'reset', variant: 'destructive' },
+      { label: 'Cancel', value: 'cancel', variant: 'secondary' },
+    ],
+  });
+  if (choice !== 'reset') return;
+  try {
+    await disconnectPowerSync();
+    toast.success('Local DB cleared — force-quit and relaunch the app.');
+  } catch (err) {
+    console.error('[ResetLocalDb]', err);
+    toast.error('Failed to reset local DB. Check console for details.');
+  }
+}
+
 export default function Settings() {
   const router = useRouter();
   const scheme = useScheme();
@@ -30,26 +50,6 @@ export default function Settings() {
 
   const userName = session?.user?.name ?? 'Friend';
   const userEmail = session?.user?.email ?? '';
-
-  const handleResetLocalDb = async () => {
-    const choice = await dialog.error({
-      title: 'Reset local database?',
-      message:
-        'Wipes all data on this device (journal drafts, in-progress flows, cached affirmations, etc.). Synced data will redownload from the server on next launch. Use this after schema changes.',
-      buttons: [
-        { label: 'Reset', value: 'reset', variant: 'destructive' },
-        { label: 'Cancel', value: 'cancel', variant: 'secondary' },
-      ],
-    });
-    if (choice !== 'reset') return;
-    try {
-      await disconnectPowerSync();
-      toast.success('Local DB cleared — force-quit and relaunch the app.');
-    } catch (err) {
-      console.error('[ResetLocalDb]', err);
-      toast.error('Failed to reset local DB. Check console for details.');
-    }
-  };
 
   const handleLogout = async () => {
     const result = await dialog.error({

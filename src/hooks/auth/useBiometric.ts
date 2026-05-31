@@ -1,5 +1,5 @@
 import * as LocalAuthentication from 'expo-local-authentication';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
 type BiometricType = 'Face ID' | 'Touch ID' | 'Fingerprint' | 'Biometric';
@@ -59,17 +59,14 @@ export function useBiometricAvailability() {
 }
 
 export function useBiometricAuth() {
-  const authenticate = useCallback(
-    async (promptMessage = 'Authenticate to sign in') => {
-      const result = await LocalAuthentication.authenticateAsync({
-        promptMessage,
-        cancelLabel: 'Cancel',
-        disableDeviceFallback: false,
-      });
-      return result;
-    },
-    [],
-  );
+  const authenticate = async (promptMessage = 'Authenticate to sign in') => {
+    const result = await LocalAuthentication.authenticateAsync({
+      promptMessage,
+      cancelLabel: 'Cancel',
+      disableDeviceFallback: false,
+    });
+    return result;
+  };
 
   return { authenticate };
 }

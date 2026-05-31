@@ -7,7 +7,6 @@ import { useScheme } from '@/hooks/useTheme';
 import { useEnergyCheckInHistory } from '@/modules/home/hooks/useEnergyCheckIn';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
-import { useMemo } from 'react';
 import Svg, {
   Circle,
   Defs,
@@ -46,28 +45,29 @@ export function EnergyIndexChart() {
   const days = RANGE_TO_DAYS[range];
   const { series, average, isLoading } = useEnergyCheckInHistory(days);
 
-  const points = useMemo(() => {
-    if (series.length === 0) return [];
-    const denom = Math.max(series.length - 1, 1);
-    return series.map((p, i) => ({
-      x: (i / denom) * VIEW_W,
-      y: VIEW_H - (Math.max(0, Math.min(100, p.value)) / 100) * VIEW_H,
-      value: p.value,
-      date: p.date,
-    }));
-  }, [series]);
+  const points =
+    series.length === 0
+      ? []
+      : (() => {
+          const denom = Math.max(series.length - 1, 1);
+          return series.map((p, i) => ({
+            x: (i / denom) * VIEW_W,
+            y: VIEW_H - (Math.max(0, Math.min(100, p.value)) / 100) * VIEW_H,
+            value: p.value,
+            date: p.date,
+          }));
+        })();
 
-  const linePath = useMemo(() => {
-    if (points.length < 2) return null;
-    return points
-      .map((pt, i) => `${i === 0 ? 'M' : 'L'}${pt.x},${pt.y}`)
-      .join(' ');
-  }, [points]);
+  const linePath =
+    points.length < 2
+      ? null
+      : points
+          .map((pt, i) => `${i === 0 ? 'M' : 'L'}${pt.x},${pt.y}`)
+          .join(' ');
 
-  const areaPath = useMemo(() => {
-    if (!linePath) return null;
-    return `${linePath} L${VIEW_W},${VIEW_H} L0,${VIEW_H} Z`;
-  }, [linePath]);
+  const areaPath = linePath
+    ? `${linePath} L${VIEW_W},${VIEW_H} L0,${VIEW_H} Z`
+    : null;
 
   const labelIndices = pickLabelIndices(series.length);
 
@@ -78,7 +78,7 @@ export function EnergyIndexChart() {
           Energy Index Trend
         </Text>
         <View className="flex-row items-center gap-1.5">
-          <View className="h-2 w-2 rounded-full bg-primary-pink" />
+          <View className="size-2 rounded-full bg-primary-pink" />
           <Text size="xs" weight="bold">
             Avg. {average ?? '—'}
           </Text>

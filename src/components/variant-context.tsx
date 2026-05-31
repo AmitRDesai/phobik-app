@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, use, type ReactNode } from 'react';
 import { type Variant } from './variant-config';
 
 const VariantContext = createContext<Variant>('default');
@@ -19,5 +19,5 @@ export function VariantProvider({
 
 /** Read the current variant set by the nearest `<Screen variant="...">`. */
 export function useVariant(): Variant {
-  return useContext(VariantContext);
+  return use(VariantContext);
 }

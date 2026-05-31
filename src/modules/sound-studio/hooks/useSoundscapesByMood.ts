@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import {
   soundscapesForMood,
   type SoundscapeTrack,
@@ -7,9 +5,6 @@ import {
 import type { SoundscapeMood } from '../data/sound-studio';
 
 export function useSoundscapesByMood(mood: SoundscapeMood | null) {
-  const data = useMemo<SoundscapeTrack[]>(
-    () => (mood ? soundscapesForMood(mood) : []),
-    [mood],
-  );
+  const data: SoundscapeTrack[] = mood ? soundscapesForMood(mood) : [];
   return { data, isLoading: false, error: null as Error | null };
 }

@@ -102,7 +102,7 @@ export function FeedCard({
         >
           {validImages.map((uri, index) => (
             <Pressable
-              key={index}
+              key={uri}
               onPress={() => setViewerIndex(index)}
               className="h-[160px] w-[240px] overflow-hidden rounded-2xl"
             >

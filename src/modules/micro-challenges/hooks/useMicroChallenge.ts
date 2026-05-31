@@ -5,7 +5,6 @@ import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
 import { sql } from 'kysely';
-import { useMemo } from 'react';
 import type {
   MicroChallenge,
   MicroChallengeAIContent,
@@ -27,10 +26,9 @@ export function useActiveChallenge() {
     enabled: !!userId,
   });
 
-  const challenge = useMemo(() => {
-    if (!data?.[0]) return null;
-    return toCamel(data[0], { ai_response: true }) as unknown as MicroChallenge;
-  }, [data]);
+  const challenge = data?.[0]
+    ? (toCamel(data[0], { ai_response: true }) as unknown as MicroChallenge)
+    : null;
 
   return { challenge, ...rest };
 }
@@ -80,9 +78,8 @@ export function useMicroChallengeStats() {
   const totalCompleted = (totalData?.[0] as { count?: number })?.count ?? 0;
   const completedToday =
     ((todayData?.[0] as { count?: number })?.count ?? 0) > 0;
-  const completedDates = useMemo(
-    () => new Set(weekData?.map((r) => (r as { day: string }).day) ?? []),
-    [weekData],
+  const completedDates = new Set(
+    weekData?.map((r) => (r as { day: string }).day) ?? [],
   );
 
   return { totalCompleted, completedToday, completedDates };

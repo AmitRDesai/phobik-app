@@ -221,7 +221,7 @@ export default function NotificationBadgeShowcase() {
             <View className="relative">
               <BackButton icon="inbox" onPress={() => {}} />
               <NotificationBadge count={3} />
-              <View className="absolute -left-1 -top-1 h-[18px] w-[18px] rounded-full border-2 border-surface bg-status-warning" />
+              <View className="absolute -left-1 -top-1 size-[18px] rounded-full border-2 border-surface bg-status-warning" />
             </View>
           </View>
         </DontRow>

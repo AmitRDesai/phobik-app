@@ -77,7 +77,7 @@ export default function Player() {
     <Screen loading={showLoading} transparent insetTop={false} noPadding>
       <View className="flex-1 items-center justify-center gap-8 px-6">
         <View className="w-full items-center justify-center rounded-3xl border border-foreground/10 p-6">
-          <View className="relative h-56 w-56 items-center justify-center">
+          <View className="relative size-56 items-center justify-center">
             <Svg
               viewBox="0 0 100 100"
               style={StyleSheet.absoluteFill}

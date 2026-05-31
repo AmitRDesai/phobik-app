@@ -7,6 +7,7 @@ import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
 import { useNow } from '@/hooks/useNow';
 import { usePulseAnimation } from '@/hooks/usePulseAnimation';
 import { useScheme } from '@/hooks/useTheme';
+import { useAudioPrefetch } from '@/lib/audio/useAudioPrefetch';
 import { useStreamedAudioPlayer } from '@/lib/audio/useStreamedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { useStressScore } from '@/modules/home/hooks/useStressScore';
@@ -21,6 +22,7 @@ import { Pressable, ScrollView } from 'react-native';
 import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
 import Svg, { Circle, Path } from 'react-native-svg';
 
+import { SessionPreparing } from '@/modules/practices/components/SessionPreparing';
 import { useSaveOnLeave } from '@/modules/practices/hooks/useSaveOnLeave';
 import { formatTime } from '@/modules/practices/lib/format';
 import { muscleRelaxationSessionAtom } from '../store/muscle-relaxation';
@@ -139,6 +141,10 @@ const TOTAL_DURATION = MUSCLE_GROUPS.reduce(
   (sum, g) => sum + g.audioDuration + WAIT_DURATION,
   0,
 );
+
+// Every clip a full run needs — pre-cached before the sequence starts so no
+// per-step download can lag and skip its instruction mid-session.
+const MUSCLE_KEYS = MUSCLE_GROUPS.map((g) => g.audioKey);
 
 type StepPhase = 'audio' | 'wait';
 
@@ -330,7 +336,7 @@ function MuscleGroupStep({
           <MaterialIcons name={group.icon} size={24} color="white" />
         </LinearGradient>
       ) : (
-        <View className="h-14 w-14 items-center justify-center rounded-2xl border border-foreground/10 bg-foreground/5">
+        <View className="size-14 items-center justify-center rounded-2xl border border-foreground/10 bg-foreground/5">
           <MaterialIcons
             name={state === 'completed' ? 'check-circle' : group.icon}
             size={24}
@@ -376,7 +382,7 @@ function InstructionDisplay({
         style={{ minWidth: 200, paddingHorizontal: 12 }}
       >
         <View
-          className="h-2 w-2 rounded-full bg-primary-pink"
+          className="size-2 rounded-full bg-primary-pink"
           style={{
             boxShadow: [
               {
@@ -430,7 +436,7 @@ function SessionControls({
       <View className="flex-row items-center gap-4">
         <Pressable
           onPress={onPauseToggle}
-          className="h-14 w-14 items-center justify-center rounded-2xl bg-foreground/5 active:scale-95"
+          className="size-14 items-center justify-center rounded-2xl bg-foreground/5 active:scale-95"
         >
           <MaterialIcons
             name={isPaused ? 'play-arrow' : 'pause'}
@@ -532,28 +538,42 @@ export default function MuscleRelaxationSession() {
   }));
   const timeRemaining = Math.max(TOTAL_DURATION - elapsedTotal, 0);
 
+  // Pre-download every clip before the sequence begins (see SessionPreparing).
+  const prefetch = useAudioPrefetch(MUSCLE_KEYS);
+
   // Audio player — source resolves async per step (cached on disk).
+  // Keyed `null` until prefetch completes so nothing plays behind the loader
+  // and the per-step player only ever hits the warm cache.
   // `useStreamedAudioPlayer` handles `player.replace()` automatically when
   // the muscle group's `audioKey` changes.
-  const { player, status: audioStatus } = useStreamedAudioPlayer(
-    MUSCLE_GROUPS[currentStepIndex].audioKey,
+  const { player, source } = useStreamedAudioPlayer(
+    prefetch.ready ? MUSCLE_GROUPS[currentStepIndex].audioKey : null,
+    { suppressDialog: true },
   );
 
-  // Play audio once the source finishes loading (handles both initial mount and step changes)
+  // Play each group's cue from the top once its clip is loaded, and pause/resume
+  // with the session. Keyed on `source` (the resolved URI) — not the step index
+  // — because every clip is pre-cached and resolves synchronously, so `source`
+  // changes *after* `useStreamedAudioPlayer` has called `player.replace()`.
+  // Keying on the step index would fire before the swap and replay the previous
+  // clip. Only acts during the 'audio' phase; 'wait' leaves the finished clip be.
+  const lastSourceRef = useRef<string | null>(null);
   useEffect(() => {
-    if (
-      audioStatus.isLoaded &&
-      stepPhase === 'audio' &&
-      !isPaused &&
-      !audioStatus.playing
-    ) {
-      player.play();
+    if (!source || stepPhase !== 'audio') return;
+    if (isPaused) {
+      player.pause();
+      return;
     }
-  }, [audioStatus.isLoaded, audioStatus.playing, stepPhase, isPaused, player]);
+    if (lastSourceRef.current !== source) {
+      lastSourceRef.current = source;
+      player.seekTo(0);
+    }
+    player.play();
+  }, [source, stepPhase, isPaused, player]);
 
   // Audio phase countdown — ticks each second, transitions to wait when audio duration elapsed
   useEffect(() => {
-    if (stepPhase !== 'audio' || isPaused) return;
+    if (stepPhase !== 'audio' || isPaused || !prefetch.ready) return;
 
     phaseIntervalRef.current = setInterval(() => {
       audioElapsedRef.current += 1;
@@ -566,11 +586,11 @@ export default function MuscleRelaxationSession() {
     return () => {
       if (phaseIntervalRef.current) clearInterval(phaseIntervalRef.current);
     };
-  }, [stepPhase, isPaused, currentGroup.audioDuration]);
+  }, [stepPhase, isPaused, prefetch.ready, currentGroup.audioDuration]);
 
   // Wait countdown
   useEffect(() => {
-    if (stepPhase !== 'wait' || isPaused) return;
+    if (stepPhase !== 'wait' || isPaused || !prefetch.ready) return;
 
     phaseIntervalRef.current = setInterval(() => {
       dispatch({ type: 'TICK_WAIT' });
@@ -579,7 +599,7 @@ export default function MuscleRelaxationSession() {
     return () => {
       if (phaseIntervalRef.current) clearInterval(phaseIntervalRef.current);
     };
-  }, [stepPhase, isPaused]);
+  }, [stepPhase, isPaused, prefetch.ready]);
 
   // Advance step when wait finishes
   useEffect(() => {
@@ -617,7 +637,7 @@ export default function MuscleRelaxationSession() {
 
   // Elapsed counter
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || !prefetch.ready) return;
 
     intervalRef.current = setInterval(() => {
       setElapsedTotal((prev) => prev + 1);
@@ -626,17 +646,7 @@ export default function MuscleRelaxationSession() {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPaused]);
-
-  // Sync audio with pause state
-  useEffect(() => {
-    if (stepPhase !== 'audio') return;
-    if (isPaused) {
-      player.pause();
-    } else if (audioStatus.isLoaded) {
-      player.play();
-    }
-  }, [isPaused, player, stepPhase, audioStatus.isLoaded]);
+  }, [isPaused, prefetch.ready]);
 
   // Auto-scroll to active muscle group
   useEffect(() => {
@@ -654,50 +664,58 @@ export default function MuscleRelaxationSession() {
   const phaseLabel =
     stepPhase === 'audio' ? 'Listen to the instructions...' : 'Hold and relax';
 
-  return (
-    <Screen
-      header={
-        <Header
-          left={<BackButton icon="close" />}
-          center={
-            <View className="items-center">
-              <Text size="sm" weight="bold" className="text-foreground/90">
-                Muscle Relaxation
+  const header = (
+    <Header
+      left={<BackButton icon="close" />}
+      center={
+        <View className="items-center">
+          <Text size="sm" weight="bold" className="text-foreground/90">
+            Muscle Relaxation
+          </Text>
+          {hasAccess ? (
+            <View className="mt-0.5 flex-row items-center gap-1.5">
+              <View
+                className="size-1.5 rounded-full bg-primary-pink"
+                style={{
+                  boxShadow: [
+                    {
+                      offsetX: 0,
+                      offsetY: 0,
+                      blurRadius: 8,
+                      color: withAlpha(colors.primary.pink, 0.6),
+                    },
+                  ],
+                }}
+              />
+              <Text
+                size="xs"
+                treatment="caption"
+                tone="accent"
+                weight="medium"
+                className="tracking-wider"
+              >
+                {isLive
+                  ? `HRV Live: ${Math.round(liveHrv)}ms`
+                  : 'HRV: No recent data'}
               </Text>
-              {hasAccess ? (
-                <View className="mt-0.5 flex-row items-center gap-1.5">
-                  <View
-                    className="h-1.5 w-1.5 rounded-full bg-primary-pink"
-                    style={{
-                      boxShadow: [
-                        {
-                          offsetX: 0,
-                          offsetY: 0,
-                          blurRadius: 8,
-                          color: withAlpha(colors.primary.pink, 0.6),
-                        },
-                      ],
-                    }}
-                  />
-                  <Text
-                    size="xs"
-                    treatment="caption"
-                    tone="accent"
-                    weight="medium"
-                    className="tracking-wider"
-                  >
-                    {isLive
-                      ? `HRV Live: ${Math.round(liveHrv)}ms`
-                      : 'HRV: No recent data'}
-                  </Text>
-                </View>
-              ) : null}
             </View>
-          }
-        />
+          ) : null}
+        </View>
       }
-      className="flex-1"
-    >
+    />
+  );
+
+  // Hold the session behind a loader until every clip is cached.
+  if (!prefetch.ready) {
+    return (
+      <Screen header={header} className="flex-1">
+        <SessionPreparing progress={prefetch.progress} />
+      </Screen>
+    );
+  }
+
+  return (
+    <Screen header={header} className="flex-1">
       {/* Body visualization area */}
       <View className="flex-1 items-center justify-center">
         {/* Biometric badges - positioned on the left */}

@@ -70,7 +70,7 @@ export function MovementScreen({ exerciseId }: MovementScreenProps) {
       {/* Circular hero image */}
       <View className="items-center">
         <View
-          className="h-[180px] w-[180px] overflow-hidden rounded-full border border-foreground/10"
+          className="size-[180px] overflow-hidden rounded-full border border-foreground/10"
           style={{
             boxShadow: `0px 0px 12px ${withAlpha(colors.primary.pink, 0.2)}`,
           }}

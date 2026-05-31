@@ -7,7 +7,7 @@ import {
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
 import * as Haptics from 'expo-haptics';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, type LayoutChangeEvent } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -91,27 +91,24 @@ export function Slider({
     };
   }, [thumbX, thumbScale]);
 
-  const onLayout = useCallback((e: LayoutChangeEvent) => {
+  const onLayout = (e: LayoutChangeEvent) => {
     setTrackWidth(e.nativeEvent.layout.width);
-  }, []);
+  };
 
-  const emit = useCallback(
-    (x: number) => {
-      if (usableWidth <= 0) return;
-      const clamped = Math.max(0, Math.min(x, usableWidth));
-      const raw = min + (clamped / usableWidth) * (max - min);
-      // Snap to step
-      const stepped = step > 0 ? Math.round(raw / step) * step : raw;
-      const final = Math.max(min, Math.min(max, stepped));
-      onValueChange(final);
-    },
-    [min, max, step, usableWidth, onValueChange],
-  );
+  const emit = (x: number) => {
+    if (usableWidth <= 0) return;
+    const clamped = Math.max(0, Math.min(x, usableWidth));
+    const raw = min + (clamped / usableWidth) * (max - min);
+    // Snap to step
+    const stepped = step > 0 ? Math.round(raw / step) * step : raw;
+    const final = Math.max(min, Math.min(max, stepped));
+    onValueChange(final);
+  };
 
-  const fireHaptic = useCallback(() => {
+  const fireHaptic = () => {
     if (noHaptic) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  }, [noHaptic]);
+  };
 
   const pan = Gesture.Pan()
     .enabled(!disabled)

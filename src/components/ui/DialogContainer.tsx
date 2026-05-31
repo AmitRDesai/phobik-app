@@ -11,14 +11,14 @@ import { store } from '@/utils/jotai';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue } from 'jotai';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   BackHandler,
-  Dimensions,
   Pressable,
   ScrollView,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { KeyboardStickyView } from 'react-native-keyboard-controller';
@@ -36,7 +36,7 @@ export function DialogContainer() {
   const scheme = useScheme();
   const dialogState = useAtomValue(dialogAtom);
   const insets = useSafeAreaInsets();
-  const { height: screenHeight } = Dimensions.get('window');
+  const { height: screenHeight } = useWindowDimensions();
 
   // Per-scheme bottom-sheet bg. Must be OPAQUE — the sheet sits over the
   // dim overlay + the screen content underneath; any alpha would let the
@@ -62,11 +62,11 @@ export function DialogContainer() {
     }
   }, [dialogState]);
 
-  const dismiss = useCallback(() => {
+  const dismiss = () => {
     resolveRef.current?.(undefined);
     resolveRef.current = null;
     store.set(dialogAtom, null);
-  }, []);
+  };
 
   // Android back button
   useEffect(() => {
@@ -79,17 +79,17 @@ export function DialogContainer() {
     return () => handler.remove();
   }, [renderState, dismiss]);
 
-  const handleButtonPress = useCallback((button: DialogButton) => {
+  const handleButtonPress = (button: DialogButton) => {
     resolveRef.current?.(button.value);
     resolveRef.current = null;
     store.set(dialogAtom, null);
-  }, []);
+  };
 
-  const handleCustomClose = useCallback((result?: DialogResult) => {
+  const handleCustomClose = (result?: DialogResult) => {
     resolveRef.current?.(result);
     resolveRef.current = null;
     store.set(dialogAtom, null);
-  }, []);
+  };
 
   const isOpen = !!dialogState;
 

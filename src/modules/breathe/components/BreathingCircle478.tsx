@@ -88,7 +88,9 @@ export function BreathingCircle478({
 
   // Animate progress ring smoothly — reverse animate on cycle change
   const animatedOffset = useSharedValue(CIRCUMFERENCE);
-  const prevCycleRef = useRef(Math.floor(elapsed / CYCLE_DURATION));
+  const prevCycleRef = useRef<number | null>(null);
+  if (prevCycleRef.current === null)
+    prevCycleRef.current = Math.floor(elapsed / CYCLE_DURATION);
 
   useEffect(() => {
     const currentCycle = Math.floor(elapsed / CYCLE_DURATION);

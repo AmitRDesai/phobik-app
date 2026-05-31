@@ -105,7 +105,7 @@ function PulsingAura({ isPlaying }: { isPlaying: boolean }) {
         {/* Center circle with image */}
         <Image
           source={sleepMeditationImage}
-          className="h-[190px] w-[190px] rounded-full border border-foreground/10"
+          className="size-[190px] rounded-full border border-foreground/10"
           resizeMode="cover"
         />
       </View>

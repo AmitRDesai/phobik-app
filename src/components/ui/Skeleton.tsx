@@ -46,7 +46,11 @@ export function Skeleton({
   className,
 }: SkeletonProps) {
   const scheme = useScheme();
-  const opacity = useRef(new Animated.Value(0.4)).current;
+  const opacityRef = useRef<Animated.Value | null>(null);
+  if (opacityRef.current === null) {
+    opacityRef.current = new Animated.Value(0.4);
+  }
+  const opacity = opacityRef.current;
 
   useEffect(() => {
     if (isStatic) return;

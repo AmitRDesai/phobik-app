@@ -14,7 +14,6 @@ import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { useMemo } from 'react';
 import { SongListRow } from '../components/SongListRow';
 import { useListSongs } from '../hooks/useSong';
 
@@ -24,20 +23,11 @@ export default function ExpressYourselfIntro() {
   const router = useRouter();
   const scheme = useScheme();
   const { data: songs } = useListSongs();
-  const ready = useMemo(
-    () => (songs ?? []).filter((s) => s.status === 'ready'),
-    [songs],
-  );
+  const ready = (songs ?? []).filter((s) => s.status === 'ready');
   const recent = ready.slice(0, RECENT_LIMIT);
-  const inFlight = useMemo(
-    () => (songs ?? []).find((s) => s.status === 'generating') ?? null,
-    [songs],
-  );
+  const inFlight = (songs ?? []).find((s) => s.status === 'generating') ?? null;
   /** Latest unsubmitted draft — the user has typed but hasn't tapped Generate yet. */
-  const draft = useMemo(
-    () => (songs ?? []).find((s) => s.status === 'draft') ?? null,
-    [songs],
-  );
+  const draft = (songs ?? []).find((s) => s.status === 'draft') ?? null;
 
   return (
     <Screen

@@ -4,7 +4,6 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 export function useJournalTags() {
   const userId = useUserId();
@@ -19,7 +18,7 @@ export function useJournalTags() {
     enabled: !!userId,
   });
 
-  const transformed = useMemo(() => data?.map((r) => toCamel(r)), [data]);
+  const transformed = data?.map((r) => toCamel(r));
   return { data: transformed, isLoading, isPending: isLoading, error };
 }
 

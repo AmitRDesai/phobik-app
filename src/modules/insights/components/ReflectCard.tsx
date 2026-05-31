@@ -13,7 +13,7 @@ export function ReflectCard({ question }: ReflectCardProps) {
     <Card
       variant="raised"
       size="lg"
-      className="border-l-4 border-l-primary-pink p-5"
+      className="border-b border-primary-pink/40 p-5"
     >
       <View className="mb-2 flex-row items-center gap-2">
         <MaterialIcons

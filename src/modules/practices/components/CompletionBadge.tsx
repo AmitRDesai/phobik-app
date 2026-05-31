@@ -7,9 +7,9 @@ export function CompletionBadge() {
   return (
     <View className="items-center justify-center">
       {/* Blur glow behind */}
-      <View className="absolute h-36 w-36 rounded-full bg-primary-pink/20 blur-3xl" />
+      <View className="absolute size-36 rounded-full bg-primary-pink/20 blur-3xl" />
 
-      <View className="h-[200px] w-[200px] items-center justify-center">
+      <View className="size-[200px] items-center justify-center">
         {/* Dashed orbit ring */}
         <View
           className="absolute rounded-full border-2 border-dashed border-foreground/20"
@@ -17,9 +17,9 @@ export function CompletionBadge() {
         />
 
         {/* Outer ring */}
-        <View className="h-36 w-36 items-center justify-center rounded-full border-[10px] border-primary-pink/20">
+        <View className="size-36 items-center justify-center rounded-full border-[10px] border-primary-pink/20">
           {/* Middle ring */}
-          <View className="h-28 w-28 items-center justify-center rounded-full border-[6px] border-primary-pink/40">
+          <View className="size-28 items-center justify-center rounded-full border-[6px] border-primary-pink/40">
             {/* Inner gradient circle with checkmark */}
             <LinearGradient
               colors={[colors.primary.pink, colors.accent.yellow]}

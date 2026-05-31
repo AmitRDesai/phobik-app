@@ -84,8 +84,8 @@ export default function DividerShowcase() {
             <View className="h-10 rounded-lg bg-foreground/5" />
             <Divider label="or continue with" />
             <View className="h-10 flex-row items-center justify-center gap-3">
-              <View className="h-10 w-10 rounded-full bg-foreground/5" />
-              <View className="h-10 w-10 rounded-full bg-foreground/5" />
+              <View className="size-10 rounded-full bg-foreground/5" />
+              <View className="size-10 rounded-full bg-foreground/5" />
             </View>
           </View>
         </PropRow>

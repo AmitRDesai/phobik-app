@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import Animated, {
   Easing,
@@ -10,6 +10,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 type Particle = {
+  id: string;
   destX: number;
   destY: number;
   rotate: number;
@@ -43,35 +44,43 @@ export function Confetti({
   splitCones = false,
   size = 12,
 }: Props) {
-  const particles = useMemo<Particle[]>(() => {
-    if (!active) return [];
-    const list: Particle[] = [];
-    for (let i = 0; i < count; i++) {
-      let angle: number;
-      if (splitCones) {
-        const side = i % 2 === 0;
-        angle = side
-          ? ((Math.random() * 120 + 210) * Math.PI) / 180
-          : ((Math.random() * 120 - 30) * Math.PI) / 180;
-      } else {
-        angle = Math.random() * Math.PI * 2;
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const activeRef = useRef(active);
+
+  useEffect(() => {
+    if (active && !activeRef.current) {
+      const list: Particle[] = [];
+      for (let i = 0; i < count; i++) {
+        let angle: number;
+        if (splitCones) {
+          const side = i % 2 === 0;
+          angle = side
+            ? ((Math.random() * 120 + 210) * Math.PI) / 180
+            : ((Math.random() * 120 - 30) * Math.PI) / 180;
+        } else {
+          angle = Math.random() * Math.PI * 2;
+        }
+        const distance =
+          distanceRange[0] +
+          Math.random() * (distanceRange[1] - distanceRange[0]);
+        list.push({
+          id: `confetti-${i}`,
+          destX: Math.cos(angle) * distance,
+          destY: Math.sin(angle) * distance,
+          rotate: Math.random() * 1080,
+          delayMs:
+            delayRange[0] + Math.random() * (delayRange[1] - delayRange[0]),
+          durationMs:
+            durationRange[0] +
+            Math.random() * (durationRange[1] - durationRange[0]),
+          color: colors[i % colors.length],
+        });
       }
-      const distance =
-        distanceRange[0] +
-        Math.random() * (distanceRange[1] - distanceRange[0]);
-      list.push({
-        destX: Math.cos(angle) * distance,
-        destY: Math.sin(angle) * distance,
-        rotate: Math.random() * 1080,
-        delayMs:
-          delayRange[0] + Math.random() * (delayRange[1] - delayRange[0]),
-        durationMs:
-          durationRange[0] +
-          Math.random() * (durationRange[1] - durationRange[0]),
-        color: colors[i % colors.length],
-      });
+      setParticles(list);
+    } else if (!active) {
+      setParticles([]);
     }
-    return list;
+    activeRef.current = active;
   }, [
     active,
     count,
@@ -96,8 +105,8 @@ export function Confetti({
         overflow: 'visible',
       }}
     >
-      {particles.map((p, i) => (
-        <ConfettiParticle key={i} particle={p} size={size} />
+      {particles.map((p) => (
+        <ConfettiParticle key={p.id} particle={p} size={size} />
       ))}
     </View>
   );

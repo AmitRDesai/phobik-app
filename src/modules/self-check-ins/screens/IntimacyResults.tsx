@@ -359,7 +359,7 @@ export default function IntimacyResults() {
                 className="flex-row items-center gap-4 rounded-xl border border-foreground/5 bg-surface-elevated p-4"
               >
                 <View
-                  className="h-10 w-10 items-center justify-center rounded-full"
+                  className="size-10 items-center justify-center rounded-full"
                   style={{ backgroundColor: withAlpha(challengeColor, 0.1) }}
                 >
                   <MaterialIcons
