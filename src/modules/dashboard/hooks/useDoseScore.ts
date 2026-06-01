@@ -31,6 +31,10 @@ export type DoseScore = {
   isLoading: boolean;
 };
 
+function cap(v: number): number {
+  return Math.max(0, Math.min(PER_CHEMICAL_MAX, v));
+}
+
 const TIE_BREAK_ORDER: Chemical[] = [
   'oxytocin',
   'endorphins',
@@ -93,7 +97,6 @@ export function useDoseScore(date: string): DoseScore {
     endorphins: Number(row?.endorphins) || 0,
   };
 
-  const cap = (v: number) => Math.max(0, Math.min(PER_CHEMICAL_MAX, v));
   const dopamine = cap(raw.dopamine);
   const oxytocin = cap(raw.oxytocin);
   const serotonin = cap(raw.serotonin);

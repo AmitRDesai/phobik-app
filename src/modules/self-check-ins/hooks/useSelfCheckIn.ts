@@ -12,7 +12,7 @@ const ASSESSMENT_JSON = { answers: true } as const;
 export function useAssessmentList() {
   const userId = useUserId();
 
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, isError, error, isPending, isFetching } = useQuery({
     queryKey: ['self-check-in-list', userId],
     query: db
       .selectFrom('self_check_in')
@@ -23,7 +23,14 @@ export function useAssessmentList() {
   });
 
   const transformed = data?.map((r) => toCamel(r, ASSESSMENT_JSON));
-  return { data: transformed, ...rest };
+  return {
+    data: transformed,
+    isLoading,
+    isError,
+    error,
+    isPending,
+    isFetching,
+  };
 }
 
 export function useStartAssessment() {

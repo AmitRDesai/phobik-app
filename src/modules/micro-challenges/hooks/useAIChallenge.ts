@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import { authClient } from '@/lib/auth';
 import { env } from '@/utils/env';
 import { getChallenge, type MicroChallengeResult } from '../data/challenges';
@@ -57,17 +57,40 @@ async function fetchAIChallenge(
   return mapAIResponse(data);
 }
 
+type AIState = {
+  challenge: MicroChallengeResult;
+  isLoading: boolean;
+  isAI: boolean;
+};
+
+type AIAction =
+  | { type: 'FETCH_START'; fallback: MicroChallengeResult }
+  | { type: 'FETCH_SUCCESS'; result: MicroChallengeResult }
+  | { type: 'FETCH_DONE' };
+
+function aiReducer(state: AIState, action: AIAction): AIState {
+  switch (action.type) {
+    case 'FETCH_START':
+      return { challenge: action.fallback, isLoading: true, isAI: false };
+    case 'FETCH_SUCCESS':
+      return { challenge: action.result, isLoading: false, isAI: true };
+    case 'FETCH_DONE':
+      return { ...state, isLoading: false };
+  }
+}
+
 export function useAIChallenge({ emotionId, needId }: UseAIChallengeOptions) {
   const cacheHit =
     cachedEntry?.emotionId === emotionId && cachedEntry?.needId === needId;
 
-  const [challenge, setChallenge] = useState<MicroChallengeResult>(
-    cacheHit && cachedEntry
-      ? cachedEntry.challenge
-      : getChallenge(emotionId, needId),
-  );
-  const [isLoading, setIsLoading] = useState(!cacheHit);
-  const [isAI, setIsAI] = useState(cacheHit);
+  const [{ challenge, isLoading, isAI }, dispatch] = useReducer(aiReducer, {
+    challenge:
+      cacheHit && cachedEntry
+        ? cachedEntry.challenge
+        : getChallenge(emotionId, needId),
+    isLoading: !cacheHit,
+    isAI: cacheHit,
+  });
   const fetchedKeyRef = useRef(cacheHit ? `${emotionId}:${needId}` : '');
 
   useEffect(() => {
@@ -75,9 +98,10 @@ export function useAIChallenge({ emotionId, needId }: UseAIChallengeOptions) {
     if (fetchedKeyRef.current === key) return;
 
     let cancelled = false;
-    setIsLoading(true);
-    setIsAI(false);
-    setChallenge(getChallenge(emotionId, needId));
+    dispatch({
+      type: 'FETCH_START',
+      fallback: getChallenge(emotionId, needId),
+    });
 
     (async () => {
       try {
@@ -85,15 +109,14 @@ export function useAIChallenge({ emotionId, needId }: UseAIChallengeOptions) {
         if (cancelled) return;
 
         if (result) {
-          setChallenge(result);
-          setIsAI(true);
+          dispatch({ type: 'FETCH_SUCCESS', result });
           cachedEntry = { emotionId, needId, challenge: result };
         }
         fetchedKeyRef.current = key;
       } catch {
         fetchedKeyRef.current = key;
       } finally {
-        if (!cancelled) setIsLoading(false);
+        if (!cancelled) dispatch({ type: 'FETCH_DONE' });
       }
     })();
 
@@ -105,23 +128,23 @@ export function useAIChallenge({ emotionId, needId }: UseAIChallengeOptions) {
   const regenerate = () => {
     cachedEntry = null;
     fetchedKeyRef.current = '';
-    setIsLoading(true);
-    setIsAI(false);
-    setChallenge(getChallenge(emotionId, needId));
+    dispatch({
+      type: 'FETCH_START',
+      fallback: getChallenge(emotionId, needId),
+    });
 
     (async () => {
       try {
         const result = await fetchAIChallenge(emotionId, needId);
         if (result) {
-          setChallenge(result);
-          setIsAI(true);
+          dispatch({ type: 'FETCH_SUCCESS', result });
           cachedEntry = { emotionId, needId, challenge: result };
           fetchedKeyRef.current = `${emotionId}:${needId}`;
         }
       } catch {
         // Keep static fallback
       } finally {
-        setIsLoading(false);
+        dispatch({ type: 'FETCH_DONE' });
       }
     })();
   };

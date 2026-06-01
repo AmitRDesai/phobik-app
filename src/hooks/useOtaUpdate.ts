@@ -11,6 +11,28 @@ type OtaState = {
   applyUpdate: () => Promise<void>;
 };
 
+async function runCheck() {
+  if (__DEV__ || !Updates.isEnabled) return;
+  try {
+    const result = await Updates.checkForUpdateAsync();
+    if (result.isAvailable) {
+      await Updates.fetchUpdateAsync();
+    }
+  } catch {
+    // Best-effort — the binary-version gate handles forced upgrades when
+    // OTA check / fetch fails.
+  }
+}
+
+async function applyUpdate() {
+  try {
+    await Updates.reloadAsync();
+  } catch {
+    // Best-effort — if reload fails the next cold start will pick up the
+    // downloaded bundle.
+  }
+}
+
 /**
  * Boot-time + foreground OTA check.
  *
@@ -29,19 +51,6 @@ type OtaState = {
 export function useOtaUpdate(): OtaState {
   const { isUpdatePending, isChecking, isDownloading } = Updates.useUpdates();
 
-  const runCheck = async () => {
-    if (__DEV__ || !Updates.isEnabled) return;
-    try {
-      const result = await Updates.checkForUpdateAsync();
-      if (result.isAvailable) {
-        await Updates.fetchUpdateAsync();
-      }
-    } catch {
-      // Best-effort — the binary-version gate handles forced upgrades when
-      // OTA check / fetch fails.
-    }
-  };
-
   useEffect(() => {
     runCheck();
   }, []);
@@ -53,15 +62,6 @@ export function useOtaUpdate(): OtaState {
     const sub = AppState.addEventListener('change', onChange);
     return () => sub.remove();
   }, []);
-
-  const applyUpdate = async () => {
-    try {
-      await Updates.reloadAsync();
-    } catch {
-      // Best-effort — if reload fails the next cold start will pick up the
-      // downloaded bundle.
-    }
-  };
 
   const isCheckComplete = !isChecking && !isDownloading;
 

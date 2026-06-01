@@ -58,6 +58,14 @@ async function apiFetch(path: string, options?: RequestInit) {
   });
 }
 
+async function persistThreadId(id: string | null) {
+  if (id) {
+    await AsyncStorage.setItem(THREAD_STORAGE_KEY, JSON.stringify(id));
+  } else {
+    await AsyncStorage.removeItem(THREAD_STORAGE_KEY);
+  }
+}
+
 export function useCoachChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -75,6 +83,8 @@ export function useCoachChat() {
 
     (async () => {
       try {
+        if (!mountedRef.current) return;
+
         const stored = await AsyncStorage.getItem(THREAD_STORAGE_KEY);
         const storedThreadId = stored ? JSON.parse(stored) : null;
 
@@ -83,6 +93,8 @@ export function useCoachChat() {
         if (storedThreadId && typeof storedThreadId === 'string') {
           threadIdRef.current = storedThreadId;
           setThreadId(storedThreadId);
+
+          if (!mountedRef.current) return;
 
           const res = await apiFetch(
             `/api/memory/threads/${encodeURIComponent(storedThreadId)}/messages`,
@@ -118,14 +130,6 @@ export function useCoachChat() {
       mountedRef.current = false;
     };
   }, []);
-
-  const persistThreadId = async (id: string | null) => {
-    if (id) {
-      await AsyncStorage.setItem(THREAD_STORAGE_KEY, JSON.stringify(id));
-    } else {
-      await AsyncStorage.removeItem(THREAD_STORAGE_KEY);
-    }
-  };
 
   const sendMessage = async (content: string) => {
     if (!content.trim() || isLoading) return;

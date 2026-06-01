@@ -117,9 +117,7 @@ export default function EbookLanding() {
         <ScrollView
           contentContainerClassName="pb-8"
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom: FADE_HEIGHT,
-          }}
+          contentInset={{ bottom: FADE_HEIGHT }}
         >
           {/* Hero Image */}
           <View className="px-4 py-3">

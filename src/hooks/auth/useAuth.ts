@@ -25,18 +25,25 @@ const SLOW_RESPONSE_THRESHOLD_MS = 3_000;
  */
 function useSlowResponseFlag(isPending: boolean): boolean {
   const [slow, setSlow] = useState(false);
+  const [prevIsPending, setPrevIsPending] = useState(isPending);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
+  // Reset `slow` immediately during render when `isPending` flips — avoids
+  // the stale-UI render that a synchronous setState-in-effect would cause.
+  if (isPending !== prevIsPending) {
+    setPrevIsPending(isPending);
+    if (!isPending) setSlow(false);
+  }
+
+  // Start/clear the delayed timer as a genuine async side effect.
   useEffect(() => {
     if (isPending) {
-      setSlow(false);
       timerRef.current = setTimeout(
         () => setSlow(true),
         SLOW_RESPONSE_THRESHOLD_MS,
       );
     } else {
       if (timerRef.current) clearTimeout(timerRef.current);
-      setSlow(false);
     }
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);

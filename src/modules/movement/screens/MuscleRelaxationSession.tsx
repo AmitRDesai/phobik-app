@@ -445,7 +445,9 @@ function SessionControls({
           />
         </Pressable>
         <View className="h-1.5 flex-1 overflow-hidden rounded-full bg-foreground/10">
-          <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
+          <Animated.View
+            style={[{ height: '100%', width: '100%' }, progressBarStyle]}
+          >
             <LinearGradient
               colors={[colors.primary.pink, colors.accent.yellow]}
               start={{ x: 0, y: 0 }}
@@ -524,6 +526,7 @@ export default function MuscleRelaxationSession() {
   const phaseIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const audioElapsedRef = useRef(0);
   const scrollRef = useRef<ScrollView>(null);
+  const elapsedTotalRef = useRef(initialElapsed);
 
   const currentGroup = MUSCLE_GROUPS[currentStepIndex];
   const overallProgress = Math.min(elapsedTotal / TOTAL_DURATION, 1);
@@ -534,7 +537,8 @@ export default function MuscleRelaxationSession() {
     easing: Easing.linear,
   });
   const progressBarStyle = useAnimatedStyle(() => ({
-    width: `${animatedProgress.value * 100}%`,
+    transform: [{ scaleX: animatedProgress.value }],
+    transformOrigin: 'left',
   }));
   const timeRemaining = Math.max(TOTAL_DURATION - elapsedTotal, 0);
 
@@ -629,7 +633,7 @@ export default function MuscleRelaxationSession() {
         pathname: '/practices/completion',
         params: {
           practiceType: 'muscle-relaxation',
-          durationSeconds: String(elapsedTotal),
+          durationSeconds: String(elapsedTotalRef.current),
         },
       });
     }
@@ -640,7 +644,11 @@ export default function MuscleRelaxationSession() {
     if (isPaused || !prefetch.ready) return;
 
     intervalRef.current = setInterval(() => {
-      setElapsedTotal((prev) => prev + 1);
+      setElapsedTotal((prev) => {
+        const next = prev + 1;
+        elapsedTotalRef.current = next;
+        return next;
+      });
     }, 1000);
 
     return () => {

@@ -2,7 +2,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from '@/components/ui/Button';
-import { Pressable } from 'react-native';
 
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
@@ -72,6 +71,79 @@ function GradientTimer({ formatted }: { formatted: string }) {
   );
 }
 
+function PracticeText({ challenge }: { challenge: MysteryChallenge }) {
+  const { practiceText, highlightText } = challenge;
+
+  if (!highlightText) {
+    // Check for newline (affirmations pattern: main text + italic quote)
+    const newlineIdx = practiceText.indexOf('\n');
+    if (newlineIdx !== -1) {
+      const mainText = practiceText.slice(0, newlineIdx);
+      const quoteText = practiceText.slice(newlineIdx + 1);
+      return (
+        <>
+          <Text
+            size="lg"
+            align="center"
+            className="leading-snug text-foreground/90"
+          >
+            {mainText}
+          </Text>
+          <Text
+            size="lg"
+            italic
+            align="center"
+            weight="bold"
+            className="mt-1 leading-snug"
+            style={{ color: colors.accent.yellow }}
+          >
+            {quoteText}
+          </Text>
+        </>
+      );
+    }
+    return (
+      <Text
+        size="lg"
+        align="center"
+        className="leading-snug text-foreground/90"
+      >
+        {practiceText}
+      </Text>
+    );
+  }
+
+  const parts = practiceText.split(highlightText);
+  return (
+    <>
+      <Text
+        size="lg"
+        align="center"
+        className="leading-snug text-foreground/90"
+      >
+        {parts[0]}
+        <Text size="lg" weight="bold" style={{ color: colors.accent.yellow }}>
+          {highlightText}
+        </Text>
+        {parts[1]}
+      </Text>
+      {/* If highlightText is a standalone question (feelings), render it separately */}
+      {challenge.type === 'feelings' && (
+        <Text
+          size="lg"
+          italic
+          align="center"
+          weight="medium"
+          className="mt-2 leading-snug"
+          style={{ color: colors.accent.yellow }}
+        >
+          {highlightText}
+        </Text>
+      )}
+    </>
+  );
+}
+
 export function MysteryPracticeCard({
   challenge,
   onStart,
@@ -122,80 +194,6 @@ export function MysteryPracticeCard({
     onComplete?.();
   };
 
-  // Split practice text around highlight if present
-  const renderPracticeText = () => {
-    const { practiceText, highlightText } = challenge;
-
-    if (!highlightText) {
-      // Check for newline (affirmations pattern: main text + italic quote)
-      const newlineIdx = practiceText.indexOf('\n');
-      if (newlineIdx !== -1) {
-        const mainText = practiceText.slice(0, newlineIdx);
-        const quoteText = practiceText.slice(newlineIdx + 1);
-        return (
-          <>
-            <Text
-              size="lg"
-              align="center"
-              className="leading-snug text-foreground/90"
-            >
-              {mainText}
-            </Text>
-            <Text
-              size="lg"
-              italic
-              align="center"
-              weight="bold"
-              className="mt-1 leading-snug"
-              style={{ color: colors.accent.yellow }}
-            >
-              {quoteText}
-            </Text>
-          </>
-        );
-      }
-      return (
-        <Text
-          size="lg"
-          align="center"
-          className="leading-snug text-foreground/90"
-        >
-          {practiceText}
-        </Text>
-      );
-    }
-
-    const parts = practiceText.split(highlightText);
-    return (
-      <>
-        <Text
-          size="lg"
-          align="center"
-          className="leading-snug text-foreground/90"
-        >
-          {parts[0]}
-          <Text size="lg" weight="bold" style={{ color: colors.accent.yellow }}>
-            {highlightText}
-          </Text>
-          {parts[1]}
-        </Text>
-        {/* If highlightText is a standalone question (feelings), render it separately */}
-        {challenge.type === 'feelings' && (
-          <Text
-            size="lg"
-            italic
-            align="center"
-            weight="medium"
-            className="mt-2 leading-snug"
-            style={{ color: colors.accent.yellow }}
-          >
-            {highlightText}
-          </Text>
-        )}
-      </>
-    );
-  };
-
   return (
     <View
       className="overflow-hidden rounded-3xl"
@@ -242,7 +240,7 @@ export function MysteryPracticeCard({
         </Text>
 
         {/* Practice text */}
-        {renderPracticeText()}
+        <PracticeText challenge={challenge} />
 
         {/* Timer */}
         <View className="mb-2 mt-6">

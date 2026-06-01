@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { EaseView } from 'react-native-ease';
 
@@ -42,6 +42,7 @@ export default function MicroChallenges() {
 
   const [direction, setDirection] = useState<'forward' | 'back'>('forward');
   const [isInitialized, setIsInitialized] = useState(false);
+  const initFiredRef = useRef(false);
 
   // Current state from DB or defaults
   const challengeId = challenge?.id ?? null;
@@ -51,15 +52,18 @@ export default function MicroChallenges() {
   const selectedFeeling = challenge?.feeling ?? null;
   const selectedNeedItem = challenge?.need ?? null;
 
-  // On mount: start a new challenge if none is active
+  // On mount: start a new challenge if none is active.
+  // initFiredRef prevents the effect from firing twice in StrictMode without
+  // the cascading setIsInitialized → re-run pattern.
   useEffect(() => {
-    if (isLoadingChallenge || isInitialized) return;
+    if (isLoadingChallenge || initFiredRef.current) return;
+    initFiredRef.current = true;
     setIsInitialized(true);
 
     if (!challenge) {
       startChallenge.mutate();
     }
-  }, [isLoadingChallenge, isInitialized, challenge, startChallenge]);
+  }, [isLoadingChallenge, challenge, startChallenge]);
 
   const setStep = (newStep: number) => {
     if (!challengeId) return;
@@ -173,60 +177,65 @@ export default function MicroChallenges() {
     );
   }
 
-  const renderStep = () => {
-    switch (step) {
-      case 0:
-        return <PauseAndNotice onContinue={handleNext} />;
-      case 1:
-        return <BodyScan onContinue={handleNext} />;
-      case 2:
-        return (
-          <FloatingMapper
-            items={EMOTIONS.map((e) => ({
-              id: e.id,
-              label: e.label,
-              gradient: e.gradient,
-              shadowColor: e.shadowColor,
-              subItems: e.subFeelings,
-            }))}
-            selectedId={selectedEmotion}
-            selectedSubItem={selectedFeeling}
-            onSelect={setSelectedEmotion}
-            onSubItemSelect={setSelectedFeeling}
-            onConfirm={handleNext}
-            promptText={`Name the feelings without judgment.\nI feel...`}
-            confirmLabel="Confirm Feeling"
-          />
-        );
-      case 3:
-        return (
-          <FloatingMapper
-            items={NEEDS.map((n) => ({
-              id: n.id,
-              label: n.label,
-              gradient: n.gradient,
-              shadowColor: n.shadowColor,
-              subItems: n.subNeeds,
-            }))}
-            selectedId={selectedNeed}
-            selectedSubItem={selectedNeedItem}
-            onSelect={setSelectedNeed}
-            onSubItemSelect={setSelectedNeedItem}
-            onConfirm={handleNext}
-            promptText={`Name what you are needing.\nI need...`}
-            confirmLabel="Confirm Need"
-          />
-        );
-      case 4:
-        return (
-          <DailyDose onAccept={handleNext} onAIResponse={handleAIResponse} />
-        );
-      case 5:
-        return <ReflectWithCuriosity onFinish={handleFinish} />;
-      default:
-        return null;
-    }
-  };
+  let stepContent: ReactNode;
+  switch (step) {
+    case 0:
+      stepContent = <PauseAndNotice onContinue={handleNext} />;
+      break;
+    case 1:
+      stepContent = <BodyScan onContinue={handleNext} />;
+      break;
+    case 2:
+      stepContent = (
+        <FloatingMapper
+          items={EMOTIONS.map((e) => ({
+            id: e.id,
+            label: e.label,
+            gradient: e.gradient,
+            shadowColor: e.shadowColor,
+            subItems: e.subFeelings,
+          }))}
+          selectedId={selectedEmotion}
+          selectedSubItem={selectedFeeling}
+          onSelect={setSelectedEmotion}
+          onSubItemSelect={setSelectedFeeling}
+          onConfirm={handleNext}
+          promptText={`Name the feelings without judgment.\nI feel...`}
+          confirmLabel="Confirm Feeling"
+        />
+      );
+      break;
+    case 3:
+      stepContent = (
+        <FloatingMapper
+          items={NEEDS.map((n) => ({
+            id: n.id,
+            label: n.label,
+            gradient: n.gradient,
+            shadowColor: n.shadowColor,
+            subItems: n.subNeeds,
+          }))}
+          selectedId={selectedNeed}
+          selectedSubItem={selectedNeedItem}
+          onSelect={setSelectedNeed}
+          onSubItemSelect={setSelectedNeedItem}
+          onConfirm={handleNext}
+          promptText={`Name what you are needing.\nI need...`}
+          confirmLabel="Confirm Need"
+        />
+      );
+      break;
+    case 4:
+      stepContent = (
+        <DailyDose onAccept={handleNext} onAIResponse={handleAIResponse} />
+      );
+      break;
+    case 5:
+      stepContent = <ReflectWithCuriosity onFinish={handleFinish} />;
+      break;
+    default:
+      stepContent = null;
+  }
 
   return (
     <Screen
@@ -275,7 +284,7 @@ export default function MicroChallenges() {
         animate={{ opacity: 1, translateX: 0 }}
         transition={{ type: 'timing', duration: 300 }}
       >
-        {renderStep()}
+        {stepContent}
       </EaseView>
     </Screen>
   );

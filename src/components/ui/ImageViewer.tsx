@@ -1,6 +1,6 @@
 import { Text } from '@/components/themed/Text';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   FlatList,
   Image,
@@ -47,6 +47,13 @@ export function ImageViewer({
   const insets = useSafeAreaInsets();
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const [activeIndex, setActiveIndex] = useState(initialIndex);
+
+  const renderItem = useCallback(
+    ({ item }: { item: string }) => (
+      <ImageItem item={item} width={screenWidth} height={screenHeight} />
+    ),
+    [screenWidth, screenHeight],
+  );
 
   return (
     <Modal
@@ -97,9 +104,7 @@ export function ImageViewer({
             setActiveIndex(index);
           }}
           keyExtractor={(_, index) => String(index)}
-          renderItem={({ item }) => (
-            <ImageItem item={item} width={screenWidth} height={screenHeight} />
-          )}
+          renderItem={renderItem}
         />
       </View>
     </Modal>

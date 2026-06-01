@@ -21,6 +21,6 @@ export function useAnimatedTiming(
   const value = useSharedValue(target);
   useEffect(() => {
     value.value = withTiming(target, config);
-  }, [target, value]);
+  }, [target, value, config]);
   return value;
 }

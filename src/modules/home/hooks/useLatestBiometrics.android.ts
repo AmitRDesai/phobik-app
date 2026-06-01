@@ -9,7 +9,7 @@ import { readSleepSessionsInWindow } from '@/lib/biometrics/sleep-reader';
 import { persistSleepSessions } from '@/lib/biometrics/sleep-storage';
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 import {
   getGrantedPermissions,
@@ -135,7 +135,9 @@ export function useLatestBiometrics(): LatestBiometrics {
   // listener and 90s polling interval get torn down + recreated each render —
   // the polling interval is reset before it can fire, and battery drains.
   const refetchRef = useRef(query.refetch);
-  refetchRef.current = query.refetch;
+  useLayoutEffect(() => {
+    refetchRef.current = query.refetch;
+  });
 
   useEffect(() => {
     const sub = AppState.addEventListener('change', (state) => {

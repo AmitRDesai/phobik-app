@@ -11,7 +11,7 @@ export function useTodaysChallenge() {
   const userId = useUserId();
   const today = dayjs().format('YYYY-MM-DD');
 
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['mystery-challenge-today', userId, today],
     query: db
       .selectFrom('mystery_challenge')
@@ -23,7 +23,7 @@ export function useTodaysChallenge() {
     enabled: !!userId,
   });
 
-  return { data: data?.[0] ? toCamel(data[0]) : null, ...rest };
+  return { data: data?.[0] ? toCamel(data[0]) : null, isLoading, error };
 }
 
 export function useRecordChallenge() {
@@ -67,7 +67,7 @@ export function useRecordChallenge() {
 export function useChallengeHistory() {
   const userId = useUserId();
 
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['mystery-challenge-history', userId],
     query: db
       .selectFrom('mystery_challenge')
@@ -79,5 +79,5 @@ export function useChallengeHistory() {
   });
 
   const transformed = data?.map((r) => toCamel(r));
-  return { data: transformed, ...rest };
+  return { data: transformed, isLoading, error };
 }

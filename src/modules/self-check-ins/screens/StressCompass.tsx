@@ -12,7 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useAtom } from 'jotai';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { Slider } from '@/components/ui/Slider';
 import { STRESSOR_CATEGORIES, type StressorKey } from '../data/stressors';
@@ -30,7 +30,9 @@ export default function StressCompass() {
   const saveAnswer = useSaveAnswer();
   // Generate the assessment id synchronously up front so answers made before
   // the insert resolves are persisted against a stable id (no early-return).
-  const [assessmentId, setAssessmentId] = useState<string>(() => uuid());
+  // Stored in a ref so adopting the server's id (resume case) doesn't trigger
+  // a re-render — assessmentId is only read in event handlers, not in JSX.
+  const assessmentIdRef = useRef<string>(uuid());
   const startedRef = useRef(false);
   // Ratings the user has actively saved this session, keyed by questionId.
   // Used to re-persist any in-flight answers if the resume case adopts a
@@ -41,7 +43,7 @@ export default function StressCompass() {
     if (startedRef.current) return;
     startedRef.current = true;
     startAssessment.mutate(
-      { type: 'stress-compass', id: assessmentId },
+      { type: 'stress-compass', id: assessmentIdRef.current },
       {
         onSuccess: (result) => {
           const record = result as {
@@ -49,8 +51,8 @@ export default function StressCompass() {
             answers?: Record<string, number>;
           };
           // Resume case: an existing in-progress row wins — adopt its id.
-          if (record.id !== assessmentId) {
-            setAssessmentId(record.id);
+          if (record.id !== assessmentIdRef.current) {
+            assessmentIdRef.current = record.id;
             // Any answers saved during the start round-trip were written
             // against the local uuid (a row that never existed) and dropped.
             // Re-persist them against the adopted id so nothing is lost.
@@ -88,7 +90,7 @@ export default function StressCompass() {
     if (questionId < 0) return;
     collectedRef.current[questionId] = value;
     saveAnswer.mutate({
-      id: assessmentId,
+      id: assessmentIdRef.current,
       questionId,
       answer: value,
       currentQuestion: questionId,
@@ -124,7 +126,9 @@ export default function StressCompass() {
           onPress={() =>
             router.replace({
               pathname: '/practices/self-check-ins/stress-signature-map',
-              params: assessmentId ? { id: assessmentId } : {},
+              params: assessmentIdRef.current
+                ? { id: assessmentIdRef.current }
+                : {},
             })
           }
           icon={<MaterialIcons name="rocket-launch" size={20} color="white" />}

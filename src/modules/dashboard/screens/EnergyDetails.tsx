@@ -59,6 +59,13 @@ const CHEMICAL_RENDER: Record<Chemical, ChemicalRender> = {
   },
 };
 
+const ORDERED_CHEMICALS: Chemical[] = [
+  'endorphins',
+  'dopamine',
+  'serotonin',
+  'oxytocin',
+];
+
 function statusFor(score: number): 'check' | 'critical' | 'neutral' {
   if (score >= 20) return 'check';
   if (score < 10) return 'critical';
@@ -81,13 +88,6 @@ export default function EnergyDetails() {
 
   const lowestRender = CHEMICAL_RENDER[dose.lowest];
   const insight = CHEMICAL_META[dose.lowest].insight;
-
-  const orderedChemicals: Chemical[] = [
-    'endorphins',
-    'dopamine',
-    'serotonin',
-    'oxytocin',
-  ];
 
   return (
     <Screen
@@ -173,7 +173,7 @@ export default function EnergyDetails() {
           Your brain needs this right now. Micro-actions to balance your
           chemistry.
         </Text>
-        {orderedChemicals.map((c) => {
+        {ORDERED_CHEMICALS.map((c) => {
           const r = CHEMICAL_RENDER[c];
           return (
             <DoseActionRow

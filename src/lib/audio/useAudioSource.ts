@@ -167,7 +167,9 @@ export function useAudioSource(key: string | null): UseAudioSourceResult {
       controller.abort();
     };
     // Deps explained:
-    //   key, sha256, manifest — re-run when the target or manifest changes
+    //   key, sha256, manifest, entry — re-run when the target or manifest changes
+    //     (entry is derived from key+manifest; sha256 keeps the dep as a stable
+    //     primitive so object identity churn in findManifestEntry doesn't matter)
     //   manifestError — re-run when manifest fetch flips between ok/failed
     //   manifestIsFetching — flip the spinner state while a refetch is in
     //     flight after the user taps Retry
@@ -177,6 +179,7 @@ export function useAudioSource(key: string | null): UseAudioSourceResult {
     key,
     sha256,
     manifest,
+    entry,
     manifestError,
     manifestIsFetching,
     isOnline,

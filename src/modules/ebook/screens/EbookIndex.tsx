@@ -5,6 +5,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { EBOOK_CHAPTERS } from '../data/ebook-chapters';
@@ -66,17 +67,13 @@ export default function EbookIndex() {
                     ]}
                     start={{ x: 0, y: 0.5 }}
                     end={{ x: 1, y: 0.5 }}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      paddingHorizontal: 24,
-                      paddingVertical: 16,
-                      borderBottomWidth: 1,
-                      borderBottomColor: foregroundFor(scheme, 0.05),
-                      borderLeftWidth: 4,
-                      borderLeftColor: colors.primary.pink,
-                    }}
+                    style={[
+                      styles.currentChapterRow,
+                      {
+                        borderBottomColor: foregroundFor(scheme, 0.05),
+                        borderLeftColor: colors.primary.pink,
+                      },
+                    ]}
                   >
                     <View className="flex-1 pr-4">
                       <Text
@@ -127,3 +124,15 @@ export default function EbookIndex() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  currentChapterRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderLeftWidth: 4,
+  },
+});

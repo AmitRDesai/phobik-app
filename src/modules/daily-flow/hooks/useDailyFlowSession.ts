@@ -25,7 +25,7 @@ const SESSION_JSON = {
 export function useActiveDailyFlowSession() {
   const userId = useUserId();
 
-  const { data, isLoading, ...rest } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['daily-flow-active', userId],
     query: db
       .selectFrom('daily_flow_session')
@@ -42,7 +42,7 @@ export function useActiveDailyFlowSession() {
     ? (toCamel(row, SESSION_JSON) as DailyFlowSession)
     : null;
 
-  return { session, isLoading, ...rest };
+  return { session, isLoading };
 }
 
 export function useStartDailyFlowSession() {

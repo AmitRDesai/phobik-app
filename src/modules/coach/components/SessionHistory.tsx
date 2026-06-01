@@ -7,7 +7,7 @@ import { useScheme } from '@/hooks/useTheme';
 import { authClient } from '@/lib/auth';
 import { env } from '@/utils/env';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Modal, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -112,6 +112,14 @@ export function SessionHistory({
   const purple = accentFor(scheme, 'purple');
   const [threads, setThreads] = useState<Thread[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [prevVisible, setPrevVisible] = useState(visible);
+
+  // Adjust isLoading during render when visible transitions to true (avoids
+  // synchronous setState inside the effect body).
+  if (visible !== prevVisible) {
+    setPrevVisible(visible);
+    if (visible) setIsLoading(true);
+  }
 
   const iconMuted = foregroundFor(scheme, 0.5);
   const iconDim = foregroundFor(scheme, 0.4);
@@ -122,7 +130,6 @@ export function SessionHistory({
   useEffect(() => {
     if (!visible) return;
 
-    setIsLoading(true);
     (async () => {
       try {
         // @ts-expect-error getCookie is added by the Expo plugin at runtime
@@ -148,36 +155,22 @@ export function SessionHistory({
     })();
   }, [visible]);
 
-  const handleSelectThread = useCallback(
-    (id: string) => {
-      onSelectThread(id);
-      onClose();
-    },
-    [onSelectThread, onClose],
-  );
+  const handleSelectThread = (id: string) => {
+    onSelectThread(id);
+    onClose();
+  };
 
-  const renderItem = useCallback(
-    ({ item }: { item: Thread }) => (
-      <ThreadRow
-        item={item}
-        isCurrent={item.id === currentThreadId}
-        purple={purple}
-        iconDim={iconDim}
-        iconFaint={iconFaint}
-        bgDefault={bgDefault}
-        borderDefault={borderDefault}
-        onPress={handleSelectThread}
-      />
-    ),
-    [
-      currentThreadId,
-      purple,
-      iconDim,
-      iconFaint,
-      bgDefault,
-      borderDefault,
-      handleSelectThread,
-    ],
+  const renderItem = ({ item }: { item: Thread }) => (
+    <ThreadRow
+      item={item}
+      isCurrent={item.id === currentThreadId}
+      purple={purple}
+      iconDim={iconDim}
+      iconFaint={iconFaint}
+      bgDefault={bgDefault}
+      borderDefault={borderDefault}
+      onPress={handleSelectThread}
+    />
   );
 
   return (

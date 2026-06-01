@@ -10,7 +10,7 @@ import type { FlowStep, MorningResetSession } from '../data/types';
 export function useActiveMorningResetSession() {
   const userId = useUserId();
 
-  const { data, isLoading, ...rest } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['morning-reset-active', userId],
     query: db
       .selectFrom('morning_reset_session')
@@ -27,7 +27,7 @@ export function useActiveMorningResetSession() {
     ? (toCamel(row) as MorningResetSession)
     : null;
 
-  return { session, isLoading, ...rest };
+  return { session, isLoading, isError, error };
 }
 
 export function useStartMorningResetSession() {

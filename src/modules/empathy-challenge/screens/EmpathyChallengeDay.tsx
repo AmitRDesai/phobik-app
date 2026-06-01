@@ -13,12 +13,7 @@ import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
-import {
-  accentFor,
-  colors,
-  foregroundFor,
-  withAlpha,
-} from '@/constants/colors';
+import { accentFor, colors, withAlpha } from '@/constants/colors';
 import { CHEMICAL_COLORS } from '@/constants/dose-chemicals';
 import { useScheme } from '@/hooks/useTheme';
 import { scheduleEmpathyChallengeReminder } from '@/lib/notifications';
@@ -45,11 +40,12 @@ export default function EmpathyChallengeDay() {
   const empathyDay = EMPATHY_DAYS.find((d) => d.day === dayNum);
 
   // Mark day as in_progress when screen opens
+  const startDayMutate = startDay.mutate;
   useEffect(() => {
     if (dayId) {
-      startDay.mutate({ dayId });
+      startDayMutate({ dayId });
     }
-  }, [dayId]);
+  }, [dayId, startDayMutate]);
 
   if (!empathyDay) return null;
 

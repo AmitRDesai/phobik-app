@@ -174,7 +174,8 @@ export function useAudioPrefetch(
     let cursor = 0;
     const runNext = async (): Promise<void> => {
       if (stopped) return;
-      const index = cursor++;
+      const index = cursor;
+      cursor = cursor + 1;
       if (index >= pending.length) return;
       const entry = pending[index];
       const onProgress = (p: DownloadProgress) => {

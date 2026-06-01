@@ -199,7 +199,10 @@ function PhaseProgress({
   sessionReady: boolean;
 }) {
   return (
-    <View className="mt-4 items-center gap-3 px-6" style={{ minHeight: 140 }}>
+    <View
+      className="mt-2 items-center gap-3 px-6 pb-2"
+      style={{ minHeight: 140 }}
+    >
       <Text size="display" align="center" weight="bold">
         {currentPhase}
       </Text>
@@ -311,7 +314,7 @@ function useDrivenSharedValue(
   useEffect(() => {
     value.value = build(active);
     // build is a stable module-level function reference
-  }, [active, value]);
+  }, [active, value, build]);
   return value;
 }
 
@@ -449,7 +452,15 @@ export default function DoubleInhaleSession() {
     }
 
     return () => cancels.forEach((cancel) => cancel());
-  }, [phaseIndex, sessionReady, isPaused, cuesReady]);
+  }, [
+    phaseIndex,
+    sessionReady,
+    isPaused,
+    cuesReady,
+    inhalePlayer,
+    exhalePlayer,
+    bowlPlayer,
+  ]);
 
   // Save state on back navigation (only if session has started)
   useSaveOnLeave({
@@ -520,21 +531,24 @@ export default function DoubleInhaleSession() {
       }
       className="flex-1"
     >
-      {/* Breathing visualization + phase text */}
+      {/* Breathing visualization */}
       <View className="flex-1 items-center justify-center">
         <BreathingVisualization
           mainOrbStyle={mainOrbStyle}
           pulse1Style={pulse1Style}
           pulse2Style={pulse2Style}
         />
-        <PhaseProgress
-          currentPhase={currentPhase}
-          currentSubtext={currentSubtext}
-          currentStep={currentStep}
-          phaseIndex={phaseIndex}
-          sessionReady={sessionReady}
-        />
       </View>
+
+      {/* Phase text + step progress — its own band so the step text can't
+          spill over the instruction card below it */}
+      <PhaseProgress
+        currentPhase={currentPhase}
+        currentSubtext={currentSubtext}
+        currentStep={currentStep}
+        phaseIndex={phaseIndex}
+        sessionReady={sessionReady}
+      />
 
       {/* Glass instruction card */}
       <InstructionCard />

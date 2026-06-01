@@ -60,7 +60,7 @@ export function useCreateLetter() {
 export function useListLetters() {
   const userId = useUserId();
 
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['gentle-letters', userId],
     query: db
       .selectFrom('gentle_letter')
@@ -72,13 +72,13 @@ export function useListLetters() {
   });
 
   const transformed = data?.map((r) => toCamel(r, LETTER_JSON));
-  return { data: transformed, ...rest };
+  return { data: transformed, isLoading, isError, error };
 }
 
 export function useLettersForDate(date: string | null) {
   const userId = useUserId();
 
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['gentle-letters-date', userId, date],
     query: db
       .selectFrom('gentle_letter')
@@ -90,11 +90,11 @@ export function useLettersForDate(date: string | null) {
   });
 
   const transformed = data?.map((r) => toCamel(r, LETTER_JSON));
-  return { data: transformed, ...rest };
+  return { data: transformed, isLoading, isError, error };
 }
 
 export function useGetLetter(id: string | undefined) {
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['gentle-letter', id],
     query: db
       .selectFrom('gentle_letter')
@@ -104,7 +104,7 @@ export function useGetLetter(id: string | undefined) {
   });
 
   const letter = data?.[0] ? toCamel(data[0], LETTER_JSON) : null;
-  return { data: letter, ...rest };
+  return { data: letter, isLoading, isError, error };
 }
 
 export function useLetterDatesForMonth(month: number, year: number) {
@@ -112,7 +112,7 @@ export function useLetterDatesForMonth(month: number, year: number) {
   const monthStr = String(month).padStart(2, '0');
   const prefix = `${year}-${monthStr}%`;
 
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['gentle-letter-dates', userId, month, year],
     query: db
       .selectFrom('gentle_letter')
@@ -123,5 +123,5 @@ export function useLetterDatesForMonth(month: number, year: number) {
     enabled: !!userId,
   });
 
-  return { data: data?.map((r) => r.entry_date), ...rest };
+  return { data: data?.map((r) => r.entry_date), isLoading, isError, error };
 }

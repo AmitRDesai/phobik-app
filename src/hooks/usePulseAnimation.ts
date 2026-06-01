@@ -52,6 +52,6 @@ export function usePulseAnimation({
     } else {
       value.value = withTiming(rest, { duration: restDuration });
     }
-  }, [active, value]);
+  }, [active, value, to, duration, easing, from, rest, restDuration]);
   return value;
 }

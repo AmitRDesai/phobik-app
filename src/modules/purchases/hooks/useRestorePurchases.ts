@@ -20,40 +20,44 @@ export function useRestorePurchases() {
       // 1. Restore via RevenueCat (may trigger OS auth prompt)
       const customerInfo = await Purchases.restorePurchases();
 
-      let restoredCount = 0;
+      // 2. For each active entitlement, ensure a local pack_purchase row exists.
+      // Run all checks and inserts concurrently — each operates on a distinct packId.
+      const restoredFlags = await Promise.all(
+        Object.entries(customerInfo.entitlements.active).map(
+          async ([entitlementId, entitlement]) => {
+            const packId = ENTITLEMENT_TO_PACK[entitlementId];
+            if (!packId) return false;
 
-      // 2. For each active entitlement, ensure a local pack_purchase row exists
-      for (const [entitlementId, entitlement] of Object.entries(
-        customerInfo.entitlements.active,
-      )) {
-        const packId = ENTITLEMENT_TO_PACK[entitlementId];
-        if (!packId) continue;
+            // Check if already recorded locally
+            const existing = await db
+              .selectFrom('pack_purchase')
+              .select('id')
+              .where('user_id', '=', userId)
+              .where('pack_id', '=', packId)
+              .executeTakeFirst();
 
-        // Check if already recorded locally
-        const existing = await db
-          .selectFrom('pack_purchase')
-          .select('id')
-          .where('user_id', '=', userId)
-          .where('pack_id', '=', packId)
-          .executeTakeFirst();
+            if (!existing) {
+              const now = new Date().toISOString();
+              await db
+                .insertInto('pack_purchase')
+                .values({
+                  id: uuid(),
+                  user_id: userId,
+                  pack_id: packId,
+                  product_id: entitlement.productIdentifier,
+                  purchased_at: entitlement.originalPurchaseDate ?? now,
+                  created_at: now,
+                  updated_at: now,
+                })
+                .execute();
+              return true;
+            }
+            return false;
+          },
+        ),
+      );
 
-        if (!existing) {
-          const now = new Date().toISOString();
-          await db
-            .insertInto('pack_purchase')
-            .values({
-              id: uuid(),
-              user_id: userId,
-              pack_id: packId,
-              product_id: entitlement.productIdentifier,
-              purchased_at: entitlement.originalPurchaseDate ?? now,
-              created_at: now,
-              updated_at: now,
-            })
-            .execute();
-          restoredCount++;
-        }
-      }
+      const restoredCount = restoredFlags.filter(Boolean).length;
 
       return { restoredCount };
     },

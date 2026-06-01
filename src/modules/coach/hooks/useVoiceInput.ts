@@ -9,6 +9,11 @@ type UseVoiceInputOptions = {
   onResult: (text: string) => void;
 };
 
+function stopRecognition() {
+  ExpoSpeechRecognitionModule.stop();
+  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+}
+
 export function useVoiceInput({ onResult }: UseVoiceInputOptions) {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
@@ -54,16 +59,11 @@ export function useVoiceInput({ onResult }: UseVoiceInputOptions) {
     });
   };
 
-  const stop = () => {
-    ExpoSpeechRecognitionModule.stop();
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  };
-
   return {
     isListening,
     transcript,
     isAvailable,
     start,
-    stop,
+    stop: stopRecognition,
   };
 }

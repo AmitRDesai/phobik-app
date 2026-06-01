@@ -12,7 +12,7 @@ import { biometricPromptShownAtom, isSignedOutAtom } from '@/store/auth';
 import { isReturningUserAtom } from '@/store/user';
 import * as SplashScreen from 'expo-splash-screen';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { useProfileAutoRecovery } from './useProfileAutoRecovery';
 import '../../global.css';
@@ -34,8 +34,6 @@ const useAppInitializer = () => {
   const biometricPromptShown = useAtomValue(biometricPromptShownAtom);
   const { isAvailable: biometricAvailable, resolved: biometricResolved } =
     useBiometricAvailability();
-  const [isReady, setIsReady] = useState(false);
-
   // Safety valve: never block the boot stack indefinitely on the biometric
   // availability check. It resolves quickly in practice, but if the native
   // module ever hangs we proceed after a short grace period.
@@ -50,10 +48,10 @@ const useAppInitializer = () => {
   const isAuthenticated = hasSession && !isSignedOut;
   const emailVerified = session?.user?.emailVerified ?? true;
 
-  // Once authenticated, mark as returning user permanently
-  useEffect(() => {
-    if (isAuthenticated && !isReturningUser) setIsReturningUser(true);
-  }, [isAuthenticated, isReturningUser, setIsReturningUser]);
+  // Once authenticated, mark as returning user permanently (latch: false → true)
+  if (isAuthenticated && !isReturningUser) {
+    setIsReturningUser(true);
+  }
 
   // Initialize RevenueCat SDK on mount
   useEffect(() => {
@@ -123,10 +121,10 @@ const useAppInitializer = () => {
     !isAutoRecoveryPending &&
     (!needsBiometricGate || biometricGate);
 
+  // Hide splash once data resolves — this is a side effect on an external system.
   useEffect(() => {
     if (dataResolved) {
       SplashScreen.hideAsync();
-      setIsReady(true);
     }
   }, [dataResolved]);
 
@@ -135,7 +133,9 @@ const useAppInitializer = () => {
   // soft-dismiss dedup; it just tells us when to take over the boot stack.
   // Precedence: force-update beats OTA-restart (an OTA bundle for an
   // incompatible runtime would be useless; push the user to the App Store).
-  const { isForceUpdate, isOtaRestartNeeded } = useAppUpdateGate({ isReady });
+  const { isForceUpdate, isOtaRestartNeeded } = useAppUpdateGate({
+    isReady: dataResolved,
+  });
 
   const rawActiveStack = ((): ActiveStack => {
     if (isForceUpdate) return 'update-required';
@@ -149,16 +149,13 @@ const useAppInitializer = () => {
     return 'home';
   })();
 
-  // Only emit activeStack once data resolves — holds the initial value until ready
-  const activeStackRef = useRef(rawActiveStack);
-  if (dataResolved) {
-    activeStackRef.current = rawActiveStack;
-  }
-  const activeStack = activeStackRef.current;
+  // Only emit a meaningful activeStack once data has resolved — before that
+  // use 'auth' as a safe placeholder so the splash covers any stale routing.
+  const activeStack: ActiveStack = dataResolved ? rawActiveStack : 'auth';
 
   return {
     activeStack,
-    isReady,
+    isReady: dataResolved,
     isReturningUser,
   };
 };

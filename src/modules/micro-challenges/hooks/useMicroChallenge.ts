@@ -15,7 +15,7 @@ import type {
 export function useActiveChallenge() {
   const userId = useUserId();
 
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, isError, error, isPending, isFetching } = useQuery({
     queryKey: ['micro-challenge-active', userId],
     query: db
       .selectFrom('micro_challenge')
@@ -30,7 +30,7 @@ export function useActiveChallenge() {
     ? (toCamel(data[0], { ai_response: true }) as unknown as MicroChallenge)
     : null;
 
-  return { challenge, ...rest };
+  return { challenge, isLoading, isError, error, isPending, isFetching };
 }
 
 // ─── Stats ───

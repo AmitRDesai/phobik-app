@@ -21,10 +21,15 @@ const POLL_INTERVAL_MS = 150;
  * skipped because its bundled clip hadn't loaded yet.
  */
 export function useCuesReady(players: AudioPlayer[]): boolean {
-  const [ready, setReady] = useState(false);
   // Captured once — the bundled-cue instances are stable for the screen's
   // lifetime, so there's no need to re-sync them on every render.
   const playersRef = useRef(players);
+
+  // Initialize synchronously so that if all players are already loaded on
+  // mount (e.g. during fast-refresh or hot reload) we never flash ready=false.
+  const [ready, setReady] = useState(() =>
+    playersRef.current.every((p) => p.isLoaded),
+  );
 
   useEffect(() => {
     const allLoaded = () => playersRef.current.every((p) => p.isLoaded);

@@ -9,12 +9,11 @@ import { PlaybackControls } from '@/components/ui/PlaybackControls';
 import { Screen } from '@/components/ui/Screen';
 import { useAnimatedTiming } from '@/hooks/useAnimatedTiming';
 import { useNow } from '@/hooks/useNow';
-import { useScheme } from '@/hooks/useTheme';
 import { replayCue } from '@/lib/audio/replayCue';
 import { useCuesReady } from '@/lib/audio/useCuesReady';
 import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import { colors, withAlpha } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -174,7 +173,7 @@ export default function Lazy8BreathingSession() {
     easing: Easing.linear,
   });
   const progressBarStyle = useAnimatedStyle(() => ({
-    width: `${animatedProgress.value * 100}%`,
+    transform: [{ scaleX: animatedProgress.value }],
   }));
 
   // Derive phase index from elapsed time for phase audio
@@ -216,7 +215,15 @@ export default function Lazy8BreathingSession() {
     }
 
     return () => cancels.forEach((cancel) => cancel());
-  }, [phaseIndex, sessionReady, isPaused, cuesReady]);
+  }, [
+    phaseIndex,
+    sessionReady,
+    isPaused,
+    cuesReady,
+    inhalePlayer,
+    exhalePlayer,
+    bowlPlayer,
+  ]);
 
   // Save state on back navigation (only if session has started)
   useSaveOnLeave({
@@ -283,7 +290,16 @@ export default function Lazy8BreathingSession() {
         className="mb-0 w-full max-w-xs overflow-hidden rounded-full bg-foreground/[0.08]"
         style={{ height: 4 }}
       >
-        <Animated.View style={[{ height: '100%' }, progressBarStyle]}>
+        <Animated.View
+          style={[
+            {
+              height: '100%',
+              width: '100%',
+              transformOrigin: ['0%', '50%', 0],
+            },
+            progressBarStyle,
+          ]}
+        >
           <LinearGradient
             colors={[colors.primary.pink, colors.accent.yellow]}
             start={{ x: 0, y: 0 }}

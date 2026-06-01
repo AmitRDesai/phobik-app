@@ -15,6 +15,51 @@ import { AppState, Linking, Platform } from 'react-native';
 
 const RESEND_COOLDOWN_SECONDS = 60;
 
+async function checkVerification() {
+  let result;
+  try {
+    result = await getSession({ query: { disableCookieCache: true } });
+  } catch {
+    // Ignore — guard will re-evaluate on next session refresh
+    return;
+  }
+  if (result.data?.user?.emailVerified) {
+    toast.success({
+      message: 'Email Verified',
+      description: 'Your email has been verified successfully.',
+    });
+  }
+}
+
+async function handleOpenEmail() {
+  if (Platform.OS === 'ios') {
+    try {
+      const canOpen = await Linking.canOpenURL('message://');
+      if (canOpen) {
+        await Linking.openURL('message://');
+        return;
+      }
+      const canOpenMailto = await Linking.canOpenURL('mailto:');
+      if (canOpenMailto) {
+        await Linking.openURL('mailto:');
+        return;
+      }
+    } catch {
+      // Scheme query failed — fall through to dialog
+    }
+    dialog.info({
+      title: 'No Email App',
+      message:
+        'No email app is available on this device. Please open your email manually.',
+    });
+  } else {
+    IntentLauncher.startActivityAsync('android.intent.action.MAIN', {
+      category: 'android.intent.category.APP_EMAIL',
+      flags: 268435456, // FLAG_ACTIVITY_NEW_TASK
+    });
+  }
+}
+
 export default function EmailVerificationScreen() {
   const { data: session } = useSession();
   const email = session?.user?.email ?? '';
@@ -43,59 +88,13 @@ export default function EmailVerificationScreen() {
     [],
   );
 
-  const checkVerification = async () => {
-    let result;
-    try {
-      result = await getSession({ query: { disableCookieCache: true } });
-    } catch {
-      // Ignore — guard will re-evaluate on next session refresh
-      return;
-    }
-    if (result.data?.user?.emailVerified) {
-      toast.success({
-        message: 'Email Verified',
-        description: 'Your email has been verified successfully.',
-      });
-    }
-  };
-
   // Foreground return — detect when user switches back to app
   useEffect(() => {
     const sub = AppState.addEventListener('change', (state) => {
       if (state === 'active') checkVerification();
     });
     return () => sub.remove();
-    // checkVerification has no external deps — stable to mount once
   }, []);
-
-  const handleOpenEmail = async () => {
-    if (Platform.OS === 'ios') {
-      try {
-        const canOpen = await Linking.canOpenURL('message://');
-        if (canOpen) {
-          await Linking.openURL('message://');
-          return;
-        }
-        const canOpenMailto = await Linking.canOpenURL('mailto:');
-        if (canOpenMailto) {
-          await Linking.openURL('mailto:');
-          return;
-        }
-      } catch {
-        // Scheme query failed — fall through to dialog
-      }
-      dialog.info({
-        title: 'No Email App',
-        message:
-          'No email app is available on this device. Please open your email manually.',
-      });
-    } else {
-      IntentLauncher.startActivityAsync('android.intent.action.MAIN', {
-        category: 'android.intent.category.APP_EMAIL',
-        flags: 268435456, // FLAG_ACTIVITY_NEW_TASK
-      });
-    }
-  };
 
   const handleResend = async () => {
     if (resendCooldown > 0 || isSending) return;

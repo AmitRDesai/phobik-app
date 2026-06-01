@@ -45,17 +45,24 @@ export default function Player() {
 
   useEffect(() => {
     if (!playing) return;
-    const id = setInterval(() => setStepElapsed((e) => e + 1), 1000);
+    const id = setInterval(() => {
+      setStepElapsed((elapsed) => {
+        const nextElapsed = elapsed + 1;
+        // Advance to the next step when the current step duration elapses.
+        if (
+          nextElapsed >= currentStep.durationSeconds &&
+          stepIndex < flow.length - 1
+        ) {
+          setStepIndex((i) => i + 1);
+          return 0;
+        }
+        return nextElapsed;
+      });
+    }, 1000);
     return () => clearInterval(id);
-  }, [playing]);
-
-  useEffect(() => {
-    if (stepElapsed < currentStep.durationSeconds) return;
-    if (stepIndex < flow.length - 1) {
-      setStepIndex((i) => i + 1);
-      setStepElapsed(0);
-    }
-  }, [stepElapsed, stepIndex, flow.length, currentStep.durationSeconds]);
+    // currentStep.durationSeconds and stepIndex are read inside the callback via
+    // closure; the interval is recreated whenever playing/stepIndex/flow changes.
+  }, [playing, stepIndex, flow.length, currentStep.durationSeconds]);
 
   const showLoading = isLoading || !session;
 

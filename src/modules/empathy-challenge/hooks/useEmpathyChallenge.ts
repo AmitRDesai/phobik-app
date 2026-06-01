@@ -8,7 +8,11 @@ import { useMutation } from '@tanstack/react-query';
 export function useActiveChallenge() {
   const userId = useUserId();
 
-  const { data: challenges, ...challengeRest } = useQuery({
+  const {
+    data: challenges,
+    isLoading: challengeIsLoading,
+    fetchStatus,
+  } = useQuery({
     queryKey: ['empathy-challenge-active', userId],
     query: db
       .selectFrom('empathy_challenge')
@@ -40,10 +44,9 @@ export function useActiveChallenge() {
   // Treat as loading when no data found yet but a refetch is in progress —
   // prevents routing decisions based on stale cached empty results
   const isLoading =
-    challengeRest.isLoading ||
-    (!challenges?.length && challengeRest.fetchStatus === 'fetching');
+    challengeIsLoading || (!challenges?.length && fetchStatus === 'fetching');
 
-  return { ...challengeRest, data, isLoading };
+  return { data, isLoading };
 }
 
 export function useStartChallenge() {

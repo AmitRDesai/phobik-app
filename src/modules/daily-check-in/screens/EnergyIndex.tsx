@@ -47,18 +47,22 @@ export default function EnergyIndex() {
   const energyIndex =
     pillars.purpose + pillars.mental + pillars.physical + pillars.relationship;
 
-  // Pre-populate from today's saved record (once)
+  // Pre-populate from today's saved record (once, after async data arrives)
   useEffect(() => {
     if (initializedRef.current || isLoading) return;
+    initializedRef.current = true;
     if (todayRecord) {
-      setPillars({
-        purpose: todayRecord.purpose as number,
-        mental: todayRecord.mental as number,
-        physical: todayRecord.physical as number,
-        relationship: todayRecord.relationship as number,
+      // Defer setState out of the synchronous effect body to avoid cascading
+      // renders — the record is async data, so a microtask delay is imperceptible.
+      queueMicrotask(() => {
+        setPillars({
+          purpose: todayRecord.purpose as number,
+          mental: todayRecord.mental as number,
+          physical: todayRecord.physical as number,
+          relationship: todayRecord.relationship as number,
+        });
       });
     }
-    initializedRef.current = true;
   }, [todayRecord, isLoading]);
 
   const updatePillar = (key: PillarKey, value: number) => {

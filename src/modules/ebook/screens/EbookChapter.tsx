@@ -99,7 +99,7 @@ export default function EbookChapter() {
 
   useEffect(() => {
     updateProgress.mutate({ lastChapterId: chapterId });
-  }, [chapterId]);
+  }, [chapterId, updateProgress.mutate]);
 
   const markCompleted = () => {
     if (!completedChapters.includes(chapterId)) {

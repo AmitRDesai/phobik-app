@@ -15,7 +15,7 @@ import { useAtom } from 'jotai';
 import { useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, RefreshControl } from 'react-native';
 import { CommunityPrinciples } from '../components/CommunityPrinciples';
-import { FeedCard } from '../components/FeedCard';
+import { FeedCard, type FeedCardProps } from '../components/FeedCard';
 import { FilterChips } from '../components/FilterChips';
 import { useCommunityMember } from '../hooks/useCommunity';
 import { useCommunityPosts } from '../hooks/useCommunityFeed';
@@ -26,6 +26,21 @@ import {
 
 function openCommunityPrinciples() {
   dialog.open({ component: CommunityPrinciples });
+}
+
+function renderPost({ item }: { item: FeedCardProps }) {
+  return (
+    <FeedCard
+      id={item.id}
+      content={item.content}
+      images={item.images}
+      author={item.author}
+      createdAt={item.createdAt}
+      reactions={item.reactions}
+      userReactions={item.userReactions}
+      circle={item.circle}
+    />
+  );
 }
 
 export default function Community() {
@@ -130,19 +145,6 @@ function CommunityFeed() {
       fetchNextPage();
     }
   };
-
-  const renderPost = ({ item }: { item: (typeof posts)[number] }) => (
-    <FeedCard
-      id={item.id}
-      content={item.content}
-      images={item.images}
-      author={item.author}
-      createdAt={item.createdAt}
-      reactions={item.reactions}
-      userReactions={item.userReactions}
-      circle={item.circle}
-    />
-  );
 
   return (
     <Screen

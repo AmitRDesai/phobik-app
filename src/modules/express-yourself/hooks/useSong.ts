@@ -26,7 +26,7 @@ export interface SongRecord {
 }
 
 export function useSong(id: string | undefined) {
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, isError, error, status } = useQuery({
     queryKey: ['song', id],
     query: db
       .selectFrom('song')
@@ -38,13 +38,13 @@ export function useSong(id: string | undefined) {
   const song = data?.[0]
     ? (toCamel(data[0], SONG_JSON) as unknown as SongRecord)
     : null;
-  return { data: song, ...rest };
+  return { data: song, isLoading, isError, error, status };
 }
 
 export function useListSongs() {
   const userId = useUserId();
 
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, isError, error, status } = useQuery({
     queryKey: ['songs', userId],
     query: db
       .selectFrom('song')
@@ -57,5 +57,5 @@ export function useListSongs() {
 
   const songs =
     data?.map((r) => toCamel(r, SONG_JSON) as unknown as SongRecord) ?? null;
-  return { data: songs, ...rest };
+  return { data: songs, isLoading, isError, error, status };
 }

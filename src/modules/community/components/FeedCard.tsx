@@ -18,7 +18,7 @@ const REACTIONS = [
   { emoji: '\uD83D\uDD25', label: 'Courage moment', type: 'courage_moment' },
 ] as const;
 
-interface FeedCardProps {
+export interface FeedCardProps {
   id: string;
   content: string;
   images: (string | null)[];

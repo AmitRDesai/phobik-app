@@ -39,6 +39,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 20,
   },
+  nodeUnselected: {
+    width: NODE_SIZE,
+    height: NODE_SIZE,
+    borderRadius: NODE_SIZE / 2,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 2,
+  },
 });
 
 const FEELINGS = [
@@ -217,17 +226,13 @@ export function FeelingCompass({ selected, onSelect }: FeelingCompassProps) {
                 </LinearGradient>
               ) : (
                 <View
-                  style={{
-                    width: NODE_SIZE,
-                    height: NODE_SIZE,
-                    borderRadius: NODE_SIZE / 2,
-                    backgroundColor: foregroundFor(scheme, 0.03),
-                    borderWidth: 1,
-                    borderColor: foregroundFor(scheme, 0.1),
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginHorizontal: 2,
-                  }}
+                  style={[
+                    styles.nodeUnselected,
+                    {
+                      backgroundColor: foregroundFor(scheme, 0.03),
+                      borderColor: foregroundFor(scheme, 0.1),
+                    },
+                  ]}
                 >
                   <MaterialIcons
                     name={feeling.icon}

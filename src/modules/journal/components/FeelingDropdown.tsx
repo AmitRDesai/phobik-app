@@ -5,7 +5,7 @@ import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Pressable } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -31,12 +31,12 @@ export function FeelingDropdown({
   const [isOpen, setIsOpen] = useState(false);
   const height = useSharedValue(0);
 
-  const toggle = useCallback(() => {
+  const toggle = () => {
     if (readOnly) return;
     const next = !isOpen;
     setIsOpen(next);
     height.value = withTiming(next ? EXPANDED_HEIGHT : 0, { duration: 300 });
-  }, [isOpen, readOnly]);
+  };
 
   const animatedStyle = useAnimatedStyle(() => ({
     height: height.value,

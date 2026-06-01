@@ -1,7 +1,7 @@
 import { foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { clsx } from 'clsx';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Animated, View, type DimensionValue } from 'react-native';
 
 export type SkeletonShape = 'rect' | 'circle' | 'pill';
@@ -46,11 +46,9 @@ export function Skeleton({
   className,
 }: SkeletonProps) {
   const scheme = useScheme();
-  const opacityRef = useRef<Animated.Value | null>(null);
-  if (opacityRef.current === null) {
-    opacityRef.current = new Animated.Value(0.4);
-  }
-  const opacity = opacityRef.current;
+  // useMemo ensures the Animated.Value is created once per component instance
+  // without reading ref.current during render (which React Compiler disallows).
+  const opacity = useMemo(() => new Animated.Value(0.4), []);
 
   useEffect(() => {
     if (isStatic) return;

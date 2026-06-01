@@ -3,7 +3,6 @@ import { useUserId } from '@/lib/powersync/useUserId';
 import type { TimeRange } from '@/modules/insights/store/insights';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { sql } from 'kysely';
-import { useMemo } from 'react';
 
 export type BiometricMetric =
   | 'heart_rate'
@@ -60,10 +59,7 @@ export function useBiometricHistory(
 ): BiometricHistoryStats & { isLoading: boolean; bucketLabel: 'hour' | 'day' } {
   const userId = useUserId();
   const { lookbackMs, bucketFormat, bucketLabel } = RANGE_DEFS[range];
-  const startIso = useMemo(
-    () => new Date(Date.now() - lookbackMs).toISOString(),
-    [lookbackMs],
-  );
+  const startIso = new Date(Date.now() - lookbackMs).toISOString();
   const metrics = Array.isArray(metric) ? metric : [metric];
 
   const { data, isLoading } = useQuery({

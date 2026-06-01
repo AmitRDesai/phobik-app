@@ -13,7 +13,11 @@ interface AssessmentCardProps {
   onPress: () => void;
 }
 
-function renderIcon(assessment: AssessmentMeta) {
+interface AssessmentIconProps {
+  assessment: AssessmentMeta;
+}
+
+function AssessmentIcon({ assessment }: AssessmentIconProps) {
   const icon = assessment.icon;
   const size = 24;
   const color = colors.primary.pink;
@@ -51,7 +55,7 @@ export function AssessmentCard({
     >
       <View className="mb-5 flex-row items-center gap-4">
         <View className="size-12 items-center justify-center rounded-full border border-foreground/15 bg-foreground/10">
-          {renderIcon(assessment)}
+          <AssessmentIcon assessment={assessment} />
         </View>
         <View className="flex-1">
           <Text size="h3" weight="bold">

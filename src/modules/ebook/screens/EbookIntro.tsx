@@ -50,10 +50,8 @@ export default function EbookIntro() {
 
       <ScrollFade>
         <ScrollView
-          contentContainerStyle={{
-            paddingHorizontal: 24,
-            paddingBottom: FADE_HEIGHT,
-          }}
+          contentContainerStyle={{ paddingHorizontal: 24 }}
+          contentInset={{ bottom: FADE_HEIGHT }}
           showsVerticalScrollIndicator={false}
         >
           {/* Hero Image */}

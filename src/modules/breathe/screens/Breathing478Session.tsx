@@ -130,7 +130,16 @@ export default function Breathing478Session() {
     }
 
     return () => cancels.forEach((cancel) => cancel());
-  }, [phaseIndex, sessionReady, isPaused, cuesReady]);
+  }, [
+    phaseIndex,
+    sessionReady,
+    isPaused,
+    cuesReady,
+    inhalePlayer,
+    holdPlayer,
+    exhalePlayer,
+    bowlPlayer,
+  ]);
 
   // Pause phase audio when session is paused
   useEffect(() => {

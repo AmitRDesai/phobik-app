@@ -118,7 +118,17 @@ export default function BoxBreathingSession() {
     }
 
     return () => cancels.forEach((cancel) => cancel());
-  }, [phaseIndex, sessionReady, isPaused, cuesReady]);
+  }, [
+    phaseIndex,
+    sessionReady,
+    isPaused,
+    cuesReady,
+    inhalePlayer,
+    holdPlayer,
+    exhalePlayer,
+    restPlayer,
+    bowlPlayer,
+  ]);
 
   // Pause phase audio when session is paused
   useEffect(() => {

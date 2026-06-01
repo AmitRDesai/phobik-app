@@ -2,7 +2,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
-import { accentFor, colors, foregroundFor } from '@/constants/colors';
+import { accentFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -85,9 +85,9 @@ export default function JournalEntry() {
   const { feeling, need, content, tags } = form;
 
   // Hydrate from existing entry when viewing (arrives async from query)
-  const [prevEntryId, setPrevEntryId] = useState<string | undefined>(undefined);
-  if (isViewMode && existingEntry && existingEntry.id !== prevEntryId) {
-    setPrevEntryId(existingEntry.id);
+  const prevEntryId = useRef<string | undefined>(undefined);
+  if (isViewMode && existingEntry && existingEntry.id !== prevEntryId.current) {
+    prevEntryId.current = existingEntry.id;
     dispatch({
       type: 'HYDRATE',
       state: {
@@ -100,16 +100,20 @@ export default function JournalEntry() {
   }
 
   // Track whether form has been initialized for draft auto-save
-  const isInitialized = !isViewMode || !!prevEntryId;
+  const isInitialized = !isViewMode || !!prevEntryId.current;
 
   // Auto-save draft (debounced) for new entries
   const draftTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const savingTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   useEffect(() => {
     if (isViewMode || !isInitialized) return;
 
     if (draftTimer.current) clearTimeout(draftTimer.current);
-    setIsSavingDraft(true);
+    if (savingTimer.current) clearTimeout(savingTimer.current);
+    // Defer the "saving" state update so it runs outside the synchronous
+    // effect body — avoids cascading renders flagged by React Compiler.
+    savingTimer.current = setTimeout(() => setIsSavingDraft(true), 0);
     draftTimer.current = setTimeout(() => {
       setDraft(form);
       setIsSavingDraft(false);
@@ -117,6 +121,7 @@ export default function JournalEntry() {
 
     return () => {
       if (draftTimer.current) clearTimeout(draftTimer.current);
+      if (savingTimer.current) clearTimeout(savingTimer.current);
     };
   }, [form, isViewMode, isInitialized, setDraft]);
 

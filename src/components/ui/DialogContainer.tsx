@@ -11,7 +11,7 @@ import { store } from '@/utils/jotai';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue } from 'jotai';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   BackHandler,
@@ -58,15 +58,16 @@ export function DialogContainer() {
       isShowingRef.current = true;
     } else if (isShowingRef.current) {
       isShowingRef.current = false;
-      setTimeout(() => setRenderState(null), 220);
+      const t = setTimeout(() => setRenderState(null), 220);
+      return () => clearTimeout(t);
     }
   }, [dialogState]);
 
-  const dismiss = () => {
+  const dismiss = useCallback(() => {
     resolveRef.current?.(undefined);
     resolveRef.current = null;
     store.set(dialogAtom, null);
-  };
+  }, []);
 
   // Android back button
   useEffect(() => {

@@ -58,15 +58,15 @@ export function useBiometricAvailability() {
   return { isAvailable, biometricType, resolved };
 }
 
-export function useBiometricAuth() {
-  const authenticate = async (promptMessage = 'Authenticate to sign in') => {
-    const result = await LocalAuthentication.authenticateAsync({
-      promptMessage,
-      cancelLabel: 'Cancel',
-      disableDeviceFallback: false,
-    });
-    return result;
-  };
+async function authenticate(promptMessage = 'Authenticate to sign in') {
+  const result = await LocalAuthentication.authenticateAsync({
+    promptMessage,
+    cancelLabel: 'Cancel',
+    disableDeviceFallback: false,
+  });
+  return result;
+}
 
+export function useBiometricAuth() {
   return { authenticate };
 }

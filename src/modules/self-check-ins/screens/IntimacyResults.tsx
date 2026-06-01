@@ -156,6 +156,20 @@ interface GrowthZone {
   color: string;
 }
 
+function getGrowthZoneStyle(color: string) {
+  return {
+    backgroundColor: withAlpha(color, 0.05),
+    borderLeftWidth: 4,
+    borderLeftColor: color,
+    borderTopWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderTopColor: withAlpha(color, 0.3),
+    borderRightColor: withAlpha(color, 0.3),
+    borderBottomColor: withAlpha(color, 0.3),
+  } as const;
+}
+
 function getGrowthZones(speakerPct: number, listenerPct: number): GrowthZone[] {
   const speakerStronger = speakerPct >= listenerPct;
 
@@ -303,17 +317,7 @@ export default function IntimacyResults() {
               <View
                 key={zone.title}
                 className="rounded-xl p-4"
-                style={{
-                  backgroundColor: withAlpha(zoneColor, 0.05),
-                  borderLeftWidth: 4,
-                  borderLeftColor: zoneColor,
-                  borderTopWidth: 1,
-                  borderRightWidth: 1,
-                  borderBottomWidth: 1,
-                  borderTopColor: withAlpha(zoneColor, 0.3),
-                  borderRightColor: withAlpha(zoneColor, 0.3),
-                  borderBottomColor: withAlpha(zoneColor, 0.3),
-                }}
+                style={getGrowthZoneStyle(zoneColor)}
               >
                 <View className="mb-1 flex-row items-start justify-between">
                   <Text size="sm" weight="bold" style={{ color: zoneColor }}>

@@ -16,7 +16,12 @@ import { useManagedAudioPlayer } from '@/lib/audio/useManagedAudioPlayer';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { useStressScore } from '@/modules/home/hooks/useStressScore';
 import { useBiometricHistory } from '@/modules/insights/hooks/useBiometricHistory';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
+import {
+  accentFor,
+  colors,
+  foregroundFor,
+  withAlpha,
+} from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -52,6 +57,37 @@ function StatsCard() {
       ? ((liveHrv - baselineHrv) / baselineHrv) * 100
       : null;
   const isLive = liveHrv != null;
+
+  // HRV trend sparkline — driven by real recent history (last few daily
+  // buckets), normalized to bar heights. Replaces the previous hardcoded fake
+  // bars. Pink reads in both themes; yellow is scheme-gated for light-mode
+  // contrast.
+  const yellow = accentFor(scheme, 'yellow');
+  const barColors = [
+    withAlpha(colors.primary.pink, 0.2),
+    withAlpha(colors.primary.pink, 0.5),
+    withAlpha(colors.primary.pink, 0.8),
+    withAlpha(yellow, 1),
+    withAlpha(yellow, 0.7),
+    withAlpha(yellow, 0.4),
+  ];
+  const hrvTrend = baseline.points.slice(-barColors.length);
+  const trendValues = hrvTrend.map((p) => p.value);
+  const trendLo = trendValues.length ? Math.min(...trendValues) : 0;
+  const trendHi = trendValues.length ? Math.max(...trendValues) : 0;
+  const trendRange = trendHi - trendLo;
+  const trendBars = hrvTrend.map((p, i) => ({
+    key: p.bucket,
+    // Floor at 0.25 so the lowest day is still a visible bar; range maps 0.25→1.
+    height:
+      trendRange > 0 ? 0.25 + 0.75 * ((p.value - trendLo) / trendRange) : 0.6,
+    color:
+      barColors[
+        hrvTrend.length > 1
+          ? Math.round((i / (hrvTrend.length - 1)) * (barColors.length - 1))
+          : barColors.length - 1
+      ],
+  }));
 
   if (!hasAccess) return null;
 
@@ -114,26 +150,21 @@ function StatsCard() {
             </View>
           </View>
         </View>
-        {/* Mini chart bars */}
-        <View className="h-10 flex-row items-end gap-1.5 pr-2">
-          {[
-            { key: 'p1', h: 0.4, color: 'rgba(244,37,106,0.2)' },
-            { key: 'p2', h: 0.6, color: 'rgba(244,37,106,0.5)' },
-            { key: 'p3', h: 1, color: 'rgba(244,37,106,0.8)' },
-            { key: 'y1', h: 0.8, color: 'rgba(250,204,21,1)' },
-            { key: 'y2', h: 0.6, color: 'rgba(250,204,21,0.7)' },
-            { key: 'y3', h: 0.4, color: 'rgba(250,204,21,0.4)' },
-          ].map((bar) => (
-            <View
-              key={bar.key}
-              className="w-1.5 rounded-full"
-              style={{
-                height: `${bar.h * 100}%`,
-                backgroundColor: bar.color,
-              }}
-            />
-          ))}
-        </View>
+        {/* HRV trend sparkline — real recent history (hidden when too sparse) */}
+        {trendBars.length > 1 ? (
+          <View className="h-10 flex-row items-end gap-1.5 pr-2">
+            {trendBars.map((bar) => (
+              <View
+                key={bar.key}
+                className="w-1.5 rounded-full"
+                style={{
+                  height: `${bar.height * 100}%`,
+                  backgroundColor: bar.color,
+                }}
+              />
+            ))}
+          </View>
+        ) : null}
       </View>
 
       {/* Stats grid */}

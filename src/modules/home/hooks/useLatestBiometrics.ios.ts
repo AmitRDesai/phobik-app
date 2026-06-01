@@ -16,7 +16,7 @@ import {
 } from '@kingstinct/react-native-healthkit';
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { AppState, Linking } from 'react-native';
 
 import type { LatestBiometrics } from './useLatestBiometrics';
@@ -96,7 +96,9 @@ export function useLatestBiometrics(): LatestBiometrics {
   // observer subscriptions tear down + re-register 5x per render and fire a
   // refetch loop that pegs the CPU and overheats the device.
   const refetchRef = useRef(query.refetch);
-  refetchRef.current = query.refetch;
+  useLayoutEffect(() => {
+    refetchRef.current = query.refetch;
+  });
 
   useEffect(() => {
     const sub = AppState.addEventListener('change', (state) => {

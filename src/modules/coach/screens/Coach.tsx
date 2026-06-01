@@ -106,7 +106,8 @@ export default function Coach() {
     const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
     const distanceFromBottom =
       contentSize.height - layoutMeasurement.height - contentOffset.y;
-    setShowScrollButton(distanceFromBottom > 100);
+    const shouldShow = distanceFromBottom > 100;
+    setShowScrollButton((prev) => (prev === shouldShow ? prev : shouldShow));
   };
 
   // Track new messages for animation (in effect to avoid ref access during render)
