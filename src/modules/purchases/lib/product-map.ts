@@ -14,3 +14,11 @@ export const PACK_OFFERINGS: Record<string, string> = {
 export const PACK_ENTITLEMENTS: Record<string, string> = {
   'fear-of-flying': 'fear-of-flying',
 };
+
+/**
+ * RevenueCat offering that groups the consumable credit packs. The consumable
+ * products (phobik_credits_10/50/250) must be added to this offering in the
+ * RevenueCat dashboard. Credits are granted server-side via the RC webhook —
+ * not via entitlements (consumables aren't entitlements).
+ */
+export const CREDITS_OFFERING_ID = 'phobik_credits';

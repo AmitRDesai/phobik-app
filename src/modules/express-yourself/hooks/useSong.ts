@@ -1,61 +1,14 @@
-import { db } from '@/lib/powersync/database';
-import { useUserId } from '@/lib/powersync/useUserId';
-import { toCamel } from '@/lib/powersync/utils';
-import { useQuery } from '@powersync/tanstack-react-query';
+import { useListSounds, type SoundSource } from '@/hooks/sound-generation';
 
-const SONG_JSON = { analysis_tags: true } as const;
+// Express Yourself is one source of the shared sound pipeline. These thin
+// wrappers keep the existing screen API stable while delegating to the
+// canonical hooks in `@/hooks/sound-generation`.
+export { useSound as useSong } from '@/hooks/sound-generation';
+export type { SoundRecord as SongRecord } from '@/hooks/sound-generation';
 
-export interface SongRecord {
-  id: string;
-  userId: string;
-  prompt: string;
-  style: string | null;
-  status: 'draft' | 'generating' | 'ready' | 'failed';
-  generationStage: 'queued' | 'text' | 'first' | 'complete' | null;
-  providerJobId: string | null;
-  audioKey: string | null;
-  artworkKey: string | null;
-  title: string | null;
-  compositionNumber: number | null;
-  durationSeconds: number | null;
-  analysisTags: string[] | null;
-  isFavorite: number;
-  errorMessage: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
+const SOURCE: SoundSource = 'express-yourself';
 
-export function useSong(id: string | undefined) {
-  const { data, isLoading, isError, error, status } = useQuery({
-    queryKey: ['song', id],
-    query: db
-      .selectFrom('song')
-      .selectAll()
-      .where('id', '=', id ?? ''),
-    enabled: !!id,
-  });
-
-  const song = data?.[0]
-    ? (toCamel(data[0], SONG_JSON) as unknown as SongRecord)
-    : null;
-  return { data: song, isLoading, isError, error, status };
-}
-
+/** The user's Express Yourself songs only (not AI Studio creations). */
 export function useListSongs() {
-  const userId = useUserId();
-
-  const { data, isLoading, isError, error, status } = useQuery({
-    queryKey: ['songs', userId],
-    query: db
-      .selectFrom('song')
-      .selectAll()
-      .where('user_id', '=', userId ?? '')
-      .orderBy('created_at', 'desc')
-      .limit(50),
-    enabled: !!userId,
-  });
-
-  const songs =
-    data?.map((r) => toCamel(r, SONG_JSON) as unknown as SongRecord) ?? null;
-  return { data: songs, isLoading, isError, error, status };
+  return useListSounds({ source: SOURCE });
 }

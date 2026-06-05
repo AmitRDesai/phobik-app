@@ -309,29 +309,31 @@ export type CreditPlan = {
   tagline?: string;
 };
 
+// Fallback display only — the server (credits.getConfig) is the source of
+// truth and must stay in sync (backend CREDIT_PRODUCTS). At 5 credits/song
+// these are 10 / 30 / 100 songs.
 export const CREDIT_PLANS: CreditPlan[] = [
   {
     id: 'starter',
     name: 'Starter Pack',
-    credits: 10,
-    price: '$9.99',
-    tagline: 'Perfect for quick sonic experiments.',
-  },
-  {
-    id: 'pro',
-    name: 'Pro Studio',
     credits: 50,
-    price: '$39.99',
-    popular: true,
-    tagline:
-      'Best value for frequent creators. Priority generation and advanced tuning tools.',
+    price: '$4.99',
+    tagline: '10 songs to explore your sound.',
   },
   {
-    id: 'unlimited',
-    name: 'Unlimited Flow',
-    credits: 250,
-    price: '$149.99',
-    tagline: 'Total creative freedom. Access to premium AI models and stems.',
+    id: 'creator',
+    name: 'Creator Pack',
+    credits: 150,
+    price: '$11.99',
+    popular: true,
+    tagline: '30 songs. Best value for regular creators.',
+  },
+  {
+    id: 'studio',
+    name: 'Studio Pack',
+    credits: 500,
+    price: '$29.99',
+    tagline: '100 songs for serious sound design.',
   },
 ];
 

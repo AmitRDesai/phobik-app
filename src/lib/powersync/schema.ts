@@ -85,8 +85,10 @@ const gentle_letter = new Table(
 const song = new Table(
   {
     user_id: column.text,
+    source: column.text, // 'express-yourself' | 'ai-studio'
     prompt: column.text,
     style: column.text,
+    input_meta: column.text, // JSON — structured source-specific draft (AI Studio)
     status: column.text, // 'draft' | 'generating' | 'ready' | 'failed'
     generation_stage: column.text, // 'queued' | 'text' | 'first' | 'complete' | null
     provider_job_id: column.text,
@@ -105,8 +107,21 @@ const song = new Table(
     indexes: {
       user_status: ['user_id', 'status'],
       user_created: ['user_id', 'created_at'],
+      user_source: ['user_id', 'source'],
     },
   },
+);
+
+// Server-authoritative credit balance — synced download-only for display.
+// The client never writes this table (spends/grants happen server-side).
+const credit_wallet = new Table(
+  {
+    user_id: column.text,
+    balance: column.integer,
+    created_at: column.text,
+    updated_at: column.text,
+  },
+  { indexes: { user: ['user_id'] } },
 );
 
 const empathy_challenge = new Table(
@@ -377,6 +392,7 @@ export const AppSchema = new Schema({
   journal_tag,
   gentle_letter,
   song,
+  credit_wallet,
   empathy_challenge,
   empathy_challenge_day,
   micro_challenge,
@@ -403,6 +419,7 @@ export type JournalEntryRecord = Database['journal_entry'];
 export type JournalTagRecord = Database['journal_tag'];
 export type GentleLetterRecord = Database['gentle_letter'];
 export type SongRecord = Database['song'];
+export type CreditWalletRecord = Database['credit_wallet'];
 export type EmpathyChallengeRecord = Database['empathy_challenge'];
 export type EmpathyChallengeDayRecord = Database['empathy_challenge_day'];
 export type MicroChallengeRecord = Database['micro_challenge'];

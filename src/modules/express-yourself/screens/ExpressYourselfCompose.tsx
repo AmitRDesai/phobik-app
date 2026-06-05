@@ -7,6 +7,7 @@ import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { TextArea } from '@/components/ui/TextArea';
+import { useCreditGate } from '@/hooks/sound-generation';
 import { uuid } from '@/lib/crypto';
 import { dialog } from '@/utils/dialog';
 import { toast } from '@/utils/toast';
@@ -38,6 +39,7 @@ export default function ExpressYourselfCompose() {
   const generateMutation = useGenerateSong();
   const deleteMutation = useDeleteSong();
   const { data: songs } = useListSongs();
+  const { cost, ensureCredits } = useCreditGate();
 
   const inFlightSong =
     (songs ?? []).find((s) => s.status === 'generating' && s.id !== songId) ??
@@ -95,6 +97,8 @@ export default function ExpressYourselfCompose() {
       }
       return;
     }
+    // Pre-flight credit gate — routes to the credits screen if short.
+    if (!(await ensureCredits())) return;
     try {
       await generateMutation.mutateAsync({ id: songId, prompt: poem, style });
       router.replace(`/practices/express-yourself/generating?id=${songId}`);
@@ -217,7 +221,7 @@ export default function ExpressYourselfCompose() {
           Continue to Song Generation
         </Button>
         <Text size="xs" treatment="caption" tone="tertiary">
-          Step 1 of 3 · Emotional Mapping
+          Step 1 of 3 · Costs {cost} credit{cost === 1 ? '' : 's'}
         </Text>
       </View>
 

@@ -210,6 +210,12 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         isFavorite:
           d?.is_favorite !== undefined ? Boolean(d.is_favorite) : undefined,
         title: d?.title !== undefined ? (d.title as string | null) : undefined,
+        source: d?.source !== undefined ? (d.source as string) : undefined,
+        inputMeta:
+          d?.input_meta !== undefined
+            ? (parseJSON<Record<string, unknown>>(d.input_meta as string) ??
+              null)
+            : undefined,
       });
     } else if (op.op === 'DELETE') {
       await rpcClient.song.delete({ id: op.id });

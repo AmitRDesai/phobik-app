@@ -1,267 +1,228 @@
+import expressImg from '@/assets/images/sound-studio/express-analyzing.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { AudioPlayer } from '@/components/ui/AudioPlayer';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
-import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Screen } from '@/components/ui/Screen';
 import { colors } from '@/constants/colors';
+import {
+  useDeleteSound,
+  useListSounds,
+  usePlaybackUrl,
+  useSound,
+  useUpsertSound,
+} from '@/hooks/sound-generation';
 import { dialog } from '@/utils/dialog';
+import { toast } from '@/utils/toast';
 import { MaterialIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Pressable } from 'react-native';
-
-const CREATIONS = [
-  {
-    id: 'cyberpunk-rain',
-    title: 'Cyberpunk Rain',
-    meta: 'Oct 13, 2026 • 4:12',
-  },
-  {
-    id: 'ethereal-clouds',
-    title: 'Ethereal Clouds',
-    meta: 'Oct 11, 2026 • 5:21',
-  },
-  {
-    id: 'deep-void-techno',
-    title: 'Deep Void Techno',
-    meta: 'Oct 06, 2026 • 6:13',
-  },
-];
-
-const PROGRESS = 0.16;
-
-function onAction(label: string) {
-  return dialog.info({
-    title: label,
-    message: 'Audio playback will be available soon.',
-  });
-}
+import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect } from 'react';
+import { AI_STUDIO_SOURCE } from '../lib/ai-studio';
 
 export default function AiStudioPlayback() {
   const router = useRouter();
-  const [isPlaying, setIsPlaying] = useState(true);
+  const { id, celebrate } = useLocalSearchParams<{
+    id: string;
+    celebrate?: string;
+  }>();
+  const isFresh = celebrate === '1';
+
+  const { data: sound } = useSound(id);
+  const { data: playback } = usePlaybackUrl(id);
+  const { data: creations } = useListSounds({ source: AI_STUDIO_SOURCE });
+  const upsertMutation = useUpsertSound();
+  const deleteMutation = useDeleteSound();
+
+  const source = playback?.url ? { uri: playback.url } : null;
+  const player = useAudioPlayer(source);
+  const status = useAudioPlayerStatus(player);
+
+  useEffect(() => {
+    if (!status.playing) return;
+    const tag = 'ai-studio-playback';
+    void activateKeepAwakeAsync(tag);
+    return () => {
+      void deactivateKeepAwake(tag);
+    };
+  }, [status.playing]);
+
+  const duration = sound?.durationSeconds ?? status.duration ?? 0;
+  const progress =
+    duration > 0 ? Math.min(1, status.currentTime / duration) : 0;
+
+  const togglePlay = () => {
+    if (status.playing) player.pause();
+    else player.play();
+  };
+
+  const toggleFavorite = () => {
+    if (!sound || !id) return;
+    const next = sound.isFavorite ? 0 : 1;
+    upsertMutation.mutate({ id, isFavorite: next === 1 });
+    toast.success(next ? 'Saved to favorites' : 'Removed from favorites');
+  };
+
+  const handleDelete = async () => {
+    if (!id) return;
+    const choice = await dialog.error({
+      title: 'Delete this sound?',
+      message: 'This permanently removes it from your creations.',
+      buttons: [
+        { label: 'Delete', value: 'confirm', variant: 'destructive' },
+        { label: 'Keep', value: 'cancel', variant: 'secondary' },
+      ],
+    });
+    if (choice !== 'confirm') return;
+    await deleteMutation.mutateAsync({ id });
+    router.replace('/sound-studio');
+  };
+
+  const otherCreations = (creations ?? []).filter(
+    (c) => c.status === 'ready' && c.id !== id,
+  );
 
   return (
     <Screen
       scroll
-      header={<Header variant="back" title="Aura Ai" />}
-      className="px-6 pt-2"
+      fade={isFresh}
+      header={<Header variant="back" title="AI Studio" />}
+      sticky={
+        <Button
+          variant="secondary"
+          onPress={() => router.replace('/sound-studio/ai/write')}
+          icon={<MaterialIcons name="bolt" size={18} color="white" />}
+          fullWidth
+        >
+          New Studio Session
+        </Button>
+      }
+      contentClassName="gap-6 pb-6"
     >
       {/* Hero copy */}
-      <Text weight="extrabold" className="text-[32px] leading-tight">
-        Ready to hear{' '}
-        <GradientText className="text-[32px] font-extrabold leading-tight">
-          your song?
-        </GradientText>
-      </Text>
-      <Text size="sm" tone="secondary" className="mt-3">
-        AI-generated from your prompt: "A rhythmic neon pulse through a
-        crystalline forest at midnight."
-      </Text>
-
-      {/* Visualizer card */}
-      <View className="mt-6 overflow-hidden rounded-3xl border border-foreground/10">
-        <LinearGradient
-          colors={['#1a0a14', '#3a0e26']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{ padding: 20 }}
-        >
-          {/* Fake EQ bars */}
-          <View className="h-[140px] flex-row items-end justify-center gap-1">
-            {Array.from({ length: 32 }).map((_, i) => (
-              <View
-                key={`eq-${i}`}
-                className="w-2 rounded-full"
-                style={{
-                  height: 20 + Math.abs(Math.sin(i * 0.7)) * 90,
-                  backgroundColor:
-                    i % 5 === 0 ? colors.primary.pink : 'rgba(255,255,255,0.6)',
-                }}
-              />
-            ))}
-          </View>
-
-          {/* Centered play */}
-          <View className="-mt-[90px] items-center">
-            <Pressable
-              onPress={() => setIsPlaying((p) => !p)}
-              className="active:scale-95"
-            >
-              <LinearGradient
-                colors={[colors.primary.pink, colors.accent.yellow]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: 9999,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <MaterialIcons
-                  name={isPlaying ? 'pause' : 'play-arrow'}
-                  size={32}
-                  color="black"
-                />
-              </LinearGradient>
-            </Pressable>
-          </View>
-        </LinearGradient>
+      <View>
+        <Text weight="extrabold" className="text-[32px] leading-tight">
+          {isFresh ? 'Ready to hear ' : 'Your '}
+          <GradientText className="text-[32px] font-extrabold leading-tight">
+            {isFresh ? 'your sound?' : 'creation'}
+          </GradientText>
+        </Text>
+        {sound?.prompt?.trim() ? (
+          <Text size="sm" tone="secondary" className="mt-3" numberOfLines={3}>
+            “{sound.prompt.trim()}”
+          </Text>
+        ) : null}
       </View>
 
-      {/* Track meta */}
-      <View className="mt-5">
-        <Text size="h2" weight="extrabold">
-          Neon Crystalline Pulse
-        </Text>
-        <Text size="xs" tone="secondary" className="mt-1">
-          BPM: 124 • Key: F# Minor
-        </Text>
+      <AudioPlayer
+        variant="hero"
+        title={sound?.title ?? 'Your Sound'}
+        subtitle={
+          sound?.compositionNumber
+            ? `Creation No. ${sound.compositionNumber}`
+            : undefined
+        }
+        artwork={playback?.artworkUrl ?? expressImg}
+        progress={progress}
+        duration={duration}
+        playing={status.playing}
+        loading={!source}
+        onTogglePlay={togglePlay}
+        onSeek={(seconds) => player.seekTo(seconds)}
+        onSkipBack={() => player.seekTo(Math.max(0, status.currentTime - 10))}
+        onSkipForward={() =>
+          player.seekTo(Math.min(duration, status.currentTime + 30))
+        }
+        tone="pink"
+      />
 
-        {/* Progress bar */}
-        <View className="mt-4">
-          <ProgressBar progress={PROGRESS} size="sm" gradient />
-        </View>
-        <View className="mt-2 flex-row justify-between">
-          <Text size="xs" tone="secondary">
-            01:16
+      {/* Actions */}
+      <View className="flex-row items-start justify-center gap-12 pt-1">
+        <View className="items-center gap-2">
+          <IconChip
+            size="lg"
+            shape="circle"
+            tone={sound?.isFavorite ? 'pink' : undefined}
+            onPress={toggleFavorite}
+            accessibilityLabel={sound?.isFavorite ? 'Unfavorite' : 'Favorite'}
+          >
+            {(c) => (
+              <MaterialIcons
+                name={sound?.isFavorite ? 'favorite' : 'favorite-border'}
+                size={22}
+                color={c}
+              />
+            )}
+          </IconChip>
+          <Text size="xs" tone={sound?.isFavorite ? 'accent' : 'secondary'}>
+            {sound?.isFavorite ? 'Favorited' : 'Favorite'}
           </Text>
-          <Text size="xs" tone="secondary">
-            05:44
-          </Text>
         </View>
-
-        {/* Controls + share */}
-        <View className="mt-4 flex-row items-center gap-3">
+        <View className="items-center gap-2">
           <IconChip
+            size="lg"
             shape="circle"
-            onPress={() => onAction('Shuffle')}
-            accessibilityLabel="Shuffle"
+            onPress={handleDelete}
+            disabled={deleteMutation.isPending}
+            accessibilityLabel="Delete"
           >
-            {(color) => (
-              <MaterialIcons name="shuffle" size={18} color={color} />
-            )}
+            {(c) => <MaterialIcons name="delete-outline" size={22} color={c} />}
           </IconChip>
-          <IconChip
-            shape="circle"
-            onPress={() => onAction('Previous')}
-            accessibilityLabel="Previous"
-          >
-            {(color) => (
-              <MaterialIcons name="skip-previous" size={20} color={color} />
-            )}
-          </IconChip>
-          <IconChip
-            shape="circle"
-            onPress={() => onAction('Next')}
-            accessibilityLabel="Next"
-          >
-            {(color) => (
-              <MaterialIcons name="skip-next" size={20} color={color} />
-            )}
-          </IconChip>
-          <IconChip
-            shape="circle"
-            onPress={() => onAction('Repeat')}
-            accessibilityLabel="Repeat"
-          >
-            {(color) => <MaterialIcons name="repeat" size={18} color={color} />}
-          </IconChip>
-          <View className="flex-1" />
-          <Pressable
-            onPress={() => onAction('Share to Community')}
-            className="active:scale-95"
-          >
-            <LinearGradient
-              colors={[colors.primary.pink, colors.accent.yellow]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={{
-                borderRadius: 9999,
-                paddingHorizontal: 16,
-                paddingVertical: 10,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 6,
-              }}
-            >
-              <MaterialIcons name="ios-share" size={14} color="white" />
-              <Text size="xs" treatment="caption" weight="bold">
-                Share
-              </Text>
-            </LinearGradient>
-          </Pressable>
+          <Text size="xs" tone="secondary">
+            Delete
+          </Text>
         </View>
       </View>
 
       {/* Your Creations */}
-      <View className="mt-8">
-        <View className="mb-3 flex-row items-baseline justify-between">
-          <Text size="xs" treatment="caption" tone="secondary" weight="bold">
+      {otherCreations.length > 0 ? (
+        <View>
+          <Text
+            size="xs"
+            treatment="caption"
+            tone="secondary"
+            weight="bold"
+            className="mb-3"
+          >
             Your Creations
           </Text>
-          <Button
-            variant="ghost"
-            size="xs"
-            onPress={() => onAction('View All')}
-          >
-            View All
-          </Button>
-        </View>
-        <View className="gap-2">
-          {CREATIONS.map((c) => (
-            <Card
-              key={c.id}
-              onPress={() => onAction(c.title)}
-              className="flex-row items-center gap-3 p-3"
-            >
-              <IconChip size="md" shape="rounded" tone="pink">
+          <View className="gap-2">
+            {otherCreations.map((c) => (
+              <Card
+                key={c.id}
+                onPress={() =>
+                  router.replace(`/sound-studio/ai/playback?id=${c.id}`)
+                }
+                className="flex-row items-center gap-3 p-3"
+              >
+                <IconChip size="md" shape="rounded" tone="pink">
+                  {(color) => (
+                    <MaterialIcons name="graphic-eq" size={18} color={color} />
+                  )}
+                </IconChip>
+                <View className="flex-1">
+                  <Text size="sm" weight="bold" numberOfLines={1}>
+                    {c.title ?? 'Untitled'}
+                  </Text>
+                  <Text size="xs" tone="secondary">
+                    {new Date(c.createdAt).toLocaleDateString()}
+                  </Text>
+                </View>
                 <MaterialIcons
-                  name="graphic-eq"
-                  size={18}
+                  name="play-arrow"
+                  size={20}
                   color={colors.primary.pink}
                 />
-              </IconChip>
-              <View className="flex-1">
-                <Text size="sm" weight="bold">
-                  {c.title}
-                </Text>
-                <Text size="xs" tone="secondary">
-                  {c.meta}
-                </Text>
-              </View>
-            </Card>
-          ))}
+              </Card>
+            ))}
+          </View>
         </View>
-      </View>
-
-      {/* Want more magic? */}
-      <Card className="mt-6 p-5">
-        <Text size="lg" weight="bold">
-          Want more magic?
-        </Text>
-        <Text size="xs" tone="secondary" className="mt-1">
-          Start a new session and create something unique today.
-        </Text>
-        <View className="mt-4">
-          <Button
-            size="sm"
-            onPress={() => router.push('/sound-studio/ai/write')}
-            icon={
-              <MaterialIcons name="arrow-forward" size={16} color="white" />
-            }
-          >
-            New Studio Session
-          </Button>
-        </View>
-      </Card>
+      ) : null}
     </Screen>
   );
 }

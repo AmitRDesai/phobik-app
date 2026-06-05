@@ -2,44 +2,86 @@ import writeVibeImg from '@/assets/images/sound-studio/write-vibe.jpg';
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
-import { Screen } from '@/components/ui/Screen';
-import { accentFor, foregroundFor } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
 import { Header } from '@/components/ui/Header';
+import { Screen } from '@/components/ui/Screen';
+import { TextArea } from '@/components/ui/TextArea';
+import { accentFor, foregroundFor } from '@/constants/colors';
+import { useSound, useUpsertSound } from '@/hooks/sound-generation';
+import { useScheme } from '@/hooks/useTheme';
+import { uuid } from '@/lib/crypto';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Button } from '@/components/ui/Button';
-import { TextArea } from '@/components/ui/TextArea';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
+import { AI_STUDIO_SOURCE, readAiStudioDraft } from '../lib/ai-studio';
+
+const DRAFT_DEBOUNCE_MS = 600;
 
 export default function AiStudioWriteIt() {
   const router = useRouter();
-  const [text, setText] = useState('');
   const scheme = useScheme();
   const yellow = accentFor(scheme, 'yellow');
   const fg = foregroundFor(scheme, 1);
 
+  const { id: idParam } = useLocalSearchParams<{ id?: string }>();
+  const [soundId] = useState(() => idParam || uuid());
+  const [text, setText] = useState('');
+
+  const upsertMutation = useUpsertSound();
+  const { data: existing } = useSound(soundId);
+
+  // Keep the latest persisted meta in a ref so the save effect can merge
+  // against it WITHOUT depending on `existing` — otherwise the watched query
+  // re-emitting after our own write would retrigger the debounce in a loop.
+  const existingMetaRef = useRef(existing?.inputMeta);
+  useEffect(() => {
+    existingMetaRef.current = existing?.inputMeta;
+  }, [existing?.inputMeta]);
+
+  // Hydrate the story once from any existing draft (resume across devices).
+  const hydratedRef = useRef(false);
+  useEffect(() => {
+    if (hydratedRef.current || !existing) return;
+    hydratedRef.current = true;
+    setText(readAiStudioDraft(existing.inputMeta).story);
+  }, [existing]);
+
+  // Debounced draft save — story lives in input_meta (and prompt) so the flow
+  // is resumable.
+  const upsertRef = useRef(upsertMutation.mutate);
+  useEffect(() => {
+    upsertRef.current = upsertMutation.mutate;
+  }, [upsertMutation.mutate]);
+  useEffect(() => {
+    if (text.length === 0) return;
+    const t = setTimeout(() => {
+      upsertRef.current({
+        id: soundId,
+        source: AI_STUDIO_SOURCE,
+        prompt: text,
+        inputMeta: {
+          ...readAiStudioDraft(existingMetaRef.current),
+          story: text,
+        },
+      });
+    }, DRAFT_DEBOUNCE_MS);
+    return () => clearTimeout(t);
+  }, [text, soundId]);
+
   return (
     <Screen
       scroll
-      header={<Header variant="back" title="Sonic Studio" />}
-      sticky={
-        <Button
-          onPress={() => router.push('/sound-studio/ai/feeling')}
-          icon={<MaterialIcons name="arrow-forward" size={18} color="white" />}
-        >
-          Next
-        </Button>
-      }
+      keyboard
+      header={<Header variant="back" title="AI Studio" />}
       className="px-6 pt-2"
     >
       {/* Step indicator */}
       <Badge tone="pink" size="sm" className="self-start">
-        Step 01 / 06
+        Step 1 of 3
       </Badge>
 
       {/* Title */}
@@ -62,6 +104,7 @@ export default function AiStudioWriteIt() {
           value={text}
           onChangeText={setText}
           placeholder="Describe your day, a specific memory, or your current mood here..."
+          autoFocus
         />
         <View className="mt-4 flex-row gap-3">
           <Button
@@ -139,8 +182,17 @@ export default function AiStudioWriteIt() {
         </View>
       </Card>
 
+      {/* Inline primary action (non-sticky) */}
+      <Button
+        onPress={() => router.push(`/sound-studio/ai/feeling?id=${soundId}`)}
+        icon={<MaterialIcons name="arrow-forward" size={18} color="white" />}
+        className="mt-6"
+      >
+        Next
+      </Button>
+
       <GradientText className="mt-6 self-center text-xs uppercase tracking-[0.3em]">
-        Sonic Studio
+        AI Studio
       </GradientText>
     </Screen>
   );

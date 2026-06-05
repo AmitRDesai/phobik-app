@@ -1,29 +1,21 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GradientText } from '@/components/ui/GradientText';
-import { colors, foregroundFor, withAlpha } from '@/constants/colors';
-import { useScheme } from '@/hooks/useTheme';
+import { colors } from '@/constants/colors';
+import { useCreditBalance } from '@/hooks/sound-generation';
 import { PracticeScreenShell } from '@/modules/practices/components/PracticeScreenShell';
-import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { Button } from '@/components/ui/Button';
-import { Pressable } from 'react-native';
-
-import { NOW_PLAYING_IMAGE } from '../data/sound-studio';
-
-const FAKE_CREDITS = 42;
 
 export default function SoundStudioHub() {
   const router = useRouter();
-  const scheme = useScheme();
-  const fg = foregroundFor(scheme, 1);
+  const { balance } = useCreditBalance();
 
   return (
-    <PracticeScreenShell wordmark="Sound Studio" scrollContentClassName="pb-32">
+    <PracticeScreenShell wordmark="Sound Studio" scrollContentClassName="pb-16">
       {/* Credits row */}
       <Card
         onPress={() => router.push('/sound-studio/credits')}
@@ -34,10 +26,10 @@ export default function SoundStudioHub() {
             AI Generation
           </Text>
           <Text size="h2" weight="extrabold" className="mt-1">
-            {FAKE_CREDITS} Credits
+            {balance} Credit{balance === 1 ? '' : 's'}
           </Text>
           <Text size="xs" tone="secondary" className="mt-1">
-            Refills in 12 hours
+            Tap to buy more
           </Text>
         </View>
         <View className="rounded-full bg-primary-pink px-5 py-2">
@@ -47,7 +39,7 @@ export default function SoundStudioHub() {
             weight="bold"
             className="text-on-primary-fixed"
           >
-            Refill
+            Get Credits
           </Text>
         </View>
       </Card>
@@ -109,8 +101,8 @@ export default function SoundStudioHub() {
           align="center"
           className="mt-3 leading-relaxed"
         >
-          Generate personalized soundscapes tailored to your current brainwave
-          patterns.
+          Turn what you're feeling into a one-of-a-kind track, generated just
+          for you.
         </Text>
         <View className="mt-5">
           <Button
@@ -122,50 +114,12 @@ export default function SoundStudioHub() {
         </View>
       </Card>
 
-      {/* Now playing footer */}
-      <Pressable
-        onPress={() =>
-          dialog.info({
-            title: 'Coming soon',
-            message: 'Audio playback will be available soon.',
-          })
-        }
-        className="mt-6 flex-row items-center gap-3 rounded-3xl border border-foreground/10 bg-foreground/[0.04] p-3 pr-5 active:scale-[0.98]"
-      >
-        <Image
-          source={NOW_PLAYING_IMAGE}
-          style={{ width: 44, height: 44, borderRadius: 12 }}
-          contentFit="cover"
-        />
-        <View className="flex-1">
-          <Text size="sm" weight="bold">
-            Deep Focus Beta
-          </Text>
-          <Text size="xs" tone="secondary">
-            AI Generated • 4:20
-          </Text>
-        </View>
-        <Pressable className="size-9 items-center justify-center rounded-full border border-foreground/10 bg-foreground/10">
-          <MaterialIcons name="skip-next" size={18} color={fg} />
-        </Pressable>
-        <View
-          className="size-9 items-center justify-center rounded-full"
-          style={{
-            boxShadow: `0 0 8px ${withAlpha(colors.primary.pink, 0.5)}`,
-          }}
-        >
-          <View className="size-9 items-center justify-center rounded-full bg-primary-pink">
-            <MaterialIcons name="pause" size={18} color="white" />
-          </View>
-        </View>
-      </Pressable>
-
       {/* Open Expressive Writing practice */}
       <Button
         variant="ghost"
         size="xs"
         onPress={() => router.push('/sound-studio/expressive-writing')}
-        className="mt-3 self-center"
+        className="mt-5 self-center"
       >
         Try expressive writing →
       </Button>
