@@ -122,6 +122,8 @@ export class PhobikConnector implements PowerSyncBackendConnector {
         return this.handleBiometricReading(op);
       case 'sleep_session':
         return this.handleSleepSession(op);
+      case 'data_source_preference':
+        return this.handleDataSourcePreference(op);
       default:
         // No upload handler for this table — intentionally not synced upward.
         console.warn(`[PowerSync] Skipping unknown table: ${table}`);
@@ -558,11 +560,13 @@ export class PhobikConnector implements PowerSyncBackendConnector {
       currentStep:
         (d?.current_step as
           | 'intro'
+          | 'stressor'
+          | 'check_in'
           | 'feeling'
           | 'body_map'
           | 'body_sensations'
-          | 'ai_analysis'
           | 'body_insight'
+          | 'ai_analysis'
           | 'player'
           | 'reflection') ?? undefined,
       startedAt: (d?.started_at as string) ?? undefined,
@@ -571,6 +575,25 @@ export class PhobikConnector implements PowerSyncBackendConnector {
       emotionalFamilies:
         d?.emotional_families !== undefined
           ? (parseJSON<string[]>(d.emotional_families as string) ?? [])
+          : undefined,
+      feelingIntensities:
+        d?.feeling_intensities !== undefined
+          ? (parseJSON<Record<string, number>>(
+              d.feeling_intensities as string,
+            ) ?? {})
+          : undefined,
+      stressor: d?.stressor !== undefined ? (d.stressor as string) : undefined,
+      checkInState:
+        d?.check_in_state !== undefined
+          ? (d.check_in_state as string)
+          : undefined,
+      affirmationText:
+        d?.affirmation_text !== undefined
+          ? (d.affirmation_text as string)
+          : undefined,
+      affirmationCategory:
+        d?.affirmation_category !== undefined
+          ? (d.affirmation_category as string)
           : undefined,
       bodyRegions:
         d?.body_regions !== undefined
@@ -675,6 +698,19 @@ export class PhobikConnector implements PowerSyncBackendConnector {
       restorativePct: (d?.restorative_pct as number | null) ?? null,
       source,
       recordedAt,
+    });
+  }
+
+  private async handleDataSourcePreference(op: CrudEntry) {
+    const d = op.opData;
+    if (op.op !== 'PUT' && op.op !== 'PATCH') return;
+    const dataType = d?.data_type as string | undefined;
+    const source = d?.source as string | undefined;
+    if (!dataType || !source) return;
+    await rpcClient.health.setDataSourcePreference({
+      id: op.id,
+      dataType,
+      source,
     });
   }
 

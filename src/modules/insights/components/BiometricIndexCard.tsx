@@ -2,7 +2,7 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { colors } from '@/constants/colors';
-import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
+import { useAnyHealthConnected } from '@/modules/home/hooks/useHealthConnections';
 import {
   useBiometricHistory,
   type BiometricHistoryPoint,
@@ -38,7 +38,7 @@ function buildPath(points: BiometricHistoryPoint[]): string {
 
 export function BiometricIndexCard() {
   const range = useAtomValue(timeRangeAtom);
-  const hasConnectedHealth = useAtomValue(hasConnectedHealthAtom);
+  const hasConnectedHealth = useAnyHealthConnected();
   const hr = useBiometricHistory('heart_rate', range);
   const hrv = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], range);
 
@@ -111,8 +111,7 @@ export function BiometricIndexCard() {
             className="h-24 w-full items-center justify-center"
           >
             <Text size="xs" tone="secondary" align="center">
-              Connect Apple Health or Health Connect to see your HR & HRV
-              trends.
+              Connect a health source to see your HR & HRV trends.
             </Text>
             <Text size="xs" treatment="caption" tone="accent" className="mt-1">
               Set up →

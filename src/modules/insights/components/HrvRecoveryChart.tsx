@@ -3,7 +3,8 @@ import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
+import { buildAreaLinePath } from '@/lib/charts/area-line-path';
+import { useAnyHealthConnected } from '@/modules/home/hooks/useHealthConnections';
 import {
   useBiometricHistory,
   type BiometricHistoryPoint,
@@ -16,31 +17,6 @@ import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg';
 
 const VIEW_W = 400;
 const VIEW_H = 150;
-const PAD = 8;
-
-function buildAreaAndLine(points: BiometricHistoryPoint[]): {
-  line: string;
-  area: string;
-} {
-  if (points.length < 2) return { line: '', area: '' };
-  const values = points.map((p) => p.value);
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || 1;
-  const xStep = (VIEW_W - PAD * 2) / (points.length - 1);
-  const coords = points.map((p, i) => {
-    const x = PAD + i * xStep;
-    const y = PAD + (VIEW_H - PAD * 2) * (1 - (p.value - min) / range);
-    return { x, y };
-  });
-  const line = coords
-    .map((c, i) => `${i === 0 ? 'M' : 'L'}${c.x.toFixed(1)},${c.y.toFixed(1)}`)
-    .join(' ');
-  const first = coords[0]!;
-  const last = coords[coords.length - 1]!;
-  const area = `${line} L${last.x.toFixed(1)},${VIEW_H} L${first.x.toFixed(1)},${VIEW_H} Z`;
-  return { line, area };
-}
 
 function timeLabels(
   points: BiometricHistoryPoint[],
@@ -71,9 +47,12 @@ export function HrvRecoveryChart() {
   const scheme = useScheme();
   const accent = accentFor(scheme, 'yellow');
   const range = useAtomValue(timeRangeAtom);
-  const hasConnectedHealth = useAtomValue(hasConnectedHealthAtom);
+  const hasConnectedHealth = useAnyHealthConnected();
   const hrv = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], range);
-  const { line, area } = buildAreaAndLine(hrv.points);
+  const { line, area } = buildAreaLinePath(
+    hrv.points.map((p) => p.value),
+    { width: VIEW_W, height: VIEW_H },
+  );
   const labels = timeLabels(hrv.points, hrv.bucketLabel);
 
   const latestValue = hrv.latest?.value ?? null;
@@ -169,7 +148,7 @@ export function HrvRecoveryChart() {
               className="h-full w-full items-center justify-center"
             >
               <Text size="xs" tone="secondary" align="center">
-                Connect Apple Health or Health Connect for HRV trends.
+                Connect a health source for HRV trends.
               </Text>
               <Text
                 size="xs"

@@ -15,30 +15,16 @@ export const TIME_OPTIONS: readonly TimeOption[] = [
   {
     id: 'quick_reset',
     label: 'Quick Reset',
-    description: '3–5 min',
+    description: '5 min',
     icon: 'flash-outline',
     stepCount: 3,
   },
   {
     id: 'short_flow',
     label: 'Short Flow',
-    description: '5–10 min',
+    description: '15-30 min',
     icon: 'leaf-outline',
-    stepCount: 4,
-  },
-  {
-    id: 'balanced_flow',
-    label: 'Balanced Flow',
-    description: '10–20 min',
-    icon: 'water-outline',
     stepCount: 5,
-  },
-  {
-    id: 'deep_flow',
-    label: 'Deep Flow',
-    description: '20–30 min',
-    icon: 'planet-outline',
-    stepCount: 6,
   },
   {
     id: 'full_reset',

@@ -2,9 +2,8 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { BlurView } from '@/components/ui/BlurView';
 import { Card } from '@/components/ui/Card';
-import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
+import { useAnyHealthConnected } from '@/modules/home/hooks/useHealthConnections';
 import { useBiometricHistory } from '@/modules/insights/hooks/useBiometricHistory';
-import { useAtomValue } from 'jotai';
 import { useJournalStats } from '../hooks/useJournalStats';
 
 function StatBox({ label, value }: { label: string; value: string | number }) {
@@ -28,7 +27,7 @@ function StatBox({ label, value }: { label: string; value: string | number }) {
 
 export function BlurredStats() {
   const { data } = useJournalStats();
-  const hasConnectedHealth = useAtomValue(hasConnectedHealthAtom);
+  const hasConnectedHealth = useAnyHealthConnected();
   const hrv = useBiometricHistory(['hrv_sdnn', 'hrv_rmssd'], 'Week');
 
   return (

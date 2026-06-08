@@ -14,6 +14,9 @@ const MAX_RECORDS = 1000;
 export async function readHealthSamplesInWindow(
   start: Date,
   end: Date,
+  // TODO: drop WHOOP-mirrored samples on Android via Health Connect's
+  // record.metadata.dataOrigin.packageName. No-op for now.
+  _dropWhoopMirror = false,
 ): Promise<WindowReadResult> {
   const status = await getSdkStatus();
   if (status !== SdkAvailabilityStatus.SDK_AVAILABLE) {

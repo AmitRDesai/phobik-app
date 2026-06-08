@@ -8,10 +8,14 @@ import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import { foregroundFor } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
+import {
+  feelingForFamily,
+  getAffirmations,
+} from '@/modules/home/store/affirmation';
 import { Ionicons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   buildAnalysisResult,
@@ -24,6 +28,18 @@ import {
 } from '../hooks/useDailyFlowSession';
 
 type Feedback = 'yes' | 'no';
+
+function pickRandom(options: string[]): string {
+  return options[Math.floor(Math.random() * options.length)];
+}
+
+/** Stable index from a string seed — keeps the default affirmation steady across renders. */
+function seededIndex(seed: string, length: number): number {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++)
+    hash = (hash * 31 + seed.charCodeAt(i)) | 0;
+  return length > 0 ? Math.abs(hash) % length : 0;
+}
 
 function formatDuration(seconds: number): string {
   const minutes = Math.round(seconds / 60);
@@ -39,17 +55,60 @@ export default function BodyInsight() {
 
   const analysis: AnalysisResult =
     session?.analysisResult ??
-    buildAnalysisResult(session?.timeOption ?? 'balanced_flow');
+    buildAnalysisResult(session?.timeOption ?? 'short_flow');
 
   const showLoading = isLoading || !session;
+
+  // Body Insight is where the analysis first appears, so generate + persist it
+  // here on entry if it hasn't been computed yet. Effect only syncs to the DB
+  // (no setState) — the displayed analysis derives from session above.
+  useEffect(() => {
+    if (!session || session.analysisResult) return;
+    updateSession.mutate({
+      id: session.id,
+      analysisResult: buildAnalysisResult(session.timeOption ?? 'short_flow'),
+    });
+  }, [session?.id]);
+
+  // Daily affirmation — from the category matching the first selected family.
+  // The default is deterministic per session (stable across renders, no
+  // flicker); the reroll button sets an override. The effect only persists.
+  const affirmationCategory = feelingForFamily(session?.emotionalFamilies?.[0]);
+  const affirmationPool = getAffirmations(affirmationCategory);
+  const defaultAffirmation =
+    affirmationPool[seededIndex(session?.id ?? '', affirmationPool.length)] ??
+    '';
+  const [rerolled, setRerolled] = useState<string | null>(null);
+  const affirmation =
+    rerolled ?? session?.affirmationText ?? defaultAffirmation;
+
+  useEffect(() => {
+    if (!session || session.affirmationText) return;
+    updateSession.mutate({
+      id: session.id,
+      affirmationText: defaultAffirmation,
+      affirmationCategory,
+    });
+  }, [session?.id]);
+
+  const rerollAffirmation = () => {
+    if (!session) return;
+    const pick = pickRandom(affirmationPool);
+    setRerolled(pick);
+    updateSession.mutate({
+      id: session.id,
+      affirmationText: pick,
+      affirmationCategory,
+    });
+  };
 
   const handleStart = async () => {
     if (!session) return;
     await updateSession.mutateAsync({
       id: session.id,
-      currentStep: 'player',
+      currentStep: 'ai_analysis',
     });
-    router.push('/daily-flow/player');
+    router.push('/daily-flow/ai-analysis');
   };
 
   return (
@@ -95,9 +154,7 @@ export default function BodyInsight() {
             className="min-w-[48%] flex-1 gap-3"
           >
             <IconChip size="sm" shape="rounded" tone="pink">
-              {(color) => (
-                <Ionicons name={obs.icon as never} size={16} color={color} />
-              )}
+              {(color) => <Ionicons name={obs.icon} size={16} color={color} />}
             </IconChip>
             <Text size="md" weight="bold">
               {obs.title}
@@ -160,6 +217,25 @@ export default function BodyInsight() {
           })}
         </View>
       </View>
+
+      <Card variant="raised" size="md" className="gap-3">
+        <View className="flex-row items-center justify-between">
+          <Text size="md" weight="bold" tone="accent">
+            Here is your Daily Affirmation
+          </Text>
+          <IconChip
+            size="sm"
+            shape="circle"
+            onPress={rerollAffirmation}
+            accessibilityLabel="Show another affirmation"
+          >
+            {(color) => <Ionicons name="refresh" size={16} color={color} />}
+          </IconChip>
+        </View>
+        <Text size="md" tone="body" italic>
+          &ldquo;{affirmation}&rdquo;
+        </Text>
+      </Card>
 
       <Card variant="raised" size="md" className="items-center gap-3">
         <Text size="md" weight="bold">

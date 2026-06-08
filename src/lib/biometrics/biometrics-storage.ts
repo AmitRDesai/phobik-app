@@ -1,5 +1,17 @@
 import { db } from '@/lib/powersync/database';
 
+// WHOOP writes its data into Apple Health too. When a direct WHOOP connection
+// is active we drop those mirror samples (keeping the canonical cloud copy) by
+// matching the HealthKit writing-app bundle. Prefix match covers `com.whoop.*`
+// and `com.whoopinc.*`. ⚠️ Verify against the real bundle on-device.
+const WHOOP_BUNDLE_PREFIX = 'com.whoop';
+
+export function isWhoopBundle(bundleId: string | undefined): boolean {
+  return (
+    bundleId != null && bundleId.toLowerCase().startsWith(WHOOP_BUNDLE_PREFIX)
+  );
+}
+
 export type BiometricMetric =
   | 'heart_rate'
   | 'hrv_sdnn'
@@ -48,6 +60,7 @@ export async function persistReadings(
     value: number;
     unit: BiometricUnit;
     source: BiometricSource;
+    granularity: 'sample';
     recorded_at: string;
     created_at: string;
   }[] = [];
@@ -62,6 +75,9 @@ export async function persistReadings(
       value: s.value,
       unit: s.unit,
       source: s.source,
+      // On-device readings are always per-sample; cloud aggregates (Whoop
+      // daily_avg) never flow through this device-upload path.
+      granularity: 'sample',
       recorded_at: s.recordedAt.toISOString(),
       created_at: now,
     });

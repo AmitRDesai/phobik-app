@@ -1,5 +1,6 @@
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
+import { useDataSourcePreferences } from '@/modules/home/hooks/useDataSourcePreferences';
 import type { TimeRange } from '@/modules/insights/store/insights';
 import { useQuery } from '@powersync/tanstack-react-query';
 
@@ -86,13 +87,19 @@ export function useSleepHistory(range: TimeRange): SleepHistoryStats {
     Date.now() - RANGE_DAYS[range] * 24 * 60 * 60 * 1000,
   ).toISOString();
 
+  // Filter to the user's chosen sleep source when set (avoids double-counting
+  // when both an on-device source and Whoop report sleep). No pref → no filter.
+  const { prefs } = useDataSourcePreferences();
+  const source = prefs['sleep'] ?? null;
+
   const { data, isLoading } = useQuery({
-    queryKey: ['sleep-history', userId, range],
+    queryKey: ['sleep-history', userId, range, source ?? 'all'],
     query: db
       .selectFrom('sleep_session')
       .selectAll()
       .where('user_id', '=', userId ?? '')
       .where('start_time', '>=', startIso)
+      .$if(source != null, (qb) => qb.where('source', '=', source!))
       .orderBy('start_time', 'desc'),
     enabled: !!userId,
   });

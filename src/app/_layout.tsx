@@ -1,4 +1,5 @@
 import '@azure/core-asynciterator-polyfill';
+import '@/lib/fetch-blob-fix';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { DialogContainer } from '@/components/ui/DialogContainer';
 import { ToastContainer } from '@/components/ui/ToastContainer';

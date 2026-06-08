@@ -1,7 +1,7 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { ScoreRing } from '@/modules/dashboard/components/ScoreRing';
-import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
+import { useAnyHealthConnected } from '@/modules/home/hooks/useHealthConnections';
 import { useSleepHistory } from '@/modules/insights/hooks/useSleepHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
 import { useAtomValue } from 'jotai';
@@ -18,7 +18,7 @@ function scoreSubtitle(score: number | null, hasConnected: boolean): string {
   if (score == null) {
     return hasConnected
       ? 'Wear your device overnight to see a score'
-      : 'Connect Apple Health or Health Connect';
+      : 'Connect a health source';
   }
   if (score >= 80) return 'Your body recovered efficiently last night';
   if (score >= 60) return 'A balanced night — room to optimize stages';
@@ -28,7 +28,7 @@ function scoreSubtitle(score: number | null, hasConnected: boolean): string {
 
 export function SleepScoreHeader() {
   const range = useAtomValue(timeRangeAtom);
-  const hasConnectedHealth = useAtomValue(hasConnectedHealthAtom);
+  const hasConnectedHealth = useAnyHealthConnected();
   const { lastNightScore } = useSleepHistory(range);
 
   return (

@@ -17,7 +17,7 @@ import {
 } from '../hooks/useDailyFlowSession';
 
 const TIME_CHIP_OPTIONS: ChipOption<TimeOptionId>[] = TIME_OPTIONS.map((t) => ({
-  label: t.label,
+  label: `${t.label} (${t.description})`,
   value: t.id,
   icon: (color: string) => <Ionicons name={t.icon} size={12} color={color} />,
 }));
@@ -36,9 +36,9 @@ export default function Intro() {
     if (!session || !selected) return;
     await updateSession.mutateAsync({
       id: session.id,
-      currentStep: 'feeling',
+      currentStep: 'stressor',
     });
-    router.push('/daily-flow/feeling');
+    router.push('/daily-flow/stressor');
   };
 
   return (

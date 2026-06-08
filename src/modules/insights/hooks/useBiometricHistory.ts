@@ -1,5 +1,7 @@
+import { metricToDataType } from '@/lib/biometrics/providers';
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
+import { useDataSourcePreferences } from '@/modules/home/hooks/useDataSourcePreferences';
 import type { TimeRange } from '@/modules/insights/store/insights';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { sql } from 'kysely';
@@ -62,8 +64,21 @@ export function useBiometricHistory(
   const startIso = new Date(Date.now() - lookbackMs).toISOString();
   const metrics = Array.isArray(metric) ? metric : [metric];
 
+  // When the user has chosen an authoritative source for this data type, filter
+  // to it so overlapping sources (e.g. Apple per-sample HR + Whoop daily-avg HR)
+  // don't double-count. No pref → no filter (pre-existing behavior).
+  const { prefs } = useDataSourcePreferences();
+  const dataType = metricToDataType(metrics[0] ?? '');
+  const source = dataType ? (prefs[dataType] ?? null) : null;
+
   const { data, isLoading } = useQuery({
-    queryKey: ['biometric-history', userId, metrics.join(','), range],
+    queryKey: [
+      'biometric-history',
+      userId,
+      metrics.join(','),
+      range,
+      source ?? 'all',
+    ],
     query: db
       .selectFrom('biometric_reading')
       .select([
@@ -76,6 +91,7 @@ export function useBiometricHistory(
       .where('user_id', '=', userId ?? '')
       .where('metric', 'in', metrics)
       .where('recorded_at', '>=', startIso)
+      .$if(source != null, (qb) => qb.where('source', '=', source!))
       .groupBy(sql`strftime(${bucketFormat}, recorded_at)`)
       .orderBy('bucket'),
     enabled: !!userId,

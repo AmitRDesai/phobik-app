@@ -9,7 +9,6 @@ import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Image } from 'react-native';
 
-import { buildAnalysisResult } from '../data/flowRecommendations';
 import {
   useActiveDailyFlowSession,
   useUpdateDailyFlowSession,
@@ -49,14 +48,11 @@ export default function AIAnalysis() {
     if (progress < 1 || !session || advanced.current) return;
     advanced.current = true;
     (async () => {
-      const timeOption = session.timeOption ?? 'balanced_flow';
-      const analysis = buildAnalysisResult(timeOption);
       await updateSession.mutateAsync({
         id: session.id,
-        currentStep: 'body_insight',
-        analysisResult: analysis,
+        currentStep: 'player',
       });
-      router.replace('/daily-flow/body-insight');
+      router.replace('/daily-flow/player');
     })();
   }, [progress, session, router, updateSession]);
 

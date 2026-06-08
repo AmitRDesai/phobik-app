@@ -1,5 +1,8 @@
 import { useUserId } from '@/lib/powersync/useUserId';
-import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
+import {
+  hasConnectedHealthAtom,
+  whoopConnectedAtom,
+} from '@/modules/home/store/health-connection';
 import {
   persistReadings,
   type BiometricSample,
@@ -15,7 +18,7 @@ import {
   UpdateFrequency,
 } from '@kingstinct/react-native-healthkit';
 import { useQuery } from '@tanstack/react-query';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { AppState, Linking } from 'react-native';
 
@@ -45,10 +48,11 @@ export function useLatestBiometrics(): LatestBiometrics {
   const [hasConnectedHealth, setHasConnectedHealth] = useAtom(
     hasConnectedHealthAtom,
   );
+  const dropWhoopMirror = useAtomValue(whoopConnectedAtom);
   const userId = useUserId();
 
   const query = useQuery({
-    queryKey: ['healthkit', 'latest-biometrics', userId],
+    queryKey: ['healthkit', 'latest-biometrics', userId, dropWhoopMirror],
     queryFn: async () => {
       const end = new Date();
       const start = new Date(
@@ -59,8 +63,8 @@ export function useLatestBiometrics(): LatestBiometrics {
       );
       const [{ hrSamples, hrvSamples, extraSamples }, sleepSessions] =
         await Promise.all([
-          readHealthSamplesInWindow(start, end),
-          readSleepSessionsInWindow(sleepStart, end),
+          readHealthSamplesInWindow(start, end, dropWhoopMirror),
+          readSleepSessionsInWindow(sleepStart, end, dropWhoopMirror),
         ]);
       if (userId) {
         await Promise.all([
@@ -145,8 +149,8 @@ export function useLatestBiometrics(): LatestBiometrics {
           );
           const [{ hrSamples, hrvSamples, extraSamples }, sleepSessions] =
             await Promise.all([
-              readHealthSamplesInWindow(start, end),
-              readSleepSessionsInWindow(start, end),
+              readHealthSamplesInWindow(start, end, dropWhoopMirror),
+              readSleepSessionsInWindow(start, end, dropWhoopMirror),
             ]);
           await Promise.all([
             persistReadings(userId, [

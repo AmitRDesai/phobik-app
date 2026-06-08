@@ -5,10 +5,13 @@ import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
 import { colors, withAlpha } from '@/constants/colors';
+import { WhoopProviderCard } from '@/modules/home/components/WhoopProviderCard';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+import { useWhoopConnection } from '@/modules/home/hooks/useWhoopConnection';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Platform } from 'react-native';
@@ -27,6 +30,7 @@ export default function Health() {
     requestAccess,
     disconnect,
   } = useLatestBiometrics();
+  const whoop = useWhoopConnection(hasAccess);
   const [busy, setBusy] = useState(false);
 
   const isAndroidUnavailable =
@@ -150,8 +154,32 @@ export default function Health() {
         </Button>
       )}
 
+      <WhoopProviderCard whoop={whoop} />
+
+      {hasAccess && whoop.connected ? (
+        <Card
+          className="p-4"
+          onPress={() => router.push('/settings/data-sources')}
+        >
+          <View className="flex-row items-center gap-3">
+            <IconChip size="md" shape="rounded" tone="purple">
+              {(color) => <MaterialIcons name="tune" size={20} color={color} />}
+            </IconChip>
+            <View className="flex-1">
+              <Text size="md" weight="semibold">
+                Data sources
+              </Text>
+              <Text size="sm" tone="secondary">
+                Choose which source feeds each metric
+              </Text>
+            </View>
+          </View>
+        </Card>
+      ) : null}
+
       <Text size="xs" align="center" tone="tertiary" className="px-2">
-        Phobik only reads HR and HRV — it never writes data to {PROVIDER_LABEL}.
+        Phobik only reads your health data — it never writes back to your
+        sources.
       </Text>
     </Screen>
   );

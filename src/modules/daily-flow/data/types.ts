@@ -1,19 +1,42 @@
+import type { Ionicons } from '@expo/vector-icons';
+
+type IoniconName = keyof typeof Ionicons.glyphMap;
+
 export type FlowStep =
   | 'intro'
+  | 'stressor'
+  | 'check_in'
   | 'feeling'
   | 'body_map'
   | 'body_sensations'
-  | 'ai_analysis'
   | 'body_insight'
+  | 'ai_analysis'
   | 'player'
   | 'reflection';
 
-export type TimeOptionId =
-  | 'quick_reset'
-  | 'short_flow'
-  | 'balanced_flow'
-  | 'deep_flow'
-  | 'full_reset';
+/** Coarse energy state from the "I am feeling…" check-in step. */
+export type CheckInState =
+  | 'low_energy'
+  | 'anxious'
+  | 'tired_but_wired'
+  | 'calm';
+
+export type StressorId =
+  | 'work'
+  | 'money'
+  | 'relationships'
+  | 'self_image'
+  | 'time'
+  | 'connection'
+  | 'uncertainty'
+  | 'purpose'
+  | 'burnout'
+  | 'other';
+
+/** Per-family self-reported intensity, 1–10 (feeds the Regulation score). */
+export type FeelingIntensities = Partial<Record<EmotionalFamilyId, number>>;
+
+export type TimeOptionId = 'quick_reset' | 'short_flow' | 'full_reset';
 
 export type EmotionalFamilyId =
   | 'activated'
@@ -46,7 +69,7 @@ export type EffectRating = 'worse' | 'same' | 'better';
 export interface AnalysisObservation {
   title: string;
   description: string;
-  icon: string;
+  icon: IoniconName;
 }
 
 export interface FlowStepTemplate {
@@ -70,9 +93,14 @@ export type DailyFlowSession = {
   completedAt: string | null;
   timeOption: TimeOptionId | null;
   emotionalFamilies: EmotionalFamilyId[];
+  feelingIntensities: FeelingIntensities;
+  stressor: StressorId | null;
+  checkInState: CheckInState | null;
   bodyRegions: BodyRegionId[];
   sensations: string[];
   analysisResult: AnalysisResult | null;
+  affirmationText: string | null;
+  affirmationCategory: string | null;
   effectRating: EffectRating | null;
   reflectionText: string | null;
   createdAt: string;

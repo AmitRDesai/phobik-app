@@ -1,6 +1,9 @@
 import { db } from '@/lib/powersync/database';
+import type { BiometricSource } from './biometrics-storage';
 
-export type SleepSource = 'apple_health' | 'health_connect';
+// Sleep shares the device source space with biometrics — unify rather than
+// duplicate the union. Cloud sources (whoop) never flow through this path.
+export type SleepSource = BiometricSource;
 
 export type SleepSessionInput = {
   startTime: Date;
@@ -71,6 +74,7 @@ export async function persistSleepSessions(
     efficiency_pct: number | null;
     restorative_pct: number | null;
     source: SleepSource;
+    granularity: 'session';
     recorded_at: string;
     created_at: string;
   }[] = [];
@@ -94,6 +98,7 @@ export async function persistSleepSessions(
       efficiency_pct: s.efficiencyPct,
       restorative_pct: s.restorativePct,
       source: s.source,
+      granularity: 'session',
       recorded_at: now,
       created_at: now,
     });

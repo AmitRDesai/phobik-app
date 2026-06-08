@@ -7,7 +7,7 @@ import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
 import { clsx } from 'clsx';
 import { useRouter } from 'expo-router';
-import { Image } from 'react-native';
+import { Image, type ViewStyle } from 'react-native';
 
 import { BODY_REGIONS } from '../data/bodyRegions';
 import type { BodyRegionId } from '../data/types';
@@ -16,18 +16,68 @@ import {
   useUpdateDailyFlowSession,
 } from '../hooks/useDailyFlowSession';
 
-// Position each region as a chip overlay on the body silhouette container —
-// approximate anatomy via flex layout.
-const LAYOUT_ROWS: { regions: BodyRegionId[]; align?: 'left' | 'right' }[] = [
-  { regions: ['head_mind'] },
-  { regions: ['shoulders_neck'] },
-  { regions: ['chest_breath'] },
-  { regions: ['heart_space', 'back'], align: 'left' },
-  { regions: ['stomach_gut'] },
-  { regions: ['hands_arms'], align: 'left' },
-  { regions: ['legs_feet'] },
-  { regions: ['whole_body'] },
-];
+/**
+ * Anatomical placement of each region chip as a percentage of the image
+ * container (the chip's top-left corner). Tuned to the glowing silhouette;
+ * adjust these once the final (larger, background-removed) figure lands —
+ * everything else keys off this map. `whole_body` renders as a button below
+ * the image, so it has no position here.
+ */
+type Percent = `${number}%`;
+
+const REGION_POSITIONS: Record<
+  Exclude<BodyRegionId, 'whole_body'>,
+  { top: Percent; left: Percent }
+> = {
+  head_mind: { top: '7%', left: '32%' },
+  shoulders_neck: { top: '19%', left: '28%' },
+  chest_breath: { top: '31%', left: '33%' },
+  heart_space: { top: '34%', left: '2%' },
+  back: { top: '44%', left: '38%' },
+  stomach_gut: { top: '51%', left: '33%' },
+  hands_arms: { top: '56%', left: '1%' },
+  legs_feet: { top: '76%', left: '34%' },
+};
+
+function RegionChip({
+  label,
+  selected,
+  onPress,
+  style,
+}: {
+  label: string;
+  selected: boolean;
+  onPress: () => void;
+  style?: ViewStyle;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="checkbox"
+      accessibilityState={{ checked: selected }}
+      accessibilityLabel={label}
+      className="active:opacity-80"
+      style={style}
+    >
+      <View
+        className={clsx(
+          'rounded-full border px-4 py-2',
+          selected
+            ? 'border-primary-pink bg-primary-pink/70'
+            : 'border-foreground/15 bg-surface-elevated/40',
+        )}
+      >
+        <Text
+          size="sm"
+          weight={selected ? 'bold' : 'medium'}
+          tone={selected ? 'inverse' : 'primary'}
+        >
+          {label}
+        </Text>
+      </View>
+    </Pressable>
+  );
+}
 
 export default function BodyMap() {
   const router = useRouter();
@@ -42,10 +92,7 @@ export default function BodyMap() {
     const next = selected.includes(id)
       ? selected.filter((r) => r !== id)
       : [...selected, id];
-    await updateSession.mutateAsync({
-      id: session.id,
-      bodyRegions: next,
-    });
+    await updateSession.mutateAsync({ id: session.id, bodyRegions: next });
   };
 
   const handleContinue = async () => {
@@ -57,10 +104,12 @@ export default function BodyMap() {
     router.push('/daily-flow/body-sensations');
   };
 
+  const labelFor = (id: BodyRegionId) =>
+    BODY_REGIONS.find((r) => r.id === id)?.label;
+
   return (
     <Screen
       loading={showLoading}
-      scroll
       transparent
       insetTop={false}
       sticky={
@@ -73,78 +122,53 @@ export default function BodyMap() {
           Continue
         </Button>
       }
-      contentClassName="gap-6 pb-4"
     >
-      <View className="items-center gap-2">
-        <GradientText className="text-[28px] font-extrabold leading-[34px]">
-          Where are you noticing this most?
-        </GradientText>
-        <Text size="sm" tone="secondary" align="center">
-          Focus on your physical sensations and select the areas where you feel
-          the most resonance right now.
-        </Text>
-      </View>
+      <View className="flex-1 gap-4 pb-2">
+        <View className="items-center gap-2">
+          <GradientText className="text-[28px] font-extrabold leading-[34px]">
+            Where are you noticing this most?
+          </GradientText>
+          <Text size="sm" tone="secondary" align="center">
+            Focus on your physical sensations and select the areas where you
+            feel the most resonance right now.
+          </Text>
+        </View>
 
-      <View className="relative items-center justify-center">
-        <View
-          pointerEvents="none"
-          className="absolute h-[520px] w-[260px] opacity-70"
-        >
+        {/* Figure fills the available height; chips are positioned over it */}
+        <View className="relative w-full flex-1">
           <Image
             source={bodyMapSilhouette}
-            resizeMode="contain"
+            resizeMode="cover"
             accessibilityIgnoresInvertColors
             accessibilityLabel="Glowing body silhouette"
-            className="h-full w-full"
+            className="absolute inset-0 h-full w-full opacity-80"
           />
-        </View>
-        <View className="w-full gap-3 py-6">
-          {LAYOUT_ROWS.map((row) => (
-            <View
-              key={row.regions.join(',')}
-              className={clsx(
-                'flex-row gap-2',
-                row.align === 'left'
-                  ? 'justify-between'
-                  : row.align === 'right'
-                    ? 'justify-end'
-                    : 'justify-center',
-              )}
-            >
-              {row.regions.map((id) => {
-                const region = BODY_REGIONS.find((r) => r.id === id);
-                if (!region) return null;
-                const isSelected = selected.includes(id);
-                return (
-                  <Pressable
-                    key={id}
-                    onPress={() => toggle(id)}
-                    accessibilityRole="checkbox"
-                    accessibilityState={{ checked: isSelected }}
-                    accessibilityLabel={region.label}
-                    className="active:opacity-80"
-                  >
-                    <View
-                      className={clsx(
-                        'rounded-full border px-4 py-2',
-                        isSelected
-                          ? 'border-primary-pink bg-primary-pink/80'
-                          : 'border-foreground/10 bg-surface-elevated/90',
-                      )}
-                    >
-                      <Text
-                        size="sm"
-                        weight={isSelected ? 'bold' : 'medium'}
-                        tone={isSelected ? 'inverse' : 'primary'}
-                      >
-                        {region.label}
-                      </Text>
-                    </View>
-                  </Pressable>
-                );
-              })}
+          {(
+            Object.keys(REGION_POSITIONS) as (keyof typeof REGION_POSITIONS)[]
+          ).map((id) => {
+            const label = labelFor(id);
+            if (!label) return null;
+            return (
+              <RegionChip
+                key={id}
+                label={label}
+                selected={selected.includes(id)}
+                onPress={() => toggle(id)}
+                style={{ position: 'absolute', ...REGION_POSITIONS[id] }}
+              />
+            );
+          })}
+
+          {/* Whole Body pinned to the bottom-center of the figure */}
+          {labelFor('whole_body') ? (
+            <View className="absolute inset-x-0 bottom-0 items-center">
+              <RegionChip
+                label={labelFor('whole_body')!}
+                selected={selected.includes('whole_body')}
+                onPress={() => toggle('whole_body')}
+              />
             </View>
-          ))}
+          ) : null}
         </View>
       </View>
     </Screen>

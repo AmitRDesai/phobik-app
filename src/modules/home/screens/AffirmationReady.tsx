@@ -8,11 +8,7 @@ import { useState } from 'react';
 import { AffirmationHeader } from '../components/AffirmationHeader';
 import { AffirmationReadyCard } from '../components/AffirmationReadyCard';
 import { useSaveAffirmation } from '../hooks/useAffirmation';
-import {
-  type Feeling,
-  getAffirmations,
-  getTimeOfDay,
-} from '../store/affirmation';
+import { type Feeling, getAffirmations } from '../store/affirmation';
 
 function pickRandom(options: string[]): string {
   return options[Math.floor(Math.random() * options.length)];
@@ -23,14 +19,12 @@ export default function AffirmationReady() {
   const saveAffirmation = useSaveAffirmation();
   const router = useRouter();
 
-  const [text, setText] = useState(() => {
-    const pool = getAffirmations(getTimeOfDay(), feeling as Feeling);
-    return pickRandom(pool);
-  });
+  const [text, setText] = useState(() =>
+    pickRandom(getAffirmations(feeling as Feeling)),
+  );
 
   const handleSync = () => {
-    const pool = getAffirmations(getTimeOfDay(), feeling as Feeling);
-    setText(pickRandom(pool));
+    setText(pickRandom(getAffirmations(feeling as Feeling)));
   };
 
   const handleSave = async () => {

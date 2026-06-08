@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/Card';
 import { IconChip } from '@/components/ui/IconChip';
 import { colors, foregroundFor, withAlpha } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
-import { hasConnectedHealthAtom } from '@/modules/home/store/health-connection';
+import { useAnyHealthConnected } from '@/modules/home/hooks/useHealthConnections';
 import { useSleepHistory } from '@/modules/insights/hooks/useSleepHistory';
 import { timeRangeAtom } from '@/modules/insights/store/insights';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -20,7 +20,7 @@ function summaryText(
   if (restorativePct == null) {
     return hasConnected
       ? 'Wear your device overnight to capture sleep stages.'
-      : 'Connect Apple Health or Health Connect to track sleep.';
+      : 'Connect a health source to track sleep.';
   }
   if (restorativePct >= 50)
     return 'Deep & REM cycles prioritized neural recovery.';
@@ -35,7 +35,7 @@ export function SleepIntelligenceCard() {
   const router = useRouter();
   const scheme = useScheme();
   const range = useAtomValue(timeRangeAtom);
-  const hasConnectedHealth = useAtomValue(hasConnectedHealthAtom);
+  const hasConnectedHealth = useAnyHealthConnected();
   const { lastNight } = useSleepHistory(range);
 
   const restorativePct = lastNight?.restorativePct ?? null;

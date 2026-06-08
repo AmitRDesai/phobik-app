@@ -1,24 +1,26 @@
 import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { GlowBg } from '@/components/ui/GlowBg';
 import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { accentFor, colors } from '@/constants/colors';
 import { useScheme } from '@/hooks/useTheme';
+import { DEVICE_DISPLAY_NAME } from '@/lib/biometrics/providers';
 import { dialog } from '@/utils/dialog';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import { Button } from '@/components/ui/Button';
 import { Linking, Platform } from 'react-native';
 import { EaseView } from 'react-native-ease';
 import { openHealthConnectSettings } from 'react-native-health-connect';
 
+import { HealthProviderCard } from '../components/HealthProviderCard';
+import { WhoopProviderCard } from '../components/WhoopProviderCard';
 import { useLatestBiometrics } from '../hooks/useLatestBiometrics';
+import { useWhoopConnection } from '../hooks/useWhoopConnection';
 
-const PROVIDER_LABEL =
-  Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect';
 const HEALTH_CONNECT_PLAY_STORE_URL =
   'https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata';
 
@@ -30,11 +32,11 @@ function openHealthSettings() {
   }
 }
 
-function HealthHero({ pulsing }: { pulsing: boolean }) {
+function HealthHero({ connected }: { connected: boolean }) {
   const scheme = useScheme();
   const yellow = accentFor(scheme, 'yellow');
   return (
-    <View className="mb-10 mt-6 items-center">
+    <View className="mb-8 mt-6 items-center">
       <View className="relative mb-6 items-center justify-center">
         <View className="absolute size-24 overflow-hidden rounded-full">
           <GlowBg
@@ -48,7 +50,14 @@ function HealthHero({ pulsing }: { pulsing: boolean }) {
           />
         </View>
         <View className="size-24 items-center justify-center rounded-full border-2 border-primary-pink/30">
-          {pulsing ? (
+          {connected ? (
+            <View
+              className="size-16 items-center justify-center rounded-full"
+              style={{ borderWidth: 2, borderColor: yellow }}
+            >
+              <MaterialIcons name="check" size={32} color={yellow} />
+            </View>
+          ) : (
             <EaseView
               initialAnimate={{ scale: 0.8, opacity: 0.5 }}
               animate={{ scale: 1.1, opacity: 1 }}
@@ -63,13 +72,6 @@ function HealthHero({ pulsing }: { pulsing: boolean }) {
             >
               <MaterialIcons name="favorite" size={28} color={yellow} />
             </EaseView>
-          ) : (
-            <View
-              className="size-16 items-center justify-center rounded-full"
-              style={{ borderWidth: 2, borderColor: yellow }}
-            >
-              <MaterialIcons name="check" size={32} color={yellow} />
-            </View>
           )}
         </View>
       </View>
@@ -81,10 +83,10 @@ function HealthHero({ pulsing }: { pulsing: boolean }) {
         weight="bold"
         className="mb-2"
       >
-        {pulsing ? `Connect to ${PROVIDER_LABEL}` : 'Connected'}
+        {connected ? 'Connected' : 'Your sources'}
       </Text>
-      <Text size="h1" className="mb-3">
-        {pulsing ? 'Sync Your Wearable' : "You're synced"}
+      <Text size="h1" align="center" className="mb-3">
+        {connected ? "You're synced" : 'Sync Your Wearables'}
       </Text>
       <Text
         size="sm"
@@ -92,9 +94,9 @@ function HealthHero({ pulsing }: { pulsing: boolean }) {
         align="center"
         className="max-w-[300px] leading-relaxed"
       >
-        {pulsing
-          ? `Phobik reads heart rate and HRV from ${PROVIDER_LABEL} — read-only, never written. Any wearable that syncs there (Apple Watch, Whoop, Oura, Garmin, Fitbit, Polar) works automatically.`
-          : `Phobik is now reading your heart rate and HRV from ${PROVIDER_LABEL}.`}
+        {connected
+          ? 'Phobik is reading your biometrics. Add or manage a source below.'
+          : 'Connect a source below. Phobik reads recovery, heart rate, HRV and sleep — read-only, never written.'}
       </Text>
     </View>
   );
@@ -141,29 +143,31 @@ function MetricRow({
 
 export default function ConnectWearable() {
   const scheme = useScheme();
-  const { heartRate, hrv, hasAccess, sdkAvailable, requestAccess } =
-    useLatestBiometrics();
-  const [requesting, setRequesting] = useState(false);
+  const device = useLatestBiometrics();
+  const whoop = useWhoopConnection(device.hasAccess);
+  const [deviceBusy, setDeviceBusy] = useState(false);
 
   const isAndroidUnavailable =
-    Platform.OS === 'android' && sdkAvailable === false;
+    Platform.OS === 'android' && device.sdkAvailable === false;
 
-  const handleConnect = async () => {
+  const anyConnected = device.hasAccess || whoop.connected;
+
+  const handleConnectDevice = async () => {
     if (isAndroidUnavailable) {
       Linking.openURL(HEALTH_CONNECT_PLAY_STORE_URL).catch(() => {});
       return;
     }
-    setRequesting(true);
+    setDeviceBusy(true);
     // requestAccess swallows its own errors and returns a boolean. Avoid
     // try/finally here — the React Compiler does not support `finally`.
-    const ok = await requestAccess().catch(() => false);
-    setRequesting(false);
+    const ok = await device.requestAccess().catch(() => false);
+    setDeviceBusy(false);
     if (ok) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     } else {
       await dialog.error({
         title: 'Permission needed',
-        message: `Phobik needs read access to heart rate and HRV in ${PROVIDER_LABEL}. Open ${PROVIDER_LABEL} settings to grant access.`,
+        message: `Phobik needs read access to heart rate and HRV in ${DEVICE_DISPLAY_NAME}. Open ${DEVICE_DISPLAY_NAME} settings to grant access.`,
       });
     }
   };
@@ -171,91 +175,58 @@ export default function ConnectWearable() {
   return (
     <Screen
       scroll
-      header={
-        <Header
-          center={
-            <Text
-              size="sm"
-              tone="secondary"
-              weight="bold"
-              className="uppercase tracking-[4px]"
-              style={{ paddingRight: 4 }}
-              numberOfLines={1}
-            >
-              Connect Wearable
-            </Text>
-          }
-        />
-      }
+      header={<Header title="Connect Wearable" />}
       className="px-6"
+      contentClassName="gap-3"
     >
-      <HealthHero pulsing={!hasAccess} />
+      <HealthHero connected={anyConnected} />
 
-      {hasAccess ? (
-        <View className="gap-4">
-          <View className="flex-row gap-4">
-            <MetricRow
-              label="Heart Rate"
-              value={heartRate != null ? String(heartRate) : '—'}
-              unit="Bpm"
-              unitColor={accentFor(scheme, 'pink')}
-            />
-            <MetricRow
-              label="HRV"
-              value={hrv != null ? hrv.toFixed(1) : '—'}
-              unit="Ms"
-              unitColor={accentFor(scheme, 'yellow')}
-            />
-          </View>
-          {heartRate == null && hrv == null ? (
-            <Text
-              size="sm"
-              tone="secondary"
-              align="center"
-              className="leading-relaxed"
-            >
-              No recent samples yet. Wear your device and sync it to{' '}
-              {PROVIDER_LABEL}, then return here.
-            </Text>
-          ) : null}
-          <Button
-            variant="ghost"
-            size="sm"
-            onPress={openHealthSettings}
-            className="mt-2"
-          >
-            Open {PROVIDER_LABEL} settings
-          </Button>
+      <HealthProviderCard
+        icon="favorite"
+        name={DEVICE_DISPLAY_NAME}
+        subtitle={
+          device.hasAccess
+            ? `Reading from ${DEVICE_DISPLAY_NAME}`
+            : isAndroidUnavailable
+              ? "Health Connect isn't installed on this device"
+              : `Read HR, HRV & sleep from ${DEVICE_DISPLAY_NAME}`
+        }
+        connected={device.hasAccess}
+        statusLabel={device.hasAccess ? 'Connected' : undefined}
+        actionLabel={isAndroidUnavailable ? 'Install' : 'Connect'}
+        onAction={handleConnectDevice}
+        busy={deviceBusy}
+        secondaryActionLabel="Settings"
+        onSecondary={openHealthSettings}
+      />
+
+      <WhoopProviderCard whoop={whoop} />
+
+      {device.hasAccess ? (
+        <View className="mt-4 flex-row gap-3">
+          <MetricRow
+            label="Heart Rate"
+            value={device.heartRate != null ? String(device.heartRate) : '—'}
+            unit="Bpm"
+            unitColor={accentFor(scheme, 'pink')}
+          />
+          <MetricRow
+            label="HRV"
+            value={device.hrv != null ? device.hrv.toFixed(1) : '—'}
+            unit="Ms"
+            unitColor={accentFor(scheme, 'yellow')}
+          />
         </View>
-      ) : isAndroidUnavailable ? (
-        <View className="gap-3">
-          <Text
-            size="sm"
-            align="center"
-            tone="secondary"
-            className="leading-relaxed"
-          >
-            Health Connect isn&apos;t installed on this device. Install it from
-            the Play Store, then return here to connect.
-          </Text>
-          <Button
-            onPress={handleConnect}
-            prefixIcon={
-              <MaterialIcons name="cloud-download" size={18} color="white" />
-            }
-          >
-            Install Health Connect
-          </Button>
-        </View>
-      ) : (
-        <Button
-          onPress={handleConnect}
-          loading={requesting}
-          prefixIcon={<MaterialIcons name="favorite" size={18} color="white" />}
-        >
-          Connect to {PROVIDER_LABEL}
-        </Button>
-      )}
+      ) : null}
+
+      <Text
+        size="xs"
+        align="center"
+        tone="tertiary"
+        className="mt-4 px-2 leading-relaxed"
+      >
+        Read-only — Phobik never writes to your health data.
+      </Text>
     </Screen>
   );
 }

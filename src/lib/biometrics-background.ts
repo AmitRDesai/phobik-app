@@ -32,6 +32,10 @@ async function runBiometricsSync(): Promise<BackgroundTask.BackgroundTaskResult>
 
     const [{ hrSamples, hrvSamples, extraSamples }, sleepSessions] =
       await Promise.all([
+        // No WHOOP-mirror drop here: this background task runs in the shared
+        // layer and can't read the module-scoped whoop-connected flag. The
+        // foreground reader drops mirrors, and the stats resolver dedups any
+        // that slip through, so this is a safe gap.
         readHealthSamplesInWindow(start, end),
         readSleepSessionsInWindow(sleepStart, end),
       ]);

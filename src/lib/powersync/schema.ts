@@ -299,9 +299,14 @@ const daily_flow_session = new Table(
     completed_at: column.text,
     time_option: column.text,
     emotional_families: column.text, // JSONB as JSON string
+    feeling_intensities: column.text, // JSONB as JSON string (familyId → 1-10)
+    stressor: column.text,
+    check_in_state: column.text,
     body_regions: column.text, // JSONB as JSON string
     sensations: column.text, // JSONB as JSON string
     analysis_result: column.text, // JSONB as JSON string
+    affirmation_text: column.text,
+    affirmation_category: column.text,
     effect_rating: column.text,
     reflection_text: column.text,
     created_at: column.text,
@@ -331,10 +336,14 @@ const notification = new Table(
 const biometric_reading = new Table(
   {
     user_id: column.text,
-    metric: column.text, // 'heart_rate' | 'hrv_sdnn' | 'hrv_rmssd'
+    // 'heart_rate' | 'hrv_sdnn' | 'hrv_rmssd' | 'resting_hr' | 'respiratory_rate'
+    // | 'recovery_score' | 'strain' | 'spo2' | 'skin_temp' | 'max_hr' | 'energy_kj'
+    metric: column.text,
     value: column.real,
-    unit: column.text, // 'bpm' | 'ms'
-    source: column.text, // 'apple_health' | 'health_connect'
+    unit: column.text, // 'bpm' | 'ms' | 'breaths_per_min' | 'score' | 'index' | …
+    source: column.text, // 'apple_health' | 'health_connect' | 'whoop'
+    granularity: column.text, // 'sample' | 'daily_avg' | 'session'
+    excluded_from_rollups: column.integer, // 0 / 1 — dedup overlap-loser marker
     recorded_at: column.text, // ISO 8601 — bucketing uses strftime
     created_at: column.text,
   },
@@ -376,13 +385,63 @@ const sleep_session = new Table(
     awake_minutes: column.real, // nullable
     efficiency_pct: column.real, // nullable
     restorative_pct: column.real, // nullable — (deep+rem)/total*100
-    source: column.text, // 'apple_health' | 'health_connect'
+    source: column.text, // 'apple_health' | 'health_connect' | 'whoop'
+    granularity: column.text, // 'session'
+    excluded_from_rollups: column.integer, // 0 / 1
+    // --- Vendor extras (Whoop), nullable ---
+    sleep_performance_pct: column.real,
+    sleep_consistency_pct: column.real,
+    sleep_need_minutes: column.real,
+    sleep_debt_minutes: column.real,
+    cycle_count: column.integer,
+    disturbance_count: column.integer,
+    is_nap: column.integer, // 0 / 1
     recorded_at: column.text,
     created_at: column.text,
   },
   {
     indexes: { user_start: ['user_id', 'start_time'] },
   },
+);
+
+// Workouts/activities — synced down from cloud vendors (Whoop). The device
+// never writes this table; it arrives via backend ingestion → PowerSync.
+const workout = new Table(
+  {
+    user_id: column.text,
+    source: column.text, // 'whoop'
+    sport_name: column.text,
+    start_time: column.text, // ISO 8601
+    end_time: column.text, // ISO 8601
+    strain: column.real, // 0–21, non-linear
+    avg_heart_rate: column.real,
+    max_heart_rate: column.real,
+    kilojoule: column.real,
+    distance_meter: column.real,
+    altitude_gain_meter: column.real,
+    percent_recorded: column.real,
+    zone_durations: column.text, // JSON { zone0..zone5 } minutes
+    score_state: column.text, // SCORED | PENDING_SCORE | UNSCORABLE
+    vendor_id: column.text,
+    recorded_at: column.text,
+    created_at: column.text,
+  },
+  {
+    indexes: { user_start: ['user_id', 'start_time'] },
+  },
+);
+
+// Per-metric authoritative-source choice (which connected source wins for a
+// given data type). Synced both ways — written locally, uploaded via the
+// connector, read by the on-device resolver.
+const data_source_preference = new Table(
+  {
+    user_id: column.text,
+    data_type: column.text, // 'heart_rate' | 'hrv' | 'resting_hr' | 'respiratory_rate' | 'sleep'
+    source: column.text, // chosen provider slug
+    updated_at: column.text,
+  },
+  { indexes: { user: ['user_id'] } },
 );
 
 export const AppSchema = new Schema({
@@ -409,6 +468,8 @@ export const AppSchema = new Schema({
   morning_reset_session,
   biometric_reading,
   sleep_session,
+  workout,
+  data_source_preference,
 });
 
 export type Database = (typeof AppSchema)['types'];
@@ -435,3 +496,5 @@ export type DailyFlowSessionRecord = Database['daily_flow_session'];
 export type MorningResetSessionRecord = Database['morning_reset_session'];
 export type BiometricReadingRecord = Database['biometric_reading'];
 export type SleepSessionRecord = Database['sleep_session'];
+export type WorkoutRecord = Database['workout'];
+export type DataSourcePreferenceRecord = Database['data_source_preference'];

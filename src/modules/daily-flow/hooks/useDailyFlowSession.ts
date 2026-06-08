@@ -5,18 +5,23 @@ import { toCamel } from '@/lib/powersync/utils';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
 
+import { isTodayLocal } from '../data/flow-navigation';
 import type {
   AnalysisResult,
   BodyRegionId,
+  CheckInState,
   DailyFlowSession,
   EffectRating,
   EmotionalFamilyId,
+  FeelingIntensities,
   FlowStep,
+  StressorId,
   TimeOptionId,
 } from '../data/types';
 
 const SESSION_JSON = {
   emotional_families: true,
+  feeling_intensities: true,
   body_regions: true,
   sensations: true,
   analysis_result: true,
@@ -45,6 +50,17 @@ export function useActiveDailyFlowSession() {
   return { session, isLoading };
 }
 
+/**
+ * Whether today's Daily Flow is already underway — drives "Resume" vs "Start"
+ * CTAs. True only for an in-progress session started today (stale sessions
+ * from prior days don't count).
+ */
+export function useResumableDailyFlow() {
+  const { session, isLoading } = useActiveDailyFlowSession();
+  const canResume = !!session?.startedAt && isTodayLocal(session.startedAt);
+  return { canResume, isLoading };
+}
+
 export function useStartDailyFlowSession() {
   const userId = useUserId();
 
@@ -63,6 +79,7 @@ export function useStartDailyFlowSession() {
           current_step: 'intro',
           started_at: now,
           emotional_families: JSON.stringify([]),
+          feeling_intensities: JSON.stringify({}),
           body_regions: JSON.stringify([]),
           sensations: JSON.stringify([]),
           created_at: now,
@@ -80,9 +97,14 @@ type UpdateInput = {
   currentStep?: FlowStep;
   timeOption?: TimeOptionId | null;
   emotionalFamilies?: EmotionalFamilyId[];
+  feelingIntensities?: FeelingIntensities;
+  stressor?: StressorId | null;
+  checkInState?: CheckInState | null;
   bodyRegions?: BodyRegionId[];
   sensations?: string[];
   analysisResult?: AnalysisResult | null;
+  affirmationText?: string | null;
+  affirmationCategory?: string | null;
   effectRating?: EffectRating | null;
 };
 
@@ -97,6 +119,11 @@ export function useUpdateDailyFlowSession() {
       if (input.timeOption !== undefined) patch.time_option = input.timeOption;
       if (input.emotionalFamilies !== undefined)
         patch.emotional_families = JSON.stringify(input.emotionalFamilies);
+      if (input.feelingIntensities !== undefined)
+        patch.feeling_intensities = JSON.stringify(input.feelingIntensities);
+      if (input.stressor !== undefined) patch.stressor = input.stressor;
+      if (input.checkInState !== undefined)
+        patch.check_in_state = input.checkInState;
       if (input.bodyRegions !== undefined)
         patch.body_regions = JSON.stringify(input.bodyRegions);
       if (input.sensations !== undefined)
@@ -105,6 +132,10 @@ export function useUpdateDailyFlowSession() {
         patch.analysis_result = input.analysisResult
           ? JSON.stringify(input.analysisResult)
           : null;
+      if (input.affirmationText !== undefined)
+        patch.affirmation_text = input.affirmationText;
+      if (input.affirmationCategory !== undefined)
+        patch.affirmation_category = input.affirmationCategory;
       if (input.effectRating !== undefined)
         patch.effect_rating = input.effectRating;
 

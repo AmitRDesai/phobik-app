@@ -3,6 +3,7 @@ import {
   queryCategorySamples,
 } from '@kingstinct/react-native-healthkit';
 
+import { isWhoopBundle } from './biometrics-storage';
 import type { SleepSessionInput } from './sleep-storage';
 
 const MAX_SAMPLES = 5000;
@@ -16,6 +17,7 @@ type RawSample = {
   startDate: Date;
   endDate: Date;
   value: CategoryValueSleepAnalysis;
+  sourceRevision?: { source: { bundleIdentifier: string } };
 };
 
 function emptySession(start: Date) {
@@ -130,6 +132,7 @@ function collapseSamples(samples: readonly RawSample[]): SleepSessionInput[] {
 export async function readSleepSessionsInWindow(
   startDate: Date,
   endDate: Date,
+  dropWhoopMirror = false,
 ): Promise<SleepSessionInput[]> {
   const samples = await queryCategorySamples(
     'HKCategoryTypeIdentifierSleepAnalysis',
@@ -140,5 +143,12 @@ export async function readSleepSessionsInWindow(
     },
   ).catch(() => [] as readonly RawSample[]);
 
-  return collapseSamples(samples as readonly RawSample[]);
+  // Drop sleep samples WHOOP wrote into Apple Health when WHOOP is connected.
+  const raw = samples as readonly RawSample[];
+  const filtered = dropWhoopMirror
+    ? raw.filter(
+        (s) => !isWhoopBundle(s.sourceRevision?.source.bundleIdentifier),
+      )
+    : raw;
+  return collapseSamples(filtered);
 }

@@ -21,6 +21,9 @@ function durationMinutes(start: string, end: string): number {
 export async function readSleepSessionsInWindow(
   start: Date,
   end: Date,
+  // TODO: drop WHOOP-mirrored sessions on Android via Health Connect's
+  // record.metadata.dataOrigin.packageName. No-op for now.
+  _dropWhoopMirror = false,
 ): Promise<SleepSessionInput[]> {
   const status = await getSdkStatus();
   if (status !== SdkAvailabilityStatus.SDK_AVAILABLE) return [];

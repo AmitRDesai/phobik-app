@@ -10,6 +10,7 @@ export type WindowReadResult = {
 export async function readHealthSamplesInWindow(
   _startDate: Date,
   _endDate: Date,
+  _dropWhoopMirror = false,
 ): Promise<WindowReadResult> {
   return { hrSamples: [], hrvSamples: [], extraSamples: [] };
 }

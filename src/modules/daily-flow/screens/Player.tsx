@@ -20,7 +20,7 @@ import {
   useUpdateDailyFlowSession,
 } from '../hooks/useDailyFlowSession';
 
-const QUOTE = 'Find the stillness within the flow.';
+const QUOTE = 'Your body knows how to heal.';
 
 function formatTime(seconds: number) {
   const m = Math.floor(seconds / 60);
@@ -38,10 +38,13 @@ export default function Player() {
 
   const analysis =
     session?.analysisResult ??
-    buildAnalysisResult(session?.timeOption ?? 'balanced_flow');
+    buildAnalysisResult(session?.timeOption ?? 'short_flow');
   const flow = analysis.flow;
   const currentStep = flow[stepIndex] ?? flow[0];
   const remaining = Math.max(0, currentStep.durationSeconds - stepElapsed);
+  const [currentPhase, currentPractice] = (currentStep.label ?? '').split(
+    ' · ',
+  );
 
   useEffect(() => {
     if (!playing) return;
@@ -83,6 +86,22 @@ export default function Player() {
   return (
     <Screen loading={showLoading} transparent insetTop={false} noPadding>
       <View className="flex-1 items-center justify-center gap-8 px-6">
+        <View className="items-center gap-1">
+          <Text size="xs" treatment="caption" weight="bold" tone="accent">
+            Somatic Flow
+          </Text>
+          {currentPractice ? (
+            <Text size="h3" weight="bold" align="center">
+              {currentPractice}
+            </Text>
+          ) : null}
+          {currentPhase ? (
+            <Text size="xs" treatment="caption" tone="secondary">
+              {currentPhase}
+            </Text>
+          ) : null}
+        </View>
+
         <View className="w-full items-center justify-center rounded-3xl border border-foreground/10 p-6">
           <View className="relative size-56 items-center justify-center">
             <Svg
@@ -107,9 +126,10 @@ export default function Player() {
               />
             </Svg>
             <Text
+              size="display"
               weight="bold"
               align="center"
-              className="text-[36px] leading-[42px] tracking-tight"
+              className="tracking-tight"
             >
               {formatTime(remaining)}
             </Text>

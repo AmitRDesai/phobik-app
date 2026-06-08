@@ -129,7 +129,7 @@ export default function Settings() {
           iconColor={pink}
           iconBgColor={withAlpha(pink, scheme === 'dark' ? 0.15 : 0.12)}
           label="Health"
-          subtitle="Connect Apple Health or Health Connect"
+          subtitle="Connect your health sources & WHOOP"
           onPress={() => router.push('/settings/health')}
         />
         <SettingsMenuItem

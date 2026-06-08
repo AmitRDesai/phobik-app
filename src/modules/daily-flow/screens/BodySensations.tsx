@@ -50,9 +50,9 @@ export default function BodySensations() {
     if (!session || selected.length === 0) return;
     await updateSession.mutateAsync({
       id: session.id,
-      currentStep: 'ai_analysis',
+      currentStep: 'body_insight',
     });
-    router.push('/daily-flow/ai-analysis');
+    router.push('/daily-flow/body-insight');
   };
 
   return (

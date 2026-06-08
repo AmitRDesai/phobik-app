@@ -11,6 +11,7 @@ import {
   buildStepPath,
   isTodayLocal,
 } from '../data/flow-navigation';
+import type { FlowStep } from '../data/types';
 import { useActiveDailyFlowSession } from '../hooks/useDailyFlowSession';
 
 // Strip the `/daily-flow/` prefix — the nested Stack's route name is the
@@ -64,7 +65,7 @@ export default function ResumeDispatcher() {
               .execute();
           }
 
-          const path = buildStepPath(today.current_step as never);
+          const path = buildStepPath(today.current_step as FlowStep);
           const routes = path.map((step) => ({
             name: toRouteName(STEP_ROUTES[step]),
           }));
@@ -103,6 +104,7 @@ export default function ResumeDispatcher() {
             current_step: 'intro',
             started_at: now,
             emotional_families: JSON.stringify([]),
+            feeling_intensities: JSON.stringify({}),
             body_regions: JSON.stringify([]),
             sensations: JSON.stringify([]),
             created_at: now,

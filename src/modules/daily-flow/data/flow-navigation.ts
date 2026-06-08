@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import type { ImperativeRouter } from 'expo-router';
 
 import type { FlowStep } from './types';
 
@@ -9,22 +8,26 @@ export function isTodayLocal(iso: string): boolean {
 
 export const STEP_ROUTES: Record<FlowStep, string> = {
   intro: '/daily-flow/intro',
+  stressor: '/daily-flow/stressor',
+  check_in: '/daily-flow/check-in',
   feeling: '/daily-flow/feeling',
   body_map: '/daily-flow/body-map',
   body_sensations: '/daily-flow/body-sensations',
-  ai_analysis: '/daily-flow/ai-analysis',
   body_insight: '/daily-flow/body-insight',
+  ai_analysis: '/daily-flow/ai-analysis',
   player: '/daily-flow/player',
   reflection: '/daily-flow/reflection',
 };
 
 const STEP_ORDER: FlowStep[] = [
   'intro',
+  'stressor',
+  'check_in',
   'feeling',
   'body_map',
   'body_sensations',
-  'ai_analysis',
   'body_insight',
+  'ai_analysis',
   'player',
   'reflection',
 ];
@@ -39,14 +42,6 @@ export function getNextStep(current: FlowStep): FlowStep | null {
   const idx = STEP_ORDER.indexOf(current);
   if (idx === -1 || idx === STEP_ORDER.length - 1) return null;
   return STEP_ORDER[idx + 1];
-}
-
-/**
- * Replace-navigate to a flow step. Uses router.replace so the stack only ever
- * contains [Today, currentFlowScreen] — no duplicates across back/forward.
- */
-export function navigateToStep(router: ImperativeRouter, step: FlowStep) {
-  router.replace(STEP_ROUTES[step] as never);
 }
 
 /**

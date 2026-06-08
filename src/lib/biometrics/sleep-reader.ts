@@ -6,6 +6,7 @@ import type { SleepSessionInput } from './sleep-storage';
 export async function readSleepSessionsInWindow(
   _start: Date,
   _end: Date,
+  _dropWhoopMirror = false,
 ): Promise<SleepSessionInput[]> {
   return [];
 }
