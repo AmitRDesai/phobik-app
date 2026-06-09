@@ -3,10 +3,9 @@ import { View } from '@/components/themed/View';
 import { Button } from '@/components/ui/Button';
 import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
-import { useResumableDailyFlow } from '@/modules/daily-flow/hooks/useDailyFlowSession';
+import { useStartDailyFlow } from '@/modules/daily-flow/hooks/useDailyFlowSession';
 import { DashboardHeader } from '@/modules/home/components/DashboardHeader';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 
 import { ChallengesStreakCard } from '../components/ChallengesStreakCard';
 import { DailyPracticeList } from '../components/DailyPracticeList';
@@ -16,9 +15,8 @@ import { SectionTitle } from '../components/SectionTitle';
 import { useSelectedDashboardDate } from '../hooks/useSelectedDashboardDate';
 
 export default function Dashboard() {
-  const router = useRouter();
   const nav = useSelectedDashboardDate();
-  const { canResume } = useResumableDailyFlow();
+  const { start, canResume } = useStartDailyFlow();
 
   return (
     <Screen
@@ -56,7 +54,7 @@ export default function Dashboard() {
         <Button
           variant="primary"
           prefixIcon={<Ionicons name="play" size={18} color="white" />}
-          onPress={() => router.push('/daily-flow')}
+          onPress={start}
           fullWidth
         >
           {canResume ? 'Resume Daily Flow' : 'Daily Flow'}

@@ -2,8 +2,11 @@ import { uuid } from '@/lib/crypto';
 import { db } from '@/lib/powersync/database';
 import { useUserId } from '@/lib/powersync/useUserId';
 import { toCamel } from '@/lib/powersync/utils';
+import { dialog } from '@/utils/dialog';
 import { useQuery } from '@powersync/tanstack-react-query';
 import { useMutation } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+import { useRouter } from 'expo-router';
 
 import { isTodayLocal } from '../data/flow-navigation';
 import type {
@@ -59,6 +62,52 @@ export function useResumableDailyFlow() {
   const { session, isLoading } = useActiveDailyFlowSession();
   const canResume = !!session?.startedAt && isTodayLocal(session.startedAt);
   return { canResume, isLoading };
+}
+
+/**
+ * Entry handler for the Daily Flow CTAs. Returns `canResume` (for the label)
+ * and `start()`:
+ *   - resuming an in-progress flow, or the first flow of the day → enter directly
+ *   - already completed today → confirm before starting a fresh session
+ */
+export function useStartDailyFlow() {
+  const router = useRouter();
+  const userId = useUserId();
+  const { canResume } = useResumableDailyFlow();
+
+  const startOfDay = dayjs().startOf('day').toISOString();
+  const startOfNextDay = dayjs().add(1, 'day').startOf('day').toISOString();
+  const { data } = useQuery({
+    queryKey: ['daily-flow-completed-today', userId, startOfDay],
+    query: db
+      .selectFrom('daily_flow_session')
+      .select(['id'])
+      .where('user_id', '=', userId ?? '')
+      .where('status', '=', 'completed')
+      .where('completed_at', '>=', startOfDay)
+      .where('completed_at', '<', startOfNextDay)
+      .limit(1),
+    enabled: !!userId,
+  });
+  const completedToday = (data?.length ?? 0) > 0;
+
+  const start = async () => {
+    if (!canResume && completedToday) {
+      const result = await dialog.info<'start' | 'cancel'>({
+        title: 'Start another Daily Flow?',
+        message:
+          "You've already completed your Daily Flow today. Starting again begins a fresh session.",
+        buttons: [
+          { label: 'Cancel', value: 'cancel', variant: 'secondary' },
+          { label: 'Start', value: 'start', variant: 'primary' },
+        ],
+      });
+      if (result !== 'start') return;
+    }
+    router.push('/daily-flow');
+  };
+
+  return { start, canResume };
 }
 
 export function useStartDailyFlowSession() {

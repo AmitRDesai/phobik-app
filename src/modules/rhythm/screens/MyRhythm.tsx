@@ -7,10 +7,9 @@ import { Header } from '@/components/ui/Header';
 import { Screen } from '@/components/ui/Screen';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { ScoreRing } from '@/modules/dashboard/components/ScoreRing';
-import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
-import { useResumableDailyFlow } from '@/modules/daily-flow/hooks/useDailyFlowSession';
+import { useStartDailyFlow } from '@/modules/daily-flow/hooks/useDailyFlowSession';
 
 import { PillarBreakdownRow } from '../components/PillarBreakdownRow';
 import { PillarCard } from '../components/PillarCard';
@@ -26,11 +25,10 @@ import {
 const RANGE_OPTIONS = TREND_RANGES.map((r) => ({ label: r, value: r }));
 
 export default function MyRhythm() {
-  const router = useRouter();
   const [range, setRange] = useState<TrendRange>('7D');
   const { score, level, pillars } = useRhythmScore();
   const trend = useRhythmTrend(range);
-  const { canResume } = useResumableDailyFlow();
+  const { start, canResume } = useStartDailyFlow();
 
   return (
     <Screen
@@ -71,7 +69,7 @@ export default function MyRhythm() {
         />
       </View>
 
-      <Button onPress={() => router.push('/daily-flow')} fullWidth>
+      <Button onPress={start} fullWidth>
         {canResume ? "Resume Today's Flow" : "Start Today's Daily Flow"}
       </Button>
 
