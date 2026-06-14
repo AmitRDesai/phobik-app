@@ -10,6 +10,7 @@ import { useSession, useSignOut } from '@/hooks/auth/useAuth';
 import { disconnectPowerSync } from '@/lib/powersync';
 import { biometricEnabledAtom } from '@/store/auth';
 import { dialog } from '@/utils/dialog';
+import { env } from '@/utils/env';
 import { toast } from '@/utils/toast';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -141,6 +142,22 @@ export default function Settings() {
           onPress={() => router.push('/settings/audio-storage')}
         />
       </View>
+
+      {env.get('ENV') !== 'production' && (
+        <View className="gap-2">
+          <Text size="xs" treatment="caption" tone="secondary" className="px-2">
+            Prototypes & Experiments
+          </Text>
+          <SettingsMenuItem
+            icon="science"
+            iconColor={purple}
+            iconBgColor={withAlpha(purple, scheme === 'dark' ? 0.15 : 0.12)}
+            label="Browse all"
+            subtitle="POCs & screens not yet in the nav"
+            onPress={() => router.push('/dev/pocs')}
+          />
+        </View>
+      )}
 
       {__DEV__ && (
         <View className="gap-2">

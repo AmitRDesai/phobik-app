@@ -10,6 +10,8 @@ import { useAudioStatusDialog } from './useAudioStatusDialog';
 type StreamedOptions = {
   /** 0..1 volume. Defaults to 1. */
   volume?: number;
+  /** Loop the clip indefinitely. Defaults to false. */
+  loop?: boolean;
   /** Forwarded to `useAudioPlayer`. */
   player?: AudioPlayerOptions;
   /**
@@ -33,7 +35,12 @@ export function useStreamedAudioPlayer(
   key: string | null,
   options: StreamedOptions = {},
 ) {
-  const { volume = 1, player: playerOptions, suppressDialog = false } = options;
+  const {
+    volume = 1,
+    loop = false,
+    player: playerOptions,
+    suppressDialog = false,
+  } = options;
   const {
     source,
     isDownloading,
@@ -68,6 +75,10 @@ export function useStreamedAudioPlayer(
   useEffect(() => {
     player.volume = volume;
   }, [player, volume]);
+
+  useEffect(() => {
+    player.loop = loop;
+  }, [player, loop]);
 
   return {
     player,
