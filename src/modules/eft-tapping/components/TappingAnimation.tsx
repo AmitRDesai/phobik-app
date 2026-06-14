@@ -2,8 +2,9 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Card } from '@/components/ui/Card';
 import { Divider } from '@/components/ui/Divider';
+import { Image } from 'expo-image';
 import { useEffect, useState } from 'react';
-import { Image, type ImageSourcePropType } from 'react-native';
+import { type ImageSourcePropType } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -86,7 +87,7 @@ export function TappingAnimation({ image, accent, pointIndex }: Props) {
           <Image
             source={image}
             style={{ width: '100%', height: '100%', opacity: 0.85 }}
-            resizeMode="cover"
+            contentFit="cover"
           />
         </Animated.View>
 

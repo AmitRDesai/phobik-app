@@ -67,13 +67,11 @@ export default function BackgroundMusicShowcase() {
 
         <VolumeRow
           label="Voice"
-          atom="voiceVolumeAtom"
           value={voiceVolume}
           onChange={setVoiceVolume}
         />
         <VolumeRow
           label="Background music"
-          atom="backgroundMusicVolumeAtom"
           value={bedVolume}
           onChange={setBedVolume}
         />
@@ -84,12 +82,10 @@ export default function BackgroundMusicShowcase() {
 
 function VolumeRow({
   label,
-  atom,
   value,
   onChange,
 }: {
   label: string;
-  atom: string;
   value: number;
   onChange: (value: number) => void;
 }) {
@@ -110,9 +106,6 @@ function VolumeRow({
         step={0.05}
         onValueChange={onChange}
       />
-      <Text size="xs" tone="disabled" className="font-mono">
-        {atom}
-      </Text>
     </View>
   );
 }

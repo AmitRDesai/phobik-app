@@ -12,6 +12,12 @@ type StreamedOptions = {
   volume?: number;
   /** Loop the clip indefinitely. Defaults to false. */
   loop?: boolean;
+  /**
+   * Declaratively drive transport once the clip is loaded: `false` plays,
+   * `true` pauses. Leave `undefined` (the default) to keep manual control —
+   * the consumer calls `player.play()` / `player.pause()` itself.
+   */
+  paused?: boolean;
   /** Forwarded to `useAudioPlayer`. */
   player?: AudioPlayerOptions;
   /**
@@ -38,6 +44,7 @@ export function useStreamedAudioPlayer(
   const {
     volume = 1,
     loop = false,
+    paused,
     player: playerOptions,
     suppressDialog = false,
   } = options;
@@ -79,6 +86,15 @@ export function useStreamedAudioPlayer(
   useEffect(() => {
     player.loop = loop;
   }, [player, loop]);
+
+  // Declarative transport — only when the caller opts in via `paused`. Gated on
+  // `source` so we never play before the clip is loaded. When `paused` is
+  // undefined the caller drives play/pause manually, so this stays a no-op.
+  useEffect(() => {
+    if (paused === undefined || !source) return;
+    if (paused) player.pause();
+    else player.play();
+  }, [paused, source, player]);
 
   return {
     player,

@@ -1,12 +1,11 @@
 import HAND_IMAGE from '@/assets/images/daily-flow/eft-side-of-hand.png';
-import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { Button } from '@/components/ui/Button';
-import { GradientText } from '@/components/ui/GradientText';
 import { Screen } from '@/components/ui/Screen';
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { Image } from 'react-native';
 
+import { EFTHeader } from '../components/EFTHeader';
 import { EFTPointCard } from '../components/EFTPointCard';
 import { EFT_POINTS } from '../data/eftPoints';
 
@@ -30,20 +29,7 @@ export default function EFTGuide() {
       }
       className="px-6"
     >
-      <View className="mt-2">
-        <View className="flex-row flex-wrap items-baseline">
-          <Text weight="black" className="text-[34px] leading-tight">
-            EFT Tapping
-          </Text>
-        </View>
-        <GradientText className="text-[34px] font-black leading-tight">
-          Points Quick Tutorial
-        </GradientText>
-        <Text size="sm" tone="secondary" className="mt-3 leading-5">
-          Follow the sequence below to release emotional blocks and restore
-          balance.
-        </Text>
-      </View>
+      <EFTHeader />
 
       <View className="mt-5 items-center">
         <View
@@ -53,7 +39,7 @@ export default function EFTGuide() {
           <Image
             source={HAND_IMAGE}
             style={{ width: '100%', height: '100%' }}
-            resizeMode="cover"
+            contentFit="cover"
           />
         </View>
       </View>

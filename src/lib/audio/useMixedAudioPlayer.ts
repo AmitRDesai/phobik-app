@@ -26,11 +26,14 @@ export function useMixedAudioPlayer(
   const bedVolume = useAtomValue(backgroundMusicVolumeAtom);
 
   const voice = useStreamedAudioPlayer(voiceKey, { volume: voiceVolume });
-  // The bed loops under the (finite) narration. The voice track owns the
-  // offline/error dialog; suppress the bed's so the two don't clobber.
+  // The bed loops under the (finite) narration and mirrors the voice transport
+  // declaratively — `paused` follows the voice's playing state, so the bed
+  // plays while the narration plays and pauses when it pauses / completes. The
+  // voice owns the offline/error dialog; suppress the bed's so they don't clobber.
   const bed = useStreamedAudioPlayer(bedKey, {
     volume: bedVolume,
     loop: true,
+    paused: !voice.status.playing,
     suppressDialog: true,
   });
 
@@ -44,17 +47,5 @@ export function useMixedAudioPlayer(
     });
   }, []);
 
-  // Mirror the voice transport onto the bed: the bed plays while the narration
-  // plays and pauses when it pauses / completes. Gated on the bed being loaded
-  // so we don't call play() before its source is ready.
-  const voicePlaying = voice.status.playing;
-  const bedReady = bed.isReady;
-  const bedPlayer = bed.player;
-  useEffect(() => {
-    if (!bedReady) return;
-    if (voicePlaying) bedPlayer.play();
-    else bedPlayer.pause();
-  }, [voicePlaying, bedReady, bedPlayer]);
-
-  return { voice, bed, voiceVolume, bedVolume };
+  return { voice, bed };
 }
