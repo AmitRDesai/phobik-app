@@ -2,7 +2,9 @@ import { Text } from '@/components/themed/Text';
 import { View } from '@/components/themed/View';
 import { AccentPill } from '@/components/ui/AccentPill';
 import { Card } from '@/components/ui/Card';
+import { useAnyHealthConnected } from '@/modules/home/hooks/useHealthConnections';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
+import { useLatestSyncedVitals } from '@/modules/home/hooks/useLatestSyncedVitals';
 import { useRhythmScore } from '@/modules/rhythm/hooks/useRhythmScore';
 import { Ionicons } from '@expo/vector-icons';
 import { accentFor } from '@/constants/colors';
@@ -51,7 +53,13 @@ export function RealTimeAnalysisCard({ date }: RealTimeAnalysisCardProps) {
   const router = useRouter();
   const scheme = useScheme();
   const { score, level } = useRhythmScore(date);
-  const { heartRate, hrv, hasAccess } = useLatestBiometrics();
+  // Live HealthKit/Health Connect stream takes priority; fall back to the latest
+  // synced reading so cloud vendors (WHOOP daily HR/HRV) still surface here.
+  const live = useLatestBiometrics();
+  const synced = useLatestSyncedVitals();
+  const anyConnected = useAnyHealthConnected();
+  const heartRate = live.heartRate ?? synced.heartRate;
+  const hrv = live.hrv ?? synced.hrv;
 
   return (
     <Card
@@ -69,7 +77,7 @@ export function RealTimeAnalysisCard({ date }: RealTimeAnalysisCardProps) {
             Real-Time Analysis
           </Text>
         </View>
-        {!hasAccess ? (
+        {!anyConnected ? (
           <AccentPill
             label="Connect"
             variant="tinted"

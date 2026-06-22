@@ -4,7 +4,10 @@ import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/ui/Header';
 import { IconChip } from '@/components/ui/IconChip';
 import { Screen } from '@/components/ui/Screen';
-import { colors, withAlpha } from '@/constants/colors';
+import { foregroundFor } from '@/constants/colors';
+import { useScheme } from '@/hooks/useTheme';
+import { DEVICE_DISPLAY_NAME } from '@/lib/biometrics/providers';
+import { HealthProviderCard } from '@/modules/home/components/HealthProviderCard';
 import { WhoopProviderCard } from '@/modules/home/components/WhoopProviderCard';
 import { useLatestBiometrics } from '@/modules/home/hooks/useLatestBiometrics';
 import { useWhoopConnection } from '@/modules/home/hooks/useWhoopConnection';
@@ -13,30 +16,26 @@ import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Button } from '@/components/ui/Button';
-import { Platform } from 'react-native';
+import { Linking, Platform } from 'react-native';
 
-const PROVIDER_LABEL =
-  Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect';
+const HEALTH_CONNECT_PLAY_STORE_URL =
+  'https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata';
 
 export default function Health() {
-  const {
-    heartRate,
-    hrv,
-    heartRateAt,
-    hrvAt,
-    hasAccess,
-    sdkAvailable,
-    requestAccess,
-    disconnect,
-  } = useLatestBiometrics();
+  const scheme = useScheme();
+  const { hasAccess, sdkAvailable, requestAccess, disconnect } =
+    useLatestBiometrics();
   const whoop = useWhoopConnection(hasAccess);
   const [busy, setBusy] = useState(false);
 
   const isAndroidUnavailable =
     Platform.OS === 'android' && sdkAvailable === false;
 
-  const handleConnect = async () => {
+  const handleConnectDevice = async () => {
+    if (isAndroidUnavailable) {
+      Linking.openURL(HEALTH_CONNECT_PLAY_STORE_URL).catch(() => {});
+      return;
+    }
     setBusy(true);
     // requestAccess swallows its own errors. Avoid try/finally here — the
     // React Compiler does not support `finally`.
@@ -47,10 +46,10 @@ export default function Health() {
     }
   };
 
-  const handleDisconnect = async () => {
+  const handleDisconnectDevice = async () => {
     const result = await dialog.error({
       title: 'Disconnect Health',
-      message: `Phobik will stop reading from ${PROVIDER_LABEL}. To fully revoke access, toggle Phobik off in ${PROVIDER_LABEL} settings.`,
+      message: `Phobik will stop reading from ${DEVICE_DISPLAY_NAME}. To fully revoke access, toggle Phobik off in ${DEVICE_DISPLAY_NAME} settings.`,
       buttons: [
         { label: 'Disconnect', value: 'disconnect', variant: 'destructive' },
         { label: 'Cancel', value: 'cancel', variant: 'secondary' },
@@ -61,98 +60,40 @@ export default function Health() {
     }
   };
 
-  const latestAt =
-    heartRateAt && hrvAt
-      ? heartRateAt > hrvAt
-        ? heartRateAt
-        : hrvAt
-      : (heartRateAt ?? hrvAt);
-
   return (
     <Screen
       scroll
       header={<Header title="Health" />}
       className="px-4"
-      contentClassName="gap-4"
+      contentClassName="gap-3"
     >
-      <Card className="p-6">
-        <View className="flex-row items-center gap-3">
-          <IconChip
-            size="md"
-            shape="rounded"
-            bg={hasAccess ? withAlpha(colors.status.success, 0.2) : undefined}
-          >
-            <MaterialIcons
-              name={hasAccess ? 'check-circle' : 'favorite-border'}
-              size={22}
-              color={hasAccess ? colors.status.success : colors.primary.pink}
-            />
-          </IconChip>
-          <View className="flex-1">
-            <Text size="md" weight="semibold">
-              {hasAccess ? 'Connected' : 'Not connected'}
-            </Text>
-            <Text size="sm" tone="secondary">
-              {hasAccess
-                ? `Reading from ${PROVIDER_LABEL}`
-                : `Connect to read HR & HRV from ${PROVIDER_LABEL}`}
-            </Text>
-          </View>
-        </View>
+      <Text
+        size="xs"
+        treatment="caption"
+        tone="secondary"
+        weight="bold"
+        className="px-1 pt-1"
+      >
+        Connected sources
+      </Text>
 
-        {hasAccess ? (
-          <View className="mt-5 gap-2">
-            <View className="flex-row justify-between">
-              <Text size="sm" tone="secondary">
-                Heart rate
-              </Text>
-              <Text size="sm" weight="semibold">
-                {heartRate != null ? `${heartRate} bpm` : '—'}
-              </Text>
-            </View>
-            <View className="flex-row justify-between">
-              <Text size="sm" tone="secondary">
-                HRV
-              </Text>
-              <Text size="sm" weight="semibold">
-                {hrv != null ? `${hrv.toFixed(1)} ms` : '—'}
-              </Text>
-            </View>
-            {latestAt ? (
-              <View className="flex-row justify-between">
-                <Text size="sm" tone="secondary">
-                  Last sample
-                </Text>
-                <Text size="sm" weight="semibold">
-                  {latestAt.toLocaleString()}
-                </Text>
-              </View>
-            ) : null}
-          </View>
-        ) : null}
-      </Card>
-
-      {isAndroidUnavailable ? (
-        <Text size="xs" tone="secondary" align="center" className="px-2">
-          Health Connect isn&apos;t installed on this device. Install it from
-          the Play Store and re-open this screen.
-        </Text>
-      ) : null}
-
-      {hasAccess ? (
-        <Button variant="destructive" onPress={handleDisconnect}>
-          Disconnect
-        </Button>
-      ) : (
-        <Button
-          onPress={handleConnect}
-          loading={busy}
-          disabled={isAndroidUnavailable}
-          prefixIcon={<MaterialIcons name="favorite" size={18} color="white" />}
-        >
-          Connect to {PROVIDER_LABEL}
-        </Button>
-      )}
+      <HealthProviderCard
+        icon="favorite"
+        name={DEVICE_DISPLAY_NAME}
+        subtitle={
+          hasAccess
+            ? `Reading from ${DEVICE_DISPLAY_NAME}`
+            : isAndroidUnavailable
+              ? "Health Connect isn't installed on this device"
+              : `Read HR, HRV & sleep from ${DEVICE_DISPLAY_NAME}`
+        }
+        connected={hasAccess}
+        actionLabel={isAndroidUnavailable ? 'Install' : 'Connect'}
+        onAction={handleConnectDevice}
+        busy={busy}
+        secondaryActionLabel="Disconnect"
+        onSecondary={handleDisconnectDevice}
+      />
 
       <WhoopProviderCard whoop={whoop} />
 
@@ -173,11 +114,16 @@ export default function Health() {
                 Choose which source feeds each metric
               </Text>
             </View>
+            <MaterialIcons
+              name="chevron-right"
+              size={22}
+              color={foregroundFor(scheme, 0.3)}
+            />
           </View>
         </Card>
       ) : null}
 
-      <Text size="xs" align="center" tone="tertiary" className="px-2">
+      <Text size="xs" align="center" tone="tertiary" className="mt-2 px-2">
         Phobik only reads your health data — it never writes back to your
         sources.
       </Text>

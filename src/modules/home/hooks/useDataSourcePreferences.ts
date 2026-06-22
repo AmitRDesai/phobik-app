@@ -59,7 +59,10 @@ export function useSetDataSourcePreference() {
       if (existing) {
         await db
           .updateTable('data_source_preference')
-          .set({ source, updated_at: now })
+          // Include data_type so the PowerSync PATCH carries it — the connector
+          // needs it to upload the change (a PATCH only emits changed columns,
+          // and without data_type the upload is dropped and the value reverts).
+          .set({ source, data_type: dataType, updated_at: now })
           .where('id', '=', id)
           .execute();
       } else {

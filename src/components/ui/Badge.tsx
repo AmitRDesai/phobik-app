@@ -25,7 +25,8 @@ export interface BadgeProps extends Omit<ViewProps, 'children'> {
   className?: string;
   /** Optional leading icon. Pass a function to receive the resolved text color. */
   icon?: ReactNode | ((color: string) => ReactNode);
-  children: string;
+  /** Optional — omit for an icon-only badge (e.g. a bare check chip). */
+  children?: string;
 }
 
 const SIZE_CLASSES: Record<BadgeSize, string> = {
@@ -70,7 +71,7 @@ export function Badge({
       {...rest}
       className={clsx(
         'flex-row items-center rounded-full',
-        icon ? 'gap-1.5' : null,
+        icon && children ? 'gap-1.5' : null,
         SIZE_CLASSES[size],
         className,
       )}
@@ -81,9 +82,11 @@ export function Badge({
       }}
     >
       {resolvedIcon}
-      <Text className={TEXT_SIZE[size]} style={{ color: textColor }}>
-        {children}
-      </Text>
+      {children ? (
+        <Text className={TEXT_SIZE[size]} style={{ color: textColor }}>
+          {children}
+        </Text>
+      ) : null}
     </View>
   );
 }

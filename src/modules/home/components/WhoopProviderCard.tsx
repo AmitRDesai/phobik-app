@@ -15,8 +15,6 @@ export function WhoopProviderCard({ whoop }: { whoop: WhoopConnection }) {
             : 'Connect your WHOOP account for recovery, strain & sleep'
       }
       connected={whoop.connected}
-      statusLabel={whoop.badge?.label}
-      statusTone={whoop.badge?.tone}
       actionLabel={whoop.status === 'needs_reauth' ? 'Reconnect' : 'Connect'}
       onAction={whoop.connect}
       busy={whoop.busy}

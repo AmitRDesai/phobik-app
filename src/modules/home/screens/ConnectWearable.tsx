@@ -192,7 +192,6 @@ export default function ConnectWearable() {
               : `Read HR, HRV & sleep from ${DEVICE_DISPLAY_NAME}`
         }
         connected={device.hasAccess}
-        statusLabel={device.hasAccess ? 'Connected' : undefined}
         actionLabel={isAndroidUnavailable ? 'Install' : 'Connect'}
         onAction={handleConnectDevice}
         busy={deviceBusy}

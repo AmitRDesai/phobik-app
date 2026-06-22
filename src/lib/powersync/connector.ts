@@ -123,7 +123,7 @@ export class PhobikConnector implements PowerSyncBackendConnector {
       case 'sleep_session':
         return this.handleSleepSession(op);
       case 'data_source_preference':
-        return this.handleDataSourcePreference(op);
+        return this.handleDataSourcePreference(op, database);
       default:
         // No upload handler for this table — intentionally not synced upward.
         console.warn(`[PowerSync] Skipping unknown table: ${table}`);
@@ -701,16 +701,25 @@ export class PhobikConnector implements PowerSyncBackendConnector {
     });
   }
 
-  private async handleDataSourcePreference(op: CrudEntry) {
-    const d = op.opData;
+  private async handleDataSourcePreference(
+    op: CrudEntry,
+    database: AbstractPowerSyncDatabase,
+  ) {
     if (op.op !== 'PUT' && op.op !== 'PATCH') return;
-    const dataType = d?.data_type as string | undefined;
-    const source = d?.source as string | undefined;
-    if (!dataType || !source) return;
+    // A PATCH (changing an existing preference) only carries the columns whose
+    // value changed — so `data_type` is absent when only `source` changes. Read
+    // the authoritative local row to get both, regardless of the op shape;
+    // otherwise the upload is dropped and the picker reverts.
+    const rows = await database.getAll<{ data_type: string; source: string }>(
+      'SELECT data_type, source FROM data_source_preference WHERE id = ?',
+      [op.id],
+    );
+    const row = rows[0];
+    if (!row?.data_type || !row?.source) return;
     await rpcClient.health.setDataSourcePreference({
       id: op.id,
-      dataType,
-      source,
+      dataType: row.data_type,
+      source: row.source,
     });
   }
 
